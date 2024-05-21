@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog index
+{% endblock %}
+{% block stylesheets %}
+	<link href="../css/fichier.css?=v3" rel="stylesheet"/>
+
+	<style>
+		/* Conteneur des cartes */
+		.cards-container {
+			width: 70%;
+			padding: 20px; /* Espacement autour de la zone des cartes */
+			max-width: 1200px;
+			margin: auto;
+		}
+
+		.row {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr); /* crée trois colonnes de taille égale */
+			gap: 20px; /* espace entre les cartes */
+		}
+		/* Styles des cartes ajustés */
+		.card-index-blog {
+
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation douce pour le survol */
+			border-radius: 8px;
+			overflow: hidden;
+			margin-bottom: 20px; /* Ajustement pour l'espacement vertical */
+			background-color: #fff;
+			/* Pas de hauteur fixe pour permettre plus de contenu */
+		}
+
+		.card-index-blog:hover {
+			transform: translateY(-5px); /* Légère élévation de la carte au survol */
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée au survol */
+			transform: scale(1.03);
+		}
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* fixed height for all images */
+    object-fit: cover; /* ensures that images cover the area without being stretched */
+}
+
+		.card-body {
+			padding: 20px;
+			/*     width: 100%;
+    height: auto; /* Hauteur auto pour maintenir le ratio de l'image */
+			/* object-fit: cover; */
+		}
+
+		.blog-imag {
+			width: 100%; /* Assure que l'image couvre la largeur de la carte */
+			height: auto; /* Maintient le ratio de l'image */
+			object-fit: cover; /* Assure que l'image couvre bien l'espace disponible sans déformation */
+		}
+
+		.card-title {
+			margin-bottom: 15px;
+			color: #100;
+			font-weight: bold;
+		}
+
+		.card-text {
+			margin-bottom: 15px;
+			line-height: 1.6;
+			color: #200;
+		}
+
+		.text-muted {
+			color: #300;
+		}
+
+		.card-title,
+		.card-text,
+		.text-muted {
+			margin: 0;
+			padding-bottom: 10px;
+		}
+
+		.btn-primary,
+		.btn-secondary {
+			margin-top: 10px; /* Espacement au-dessus des boutons */
+		}
+
+		.btn {
+			border: none;
+			padding: 10px 20px;
+			cursor: pointer;
+			display: inline-block;
+			margin-right: 10px;
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			color: #ffffff;
+		}
+
+		.btn-primary:hover {
+			background-color: #0056b3;
+		}
+
+		.btn-secondary {
+			background-color: #6c757d;
+			color: #ffffff;
+		}
+
+		.btn-secondary:hover {
+			background-color: #545b62;
+		}
+
+		.btn-success {
+			background-color: #28a745;
+			color: #ffffff;
+		}
+
+		.btn-success:hover {
+			background-color: #1e7e34;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<h1>Blog index</h1>
+
+	<div class="container">
+		<div class="row">
+			{% for blog in blogs %}
+				<div class="todo-card">
+					<div class="card-magique">
+						<div class="cards-container">
+							<div
+								class="card-index-blog">
+								{% if blog.image %}
+								{# <img
+								src="{{ asset('img/image_finance.webp') }}" alt="Image description" class="blog-imag"> #}
+
+								<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description">
+ {% endif %}
+								<div class="card-body">
+									<h5 class="card-title">{{ blog.titleOne }}</h5>
+									<p class="card-text">{{ blog.contentOne|slice(0, 150) ~ '...' }}</p>
+									<p class="card-text">
+										<small class="text-muted">Published on
+											{{ blog.publishedAt ? blog.publishedAt|date('Y-m-d') : '' }}
+											by
+											{{ blog.author }}</small>
+									</p>
+									<a href="{{ path('blog_show', {'id': blog.id}) }}" class="btn btn-primary">Voir</a>
+									{% if is_granted("ROLE_ADMIN") %}
+										<a href="{{ path('app_blog_edit', {'id': blog.id}) }}" class="btn btn-secondary">Modifier</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<p>No records found</p>
+			{% endfor %}
+		</div>
+	</div>
+	{% if is_granted("ROLE_ADMIN") %}
+
+		<a href="{{ path('app_blog_new') }}" class="btn btn-success">Nouvelle Création</a>
+	{% endif %}
+
+	{{ include('footer.html.twig') }}
+{% endblock %}

@@ -1,0 +1,670 @@
+
+.category-link {
+    text-decoration: none;
+}
+
+.category {
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.category p {
+    margin: 0;
+}
+
+.category-id {
+    font-weight: bold;
+}
+
+.category-name {
+    font-style: italic;
+    color: #666;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -5px;
+}
+
+.formation {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.formation-name {
+    font-weight: bold;
+}
+
+.formation-details {
+    padding-left: 20px;
+}
+
+.formation-description {
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 1.5em;
+    max-width: 470px;
+    padding-right: 10px;
+}
+
+.formation-duree, .formation-prix {
+    color: #888;
+}
+
+.cta-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.blog-sectionactualite {
+
+    background-color: #f4f6f8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+  .blog-heading {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .blog-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Assure un espacement uniforme entre les cartes */
+}
+  .blog-postactualite {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+    width: calc(24% - 20px); /* Trois éléments par ligne avec un peu d'espace entre eux */
+    margin-bottom: 20px; /* Espacement vertical entre les lignes */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+.blog-post:hover {
+    transform: translateY(-5px);
+}
+
+.blog-post-image {
+   /* width: 100%;  Assure que l'image couvre toute la largeur du post */
+   /* height: 200px;  Hauteur fixe pour les images */
+    overflow: hidden; /* Cache les débordements */
+}
+
+.blog-post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assure que l'image couvre bien la zone sans être déformée */
+}
+
+.blog-post-content {
+    padding: 20px; /* Padding intérieur pour le texte */
+}
+
+.blog-post-content h3 {
+    margin-top: 0; /* Supprime la marge du haut pour le titre */
+    color: #333; /* Couleur de texte foncée pour le titre */
+    font-size: 18px; /* Taille de police plus grande pour le titre */
+}
+
+.blog-post-content p {
+    color: #456; /* Couleur de texte plus claire pour le contenu */
+    line-height: 1.6; /* Interligne pour améliorer la lisibilité */
+}
+
+.read-more {
+    display: block;
+    color: #0056b3;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .blog-post {
+        width: calc(50% - 20px); /* Deux éléments par ligne sur les écrans moyens */
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-post {
+        width: 100%; /* Un élément par ligne sur les écrans petits */
+    }
+}
+
+.cta-link:hover {
+    background-color: #0056b3;
+}
+
+
+.wrapper_select_domaine{
+width: 100%;
+height: 100%;
+padding-left: 190px;
+font-size: 14px;
+position: relative;
+z-index: 2;
+background-color: transparent;
+/* border: 1px solid #ccc; */
+border-radius: 5px;
+}
+
+/* Media query pour les téléphones */
+@media (max-width: 600px) {
+    .wrapper_select_domaine {
+        padding-left: 20px; /* Ajustement pour les petits écrans */
+        font-size: 12px; /* Optionnel: ajuster la taille de la police si nécessaire */
+        /* Ajoutez d'autres ajustements de style ici si nécessaire */
+    }
+}
+/* CSS */
+/* Mise en page */
+.wrapper_content_container_formation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 768px) {
+    .wrapper_content_container_formation {
+        flex-direction: column;
+        align-items: center;
+    }
+    .col_gauche, .col_droite {
+        width: 100%;
+        /* Optionnel : Ajoutez du margin-bottom si vous voulez de l'espace entre les deux colonnes */
+        margin-bottom: 20px;
+    }
+}
+  .col_droite, .col_gauche_mobile_tablet {
+    width: 70%; /* 70% pour la colonne de droite */
+  }
+  
+  .col_gauche_mobile_tablet {
+    width: 20%; /* 20% pour la colonne de gauche */
+  }
+  
+  /* Styles supplémentaires */
+  .result {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #ffffff; /* Couleur du texte */
+  }
+  
+  .libelle {
+    color: white; /* Couleur du texte */
+    text-decoration: none;
+    /* color: #000; */
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .libellee {
+    color: white; /* Couleur du texte */
+    text-decoration: none;
+    /* color: #000; */
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+
+
+@media (max-width: 768px) {
+    .formation-card {
+        flex-direction: column;
+    }
+    .formation-column-right {
+        border-left: none;
+        border-top: 1px solid #eee;
+    }
+}
+
+/* barre de recherche */
+.search_area {
+    /* position: relative; */
+    max-width: 1500px; /* Ajustez la largeur selon votre design */
+    margin: auto;
+}
+
+#searchInput {
+    /* width: 100%; */
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#searchResults {
+    position: absolute;
+    width: 100%;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000; /* Assurez-vous que les résultats apparaissent au-dessus des autres éléments */
+    /* display: none; Cache par défaut, affiché via JS */
+    max-height: 300px; /* Limite la hauteur et permet le défilement */
+    overflow-y: auto;
+    border-radius: 0 0 4px 4px;
+}
+
+.formation-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.formation-item:last-child {
+    border-bottom: none;
+}
+
+.formation-item:hover {
+    background-color: #f9f9f9;
+}
+
+
+/* Conteneur global */
+#formations_container {
+    /* display: flex; */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    /* padding: 20px; */
+}
+
+/* Style des catégories */
+.category {
+    display: block;
+    margin-bottom: 20px;
+    width: 100%;
+}
+@media (max-width: 600px) {
+    .category {
+        width: 86%; /* Ajustement pour les petits écrans */
+    }
+}
+
+.formation-column-left, .formation-column-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 15px; /* Ajustez le padding pour plus d'espacement */
+}
+
+/* Style de base des cartes de formation */
+.formation-card {
+    background-color: white;
+    border-right: solid 7px #569bf5; /* Couleur d'accent sur le côté droit */
+    margin-bottom: 20px;
+    border-radius: 40px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05); /* Ombre douce pour le relief */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Ajustez pour aligner le contenu en haut */
+    padding: 20px; /* Espacement interne pour plus de respiration */
+    width: 100%; /* Prend toute la largeur du conteneur parent */
+}
+
+/* Media query pour les téléphones */
+@media (max-width: 600px) {
+    .formation-card {
+        padding: 0; /* Suppression du padding */
+        width: 125%; /* Ajustement de la largeur à 125% */
+        /* Assurez-vous que cette largeur élargie convient à votre mise en page globale */
+    }
+}
+
+.formation-column-left {
+    flex: 0 0 70%; /* La colonne de gauche prend 70% de l'espace disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.formation-column-right {
+    flex: 0 0 30%; /* La colonne de droite prend 30% de l'espace disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    border-left: 2px solid #eee; /* Ajoute une séparation visuelle entre les colonnes */
+}
+
+.formation-card p, .formation-card a {
+    margin-bottom: 15px; /* Augmentez l'espacement en bas de chaque paragraphe/lien */
+    font-size: 16px; /* Taille de police légèrement augmentée pour améliorer la lisibilité */
+    line-height: 1.6; /* Espacement des lignes pour une meilleure lecture */
+
+}
+
+.formation-card a {
+    align-self: flex-start;
+    padding: 8px 12px;
+    /* background-color: #569bf5; */
+    color: black;
+    text-decoration: none;
+    border-radius: 15px;
+    border: outset
+}
+
+.formation-card a:hover {
+    background-color: darken(#569bf5, 10%); /* Assombrir le fond au survol */
+}
+/* Colonnes à l'intérieur des cartes */
+
+
+.category-name-finance {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #5bfda4; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}
+.category-name-administratifs {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #fd5b5b; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}
+.category-name-informatique {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #f85bfd; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}.category-name-désign {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #bffd5b; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}.category-name-management {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #5bfd69; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}.category-name-vente {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #6b5bfd; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}.category-name-marketing {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #5bfdf5; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}.category-name-autres {
+    display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
+    padding: 8px 16px; /* Padding intérieur */
+    background-color: #fd5b5b; /* Couleur de fond */
+    border-radius: 20px; /* Bord arrondi */
+    color: white; /* Couleur du texte */
+    margin: 0; /* Annule la marge par défaut */
+}
+
+
+
+
+/* Style des titres, descriptions, etc. */
+.category-name, .formation-name {
+    font-weight: bold; /* Rendre les titres plus visibles */
+    color: #333; /* Couleur plus foncée pour le contraste */
+}
+
+.formation-description, .formation-duree, .formation-prix, .presentation, .niveau {
+    color: #666; /* Couleur plus douce pour le texte */
+    margin-bottom: 8px; /* Espacement pour la lisibilité */
+}
+
+/* Responsive design pour petits écrans */
+@media (max-width: 768px) {
+    .formation-card {
+        flex-direction: column;
+    }
+
+    .formation-column-right {
+        border-left: none;
+        border-top: 1px solid #eee;
+    }
+}
+
+
+
+.filters {
+    display: flex;
+    flex-direction: column; /* Changez la direction pour organiser les filtres verticalement */
+    /*gap: 20px;  Espacement entre les boutons et les groupes de cases à cocher */
+    margin-bottom: 20px;
+    font-size: 16px;
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: row; /* Changez la direction pour organiser les filtres horizontalement */
+        flex-wrap: wrap; /* Permettre le retour à la ligne si nécessaire */
+        justify-content: center; /* Centre les éléments horizontalement */
+    margin-bottom: 1px;
+    padding: 1px;
+    }
+}
+.filter-btn {
+    /* background-color: rgba(100, 100, 255, 0.8); Couleur de fond avec transparence */
+    /* color: white; */
+    border: none;
+    background: none;
+    padding: 10px 15px;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    /* transition: background-color 0.3s ease; */
+    font-size: 16px;
+    margin-bottom: 5px; /* Espace avant la sélection */
+    margin: 5px 0; /* Ajusté pour plus d'espace autour des lignes */
+    padding-bottom: 10px; /*Espace supplémentaire avant la bordure */
+    border-bottom: 5px solid #ccc !important ; /* Ligne séparatrice grise */
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .filter-btn {
+        font-size: 12px; /* Espace entre les boutons */
+    }
+}
+.checkbox-group {
+    display: none; /* Masqué par défaut */
+    /* background-color: rgba(255, 255, 255, 0.8); Légèrement transparent */
+    padding: 10px;
+    /* border-radius: 5px; */
+    margin-bottom: 10px;
+}
+
+.groupboxlabel {
+        /* display: block; Assure que chaque checkbox a son propre ligne */
+        margin: 10px 0; /* Ajusté pour plus d'espace autour des lignes */
+        /* padding-bottom: 10px; Espace supplémentaire avant la bordure */
+        border-bottom: 5px solid #ff0000 !important ; /* Ligne séparatrice grise */
+        cursor: pointer; 
+}
+
+.checkbox-groupbox {
+    display: block; /* Assure que chaque checkbox a son propre ligne */
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.search-and-sort {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+    margin-bottom: 20px;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+#sortAsc, #sortDesc {
+    padding: 10px 15px;
+    background-color: #007bff; /* Couleur de fond bleue */
+    color: white; /* Texte blanc */
+    border: none;
+    cursor: pointer; /* Curseur en forme de main au survol */
+    transition: background-color 0.3s; /* Transition pour l'effet au survol */
+}
+
+#sortAsc:hover, #sortDesc:hover {
+    background-color: #0056b3; /* Assombrir le bouton au survol */
+}
+.tool_bar_liste_formations_ff .wrapper_content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search_and_sort_area {
+    display: flex;
+    align-items: center;
+    flex: 0 1 25%;
+    /* background-color: #add8e6; Bleu clair pour toute la ligne */
+    padding: 20px;
+  }
+
+  /* Media Query pour les téléphones */
+@media (max-width: 600px) { /* 600px est un point de rupture courant pour les téléphones */
+    .search_and_sort_area {
+       /* padding: 0;  Enlève le padding sur les petits écrans */
+        flex: 1 1 100%; /* Optionnel: Ajuste pour prendre toute la largeur disponible */
+        justify-content: center; /* Centre les éléments à l'intérieur si nécessaire */
+        width: 105%;
+    }
+}
+  
+  .search_area {
+    flex: 0 1 30%;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+  }
+  
+  .search_area form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .search_area input[type="text"], .search_area button {
+    margin-right: 10px;
+  }
+  
+  .sort_and_results_area {
+    flex: 1;
+    display: flex;
+    /* font-size: 1.5em; */
+
+    align-items: center;
+    justify-content: space-between; /* Espacement entre le tri et les résultats */
+  }
+  
+  .sort_area {
+    display: inline-grid;
+    align-items: center;
+  }
+
+  .sort_area .libelle {
+    margin-right: 10px;
+  }
+
+  .container {
+    display: flex; 
+    justify-content: space-between;
+    padding: 20px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1px;
+        flex-direction: column;
+        align-items: center; /* Centre les éléments s'ils ne prennent pas toute la largeur */
+    }
+}
+
+/* Ajustez la marge entre les deux colonnes si nécessaire */
+.left {
+    margin-right: 20px; /* Ajoute un peu d'espace entre les colonnes */
+    flex: 0 1 25%;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .left {
+        margin-right: 0; /* Ajustement pour les petits écrans */
+       padding: 1px;/* Prend tout l'espace disponible */
+    }
+}
+.right {
+    margin-left: 20px; /* Ajoute un peu d'espace entre les colonnes */
+    flex: 1; /* Prend le reste de l'espace disponible */
+    padding: 10px;
+}
+  
+.bodyclass {
+    /* display: flex; */
+    justify-content: space-between;
+    padding: 20px;
+    width: 100%;
+    background-color: #F9F9F9F9;
+}
+
+.wrapper_total_formations {
+    padding: 10px;
+    border: 1px solid #ccc; /* Définit une bordure solide autour du conteneur */
+    text-align: left; /* Centre le contenu à gauche */
+    margin-left: auto; /* Centre le bloc au milieu avec une marge à gauche automatique */
+    margin-right: auto; /* et à droite, mais tu peux ajuster ou enlever pour centrer à gauche */
+    max-width: 600px;
+}
+
+.col_gauche {
+    background-color: #5ba6fd;
+    color: white;
+    width: 30%;
+}
+
+/* Media Query pour les téléphones */
+@media (max-width: 600px) { /* 600px est un point de rupture courant pour les téléphones */
+    .col_gauche {
+        width: 95%; /* Ajuste la largeur à 95% pour les petits écrans */
+    }
+}
+
+.col_droite {
+background-color: #031f2f;
+color: white;
+width: 70%;
+}

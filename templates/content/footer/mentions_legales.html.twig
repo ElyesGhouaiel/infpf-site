@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Règlement intérieur{% endblock %}
+{% block stylesheet %}
+<style>
+/* Style général */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+article {
+    background-color: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+p {
+    line-height: 1.5;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #666;
+}
+
+/* Liens */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<article>
+    <h1>Règlement intérieur</h1>
+
+<section>
+        <h2>Article 1 : Objet</h2>
+        <p>Les présentes (« CGU ») ont pour objet de fixer et préciser les modalités dans lesquelles le Site est mis à disposition de tout Utilisateur. Elles s’appliquent et sont pleinement opposables à tout Utilisateur lors de sa visite et utilisation des fonctionnalités du Site.</p>
+        <p>Tout Utilisateur déclare avoir lu et doit accepter sans la moindre réserve les CGU pour pouvoir utiliser le Site Internet et ses services/fonctionnalités. Les CGU sont opposables à tous Utilisateurs à compter de leur acceptation et ont valeur contractuelle entre eux et l'INSTITUT NATIONAL DE FORMATION FRANÇAISE (« INFPF »).</p>
+        <p>La mise à jour/modification des CGU pourra intervenir à l’initiative de l'INFPF à tout moment sans avoir à en référer préalablement aux Utilisateurs. Les CGU opposables à l’Utilisateur sont celles en vigueur et éditée sur le Site. Tout manquement aux CGU pourra justifier le blocage de l’accès de l’Utilisateur fautif aux services/fonctionnalités sur le Site.</p>
+    </section>
+
+    <section>
+        <h2>Article 2 : Mentions légales</h2>
+        <p>L’édition du site infpf.fr est assurée par le chef de projet IT, SAS au capital de 1000 euros dont le siège social est situé au 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR. Numéro de SIRET : 927 916 452 000 18 - Numéro de déclaration d'activité : 93061116606.</p>
+        <p>Le Directeur de la publication est Monsieur Bernard Canetti.</p>
+        <p>Le site infpf.fr est hébergé par la société Hostinger.</p>
+    </section>
+
+    <section>
+        <h2>Article 3 : Définitions</h2>
+        <p>La présente clause a pour objet de définir les différents termes essentiels du contrat :</p>
+        <ul>
+            <li>Utilisateur : ce terme désigne toute personne qui utilise le site ou l’un des services proposés par le site.</li>
+            <li>Contenu utilisateur : ce sont les données transmises par l’Utilisateur au sein du site.</li>
+            <li>Membre : l’Utilisateur devient membre lorsqu’il est identifié sur le site.</li>
+            <li>Identifiant et mot de passe : c’est l’ensemble des informations nécessaires à l’identification d’un Utilisateur sur le Site. L’identifiant et le mot de passe permettent à l’Utilisateur d’accéder à des services réservés aux membres du site. Le mot de passe est confidentiel.</li>
+            <li>Site ou Site Internet : désigne le site internet accessible à l’adresse URL : www.infpf.fr</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Article 4 : Accès au service</h2>
+        <p>Le site permet à l’Utilisateur un accès aux services suivants :</p>
+        <ul>
+            <li>Formation en ligne.</li>
+            <li>Accès à du contenu vidéo éducatif.</li>
+            <li>Mise en relation de personnes (élèves ou administration) ; chat et discussion.</li>
+            <li>Publication de contenus.</li>
+        </ul>
+        <p>Le site est accessible en tout lieu à tout Utilisateur ayant souscrit à un contrat de formation auprès de la société INFPF. Pour se connecter au site, l’Utilisateur a besoin d’un accès à Internet. Tous les frais supportés par l’Utilisateur pour accéder au service (matériel informatique, logiciels, connexion Internet, etc.) sont à sa charge.</p>
+    </section>
+
+    <section>
+        <h2>Article 5 : Hygiène et sécurité</h2>
+        <p>La prévention des risques d'accidents et de maladies est impérative et exige de chacun le respect total de toutes les prescriptions applicables en matière d'hygiène et de sécurité.</p>
+        <p>A cet effet, les consignes générales et particulières de sécurité en vigueur dans l'organisme, lorsqu'elles existent, doivent être strictement respectées sous peine de sanctions disciplinaires.</p>
+        <p>Lorsque la formation a lieu sur le site de l'entreprise, les consignes générales et particulières de sécurité applicable sont celles de l'organisme de formation.</p>
+    </section>
+
+    <section>
+        <h2>Article 6 : Discipline</h2>
+        <p>Il est formellement interdit aux stagiaires :</p>
+        <ul>
+            <li>D'introduire des boissons alcoolisées dans les locaux de l'organisme.</li>
+            <li>De se présenter aux formations en état d'ébriété.</li>
+            <li>D'emporter ou modifier les supports de formation.</li>
+            <li>De modifier les réglages des paramètres de l'ordinateur.</li>
+            <li>De manger dans les salles de cours.</li>
+            <li>D'utiliser leurs téléphones portables durant les sessions.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Article 7 : Sanctions</h2>
+        <p>Tout agissement considéré comme fautif par la direction de l'organisme de formation pourra, en fonction de sa nature et de sa gravité, faire l'objet de l'une ou l'autre des sanctions ci-après par ordre croissant d'importance :</p>
+        <ul>
+            <li>Avertissement écrit par le Directeur de l'organisme de formation.</li>
+            <li>Blâme.</li>
+            <li>Exclusion définitive de la formation.</li>
+        </ul>
+    </section>
+
+    <!-- Ajoutez les autres articles avec leurs dispositions respectives -->
+
+</article>
+<footer>
+    <p>INFPF - 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR / Numéro de SIRET : 927 916 452 000 18 - Numéro de déclaration d'activité : 93061116606</p>
+</footer>
+{% include 'footer.html.twig' %}
+{% endblock %}

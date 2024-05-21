@@ -1,0 +1,90 @@
+<footer class="footer">
+	<div class="footer__social">
+		<div class="footer__container footer__social__container">
+			<div class="footer__social__svg">
+				<span class="footer__social__label">Rejoignez-nous sur</span>
+				<div class="gtm-cta-btn-facebook" onclick="window.open('https://fr-fr.facebook.com/');" title="Facebook">
+					<img alt="Facebook" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-facebook-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2020%2015'%3E%3C/svg%3E" width="20"/><noscript><img alt="Facebook" height="15" loading="lazy" src="/wp-content/themes/INFPF/images/refonte-2022/ico-facebook-footer.svg" width="20"/></noscript>
+				</div>
+				<div class="gtm-cta-btn-youtube" onclick="window.open('https://www.youtube.com/');" title="Youtube">
+					<img alt="Youtube" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-youtube-footer.svg" height="10" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2010'%3E%3C/svg%3E" width="15"/><noscript><img alt="Youtube" height="10" src="/wp-content/themes/INFPF/images/refonte-2022/ico-youtube-footer.svg" width="15"/></noscript>
+				</div>
+				<div class="gtm-cta-btn-instagram" onclick="window.open('https://www.instagram.com/');" title="Instagram">
+					<img alt="Instagram" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-instagram-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2015'%3E%3C/svg%3E" width="15"/><noscript><img alt="Instagram" height="15" src="/wp-content/themes/INFPF/images/refonte-2022/ico-instagram-footer.svg" width="15"/></noscript>
+				</div>
+				<div class="gtm-cta-btn-twitter" onclick="window.open('https://twitter.com/');" title="Twitter">
+					<img alt="Twitter" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-twitter-footer.svg" height="12" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2012'%3E%3C/svg%3E" width="15"/><noscript><img alt="Twitter" height="12" src="/wp-content/themes/INFPF/images/refonte-2022/ico-twitter-footer.svg" width="15"/></noscript>
+				</div>
+				<div class="gtm-cta-btn-pinterest" onclick="window.open('https://www.pinterest.fr/');" title="Pinterest">
+					<img alt="Pinterest" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-pinterest-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2015'%3E%3C/svg%3E" width="15"/><noscript><img alt="Pinterest" height="15" src="/wp-content/themes/INFPF/images/refonte-2022/ico-pinterest-footer.svg" width="15"/></noscript>
+				</div>
+				<div class="gtm-cta-btn-tiktok" onclick="window.open('https://www.tiktok.com/');" title="TikTok">
+					<img alt="TikTok" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-tiktok-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2015'%3E%3C/svg%3E" width="15"/><noscript><img alt="TikTok" height="15" src="/wp-content/themes/INFPF/images/refonte-2022/ico-tiktok-footer.svg" width="15"/></noscript>
+				</div>
+			</div>
+			<div class="footer__social__tel gtm-cta-btn-telephone" onclick="location.href='tel:0366060201'" title="Contactez nous !">Tél. 04 89 05 03 55</div>
+		</div>
+	</div>
+	<div class="footer__container">
+		<ul class="footer__menu">
+			<li>
+				<a href="{{ path('app_contact') }}">
+					<span>Contactez-nous</span>
+				</a>
+			</li>
+
+			{# <li>
+			<span onclick="document.getElementById('contactFormModal').style.display='block'">Contactez nous</span>
+			</li>
+			
+			
+			<div id="contactFormModal" class="modal" style="display:none;">
+			  <div class="modal-content">
+			    <span class="close-btn" onclick="document.getElementById('contactFormModal').style.display='none'">&times;</span>
+			    <form action="/send-contact-form" method="POST">
+			      <label for="name">Nom:</label>
+			      <input type="text" id="name" name="name" required>
+			      
+			      <label for="email">Email:</label>
+			      <input type="email" id="email" name="email" required>
+			      
+			      <label for="message">Message:</label>
+			      <textarea id="message" name="message" required></textarea>
+			      
+			      <input type="submit" value="Envoyer">
+			    </form>
+			  </div>
+			</div> #}
+
+			<li>
+				<a href="{{ path('legal_mentions') }}">Règlement intérieur</a>
+			</li>
+			<li>
+				<a href="{{ path('cgv') }}">Conditions Générales de Vente</A>
+			</li>
+			<li>
+				<a href="{{ path('disclaimer') }}">Mentions légales</a>
+			</li>
+			<li>
+				<a href="/avis/">Les avis sur l'INFPF</a>
+			</li>
+			<li>
+				<a href="/guide/">Nos guides formations</a>
+			</li>
+			<li>
+				<button class="ot-sdk-show-settings" name="Mes cookies" value="Mes cookies">Personnaliser mes
+					            cookies</button>
+			</li>
+		</ul>
+		<div class="footer__partenaires"></div>
+	</div>
+	<p class="footer__mentionslegales">
+		Ecole certifiée QUALIOPI. La certification nationale a été
+		        attribuée au titre des actions de formation.<br/>
+		Établissement privé d’enseignement.<br/>
+	</p>
+	<div class="footer__copyright">
+		© Institut National De La Formation Professionnelle Française - 2024
+	</div>
+</div></footer>
+ 

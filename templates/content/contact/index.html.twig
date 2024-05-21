@@ -1,0 +1,232 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez-nous{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .flex-row {
+        display: flex;
+        justify-content: space-between; /* Assure une répartition équitable de l'espace */
+        align-items: stretch; /* Étend les éléments pour qu'ils aient la même hauteur */
+        margin: 0 -10px; /* Négation de l'effet de marge des sections pour un alignement parfait */
+    }
+
+    .section, .contact-form, .map-iframe {
+        background-color: #e7eff9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px; /* Marge uniforme autour des sections */
+        flex: 1 1 48%; /* Permet à chaque élément de prendre jusqu'à 48% de l'espace disponible */
+        max-width: 48%; /* Prévention des débordements et maintien de l'uniformité */
+    }
+.contact-form {
+    max-width: 600px; /* Largeur maximale du formulaire */
+    margin: 40px auto; /* Centrage du formulaire avec un peu plus d'espace autour */
+    padding: 30px; /* Espace intérieur généreux pour une meilleure esthétique */
+    background-color: #a9ccef; /* Couleur de fond légère */
+    border-radius: 10px; /* Bordures arrondies plus prononcées */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre portée plus profonde pour un effet de flottaison */
+    font-family: 'Arial', sans-serif; /* Police de caractères élégante et lisible */
+    border: 1px solid #ccc; /* Bordure subtile pour définir le contour */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ajout de transitions pour l'effet de transformation et l'ombre */
+}
+
+.contact-form:hover {
+    transform: scale(1.05); /* Agrandit la carte de 5% lors du survol */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); /* Ombre plus profonde et plus visible au survol */
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%; /* Utilisation de toute la largeur disponible */
+    padding: 12px 20px; /* Padding plus généreux pour une meilleure saisie */
+    margin-top: 10px; /* Espacement vertical pour ne pas que les champs se touchent */
+    border: 1px solid #ddd; /* Légère bordure pour les champs */
+    border-radius: 6px; /* Bordures arrondies pour les champs */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06); /* Petite ombre interne pour un effet de profondeur subtil */
+}
+
+.contact-form button {
+    width: 100%; /* Le bouton occupe toute la largeur du formulaire */
+    padding: 10px 0; /* Padding vertical */
+    background-color: #4CAF50; /* Couleur de fond vert vibrant */
+    color: white; /* Texte blanc pour contraster avec le fond */
+    border: none; /* Pas de bordure */
+    border-radius: 6px; /* Bordures arrondies pour le bouton */
+    cursor: pointer; /* Cursor pointeur pour indiquer qu'il s'agit d'un élément cliquable */
+    transition: background-color 0.3s ease; /* Transition douce pour l'effet de survol */
+}
+
+.contact-form button:hover {
+    background-color: #45a049; /* Couleur de survol légèrement plus foncée */
+}
+
+
+/* Styles supplémentaires pour améliorer la lisibilité et l'esthétique des étiquettes */
+.contact-form label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form input[type="tel"],
+    .contact-form textarea {
+        width: 100%; /* Utiliser toute la largeur disponible */
+        padding: 10px; /* Padding confortable */
+        margin-top: 8px; /* Espacement entre chaque champ */
+        margin-bottom: 16px; /* Espacement après chaque champ */
+        border: 1px solid #ccc; /* Bordure discrète */
+        border-radius: 4px; /* Bordures légèrement arrondies */
+        box-sizing: border-box; /* La largeur inclut le padding et la bordure */
+    }
+
+    .contact-form label {
+        font-weight: bold; /* Texte en gras pour les labels */
+        margin-top: 15px; /* Espacement au-dessus des labels */
+        display: block; /* Assure que les labels s'affichent comme des blocs */
+        color: #333; /* Couleur du texte plus sombre pour une bonne lisibilité */
+    }
+
+    .contact-form button[type="submit"] {
+        background-color: #0056b3; /* Couleur de fond du bouton */
+        color: white; /* Texte du bouton en blanc */
+        padding: 12px 20px; /* Padding du bouton */
+        border: none; /* Pas de bordure pour le bouton */
+        border-radius: 4px; /* Bordures arrondies pour le bouton */
+        cursor: pointer; /* Curseur de type pointeur */
+        font-size: 16px; /* Taille de la police pour le texte du bouton */
+        transition: background-color 0.3s; /* Transition pour un effet hover doux */
+    }
+
+    .contact-form button[type="submit"]:hover {
+        background-color: #004494; /* Changement de couleur au survol */
+    }
+
+    .contact-form input, .contact-form textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .contact-form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .contact-form button[type="submit"] {
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .contact-form button[type="submit"]:hover {
+        background-color: #004494;
+    }
+
+    .map-iframe iframe {
+        width: 100%; /* Assure que l'iframe prend toute la largeur de son conteneur */
+        height: 550px; /* Hauteur fixe pour aligner visuellement avec le formulaire */
+        border-radius: 10px; /* Bordures arrondies pour l'iframe */
+    }
+
+.map-iframe {
+        background-color: #e7eff9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+		font-family: Arial, sans-serif;
+        flex-basis: calc(50% - 20px); /* Largeur ajustée pour l'espacement */
+    }
+
+.section {
+    font-family: Arial, sans-serif;
+}
+
+.info-item {
+    display: flex;
+}
+
+.logo {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+    .contact-form, .map-iframe {
+        align-self: start; /* Alignement au début pour éviter les étirements disproportionnés */
+    }
+    @media (max-width: 768px) {
+        .flex-row {
+            flex-direction: column;
+        }
+
+        .section, .contact-form, .map-iframe {
+            flex: 1 1 100%; /* Chaque élément prend la pleine largeur sur les petits écrans */
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="flex-row">
+    <section class="section">
+        <div class="contact-info-text">
+            <h2>Nous contacter</h2>
+            <p>Vous pouvez contacter INFPF Team par mail 24h/24h & 7j/7j. Votre mail sera traité en moins de 24h par notre équipe ✅.</p>
+        </div>
+    </section>
+
+<section class="section">
+    <h2>Informations de l'Entreprise</h2>
+    <div class="info-item">
+        <img src="../img/telephone.png" alt="Téléphone" class="logo">
+        <p>257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR</p>
+    </div>
+    <div class="info-item">
+        <img src="../img/adresse.png" alt="Adresse" class="logo">
+        <p>Téléphone: 04 89 05 03 55</p>
+    </div>
+    <div class="info-item">
+        <img src="../img/emails.png" alt="E-mail" class="logo">
+        <p>E-mail: contact@infpf.fr</p>
+    </div>
+</section>
+
+
+</div>
+
+<div class="flex-row">
+    <div class="contact-form">
+        {{ form_start(contactForm) }}
+        {{ form_row(contactForm.name, {'attr': {'placeholder': 'Nom Prénom'}}) }}
+        {{ form_row(contactForm.email, {'attr': {'placeholder': 'E-mail'}}) }}
+        {{ form_row(contactForm.numero, {'label': 'Téléphone'}) }}
+        {{ form_row(contactForm.content, {'attr': {'placeholder': 'Votre message ici'}}) }}
+        {{ form_end(contactForm) }}
+    </div>
+
+    <div class="map-iframe">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.0385500261586!2d7.182744376855092!3d43.66816807110144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdd16489388b83%3A0x5f9bd1b30eb8340a!2s257%20Av.%20Saint-Exup%C3%A9ry%2C%2006700%20Saint-Laurent-du-Var!5e0!3m2!1sfr!2sfr!4v1715769457806!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>    </div>
+</div>
+{{ include('footer.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    document.querySelector('.contact-link').addEventListener('click', function (event) {
+        event.preventDefault();
+        document.querySelector('.contact-form').style.display = 'block';
+    });
+</script>
+{% endblock %}

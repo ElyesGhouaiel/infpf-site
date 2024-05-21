@@ -1,0 +1,487 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formez-vous facilement à votre futur métier
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="../css/fichier.css?=v6" rel="stylesheet"/>
+	<style>
+
+		.home-contact-preview {
+			background-color: #f9f9f9;
+			padding: 40px 20px;
+			text-align: center;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			margin: 20px;
+		}
+
+		.home-contact-preview .container {
+			max-width: 800px;
+			margin: auto;
+		}
+
+		.home-contact-preview h2 {
+			color: #0056b3;
+			margin-bottom: 20px;
+		}
+
+		.home-contact-preview p {
+			color: #666;
+			margin-bottom: 20px;
+		}
+
+		.home-contact-preview .btn-primary {
+			background-color: #004494;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			text-decoration: none;
+			display: inline-block;
+			transition: background-color 0.3s;
+		}
+
+		.home-contact-preview .btn-primary:hover {
+			background-color: #0056b3;
+		}
+
+		.blog-sectionactualite {
+
+			background-color: #f4f6f8;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+
+		.blog-heading {
+			color: #333;
+			margin-bottom: 20px;
+		}
+		.blog-container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around; /* Assure un espacement uniforme entre les cartes */
+		}
+		.blog-postactualite {
+			background-color: #ffffff;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 15px;
+			width: calc(24% - 20px); /* Trois éléments par ligne avec un peu d'espace entre eux */
+			margin-bottom: 20px; /* Espacement vertical entre les lignes */
+			overflow: hidden;
+			transition: transform 0.3s ease;
+		}
+		.blog-post:hover {
+			transform: translateY(-5px);
+		}
+
+		.blog-post-image {
+			/* width: 100%;  Assure que l'image couvre toute la largeur du post */
+			/* height: 200px;  Hauteur fixe pour les images */
+			overflow: hidden; /* Cache les débordements */
+		}
+
+		.blog-post-image img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover; /* Assure que l'image couvre bien la zone sans être déformée */
+		}
+
+		.blog-post-content {
+			padding: 20px; /* Padding intérieur pour le texte */
+		}
+
+		.blog-post-content h3 {
+			margin-top: 0; /* Supprime la marge du haut pour le titre */
+			color: #333; /* Couleur de texte foncée pour le titre */
+			font-size: 18px; /* Taille de police plus grande pour le titre */
+		}
+
+		.blog-post-content p {
+			color: #456; /* Couleur de texte plus claire pour le contenu */
+			line-height: 1.6; /* Interligne pour améliorer la lisibilité */
+		}
+
+		.read-more {
+			display: block;
+			color: #0056b3;
+			text-decoration: none;
+			margin-top: 10px;
+		}
+
+		.read-more:hover {
+			text-decoration: underline;
+		}
+
+		/* Adaptations pour les tablettes */
+		@media(max-width: 768px) {
+			.blog-postactualite {
+				flex: 1 1 45%; /* Chaque post prendra environ 45% de l'espace disponible */
+			}
+		}
+
+
+		@media(max-width: 768px) {
+			.blog-post {
+				width: calc(50% - 20px); /* Deux éléments par ligne sur les écrans moyens */
+			}
+		}
+
+		@media(max-width: 480px) {
+			.blog-post {
+				width: 100%; /* Un élément par ligne sur les écrans petits */
+			}
+		}
+
+		.categories {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		.category {
+			margin: 10px;
+			position: relative;
+			/*    flex: 0 1 calc(25% - 20px);  Pour que chaque ligne ait maximum 4 cartes et ajuster la marge */
+		}
+		.category-card {
+			position: relative; /* Ajouté pour créer un contexte de positionnement */
+
+			width: 300px;
+			height: 228px; /* Ajustez la hauteur selon vos besoins */
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			transition: width 0.3s ease, box-shadow 0.3s ease; /* Ajusté pour inclure box-shadow dans la transition */
+			/* transition: width 0.3s ease;  Transition de la largeur pour un effet agrandissement en douceur */
+			/* transition: all 0.3s ease;  Transition pour la largeur et l'ombre */
+			overflow: hidden; /* Empêche le contenu de déborder */
+		}
+		.category-card:hover {
+			width: 370px; /* Ajustez la largeur au survol selon vos besoins */
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			background-color: #f9f9f9; /* Changement de couleur au survol */
+		}
+		/* Ajout pour la transparence de l'image au survol */
+		.category-card:hover .category-image {
+			opacity: 0.3; /* Ajustez la valeur selon le niveau de transparence souhaité */
+			transition: opacity 0.3s ease; /* Transition douce pour l'opacité */
+		}
+
+		.category-image {
+			height: 80%; /* Ajustez la hauteur selon vos besoins */
+			width: 100%; /* S'assurer que l'image couvre toute la largeur de la carte */
+			border-radius: 5px; /* Rayon de bordure pour l'image */
+			transition: opacity 0.3s ease; /* Transition douce pour l'opacité */
+		}
+
+		.category-card:hover .category-image {
+			opacity: 0.3; /* Transparence au survol */
+		}
+
+		.category-title {
+			position: absolute;
+			bottom: 10px; /* Ajustez selon vos besoins */
+			left: 50%; /* Centrer horizontalement */
+			transform: translateX(-50%); /* Ajuste pour centrer précisément le titre */
+			width: calc(100% - 20px); /* Prend en compte la marge pour ne pas déborder de la carte */
+			text-align: center;
+			font-weight: bold;
+			transition: opacity 0.3s ease;
+			opacity: 1; /* Pleinement visible par défaut */
+			font-size: 20px;
+
+		}
+
+		.category-card:hover .category-title {
+			opacity: 1; /* Assurez-vous que le texte reste pleinement visible, ajustez selon les besoins */
+		}
+
+		.formations {
+			display: none; /* Masqué par défaut */
+			position: absolute; /* Positionnement absolu par rapport à .category-card */
+			top: 0; /* Aligné en haut de la carte */
+			left: 0; /* Aligné à gauche de la carte */
+			right: 0; /* Assure que l'élément s'étend à la droite de la carte */
+			bottom: 0; /* Assure que l'élément s'étend au bas de la carte */
+			background-color: rgba(255, 255, 255, 0.9); /* Fond légèrement transparent pour voir l'image en dessous */
+			padding: 10px; /* Espacement intérieur pour le contenu de formations */
+			overflow-y: auto; /* Permet le défilement si le contenu dépasse la hauteur de la carte */
+			transition: opacity 0.3s ease; /* Transition douce pour l'opacité */
+		}
+
+		.category:hover .formations {
+			display: block; /* Affiché au survol de la catégorie */
+			opacity: 0.5; /* Pleinement visible */
+		}
+		.formation {
+			margin-bottom: 5px;
+			cursor: pointer;
+
+		}
+		.formation:hover {
+			background-color: #f0f0f0; /* Changement de couleur au survol */
+		}
+		.nameFormation {
+			font-size: 14px;
+			font-weight: bold;
+			margin: 0;
+			width: 70%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			height: 100%;
+			padding: 10px;
+		}
+		.titlePage {
+			font-size: 3.3rem;
+			text-align: center;
+			font-size: 3.2rem;
+			color: black;
+			font-weight: 700;
+			margin-top: 0;
+			padding-top: 20px;
+			padding-bottom: 40px;
+		}
+		.card-img-top {
+			width: 100%;
+			height: 200px; /* fixed height for all images */
+			object-fit: cover; /* ensures that images cover the area without being stretched */
+		}
+		/* Style de base pour tous les écrans */
+		.wp-block-cover__inner-container {
+			padding: 20px;
+		}
+
+		.wp-block-columns {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.wp-block-column {
+			padding: 10px;
+		}
+
+		.wp-block-videas img {
+			position: absolute;
+			top: 0; /* Centrage vertical de l'image */
+			left: 0; /* Centrage horizontal de l'image */
+			width: 100%; /* Largeur de l'image ajustée à la largeur du conteneur */
+			height: 100%; /* Hauteur de l'image ajustée à la hauteur du conteneur */
+			border-radius: 15px; /* Conserver le bord arrondi */
+			object-fit: cover; /* Assurer que l'image couvre bien la zone sans distorsion */
+		}
+
+		@media(max-width: 480px) {
+			.wp-block-videas {
+				padding: 0; /* Éliminer le padding qui peut déplacer l'image */
+				position: relative; /* Utiliser relative pour l'encapsuleur si nécessaire */
+				height: auto; /* Ajuster la hauteur automatiquement */
+			}
+
+			.wp-block-videas img {
+				position: relative; /* Rendre l'image moins restrictive dans sa position */
+				top: auto; /* Annuler le positionnement spécifique */
+				left: auto;
+				height: auto; /* Permettre à l'image de déterminer sa propre hauteur */
+				border-radius: 15px; /* Conserver le style des coins arrondis */
+				width: 100%; /* Garantir que l'image prend toute la largeur disponible */
+				margin-top: 20px; /* Ajouter un espace au-dessus de l'image pour éviter la superposition */
+			}
+		}
+		/* Titres et texte */
+		.wp-block-heading {
+			color: #6eaedf;
+			font-weight: 300;
+			font-style: normal;
+		}
+
+		.wp-block-coaching-personnalise-ss-titre,
+		.r {
+			color: #000;
+			font-size: 18px; /* Taille plus petite pour les écrans réduits */
+		}
+
+		/* Boutons */
+		.wp-block-button__link {
+			color: white;
+			background-color: #007BFF;
+			text-decoration: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+		}
+
+		/* Adaptations pour tablettes */
+		@media(max-width: 768px) {
+			.wp-block-columns {
+				flex-direction: column;
+			}
+
+			.wp-block-column {
+				flex-basis: 100%;
+			}
+		}
+
+		/* Adaptations pour les téléphones mobiles */
+		@media(max-width: 480px) {
+			.home-contact-preview .container {
+				padding: 20px;
+			}
+
+			.wp-block-heading,
+			.wp-block-coaching-personnalise-ss-titre,
+			.r {
+				font-size: 16px;
+			}
+
+			.wp-block-buttons {
+				display: block;
+				text-align: center;
+			}
+
+			.wp-block-button {
+				width: 100%;
+				margin-top: 10px;
+			}
+
+			.wp-block-button__link {
+				width: 100%;
+				display: block;
+			}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<h1 class="titlePage">Formez-vous facilement à votre futur métier</h1>
+	<div class="categories">
+		{% for category in categories %}
+			<div class="category">
+
+				<div
+					class="category-card">
+					{# <img src="{{ asset('path/to/image/' ~ category.image) }}" alt="{{ category.name }}" class="category-image"> #}
+					<img src="../img/{{ categoryImages[category.id] ?? 'defaultImage.webp' }}" alt="Image de la catégorie {{ category.name }}" class="category-image">
+
+					<div class="category-title">{{ category.name }}</div>
+					<div class="formations" data-category-id="{{ category.id }}">
+						{% for formation in category.formations|slice(0, 3) %}
+							<div class="formation" onclick="window.location.href='{{ path('app_formation_show', { 'id': formation.id }) }}'">
+								<p class="nameFormation">{{ formation.nameFormation }}</p>
+								<!-- Ajoutez d'autres détails de formation ici -->
+							</div>
+						{% endfor %}
+						{% if category.formations|length > 3 %}
+							<a href="{{ path('app_home', { 'id': category.id }) }}">Voir plus</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="wp-block-columns wp-block-fullscreen wp-block-formation-financable-cpf-bordure is-layout-flex wp-container-core-columns-layout-28 wp-block-columns-is-layout-flex">
+		<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
+			<div class="wp-block-columns wp-block-formation-financable-cpf is-layout-flex wp-container-core-columns-layout-27 wp-block-columns-is-layout-flex">
+				<div class="wp-block-column_cpf_lady">
+					<img src="../img/CPF.png" class="wp-image-cpf_lady" alt="formation_financable_cpf"></img>
+			</div>
+			<div class="wp-block-column wp-block-formation-financable-cpf-texte is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:77%">
+				<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-26 wp-block-columns-is-layout-flex">
+					<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:80%">
+						<h2 class="wp-block-heading has-text-color" id="formation-100-financable-via-votre-cpf" style="color:#0b3f89;font-size:4.1rem">FORMATIONS à distance&nbsp;<br><span style="color: #d71a22">100% FINANÇABLES</span>&nbsp;VIA VOTRE CPF</h2>
+						<div>
+							<p class="has-text-color" style="color:#808080">
+								L'INFPF permet à toute personne, salariée ou demandeur d’emploi, de suivre la formation de leur choix. À l'Institut national de la formation professionnelle française, les formations à distance proposées sont diversifiées et adaptées aux besoins actuels du marché du travail.
+							</p>
+							<p class="has-text-color" style="color:#808080">
+								Parmi nos formations éligibles au CPF, nous offrons des cours dans des domaines clés tels que : la Finance, l'Administration, l'Informatique, le Design, le Management, la Vente, le Marketing, les Langues et bien plus encore.
+							</p>
+						</div>
+					</div>
+					{# <div class="wp-block-column is-vertically-aligned-bottom wp-block-formation-financable-cpf-logo is-layout-flow wp-block-column-is-layout-flow">
+						<div class="wp-block-image_cpf">
+							<img class="imgcpfcpf" src="../img/cpf_sans_phrase.webp" alt="logo-cpf"></img>
+					</div>
+				</div> #}
+			</div>
+			<div class="bloc-cpf-constat">
+				<div class="wp-block-button has-custom-font-size" style="font-size:2.1rem">
+					<a class="wp-block-button__link has-background wp-element-button" href="../ecole/formations-eligibles-cpf.html" style="background-color:#0b3f89">Utiliser
+													mon CPF</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div></div><div class="blog-sectionactualite" style="border-bottom: 15px solid #0b3f89;">
+<h2 class="blog-heading">Actualités de l'INFPF</h2>
+<div class="blog-container">
+	{% for blog in blog %}
+		<div class="blog-postactualite">
+			{% if blog.image %}
+				{# <img
+																src="{{ asset('img/image_finance.webp') }}" alt="Image description" class="blog-imag"> #}
+
+				<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description">
+			{% endif %}
+			<div class="blog-post-content">
+				<h3>{{ blog.titleOne }}</h3>
+				<p>{{ blog.contentOne|slice(0, 150) ~ '...' }}</p>
+				<a href="{{ path('blog_show', {'id': blog.id}) }}" class="read-more">Voir la suite</a>
+			</div>
+		</div>
+	{% endfor %}
+</div></div><div class="wp-block-cover__inner-container is-layout-flow wp-block-cover-is-layout-flow" style="padding:20px;">
+<div class="wp-block-columns wp-block-fullscreen is-layout-flex wp-container-core-columns-layout-30 wp-block-columns-is-layout-flex" style="border-bottom: 15px solid #d71a22;">
+	<div class="wp-block-column is-vertically-aligned-top wp-block-coaching-personnalise-video is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
+		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-29 wp-block-columns-is-layout-flex">
+			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:42%">
+<div class="wp-block-videos" style="padding:56.25% 0 0 0;position:relative;">
+    <video controls autoplay loop style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;">
+        <source src="../img/video-infpf.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    {# <img src="../img/coaching-personnalise.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""> #}
+</div>
+
+		</div>
+		<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:58%">
+			<h2 class="wp-block-heading wp-block-coaching-personnalise-titre has-text-color" id="un-coaching-personnalise" style="color:#6eaedf;font-style:normal;font-weight:300">Votre développement est notre
+				<span style="color: #black">
+					<strong style="color: #0b3e6fd6;">mission !</strong>
+				</span>
+			</h2>
+			<p class="wp-block-coaching-personnalise-ss-titre has-text-color" style="color:#black;">À l'INFPF, nous nous engageons à vous préparer aux défis de demain.</p>
+			<p class="r" style="color:#black;">
+				Nos programmes sont conçus pour vous équiper avec les compétences nécessaires dans des domaines clés, répondant aux exigences des métiers du nouveau monde. Nous vous offrons une formation de pointe, centrée sur l'innovation et adaptée aux évolutions constantes du marché professionnel. Rejoignez-nous pour transformer votre avenir et réaliser vos ambitions.
+			</p>
+			<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+				<div class="wp-block-button has-custom-font-size alignleft is-style-fill" style="font-size:18px">
+					<a class="wp-block-button__link wp-element-button" href="{{ path('redirectToPourquoiChoisirLeInfpf')}}">Pourquoi choisir l'INFPF ?</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+</div></div><section class="home-contact-preview">
+<div class="container">
+	<h2>Contactez-nous</h2>
+	<p>Notre équipe s'engage à traiter votre demande dans un délais de 24 heures.</p>
+	<a href="{{ path('app_contact') }}" class="btn btn-primary">Contactez-nous</a>
+</div></section></div></div>{% include 'footer.html.twig' %}{% endblock %}{% block javascript %}<script>document.querySelectorAll('.category').forEach(function (category) {
+category.addEventListener('mouseover', function () {
+const formations = category.querySelector('.formations');
+formations.style.display = 'block';
+});
+
+category.addEventListener('mouseout', function () {
+const formations = category.querySelector('.formations');
+formations.style.display = 'none';
+});
+});</script>{% endblock %}

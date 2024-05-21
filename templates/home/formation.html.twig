@@ -1,0 +1,430 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Formations
+{% endblock %}
+{% block stylesheets %}
+	<link href="../css/fichier.css" rel="stylesheet"/>
+
+	<link
+	href="../css/forma.css?=v36" rel="stylesheet"/>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<!-- CSS jQuery UI -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+{% endblock %}
+{% block body %}
+
+	<div class="bodyclass">
+		<section class="tool_bar_liste_formations_ff">
+			<div class="wrapper_content_container_formation">
+
+				<div class="col_gauche">
+					<div class="search_and_sort_area">
+
+						<div class="search_area">
+							<input type="text" id="searchInput" class="search-results-doofinder-list-static" placeholder="Chercher une formation">
+							<div id="searchResults">
+								{% for formation in formations %}
+									<div
+										class="formation-item" style="display: none;">
+										<!-- Ajoutez le lien autour du nom de la formation -->
+										<a href="{{ path('app_formation_show', {'id': formation.id}) }}" style="text-decoration: none; color: black;">
+											<h4>{{ formation.nameFormation }}</h4>
+										</a>
+										<!-- autres détails de la formation -->
+									</div>
+								{% endfor %}
+							</div>
+							<!-- Container pour les résultats de recherche -->
+						</div>
+
+
+					</div>
+				</div>
+
+				<div class="col_droite">
+					<div class="sort_and_results_area">
+						<div class="sort_area">
+							<div class="libelle">Trier par :</div>
+							<a href="#" class="libellee" data-sort="ASC" data-type="prix" class="item active">Prix croissant</a>
+							<a href="#" class="libellee" data-sort="DESC" data-type="prix" class="item">Prix décroissant</a>
+						</div>
+						<div
+							class="results_area">
+							{# Affiche le total pour tous si 'all' est sélectionné #}
+							<span class="result" id="total_for_all" {% if selectedCategoryId == 'all' %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
+								Total pour tous les formations:
+								{{ totalGlobal }}
+								résultat(s)
+							</span>
+
+							{# Boucle sur chaque catégorie pour afficher le total spécifique #}
+							{% for category in categories %}
+								<span class="result" id="count_for_category_{{ category.id }}" {% if selectedCategoryId == category.id %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
+									Total pour
+									{{ category.name }}:
+									{{ formationsCountByCategory[category.id] }}
+									résultat(s)
+								</span>
+							{% endfor %}
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="container">
+			<div class="left">
+				<div class="wrapper_sidebar" id="wrapper_sidebar_liste_formations">
+					<div class="wrapper_select_domaine">
+						<div
+							class="wrapper_total_formations" id="total_formations_wrapper">
+							{# Affiche le total global si 'all' est sélectionné #}
+							<span id="total_for_all" {% if selectedCategoryId == 'all' %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
+								Total pour tous les formations:
+								{{ totalGlobal }}
+							</span>
+							{# Boucle sur les catégories pour afficher les totaux par catégorie #}
+							{% for category in categories %}
+								<span class="total_formations" id="count_for_select_{{ category.id }}" {% if selectedCategoryId == category.id %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
+									{{ formationsCountByCategory[category.id] }}
+								</span>
+							{% endfor %}
+
+							{# Sélecteur de catégorie #}
+							<select class="select_domaine" id="category_select" name="">
+								<option value="all" {% if not selectedCategoryId or selectedCategoryId == 'all' %} selected {% endif %}>Tous les domaines</option>
+								{% for category in categories %}
+									<option value="{{ category.id }}" {% if selectedCategoryId == category.id %} selected {% endif %}>{{ category.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div
+							class="filters">
+							<!-- Thématique -->
+							<button class="filter-btn" onclick="toggleFilter('theme')">Thématique</button>
+							<div
+								id="theme" class="checkbox-group" style="display: none;">
+								<!-- Répétez pour chaque thématique, exemple pour 'Trading' -->
+								<div class="checkbox-groupbox">
+									<input type="checkbox" id="trading" onchange="applyFilter()" name="thematique" value="Trading">
+									<label for="trading">Trading</label>
+								</div>
+								<!-- Ajoutez d'autres thématiques ici -->
+							</div>
+
+							<!-- Format -->
+							<button class="filter-btn" onclick="toggleFilter('lieu')">Format</button>
+							<div
+								id="lieu" class="checkbox-group" style="display: none;">
+								<!-- Exemple pour 'Distanciel' -->
+								<div class="checkbox-groupbox">
+									<input type="checkbox" id="distanciel" onchange="applyFilter()" name="lieu" value="Distanciel">
+									<label for="distanciel">Distanciel</label>
+								</div>
+								<!-- Ajoutez d'autres formats ici -->
+							</div>
+
+							<!-- Durée -->
+							<button class="filter-btn" onclick="toggleFilter('duration')">Durée</button>
+							<div
+								id="duration" class="checkbox-group" style="display: none;">
+								<!-- Exemple pour '24 heures' -->
+								<div class="checkbox-groupbox">
+									<input type="checkbox" id="24-heures" onchange="applyFilter()" name="duration" value="24 heures">
+									<label for="24-heures">24 heures</label>
+								</div>
+								<!-- Ajoutez d'autres durées ici -->
+							</div>
+
+							<!-- Niveau -->
+							<button class="filter-btn" onclick="toggleFilter('level')">Niveau</button>
+							<div
+								id="level" class="checkbox-group" style="display: none;">
+								<!-- Exemple pour 'Débutant' -->
+								<div class="checkbox-groupbox">
+									<input type="checkbox" id="debutant" onchange="applyFilter()" name="level" value="Débutant">
+									<label for="debutant">Débutant</label>
+								</div>
+								<!-- Ajoutez d'autres niveaux ici -->
+							</div>
+
+							<!-- Langue -->
+							<button class="filter-btn" onclick="toggleFilter('language')">Langue</button>
+							<div
+								id="language" class="checkbox-group" style="display: none;">
+								<!-- Exemple pour 'Français' -->
+								<div class="checkbox-groupbox">
+									<input type="checkbox" id="francais" onchange="applyFilter()" name="language" value="Français">
+									<label for="francais">Français</label>
+								</div>
+								<!-- Ajoutez d'autres langues ici -->
+							</div>
+
+							<!-- Financement -->
+							<button class="filter-btn" onclick="toggleFilter('funding')">Financement</button>
+							<div
+								id="funding" class="checkbox-group" style="display: none;">
+								<!-- Exemple pour 'Éligible CPF' -->
+								<div class="checkbox-groupbox">
+									<input type="checkbox" id="eligible-cpf" onchange="applyFilter()" name="funding" value="Éligible CPF">
+									<label for="eligible-cpf">Éligible CPF</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="right" id="formations_container">
+				{% for categoryId, categoryData in formationsByCategory %}
+					<div class="category" {% if categoryId != selectedCategoryId and selectedCategoryId != 'all' %} style="display: none;" {% endif %}>
+
+						{% if is_granted('ROLE_ADMIN') %}
+							<p class="category-id">ID de la catégorie :
+								{{ categoryId }}</p>
+						{% endif %}
+
+
+						{% for formation in categoryData.formations %}
+							<div class="formation-card" data-prix="{{ formation.priceFormation }}">
+								<div class="formation-column-left">
+									<div class="button-cate-name">
+										<p class="category-name {{ 'category-name-' ~ categoryData.categoryName|lower|replace({' ': '-'}) }}">{{ categoryData.categoryName }}</p>
+									</div>
+									<p class="formation-name">{{ formation.nameFormation }}</p>
+									{# Approche modifiée pour la description #}
+									{% set words = formation.descriptionFormation|split(' ') %}
+									{% set descriptionToShow = '' %}
+									{% set totalChars = 0 %}
+									{% set limitReached = false %}
+
+									{% for word in words %}
+										{% set totalChars = totalChars + word|length + 1 %}
+										{# +1 for the space #}
+										{% if totalChars <= 150 %}
+											{% set descriptionToShow = descriptionToShow ~ ' ' ~ word %}
+										{% else %}
+											{% if not limitReached %}
+												{% set descriptionToShow = descriptionToShow ~ '...' %}
+												{% set limitReached = true %}
+											{% endif %}
+										{% endif %}
+										{% if word|slice(-1) == '.' and totalChars > 100 %}{% endif %}
+									{% endfor %}
+
+									<p class="formation-description">{{ descriptionToShow }}</p>
+									<a class="buttonVoirLeProgramme" href="{{ path('app_formation_show', {'id': formation.id}) }}">Voir le programme</a>
+									{% if is_granted("ROLE_ADMIN") %}
+
+										<a href="{{ path('app_formation_edit', {'id': formation.id}) }}">Modifier</a>
+
+									{% endif %}
+								</div>
+								<div class="formation-column-right">
+									{% if formation.phraseOne %}
+										<p class="phrase-one">
+											<img src="../img/bloc-notes.png" style="width: 16px;" alt="icone formation">
+											<strong style="color: #0b3e6fd6;">La formation :</strong>
+											{{ formation.phraseOne }}
+										</p>
+									{% endif %}
+									{% if formation.niveau %}
+										<p class="niveau">
+											<img src="../img/les-niveaux.png" style="width: 16px;" alt="icone formation">
+											<strong style="color: #0b3e6fd6;">Le niveau :</strong>
+											{{ formation.niveau }}
+										</p>
+									{% endif %}
+									{% if formation.dureeFormation %}
+										<p class="formation-duree">
+											<img src="../img/lhorloge.png" style="width: 16px;" alt="icone formation">
+											<strong style="color: #0b3e6fd6;">La durée :</strong>
+											{{ formation.dureeFormation }}
+										</p>
+									{% endif %}
+									{% if formation.priceFormation %}
+										<p class="formation-prix">
+											<img src="../img/piece-en-euros.png" style="width: 16px;" alt="icone formation">
+											<strong style="color: #0b3e6fd6;">Le prix :</strong>
+											{{ formation.priceFormation }}€
+										</p>
+									{% endif %}
+									{% if formation.rncp %}
+										<p class="formation-rncp">
+											<img src="../img/certificate-icon.png" style="width: 16px;" alt="icone certification">
+											<strong style="color: #0b3e6fd6;">Code de certification :</strong>
+											{{ formation.rncp }}
+										</p>
+									{% endif %}
+									{% if formation.lieu %}
+										<p class="formation-lieu">
+											<img src="../img/location-icon.png" style="width: 16px;" alt="icone lieu">
+											<strong style="color: #0b3e6fd6;">Environnement de formation :</strong>
+											{{ formation.lieu }}
+										</p>
+									{% endif %}
+									{% if formation.bloc %}
+										<p class="formation-bloc">
+											<img src="../img/skills-icon.gif" style="width: 16px;" alt="icone compétences">
+											<strong style="color: #0b3e6fd6;">Composante de compétences :</strong>
+											{{ formation.bloc }}
+										</p>
+									{% endif %}
+									<!-- Continuez à ajouter d'autres sections si nécessaire -->
+								</div>
+
+
+							</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div
+		class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-layout-10 wp-block-buttons-is-layout-flex">{# <div class="wp-block-button has-custom-font-size is-style-outline wp-block-button__link--san" style="font-size:1.5rem"><a class="wp-block-button__link has-text-color wp-element-button" href="../../formations/formations-courtes/formation-management-certifiante-en-ligne/formation-management-certifiante-en-ligne.html" style="color:#f3ac12"><i class="far fa-arrow-alt-circle-right"></i><strong style="color: #0b3e6fd6;">Découvrir</strong></a></div> #}
+	</div>
+</div></div></div><div class="blog-sectionactualite"><h2 class="blog-heading">Actualités de l'INFPF</h2><div class="blog-container">
+{% for blog in blogs %}
+	<div class="blog-postactualite">
+		<figure
+			class="blog-post-image">
+			<!-- Assurez-vous que le chemin d'accès est correct et que 'blog.image' est le nom de l'attribut dans votre entité Blog contenant le chemin de l'image -->
+			{% if blog.image %}
+				<img src="{{ asset('uploads/images/' ~ blog.image) }}" alt="{{ blog.titleOne }}">
+			{% else %}
+				<!-- Image par défaut si aucune image n'est associée au blog -->
+				<img src="{{ asset('path/to/default/image.jpeg') }}" alt="Image par défaut">
+			{% endif %}
+		</figure>
+		<div class="blog-post-content">
+			<h3>{{ blog.titleOne }}</h3>
+			<p>{{ blog.contentOne|slice(0, 150) ~ '...' }}</p>
+			<a href="{{ path('blog_show', {'id': blog.id}) }}" class="read-more">Voir la suite</a>
+		</div>
+	</div>
+{% endfor %}</div></div></div></div>{% include 'footer.html.twig' %}{% endblock %}
+
+{% block javascripts %}<script>document.addEventListener('DOMContentLoaded', function () {
+var selectElement = document.getElementById('category_select');
+if (selectElement) {
+selectElement.addEventListener('change', function () {
+const categoryId = this.value;
+
+window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+});
+} else {
+console.error('Element #category_select not found');
+}
+});</script>
+
+<script>document.addEventListener('DOMContentLoaded', function () {
+const selectElement = document.getElementById('category_select');
+const resultsSpan = document.querySelector('.results_area .result');
+
+if (selectElement) {
+selectElement.addEventListener('change', function () {
+const categoryId = this.value;
+console.log (`Catégorie sélectionnée: ${categoryId}`);
+
+// Simulez la récupération des résultats basés sur categoryId
+// Cela devrait normalement être remplacé par une requête AJAX ou une méthode similaire
+// qui récupère le nombre réel de résultats depuis le serveur
+const numberOfResults = simulateFetchResults(categoryId);
+
+// Mettre à jour l'affichage des résultats
+resultsSpan.textContent = numberOfResults;
+window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+});
+} else {
+console.error('Element #category_select not found');
+}
+});
+
+// Fonction fictive pour simuler la récupération de données
+function simulateFetchResults(categoryId) {
+// Ici, vous retourneriez le nombre de résultats de votre serveur
+// C'est juste un exemple statique
+return categoryId === 'all' ? 'Tous les résultats' : 'Nombre pour catégorie ' + categoryId;
+}</script>{# Affichage des filtres de formation dans les boutons #}
+
+<script>document.addEventListener('DOMContentLoaded', function () {
+var filterButtons = document.querySelectorAll('.filter-btn');
+
+filterButtons.forEach(function (btn) {
+btn.addEventListener('click', function () {
+var target = document.querySelector(btn.getAttribute('data-target'));
+if (target.style.display === "none") {
+target.style.display = "block";
+} else {
+target.style.display = "none";
+}
+});
+});
+});</script>
+
+{# Trie prix ADC #}<script>document.addEventListener('DOMContentLoaded', function () {
+document.querySelectorAll('.libellee').forEach(function (link) {
+link.addEventListener('click', function (e) {
+e.preventDefault();
+const sortOrder = this.getAttribute('data-sort');
+const container = document.querySelector('#formations_container');
+let formationCards = Array.from(container.querySelectorAll('.formation-card'));
+// Vérifiez si l'attribut data-prix existe avant de tenter le tri
+if (formationCards.length > 0 && formationCards[0].hasAttribute('data-prix')) {
+formationCards.sort(function (a, b) {
+const priceA = parseFloat(a.getAttribute('data-prix'));
+const priceB = parseFloat(b.getAttribute('data-prix'));
+return sortOrder === 'ASC' ? priceA - priceB : priceB - priceA;
+});
+// Réinsère les éléments dans le conteneur dans l'ordre trié
+formationCards.forEach(function (card) {
+container.appendChild(card);
+});
+}
+});
+});
+});</script>
+
+<script>document.addEventListener('DOMContentLoaded', function () {
+const searchInput = document.getElementById('searchInput');
+const formationItems = document.querySelectorAll('.formation-item');
+
+searchInput.addEventListener('input', function () {
+const searchQuery = this.value.toLowerCase();
+
+formationItems.forEach(item => {
+const name = item.querySelector('h4').textContent.toLowerCase();
+if (name.includes(searchQuery)) {
+item.style.display = ''; // ou "block", selon le layout
+} else {
+item.style.display = 'none';
+}
+});
+});
+});</script>
+
+<script>function toggleFilter(filterId) {
+var filter = document.getElementById(filterId);
+filter.style.display = (filter.style.display === 'none') ? 'block' : 'none';
+}
+
+function applyFilter() {
+var url = new URL(window.location.href);
+document.querySelectorAll('.checkbox-group input[type=checkbox]').forEach(function (checkbox) {
+if (checkbox.checked) {
+url.searchParams.set(checkbox.name, checkbox.value);
+} else {
+url.searchParams.delete(checkbox.name);
+}
+});
+window.location.href = url.toString();
+}</script>
+
+{% endblock %}

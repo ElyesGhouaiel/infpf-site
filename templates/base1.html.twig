@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block stylesheets %}
+			<link href="../css/fichier.css?v=42" rel="stylesheet"/>
+		<!-- CSS de Bootstrap -->
+			{# <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+																																				
+																																				<!-- JS de Bootstrap (incluez jQuery et Popper.js avant le JS de Bootstrap) -->
+																																				<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+																																				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+																																				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> #}
+
+			{# <link href="centre_europeen.css" rel="stylesheet"/>
+																																				<link href="centre_europeen.css" rel="stylesheet"/>
+																																				<link href="centre_europeen.css" rel="stylesheet"/> #}
+		{% endblock %}
+		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+		<meta charset="utf-8"/>
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script>let lastKnownScrollPosition = 0,
+ticking = !1;
+var header = document.querySelector(".header");
+function doSomething(e) {
+0 != lastKnownScrollPosition ? header.classList.add("header--scrolling") : header.classList.remove("header--scrolling")
+}
+document.addEventListener("scroll", (function (e) {
+lastKnownScrollPosition = window.scrollY,
+ticking || (window.requestAnimationFrame((function () {
+doSomething(lastKnownScrollPosition),
+ticking = !1
+})), ticking =! 0)
+})),
+jQuery(".header__menu-burger").on("click", (function () {
+jQuery(".header").toggleClass("header--active"),
+jQuery(this).hasClass("header__menu-burger--active") ? (jQuery(".header #menu").hide(), jQuery("body").removeClass("overflow"), jQuery(this).removeClass("header__menu-burger--active"), jQuery(".sub-menu").removeClass("sub-menu--active"), jQuery(".header #menu .menu .menu-item a").removeClass("clicked"), jQuery(".menu-item").siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header-menu-retour").hide()) : (jQuery(this).addClass("header__menu-burger--active"), jQuery(".header #menu").toggle(), jQuery("body").toggleClass("overflow"))
+})),
+jQuery(window).width() <= 1199 && (jQuery(".header #menu .menu .menu-item > a").on("click", (function (e) {
+jQuery(this).hasClass("clicked") || 0 == jQuery(this).next(".sub-menu").length ? jQuery(".header__cta__INFPFlearning").show(0) : (e.preventDefault(), jQuery(this).addClass("clicked"), jQuery(this).next(".sub-menu").addClass("sub-menu--active"), jQuery(".header-menu-retour").show(), jQuery(this).parent(".menu-item").siblings("li:not(.header-menu-retour)").addClass("menu-item--disappear"), jQuery(".header__cta__INFPFlearning").hide(0))
+})), jQuery(".header-menu-retour a").click((function () {
+jQuery(".header .menu .menu-item-has-children .menu-item-has-children a").hasClass("clicked") ? (jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a.clicked").next().removeClass("sub-menu--active"), jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a.clicked").parent().siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a").removeClass("clicked")) : (jQuery(".header .menu > .menu-item-has-children a.clicked").next().removeClass("sub-menu--active"), jQuery(".header .menu > .menu-item-has-children a.clicked").parent().siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header .menu > .menu-item-has-children a").removeClass("clicked")),
+0 == jQuery(".header #menu .menu-item-has-children .sub-menu--active").length && jQuery(this).parent().hide()
+})));</script><script>document.querySelectorAll('.category-link').forEach(function (link) {
+link.addEventListener('click', function (e) {
+e.preventDefault(); // Empêche le comportement de lien par défaut
+const categoryId = this.getAttribute('href').split('category_id=')[1];
+window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+});
+});</script>
+		{% endblock %}
+
+		<meta
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+		{# <link href="http://gmpg.org/xfn/11" rel="profile"/>
+										<link href="/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57"/>
+										<link href="/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60"/>
+										<link href="/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72"/>
+										<link href="/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76"/>
+										<link href="/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114"/>
+										<link href="/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
+										<link href="/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+										<link href="/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
+										<link href="/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/>
+										<link href="/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+										<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+										<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+										<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+										<link href="/manifest.json" rel="manifest"/> #}
+		<meta content="#ffffff" name="msapplication-TileColor"/>
+		<meta content="/ms-icon-144x144.png" name="msapplication-TileImage"/>
+		<meta content="#ffffff" name="theme-color"/>
+		<!-- Preload des JS -->
+		{# <link as="script" href="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" rel="preload"/>
+																								<link as="script" href="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" rel="preload"/> #}
+		<meta
+		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/> <!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->
+		<title>Formation à distance avec l'Institut national de la formation professionnelle française</title>
+		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." name="description"/>
+		<meta content="fr_FR" property="og:locale"/>
+		<meta content="website" property="og:type"/>
+		<meta content="Formation à distance avec l'Institut national de la formation professionnelle française" property="og:title"/>
+		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
+		<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+	</head>
+</html></link>
+<body>
+<header class="header" style="  left: 0;
+  width: 100%;
+  top: 0;
+  color: #fff;
+  z-index: 40;
+  padding-top: 20px;
+  background-color:#1f6ebbb5;">
+<div class="header__container">
+	<div id="branding">
+		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
+			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="62" src="../img/LOGO__INFPF.png" width="100" color="none"/>
+		</a>
+	</div>
+	<nav id="menu">
+		<div class="menu-menu-2022-container">
+			<ul class="menu" id="menu-menu-2022">
+				<li class="header-menu-retour menu-item menu-item-type-custom menu-item-object-custom menu-item-442852" id="menu-item-442852">
+					<a href="#">Retour</a>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442796" id="menu-item-442796">
+					<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">L’École</a>
+					<ul class="sub-menu">
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442797" id="menu-item-442797">
+							<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">Nos formations à
+																																																																																																                    distance</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442798" id="menu-item-442798">
+							<a href="{{ path('redirectToPourquoiChoisirLeInfpf') }}">Pourquoi choisir l'INFPF ?</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442799" id="menu-item-442799">
+							<a href="{{ path('redirectToNotreMethodeApprentissage') }}">Notre méthode
+																																																																																																                    d’apprentissage</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442800" id="menu-item-442800">
+							<a href="{{ path('redirectToNosCoursParCorrespondance') }}">Nos cours par
+																																																																																																                    correspondance</a>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461417" id="menu-item-461417">
+							<a href="{{ path('redirectToCoachPersonnel') }}">Le
+																																																																																																                    coaching : un suivi personnel</a>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461418" id="menu-item-461418">
+							<a href="{{ path('redirectToNotreEquipePedagogique') }}">Notre
+																																																																																																                    équipe pédagogique</a>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461420" id="menu-item-461420">
+							<a href="{{ path('redirectToCertificationQaliopi2') }}">L'INFPF certifié Qualiopi</a>
+						</li>
+						{# <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461421" id="menu-item-461421">
+																			<a href="{{ path('redirectToINFPFReferenceDatadock') }}">L'INFPF référencé sur DataDock</a>
+																		</li> #}
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442805" id="menu-item-442805">
+							<a href="{{ path('redirectToFinancerMaFormation') }}">Financements et prises
+																																																																																																                    en charge</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442806" id="menu-item-442806">
+							<a href="{{ path('redirectToFormationsEligiblesCPF') }}">Formations CPF</a>
+						</li>
+						{# <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461424" id="menu-item-461424">
+																			<a href="{{ path('redirectToParrainageEleve') }}">Parrainage
+																																																																																												                    élève</a>
+																		</li> #}
+					</ul>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442808" id="menu-item-442808">
+					<a href="{{ path('app_home') }}">Formations</a>
+					<ul class="sub-menu">
+						{% for category in dataProvider.getCategories() %}
+							<li class="header-menu-asa menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children" id="menu-item-{{ category.id }}">
+								<a class="category-link" href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
+								<ul class="sub-menu">
+									{% set counter = 0 %}
+									{% for formation in category.formations %}
+										{% if counter < 3 %}
+											<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ formation.id }}">
+												<a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
+											</li>
+											{% set counter = counter + 1 %}
+										{% endif %}
+									{% endfor %}
+									{% if category.formations|length > 3 %}
+										<li class="menu-item menu-item-type-post_type menu-item-object-page see-more" id="see-more-{{ category.id }}">
+											<a href="{{ path('app_home', {'category_id': category.id}) }}" style="background-color: transparent; color: #0077c1;">Voir plus</a>
+										</li>
+									{% endif %}
+								</ul>
+							</li>
+						{% endfor %}
+					</ul>
+				</li>
+
+{# <ul>
+                    <li class="header-menu-asa menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442812" id="menu-item-442812">
+                    
+                    {% for category in categories %}<a href="./formations/metiers-animaliers/finance.html">{{ category.name }}</a>
+                                <ul class="sub-menu">
+                                {% for formation in formations %}
+                                    {% if formation.category == category %}
+                                        <li>{{ formation.nameFormation }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                        {% endfor %}
+                    </ul> #}
+
+				<ul class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442839" id="menu-item-442839">
+					<a href="#">Métiers</a>
+					<ul class="sub-menu">
+						{% for category in categories %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ category.id }}">
+								<a class="category-link" href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</ul>
+				<li class="obfcuscated menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-461428" id="menu-item-461428">
+					<a href="#">Information</a>
+					<ul class="sub-menu">
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461431" id="menu-item-461431">
+							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/eleve-mois/', '');">Élèves
+																																																																																																                    du mois</span>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461432" id="menu-item-461432">
+							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/projet-du-mois/', '');">Projet
+																																																																																																                    du mois</span>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
+							<a href="{{ path('app_blog_index')}}">Blog</a>
+						</li>
+					</ul>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
+					<a href="{{ path('app_contact')}}">Contact</a>
+				</li>
+			</li>
+
+		</ul>
+	</div>
+</nav>
+{% if app.user %}
+	{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
+	<a href="{{ path('app_logout') }}">Déconnexion</a>
+{% else %}
+	<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">INFPF
+																												          learning</a>
+
+{% endif %}
+{% if is_granted("ROLE_ADMIN") %}
+	{# <a href="{{ path('app_admin') }}">Admin</a> #}
+{% endif %}
+
+<div class="header__cta header__cta__doc btn-documentation">
+	<span>Demande de documentation</span>
+</div>
+<div class="header__menu-burger icon-fill gtm-cta-burger">
+	<span class="header__menu-burger__trait"></span>
+	<span class="header__menu-burger__trait"></span>
+	<span class="header__menu-burger__trait"></span>
+</div></div></header>
+
+<main class="site-main" id="main">
+<div class="bandeau-service-client bandeau-service-client-vsimon">
+	<a href="https://www..fr/blog/ecole/service-client-de-annee/" target="_blank">
+		<img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" height="82" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2076%2082'%3E%3C/svg%3E" width="76"/><noscript><img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" height="82" src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" width="76"/></noscript>
+		<span style="padding-top:15px;padding-bottom:15px;color:#0b3e6fd6"><strong>L'Institut National de la Formation Professionnelle Française, premier organisme de formation.</strong></span>
+	</a>
+</div>
+{% block body %}{% endblock %}</body></html>
+
+

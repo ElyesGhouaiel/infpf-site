@@ -1,0 +1,267 @@
+/* Paramètres généraux et styles de base */
+.title-formation {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 50px;
+    letter-spacing: -0.5px;
+    color: #333;
+    margin-bottom: 20px;
+    background: url('../img/banner-formation.jpg') no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Gestion des colonnes pour les détails de la formation */
+.formation-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+    background-color: white;
+}
+
+.col-gauche-card, .col-droite-card {
+    padding: 10px;
+}
+
+.col-gauche-card {
+    flex: 0 0 65%;
+}
+
+.col-droite-card {
+    flex: 0 0 25%;
+}
+
+.formation-details p {
+    color: #666;
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.formation-details p strong {
+    color: #333;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .formation-container {
+        flex-direction: column;
+    }
+
+    .col-gauche-card, .col-droite-card {
+        flex: 1 0 100%;
+    }
+}
+
+/* Presentation and navigation styles */
+.body-presentation-formation {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.col-gauche-navigation {
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 20px);
+    overflow-y: auto;
+    flex: 0 0 25%;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.col-droite-presentation {
+    flex: 0 0 70%;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.download-button {
+    text-align: center;
+    text-transform: none;
+    border: 0;
+    background-color: #CE1353;
+    box-shadow: 132px 0px 95px -60px #ffbc4e inset;
+    transition: box-shadow 1s;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    align-content: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    border-bottom: 1px solid #fff;
+    font-weight: 700;
+    padding: 15px 20px;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    background: transparent;
+    text-transform: uppercase;
+    width: 250px;
+    margin-top: 25px;
+    color: #fff;
+    font-size: 1.6rem;
+    text-decoration: none;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: normal;
+    transition: all ease 0.2s;
+    cursor: pointer;
+}
+
+/* Interactive elements styling */
+.buttonforma {
+    text-transform: none;
+    text-align: center;
+
+    border: 0;
+
+    transition: box-shadow 1s;
+
+
+}
+.download-button:hover {
+    background-color: #CE1353;
+    box-shadow: 400px 0px 95px -60px #ffbc4e inset;
+    color: #fff
+}
+
+.col-gauche-navigation li a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 20px 0;
+}
+
+.col-gauche-navigation li a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+h2, p {
+    margin-top: 30px;
+    line-height: 1.6;
+}
+
+/* Remove underlines from non-interactive elements for clarity */
+h2 {
+    text-decoration: none;
+}
+
+.formation-container-body {
+    margin: 0 auto;
+    padding: 0 120px 60px 120px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) { /* Pour les tablettes */
+    .formation-container-body {
+        padding: 0 60px 30px 60px; /* Réduire le padding pour les écrans plus petits */
+    }
+}
+
+@media (max-width: 768px) { /* Pour les appareils mobiles de taille moyenne */
+    .formation-container-body {
+        padding: 0 30px 15px 30px; /* Encore plus petit pour les écrans mobiles */
+    }
+}
+
+@media (max-width: 480px) { /* Pour les petits appareils mobiles */
+    .formation-container-body {
+        padding: 0 15px 10px 15px; /* Minimal padding pour éviter les débordements */
+    }
+}
+
+.formation-details-droite p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+}
+
+.formation-details-droite img {
+    margin-right: 8px;
+    width: 24px; /* Taille plus grande pour plus de visibilité */
+    transition: transform 0.3s ease; /* Animation pour le survol */
+}
+
+.formation-details-droite p:hover img {
+    transform: scale(2.1); /* Agrandissement au survol */
+}
+
+.la {
+    display: flex;
+    justify-content: flex-end; /* Aligner à droite */
+}
+
+.buttons-container {
+    display: flex;
+    margin-left: 290px; /* Décalage pour aligner avec le contenu de gauche */
+    gap: 20px; /* Espacement entre les boutons */
+}
+
+
+/* Media Queries pour différents écrans */
+@media (max-width: 1200px) {
+    .buttons-container {
+        margin-left: 270px; /* Ajuster le décalage pour les écrans moyens */
+    }
+}
+
+@media (max-width: 768px) {
+    .la {
+        justify-content: center; /* Centrer les boutons sur les petits écrans */
+    }
+
+    .buttons-container {
+        margin-left: 0; /* Supprimer le décalage sur les petits écrans */
+        flex-direction: column; /* Empiler les boutons verticalement sur les petits écrans */
+        align-items: center; /* Centrer les boutons verticalement */
+    }
+
+    .button-programe-forma {
+        margin-bottom: 10px; /* Ajouter de l'espace entre les boutons empilés */
+    }
+}
+
+.button-programe-forma a {
+    display: inline-block;
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.paiement-cpf-button {
+    background-color: #0066CC;
+    color: #FFFFFF;
+    border: 2px solid #005BB5;
+}
+
+.paiement-cpf-button:hover {
+    background-color: #005BB5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.paiment-button {
+    background-color: #FFA500;
+    color: #FFFFFF;
+    border: 2px solid #CC8400;
+}
+
+.paiment-button:hover {
+    background-color: #CC8400;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

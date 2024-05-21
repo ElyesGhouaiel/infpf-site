@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions légales
+{% endblock %}
+{% block stylesheet %}
+	<style>
+		/* Style général */
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #f2f2f2;
+		}
+
+		article {
+			background-color: #fff;
+			margin: 20px auto;
+			padding: 20px;
+			max-width: 800px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		h1,
+		h2 {
+			color: #333;
+		}
+
+		h2 {
+			margin-top: 20px;
+		}
+
+		p {
+			line-height: 1.5;
+		}
+
+		section {
+			margin-bottom: 30px;
+		}
+
+		footer {
+			margin-top: 20px;
+			text-align: center;
+			color: #666;
+		}
+
+		/* Liens */
+		a {
+			color: #007bff;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<article>
+		<h1>Mentions légales</h1>
+
+		<section>
+			<h2>Informations générales</h2>
+			<p>La société INFPF est un Organisme de formation professionnelle enregistré sous le n° 93061116606 dont le siège social est situé au 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR (SIRET - 92791645200018, Numéro de déclaration d'activité - 93061116606) proposant des formations intra-entreprises, inter-entreprises, individuelles et collectives en présentiel ainsi qu'à distance via une plateforme de E-Learning, sur l'ensemble du territoire national.</p>
+		</section>
+
+		<section>
+			<h2>Objet et champ d'application</h2>
+			<p>Les présentes Conditions Générales de Vente déterminent les conditions applicables aux prestations de formation effectuées par la société INFPF pour le compte d'un client. Toute commande de formation implique l'acceptation sans réserve par le client des présentes Conditions Générales de Vente.</p>
+			<p>Ces conditions prévalent sur tout autre document du client, en particulier sur toutes conditions générales d'achat.</p>
+		</section>
+
+		<section>
+			<h2>Devis ou convention, contrat et attestation</h2>
+			<p>Pour chaque formation, la société INFPF s'engage à fournir un devis, une convention ou un contrat au client. Ce dernier est tenu de retourner à la société INFPF un exemplaire renseigné, daté, signé et tamponné, avec la mention « Bon pour accord ».</p>
+			<p>Une attestation de présence ou de fin de formation sera fournie au client.</p>
+		</section>
+
+		<section>
+			<h2>Programme des formations</h2>
+			<p>Le programme des formations, ainsi que les modalités pédagogiques, sont présentés aux clients avant le début de la formation. Le formateur suivra le projet de formation, selon les objectifs visés et les modalités annoncées. Toutefois, le formateur sera en mesure d'apporter des ajustements et adaptations si besoin.</p>
+		</section>
+
+		<section>
+			<h2>Propriété intellectuelle et droit d'auteur</h2>
+			<p>Les supports de formation, quelle qu'en soit la forme (papier, numérique, électronique...), sont protégés par la propriété intellectuelle et le droit d'auteur. Leur reproduction, partielle ou totale, ne peut être effectuée sans l'accord exprès de la société INFPF.</p>
+			<p>Le client s'engage à ne pas utiliser, transmettre, ou reproduire tout ou partie de ces documents en vue de l'organisation ou de l'animation de formations sans l'accord préalable de la société INFPF.</p>
+		</section>
+
+		<section>
+			<h2>Informatique et libertés</h2>
+			<p>Les informations à caractère personnel communiquées par le client à la société INFPF sont utilisées pour le traitement de l'inscription ainsi que pour la constitution d'un fichier clientèle à des fins de prospections commerciales. Conformément à la loi « informatique et libertés » du 6 janvier 1978, le client dispose d'un droit d'accès, de rectification et d'opposition des données personnelles le concernant.</p>
+		</section>
+
+		<section>
+			<h2>Loi applicable et attribution de compétence</h2>
+			<p>Les présentes Conditions Générales de Vente sont encadrées par la loi française. En cas de litige, la recherche d'une solution à l'amiable sera privilégiée. À défaut, l'affaire sera portée devant les Tribunaux compétents du siège social de l'INFPF.</p>
+		</section>
+	</article>
+	{% include 'footer.html.twig' %}
+{% endblock %}

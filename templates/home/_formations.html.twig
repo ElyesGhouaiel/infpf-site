@@ -1,0 +1,37 @@
+
+<div class="right" id="formations_container">
+    {% for categoryId, categoryData in formationsByCategory %}
+        <div id="category_{{ categoryId }}" class="category" style="display: none;">
+
+{% if is_granted('ROLE_ADMIN') %}
+    <p class="category-id">ID de la catégorie : {{ categoryId }}</p>
+{% endif %}
+
+            {% for formation in categoryData.formations %}
+                <div class="formation-card">
+                    <div class="formation-column-left">
+                        <p class="category-name">{{ categoryData.categoryName }}</p>
+                        <p class="formation-name">{{ formation.nameFormation }}</p>
+                        <p class="formation-description">{{ formation.descriptionFormation }}</p>
+                        <a class="buttonVoirLeProgramme" href="{{ path('app_formation_show', {'id': formation.id}) }}">Voir le programme</a>
+                    </div>
+                    <div class="formation-column-right">
+                        {# <p class="formation-description">Description : {{ formation.descriptionFormation }}</p> #}
+                        <p class="phrase-one">Phrase One : {{ formation.phraseOne }}</p>
+                        <p class="niveau">{{ formation.niveau }}</p>
+                        <p class="formation-duree">{{ formation.dureeFormation }}</p>
+                        <p class="formation-prix">{{ formation.priceFormation }}</p>
+                        {# <p class="presentation">Présentation : {{ formation.presentation }}</p> #}
+                        {# <p class="prerequis">Prérequis : {{ formation.prerequis }}</p> #}
+                        {# <p class="atouts">Atouts : {{ formation.atouts }}</p> #}
+                        {# <p class="modalites-pedagogique">Modalités pédagogiques : {{ formation.modalites_pedagogique }}</p> #}
+                        {# <p class="evaluation">Évaluation : {{ formation.evaluation }}</p> #}
+                        {# <p class="langue">Langue : {{ formation.langue }}</p> #}
+                        <!-- Ajoutez ici d'autres informations si nécessaire -->
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+</div>

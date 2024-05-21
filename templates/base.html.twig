@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block stylesheets %}
+			<link href="../css/fichier.css?v=42" rel="stylesheet"/>
+		<!-- CSS de Bootstrap -->
+			{# <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+																																				
+																																				<!-- JS de Bootstrap (incluez jQuery et Popper.js avant le JS de Bootstrap) -->
+																																				<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+																																				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+																																				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> #}
+
+			{# <link href="centre_europeen.css" rel="stylesheet"/>
+																																				<link href="centre_europeen.css" rel="stylesheet"/>
+																																				<link href="centre_europeen.css" rel="stylesheet"/> #}
+		{% endblock %}
+		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+		<meta charset="utf-8"/>
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		{% endblock %}
+
+		<meta
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+		{# <link href="http://gmpg.org/xfn/11" rel="profile"/>
+										<link href="/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57"/>
+										<link href="/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60"/>
+										<link href="/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72"/>
+										<link href="/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76"/>
+										<link href="/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114"/>
+										<link href="/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
+										<link href="/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+										<link href="/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
+										<link href="/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/>
+										<link href="/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+										<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+										<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+										<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+										<link href="/manifest.json" rel="manifest"/> #}
+		<meta content="#ffffff" name="msapplication-TileColor"/>
+		<meta content="/ms-icon-144x144.png" name="msapplication-TileImage"/>
+		<meta content="#ffffff" name="theme-color"/>
+		<!-- Preload des JS -->
+		{# <link as="script" href="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" rel="preload"/>
+																								<link as="script" href="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" rel="preload"/> #}
+		<meta
+		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/> <!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->
+		<title>Formation à distance avec l'Institut national de la formation professionnelle française</title>
+		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." name="description"/>
+		<meta content="fr_FR" property="og:locale"/>
+		<meta content="website" property="og:type"/>
+		<meta content="Formation à distance avec l'Institut national de la formation professionnelle française" property="og:title"/>
+		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
+		<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+	</head>
+</html></link>
+<header class="header" style="  position: fixed;
+  left: 0;
+  width: 100%;
+  top: 0;
+  color: #fff;
+  z-index: 40;
+  padding-top: 20px;">
+<div class="header__container">
+	<div id="branding">
+		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
+			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="62" src="../img/LOGO__INFPF.png" width="100" color="none"/>
+		</a>
+	</div>
+	<nav id="menu">
+		<div class="menu-menu-2022-container">
+			<ul class="menu" id="menu-menu-2022">
+				<li class="header-menu-retour menu-item menu-item-type-custom menu-item-object-custom menu-item-442852" id="menu-item-442852">
+					<a href="#">Retour</a>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442796" id="menu-item-442796">
+					<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">L’École</a>
+					<ul class="sub-menu">
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442797" id="menu-item-442797">
+							<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">Nos formations à
+																																																																																																                    distance</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442798" id="menu-item-442798">
+							<a href="{{ path('redirectToPourquoiChoisirLeInfpf') }}">Pourquoi choisir l'INFPF ?</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442799" id="menu-item-442799">
+							<a href="{{ path('redirectToNotreMethodeApprentissage') }}">Notre méthode
+																																																																																																                    d’apprentissage</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442800" id="menu-item-442800">
+							<a href="{{ path('redirectToNosCoursParCorrespondance') }}">Nos cours par
+																																																																																																                    correspondance</a>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461417" id="menu-item-461417">
+							<a href="{{ path('redirectToCoachPersonnel') }}">Le
+																																																																																																                    coaching : un suivi personnel</a>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461418" id="menu-item-461418">
+							<a href="{{ path('redirectToNotreEquipePedagogique') }}">Notre
+																																																																																																                    équipe pédagogique</a>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461420" id="menu-item-461420">
+							<a href="{{ path('redirectToCertificationQaliopi2') }}">L'INFPF certifié Qualiopi</a>
+						</li>
+						{# <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461421" id="menu-item-461421">
+																			<a href="{{ path('redirectToINFPFReferenceDatadock') }}">L'INFPF référencé sur DataDock</a>
+																		</li> #}
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442805" id="menu-item-442805">
+							<a href="{{ path('redirectToFinancerMaFormation') }}">Financements et prises
+																																																																																																                    en charge</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442806" id="menu-item-442806">
+							<a href="{{ path('redirectToFormationsEligiblesCPF') }}">Formations CPF</a>
+						</li>
+						{# <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461424" id="menu-item-461424">
+																			<a href="{{ path('redirectToParrainageEleve') }}">Parrainage
+																																																																																												                    élève</a>
+																		</li> #}
+					</ul>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442808" id="menu-item-442808">
+					<a href="{{ path('app_home') }}">Formations</a>
+					<ul class="sub-menu">
+						{% for category in dataProvider.getCategories() %}
+							<li class="header-menu-asa menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children" id="menu-item-{{ category.id }}">
+								<a class="category-link" href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
+								<ul class="sub-menu">
+									{% set counter = 0 %}
+									{% for formation in category.formations %}
+										{% if counter < 3 %}
+											<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ formation.id }}">
+												<a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
+											</li>
+											{% set counter = counter + 1 %}
+										{% endif %}
+									{% endfor %}
+									{% if category.formations|length > 3 %}
+										<li class="menu-item menu-item-type-post_type menu-item-object-page see-more" id="see-more-{{ category.id }}">
+											<a href="{{ path('app_home', {'category_id': category.id}) }}" style="background-color: transparent; color: #0077c1;">Voir plus</a>
+										</li>
+									{% endif %}
+								</ul>
+							</li>
+						{% endfor %}
+					</ul>
+				</li>
+
+				{# <ul>
+																																																<li class="header-menu-asa menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442812" id="menu-item-442812">
+																																																
+																																																{% for category in categories %}<a href="./formations/metiers-animaliers/finance.html">{{ category.name }}</a>
+																																																           <ul class="sub-menu">
+																																																            {% for formation in formations %}
+																																																                {% if formation.category == category %}
+																																																                    <li>{{ formation.nameFormation }}</li>
+																																																                {% endif %}
+																																																            {% endfor %}
+																																																    {% endfor %}
+																																																</ul> #}
+
+				<ul class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442839" id="menu-item-442839">
+					<a href="#">Métiers</a>
+					<ul class="sub-menu">
+						{% for category in categories %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ category.id }}">
+								<a class="category-link" href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</ul>
+				<li class="obfcuscated menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-461428" id="menu-item-461428">
+					<a href="#">Information</a>
+					<ul class="sub-menu">
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461431" id="menu-item-461431">
+							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/eleve-mois/', '');">Élèves
+																																																																																																                    du mois</span>
+						</li>
+						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461432" id="menu-item-461432">
+							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/projet-du-mois/', '');">Projet
+																																																																																																                    du mois</span>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
+							<a href="{{ path('app_blog_index')}}">Blog</a>
+						</li>
+					</ul>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
+					<a href="{{ path('app_contact')}}">Contact</a>
+				</li>
+			</li>
+
+		</ul>
+	</div>
+</nav>
+{% if app.user %}
+	{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
+	<a href="{{ path('app_logout') }}">Déconnexion</a>
+{% else %}
+	<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">INFPF
+																												          learning</a>
+
+{% endif %}
+{% if is_granted("ROLE_ADMIN") %}
+	{# <a href="{{ path('app_admin') }}">Admin</a> #}
+{% endif %}
+
+<div class="header__cta header__cta__doc btn-documentation">
+	<span>Demande de documentation</span>
+</div>
+<div class="header__menu-burger icon-fill gtm-cta-burger">
+	<span class="header__menu-burger__trait"></span>
+	<span class="header__menu-burger__trait"></span>
+	<span class="header__menu-burger__trait"></span>
+</div></div></header>
+
+<main class="site-main" id="main">
+<article class="post-404182 page type-page status-publish has-post-thumbnail hentry" id="post-404182">
+<div class="bandeau">
+	<div class="bandeau--blur">
+		<picture class="attachment-post-thumbnail size-post-thumbnail wp-post-image" decoding="async" fetchpriority="high">
+			<source
+			sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www..fr/wp-content/uploads/2023/07/bandeau-multimarque-2023.jpg.webp 1920w, https://www..fr/wp-content/uploads/2023/07/bandeau-multimarque-2023-300x88.jpg.webp 300w, https://www..fr/wp-content/uploads/2023/07/bandeau-multimarque-2023-768x225.jpg.webp 768w" type="image/webp"/>
+		{# <img alt="" decoding="async" height="345" loading="lazy" sizes="(max-width: 278px) 100vw, 278px" src="https://www..fr/wp-content/uploads/2022/01/visuel-formation-financable-cpf.jpg" srcset="https://www..fr/wp-content/uploads/2022/01/visuel-formation-financable-cpf.jpg 278w, https://www..fr/wp-content/uploads/2022/01/visuel-formation-financable-cpf-242x300.jpg 242w" width="278"/> #}
+		</picture>
+	</div>
+	<div class="bandeau-formulaire-pedago">
+		<script type="text/javascript"></script>
+		<div class="gf_browser_unknown gform_wrapper gform_legacy_markup_wrapper gform-theme--no-framework gform-multimarque-site_wrapper gform-multistep_wrapper" data-form-index="0" data-form-theme="legacy" id="gform_wrapper_151">
+			<div class="gform_heading">
+				<div class="gform_description">
+					<strong style="color: white;">Bienvenue à l'Institut National de la Formation Professionnelle Française</strong>
+				</div>
+			</div>
+			<form action="/" class="gform-multimarque-site gform-multistep" data-formid="151" enctype="multipart/form-data" id="gform_151" method="post" novalidate="" target="gform_ajax_frame_151">
+				<div class="gf_page_steps" id="gf_page_steps_151">
+					<div class="gf_step gf_step_active gf_step_first" id="gf_step_151_1"  style="padding-bottom:15px">
+						<span class="gf_step_number">1</span>
+						<span class="gf_step_label" style="color: #0b3e6fd6;"><strong  style="font-size:25px">Quelle formation vous intéresse ?</strong
+						</span>
+					</div>
+					{# <div class="gf_step gf_step_next gf_step_pending" id="gf_step_151_2">
+																																									<span class="gf_step_number">2</span>
+																																									<span class="gf_step_label">Pour qui est cette brochure ?</span>
+																																								</div>
+																																								<div class="gf_step gf_step_pending" id="gf_step_151_3">
+																																									<span class="gf_step_number">3</span>
+																																									<span class="gf_step_label">Sur quel email allons-nous vous envoyer votre doc ?</span>
+																																								</div>
+																																								<div class="gf_step gf_step_last gf_step_pending" id="gf_step_151_4">
+																																									<span class="gf_step_number">4</span>
+																																									<span class="gf_step_label">Comment vous joindre ?</span>
+																																								</div> #}
+				</div>
+				<div class="gform-body gform_body">
+					<div class="gform_page" data-js="page-field-id-1" id="gform_page_151_1">
+						<div class="gform_page_fields">
+							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151">
+								<li class="gfield gfield--type-select formation gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" id="field_151_1">
+									<label class="gfield_label gform-field-label" for="input_151_1">Formation
+										<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_select">
+										<select aria-invalid="false" aria-required="true" class="medium gfield_select" id="input_151_1" name="input_1" onchange="if (this.value) window.location.href='/formation/' + this.value;">
+											<option class="gf_placeholder" selected="selected" value="">Choisissez votre formation</option>
+											{% for category in categories %}
+												<optgroup label="{{ category.name }}">
+													{% for formation in category.formations %}
+														<option value="{{ formation.id }}">{{ formation.nameFormation }}</option>
+													{% endfor %}
+												</optgroup>
+											{% endfor %}
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						{# <div class="gform_page_footer top_label">
+							<input class="gform_next_button gform-theme-button button" id="gform_next_button_151_25" onclick='jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Suivant"/>
+						</div> #}
+					</div>
+					<div class="gform_page" data-js="page-field-id-25" id="gform_page_151_2" style="display:none;">
+						<div class="gform_page_fields">
+							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151_2">
+								<li class="gfield gfield--type-text prenom gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_2" id="field_151_2">
+									<label class="gfield_label gform-field-label" for="input_151_2">Prénom<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_2" name="input_2" placeholder="Prénom" type="text" value=""/>
+									</div>
+								</li>
+								<li class="gfield gfield--type-text nom gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_3" id="field_151_3">
+									<label class="gfield_label gform-field-label" for="input_151_3">Nom<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_3" name="input_3" placeholder="Nom" type="text" value=""/>
+									</div>
+								</li>
+							</ul>
+						</div> 
+						<div class="gform_page_footer top_label">
+							<input class="gform_previous_button gform-theme-button gform-theme-button--secondary button" id="gform_previous_button_151_27" onclick='jQuery("#gform_target_page_number_151").val("1");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("1");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Précédent"/>
+							<input class="gform_next_button gform-theme-button button" id="gform_next_button_151_27" onclick='jQuery("#gform_target_page_number_151").val("3");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("3");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Suivant"/>
+						</div>
+					</div>
+					<div class="gform_page" data-js="page-field-id-27" id="gform_page_151_3" style="display:none;">
+						<div class="gform_page_fields">
+							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151_3">
+								<li class="gfield gfield--type-email email gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_5" id="field_151_5">
+									<label class="gfield_label gform-field-label" for="input_151_5">E-mail<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_email">
+										<input aria-invalid="false" aria-required="true" class="medium" id="input_151_5" name="input_5" placeholder="E-mail" type="email" value=""/>
+									</div>
+								</li>
+								<li class="gfield gfield--type-text cp gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_22" id="field_151_22">
+									<label class="gfield_label gform-field-label" for="input_151_22">Code postal<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_22" name="input_22" placeholder="Code Postal" type="text" value=""/>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="gform_page_footer top_label">
+							<input class="gform_previous_button gform-theme-button gform-theme-button--secondary button" id="gform_previous_button_151_28" onclick='jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Précédent"/>
+							<input class="gform_next_button gform-theme-button button" id="gform_next_button_151_28" onclick='jQuery("#gform_target_page_number_151").val("4");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("4");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Suivant"/>
+						</div>
+					</div>
+					<div class="gform_page" data-js="page-field-id-28" id="gform_page_151_4" style="display:none;">
+						<div class="gform_page_fields">
+							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151_4">
+								<li class="gfield gfield--type-phone tel gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_6" id="field_151_6">
+									<label class="gfield_label gform-field-label" for="input_151_6">Téléphone<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_phone"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_6" name="input_6" placeholder="Téléphone" type="tel" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_7" id="field_151_7">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_7" name="input_7" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_8" id="field_151_8">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_8" name="input_8" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_9" id="field_151_9">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_9" name="input_9" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_10" id="field_151_10">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_10" name="input_10" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_11" id="field_151_11">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_11" name="input_11" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_12" id="field_151_12">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_12" name="input_12" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_13" id="field_151_13">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_13" name="input_13" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_14" id="field_151_14">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_14" name="input_14" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_15" id="field_151_15">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_15" name="input_15" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_16" id="field_151_16">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_16" name="input_16" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_17" id="field_151_17">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_17" name="input_17" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_18" id="field_151_18">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_18" name="input_18" type="hidden" value="brochure-gratuite"/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_19" id="field_151_19">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_19" name="input_19" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_20" id="field_151_20">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_20" name="input_20" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_21" id="field_151_21">
+									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_21" name="input_21" type="hidden" value=""/></div>
+								</li>
+								<li class="gfield gfield--type-checkbox gfield--type-choice gdpr gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_hidden" data-js-reload="field_151_24" id="field_151_24">
+									<div class="admin-hidden-markup">
+										<i class="gform-icon gform-icon--hidden"></i>
+										<span>Hidden</span>
+									</div>
+									<label class="gfield_label gform-field-label gfield_label_before_complex">CGU<span class="gfield_required">
+											<span class="gfield_required gfield_required_asterisk">*</span>
+										</span>
+									</label>
+									<div class="ginput_container ginput_container_checkbox">
+										<ul class="gfield_checkbox" id="input_151_24">
+											<li class="gchoice gchoice_151_24_1">
+												<input checked="checked" class="gfield-choice-input" id="choice_151_24_1" name="input_24.1" type="checkbox" value="1"/>
+												<label class="gform-field-label gform-field-label--type-inline" for="choice_151_24_1" id="label_151_24_1">J'accepte d'être contacté par
+																																																																																																																																																																                             pour recevoir plus d'information sur la formation</label>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="gfield gfield--type-checkbox gfield--type-choice newsletter field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_hidden" data-js-reload="field_151_23" id="field_151_23">
+									<div class="admin-hidden-markup">
+										<i class="gform-icon gform-icon--hidden"></i>
+										<span>Hidden</span>
+									</div>
+									<label class="gfield_label gform-field-label gfield_label_before_complex">Newsletter</label>
+									<div class="ginput_container ginput_container_checkbox">
+										<ul class="gfield_checkbox" id="input_151_23">
+											<li class="gchoice gchoice_151_23_1">
+												<input checked="checked" class="gfield-choice-input" id="choice_151_23_1" name="input_23.1" type="checkbox" value="1"/>
+												<label class="gform-field-label gform-field-label--type-inline" for="choice_151_23_1" id="label_151_23_1">Je souhaite recevoir la
+																																																																																																																																																																                                Newsletter du INFPF</label>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="gfield gfield--type-honeypot gform_validation_container field_sublabel_below gfield--has-description field_description_above gfield_visibility_visible" data-js-reload="field_151_29" id="field_151_29">
+									<label class="gfield_label gform-field-label" for="input_151_29">Phone</label>
+									<div class="gfield_description" id="gfield_description_151_29">Ce champ n’est utilisé qu’à des
+																																																																																																																												                          fins de validation et devrait rester inchangé.</div>
+									<div class="ginput_container"><input autocomplete="new-password" id="input_151_29" name="input_29" type="text" value=""/></div>
+								</li>
+							</ul>
+						</div>
+						<div class="gform_page_footer top_label"><input class="gform_previous_button gform-theme-button gform-theme-button--secondary button" id="gform_previous_button_151" onclick='if(window["gf_submitting_151"]){return false;}  if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  ' onkeypress='if( event.keyCode == 13 ){ if(window["gf_submitting_151"]){return false;} if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  jQuery("#gform_151").trigger("submit",[true]); }' type="submit" value="Précédent"/>
+							<input class="gform_button button" id="gform_submit_button_151" onclick='if(window["gf_submitting_151"]){return false;}  if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  ' onkeypress='if( event.keyCode == 13 ){ if(window["gf_submitting_151"]){return false;} if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  jQuery("#gform_151").trigger("submit",[true]); }' type="submit" value="Je valide"/>
+							<p class="form-rgpd-text form-rgpd-text__footer">En validant ce formulaire, j'accepte d'être
+																																																																																																				                      contacté par l'Institut national de la formation professionnelle française pour me donner de l'information sur la
+																																																																																																				                      formation.
+								<span class="gtm-cta-cg-gdpr popmake-gdpr pum-trigger">En savoir plus</span>
+							</p>
+							<input name="gform_ajax" type="hidden" value="form_id=151&amp;title=&amp;description=1&amp;tabindex=0&amp;theme=data-form-theme='legacy'"/>
+							<input class="gform_hidden" name="is_submit_151" type="hidden" value="1"/>
+							<input class="gform_hidden" name="gform_submit" type="hidden" value="151"/>
+							<input class="gform_hidden" name="gform_unique_id" type="hidden" value=""/>
+							<input class="gform_hidden" name="state_151" type="hidden" value="WyJbXSIsImQwMjk5ZGZmNGE2OTE2MzZkMjc0NTJjYTVmYWE5NGJlIl0="/>
+							<input class="gform_hidden" id="gform_target_page_number_151" name="gform_target_page_number_151" type="hidden" value="2"/>
+							<input class="gform_hidden" id="gform_source_page_number_151" name="gform_source_page_number_151" type="hidden" value="1"/>
+							<input name="gform_field_values" type="hidden" value=""/>
+						</div>
+					</div>
+				</div>
+				<p style="display: none !important;">
+					<label>Δ<textarea cols="45" maxlength="100" name="ak_hp_textarea" rows="8"></textarea>
+					</label><input id="ak_js_1" name="ak_js" type="hidden" value="65"/>
+					<script>
+						document.getElementById("ak_js_1").setAttribute("value", (new Date()).getTime());
+					</script>
+				</p>
+			</form>
+		</div>
+		<iframe id="gform_ajax_frame_151" name="gform_ajax_frame_151" src="about:blank" style="display:none;width:0px;height:0px;" title="Cette iframe contient la logique nécessaire pour manipuler Gravity Forms avec Ajax."></iframe>
+
+	</div>
+</div>
+<div class="bandeau-service-client bandeau-service-client-vsimon">
+	<a href="https://www..fr/blog/ecole/service-client-de-annee/" target="_blank">
+		<img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" height="82" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2076%2082'%3E%3C/svg%3E" width="76"/><noscript><img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" height="82" src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" width="76"/></noscript>
+		<span style="padding-top:15px;padding-bottom:15px;color:#0b3e6fd6"><strong>L'Institut National de la Formation Professionnelle Française, premier organisme de formation.</strong></span>
+	</a>
+</div></head>{# <body class="home page-template-default page page-id-404182 wp-custom-logo accueil-form-php elementor-default elementor-kit-403738">
+								   
+								
+								    </body> #}<body>
+{% block body %}{% endblock %}</body></html>
+
+<script>let lastKnownScrollPosition = 0,
+ticking = !1;
+var header = document.querySelector(".header");
+function doSomething(e) {
+0 != lastKnownScrollPosition ? header.classList.add("header--scrolling") : header.classList.remove("header--scrolling")
+}
+document.addEventListener("scroll", (function (e) {
+lastKnownScrollPosition = window.scrollY,
+ticking || (window.requestAnimationFrame((function () {
+doSomething(lastKnownScrollPosition),
+ticking = !1
+})), ticking =! 0)
+})),
+jQuery(".header__menu-burger").on("click", (function () {
+jQuery(".header").toggleClass("header--active"),
+jQuery(this).hasClass("header__menu-burger--active") ? (jQuery(".header #menu").hide(), jQuery("body").removeClass("overflow"), jQuery(this).removeClass("header__menu-burger--active"), jQuery(".sub-menu").removeClass("sub-menu--active"), jQuery(".header #menu .menu .menu-item a").removeClass("clicked"), jQuery(".menu-item").siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header-menu-retour").hide()) : (jQuery(this).addClass("header__menu-burger--active"), jQuery(".header #menu").toggle(), jQuery("body").toggleClass("overflow"))
+})),
+jQuery(window).width() <= 1199 && (jQuery(".header #menu .menu .menu-item > a").on("click", (function (e) {
+jQuery(this).hasClass("clicked") || 0 == jQuery(this).next(".sub-menu").length ? jQuery(".header__cta__INFPFlearning").show(0) : (e.preventDefault(), jQuery(this).addClass("clicked"), jQuery(this).next(".sub-menu").addClass("sub-menu--active"), jQuery(".header-menu-retour").show(), jQuery(this).parent(".menu-item").siblings("li:not(.header-menu-retour)").addClass("menu-item--disappear"), jQuery(".header__cta__INFPFlearning").hide(0))
+})), jQuery(".header-menu-retour a").click((function () {
+jQuery(".header .menu .menu-item-has-children .menu-item-has-children a").hasClass("clicked") ? (jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a.clicked").next().removeClass("sub-menu--active"), jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a.clicked").parent().siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a").removeClass("clicked")) : (jQuery(".header .menu > .menu-item-has-children a.clicked").next().removeClass("sub-menu--active"), jQuery(".header .menu > .menu-item-has-children a.clicked").parent().siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header .menu > .menu-item-has-children a").removeClass("clicked")),
+0 == jQuery(".header #menu .menu-item-has-children .sub-menu--active").length && jQuery(this).parent().hide()
+})));</script><script>document.querySelectorAll('.category-link').forEach(function (link) {
+link.addEventListener('click', function (e) {
+e.preventDefault(); // Empêche le comportement de lien par défaut
+const categoryId = this.getAttribute('href').split('category_id=')[1];
+window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+});
+});</script>

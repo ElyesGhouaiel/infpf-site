@@ -1,0 +1,197 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ formations.nameFormation }}
+{% endblock %}
+{% block stylesheets %}
+	<link href="../css/fichier.css" rel="stylesheet"/>
+
+	<link href="../css/showforma.css?v=27" rel="stylesheet"/>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<!-- CSS jQuery UI -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+
+
+{% block body %}
+
+	<div class="formation-container-body">
+		<div class="formation-container">
+			<div class="col-gauche-card">
+				<h1 class="title-formation">{{ formations.nameFormation }}</h1>
+				<div class="formation-details-gauche">
+					<p>
+						<strong style="color: #0b3e6fd6;">Description:</strong>
+						{{ formations.descriptionFormation }}</p>
+
+				</div>
+			</div>
+			<div
+				class="col-droite-card">
+				<!-- Correction ici -->
+				<div
+					class="formation-details-droite">
+					<!-- Niveau, seulement si disponible -->
+					{% if formations.niveau %}
+						<p>
+							<img src="../img/les-niveaux.png" style="width: 16px;" alt="icone formation">
+							<strong style="color: #0b3e6fd6;">Niveau:</strong>
+							{{ formations.niveau }}
+						</p>
+					{% endif %}
+
+					<!-- Durée, seulement si disponible -->
+					{% if formations.dureeFormation %}
+						<p>
+							<img src="../img/lhorloge.png" style="width: 16px;" alt="icone formation">
+							<strong style="color: #0b3e6fd6;">Durée:</strong>
+							{{ formations.dureeFormation }}
+						</p>
+					{% endif %}
+
+					<!-- Langue, seulement si disponible -->
+					{% if formations.langue %}
+						<p>
+							<img src="../img/bloc-notes.png" style="width: 16px;" alt="icone formation">
+							<strong style="color: #0b3e6fd6;">Langue:</strong>
+							{{ formations.langue }}
+						</p>
+					{% endif %}
+
+					<!-- Prix, seulement si disponible -->
+					{% if formations.priceFormation %}
+						<p>
+							<img src="../img/piece-en-euros.png" style="width: 16px;" alt="icone formation">
+							<strong style="color: #0b3e6fd6;">Prix:</strong>
+							{{ formations.priceFormation }}€
+						</p>
+					{% endif %}
+
+					<!-- Code de certification RNCP, seulement si disponible -->
+					{% if formations.rncp %}
+						<p>
+							<img src="../img/certificate-icon.png" style="width: 16px;" alt="icone RNCP">
+							<strong style="color: #0b3e6fd6;">Code de certification :</strong>
+							{{ formations.rncp }}
+						</p>
+					{% endif %}
+
+					<!-- Environnement de formation (Lieu), seulement si disponible -->
+					{% if formations.lieu %}
+						<p>
+							<img src="../img/location-icon.png" style="width: 16px;" alt="icone lieu">
+							<strong style="color: #0b3e6fd6;">Environnement de formation :</strong>
+							{{ formations.lieu }}
+						</p>
+					{% endif %}
+
+					<!-- Composante de compétences (Bloc), seulement si disponible -->
+					{% if formations.bloc %}
+						<p>
+							<img src="../img/skills-icon.gif" style="width: 16px;" alt="icone bloc de compétences">
+							<strong style="color: #0b3e6fd6;">Composante de compétences :</strong>
+							{{ formations.bloc }}
+						</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div class="body-presentation-formation">
+			<div class="col-gauche-navigation">
+				<img src="../img/taff.jpg" alt="Logo de la formation">
+				<h3>Navigation</h3>
+				<ul>
+					<li><a href="#presentation">Présentation</a></li>
+					<li><a href="#prerequis">Pré-requis</a></li>
+					<li><a href="#atouts">Atouts</a></li>
+					<li><a href="#programme">Programme</a></li>
+					<li><a href="#duree">Durée</a></li>
+					<li><a href="#modalites">Modalités pédagogiques</a></li>
+					<li><a href="#evaluation">Pédagogie - Évaluation</a></li>
+				</ul>
+			</div>
+			<div class="col-droite-presentation">
+				<h2 id="presentation">Présentation</h2>
+				<p>{{ formations.presentation }}</p>
+
+				<h2 id="prerequis">Pré-requis</h2>
+				<p>{{ formations.prerequis }}</p>
+
+				<h2 id="atouts">Atouts</h2>
+				<p>{{ formations.atouts }}</p>
+
+				<h2 id="programme">Programme</h2>
+				<p>{{ formations.programme }}</p>
+
+				<h2 id="duree">Durée</h2>
+				<p>{{ formations.dureeFormation }}</p>
+
+				<h2 id="modalites">Modalités pédagogiques</h2>
+				<p>{{ formations.modalitesPedagogique }}</p>
+
+				<h2 id="evaluation">Pédagogie - Évaluation</h2>
+				<p>{{ formations.evaluation }}</p>
+			</div>
+
+</div>
+		<div
+			class="button-programe-forma">
+			<!-- Création du lien de téléchargement -->
+			<a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="download-button" style="background-color: #CE1353;">
+				<span class="buttonforma">Télécharger le programme</span>
+			</a>
+		</div>
+
+
+
+
+<div class="la">
+    <div class="buttons-container">
+        <div class="button-programe-forma">
+            <a href="https://www.moncompteformation.gouv.fr/" class="paiement-cpf-button">Paiement CPF</a>
+        </div>
+        <div class="button-programe-forma">
+            <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="paiment-button">Paiement</a>
+        </div>
+    </div>
+</div>
+
+	</div>
+
+	<a href="{{ path('app_home') }}">Revenir en arrière</a>
+
+	{% if is_granted("ROLE_ADMIN") %}
+
+		<a href="{{ path('app_formation_edit', {'id': formations.id}) }}">Modifier</a>
+
+		{{ include('content/formation/_delete_form.html.twig') }}
+	{% endif %}
+
+	{% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const paragraphs = document.querySelectorAll('.col-droite-presentation p');
+
+    paragraphs.forEach(paragraph => {
+        let updatedText = paragraph.innerHTML
+            .replace(/\./g, '.<br>') // Remplace les points par eux-mêmes suivis d'un <br>
+            .replace(/:/g, ':<br>') // Remplace les deux-points par eux-mêmes suivis d'un <br>
+            .replace(/-/g, '<br>-') // Insère un saut de ligne avant chaque tiret "-"
+            .replace(/•([^•<]*)/g, (match, p1) => `<br>•<strong style="color: #0b3e6fd6;">${p1}</strong>`); // Met en gras le texte qui suit chaque "•" et insère un saut de ligne avant
+
+        paragraph.innerHTML = updatedText;
+    });
+});
+</script>
+
+
+
+{% endblock %}

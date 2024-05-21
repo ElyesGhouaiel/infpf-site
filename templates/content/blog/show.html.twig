@@ -1,0 +1,467 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+
+.comment-section {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.comment-section h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#userComment {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+
+.blog-post {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px; /* Ajoute un peu d'espace entre les articles du blog */
+}
+
+.blog-meta {
+    align-items: flex-start; /* Aligner les éléments en haut */
+    gap: 20px; /* Espace entre l'image et le contenu textuel */
+}
+
+.blog-image {
+    width: 100px; /* ou la taille souhaitée */
+    height: auto; /* Pour maintenir l'aspect ratio */
+    border-radius: 10px; /* Optionnel: pour les coins arrondis */
+    object-fit: cover;
+}
+.card-img-top {
+			width: 30%;
+			height: auto; /* Hauteur auto pour maintenir le ratio de l'image */
+			object-fit: cover;
+		}
+
+.blog-info {
+    display: flex;
+    flex-direction: column; /* Organise le contenu textuel verticalement */
+}
+
+.published-date, .author {
+    font-weight: bold; /* Optionnel: pour mettre en évidence */
+}
+
+.blog-description {
+    margin-top: 10px; /* Ajoute un peu d'espace entre l'en-tête et le contenu */
+}
+ 
+    .blog-show-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%; /* Assurez-vous que le conteneur prend toute la largeur */
+    }
+    .blog-card {
+        width: 100%; /* Ajustez pour que la carte prenne toute la largeur disponible */
+
+        overflow: hidden;
+        margin: auto; /* Centre la carte si moins large que l'écran */
+    }
+    .blog-titleOne{
+            display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: linear-gradient(135deg,#6fafdf 0,#2a4f74 100%);
+    }
+    .blog-image {
+        width: 60%;
+        height: auto;
+    }
+    .blog-content {
+        padding: 20px;
+    }
+    .blog-meta {
+        
+        color: #007bff; /* Bleu Bootstrap par défaut pour la cohérence */
+        margin-bottom: 20px;
+    }
+    .published-date, .author {
+        margin-right: 10px;
+    }
+    h1, h2, h3, h4 {
+        margin-top: 0;
+    }
+    .blog-description, p {
+        line-height: 1.6;
+        text-align: justify; /* Améliore la lisibilité des paragraphes */
+    }
+/* Styles globaux pour la page du blog */
+.blog-post-show {
+    max-width: 800px; /* Limite la largeur du contenu pour une meilleure lisibilité */
+    margin: 40px auto; /* Centre le blog verticalement et horizontalement avec un peu d'espace autour */
+    background: #fff; /* Couleur de fond blanc pour une lecture aisée */
+    padding: 20px; /* Espace interne autour du texte */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Ombre subtile pour un effet élévé */
+    border-radius: 10px; /* Bords arrondis pour un look moderne */
+}
+
+/* Styles pour les titres pour hiérarchiser visuellement l'information */
+h2, h3, h4 {
+    color: #333; /* Couleur foncée pour plus de sérieux et de lisibilité */
+    margin-top: 20px; /* Espacement au-dessus de chaque titre pour séparer les sections */
+}
+
+h2 {
+    font-size: 24px; /* Taille plus grande pour les titres principaux */
+}
+
+h3 {
+    font-size: 20px; /* Taille moyenne pour les sous-titres */
+}
+
+h4 {
+    font-size: 18px; /* Taille légèrement plus petite pour les sous-sous-titres */
+}
+
+/* Styles pour les paragraphes pour assurer une lecture confortable */
+p {
+    font-size: 16px; /* Taille optimale pour la lecture */
+    line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
+    color: #666; /* Couleur plus douce pour le texte, moins agressive pour les yeux */
+    margin-bottom: 15px; /* Espacement en bas de chaque paragraphe pour séparer clairement les idées */
+}
+
+/* Ajout d'un style supplémentaire pour mettre en évidence les sections importantes si nécessaire */
+.highlight {
+    background-color: #f9f9f9; /* Fond légèrement gris pour les sections importantes */
+    padding: 10px; /* Padding pour ces sections */
+    border-left: 5px solid #0056b3; /* Bordure sur le côté pour un effet visuel accentué */
+}
+
+.blog-show-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+
+.carousel-container {
+    margin-top: 20px;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+}
+
+.carousel div {
+    flex: none;
+    width: 200px;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.blog-info p {
+    margin-top: 10px;
+}
+
+
+.like-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.like-button {
+    padding: 10px 20px;
+    background-color: #3f6285;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.8rem;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #3f6285;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.8rem;
+}
+
+.like-button:hover {
+    background-color: #45a049;
+}
+
+ .modal {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+{% endblock %}
+
+
+{% block title %}{{ blog.titleOne }}{% endblock %}
+
+{% block body %}
+<div class="blog-show-container">
+    <div class="blog-card">
+        <h1 class="blog-titleOne">{{ blog.titleOne }}</h1>
+
+        <div class="blog-content">
+            <div class="blog-post">
+    <div class="blog-meta">
+								{% if blog.image %}
+								{# <img
+								src="{{ asset('img/image_finance.webp') }}" alt="Image description" class="blog-imag"> #}
+
+<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description">
+ {% endif %}        
+<div id="blogCarousel" class="carousel">
+
+    <div>
+        <h4>{{ blog.titleOne }}</h4>
+        <p>{{ blog.contentOne|slice(0, 100) ~ '...' }}</p> <!-- Affiche les 100 premiers caractères -->
+    </div>
+
+</div>
+ 
+ <div class="blog-info">
+            <span class="published-date">Publié le {{ blog.publishedAt|date('d F Y') }}</span> |
+            <span class="author">par {{ blog.author }}</span>
+            <p class="blog-description">{{ blog.contentOne|raw }}</p>
+                        <h2>{{ blog.titleTwo }}</h2>
+            <p>{{ blog.contentTwo|raw }}</p>
+
+            <!-- Titre et contenu tertiaire -->
+            <h3>{{ blog.titleTree }}</h3>
+            <p>{{ blog.contentTree|raw }}</p>
+            
+            <!-- Sous-titre et sous-contenu tertiaire -->
+            <h4>{{ blog.sousTitleTree }}</h4>
+            <p>{{ blog.sousContentTree|raw }}</p>
+
+            <!-- Quatrième titre et contenu -->
+            <h2>{{ blog.titleFor }}</h2>
+            <p>{{ blog.contentFor|raw }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="like-section">
+    <form action="{{ path('blog_like', {'id': blog.id}) }}" method="post">
+        <button type="submit" class="like-button">👍 Like</button>
+    </form>
+    <span>{{ likes }} likes</span>
+</div>
+
+
+
+<!-- Modale pour commentaire -->
+{# <div id="commentModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Voulez-vous donner votre avis?</p>
+        <form id="commentForm">
+            <textarea id="userComment" name="comment" placeholder="Votre commentaire..."></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+</div> #}
+
+<!-- Section des commentaires directement intégrée sur la page -->
+<div class="comment-section">
+    <h3>Voulez-vous donner votre avis?</h3>
+    <form id="commentForm" action="{{ path('submit_comment') }}" method="post">
+        <textarea id="userComment" name="comment" placeholder="Votre commentaire..." rows="4" required></textarea>
+        <input type="hidden" name="blog_id" value="{{ blog.id }}">
+        <button type="submit" class="submit-button">Envoyer</button>
+    </form>
+</div>
+
+{# <div id="commentModal" class="modal" >
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('commentModal').style.display='none'">&times;</span>
+        <p>Voulez-vous donner votre avis?</p>
+<form id="commentForm" action="{{ path('submit_comment') }}" method="post">
+    <textarea id="userComment" name="comment" placeholder="Votre commentaire..."></textarea>
+    <input type="hidden" name="blog_id" value="{{ blog.id }}">
+    <button type="submit">Envoyer</button>
+</form> 
+
+</div>
+</div> #}
+<div class="blog-post-show">
+            <!-- Titre et contenu secondaire -->
+
+            
+            <!-- Autres sections selon votre modèle -->
+            <!-- Ajoutez ici d'autres sections de votre article si nécessaire -->
+        </div>
+    </div>
+</div>
+</div>
+    <a href="{{ path('app_blog_index') }}">Revenir en Arriére</a>
+
+                            {# <a href="{{ path('app_blog_show', {'id': blog.id}) }}" class="btn btn-primary">Show</a> #}
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <a href="{{ path('app_blog_edit', {'id': blog.id}) }}" class="btn btn-secondary">Modifier</a>
+                                <a href="{{ path('app_blog_new') }}" class="btn btn-success">Créer un Nouveau</a>
+
+                            {% endif %}
+                            {% include('footer.html.twig') %}
+{% endblock %} 
+
+{% block javascript %}
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('modal') === 'comment') {
+        const commentModal = document.getElementById('commentModal');
+        if (commentModal) {
+            commentModal.style.display = 'block';
+        }
+    }
+
+    document.querySelector('.close').addEventListener('click', function() {
+        if (commentModal) {
+            commentModal.style.display = 'none';
+        }
+    });
+});
+    </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modalParam = "{{ app.request.query.get('modal') }}";
+    const commentModal = document.getElementById('commentModal');
+
+    if (modalParam === 'comment') {
+        commentModal.style.display = 'block';
+    }
+
+    document.querySelector('.close').addEventListener('click', function() {
+        commentModal.style.display = 'none';
+    });
+
+    // Gestion de l'envoi du formulaire
+    document.getElementById('commentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Implémentez l'envoi du formulaire si nécessaire
+        commentModal.style.display = 'none';
+    });
+});
+</script>
+
+
+
+{# <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const likeButton = document.getElementById('likeButton');
+    const closeButton = document.querySelector('.close');
+    const commentModal = document.getElementById('commentModal');
+    const commentForm = document.getElementById('commentForm');
+
+    likeButton.addEventListener('click', function() {
+        commentModal.style.display = 'block';
+    });
+
+    closeButton.addEventListener('click', function() {
+        commentModal.style.display = 'none';
+    });
+
+    commentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const comment = document.getElementById('userComment').value;
+
+        fetch('/submit-comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ comment: comment })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Merci pour votre commentaire!');
+            commentModal.style.display = 'none';
+        })
+        .catch(error => console.error('Erreur lors de l\'envoi du commentaire:', error));
+    });
+});
+
+</script> #}
+{% endblock %} 

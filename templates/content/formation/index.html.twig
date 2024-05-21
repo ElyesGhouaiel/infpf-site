@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation index{% endblock %}
+
+{% block body %}
+{# <nav id="menu">
+    <!-- Autres éléments de menu ici -->
+
+    <!-- Menu dynamique pour les catégories de formations -->
+    <ul class="menu" id="menu-menu-2022">
+        {% for category in category %}
+            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children" id="menu-item-{{ category.id }}">
+                <a href="{{ path('app_category_show', {'id': category.id}) }}">{{ category.name }}</a>
+                <ul class="sub-menu">
+                    {% for formation in category.formations %}
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ formation.id }}">
+                            <a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Autres éléments de menu ici -->
+</nav> #}
+
+<h1>Liste des Formations</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Durée</th>
+            <th>Prix</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {# {% for category in category %} #}
+        {% for formation in formations %}
+            <tr>
+                <td>{{ formation.id }}</td>
+                <td>{{ formation.nameFormation }}</td>
+                <td>{{ formation.descriptionFormation }}</td>
+                <td>{{ formation.dureeFormation }}</td>
+                <td>{{ formation.priceFormation }}</td>
+                <td>
+                    <a href="{{ path('app_formation_show', {'id': formation.id}) }}">Voir</a>
+                        {% if is_granted("ROLE_ADMIN") %}
+
+                    <a href="{{ path('app_formation_edit', {'id': formation.id}) }}">Modifier</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {# {% endfor %} #}
+    </tbody>
+</table>
+
+{% if is_granted("ROLE_ADMIN") %}
+<a href="{{ path('app_formation_new') }}">Créer une nouvelle formation</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions Générales de Vente{% endblock %}
+
+{% block stylesheet %}
+    <style>
+        /* Style général */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        article {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            border-bottom: 2px solid #d71a22;
+            padding-bottom: 5px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        .important {
+            color: #d71a22;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Liens */
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Listes */
+        ul {
+            margin-left: 20px;
+            list-style-type: disc;
+        }
+
+        /* Mises en évidence */
+        .highlight {
+            background-color: #ffefef;
+            border-left: 5px solid #d71a22;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <article>
+        <h1>Conditions Générales de Vente</h1>
+
+        <section>
+            <h2>Informations générales :</h2>
+            <p>INFPF est un Organisme de formation professionnelle enregistré sous le n° 93061116606 dont le siège social est situé au 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR (SIRET - 92791645200018, Numéro de déclaration d'activité - 93061116606) mettant en place et dispensant des formations intra-entreprises, inter-entreprises, individuelles et collectives en présentiel mais également à distance par le biais d'une plateforme de E-Learning et ceux-ci sur l'ensemble du territoire national.</p>
+        </section>
+
+        <section>
+            <h2>Objet et champ d'application :</h2>
+            <p>Les présentes Conditions Générales de Vente déterminent les conditions applicables aux prestations de formation effectuées par la société INFPF pour le compte d'un client. Toute commande de formation implique l'acceptation sans réserve par le client des présentes Conditions Générales de Vente.</p>
+            <p>Ces conditions prévalent sur tout autre document du client, notamment sur toutes conditions générales d'achat.</p>
+        </section>
+
+        <section>
+            <h2>Devis ou convention, contrat et attestation :</h2>
+            <p>Pour chaque formation, la société INFPF s'engage à fournir un devis, une convention ou un contrat au client. Ce dernier est tenu de retourner à la société INFPF un exemplaire renseigné, daté, signé et tamponné, avec la mention « Bon pour accord ».</p>
+            <p>Une attestation de présence ou de fin de formation sera fournie au client.</p>
+        </section>
+
+        <section>
+            <h2>Prix et modalités de paiement :</h2>
+            <p>Les prix des formations sont indiqués en euros hors taxes et sont à majorer de la TVA au taux en vigueur. Le paiement est à effectuer après exécution de la prestation, à la réception de facture, au comptant. Le règlement des factures peut être effectué par virement bancaire ou par chèque.</p>
+        </section>
+
+        <section>
+            <h2>Prise en charge :</h2>
+            <p>Si le client bénéficie d'un financement par un Opérateur de Compétences agréé (OPCO), il doit faire une demande de prise en charge avant le début de la prestation et fournir l'accord de financement lors de l'inscription. En l'absence de prise en charge de l'OPCO au premier jour de la formation, l'intégralité des coûts de formation sera facturée au client.</p>
+        </section>
+
+        <section>
+            <h2>Conditions de report et d'annulation d'une séance de formation :</h2>
+            <p>L'annulation d'une séance de formation est possible à condition de le faire au moins <span class="important">10 jours calendaires</span> avant le jour et l'heure prévus. Toute annulation doit faire l'objet d'une notification par e-mail à contact@infpf.fr.</p>
+            <p>En cas d'annulation entre <span class="important">4 et 10 jours ouvrables</span> avant la date de la formation, le client est tenu de payer une pénalité d'annulation à hauteur de <span class="important">50% du coût total initial</span> de la formation. En cas d'annulation moins de <span class="important">3 jours ouvrables</span> avant le début de la formation, une pénalité d'annulation correspondant à <span class="important">100% du coût total initial</span> sera facturée au client.</p>
+        </section>
+
+        <section>
+            <h2>Propriété intellectuelle et droit d'auteur :</h2>
+            <p>Les supports de formation, quelle qu'en soit la forme (papier, numérique, électronique...), sont protégés par la propriété intellectuelle et le droit d'auteur. Leur reproduction, partielle ou totale, ne peut être effectuée sans l'accord exprès de la société INFPF.</p>
+            <p>Le client s'engage à ne pas utiliser, transmettre, ou reproduire tout ou partie de ces documents en vue de l'organisation ou de l'animation de formations sans l'accord préalable de la société INFPF.</p>
+        </section>
+
+        <section>
+            <h2>Informatique et libertés :</h2>
+            <p>Les informations à caractère personnel communiquées par le client à la société INFPF sont utilisées pour le traitement de l'inscription ainsi que pour la constitution d'un fichier clientèle à des fins de prospections commerciales. Conformément à la loi « informatique et libertés » du 6 janvier 1978, le client dispose d'un droit d'accès, de rectification et d'opposition des données personnelles le concernant.</p>
+        </section>
+
+        <section>
+            <h2>Loi applicable et attribution de compétence :</h2>
+            <p>Les présentes Conditions Générales de Vente sont encadrées par la loi française. En cas de litige, la recherche d'une solution à l'amiable sera privilégiée. À défaut, l'affaire sera portée devant les Tribunaux compétents du siège social de l'INFPF.</p>
+        </section>
+    </article>
+    {% include 'footer.html.twig' %}
+{% endblock %}
