@@ -352,6 +352,89 @@
 				display: block;
 			}
 		}
+		/* Style par défaut pour les grands écrans */
+.wp-container-core-columns-layout-27 {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.wp-block-column_cpf_lady,
+.wp-block-formation-financable-cpf-texte {
+  flex: 1;
+  min-width: 0; /* Pour empêcher le débordement */
+}
+
+.wp-image-cpf_lady {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Ajustement pour les écrans de taille moyenne */
+@media (max-width: 1024px) {
+  .wp-container-core-columns-layout-27 {
+    flex-direction: column;
+  }
+
+  .wp-block-column_cpf_lady,
+  .wp-block-formation-financable-cpf-texte {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .wp-image-cpf_lady {
+  height: 300px;  }
+
+  .wp-block-formation-financable-cpf-texte h2 {
+    font-size: 3.5rem;
+  }
+
+  .wp-block-formation-financable-cpf-texte p {
+    font-size: 1.2rem;
+  }
+
+  .wp-block-button {
+    font-size: 1.8rem;
+  }
+}
+
+/* Ajustement pour les petits écrans */
+@media (max-width: 768px) {
+  .wp-image-cpf_lady {
+  height: 300px;  }
+
+  .wp-block-formation-financable-cpf-texte h2 {
+    font-size: 3rem;
+  }
+
+  .wp-block-formation-financable-cpf-texte p {
+    font-size: 1.1rem;
+  }
+
+  .wp-block-button {
+    font-size: 1.6rem;
+  }
+}
+
+/* Ajustement pour les très petits écrans */
+@media (max-width: 480px) {
+  .wp-image-cpf_lady {
+  height: 300px;  }
+
+  .wp-block-formation-financable-cpf-texte h2 {
+    font-size: 2.5rem;
+  }
+
+  .wp-block-formation-financable-cpf-texte p {
+    font-size: 1rem;
+  }
+
+  .wp-block-button {
+    font-size: 1.4rem;
+  }
+}
+
 	</style>
 {% endblock %}
 
