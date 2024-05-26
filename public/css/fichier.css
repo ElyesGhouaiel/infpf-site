@@ -5036,11 +5036,11 @@ width: 100%;
 
 }
 
-.wp-image-cpf_lady {
-  width: 100%;
+/* .wp-image-cpf_lady {
+  /* width: 100%;
   height: 300px;
-  object-fit: cover; /* Fixed height for all images */
-}
+  object-fit: cover;} Fixed height for all images */
+
 
 .modal {
   position: fixed;
