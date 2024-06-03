@@ -18,6 +18,13 @@
   margin-left: 115px;
 }
 
+  /* Médias queries pour les petits écrans (tablettes et en dessous) */
+  @media (max-width: 1024px) {
+    .bloc-cpf-constat {
+      margin-left: 0; /* Enlever la marge sur les petits écrans */
+    }
+  }
+
 .section {
   flex: 1; /* Chaque section prendra la même quantité d'espace disponible */
   margin-right: 20px; /* Ajoute une marge entre les sections */
