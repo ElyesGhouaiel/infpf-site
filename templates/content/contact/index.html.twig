@@ -204,15 +204,25 @@
 
 
 </div>
-
+<div class="flash-messages">
+    {% for message in app.flashes('success') %}
+        <div class="flash-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="flash-error">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
 <div class="flex-row">
-  <div class="contact-form">
+    <div class="contact-form">
         {{ form_start(contactForm) }}
         {{ form_row(contactForm.name, {'attr': {'placeholder': 'Nom Prénom'}}) }}
         {{ form_row(contactForm.email, {'attr': {'placeholder': 'E-mail'}}) }}
         {{ form_row(contactForm.numero, {'label': 'Téléphone'}) }}
         {{ form_row(contactForm.content, {'attr': {'placeholder': 'Votre message ici'}}) }}
-        {# <button type="submit">Envoyer</button> #}
         {{ form_end(contactForm) }}
     </div>
 

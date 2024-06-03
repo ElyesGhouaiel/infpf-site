@@ -1,6 +1,4 @@
 <?php 
-
-// src/Service/MailService.php
 // src/Service/MailService.php
 namespace App\Service;
 
