@@ -61,7 +61,7 @@
 			margin-bottom: 20px;
 		}
 		.blog-container {
-			display: flex;
+			display: flex; 
 			flex-wrap: wrap;
 			justify-content: space-around; /* Assure un espacement uniforme entre les cartes */
 		}
@@ -433,6 +433,32 @@
   }
 }
 
+    @media (max-width: 1200px) {
+        .blog-postactualite {
+            flex: 1 1 calc(50% - 40px); /* Deux articles par ligne pour les écrans moyens */
+        }
+    }
+
+    @media (max-width: 768px) {
+        .blog-postactualite {
+            flex: 1 1 calc(100% - 40px); /* Un article par ligne pour les petits écrans */
+        }
+    }
+
+	    @media (max-width: 480px) {
+        .blog-container {
+            padding: 10px;
+        }
+        
+        .blog-postactualite {
+            flex: 1 1 calc(100% - 20px); /* Un article par ligne avec moins de marge pour les très petits écrans */
+            margin: 5px;
+        }
+        
+        .blog-post-content {
+            padding: 10px;
+        }
+    }
 	</style>
 {% endblock %}
 
