@@ -176,14 +176,14 @@
 				<li class="obfcuscated menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-461428" id="menu-item-461428">
 					<a href="#">Information</a>
 					<ul class="sub-menu">
-						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461431" id="menu-item-461431">
+						{# <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461431" id="menu-item-461431">
 							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/eleve-mois/', '');">Élèves
 																																																																																																                    du mois</span>
 						</li>
 						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461432" id="menu-item-461432">
 							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/projet-du-mois/', '');">Projet
 																																																																																																                    du mois</span>
-						</li>
+						</li> #}
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
 							<a href="{{ path('app_blog_index')}}">Blog</a>
 						</li>
@@ -205,7 +205,7 @@
 	{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
 	
 {% else %}
-	<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">INFPF
+	<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF
 																												          learning</a>
 
 {% endif %}
