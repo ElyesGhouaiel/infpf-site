@@ -1,3 +1,16 @@
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info span {
+  margin-right: 10px;
+}
+
+.user-info a {
+  color: #0b3f89;
+  text-decoration: none;
+}
 .im {
   width: 100%;
 }
