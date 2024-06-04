@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		{% block stylesheets %}
-			<link href="../css/fichier.css?v=42" rel="stylesheet"/>
+		{% block stylesheets %}{% endblock %}
+			<link href="../css/fichier.css?v=45" rel="stylesheet"/>
+			<link rel="stylesheet" href="{{ asset('css/popup.css') }}">
 		<!-- CSS de Bootstrap -->
-			{# <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-																																				
-																																				<!-- JS de Bootstrap (incluez jQuery et Popper.js avant le JS de Bootstrap) -->
-																																				<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-																																				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-																																				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> #}
-
-			{# <link href="centre_europeen.css" rel="stylesheet"/>
-																																				<link href="centre_europeen.css" rel="stylesheet"/>
-																																				<link href="centre_europeen.css" rel="stylesheet"/> #}
-		{% endblock %}
+		
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta charset="utf-8"/>
 		{% block javascripts %}
@@ -23,6 +14,7 @@
 			{% endblock %}
 			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script src="{{ asset('js/popup.js') }}"></script>
 		{% endblock %}
 
 		<meta
@@ -213,9 +205,13 @@
 	{# <a href="{{ path('app_admin') }}">Admin</a> #}
 {% endif %}
 
- <div class="header__cta header__cta__doc btn-documentation">
-	<span>Demande de documentation</span>
-</div> 
+<div class="header__cta header__cta__doc btn-documentation">
+    <span>Demande de documentation</span>
+</div>
+
+{% include 'components/modal.html.twig' %}
+   
+
 <div class="header__menu-burger icon-fill gtm-cta-burger">
 	<span class="header__menu-burger__trait"></span>
 	<span class="header__menu-burger__trait"></span>
@@ -481,6 +477,7 @@
 								
 								    </body> #}<body>
 {% block body %}{% endblock %}</body></html>
+<script src="{{ asset('js/popup.js') }}"></script>
 
 <script>let lastKnownScrollPosition = 0,
 ticking = !1;
