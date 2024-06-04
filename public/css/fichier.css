@@ -5052,7 +5052,7 @@ width: 100%;
   height: auto;
   max-width: 100%;
   vertical-align: bottom;
-  min-inline-size: max-content;
+  /* min-inline-size: max-content; */
 
 }
 
