@@ -1,19 +1,16 @@
 <?php
 
+// src/Repository/FormationRepository.php
+
+// src/Repository/FormationRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Formation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
-/**
- * @extends ServiceEntityRepository<Formation>
- *
- * @method Formation|null find($id, $lockMode = null, $lockVersion = null)
- * @method Formation|null findOneBy(array $criteria, array $orderBy = null)
- * @method Formation[]    findAll()
- * @method Formation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class FormationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,143 +18,46 @@ class FormationRepository extends ServiceEntityRepository
         parent::__construct($registry, Formation::class);
     }
 
-    // src/Repository/FormationRepository.php
-    public function findByCriteria(array $criteria)
+    /**
+     * Retourne les formations filtrées par différents critères.
+     *
+     * @param array $criteria
+     * @return QueryBuilder
+     */
+    public function findFormationsByCriteria(array $criteria): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('f');
-    
-        // Filtre par thématique
+        $qb = $this->createQueryBuilder('f');
+
         if (!empty($criteria['thematique'])) {
-            $queryBuilder->andWhere('f.thematique LIKE :thematique')
-                ->setParameter('thematique', '%' . $criteria['thematique'] . '%');
+            $qb->andWhere('f.category IN (:thematique)')
+               ->setParameter('thematique', $criteria['thematique']);
         }
-    
-        // Filtre par format
-        if (!empty($criteria['format'])) {
-            $queryBuilder->andWhere('f.format = :format')
-                ->setParameter('format', $criteria['format']);
+
+        if (!empty($criteria['lieu'])) {
+            $qb->andWhere('f.lieu IN (:lieu)')
+               ->setParameter('lieu', $criteria['lieu']);
         }
-    
-        // Filtre par durée
-        if (!empty($criteria['duree'])) {
-            $queryBuilder->andWhere('f.dureeFormation = :duree')
-                ->setParameter('duree', $criteria['duree']);
+
+        if (!empty($criteria['duration'])) {
+            $qb->andWhere('f.dureeFormation IN (:duration)')
+               ->setParameter('duration', $criteria['duration']);
         }
-    
-        // Filtre par niveau
-        if (!empty($criteria['niveau'])) {
-            $queryBuilder->andWhere('f.niveau = :niveau')
-                ->setParameter('niveau', $criteria['niveau']);
+
+        if (!empty($criteria['level'])) {
+            $qb->andWhere('f.niveau IN (:level)')
+               ->setParameter('level', $criteria['level']);
         }
-    
-        // Filtre par langue
-        if (!empty($criteria['langue'])) {
-            $queryBuilder->andWhere('f.langue = :langue')
-                ->setParameter('langue', $criteria['langue']);
+
+        if (!empty($criteria['language'])) {
+            $qb->andWhere('f.langue IN (:language)')
+               ->setParameter('language', $criteria['language']);
         }
-    
-        // Filtre par financement
-        if (!empty($criteria['financement'])) {
-            $queryBuilder->andWhere('f.financement = :financement')
-                ->setParameter('financement', $criteria['financement']);
+
+        if (!empty($criteria['funding'])) {
+            $qb->andWhere('f.funding = :funding')
+               ->setParameter('funding', $criteria['funding']);
         }
-    
-        return $queryBuilder->getQuery()->getResult();
+
+        return $qb->orderBy('f.id', 'DESC');
     }
-
-// public function findBySearchAndSort(string $searchTerm = '', string $sortOrder = 'asc', ?string $categoryId = null)
-// {
-//     $qb = $this->createQueryBuilder('f')
-//                ->leftJoin('f.category', 'c');
-
-//     if (!empty($searchTerm)) {
-//         $qb->andWhere('f.name LIKE :searchTerm')
-//            ->setParameter('searchTerm', '%' . $searchTerm . '%');
-//     }
-
-//     if ($sortOrder === 'desc') {
-//         $qb->orderBy('f.priceFormation', 'DESC');
-//     } else {
-//         $qb->orderBy('f.priceFormation', 'ASC');
-//     }
-
-//     if (!empty($categoryId)) {
-//         $qb->andWhere('c.id = :categoryId')
-//            ->setParameter('categoryId', $categoryId);
-//     }
-
-//     return $qb->getQuery()->getResult();
-// }
-public function findBySortOrder(string $sortOrder = 'asc', ?string $categoryId = null)
-{
-    $qb = $this->createQueryBuilder('f')
-               ->leftJoin('f.category', 'c');
-
-    if (!empty($categoryId)) {
-        $qb->where('c.id = :categoryId')
-           ->setParameter('categoryId', $categoryId);
-    }
-
-    if ($sortOrder === 'desc') {
-        $qb->orderBy('f.priceFormation', 'DESC');
-    } else {
-        $qb->orderBy('f.priceFormation', 'ASC');
-    }
-
-    return $qb->getQuery()->getResult();
-}
-
-
-public function findBySearchTerm(string $searchTerm = '', string $sortField = 'nameFormation', string $sortOrder = 'ASC')
-{
-    $qb = $this->createQueryBuilder('f')
-               ->leftJoin('f.category', 'c');
-
-    if (!empty($searchTerm)) {
-        $qb->where('f.nameFormation LIKE :searchTerm OR f.descriptionFormation LIKE :searchTerm')
-           ->setParameter('searchTerm', '%' . $searchTerm . '%');
-    }
-
-    // Détermine le champ de tri en fonction de $sortField
-    switch ($sortField) {
-        case 'priceFormation':
-            $qb->orderBy('f.' . $sortField, $sortOrder);
-            break;
-        case 'nameFormation':
-        default:
-            $qb->orderBy('f.nameFormation', $sortOrder);
-            break;
-    }
-
-    return $qb->getQuery()->getResult();
-}
-
-
-
-//    /**
-//     * @return Formation[] Returns an array of Formation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Formation
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-
 }

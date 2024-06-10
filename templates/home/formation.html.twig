@@ -104,79 +104,89 @@
 								{% endfor %}
 							</select>
 						</div>
-						<div
-							class="filters">
-							<!-- Thématique -->
-							<button class="filter-btn" onclick="toggleFilter('theme')">Thématique</button>
-							<div
-								id="theme" class="checkbox-group" style="display: none;">
-								<!-- Répétez pour chaque thématique, exemple pour 'Trading' -->
-								<div class="checkbox-groupbox">
-									<input type="checkbox" id="trading" onchange="applyFilter()" name="thematique" value="Trading">
-									<label for="trading">Trading</label>
-								</div>
-								<!-- Ajoutez d'autres thématiques ici -->
-							</div>
+<div class="filters">
+    <!-- Thématique -->
+    <button class="filter-btn" onclick="toggleFilter('theme')">Thématique</button>
+    <div id="theme" class="checkbox-group" style="display: none;">
+        {% set thematiques = app.request.query.all('thematique') %}
+        {% for theme in categories %}
+        <div class="checkbox-groupbox">
+            <input type="checkbox" id="{{ theme.name }}" onchange="applyFilter()" name="thematique[]" value="{{ theme.id }}" {{ theme.id in thematiques ? 'checked' : '' }}>
+            <label for="{{ theme.name }}">{{ theme.name }}</label>
+        </div>
+        {% endfor %}
+    </div>
 
-							<!-- Format -->
-							<button class="filter-btn" onclick="toggleFilter('lieu')">Format</button>
-							<div
-								id="lieu" class="checkbox-group" style="display: none;">
-								<!-- Exemple pour 'Distanciel' -->
-								<div class="checkbox-groupbox">
-									<input type="checkbox" id="distanciel" onchange="applyFilter()" name="lieu" value="Distanciel">
-									<label for="distanciel">Distanciel</label>
-								</div>
-								<!-- Ajoutez d'autres formats ici -->
-							</div>
+    <!-- Format -->
+    <button class="filter-btn" onclick="toggleFilter('lieu')">Format</button>
+    <div id="lieu" class="checkbox-group" style="display: none;">
+        {% set lieux = app.request.query.all('lieu') %}
+        {% for format in ['Distanciel', 'Présentiel'] %}
+        <div class="checkbox-groupbox">
+            <input type="checkbox" id="{{ format }}" onchange="applyFilter()" name="lieu[]" value="{{ format }}" {{ format in lieux ? 'checked' : '' }}>
+            <label for="{{ format }}">{{ format }}</label>
+        </div>
+        {% endfor %}
+    </div>
 
-							<!-- Durée -->
-							<button class="filter-btn" onclick="toggleFilter('duration')">Durée</button>
-							<div
-								id="duration" class="checkbox-group" style="display: none;">
-								<!-- Exemple pour '24 heures' -->
-								<div class="checkbox-groupbox">
-									<input type="checkbox" id="24-heures" onchange="applyFilter()" name="duration" value="24 heures">
-									<label for="24-heures">24 heures</label>
-								</div>
-								<!-- Ajoutez d'autres durées ici -->
-							</div>
+    <!-- Durée -->
+    <button class="filter-btn" onclick="toggleFilter('duration')">Durée</button>
+    <div id="duration" class="checkbox-group" style="display: none;">
+        {% set durations = app.request.query.all('duration') %}
+        {% for duration in ['24 heures', '100 heures', '400 heures'] %}
+        <div class="checkbox-groupbox">
+            <input type="checkbox" id="{{ duration }}" onchange="applyFilter()" name="duration[]" value="{{ duration }}" {{ duration in durations ? 'checked' : '' }}>
+            <label for="{{ duration }}">{{ duration }}</label>
+        </div>
+        {% endfor %}
+    </div>
 
-							<!-- Niveau -->
-							<button class="filter-btn" onclick="toggleFilter('level')">Niveau</button>
-							<div
-								id="level" class="checkbox-group" style="display: none;">
-								<!-- Exemple pour 'Débutant' -->
-								<div class="checkbox-groupbox">
-									<input type="checkbox" id="debutant" onchange="applyFilter()" name="level" value="Débutant">
-									<label for="debutant">Débutant</label>
-								</div>
-								<!-- Ajoutez d'autres niveaux ici -->
-							</div>
+    <!-- Niveau -->
+    <button class="filter-btn" onclick="toggleFilter('level')">Niveau</button>
+    <div id="level" class="checkbox-group" style="display: none;">
+        {% set levels = app.request.query.all('level') %}
+        {% for level in ['Débutant', 'Intermédiaire', 'Avancé'] %}
+        <div class="checkbox-groupbox">
+            <input type="checkbox" id="{{ level }}" onchange="applyFilter()" name="level[]" value="{{ level }}" {{ level in levels ? 'checked' : '' }}>
+            <label for="{{ level }}">{{ level }}</label>
+        </div>
+        {% endfor %}
+    </div>
 
-							<!-- Langue -->
-							<button class="filter-btn" onclick="toggleFilter('language')">Langue</button>
-							<div
-								id="language" class="checkbox-group" style="display: none;">
-								<!-- Exemple pour 'Français' -->
-								<div class="checkbox-groupbox">
-									<input type="checkbox" id="francais" onchange="applyFilter()" name="language" value="Français">
-									<label for="francais">Français</label>
-								</div>
-								<!-- Ajoutez d'autres langues ici -->
-							</div>
+    <!-- Langue -->
+    <button class="filter-btn" onclick="toggleFilter('language')">Langue</button>
+    <div id="language" class="checkbox-group" style="display: none;">
+        {% set languages = app.request.query.all('language') %}
+        {% for language in ['Français', 'Anglais'] %}
+        <div class="checkbox-groupbox">
+            <input type="checkbox" id="{{ language }}" onchange="applyFilter()" name="language[]" value="{{ language }}" {{ language in languages ? 'checked' : '' }}>
+            <label for="{{ language }}">{{ language }}</label>
+        </div>
+        {% endfor %}
+    </div>
 
-							<!-- Financement -->
-							<button class="filter-btn" onclick="toggleFilter('funding')">Financement</button>
-							<div
-								id="funding" class="checkbox-group" style="display: none;">
-								<!-- Exemple pour 'Éligible CPF' -->
-								<div class="checkbox-groupbox">
-									<input type="checkbox" id="eligible-cpf" onchange="applyFilter()" name="funding" value="Éligible CPF">
-									<label for="eligible-cpf">Éligible CPF</label>
-								</div>
-							</div>
-						</div>
+    <!-- Financement -->
+    <button class="filter-btn" onclick="toggleFilter('funding')">Financement</button>
+    <div id="funding" class="checkbox-group" style="display: none;">
+        {% set fundings = app.request.query.all('funding') %}
+        <div class="checkbox-groupbox">
+            <input type="checkbox" id="eligible-cpf" onchange="applyFilter()" name="funding" value="Éligible CPF" {{ 'Éligible CPF' in fundings ? 'checked' : '' }}>
+            <label for="eligible-cpf">Éligible CPF</label>
+        </div>
+    </div>
+</div>
+
+<!-- Liste des formations -->
+{# <div class="formations">
+    <ul>
+        {% for formation in formations %}
+        <li>
+            <strong>{{ formation.nameFormation }}</strong> - {{ formation.dureeFormation }} - {{ formation.priceFormation }}€
+        </li>
+        {% endfor %}
+    </ul>
+</div> #}
+
 					</div>
 				</div>
 			</div>
@@ -192,6 +202,7 @@
 
 
 						{% for formation in categoryData.formations %}
+						{% for formation in formations %}
 							<div class="formation-card" data-prix="{{ formation.priceFormation }}">
 								<div class="formation-column-left">
 									<div class="button-cate-name">
@@ -281,6 +292,7 @@
 
 
 							</div>
+						{% endfor %}
 						{% endfor %}
 					</div>
 				{% endfor %}
@@ -427,4 +439,25 @@ url.searchParams.delete(checkbox.name);
 window.location.href = url.toString();
 }</script>
 
+<script>
+function applyFilter() {
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    
+    document.querySelectorAll('.checkbox-groupbox input').forEach(function(checkbox) {
+        if (checkbox.checked) {
+            params.append(checkbox.name, checkbox.value);
+        } else {
+            params.delete(checkbox.name, checkbox.value);
+        }
+    });
+
+    window.location.search = params.toString();
+}
+
+function toggleFilter(id) {
+    let element = document.getElementById(id);
+    element.style.display = element.style.display === 'none' ? 'block' : 'none';
+}
+</script>
 {% endblock %}
