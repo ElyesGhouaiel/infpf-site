@@ -28,10 +28,10 @@ class HomeController extends AbstractController
         $sortOrder = $request->query->get('sort', 'asc');
         $selectedCategoryId = $request->query->get('category_id', 'all');
         $categoryIdForQuery = $selectedCategoryId === 'all' ? null : $selectedCategoryId;
-        
+
         // Récupère les catégories pour le menu déroulant
         $categories = $categoryRepository->findAll();
-        
+
         // Filtres
         $filterCriteria = [
             'thematique' => $request->query->all('thematique'),
@@ -44,7 +44,7 @@ class HomeController extends AbstractController
 
         // Applique les filtres additionnels
         $queryBuilder = $formationRepository->findFormationsByCriteria(array_filter($filterCriteria, function($value) { return !is_null($value) && $value !== ''; }));
-        
+
         // Appliquer l'ordre de tri
         if ($sortOrder === 'asc') {
             $queryBuilder->orderBy('f.priceFormation', 'ASC');
@@ -53,13 +53,13 @@ class HomeController extends AbstractController
         }
 
         $formations = $queryBuilder->getQuery()->getResult();
-        
+
         // Comptage des formations par catégorie
         $formationsCountByCategory = [];
         foreach ($categories as $category) {
             $formationsCountByCategory[$category->getId()] = $dataProviderService->getTotalFormationsInCategory($category->getId());
         }
-        
+
         $totalGlobal = array_sum($formationsCountByCategory);
 
         // Formations regroupées par catégorie, si nécessaire pour l'affichage
@@ -72,7 +72,7 @@ class HomeController extends AbstractController
         }
 
         $blogs = $blogRepository->findAll();
-        
+
         return $this->render('home/formation.html.twig', [
             'formations' => $formations,
             'blogs' => $blogs,
@@ -81,6 +81,71 @@ class HomeController extends AbstractController
             'categories' => $categories,
             'selectedCategoryId' => $selectedCategoryId,
             'totalGlobal' => $totalGlobal
+        ]);
+    }
+    
+        #[Route('/submit-comment', name: 'submit_comment', methods: ['POST'])]
+    public function submitComment(Request $request, EntityManagerInterface $entityManager): Response {
+        $comment = new Comment();
+        $comment->setText($request->request->get('comment'));
+        $blogId = $request->request->get('blog_id');
+        $blog = $entityManager->getRepository(Blog::class)->find($blogId);
+    
+        if (!$blog) {
+            $this->addFlash('error', 'Blog non trouvé.');
+            return $this->redirectToRoute('blog_index'); // Redirigez vers une route existante qui est sûre.
+        }
+    
+        $comment->setBlog($blog);
+        $entityManager->persist($comment);
+        $entityManager->flush();
+    
+        $this->addFlash('success', 'Votre commentaire a été ajouté.');
+        return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
+    }
+    
+    // Vous pouvez intégrer ici la méthode findBySearchTerm si elle est spécifique à vos besoins
+    #[Route('/recherche-formation-ajax', name: 'recherche_formation_ajax')]
+    public function rechercheAjax(Request $request, FormationRepository $formationRepository, Formations $formations): JsonResponse
+    {
+        $query = $request->query->get('query', '');
+        $formations = $formationRepository->findBySearchTerm($query);
+    
+        // Renvoie un fragment HTML
+        return $this->render('partials/_search_results.html.twig', [
+            'formations' => $formations,
+        ]);
+    }
+
+
+
+    #[Route('/', name: 'home', methods: ['GET'])]
+    public function home(FormationRepository $formationRepository,BlogRepository $blogRepository, CategoryRepository $categoryRepository): Response
+    {
+        $blog = $blogRepository->findAll();
+        $category = $categoryRepository->findAll();
+        $formations = $formationRepository->findAll();
+
+        // Simule un tableau d'ID de catégories vers les chemins d'images
+    $categoryImages = [
+        // Ici, remplace ces IDs par les vrais IDs de tes catégories et ajuste les chemins des images
+        1 => 'ImageForma1.webp',
+        2 => 'FinanceImage.jpeg',
+        3 => 'AdministratifsImage.jpeg',
+        4 => 'InformatiqueImage.jpeg',
+        5 => 'DesignImage.jpeg',
+        6 => 'ManagementImage.jpeg',
+        7 => 'VenteImage.jpeg',
+        11 => 'MarketingImage.jpeg',
+        12 => 'AutresImage.jpeg',
+        // Continue pour chaque catégorie que tu as
+    ];
+        
+        return $this->render('home/home.html.twig', [
+            'blog' => $blog,
+            'category' => $category,
+            'formations' => $formations,
+            'categoryImages' => $categoryImages, // Passe le tableau au template
         ]);
     }
 
