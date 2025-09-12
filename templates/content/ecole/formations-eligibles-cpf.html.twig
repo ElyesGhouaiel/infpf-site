@@ -1,13 +1,14 @@
-{% extends 'base1.html.twig' %}
-
+{% extends 'base.html.twig' %}
 {% block title %}Les formations de l'Institut National de la Formation Professionnelle Française éligibles au Compte Personnel de Formation
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
-
+    <link href="../css/footer1.css" rel="stylesheet"/>
 {% endblock %}
+
+
 {% block body %}
-	<img class="im" src="../img/11.png" alt="Nos formations à distance">
+	<img class="im" src="{{ asset('img/11.png') }}" alt="Nos formations à distance">
 	<div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
 			<span>
@@ -37,7 +38,7 @@
 			</div>
 			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow">
 				<div class="wp-block-image">
-				<img src="../img/meuf.png" alt="CPF" class="img" />
+				<img src="{{ asset('img/meuf.png') }}" alt="CPF" class="img" />
 				</div>
 			</div>
 		</div>
@@ -95,7 +96,7 @@
 <div class="sections-container">
     <div class="section">
         <div class="card">
-		<img src="../img/avantages-elegible-cpf.png" alt="CPF" class="img" />
+		<img src="{{ asset('img/avantages-elegible-cpf.png') }}" alt="CPF" class="img" />
             <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
                 <strong style="color: #0b3e6fd6;">Les avantages du compte personnel de formation (CPF) ?</strong>
             </h2>
@@ -104,7 +105,7 @@
     </div>
     <div class="section">
         <div class="card">
-				<img src="../img/verification-elegible-cpf.png" alt="CPF" class="img" />
+				<img src="{{ asset('img/verification-elegible-cpf.png') }}" alt="CPF" class="img" />
 
             <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
                 <strong style="color: #0b3e6fd6;">Vérification de l'éligibilité au CPF</strong>
@@ -114,6 +115,8 @@
 </div>
     </div>
 </div>
+
+
 	</div>
 	<!-- .entry-content -->
 </article>

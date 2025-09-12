@@ -12,6 +12,12 @@ services:
         arguments:
             $categoryRepository: '@App\Repository\CategoryRepository'
             $formationRepository: '@App\Repository\FormationRepository'
+    
+    App\Service\MetierService:
+        arguments:
+            $formationRepository: '@App\Repository\FormationRepository'
+            $slugger: '@Symfony\Component\String\Slugger\SluggerInterface'
+            $parameterBag: '@parameter_bag'
     App\Twig\AppExtension:
         arguments:
             $dataProviderService: '@App\Service\DataProviderService'

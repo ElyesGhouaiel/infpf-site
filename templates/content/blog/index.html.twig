@@ -1,169 +1,399 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog index
-{% endblock %}
+{% block title %}Actualités de l'INFPF - Blog{% endblock %}
+
 {% block stylesheets %}
-	<link href="../css/fichier.css?=v3" rel="stylesheet"/>
+    {{ parent() }}
+    <style>
+        :root {
+            --primary-color: #0b3f89;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --light-gray: #f8fafc;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-	<style>
-		/* Conteneur des cartes */
-		.cards-container {
-			width: 70%;
-			padding: 20px; /* Espacement autour de la zone des cartes */
-			max-width: 1200px;
-			margin: auto;
-		}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.7;
+        }
 
-		.row {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr); /* crée trois colonnes de taille égale */
-			gap: 20px; /* espace entre les cartes */
-		}
-		/* Styles des cartes ajustés */
-		.card-index-blog {
+        .blog-index-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
 
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-			transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation douce pour le survol */
-			border-radius: 8px;
-			overflow: hidden;
-			margin-bottom: 20px; /* Ajustement pour l'espacement vertical */
-			background-color: #fff;
-			/* Pas de hauteur fixe pour permettre plus de contenu */
-		}
+        .blog-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
 
-		.card-index-blog:hover {
-			transform: translateY(-5px); /* Légère élévation de la carte au survol */
-			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée au survol */
-			transform: scale(1.03);
-		}
+        .blog-main-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
 
-.card-img-top {
-    width: 100%;
-    height: 200px; /* fixed height for all images */
-    object-fit: cover; /* ensures that images cover the area without being stretched */
-}
+        .blog-subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-		.card-body {
-			padding: 20px;
-			/*     width: 100%;
-    height: auto; /* Hauteur auto pour maintenir le ratio de l'image */
-			/* object-fit: cover; */
-		}
+        .admin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
 
-		.blog-imag {
-			width: 100%; /* Assure que l'image couvre la largeur de la carte */
-			height: auto; /* Maintient le ratio de l'image */
-			object-fit: cover; /* Assure que l'image couvre bien l'espace disponible sans déformation */
-		}
+        .btn-admin {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-		.card-title {
-			margin-bottom: 15px;
-			color: #100;
-			font-weight: bold;
-		}
+        .btn-admin:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(11, 63, 137, 0.3);
+            color: white;
+            text-decoration: none;
+        }
 
-		.card-text {
-			margin-bottom: 15px;
-			line-height: 1.6;
-			color: #200;
-		}
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
 
-		.text-muted {
-			color: #300;
-		}
+        .blog-card-wrapper {
+            position: relative;
+        }
 
-		.card-title,
-		.card-text,
-		.text-muted {
-			margin: 0;
-			padding-bottom: 10px;
-		}
+        .blog-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
 
-		.btn-primary,
-		.btn-secondary {
-			margin-top: 10px; /* Espacement au-dessus des boutons */
-		}
+        .blog-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
 
-		.btn {
-			border: none;
-			padding: 10px 20px;
-			cursor: pointer;
-			display: inline-block;
-			margin-right: 10px;
-		}
+        .blog-card-link:hover .blog-card {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
 
-		.btn-primary {
-			background-color: #007bff;
-			color: #ffffff;
-		}
+        .blog-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
 
-		.btn-primary:hover {
-			background-color: #0056b3;
-		}
+        .blog-card-link:hover .blog-image {
+            transform: scale(1.05);
+        }
 
-		.btn-secondary {
-			background-color: #6c757d;
-			color: #ffffff;
-		}
+        .blog-image-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--light-gray), #e2e8f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 4rem;
+        }
 
-		.btn-secondary:hover {
-			background-color: #545b62;
-		}
+        .blog-card-content {
+            padding: 2rem;
+        }
 
-		.btn-success {
-			background-color: #28a745;
-			color: #ffffff;
-		}
+        .blog-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
 
-		.btn-success:hover {
-			background-color: #1e7e34;
-		}
-	</style>
+        .blog-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-card-excerpt {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-read-more {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(11, 63, 137, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .card-admin-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 0.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            transform: scale(1.1);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-text {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .delete-form {
+            display: inline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-index-container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            .blog-main-title {
+                font-size: 2rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .blog-card-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .card-admin-actions {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-card-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 {% endblock %}
+
 {% block body %}
-	<h1>Blog index</h1>
+    <div class="blog-index-container">
+        <div class="blog-header">
+            <h1 class="blog-main-title">Actualités de l'INFPF</h1>
+            <p class="blog-subtitle">
+                Découvrez les dernières nouvelles, événements et actualités de l'Institut National de la Formation Professionnelle Française
+            </p>
+        </div>
 
-	<div class="container">
-		<div class="row">
-			{% for blog in blogs %}
-				<div class="todo-card">
-					<div class="card-magique">
-						<div class="cards-container">
-							<div
-								class="card-index-blog">
-								{% if blog.image %}
-								{# <img
-								src="{{ asset('img/image_finance.webp') }}" alt="Image description" class="blog-imag"> #}
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="admin-actions">
+            <a href="{{ path('app_blog_new') }}" class="btn-admin">
+                ➕ Nouvel article
+            </a>
+            <a href="{{ path('admin') }}" class="btn-admin">
+                ⚙️ Administration
+            </a>
+        </div>
+        {% endif %}
 
-								<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description">
- {% endif %}
-								<div class="card-body">
-									<h5 class="card-title">{{ blog.titleOne }}</h5>
-									<p class="card-text">{{ blog.contentOne|slice(0, 150) ~ '...' }}</p>
-									<p class="card-text">
-										<small class="text-muted">Published on
-											{{ blog.publishedAt ? blog.publishedAt|date('Y-m-d') : '' }}
-											by
-											{{ blog.author }}</small>
-									</p>
-									<a href="{{ path('blog_show', {'id': blog.id}) }}" class="btn btn-primary">Voir</a>
-									{% if is_granted("ROLE_ADMIN") %}
-										<a href="{{ path('app_blog_edit', {'id': blog.id}) }}" class="btn btn-secondary">Modifier</a>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			{% else %}
-				<p>No records found</p>
-			{% endfor %}
-		</div>
-	</div>
-	{% if is_granted("ROLE_ADMIN") %}
+        {% if blogs|length > 0 %}
+        <div class="blog-grid">
+            {% for blog in blogs %}
+            <article class="blog-card-wrapper">
+                <a href="{{ path('blog_show', {'id': blog.id}) }}" class="blog-card-link">
+                    <div class="blog-card">
+                        {% if blog.image %}
+                            <img src="{{ asset('uploads/images/' ~ blog.image) }}" alt="{{ blog.titleOne }}" class="blog-image">
+                        {% else %}
+                            <div class="blog-image-placeholder">
+                                📰
+                            </div>
+                        {% endif %}
 
-		<a href="{{ path('app_blog_new') }}" class="btn btn-success">Nouvelle Création</a>
-	{% endif %}
+                        <div class="blog-card-content">
+                            <div class="blog-card-meta">
+                                {% if blog.publishedAt %}
+                                    <span>📅 {{ blog.publishedAt|date('d/m/Y') }}</span>
+                                {% endif %}
+                                {% if blog.author %}
+                                    <span>✍️ {{ blog.author }}</span>
+                                {% endif %}
+                            </div>
 
-	{{ include('footer.html.twig') }}
+                            <h2 class="blog-card-title">{{ blog.titleOne }}</h2>
+
+                            {% if blog.shortDesc %}
+                                <p class="blog-card-excerpt">{{ blog.shortDesc }}</p>
+                            {% elseif blog.contentOne %}
+                                <p class="blog-card-excerpt">{{ blog.contentOne|striptags|slice(0, 150) }}{% if blog.contentOne|length > 150 %}...{% endif %}</p>
+                            {% endif %}
+
+                            <span class="btn-read-more">
+                                📖 Lire l'article
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <div class="card-admin-actions">
+                    <a href="{{ path('app_blog_edit', {'id': blog.id}) }}" class="btn-edit" title="Modifier" onclick="event.stopPropagation();">
+                        ✏️
+                    </a>
+                    <form method="post" action="{{ path('blog_delete', {'id': blog.id}) }}" class="delete-form" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');" onclick="event.stopPropagation();">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ blog.id) }}">
+                        <button type="submit" class="btn-delete" title="Supprimer">
+                            🗑️
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <h2 class="empty-state-title">Aucun article publié</h2>
+            <p class="empty-state-text">
+                Il n'y a actuellement aucun article dans le blog. Revenez bientôt pour découvrir nos actualités !
+            </p>
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_blog_new') }}" class="btn-admin">
+                ➕ Créer le premier article
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}

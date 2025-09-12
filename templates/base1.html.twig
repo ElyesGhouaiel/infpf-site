@@ -2,7 +2,7 @@
 <html>
 	<head>
 		{% block stylesheets %}
-			<link href="../css/fichier.css?v=42" rel="stylesheet"/>
+			<link href="../css/fichier.css?v=59" rel="stylesheet"/>
 		<!-- CSS de Bootstrap -->
 			{# <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 																																				
@@ -51,7 +51,33 @@ e.preventDefault(); // Empêche le comportement de lien par défaut
 const categoryId = this.getAttribute('href').split('category_id=')[1];
 window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
 });
-});</script>
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("btnScrollTop");
+
+  if (!btn) return; // sécurité : si jamais l'élément n'existe pas
+
+  // Affiche le bouton après scroll
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 300) {
+      btn.style.display = "block";
+    } else {
+      btn.style.display = "none";
+    }
+  });
+
+  // Scroll fluide vers le haut
+  btn.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+});
+
+
+</script>
 		{% endblock %}
 
 		<meta
@@ -171,7 +197,7 @@ window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
 									{% endfor %}
 									{% if category.formations|length > 3 %}
 										<li class="menu-item menu-item-type-post_type menu-item-object-page see-more" id="see-more-{{ category.id }}">
-											<a href="{{ path('app_home', {'category_id': category.id}) }}" style="background-color: transparent; color: #0077c1;">Voir plus</a>
+											<a href="https://infpf.fr/formation?thematique%5B%5D={{category.id}}" style="background-color: transparent; color: #0077c1;">Voir plus</a>
 										</li>
 									{% endif %}
 								</ul>
@@ -250,11 +276,13 @@ window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
 
 <main class="site-main" id="main">
 <div class="bandeau-service-client bandeau-service-client-vsimon">
-	<a href="https://www..fr/blog/ecole/service-client-de-annee/" target="_blank">
-		<img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" height="82" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2076%2082'%3E%3C/svg%3E" width="76"/><noscript><img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" height="82" src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" width="76"/></noscript>
+	<a href="https://www.infpf.fr">
+		<img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" height="82" src="../img/CROPPED_LOGO__INFPF_2.png" width="76"/><noscript><img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" height="82" src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" width="76"/></noscript>
 		<span style="padding-top:15px;padding-bottom:15px;color:#0b3e6fd6"><strong>L'Institut National de la Formation Professionnelle Française, premier organisme de formation.</strong></span>
 	</a>
 </div>
+
+<img id="btnScrollTop" src="../img/btn_fleche0.png" alt="Retour en haut" class="bouton-retour-haut">
 {% block body %}{% endblock %}</body></html>
 
 

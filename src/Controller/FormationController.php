@@ -2,39 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Formation;
-use App\Form\FormationType;
 use App\Repository\FormationRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\CategoryRepository;
-
 
 #[Route('/formation')]
 class FormationController extends AbstractController
 {
-    
-    // #[Route('/', name: 'app_home', methods: ['GET'])]
-    // public function index(FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
-    // {
-    //     $category =  $categoryRepository->findAll() ;// Obtenez vos catégories ici
-    //     $formations = $formationRepository->findAll();
-    
-    //     // foreach ($category as $category) {
-    //     //     // Remplacez 'findByCategory' par la méthode appropriée de votre repository
-    //     //     $formationsByCategory[$category->getId()] = $formationRepository->findByCategory($category);
-    //     // }
-    
-    //     return $this->render('content/formation/index.html.twig', [
-    //         'category' => $category,
-    //         'formations' => $formations,
-    //         // 'formationsByCategory' => $formationsByCategory,
-    //     ]);
-    // }
 
     #[Route('/new', name: 'app_formation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
@@ -62,25 +40,13 @@ class FormationController extends AbstractController
     #[Route('/{id}', name: 'app_formation_show', methods: ['GET'])]
     public function show(Request $request, $id, FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
     {
-        // Récupérez toutes les formations
-        // $formations = $formationRepository->findAll();
-    
-        // Récupérez la formation spécifique en fonction de l'ID s'il est fourni
-        // $formationToEdit = $formationRepository->find([0]);
-    
-        // Récupérez toutes les catégories
         $category = $categoryRepository->findAll();
-    
+
         return $this->render('content/formation/show.html.twig', [
             'formations' => $formationRepository->find($id),
-            // 'formationToEdit' => $formationToEdit,
             'category' => $categoryRepository,
-            
         ]);
     }
-    
-    
-    
 
     #[Route('/{id}/edit', name: 'app_formation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Formation $formations, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response

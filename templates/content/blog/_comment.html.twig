@@ -1,0 +1,70 @@
+<div class="comment-item" style="margin-left: {{ level * 2 }}rem;">
+    <div class="comment-header">
+        <div class="comment-author">
+            {% if comment.author and comment.author.username %}
+                {{ comment.author.username }}
+            {% elseif comment.author and comment.author.email %}
+                {{ comment.author.email }}
+            {% else %}
+                Utilisateur anonyme
+            {% endif %}
+        </div>
+        <div class="comment-actions">
+            <div class="comment-date">
+                {% if comment.createdAt %}
+                    {{ comment.createdAt|date('d/m/Y à H:i', 'Europe/Paris') }}
+                {% else %}
+                    Date inconnue
+                {% endif %}
+            </div>
+            {% if app.user %}
+                <button type="button" class="btn-reply-comment" onclick="toggleReplyForm({{ comment.id }})" title="Répondre à ce commentaire">
+                    Répondre
+                </button>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <form method="post" action="{{ path('admin_comment_delete', {'id': comment.id}) }}" style="display: inline-block; margin-left: 1rem;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                    <button type="submit" class="btn-delete-comment" title="Supprimer ce commentaire">
+                        Supprimer
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="comment-text">{{ comment.text|nl2br }}</div>
+    
+    {% if app.user %}
+    <div id="reply-form-{{ comment.id }}" class="reply-form" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+        <form id="ajax-reply-form-{{ comment.id }}" onsubmit="submitReply(event, {{ comment.id }}, {{ blog.id }})">
+            <div class="form-group">
+                <label for="reply-text-{{ comment.id }}">Votre réponse :</label>
+                <textarea 
+                    id="reply-text-{{ comment.id }}" 
+                    name="text" 
+                    rows="3" 
+                    required
+                    placeholder="Écrivez votre réponse..."
+                    style="width: 100%; padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; resize: vertical; background: rgba(255, 255, 255, 0.9);"
+                ></textarea>
+            </div>
+            <div class="reply-form-actions" style="margin-top: 1rem; display: flex; gap: 1rem;">
+                <button type="submit" class="btn-submit-reply">
+                    <span class="btn-text">Publier la réponse</span>
+                    <span class="btn-loader" style="display: none;">Envoi...</span>
+                </button>
+                <button type="button" class="btn-cancel-reply" onclick="toggleReplyForm({{ comment.id }})">Annuler</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    
+    <!-- Affichage des réponses -->
+    <div id="comment-replies-{{ comment.id }}" class="comment-replies" style="margin-top: 1rem;">
+        {% if comment.replies|length > 0 %}
+            {% for reply in comment.replies %}
+                {{ include('content/blog/_comment.html.twig', {'comment': reply, 'blog': blog, 'level': level + 1}) }}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>

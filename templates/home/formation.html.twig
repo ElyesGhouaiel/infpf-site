@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Liste des Formations
+
 {% endblock %}
 {% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
+	<link href="../css/fichier.css?v=68" rel="stylesheet"/>
 
 	<link
-	href="../css/forma.css?=v36" rel="stylesheet"/>
+	href="../css/forma.css?v=85" rel="stylesheet"/>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- jQuery UI -->
@@ -14,163 +15,1549 @@
 	<!-- CSS jQuery UI -->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
+    <!-- Les styles Calendly sont désormais gérés de manière centralisée dans base.html.twig -->
+
+    <!-- Styles modernes pour la page formation -->
+    <style>
+        /* ========================================
+           DESIGN MODERNE ET COHÉRENT
+           ======================================== */
+
+        /* Variables CSS modernes */
+        :root {
+            --primary-color: #0b3f89;
+            --secondary-color: #1e5cb8;
+            --accent-color: #007bff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --border-radius: 12px;
+            --border-radius-small: 8px;
+            --box-shadow: 0 4px 20px rgba(11, 63, 137, 0.1);
+            --box-shadow-hover: 0 8px 30px rgba(11, 63, 137, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Corps de page moderne */
+        .bodyclass {
+            background: #f8fafc;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Conteneur pour le bouton filtres mobile */
+        .mobile-filter-container {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%);
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        /* Bouton filtres moderne */
+        .mobile-filter-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            user-select: none;
+            text-decoration: none;
+        }
+
+        .mobile-filter-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-hover);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .mobile-filter-toggle:active {
+            transform: translateY(0);
+        }
+
+        /* Overlay sombre */
+        .mobile-filter-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-filter-overlay.active {
+            opacity: 1;
+        }
+
+        /* Panneau off-canvas coulissant */
+        .mobile-filter-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 320px;
+            max-width: 85vw;
+            height: 100%;
+            background: white;
+            z-index: 1002;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-filter-panel.active {
+            transform: translateX(0);
+        }
+
+        /* En-tête du panneau */
+        .mobile-filter-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .mobile-filter-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .mobile-filter-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .mobile-filter-close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Contenu des filtres dans le panneau */
+        .mobile-filter-content {
+            padding: 20px;
+        }
+
+        .mobile-filter-content .filters {
+            background: none !important;
+            padding: 0 !important;
+            margin-bottom: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        .mobile-filter-content .filter-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            padding: 15px !important;
+            margin-bottom: 10px !important;
+            background-color: #f8f9fa !important;
+            color: #495057 !important;
+            border: 1px solid #dee2e6 !important;
+            border-radius: 8px !important;
+            text-align: left !important;
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .mobile-filter-content .filter-btn:hover {
+            background-color: #e9ecef !important;
+            border-color: #007bff !important;
+            color: #007bff !important;
+        }
+
+        .mobile-filter-content .filter-btn::after {
+            content: "▼" !important;
+            font-size: 12px !important;
+            transition: transform 0.3s ease !important;
+        }
+
+        .mobile-filter-content .filter-btn.collapsed::after {
+            transform: rotate(-90deg) !important;
+        }
+
+        .mobile-filter-content .checkbox-group {
+            display: none !important;
+            width: 100% !important;
+            padding: 15px !important;
+            background-color: #fafbfc !important;
+            border-radius: 8px !important;
+            margin-bottom: 10px !important;
+            border: 1px solid #e9ecef !important;
+        }
+
+        .mobile-filter-content .checkbox-group.show {
+            display: block !important;
+        }
+
+        .mobile-filter-content .checkbox-groupbox {
+            display: flex !important;
+            align-items: center !important;
+            margin: 8px 0 !important;
+            padding: 8px !important;
+            cursor: pointer !important;
+            transition: background-color 0.2s ease !important;
+            border-radius: 6px !important;
+        }
+
+        .mobile-filter-content .checkbox-groupbox:hover {
+            background-color: rgba(0, 123, 255, 0.1) !important;
+        }
+
+        .mobile-filter-content .checkbox-groupbox input[type="checkbox"] {
+            margin-right: 10px !important;
+            transform: scale(1.2) !important;
+            accent-color: #007bff !important;
+        }
+
+        .mobile-filter-content .checkbox-groupbox label {
+            font-size: 14px !important;
+            color: #495057 !important;
+            cursor: pointer !important;
+            line-height: 1.4 !important;
+            flex: 1 !important;
+        }
+
+        /* Bouton d'application des filtres */
+        .mobile-filter-apply {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-filter-apply:hover {
+            background: linear-gradient(135deg, #218838, #1c7430);
+            transform: translateY(-1px);
+        }
+
+        /* Media queries pour activation du système mobile */
+        @media (max-width: 1024px) {
+            /* Afficher les éléments mobiles */
+            .mobile-filter-container {
+                display: block;
+            }
+            
+            .mobile-filter-overlay,
+            .mobile-filter-panel {
+                display: block;
+            }
+
+            /* Masquer les filtres desktop sur les petits écrans */
+            .left .filters {
+                display: none !important;
+            }
+            
+            /* Masquer les résultats de catégories détaillés sur mobile - garder seulement la première ligne */
+            .category-results-desktop {
+                display: none !important;
+            }
+            
+            /* Enlever le fond gris de la zone de résultats sur mobile */
+            .results_area {
+                background-color: transparent !important;
+                padding: 5px 0 !important;
+            }
+
+            /* Ajuster la largeur du panneau sur très petits écrans */
+            @media (max-width: 480px) {
+                .mobile-filter-panel {
+                    width: 300px;
+                    max-width: 90vw;
+                }
+            }
+        }
+
+        /* Garantir que sur desktop (> 1024px), rien n'est affiché */
+        @media (min-width: 1025px) {
+            .mobile-filter-container,
+            .mobile-filter-overlay,
+            .mobile-filter-panel {
+                display: none !important;
+            }
+        }
+
+        /* Animation d'entrée */
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* Amélioration de l'accessibilité */
+        .mobile-filter-toggle:focus,
+        .mobile-filter-close:focus,
+        .mobile-filter-apply:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        /* Indicateur de filtres actifs */
+        .mobile-filter-toggle.has-filters::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #dc3545;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        /* ===== BARRE DE RECHERCHE PROPRE ===== */
+        .modern-search-toolbar {
+            background: transparent;
+            padding: 80px 0 30px 0; /* Beaucoup plus d'espace en haut */
+            position: relative;
+            overflow: visible;
+            margin-top: 20px; /* Espace supplémentaire au-dessus */
+        }
+
+
+
+        .search-toolbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-toolbar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-and-sort-area {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* Section de recherche moderne */
+        .modern-search-section {
+            position: relative;
+            z-index: 9999;
+            overflow: visible;
+        }
+
+        /* Dropdown des résultats de recherche */
+        #searchResults {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 8px;
+        }
+
+        /* Forcer les filtres à rester en arrière-plan */
+        .left, .wrapper_sidebar, .filters {
+            position: relative;
+            z-index: 1 !important;
+        }
+
+
+
+        /* Forcer TOUS les éléments de filtre à rester derrière */
+        .mobile-filter-panel, .mobile-filter-overlay {
+            z-index: 100 !important;
+        }
+
+        .formation-item {
+            border-bottom: 1px solid #f1f5f9;
+            display: none;
+        }
+
+        .formation-item.visible {
+            display: block;
+        }
+
+        .formation-item:last-child {
+            border-bottom: none;
+        }
+
+        .formation-item a {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #1a202c;
+            transition: all 0.2s ease;
+        }
+
+        .formation-item a:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+            color: #0b3f89;
+            text-decoration: none;
+        }
+
+        .formation-item h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        #searchResults.show {
+            display: block !important;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid rgba(11, 63, 137, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(11, 63, 137, 0.1);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .search-input-wrapper:hover {
+            border-color: rgba(11, 63, 137, 0.3);
+            box-shadow: var(--box-shadow-hover);
+            transform: translateY(-1px);
+        }
+
+        .search-input-wrapper:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(11, 63, 137, 0.1), var(--box-shadow-hover);
+            transform: translateY(-2px);
+        }
+
+
+
+        .modern-search-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a202c;
+            outline: none;
+            border-radius: 20px;
+            min-width: 400px;
+            font-family: inherit;
+        }
+
+        .modern-search-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+
+
+        /* Section de tri moderne */
+        .modern-sort-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(11, 63, 137, 0.1);
+            box-shadow: 0 2px 8px rgba(11, 63, 137, 0.05);
+        }
+
+        .sort-label {
+            color: var(--dark-gray);
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .sort-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .sort-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(11, 63, 137, 0.2);
+            border-radius: var(--border-radius-small);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(11, 63, 137, 0.1);
+        }
+
+        .sort-btn:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow-hover);
+            color: white;
+            text-decoration: none;
+        }
+
+        .sort-btn svg {
+            transition: var(--transition);
+            width: 16px;
+            height: 16px;
+        }
+
+        .sort-btn:hover svg {
+            transform: scale(1.2) rotate(5deg);
+            color: white;
+        }
+
+        /* Section des résultats moderne */
+        .modern-results-section {
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .result-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 14px 24px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(11, 63, 137, 0.2);
+            box-shadow: 0 2px 8px rgba(11, 63, 137, 0.05);
+            transition: var(--transition);
+        }
+
+        .result-count:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .count-number {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-shadow: 0 1px 2px rgba(11, 63, 137, 0.1);
+        }
+
+        .count-text {
+            font-size: 14px;
+            color: var(--dark-gray);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== RESPONSIVE DESIGN MODERNE ===== */
+        
+        /* Tablettes */
+        @media (max-width: 1024px) {
+            .container {
+                gap: 20px;
+                padding: 0 16px;
+            }
+
+            .left {
+                flex: 0 0 380px;
+                min-width: 350px;
+            }
+
+            #cards_wrapper {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        /* Mobile et tablettes petites */
+        @media (max-width: 768px) {
+            .bodyclass {
+                padding-top: 0;
+            }
+
+            .modern-search-toolbar {
+                padding: 60px 0 20px 0; /* Plus d'espace sur mobile aussi */
+                margin-top: 15px;
+            }
+
+            .search-toolbar-container {
+                padding: 0 16px;
+            }
+
+            .search-and-sort-area {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                text-align: center;
+            }
+
+            .modern-search-input {
+                min-width: 100%;
+                padding: 16px 20px 16px 50px;
+                font-size: 16px;
+            }
+
+            .modern-sort-section {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .sort-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .sort-btn {
+                justify-content: center;
+                width: 100%;
+                padding: 14px 20px;
+            }
+
+            .modern-results-section {
+                text-align: center;
+                justify-content: center;
+            }
+
+            /* Container mobile */
+            .container {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .left {
+                flex: none;
+                width: 100%;
+                position: static;
+                order: 2;
+            }
+
+            .right {
+                flex: none;
+                width: 100%;
+                order: 1;
+            }
+
+            /* Grille mobile */
+            #cards_wrapper {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            /* Cartes mobiles */
+            .formation-card {
+                margin-bottom: 16px;
+            }
+
+            .formation-column-left,
+            .formation-column-right {
+                width: 100%;
+                padding: 0;
+            }
+
+            .formation-column-right {
+                border-left: none;
+                border-top: 1px solid rgba(11, 63, 137, 0.1);
+                padding-top: 16px;
+                margin-top: 16px;
+            }
+
+            /* Filtres mobile */
+            .filters {
+                margin-bottom: 20px;
+                padding: 20px;
+            }
+
+            /* Pagination mobile */
+            #pagination_container {
+                flex-wrap: wrap;
+                gap: 6px;
+                padding: 16px;
+            }
+
+            .pagination-button, .pagination-active {
+                min-width: 40px;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Très petits mobiles */
+        @media (max-width: 480px) {
+            .modern-search-toolbar {
+                padding: 50px 0 20px 0; /* Espace adapté aux très petits écrans */
+                margin-top: 10px;
+            }
+
+            .search-toolbar-container {
+                padding: 0 12px;
+            }
+
+            .search-and-sort-area {
+                gap: 20px;
+            }
+
+            .modern-search-input {
+                padding: 14px 16px 14px 45px;
+                font-size: 16px;
+            }
+
+            .modern-sort-section {
+                padding: 16px;
+            }
+
+            .sort-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .result-count {
+                padding: 12px 16px;
+            }
+
+            .count-number {
+                font-size: 18px;
+            }
+
+            .count-text {
+                font-size: 13px;
+            }
+
+            /* Cartes très mobiles */
+            .formation-card {
+                border-radius: 12px;
+                padding: 16px;
+            }
+
+            .formation-name {
+                font-size: 16px;
+            }
+
+            .formation-description {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .buttonVoirLeProgramme {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 20px;
+                font-size: 14px;
+                font-weight: 700;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Filtres très mobiles */
+            .filters {
+                padding: 16px;
+                width: 100%;
+                min-width: 100%;
+            }
+
+            .checkbox-item {
+                padding: 10px 12px;
+            }
+
+            .container {
+                padding: 0 12px;
+                gap: 20px;
+            }
+
+            .left {
+                width: 100%;
+                min-width: 100%;
+                flex: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modern-search-toolbar {
+                padding: 45px 0 16px 0; /* Espace cohérent */
+                margin-top: 8px;
+            }
+
+            .search-toolbar-container {
+                padding: 0 12px;
+            }
+
+            .search-and-sort-area {
+                gap: 16px;
+            }
+
+            .modern-search-input {
+                padding: 14px 16px;
+                font-size: 16px;
+            }
+
+
+
+            .sort-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .result-count {
+                padding: 10px 16px;
+            }
+
+            .count-number {
+                font-size: 16px;
+            }
+
+            .count-text {
+                font-size: 13px;
+            }
+        }
+
+        /* ===== CARTES DE FORMATION MODERNES ===== */
+        .formation-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            border: 1px solid rgba(11, 63, 137, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .formation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .formation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--box-shadow-hover);
+            border-color: rgba(11, 63, 137, 0.3);
+        }
+
+        .formation-card:hover::before {
+            opacity: 1;
+        }
+
+        .formation-name {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .formation-card:hover .formation-name {
+            color: var(--secondary-color);
+            transform: translateX(4px);
+        }
+
+        .formation-description {
+            color: var(--dark-gray);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .buttonVoirLeProgramme {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--border-radius-small);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttonVoirLeProgramme::after {
+            content: '→';
+            transition: var(--transition);
+        }
+
+        .buttonVoirLeProgramme:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+            background: linear-gradient(135deg, #0056b3, #004085);
+            color: white;
+            text-decoration: none;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .buttonVoirLeProgramme:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* ===== FILTRES MODERNES ===== */
+        .filters {
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(11, 63, 137, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .filters h4 {
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+            padding: 0 0 8px 0;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .filters h4::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+
+        .checkbox-item {
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: var(--border-radius-small);
+            padding: 12px 16px;
+            margin: 8px 0;
+            border: 1px solid rgba(11, 63, 137, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(11, 63, 137, 0.05);
+            border-color: rgba(11, 63, 137, 0.2);
+            transform: translateX(4px);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-item label {
+            font-size: 14px;
+            color: var(--dark-gray);
+            font-weight: 500;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        /* ===== PAGINATION MODERNE ===== */
+        #pagination_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 40px 0;
+            padding: 20px;
+        }
+
+        .pagination-button, .pagination-active {
+            padding: 12px 16px;
+            border-radius: var(--border-radius-small);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            min-width: 44px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-button {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            border: 1px solid rgba(11, 63, 137, 0.2);
+            cursor: pointer;
+        }
+
+        /* Styles spécifiques pour les boutons button */
+        button.pagination-button {
+            font-family: inherit;
+            outline: none;
+        }
+
+        button.pagination-button:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .pagination-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
+        }
+
+        .pagination-active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
+        }
+
+        /* ===== ANIMATIONS ET MICRO-INTERACTIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Animations d'entrée pour les cartes */
+        .formation-card {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .formation-card:nth-child(1) { animation-delay: 0.1s; }
+        .formation-card:nth-child(2) { animation-delay: 0.2s; }
+        .formation-card:nth-child(3) { animation-delay: 0.3s; }
+        .formation-card:nth-child(4) { animation-delay: 0.4s; }
+        .formation-card:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Animation pour les filtres */
+        .filters {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        /* Animation pour la barre de recherche */
+        .modern-search-toolbar {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Effet de focus amélioré */
+        .modern-search-input:focus {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        /* Loading state pour les boutons */
+        .sort-btn.loading,
+        .buttonVoirLeProgramme.loading,
+        .modern-calendly-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .sort-btn.loading::after,
+        .buttonVoirLeProgramme.loading::after,
+        .modern-calendly-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Indicateurs visuels sans émojis */
+        .result-count {
+            font-weight: 600;
+        }
+
+        /* Amélioration de l'accessibilité */
+        .formation-card:focus-within {
+            outline: 3px solid rgba(11, 63, 137, 0.5);
+            outline-offset: 2px;
+        }
+
+        .sort-btn:focus,
+        .buttonVoirLeProgramme:focus,
+        .modern-calendly-btn:focus {
+            outline: 3px solid rgba(11, 63, 137, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Tooltip pour améliorer l'expérience */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInUp 0.3s ease-out forwards;
+        }
+
+        /* Amélioration des états de survol */
+        .checkbox-item:hover input[type="checkbox"] {
+            transform: scale(1.3);
+        }
+
+        .filters h4:hover::after {
+            width: 50px;
+            transition: width 0.3s ease;
+        }
+
+        /* Indicateur de chargement pour les résultats */
+        .loading-results {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .loading-results::before {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(11, 63, 137, 0.1);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 16px;
+        }
+
+        /* Transitions fluides pour tous les éléments interactifs */
+        * {
+            scroll-behavior: smooth;
+        }
+
+        /* Amélioration des performances d'animation */
+        .formation-card,
+        .sort-btn,
+        .buttonVoirLeProgramme,
+        .modern-calendly-btn,
+        .checkbox-item {
+            will-change: transform;
+        }
+
+        /* Mode sombre (préparation future) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #1a202c;
+                --bg-secondary: #2d3748;
+                --text-primary: #f7fafc;
+                --text-secondary: #e2e8f0;
+            }
+        }
+
+        /* Réduction des animations pour les utilisateurs sensibles */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Override des anciens styles */
+        .tool_bar_liste_formations_ff {
+            display: none !important;
+        }
+    </style>
+
 {% endblock %}
 {% block body %}
 
 	<div class="bodyclass">
-		<section class="tool_bar_liste_formations_ff">
-			<div class="wrapper_content_container_formation">
 
-				<div class="col_gauche">
-					<div class="search_and_sort_area">
+        <!-- Overlay sombre -->
+        <div class="mobile-filter-overlay" id="mobile-filter-overlay"></div>
 
-						<div class="search_area">
-							<input type="text" id="searchInput" class="search-results-doofinder-list-static" placeholder="Chercher une formation">
+        <!-- Panneau off-canvas des filtres -->
+        <div class="mobile-filter-panel" id="mobile-filter-panel">
+            <div class="mobile-filter-header">
+                <h3 class="mobile-filter-title">Filtres de recherche</h3>
+                <button class="mobile-filter-close" id="mobile-filter-close" aria-label="Fermer les filtres">
+                    ×
+                </button>
+            </div>
+            <div class="mobile-filter-content">
+                <!-- Les filtres seront dupliqués ici par JavaScript -->
+            </div>
+        </div>
+
+		<section class="modern-search-toolbar">
+			<div class="search-toolbar-container">
+				<div class="search-toolbar-content">
+					<div class="search-and-sort-area">
+                        
+                        <div class="modern-search-section">
+							<div class="search-input-wrapper">
+								<input type="text" id="searchInput" class="modern-search-input" placeholder="Rechercher une formation...">
+							</div>
 							<div id="searchResults">
 								{% for formation in formations %}
-									<div
-										class="formation-item" style="display: none;">
-										<!-- Ajoutez le lien autour du nom de la formation -->
-										<a href="{{ path('app_formation_show', {'id': formation.id}) }}" style="text-decoration: none; color: black;">
+									<div class="formation-item">
+										<a href="{{ path('app_formation_show', {'id': formation.id}) }}">
 											<h4>{{ formation.nameFormation }}</h4>
 										</a>
-										<!-- autres détails de la formation -->
 									</div>
 								{% endfor %}
 							</div>
-							<!-- Container pour les résultats de recherche -->
 						</div>
-
-
-					</div>
-				</div>
-
-				<div class="col_droite">
-					<div class="sort_and_results_area">
-						<div class="sort_area">
-							<div class="libelle">Trier par :</div>
-							<a href="#" class="libellee" data-sort="ASC" data-type="prix" class="item active">Prix croissant</a>
-							<a href="#" class="libellee" data-sort="DESC" data-type="prix" class="item">Prix décroissant</a>
-						</div>
-						<div
-							class="results_area">
-							{# Affiche le total pour tous si 'all' est sélectionné #}
-							<span class="result" id="total_for_all" {% if selectedCategoryId == 'all' %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
-								Total pour tous les formations:
-								{{ totalGlobal }}
-								résultat(s)
+						
+                        <div class="modern-sort-section">
+                        	<span class="sort-label">Trier par :</span>
+                        	<div class="sort-buttons">
+	                        	<a href="#" class="sort-btn" data-sort="ASC" data-type="prix">
+	                        		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+	                        			<path d="m3 16 4 4 4-4"></path>
+	                        			<path d="M7 20V4"></path>
+	                        		</svg>
+	                        		Prix croissant
+	                        	</a>
+	                        	<a href="#" class="sort-btn" data-sort="DESC" data-type="prix">
+	                        		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+	                        			<path d="m3 8 4-4 4 4"></path>
+	                        			<path d="M7 4v16"></path>
+	                        		</svg>
+	                        		Prix décroissant
+	                        	</a>
+                        	</div>
+                        </div>
+                        
+						<div class="modern-results-section">
+							<span class="result-count" id="total_for_all" {% if selectedCategoryId == 'all' %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
+							    <span class="count-number">{{ totalGlobal }}</span>
+							    <span class="count-text">formations trouvées</span>
 							</span>
-
-							{# Boucle sur chaque catégorie pour afficher le total spécifique #}
-							{% for category in categories %}
-								<span class="result" id="count_for_category_{{ category.id }}" {% if selectedCategoryId == category.id %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
-									Total pour
-									{{ category.name }}:
-									{{ formationsCountByCategory[category.id] }}
-									résultat(s)
-								</span>
-							{% endfor %}
+                            
+							{# Boucle sur chaque catégorie pour afficher le total spécifique - masquée sur mobile #}
+							<div class="category-results-desktop">
+								{% for category in categories %}
+									<span class="result-count" id="count_for_category_{{ category.id }}" {% if selectedCategoryId == category.id %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
+										<span class="count-number">{{ formationsCountByCategory[category.id] }}</span>
+										<span class="count-text">formations en {{ category.name }}</span>
+									</span>
+								{% endfor %}
+							</div>
 						</div>
-
 
 					</div>
 				</div>
 			</div>
 		</section>
+        
+        <!-- Bouton filtres mobile repositionné sous la navigation -->
+        <div class="mobile-filter-container">
+            <button class="mobile-filter-toggle" id="mobile-filter-toggle" aria-label="Ouvrir les filtres">
+                🔍 Filtres
+            </button>
+        </div>
 
 		<div class="container">
 			<div class="left">
 				<div class="wrapper_sidebar" id="wrapper_sidebar_liste_formations">
 					<div class="wrapper_select_domaine">
-						<div
-							class="wrapper_total_formations" id="total_formations_wrapper">
-							{# Affiche le total global si 'all' est sélectionné #}
-							<span id="total_for_all" {% if selectedCategoryId == 'all' %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
-								Total pour tous les formations:
-								{{ totalGlobal }}
-							</span>
-							{# Boucle sur les catégories pour afficher les totaux par catégorie #}
-							{% for category in categories %}
-								<span class="total_formations" id="count_for_select_{{ category.id }}" {% if selectedCategoryId == category.id %} style="display: inline;" {% else %} style="display: none;" {% endif %}>
-									{{ formationsCountByCategory[category.id] }}
-								</span>
-							{% endfor %}
 
-							{# Sélecteur de catégorie #}
-							<select class="select_domaine" id="category_select" name="">
-								<option value="all" {% if not selectedCategoryId or selectedCategoryId == 'all' %} selected {% endif %}>Tous les domaines</option>
-								{% for category in categories %}
-									<option value="{{ category.id }}" {% if selectedCategoryId == category.id %} selected {% endif %}>{{ category.name }}</option>
-								{% endfor %}
-							</select>
-						</div>
+
+<style>
+/* ===== CATÉGORIES COLORÉES MODERNES ===== */
+.category-name {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+}
+
+.category-name:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Palette de couleurs harmonieuse et moderne */
+.category-name-finance {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.category-name-informatique {
+    background: linear-gradient(135deg, #10b981, #047857);
+}
+
+.category-name-management {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.category-name-marketing {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+.category-name-administration {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.category-name-design {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+}
+
+.category-name-vente {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+.category-name-sante {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.category-name-beaute {
+    background: linear-gradient(135deg, #f472b6, #e879f9);
+}
+
+.category-name-cuisine {
+    background: linear-gradient(135deg, #facc15, #eab308);
+    color: #1f2937;
+}
+
+.category-name-social {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+.category-name-petite-enfance {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.category-name-autres {
+    background: linear-gradient(135deg, #64748b, #475569);
+}
+
+        /* ===== CONTAINER ET LAYOUT MODERNE ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+    display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .left {
+            flex: 0 0 450px;
+            position: sticky;
+            top: 140px;
+            min-width: 400px;
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+#cards_wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+        /* ===== COMPTEUR MODERNE ===== */
+        #counter {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 16px 24px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            border: 1px solid rgba(11, 63, 137, 0.15);
+            box-shadow: 0 2px 8px rgba(11, 63, 137, 0.05);
+}
+</style>
+
 <div class="filters">
     <!-- Thématique -->
-    <button class="filter-btn" onclick="toggleFilter('theme')">Thématique</button>
-    <div id="theme" class="checkbox-group" style="display: none;">
+    <h4>Thématique</h4>
+    <div class="filter-section">
         {% set thematiques = app.request.query.all('thematique') %}
         {% for theme in categories %}
-        <div class="checkbox-groupbox">
-            <input type="checkbox" id="{{ theme.name }}" onchange="applyFilter()" name="thematique[]" value="{{ theme.id }}" {{ theme.id in thematiques ? 'checked' : '' }}>
-            <label for="{{ theme.name }}">{{ theme.name }}</label>
+        <div class="checkbox-item">
+            <input type="checkbox" id="theme_{{ theme.id }}" onchange="applyFilter()" name="thematique[]" value="{{ theme.id }}" {{ theme.id in thematiques ? 'checked' : '' }}>
+            <label for="theme_{{ theme.id }}">{{ theme.name }}</label>
         </div>
         {% endfor %}
     </div>
 
     <!-- Format -->
-    <button class="filter-btn" onclick="toggleFilter('lieu')">Format</button>
-    <div id="lieu" class="checkbox-group" style="display: none;">
+    <h4>Format</h4>
+    <div class="filter-section">
         {% set lieux = app.request.query.all('lieu') %}
         {% for format in ['Distanciel', 'Présentiel'] %}
-        <div class="checkbox-groupbox">
-            <input type="checkbox" id="{{ format }}" onchange="applyFilter()" name="lieu[]" value="{{ format }}" {{ format in lieux ? 'checked' : '' }}>
-            <label for="{{ format }}">{{ format }}</label>
+        <div class="checkbox-item">
+            <input type="checkbox" id="lieu_{{ format }}" onchange="applyFilter()" name="lieu[]" value="{{ format }}" {{ format in lieux ? 'checked' : '' }}>
+            <label for="lieu_{{ format }}">{{ format }}</label>
         </div>
         {% endfor %}
     </div>
 
     <!-- Durée -->
-    <button class="filter-btn" onclick="toggleFilter('duration')">Durée</button>
-    <div id="duration" class="checkbox-group" style="display: none;">
+    <h4>Durée</h4>
+    <div class="filter-section">
         {% set durations = app.request.query.all('duration') %}
         {% for duration in ['24 heures', '100 heures', '400 heures'] %}
-        <div class="checkbox-groupbox">
-            <input type="checkbox" id="{{ duration }}" onchange="applyFilter()" name="duration[]" value="{{ duration }}" {{ duration in durations ? 'checked' : '' }}>
-            <label for="{{ duration }}">{{ duration }}</label>
+        <div class="checkbox-item">
+            <input type="checkbox" id="duration_{{ loop.index }}" onchange="applyFilter()" name="duration[]" value="{{ duration }}" {{ duration in durations ? 'checked' : '' }}>
+            <label for="duration_{{ loop.index }}">{{ duration }}</label>
         </div>
         {% endfor %}
     </div>
 
     <!-- Niveau -->
-    <button class="filter-btn" onclick="toggleFilter('level')">Niveau</button>
-    <div id="level" class="checkbox-group" style="display: none;">
+    <h4>Niveau</h4>
+    <div class="filter-section">
         {% set levels = app.request.query.all('level') %}
         {% for level in ['Débutant', 'Intermédiaire', 'Avancé'] %}
-        <div class="checkbox-groupbox">
-            <input type="checkbox" id="{{ level }}" onchange="applyFilter()" name="level[]" value="{{ level }}" {{ level in levels ? 'checked' : '' }}>
-            <label for="{{ level }}">{{ level }}</label>
+        <div class="checkbox-item">
+            <input type="checkbox" id="level_{{ loop.index }}" onchange="applyFilter()" name="level[]" value="{{ level }}" {{ level in levels ? 'checked' : '' }}>
+            <label for="level_{{ loop.index }}">{{ level }}</label>
         </div>
         {% endfor %}
     </div>
 
     <!-- Langue -->
-    <button class="filter-btn" onclick="toggleFilter('language')">Langue</button>
-    <div id="language" class="checkbox-group" style="display: none;">
+    <h4>Langue</h4>
+    <div class="filter-section">
         {% set languages = app.request.query.all('language') %}
         {% for language in ['Français', 'Anglais'] %}
-        <div class="checkbox-groupbox">
-            <input type="checkbox" id="{{ language }}" onchange="applyFilter()" name="language[]" value="{{ language }}" {{ language in languages ? 'checked' : '' }}>
-            <label for="{{ language }}">{{ language }}</label>
+        <div class="checkbox-item">
+            <input type="checkbox" id="lang_{{ loop.index }}" onchange="applyFilter()" name="language[]" value="{{ language }}" {{ language in languages ? 'checked' : '' }}>
+            <label for="lang_{{ loop.index }}">{{ language }}</label>
         </div>
         {% endfor %}
     </div>
 
     <!-- Financement -->
-    <button class="filter-btn" onclick="toggleFilter('funding')">Financement</button>
-    <div id="funding" class="checkbox-group" style="display: none;">
-        {% set fundings = app.request.query.all('funding') %}
-        <div class="checkbox-groupbox">
-            <input type="checkbox" id="eligible-cpf" onchange="applyFilter()" name="funding" value="Éligible CPF" {{ 'Éligible CPF' in fundings ? 'checked' : '' }}>
+    <h4>Financement</h4>
+    <div class="filter-section">
+        <div class="checkbox-item">
+            <input type="checkbox" id="eligible-cpf" onchange="applyFilter()" name="has_rncp" value="1" {{ app.request.query.get('has_rncp') ? 'checked' : '' }}>
             <label for="eligible-cpf">Éligible CPF</label>
         </div>
     </div>
@@ -191,145 +1578,668 @@
 				</div>
 			</div>
 
-			<div class="right" id="formations_container">
-				{% for categoryId, categoryData in formationsByCategory %}
-					<div class="category" {% if categoryId != selectedCategoryId and selectedCategoryId != 'all' %} style="display: none;" {% endif %}>
+     <div class="right" id="formations_container">
+         <div id="counter" style="text-align: center; font-weight: bold; margin-bottom: 1rem;"></div>
+             <div id="cards_wrapper">
+    {% for formation in formations %}
+        <div class="formation-card" data-prix="{{ formation.priceFormation }}">
+            <div class="formation-column-left">
+                <div class="button-cate-name">
+                    <p class="category-name {{ 'category-name-' ~ formation.category.name|lower|replace({' ': '-'}) }}">
+                        {{ formation.category.name }}
+                    </p>
+                </div>
+                <p class="formation-name">{{ formation.nameFormation }}</p>
 
-						{% if is_granted('ROLE_ADMIN') %}
-							<p class="category-id">ID de la catégorie :
-								{{ categoryId }}</p>
-						{% endif %}
+                {% set words = formation.descriptionFormation|split(' ') %}
+                {% set descriptionToShow = '' %}
+                {% set totalChars = 0 %}
+                {% set limitReached = false %}
+                {% for word in words %}
+                    {% set totalChars = totalChars + word|length + 1 %}
+                    {% if totalChars <= 150 %}
+                        {% set descriptionToShow = descriptionToShow ~ ' ' ~ word %}
+                    {% elseif not limitReached %}
+                        {% set descriptionToShow = descriptionToShow ~ '...' %}
+                        {% set limitReached = true %}
+                    {% endif %}
+                {% endfor %}
 
-
-						{% for formation in categoryData.formations %}
-
-							<div class="formation-card" data-prix="{{ formation.priceFormation }}">
-								<div class="formation-column-left">
-									<div class="button-cate-name">
-										<p class="category-name {{ 'category-name-' ~ categoryData.categoryName|lower|replace({' ': '-'}) }}">{{ categoryData.categoryName }}</p>
-									</div>
-									<p class="formation-name">{{ formation.nameFormation }}</p>
-									{# Approche modifiée pour la description #}
-									{% set words = formation.descriptionFormation|split(' ') %}
-									{% set descriptionToShow = '' %}
-									{% set totalChars = 0 %}
-									{% set limitReached = false %}
-
-									{% for word in words %}
-										{% set totalChars = totalChars + word|length + 1 %}
-										{# +1 for the space #}
-										{% if totalChars <= 150 %}
-											{% set descriptionToShow = descriptionToShow ~ ' ' ~ word %}
-										{% else %}
-											{% if not limitReached %}
-												{% set descriptionToShow = descriptionToShow ~ '...' %}
-												{% set limitReached = true %}
-											{% endif %}
-										{% endif %}
-										{% if word|slice(-1) == '.' and totalChars > 100 %}{% endif %}
-									{% endfor %}
-
-									<p class="formation-description">{{ descriptionToShow }}</p>
-									<a class="buttonVoirLeProgramme" href="{{ path('app_formation_show', {'id': formation.id}) }}">Voir le programme</a>
-									{% if is_granted("ROLE_ADMIN") %}
-
-										<a href="{{ path('app_formation_edit', {'id': formation.id}) }}">Modifier</a>
-
-									{% endif %}
-								</div>
-								<div class="formation-column-right">
-									{% if formation.phraseOne %}
-										<p class="phrase-one">
-											<img src="../img/bloc-notes.png" style="width: 16px;" alt="icone formation">
-											<strong style="color: #0b3e6fd6;">Formation :</strong>
-											{{ formation.phraseOne }}
-										</p>
-									{% endif %}
-									{% if formation.niveau %}
-										<p class="niveau">
-											<img src="../img/les-niveaux.png" style="width: 16px;" alt="icone formation">
-											<strong style="color: #0b3e6fd6;">Niveau :</strong>
-											{{ formation.niveau }}
-										</p>
-									{% endif %}
-									{% if formation.dureeFormation %}
-										<p class="formation-duree">
-											<img src="../img/lhorloge.png" style="width: 16px;" alt="icone formation">
-											<strong style="color: #0b3e6fd6;">Durée :</strong>
-											{{ formation.dureeFormation }}
-										</p>
-									{% endif %}
-									{% if formation.priceFormation %}
-										<p class="formation-prix">
-											<img src="../img/piece-en-euros.png" style="width: 16px;" alt="icone formation">
-											<strong style="color: #0b3e6fd6;">Prix :</strong>
-											{{ formation.priceFormation }}€
-										</p>
-									{% endif %}
-									{% if formation.rncp %}
-										<p class="formation-rncp">
-											<img src="../img/certificate-icon.png" style="width: 16px;" alt="icone certification">
-											<strong style="color: #0b3e6fd6;">Code de certification :</strong>
-											{{ formation.rncp }}
-										</p>
-									{% endif %}
-									{% if formation.lieu %}
-										<p class="formation-lieu">
-											<img src="../img/location-icon.png" style="width: 16px;" alt="icone lieu">
-											<strong style="color: #0b3e6fd6;">Environnement de formation :</strong>
-											{{ formation.lieu }}
-										</p>
-									{% endif %}
-									{% if formation.bloc %}
-										<p class="formation-bloc">
-											<img src="../img/skills-icon.gif" style="width: 16px;" alt="icone compétences">
-											<strong style="color: #0b3e6fd6;">Composante de compétences :</strong>
-											{{ formation.bloc }}
-										</p>
-									{% endif %}
-									<!-- Continuez à ajouter d'autres sections si nécessaire -->
-								</div>
+                <p class="formation-description">{{ descriptionToShow }}</p>
+                <a class="buttonVoirLeProgramme" href="{{ path('app_formation_show', {'id': formation.id}) }}">Voir le programme</a>
+            </div>
+            <div class="formation-column-right">
+                {% if formation.phraseOne %}
+                    <p><strong>Formation :</strong> {{ formation.phraseOne }}</p>
+                {% endif %}
+                {% if formation.niveau %}
+                    <p><strong>Niveau :</strong> {{ formation.niveau }}</p>
+                {% endif %}
+                {% if formation.dureeFormation %}
+                    <p><strong>Durée :</strong> {{ formation.dureeFormation }}</p>
+                {% endif %}
+                {% if formation.priceFormation %}
+                    <p><strong>Prix :</strong> {{ formation.priceFormation }}€</p>
+                {% endif %}
+                {% if formation.rncp %}
+                    <p><strong>Code RNCP :</strong> {{ formation.rncp }}</p>
+                {% endif %}
+                {% if formation.lieu %}
+                    <p><strong>Lieu :</strong> {{ formation.lieu }}</p>
+                {% endif %}
+                {% if formation.bloc %}
+                    <p><strong>Blocs :</strong> {{ formation.bloc }}</p>
+                {% endif %}
+                {% if formation.certificateur %}
+                    <p><strong>Certificateur :</strong> {{ formation.certificateur }}</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+        </div>
+    <div id="pagination_container"></div>
+</div>
 
 
-							</div>
-						{% endfor %}
-					
-					</div>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-	<div
-		class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-layout-10 wp-block-buttons-is-layout-flex">{# <div class="wp-block-button has-custom-font-size is-style-outline wp-block-button__link--san" style="font-size:1.5rem"><a class="wp-block-button__link has-text-color wp-element-button" href="../../formations/formations-courtes/formation-management-certifiante-en-ligne/formation-management-certifiante-en-ligne.html" style="color:#f3ac12"><i class="far fa-arrow-alt-circle-right"></i><strong style="color: #0b3e6fd6;">Découvrir</strong></a></div> #}
-	</div>
-</div></div></div><div class="blog-sectionactualite"><h2 class="blog-heading">Actualités de l'INFPF</h2><div class="blog-container">
-{% for blog in blogs %}
-	<div class="blog-postactualite">
-		<figure
-			class="blog-post-image">
-			<!-- Assurez-vous que le chemin d'accès est correct et que 'blog.image' est le nom de l'attribut dans votre entité Blog contenant le chemin de l'image -->
-			{% if blog.image %}
-				<img src="{{ asset('uploads/images/' ~ blog.image) }}" alt="{{ blog.titleOne }}">
-			{% else %}
-				<!-- Image par défaut si aucune image n'est associée au blog -->
-				<img src="{{ asset('path/to/default/image.jpeg') }}" alt="Image par défaut">
-			{% endif %}
-		</figure>
-		<div class="blog-post-content">
-			<h3>{{ blog.titleOne }}</h3>
-			<p>{{ blog.contentOne|slice(0, 150) ~ '...' }}</p>
-			<a href="{{ path('blog_show', {'id': blog.id}) }}" class="read-more">Voir la suite</a>
-		</div>
-	</div>
-{% endfor %}</div></div></div></div>{% include 'footer.html.twig' %}{% endblock %}
+       
+      </div>
+    </div>
+  </section>
+    <div class="modern-calendly-section">
+        <div class="modern-calendly-container">
+            <div class="calendly-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 2v3m8-3v3m-9 8h10M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2 class="calendly-title">
+            Besoin d'aide pour choisir votre formation ?
+        </h2>
+            <h3 class="calendly-subtitle">
+            Nos conseillers sont là pour vous guider
+        </h3>
+            <p class="calendly-description">
+                Échangez gratuitement avec nos experts et trouvez la formation qui correspond parfaitement à vos objectifs professionnels
+            </p>
+            <a class="modern-calendly-btn" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+                <span class="btn-text">Prendre rendez-vous avec un conseiller</span>
+                <span class="btn-arrow">→</span>
+            </a>
+        </div>
+        
+        <style>
+        .modern-calendly-section {
+            margin: 60px 0;
+            padding: 0 20px;
+        }
 
-{% block javascripts %}<script>document.addEventListener('DOMContentLoaded', function () {
+        .modern-calendly-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(248, 250, 252, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            border: 1px solid rgba(11, 63, 137, 0.1);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-calendly-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(11, 63, 137, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(30, 92, 184, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .calendly-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .calendly-title {
+            color: var(--primary-color);
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 800;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calendly-subtitle {
+            color: var(--dark-gray);
+            font-size: clamp(18px, 3vw, 22px);
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calendly-description {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 32px 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modern-calendly-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .modern-calendly-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .modern-calendly-btn:hover::before {
+            left: 100%;
+        }
+
+        .modern-calendly-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(11, 63, 137, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+
+
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-arrow {
+            transition: var(--transition);
+            font-size: 18px;
+        }
+
+        .modern-calendly-btn:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 768px) {
+            .modern-calendly-container {
+                padding: 32px 24px;
+                border-radius: 16px;
+            }
+
+            .calendly-icon {
+                width: 64px;
+                height: 64px;
+                margin-bottom: 20px;
+            }
+
+            .calendly-description {
+                font-size: 15px;
+                margin-bottom: 28px;
+            }
+
+            .modern-calendly-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+        }
+        </style>
+    </div>
+
+  <div class="blog-sectionactualite">
+    <h2 class="blog-heading">Actualités de l'INFPF</h2>
+    <div class="blog-container">
+      {% for blog in blogs %}
+        <div class="blog-postactualite">
+          <figure class="blog-post-image">
+            {% if blog.image %}
+              <img src="{{ asset('uploads/images/' ~ blog.image) }}" alt="{{ blog.titleOne }}">
+            {% else %}
+              <img src="{{ asset('path/to/default/image.jpeg') }}" alt="Image par défaut">
+            {% endif %}
+          </figure>
+          <div class="blog-post-content">
+            <h3>{{ blog.titleOne }}</h3>
+            <p>{{ blog.shortDesc}}</p>
+            <a href="{{ path('blog_show', {'id': blog.id}) }}" class="read-more">Voir la suite</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+
+<!-- JavaScript pour le système de filtres mobile -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ========================================
+    // SYSTÈME DE FILTRES MOBILE
+    // ========================================
+
+    const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
+    const mobileFilterOverlay = document.getElementById('mobile-filter-overlay');
+    const mobileFilterPanel = document.getElementById('mobile-filter-panel');
+    const mobileFilterClose = document.getElementById('mobile-filter-close');
+    const mobileFilterContent = document.querySelector('.mobile-filter-content');
+
+    // Dupliquer les filtres desktop dans le panneau mobile
+    function initializeMobileFilters() {
+        const desktopFilters = document.querySelector('.left .filters');
+        if (desktopFilters && mobileFilterContent) {
+            // Cloner les filtres desktop
+            const filtersClone = desktopFilters.cloneNode(true);
+            
+            // Ajouter un bouton "Appliquer les filtres"
+            const applyButton = document.createElement('button');
+            applyButton.className = 'mobile-filter-apply';
+            applyButton.textContent = 'Appliquer les filtres';
+            applyButton.addEventListener('click', closeMobilePanel);
+
+            // Vider le contenu et ajouter les filtres clonés + bouton
+            mobileFilterContent.innerHTML = '';
+            mobileFilterContent.appendChild(filtersClone);
+            mobileFilterContent.appendChild(applyButton);
+
+            // Synchroniser les événements des filtres clonés
+            synchronizeFilterEvents();
+            
+            // Initialiser les accordéons dans le panneau mobile
+            initializeMobileAccordions();
+
+            // Vérifier si des filtres sont actifs pour l'indicateur
+            updateActiveFiltersIndicator();
+        }
+    }
+
+    // Synchroniser les événements entre filtres desktop et mobile
+    function synchronizeFilterEvents() {
+        const mobileCheckboxes = mobileFilterContent.querySelectorAll('input[type="checkbox"]');
+        const desktopCheckboxes = document.querySelectorAll('.left .filters input[type="checkbox"]');
+
+        // Synchroniser mobile -> desktop
+        mobileCheckboxes.forEach((mobileCheckbox, index) => {
+            mobileCheckbox.addEventListener('change', function() {
+                if (desktopCheckboxes[index]) {
+                    desktopCheckboxes[index].checked = this.checked;
+                }
+                updateActiveFiltersIndicator();
+            });
+        });
+
+        // Synchroniser desktop -> mobile
+        desktopCheckboxes.forEach((desktopCheckbox, index) => {
+            desktopCheckbox.addEventListener('change', function() {
+                if (mobileCheckboxes[index]) {
+                    mobileCheckboxes[index].checked = this.checked;
+                }
+                updateActiveFiltersIndicator();
+            });
+        });
+    }
+
+    // Initialiser les accordéons dans le panneau mobile
+    function initializeMobileAccordions() {
+        const mobileFilterButtons = mobileFilterContent.querySelectorAll('.filter-btn');
+        
+        mobileFilterButtons.forEach(button => {
+            // Nettoyer les anciens event listeners
+            const newButton = button.cloneNode(true);
+            button.parentNode.replaceChild(newButton, button);
+            
+            newButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Trouver le groupe de checkboxes associé
+                const nextElement = this.nextElementSibling;
+                if (nextElement && nextElement.classList.contains('checkbox-group')) {
+                    const isCurrentlyOpen = nextElement.classList.contains('show');
+                    
+                    // Fermer tous les autres groupes
+                    mobileFilterContent.querySelectorAll('.checkbox-group').forEach(group => {
+                        group.classList.remove('show');
+                    });
+                    mobileFilterContent.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.add('collapsed');
+                    });
+                    
+                    // Ouvrir/fermer le groupe actuel
+                    if (!isCurrentlyOpen) {
+                        nextElement.classList.add('show');
+                        this.classList.remove('collapsed');
+                    } else {
+                        this.classList.add('collapsed');
+                    }
+                }
+            });
+            
+            // Initialiser comme fermé
+            newButton.classList.add('collapsed');
+        });
+        
+        // Améliorer l'interaction avec les checkboxes mobiles
+        mobileFilterContent.querySelectorAll('.checkbox-groupbox').forEach(box => {
+            box.addEventListener('click', function(e) {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                }
+            });
+        });
+    }
+
+    // Mettre à jour l'indicateur de filtres actifs
+    function updateActiveFiltersIndicator() {
+        const activeFilters = document.querySelectorAll('.left .filters input[type="checkbox"]:checked').length;
+        
+        if (activeFilters > 0) {
+            mobileFilterToggle.classList.add('has-filters');
+        } else {
+            mobileFilterToggle.classList.remove('has-filters');
+        }
+    }
+
+    // Ouvrir le panneau mobile
+    function openMobilePanel() {
+        // Empêcher le scroll du body
+        document.body.style.overflow = 'hidden';
+        
+        // Afficher et animer les éléments
+        mobileFilterOverlay.style.display = 'block';
+        mobileFilterPanel.style.display = 'block';
+        
+        // Force reflow pour l'animation
+        mobileFilterOverlay.offsetHeight;
+        mobileFilterPanel.offsetHeight;
+        
+        // Activer les animations
+        mobileFilterOverlay.classList.add('active');
+        mobileFilterPanel.classList.add('active');
+        
+        // Focus management pour l'accessibilité
+        setTimeout(() => {
+            mobileFilterClose.focus();
+        }, 300);
+    }
+
+    // Fermer le panneau mobile
+    function closeMobilePanel() {
+        // Désactiver les animations
+        mobileFilterOverlay.classList.remove('active');
+        mobileFilterPanel.classList.remove('active');
+        
+        // Permettre le scroll du body
+        document.body.style.overflow = '';
+        
+        // Masquer les éléments après l'animation
+        setTimeout(() => {
+            mobileFilterOverlay.style.display = 'none';
+            mobileFilterPanel.style.display = 'none';
+        }, 300);
+        
+        // Remettre le focus sur le bouton d'ouverture
+        mobileFilterToggle.focus();
+    }
+
+    // Event listeners
+    if (mobileFilterToggle) {
+        mobileFilterToggle.addEventListener('click', openMobilePanel);
+    }
+
+    if (mobileFilterClose) {
+        mobileFilterClose.addEventListener('click', closeMobilePanel);
+    }
+
+    if (mobileFilterOverlay) {
+        mobileFilterOverlay.addEventListener('click', closeMobilePanel);
+    }
+
+    // Gérer la fermeture avec la touche Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileFilterPanel.classList.contains('active')) {
+            closeMobilePanel();
+        }
+    });
+
+    // Gérer le redimensionnement de la fenêtre
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Si on passe en mode desktop, fermer le panneau mobile
+            if (window.innerWidth > 1024 && mobileFilterPanel.classList.contains('active')) {
+                closeMobilePanel();
+            }
+        }, 250);
+    });
+
+    // Initialiser le système mobile au chargement
+    initializeMobileFilters();
+    
+    // Réinitialiser après les changements de filtres
+    const originalApplyFilter = window.applyFilter;
+    window.applyFilter = function() {
+        if (originalApplyFilter) {
+            originalApplyFilter();
+        }
+        updateActiveFiltersIndicator();
+    };
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const formationsPerPage = 5;
+    const cardsWrapper = document.getElementById('cards_wrapper');
+    const paginationContainer = document.getElementById('pagination_container');
+    let currentPage = 1;
+
+    function renderCards() {
+        console.log(`🎯 Affichage page ${currentPage}`);
+        const cards = Array.from(cardsWrapper.children);
+        const total = cards.length;
+        const start = (currentPage - 1) * formationsPerPage;
+        const end = start + formationsPerPage;
+
+        cards.forEach((card, i) => {
+            const shouldShow = (i >= start && i < end);
+            card.style.setProperty('display', shouldShow ? 'flex' : 'none', 'important');
+            console.log(`Carte ${i + 1}: ${shouldShow ? 'VISIBLE' : 'masquée'}`);
+        });
+
+        // Mise à jour du compteur
+        const counter = document.getElementById('counter');
+        if (counter) {
+            counter.textContent = `Affichage ${start + 1}-${Math.min(end, total)} formations sur ${total}`;
+        }
+
+        return total;
+    }
+
+    function renderPagination() {
+        const cards = Array.from(cardsWrapper.children);
+        const total = cards.length;
+        const totalPages = Math.ceil(total / formationsPerPage);
+        const isMobile = window.innerWidth <= 768;
+        
+        console.log(`📄 Génération pagination: ${totalPages} pages, page actuelle: ${currentPage}, mobile: ${isMobile}`);
+        
+        paginationContainer.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        // Bouton Précédent
+        if (currentPage > 1) {
+            const prev = document.createElement(isMobile ? 'button' : 'a');
+            if (isMobile) {
+                prev.type = 'button';
+            } else {
+            prev.href = 'javascript:void(0);';
+            }
+            prev.textContent = '← Précédent';
+            prev.className = 'pagination-button';
+            prev.onclick = (e) => {
+                e.preventDefault();
+                if (isMobile) e.stopPropagation();
+                console.log(`⬅️ Page précédente: ${currentPage} → ${currentPage - 1}`);
+                currentPage--;
+                renderCards();
+                renderPagination();
+            };
+            paginationContainer.appendChild(prev);
+        }
+
+        // Numéros de pages
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement(i === currentPage ? 'strong' : (isMobile ? 'button' : 'a'));
+            pageBtn.textContent = i;
+            pageBtn.className = i === currentPage ? 'pagination-active' : 'pagination-button';
+            
+            if (i !== currentPage) {
+                if (isMobile) {
+                    pageBtn.type = 'button';
+                } else {
+                pageBtn.href = 'javascript:void(0);';
+                }
+                pageBtn.onclick = (e) => {
+                    e.preventDefault();
+                    if (isMobile) e.stopPropagation();
+                    console.log(`🔢 Clic page: ${currentPage} → ${i}`);
+                    currentPage = i;
+                    renderCards();
+                    renderPagination();
+                };
+            }
+            paginationContainer.appendChild(pageBtn);
+        }
+
+        // Bouton Suivant
+        if (currentPage < totalPages) {
+            const next = document.createElement(isMobile ? 'button' : 'a');
+            if (isMobile) {
+                next.type = 'button';
+            } else {
+            next.href = 'javascript:void(0);';
+            }
+            next.textContent = 'Suivant →';
+            next.className = 'pagination-button';
+            next.onclick = (e) => {
+                e.preventDefault();
+                if (isMobile) e.stopPropagation();
+                console.log(`➡️ Page suivante: ${currentPage} → ${currentPage + 1}`);
+                currentPage++;
+                renderCards();
+                renderPagination();
+            };
+            paginationContainer.appendChild(next);
+        }
+    }
+    
+    function updatePagination() {
+        console.log(`🔄 Mise à jour pagination - Page: ${currentPage}`);
+        renderCards();
+        renderPagination();
+    }
+
+    // Initialisation
+    updatePagination();
+
+    // Recalculer la pagination lors du redimensionnement
+    window.addEventListener('resize', function() {
+        console.log('🔄 Redimensionnement écran - Recalcul pagination');
+        renderPagination(); // Seulement la pagination, pas les cartes
+    });
+
+    document.querySelectorAll('.sort-btn').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sortOrder = link.getAttribute('data-sort');
+            let formationCards = Array.from(cardsWrapper.children);
+
+            formationCards.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-prix'));
+                const priceB = parseFloat(b.getAttribute('data-prix'));
+                return sortOrder === 'ASC' ? priceA - priceB : priceB - priceA;
+            });
+
+            // Réinsérer proprement sans casser le DOM
+            formationCards.forEach(card => {
+                cardsWrapper.appendChild(card); 
+            });
+
+            currentPage = 1;
+            updatePagination();
+        });
+    });
+});
+
+</script>
+
+
+
+
+
+
+<script>document.addEventListener('DOMContentLoaded', function () {
 var selectElement = document.getElementById('category_select');
 if (selectElement) {
 selectElement.addEventListener('change', function () {
 const categoryId = this.value;
 
-window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+window.location.href = {{ path('app_home') }}?category_id=${categoryId};
 });
 } else {
 console.error('Element #category_select not found');
@@ -343,7 +2253,7 @@ const resultsSpan = document.querySelector('.results_area .result');
 if (selectElement) {
 selectElement.addEventListener('change', function () {
 const categoryId = this.value;
-console.log (`Catégorie sélectionnée: ${categoryId}`);
+console.log (Catégorie sélectionnée: ${categoryId});
 
 // Simulez la récupération des résultats basés sur categoryId
 // Cela devrait normalement être remplacé par une requête AJAX ou une méthode similaire
@@ -352,7 +2262,7 @@ const numberOfResults = simulateFetchResults(categoryId);
 
 // Mettre à jour l'affichage des résultats
 resultsSpan.textContent = numberOfResults;
-window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+window.location.href = {{ path('app_home') }}?category_id=${categoryId};
 });
 } else {
 console.error('Element #category_select not found');
@@ -366,98 +2276,156 @@ function simulateFetchResults(categoryId) {
 return categoryId === 'all' ? 'Tous les résultats' : 'Nombre pour catégorie ' + categoryId;
 }</script>{# Affichage des filtres de formation dans les boutons #}
 
-<script>document.addEventListener('DOMContentLoaded', function () {
-var filterButtons = document.querySelectorAll('.filter-btn');
+<script>
+// Gestion de la recherche de formations
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('🔍 Initialisation de la recherche...');
+  
+  const searchInput = document.getElementById('searchInput');
+  const formationItems = document.querySelectorAll('.formation-item');
+  const searchResults = document.getElementById('searchResults');
 
-filterButtons.forEach(function (btn) {
-btn.addEventListener('click', function () {
-var target = document.querySelector(btn.getAttribute('data-target'));
-if (target.style.display === "none") {
-target.style.display = "block";
-} else {
-target.style.display = "none";
-}
-});
-});
-});</script>
+  console.log('📊 Éléments trouvés:', {
+    searchInput: !!searchInput,
+    formationItemsCount: formationItems.length,
+    searchResults: !!searchResults
+  });
 
-{# Trie prix ADC #}<script>document.addEventListener('DOMContentLoaded', function () {
-document.querySelectorAll('.libellee').forEach(function (link) {
-link.addEventListener('click', function (e) {
-e.preventDefault();
-const sortOrder = this.getAttribute('data-sort');
-const container = document.querySelector('#formations_container');
-let formationCards = Array.from(container.querySelectorAll('.formation-card'));
-// Vérifiez si l'attribut data-prix existe avant de tenter le tri
-if (formationCards.length > 0 && formationCards[0].hasAttribute('data-prix')) {
-formationCards.sort(function (a, b) {
-const priceA = parseFloat(a.getAttribute('data-prix'));
-const priceB = parseFloat(b.getAttribute('data-prix'));
-return sortOrder === 'ASC' ? priceA - priceB : priceB - priceA;
-});
-// Réinsère les éléments dans le conteneur dans l'ordre trié
-formationCards.forEach(function (card) {
-container.appendChild(card);
-});
-}
-});
-});
-});</script>
+  // Debug: afficher les noms des formations
+  formationItems.forEach((item, index) => {
+    const nameElement = item.querySelector('h4');
+    if (nameElement) {
+      console.log(`📝 Formation ${index + 1}:`, nameElement.textContent);
+    }
+  });
 
-<script>document.addEventListener('DOMContentLoaded', function () {
-const searchInput = document.getElementById('searchInput');
-const formationItems = document.querySelectorAll('.formation-item');
+  if (searchInput && formationItems.length > 0 && searchResults) {
+    searchInput.addEventListener('input', function () {
+      const searchQuery = this.value.toLowerCase().trim();
+      let visibleCount = 0;
 
-searchInput.addEventListener('input', function () {
-const searchQuery = this.value.toLowerCase();
+      console.log('🔎 Recherche pour:', searchQuery);
 
-formationItems.forEach(item => {
-const name = item.querySelector('h4').textContent.toLowerCase();
-if (name.includes(searchQuery)) {
-item.style.display = ''; // ou "block", selon le layout
-} else {
-item.style.display = 'none';
-}
+      // Réinitialiser tous les éléments
+      formationItems.forEach(item => {
+        item.classList.remove('visible');
+        item.style.display = 'none';
+      });
+
+      if (searchQuery.length > 0) {
+        formationItems.forEach((item, index) => {
+        const nameElement = item.querySelector('h4');
+        if (nameElement) {
+          const name = nameElement.textContent.toLowerCase();
+            if (name.includes(searchQuery)) {
+              item.classList.add('visible');
+              item.style.display = 'block';
+              visibleCount++;
+              console.log(`✅ Trouvé ${index + 1}:`, nameElement.textContent);
+          }
+        }
+      });
+
+        // Afficher le dropdown s'il y a des résultats
+        if (visibleCount > 0) {
+          searchResults.classList.add('show');
+         searchResults.style.display = 'block';
+          console.log(`🎯 ${visibleCount} résultat(s) trouvé(s) - dropdown affiché`);
+       } else {
+          searchResults.classList.remove('show');
+         searchResults.style.display = 'none';
+          console.log('❌ Aucun résultat - dropdown masqué');
+        }
+      } else {
+        // Pas de recherche - masquer le dropdown
+        searchResults.classList.remove('show');
+        searchResults.style.display = 'none';
+        console.log('🚫 Recherche vide - dropdown masqué');
+      }
+    });
+
+    // Masquer le dropdown quand on clique ailleurs
+    document.addEventListener('click', function (event) {
+      const searchSection = document.querySelector('.modern-search-section');
+      if (searchSection && !searchSection.contains(event.target)) {
+        searchResults.classList.remove('show');
+        searchResults.style.display = 'none';
+      }
+    });
+
+    // Masquer le dropdown avec Escape
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        searchResults.classList.remove('show');
+        searchResults.style.display = 'none';
+        searchInput.blur();
+      }
+    });
+
+    console.log('✅ Recherche configurée avec succès');
+  } else {
+    console.error('❌ Éléments de recherche manquants:', {
+      searchInput: !!searchInput,
+      formationItemsCount: formationItems.length,
+      searchResults: !!searchResults
+    });
+  }
 });
-});
-});</script>
+</script>
 
-<script>function toggleFilter(filterId) {
-var filter = document.getElementById(filterId);
-filter.style.display = (filter.style.display === 'none') ? 'block' : 'none';
-}
 
-function applyFilter() {
-var url = new URL(window.location.href);
-document.querySelectorAll('.checkbox-group input[type=checkbox]').forEach(function (checkbox) {
-if (checkbox.checked) {
-url.searchParams.set(checkbox.name, checkbox.value);
-} else {
-url.searchParams.delete(checkbox.name);
-}
-});
-window.location.href = url.toString();
-}</script>
+
+
 
 <script>
 function applyFilter() {
     let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
+    let params = new URLSearchParams();
     
-    document.querySelectorAll('.checkbox-groupbox input').forEach(function(checkbox) {
+    // Conserver les autres paramètres (search, sort, category_id)
+    if (url.searchParams.get('search')) {
+        params.set('search', url.searchParams.get('search'));
+    }
+    if (url.searchParams.get('sort')) {
+        params.set('sort', url.searchParams.get('sort'));
+    }
+    if (url.searchParams.get('category_id')) {
+        params.set('category_id', url.searchParams.get('category_id'));
+    }
+    
+    // Gérer les filtres à cases à cocher - on parcourt TOUTES les cases
+    document.querySelectorAll('.checkbox-item input[type=checkbox]').forEach(function(checkbox) {
         if (checkbox.checked) {
             params.append(checkbox.name, checkbox.value);
-        } else {
-            params.delete(checkbox.name, checkbox.value);
         }
+        // Si la case n'est pas cochée, on ne l'ajoute pas (suppression automatique du filtre)
     });
 
-    window.location.search = params.toString();
+    // Rediriger avec les nouveaux paramètres
+    window.location.href = url.pathname + '?' + params.toString();
 }
 
-function toggleFilter(id) {
-    let element = document.getElementById(id);
-    element.style.display = element.style.display === 'none' ? 'block' : 'none';
-}
+// Initialisation simple
+document.addEventListener('DOMContentLoaded', function() {
+    // Améliorer l'interaction avec les checkboxes - cliquer sur le label coche/décoche
+    document.querySelectorAll('.checkbox-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (e.target.type !== 'checkbox') {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+                applyFilter();
+            }
+        });
+    });
+    
+    // Appliquer le filtre automatiquement quand on coche/décoche directement les cases
+    document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            applyFilter();
+        });
+    });
+});
 </script>
+<!-- Le JavaScript Calendly est désormais géré de manière centralisée dans base.html.twig -->
+
 {% endblock %}

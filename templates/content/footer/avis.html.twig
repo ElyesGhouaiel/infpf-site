@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mentions légales
+{% endblock %}
+{% block stylesheets %}
+	<style>
+	#titlePage,#descPage{
+	    margin-left:43px;
+	    margin-top: 15px;
+	}
+        section.container_review {
+        	display: grid;
+        	gap: 40px;
+        	padding: 40px;
+        }
+
+        section.container_review .card_review {
+        	width: 60%;
+        	background-color: #f5f5f5;
+        	padding: 40px;
+        	border-radius: 8px;
+        	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .reviewer {
+        	font-size: clamp(1.1rem, 2vw, 1.4rem);
+        	font-weight: 600;
+        	color: #494c59;
+        	margin-bottom: 8px;
+        	
+        }
+
+        .formation_review {
+        	font-size: clamp(1em, 1.8vw, 1.2em);
+        	font-weight: 500;
+        	color: #555;
+        	margin-bottom: 10px;
+        }
+
+        .title_review {
+        	font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+        	font-weight: 700;
+        	color: #222;
+        	margin-bottom: 10px;
+        }
+
+        .score_review {
+        	font-size: clamp(1rem, 2vw, 1.3rem);
+        	color: #0054af;
+            
+        }
+
+        .content_review {
+        	font-size: clamp(0.95em, 1.6vw, 1.1em);
+        	line-height: 1.6;
+        	color: #444;
+        	margin-bottom: 12px;
+        	background-color: #e0e0e0;
+        	padding-left: 10px;
+        	border-radius:8px;
+        }
+	</style>
+{% endblock %}
+{% block body %}
+    <h2 id="titlePage">Vos témoignages, notre fierté.</h2>
+    <h3 id="descPage">Découvrez ce que pensent nos apprenants de leur expérience à l’INFPF.</h3>
+    <section id="container_review" class="container_review"> 
+        <div class="card_review">
+    <h3 class="reviewer">Sophie D.</h3>
+    <h4 class="formation_review">Formation gestion de portefeuille financier initiation</h4>
+    <h3 class="title_review">Une bonne introduction aux marchés</h3>
+    <p class="content_review">Très bon équilibre entre théorie et pratique. Idéal pour ceux qui débutent dans la finance. Le formateur prend le temps de vulgariser les concepts.</p>
+    <h3 class="score_review">Note : 4/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Yanis R.</h3>
+    <h4 class="formation_review">Formation Bourse & Trading Expert - Distanciel</h4>
+    <h3 class="title_review">Très complète et motivante</h3>
+    <p class="content_review">Excellente formation, claire et bien rythmée. Les supports sont riches, et les exercices très pertinents. J'ai progressé rapidement.</p>
+    <h3 class="score_review">Note : 5/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Claire L.</h3>
+    <h4 class="formation_review">Formation Bourse & Trading Expert - Présentiel</h4>
+    <h3 class="title_review">Une expérience enrichissante</h3>
+    <p class="content_review">L'encadrement sur place est top. On est très bien accompagné et les cas pratiques sont nombreux. Un vrai plus par rapport au distanciel.</p>
+    <h3 class="score_review">Note : 5/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Thomas B.</h3>
+    <h4 class="formation_review">Formation Word</h4>
+    <h3 class="title_review">Simple, clair et efficace</h3>
+    <p class="content_review">Formation parfaite pour maîtriser les fonctions avancées de Word. Formateur à l'écoute et très pédagogue. Je recommande.</p>
+    <h3 class="score_review">Note : 4/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Fatima E.</h3>
+    <h4 class="formation_review">Formation Excel</h4>
+    <h3 class="title_review">Une montée en compétence assurée</h3>
+    <p class="content_review">J’ai appris à faire des tableaux croisés et des macros ! Très pratique pour le travail, merci au formateur très clair.</p>
+    <h3 class="score_review">Note : 5/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Lucas M.</h3>
+    <h4 class="formation_review">Formation Word Press</h4>
+    <h3 class="title_review">Formation dynamique et accessible</h3>
+    <p class="content_review">Une bonne initiation à WordPress. J'ai même pu créer mon propre site en fin de parcours. Super accompagnement technique.</p>
+    <h3 class="score_review">Note : 4/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Naïma K.</h3>
+    <h4 class="formation_review">Concepteur développeur d’applications - Distanciel</h4>
+    <h3 class="title_review">Formation technique et bien structurée</h3>
+    <p class="content_review">Beaucoup de contenu, mais très progressif. Les projets de fin de module permettent de bien s’approprier les compétences. Bravo à l’équipe !</p>
+    <h3 class="score_review">Note : 5/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Jean-Michel D.</h3>
+    <h4 class="formation_review">Formation Photoshop</h4>
+    <h3 class="title_review">Créative et très pratique</h3>
+    <p class="content_review">Excellent formateur ! J’ai découvert de nombreuses astuces pro. Une vraie valeur ajoutée pour mon métier de graphiste.</p>
+    <h3 class="score_review">Note : 5/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">Morgane F.</h3>
+    <h4 class="formation_review">Management d'Équipe</h4>
+    <h3 class="title_review">Formation utile et concrète</h3>
+    <p class="content_review">Mise en situation, cas concrets, outils efficaces : parfait pour toute personne qui manage au quotidien. Très bonne énergie de groupe.</p>
+    <h3 class="score_review">Note : 4/5</h3>
+</div>
+
+<div class="card_review">
+    <h3 class="reviewer">David S.</h3>
+    <h4 class="formation_review">Gestion du stress, confiance en soi, efficacité professionnelle</h4>
+    <h3 class="title_review">Un vrai déclic personnel</h3>
+    <p class="content_review">Contenu transformateur. Techniques de respiration, gestion du temps, communication : tout est utile. Très bon formateur, très humain.</p>
+    <h3 class="score_review">Note : 5/5</h3>
+</div>
+
+    </section>
+    {% include 'footer.html.twig' %}
+{% endblock %}

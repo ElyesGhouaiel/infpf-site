@@ -6,18 +6,36 @@
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
 
-	<link href="../css/showforma.css?v=28" rel="stylesheet"/>
+	<link href="../css/showforma.css?v=30" rel="stylesheet"/>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- jQuery UI -->
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 	<!-- CSS jQuery UI -->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<style>
+.btn-calendly-detail {
+    background-color: #0b3f89;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+.btn-calendly-detail:hover {
+    background-color: #004080;
+}
+</style>
+
+	
 {% endblock %}
 
 
 
 {% block body %}
+
 
 	<div class="formation-container-body">
 		<div class="formation-container">
@@ -38,7 +56,7 @@
 					<!-- Niveau, seulement si disponible -->
 					{% if formations.niveau %}
 						<p>
-							<img src="../img/les-niveaux.png" style="width: 16px;" alt="icone formation">
+							<img src="{{ asset('img/les-niveaux.png') }}" style="width: 16px;" alt="icone formation">
 							<strong style="color: #0b3e6fd6;">Niveau:</strong>
 							{{ formations.niveau }}
 						</p>
@@ -47,7 +65,7 @@
 					<!-- Durée, seulement si disponible -->
 					{% if formations.dureeFormation %}
 						<p>
-							<img src="../img/lhorloge.png" style="width: 16px;" alt="icone formation">
+							<img src="{{ asset('img/lhorloge.png') }}" style="width: 16px;" alt="icone formation">
 							<strong style="color: #0b3e6fd6;">Durée:</strong>
 							{{ formations.dureeFormation }}
 						</p>
@@ -56,7 +74,7 @@
 					<!-- Langue, seulement si disponible -->
 					{% if formations.langue %}
 						<p>
-							<img src="../img/bloc-notes.png" style="width: 16px;" alt="icone formation">
+							<img src="{{ asset('img/bloc-notes.png') }}" style="width: 16px;" alt="icone formation">
 							<strong style="color: #0b3e6fd6;">Langue:</strong>
 							{{ formations.langue }}
 						</p>
@@ -65,7 +83,7 @@
 					<!-- Prix, seulement si disponible -->
 					{% if formations.priceFormation %}
 						<p>
-							<img src="../img/piece-en-euros.png" style="width: 16px;" alt="icone formation">
+							<img src="{{ asset('img/piece-en-euros.png') }}" style="width: 16px;" alt="icone formation">
 							<strong style="color: #0b3e6fd6;">Prix:</strong>
 							{{ formations.priceFormation }}€
 						</p>
@@ -74,7 +92,7 @@
 					<!-- Code de certification RNCP, seulement si disponible -->
 					{% if formations.rncp %}
 						<p>
-							<img src="../img/certificate-icon.png" style="width: 16px;" alt="icone RNCP">
+							<img src="{{ asset('img/certificate-icon.png') }}" style="width: 16px;" alt="icone RNCP">
 							<strong style="color: #0b3e6fd6;">Code de certification :</strong>
 							{{ formations.rncp }}
 						</p>
@@ -83,7 +101,7 @@
 					<!-- Environnement de formation (Lieu), seulement si disponible -->
 					{% if formations.lieu %}
 						<p>
-							<img src="../img/location-icon.png" style="width: 16px;" alt="icone lieu">
+							<img src="{{ asset('img/location-icon.png') }}" style="width: 16px;" alt="icone lieu">
 							<strong style="color: #0b3e6fd6;">Environnement de formation :</strong>
 							{{ formations.lieu }}
 						</p>
@@ -92,9 +110,17 @@
 					<!-- Composante de compétences (Bloc), seulement si disponible -->
 					{% if formations.bloc %}
 						<p>
-							<img src="../img/skills-icon.gif" style="width: 16px;" alt="icone bloc de compétences">
+							<img src="{{ asset('img/skills-icon.gif') }}" style="width: 16px;" alt="icone bloc de compétences">
 							<strong style="color: #0b3e6fd6;">Composante de compétences :</strong>
 							{{ formations.bloc }}
+						</p>
+					{% endif %}
+					<!-- Certificateur, seulement si disponible -->
+					{% if formations.Certificateur %}
+						<p>
+							<img src="{{ asset('img/certificate-icon.png') }}" style="width: 16px;" alt="icone RNCP">
+							<strong style="color: #0b3e6fd6;">Certificateur :</strong>
+							{{ formations.Certificateur }}
 						</p>
 					{% endif %}
 				</div>
@@ -103,7 +129,7 @@
 
 		<div class="body-presentation-formation">
 			<div class="col-gauche-navigation  hide-on-mobile">
-				<img src="../img/taff.jpg" alt="Logo de la formation">
+				<img src="{{ asset('img/taff.jpg') }}" alt="Logo de la formation">
 				<h3>Navigation</h3>
 				<ul>
 					<li><a href="#presentation">Présentation</a></li>
@@ -120,7 +146,9 @@
 				<p>{{ formations.presentation }}</p>
 
 				<h2 id="prerequis">Pré-requis</h2>
-				<p>{{ formations.prerequis }}</p>
+				<p class="keep-newlines">
+                {{ formations.prerequis|escape|nl2br }}
+                </p>
 
 				<h2 id="atouts">Atouts</h2>
 				<p>{{ formations.atouts }}</p>
@@ -136,6 +164,13 @@
 
 				<h2 id="evaluation">Pédagogie - Évaluation</h2>
 				<p>{{ formations.evaluation }}</p>
+
+				<div style="text-align:center; margin: 30px 0;">
+				<a class="btn-calendly-detail" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+					📅 Échanger avec un conseiller pour cette formation
+				</a>
+			</div>
+
 			</div>
 
 </div>
@@ -150,24 +185,33 @@
 
 
 
-<div class="la">
-    <div class="buttons-container">
-        <div class="button-programe-forma">
-            <a href="https://www.moncompteformation.gouv.fr/" class="paiement-cpf-button">Paiement CPF</a>
-        </div>
-        <div class="button-programe-forma">
-            <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="paiment-button">Paiement</a>
+    <div class="la">
+        <div class="buttons-container">
+            {% if formations.id == 89 %}
+            <div class="button-programe-forma">
+                <a href="https://www.moncompteformation.gouv.fr/espace-prive/html/#/formation/recherche/92791645200018_infpf15/92791645200018_infpf2" target="_blank" class="paiement-cpf-button">Voir sur le CPF</a>
+            </div>
+            {% elseif formations.id != 90 %}
+            <div class="button-programe-forma">
+                <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="paiement-cpf-button">Finançable CPF</a>
+            </div>
+            {% endif %}
+    
+            <div class="button-programe-forma">
+                <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="paiment-button">Paiement</a>
+            </div>
         </div>
     </div>
-</div>
+
+
 
 	</div>
 
-	<a href="{{ path('app_home') }}">Revenir en arrière</a>
+	<button class="btn_retour"><a href="{{ path('app_home') }}" id="href_btn">Revenir en arrière</a></button>
 
 	{% if is_granted("ROLE_ADMIN") %}
 
-		<a href="{{ path('app_formation_edit', {'id': formations.id}) }}">Modifier</a>
+		<button class="btn_modifier"><a href="{{ path('app_formation_edit', {'id': formations.id}) }}">Modifier</a></button>
 
 		{{ include('content/formation/_delete_form.html.twig') }}
 	{% endif %}
@@ -177,18 +221,40 @@
 
 {% block javascripts %}
 <script>
-document.addEventListener('DOMContentLoaded', (event) => {
-    const paragraphs = document.querySelectorAll('.col-droite-presentation p');
+document.addEventListener('DOMContentLoaded', () => {
+    /* ⬇︎ on cible TOUS les <p> ... SAUF ceux qui portent .keep-newlines */
+    const paragraphs = document.querySelectorAll(
+        '.col-droite-presentation p:not(.keep-newlines)'
+    );
 
-    paragraphs.forEach(paragraph => {
-        let updatedText = paragraph.innerHTML
-            .replace(/\./g, '.<br>') // Remplace les points par eux-mêmes suivis d'un <br>
-            .replace(/:/g, ':<br>') // Remplace les deux-points par eux-mêmes suivis d'un <br>
-            .replace(/-/g, '<br>-') // Insère un saut de ligne avant chaque tiret "-"
-            .replace(/•([^•<]*)/g, (match, p1) => `<br>•<strong style="color: #0b3e6fd6;">${p1}</strong>`); // Met en gras le texte qui suit chaque "•" et insère un saut de ligne avant
-
-        paragraph.innerHTML = updatedText;
+    paragraphs.forEach(p => {
+        p.innerHTML = p.innerHTML
+            .replace(/\./g,  '.<br>')
+            .replace(/:/g,  ':<br>')
+            .replace(/-/g,  '<br>-')
+            .replace(/•([^•<]*)/g, (_, txt) =>
+                `<br>•<strong style="color:#0b3e6fd6;">${txt}</strong>`
+            );
     });
+});
+
+</script>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const calendlyBtn = document.querySelector('.btn-calendly-detail');
+    if (calendlyBtn) {
+        calendlyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (typeof Calendly !== 'undefined') {
+                Calendly.initPopupWidget({
+                    url: calendlyBtn.getAttribute('data-calendly-url')
+                });
+            } else {
+                console.error("Calendly script non chargé");
+            }
+        });
+    }
 });
 </script>
 

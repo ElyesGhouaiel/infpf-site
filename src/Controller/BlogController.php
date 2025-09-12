@@ -49,18 +49,28 @@ class BlogController extends AbstractController
                         $this->getParameter('images_directory'),
                         $newFilename
                     );
+                    // Mise à jour de la propriété 'image' de l'entité Blog pour enregistrer le nom du fichier
+                    $blog->setImage($newFilename);
                 } catch (FileException $e) {
-                    // Gérer l'exception si quelque chose se passe mal pendant le téléchargement du fichier
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image.');
+                    // Ne pas persister si erreur d'image
+                    return $this->render('content/blog/new.html.twig', [
+                        'blog' => $blog,
+                        'form' => $form->createView(),
+                    ]);
                 }
+            }
 
-                // Mise à jour de la propriété 'image' de l'entité Blog pour enregistrer le nom du fichier
-                $blog->setImage($newFilename);
+            // Définir la date de publication si elle n'est pas fournie
+            if (!$blog->getPublishedAt()) {
+                $blog->setPublishedAt(new \DateTimeImmutable());
             }
 
             $entityManager->persist($blog);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Article créé avec succès !');
+            return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
         }
 
         return $this->render('content/blog/new.html.twig', [
@@ -69,7 +79,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'blog_show')]
+    #[Route('/{id}', name: 'blog_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -77,15 +87,27 @@ class BlogController extends AbstractController
     
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setBlog($blog);
+            $comment->setAuthor($this->getUser()); // Associer l'utilisateur connecté
+            // createdAt est déjà défini dans le constructeur
+            
+            // Vérifier s'il s'agit d'une réponse à un commentaire
+            $parentId = $request->request->get('parent_id');
+            if ($parentId) {
+                $parentComment = $entityManager->getRepository(Comment::class)->find($parentId);
+                if ($parentComment && $parentComment->getBlog() === $blog) {
+                    $comment->setParent($parentComment);
+                }
+            }
+            
             $entityManager->persist($comment);
             $entityManager->flush();
     
+            $this->addFlash('success', 'Votre commentaire a été publié avec succès !');
             return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
         }
     
         return $this->render('/content/blog/show.html.twig', [
             'blog' => $blog,
-            'likes' => $blog->getLikes(), // Assurez-vous que cette méthode existe dans votre entité Blog
             'commentForm' => $form->createView(),
         ]);
     }
@@ -94,13 +116,9 @@ class BlogController extends AbstractController
     #[Route('/{id}/edit', name: 'app_blog_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Blog $blog, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        // Si l'entité blog avait déjà une image, convertissons-la en objet File pour que le formulaire la traite correctement
-        if ($blog->getImage()) {
-            $blog->setImage(
-                new File($this->getParameter('images_directory').'/'.$blog->getImage())
-            );
-        }
-    
+        // Garder le nom de l'image actuelle
+        $currentImage = $blog->getImage();
+        
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
     
@@ -117,41 +135,40 @@ class BlogController extends AbstractController
                         $this->getParameter('images_directory'),
                         $newFilename
                     );
+                    // Met à jour avec le nouveau nom de fichier
+                    $blog->setImage($newFilename);
                 } catch (FileException $e) {
-                    // Gérer l'exception si quelque chose se passe mal pendant le téléchargement du fichier
+                    // En cas d'erreur, garder l'image actuelle
+                    $blog->setImage($currentImage);
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image.');
                 }
-    
-                // Met à jour la propriété 'image' avec le nouveau nom de fichier
-                $blog->setImage($newFilename);
             } else {
-                // Remet l'image précédente si pas de nouvelle image téléchargée
-                if ($form->get('image')->isEmpty()) {
-                    $blog->setImage(null);
-                }
+                // Garder l'image actuelle si aucune nouvelle image n'est téléchargée
+                $blog->setImage($currentImage);
             }
     
             $entityManager->flush();
+            $this->addFlash('success', 'Article modifié avec succès !');
     
-            return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
         }
     
         return $this->render('content/blog/edit.html.twig', [
             'blog' => $blog,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/{id}', name: 'app_blog_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'blog_delete', methods: ['POST'])]
     public function delete(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$blog->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $blog->getId(), $request->request->get('_token'))) {
             $entityManager->remove($blog);
             $entityManager->flush();
         }
-
+    
         return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
     }
-
 
 
     #[Route('/blog/{id}/comment/new', name: 'blog_add_comment')]
@@ -199,5 +216,103 @@ class BlogController extends AbstractController
     //     return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
     // }
     
+    #[Route('/admin/comment/{id}/delete', name: 'admin_comment_delete', methods: ['POST'])]
+    public function deleteComment(Request $request, int $id, EntityManagerInterface $entityManager): Response
+    {
+        // Vérifier que l'utilisateur est admin
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Accès refusé. Vous devez être administrateur.');
+            return $this->redirectToRoute('blog_index');
+        }
 
+        $comment = $entityManager->getRepository(Comment::class)->find($id);
+        
+        if (!$comment) {
+            $this->addFlash('error', 'Commentaire non trouvé.');
+            return $this->redirectToRoute('blog_index');
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+            $blogId = $comment->getBlog()->getId();
+            $entityManager->remove($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le commentaire a été supprimé avec succès.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
+        }
+
+        return $this->redirectToRoute('blog_show', ['id' => $blogId]);
+    }
+
+    #[Route('/make-me-admin', name: 'make_me_admin')]
+    public function makeMeAdmin(EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return new Response('Vous devez être connecté');
+        }
+
+        $roles = $user->getRoles();
+        if (!in_array('ROLE_ADMIN', $roles)) {
+            $roles[] = 'ROLE_ADMIN';
+            $user->setRoles($roles);
+            $entityManager->flush();
+            
+            return new Response('Vous êtes maintenant admin ! Rechargez la page.');
+        }
+        
+        return new Response('Vous êtes déjà admin.');
+    }
+
+    #[Route('/{id}/reply', name: 'blog_reply_ajax', methods: ['POST'])]
+    public function replyAjax(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
+    {
+        error_log('AJAX Reply route accessed for blog ID: ' . $blog->getId());
+        error_log('Request method: ' . $request->getMethod());
+        error_log('Request content: ' . $request->getContent());
+        
+        if (!$this->getUser()) {
+            error_log('User not authenticated');
+            return $this->json(['success' => false, 'message' => 'Vous devez être connecté.'], 401);
+        }
+
+        $text = $request->request->get('text');
+        $parentId = $request->request->get('parent_id');
+
+        if (!$text || trim($text) === '') {
+            return $this->json(['success' => false, 'message' => 'Le commentaire ne peut pas être vide.'], 400);
+        }
+
+        $comment = new Comment();
+        $comment->setText(trim($text));
+        $comment->setBlog($blog);
+        $comment->setAuthor($this->getUser());
+
+        // Gestion de la réponse
+        if ($parentId) {
+            $parentComment = $entityManager->getRepository(Comment::class)->find($parentId);
+            if ($parentComment && $parentComment->getBlog() === $blog) {
+                $comment->setParent($parentComment);
+            }
+        }
+
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        // Renvoyer les données du commentaire créé
+        $user = $this->getUser();
+        $commentData = [
+            'id' => $comment->getId(),
+            'text' => $comment->getText(),
+            'author' => $user->getUsername() ?: $user->getEmail(),
+            'createdAt' => $comment->getCreatedAt()->format('d/m/Y à H:i'),
+            'parentId' => $comment->getParent() ? $comment->getParent()->getId() : null,
+            'isAdmin' => $this->isGranted('ROLE_ADMIN')
+        ];
+
+        return $this->json(['success' => true, 'comment' => $commentData]);
+    }
+
+    
 }

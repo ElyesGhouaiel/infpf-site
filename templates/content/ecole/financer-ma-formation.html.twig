@@ -1,13 +1,15 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Comment financer votre formation à distance avec l'Institut National de la Formation Professionnelle Française (INFPF) ?
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
-
+    <link href="../css/footer1.css" rel="stylesheet"/>
 {% endblock %}
+
+
 {% block body %}
-	<img class="im" src="../img/10.png" alt="Nos formations à distance">
+	<img class="im" src="{{ asset('img/10.png') }}" alt="Nos formations à distance">
 
 	<div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
@@ -27,7 +29,7 @@
 		<br>
 <div style="display: flex; align-items: center;">
     <p>Lancer une formation, que ce soit en présentiel ou à distance, est un pas important vers une reconversion ou l'amélioration de vos compétences professionnelles. Cependant, une question essentielle se pose : comment financer cette formation ? Heureusement, en France, de multiples aides financières existent pour vous soutenir dans cette démarche. L'INFPF vous guide à travers les options disponibles pour financer efficacement votre formation.</p>
-    <img src="../img/financement.png" alt="Description de l'image" style="width: 20%;">
+    <img src="{{ asset('img/financement.png') }}" alt="Description de l'image" style="width: 20%;">
 </div>
 
 
@@ -76,7 +78,7 @@
 				</details>
 			</div>
 		</div>
-		<img src="../img/demandeurs_demploi.png" alt="Nos formations à distance">
+		<img src="{{ asset('img/demandeurs_demploi.png') }}" alt="Nos formations à distance">
 		<div aria-hidden="true" class="wp-block-spacer" style="height:20px"></div>
 		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-3 wp-block-columns-is-layout-flex">
 			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
@@ -151,7 +153,6 @@
 			<p>Cette formule vous permet de suivre une formation tout en travaillant, avec les frais de formation pris en charge par l'entreprise accueillante.
 			</p>
 		</details>
-		<div aria-hidden="true" class="wp-block-spacer" style="height:20px"></div>
 		<div aria-hidden="true" class="wp-block-spacer" style="height:20px"></div>
 	</div>
 	<!-- .entry-content -->

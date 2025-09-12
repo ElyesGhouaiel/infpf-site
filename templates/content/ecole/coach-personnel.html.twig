@@ -1,13 +1,15 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Formation
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
-
+    <link href="../css/footer1.css" rel="stylesheet"/>
 {% endblock %}
+
+
 {% block body %}
-	<img class="im" src="../img/7.png" alt="Nos formations à distance">
+	<img class="im" src="{{ asset('img/7.png') }}" alt="Nos formations à distance">
 
 	<div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
@@ -43,7 +45,7 @@
             ?
         </h2>
         <p>
-            <img src="../img/coaach.png" alt="Image du coach" style="float: left; margin-right: 15px;width: 50%;">
+            <img src="{{ asset('img/coaach.png') }}" alt="Image du coach" style="float: left; margin-right: 15px;width: 50%;">
             Un coach personnel est désigné dès votre entrée dans notre établissement. Il vous connaît et
             <strong style="color: #0b3e6fd6;">va vous accompagner durant toute la durée de votre apprentissage</strong>. C’est un accompagnement personnalisé jusqu’à la réussite de vos objectifs.
         </p>

@@ -1,30 +1,491 @@
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+{% block stylesheets %}
+<style>
+    /* ===== VARIABLES MODERNES FOOTER ===== */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #0b3f89, #1e5cb8);
+        --secondary-gradient: linear-gradient(135deg, #00b4d8, #0077b6);
+        --accent-color: #d71a22;
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+        --shadow-heavy: 0 16px 64px rgba(0, 0, 0, 0.15);
+        --border-radius: 20px;
+        --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ===== FOOTER MODERNE ===== */
+    .footer {
+        background: var(--primary-gradient);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+        animation: float 30s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-10px) scale(1.02); }
+    }
+
+    /* Section sociale moderne */
+    .footer__social {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer__social__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer__social__svg {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .footer__social__label {
+        color: white;
+        font-weight: 500;
+        margin-right: 15px;
+        font-size: 16px;
+    }
+
+    .footer__social__svg > div {
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+    }
+
+    .footer__social__svg > div:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: var(--shadow-light);
+    }
+
+    .footer__social__svg img {
+        transition: var(--transition);
+    }
+
+    /* ===== RESPONSIVE POUR RÉSEAUX SOCIAUX ===== */
+    @media (max-width: 768px) {
+        .footer__social__container {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .footer__social__svg {
+            justify-content: center;
+            flex-wrap: nowrap; /* Empêcher le wrap pour garder une ligne */
+            gap: 15px;
+        }
+        
+        .footer__social__label {
+            margin-right: 0;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+        
+        .footer__social__svg > div {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0; /* Empêcher les icônes de rétrécir */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer__social__svg {
+            gap: 10px;
+        }
+        
+        .footer__social__svg > div {
+            width: 40px;
+            height: 40px;
+            padding: 10px;
+        }
+        
+        .footer__social__label {
+            font-size: 14px;
+        }
+    }
+
+    .footer__social__tel {
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 15px 25px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        cursor: pointer;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer__social__tel:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+    }
+
+    /* Container principal du footer */
+    .footer__container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Menu footer moderne */
+    .footer__menu {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 50px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer__menu li {
+        margin: 0;
+    }
+
+    .footer__menu a,
+    .footer__menu button {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        transition: var(--transition);
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+        font-size: 16px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .footer__menu a:hover,
+    .footer__menu button:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+        color: white;
+        text-decoration: none;
+    }
+
+    #p_footer {
+        width: 75%;
+        justify-self: center;
+    }
+    
+    /* Modal cookies moderne */
+    .cookie-preferences-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+    }
+
+    .cookie-preferences-popup {
+        background: white;
+        width: 90%;
+        max-width: 1000px;
+        max-height: 80vh;
+        border-radius: var(--border-radius);
+        padding: 20px;
+        box-shadow: var(--shadow-heavy);
+        animation: slideIn 0.5s var(--transition);
+        position: relative;
+        overflow-y: auto;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .content-popup {
+        background: var(--primary-gradient);
+        padding: 40px;
+        border-radius: 15px;
+        color: white;
+    }
+
+    .content-popup h2 {
+        color: white;
+        margin-bottom: 20px;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .content-popup p {
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-size: 1.1rem;
+    }
+
+    .content-popup form div {
+        margin: 20px 0;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+    }
+
+    .content-popup button {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 12px 24px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 600;
+    }
+
+    .content-popup button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .cookie-preferences-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .cookie-preferences-close:hover {
+        transform: rotate(90deg) scale(1.2);
+    }
+
+    /* Bouton Calendly footer */
+    .btn-calendly-footer {
+        background: var(--accent-color);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(215, 26, 34, 0.3);
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn-calendly-footer:hover {
+        background: #b5161c;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(215, 26, 34, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Section mentions légales moderne */
+    .footer__mentionslegales {
+        text-align: center;
+        margin: 50px 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer__mentionslegales p {
+        color: white;
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 30px;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer__mentionslegales > div {
+        display: inline-flex;
+        gap: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 25px 50px;
+        border-radius: var(--border-radius);
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-light);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: var(--transition);
+    }
+
+    .footer__mentionslegales > div:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-heavy);
+    }
+
+    .footer__mentionslegales img {
+        transition: var(--transition);
+        border-radius: 10px;
+    }
+
+    .footer__mentionslegales img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Bouton Calendly central */
+    .calendly-btn--large {
+        display: block;
+        margin: 40px auto;
+        max-width: 500px;
+        padding: 20px 40px;
+        font-size: 18px;
+        background: var(--accent-color);
+        border-radius: 30px;
+        box-shadow: 0 8px 30px rgba(215, 26, 34, 0.3);
+        transition: var(--transition);
+    }
+
+    .calendly-btn--large:hover {
+        background: #b5161c;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(215, 26, 34, 0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .footer__social__container {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .footer__social__svg {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer__menu {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .footer__mentionslegales > div {
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px 30px;
+    }
+    
+        .cookie-preferences-popup {
+            width: 95%;
+            margin: 20px;
+        }
+
+        .content-popup {
+            padding: 20px;
+        }
+    }
+
+    /* ===== FIX LOGOS FOOTER SUR UNE LIGNE HORIZONTALE ===== */
+    .wp-block-logos-legaux:not(.is-not-stacked-on-mobile) {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 20px !important;
+        padding: 20px !important;
+    }
+
+    .wp-block-logos-legaux:not(.is-not-stacked-on-mobile) .wp-block-column:not(:only-child) {
+        flex: 0 0 auto !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    @media (max-width: 768px) {
+        .wp-block-logos-legaux:not(.is-not-stacked-on-mobile) {
+            flex-wrap: nowrap !important;
+            gap: 15px !important;
+            overflow-x: auto !important;
+            padding: 15px 10px !important;
+        }
+
+        .wp-block-logos-legaux:not(.is-not-stacked-on-mobile) .wp-block-column:not(:only-child) {
+            flex: 0 0 auto !important;
+            min-width: 80px !important;
+        }
+
+        .wp-block-logos-legaux:not(.is-not-stacked-on-mobile) .wp-block-column:not(:only-child) img {
+            height: 45px !important;
+            width: auto !important;
+            max-width: 80px !important;
+        }
+    }
+</style>
+{% endblock %}
 <footer class="footer">
-	<div class="footer__social">
-		<div class="footer__container footer__social__container">
-			<div class="footer__social__svg">
-				<span class="footer__social__label">Rejoignez-nous sur</span>
-				<div class="gtm-cta-btn-facebook" onclick="window.open('https://fr-fr.facebook.com/');" title="Facebook">
-					<img alt="Facebook" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-facebook-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2020%2015'%3E%3C/svg%3E" width="20"/><noscript><img alt="Facebook" height="15" loading="lazy" src="/wp-content/themes/INFPF/images/refonte-2022/ico-facebook-footer.svg" width="20"/></noscript>
-				</div>
-				<div class="gtm-cta-btn-youtube" onclick="window.open('https://www.youtube.com/');" title="Youtube">
-					<img alt="Youtube" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-youtube-footer.svg" height="10" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2010'%3E%3C/svg%3E" width="15"/><noscript><img alt="Youtube" height="10" src="/wp-content/themes/INFPF/images/refonte-2022/ico-youtube-footer.svg" width="15"/></noscript>
-				</div>
-				<div class="gtm-cta-btn-instagram" onclick="window.open('https://www.instagram.com/');" title="Instagram">
-					<img alt="Instagram" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-instagram-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2015'%3E%3C/svg%3E" width="15"/><noscript><img alt="Instagram" height="15" src="/wp-content/themes/INFPF/images/refonte-2022/ico-instagram-footer.svg" width="15"/></noscript>
-				</div>
-				<div class="gtm-cta-btn-twitter" onclick="window.open('https://twitter.com/');" title="Twitter">
-					<img alt="Twitter" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-twitter-footer.svg" height="12" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2012'%3E%3C/svg%3E" width="15"/><noscript><img alt="Twitter" height="12" src="/wp-content/themes/INFPF/images/refonte-2022/ico-twitter-footer.svg" width="15"/></noscript>
-				</div>
-				<div class="gtm-cta-btn-pinterest" onclick="window.open('https://www.pinterest.fr/');" title="Pinterest">
-					<img alt="Pinterest" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-pinterest-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2015'%3E%3C/svg%3E" width="15"/><noscript><img alt="Pinterest" height="15" src="/wp-content/themes/INFPF/images/refonte-2022/ico-pinterest-footer.svg" width="15"/></noscript>
-				</div>
-				<div class="gtm-cta-btn-tiktok" onclick="window.open('https://www.tiktok.com/');" title="TikTok">
-					<img alt="TikTok" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-tiktok-footer.svg" height="15" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2015%2015'%3E%3C/svg%3E" width="15"/><noscript><img alt="TikTok" height="15" src="/wp-content/themes/INFPF/images/refonte-2022/ico-tiktok-footer.svg" width="15"/></noscript>
-				</div>
-			</div>
-			<div class="footer__social__tel gtm-cta-btn-telephone" onclick="location.href='tel:0366060201'" title="Contactez nous !">Tél. 04 89 05 03 55</div>
-		</div>
-	</div>
+    <div class="footer__social">
+        <div class="footer__container footer__social__container">
+            <div class="footer__social__svg">
+                <span class="footer__social__label">Rejoignez-nous sur</span>
+                <div class="gtm-cta-btn-facebook" onclick="window.open('https://www.facebook.com/people/INFPF/61559944644248/?locale=fr_FR');" title="Facebook">
+                    <img alt="Facebook" data-lazy-src="{{ asset('img/facebook.png') }}" height="15" src="{{ asset('img/Facebook_Logo_2023.png') }}" width="20"/>
+                </div>
+                <div class="gtm-cta-btn-youtube" onclick="window.open('https://www.youtube.com/@INFPF');" title="Youtube">
+                    <img alt="Youtube" data-lazy-src="../img/youtube.svg" height="10" src="{{ asset('img/free-youtube-logo-icon-2431-thumb.png') }}" width="15"/>
+                </div>
+                <div class="gtm-cta-btn-instagram" onclick="window.open('https://www.instagram.com/infpf_fr/');" title="Instagram">
+                    <img alt="Instagram" data-lazy-src="public/img/Instagram_icon.png" height="15" src="public/img/Instagram_icon.png" width="15"/>
+                </div>
+            </div>
+            <div class="footer__social__tel gtm-cta-btn-telephone" onclick="location.href='tel:0489050355'" title="Contactez nous !">Tél. 04 89 05 03 55</div>
+        </div>
+    </div>
 	<div class="footer__container">
 		<ul class="footer__menu">
 			<li>
@@ -72,19 +533,172 @@
 				<a href="/guide/">Nos guides formations</a>
 			</li>
 			<li>
-				<button class="ot-sdk-show-settings" name="Mes cookies" value="Mes cookies">Personnaliser mes
-					            cookies</button>
-			</li>
-		</ul>
-		<div class="footer__partenaires"></div>
-	</div>
-	<p class="footer__mentionslegales">
-		Ecole certifiée QUALIOPI. La certification nationale a été
-		        attribuée au titre des actions de formation.<br/>
-		Établissement privé d’enseignement.<br/>
-	</p>
-	<div class="footer__copyright">
+        <button class="ot-sdk-show-settings" name="Mes cookies" value="Mes cookies">Personnaliser mes cookies</button>
+    </li>
+        </ul>
+        <div id="cookiePopup" class="cookie-preferences-overlay" style="display: none;">
+        <div class="content-popup">
+            <button class="cookie-preferences-close" onclick="document.getElementById('cookiePopup').style.display='none'">&times;</button>
+            <h2>Préférences des cookies</h2>
+            <p>Ce site utilise des cookies pour améliorer votre expérience utilisateur. Vous pouvez choisir les types de cookies que vous souhaitez activer.</p>
+            <form>
+                <div>
+                    <input type="checkbox" id="necessary" checked disabled>
+                    <label for="necessary"><strong>Cookies nécessaires</strong> – toujours actifs</label>
+                    <p>Indispensables pour le bon fonctionnement du site (ex. connexion, sécurité, panier...)</p>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="analytics">
+                    <label for="analytics"><strong>Cookies de mesure d’audience</strong></label>
+                    <p>Permettent de collecter des données pour améliorer nos services (ex. Google Analytics).</p>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="marketing">
+                    <label for="marketing"><strong>Cookies marketing</strong></label>
+                    <p>Utilisés pour vous proposer des publicités personnalisées en dehors de notre site.</p>
+                </div>
+            </form>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="button" onclick="saveCookiePreferences()">Enregistrer mes préférences</button>
+                <button type="button" onclick="acceptAllCookies()">Tout accepter</button>
+            </div>
+        </div>
+    </div>
+
+<div style="text-align: center; margin: 40px 0;">
+    <a class="calendly-btn calendly-btn--large" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+        📅 Prendre rendez-vous avec un conseiller
+    </a>
+</div>
+
+
+        
+        <div class="footer__mentionslegales" style="text-align: center;">
+            <p style="margin-bottom: 10px;">
+                Ecole certifiée QUALIOPI. La certification nationale a été attribuée au titre des actions de formation.<br/>
+                Établissement privé d'enseignement.
+            </p>
+        
+            <div style="
+                display: inline-flex;
+                gap: 30px;
+                background: white;
+                padding: 20px 40px;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            ">
+                <a href="{{ asset('pdf/Qualiopi.pdf') }}" target="_blank">
+                    <img src="{{ asset('img/logo-qualiopi-avec-textes.png') }}" alt="Logo Qualiopi" style="height: 130px;">
+                </a>
+                    <img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo Datadocké" style="height: 130px;">
+            </div>
+        </div>
+
+    <br>
+
+    <p style="text-align: center; color: white; font-size: 15px; line-height: 1.6; max-width: 1000px; margin: 0 auto 20px;">
+        Ecole certifiée QUALIOPI et référencée sur DataDock sous le numéro 0150654. La certification nationale a été attribuée au titre des actions de formation.<br>
+        Établissement privé d'enseignement à distance soumis au contrôle pédagogique de l'Etat, immatriculé sous le numéro 24FOR01596.1<br>
+        Centre de formation professionnelle continue, déclarée sous le numéro 93 06 11166 06.
+    </p>
+    
+    	<div class="footer__copyright">
 		© Institut National De La Formation Professionnelle Française - 2024
 	</div>
-</div></footer>
- 
+    
+
+	<div class="wp-block wp-block-kubio-section position-relative wp-block-kubio-section__outer style--pvpxVlV8qmYeEluhNp402p-outer style-local-727-outer d-flex h-section-global-spacing align-items-lg-center align-items-md-center align-items-center" data-kubio="kubio/section" id="footer-section">
+    <div class="position-relative wp-block-kubio-section__inner style--pvpxVlV8qmYeEluhNp402p-inner style-local-727-inner h-section-grid-container h-section-boxed-container">
+        <div class="wp-block wp-block-kubio-row position-relative wp-block-kubio-row__container style--pvpxVlV8qmYZ9YRWZouzBM-container style-local-728-container gutters-row-lg-1 gutters-row-v-lg-1 gutters-row-md-1 gutters-row-v-md-1 gutters-row-2 gutters-row-v-2" data-kubio="kubio/row">
+             <div class="position-relative wp-block-kubio-row__inner style--pvpxVlV8qmYZ9YRWZouzBM-inner style-local-728-inner h-row align-items-lg-stretch align-items-md-stretch align-items-stretch justify-content-lg-center justify-content-md-center justify-content-center gutters-col-lg-1 gutters-col-v-lg-1 gutters-col-md-1 gutters-col-v-md-1 gutters-col-2 gutters-col-v-2" style="text-align: center;">
+                <div class="wp-block wp-block-kubio-column position-relative wp-block-kubio-column__container style--pvpxVlV8qmYVoBOi2eMR2I-container style-local-729-container d-flex h-col-lg-auto h-col-md-auto h-col-auto" data-kubio="kubio/column">
+                    <div class="position-relative wp-block-kubio-column__inner style--pvpxVlV8qmYVoBOi2eMR2I-inner style-local-729-inner d-flex h-flex-basis h-px-lg-1 v-inner-lg-1 h-px-md-1 v-inner-md-1 h-px-2 v-inner-2"
+                         style="border-top: 1px solid #ffffff; padding-top: 20px; padding-bottom: 5px;">
+                        <div class="position-relative wp-block-kubio-column__align style--pvpxVlV8qmYVoBOi2eMR2I-align style-local-729-align h-y-container h-column__content h-column__v-align flex-basis-100 align-self-lg-start align-self-md-start align-self-start">
+                            <h3 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-qi6Vzqz87Xw-text style-local-731-text" data-kubio="kubio/heading"style="color: red;">
+                                <strong>Tradez de manière responsable :</strong>
+                            </h3>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-ZoLrG_L09N0-text style-local-732-text" data-kubio="kubio/heading">Avertissement relatif aux risques</h5>
+                            <p id="p_footer" class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-A65dw3-J67L-text style-local-733-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Les opérations sur les marchés à terme et les marchés des changes comportent des risques importants et ne conviennent pas à tous les investisseurs. Un investisseur peut potentiellement perdre la totalité ou une partie de son investissement initial. Le capital-risque est l’argent que l’on peut perdre sans mettre en péril sa sécurité financière ou son style de vie. Seul le capital-risque doit être utilisé pour la négociation et seules les personnes disposant d’un capital-risque suffisant doivent envisager de négocier. Les performances passées ne sont pas nécessairement indicatives des résultats futurs.
+                            </p>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-heiH1sqAHzg-text style-local-734-text" data-kubio="kubio/heading">Avertissement relatif aux performances hypothétiques</h5>
+                            <p id="p_footer"  class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-rRWUAgSn6Tq-text style-local-735-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Les résultats des performances hypothétiques ont de nombreuses limitations inhérentes, dont certaines sont décrites ci-dessous. Aucune déclaration n’est faite selon laquelle un compte réalisera ou est susceptible de réaliser des profits ou des pertes similaires à ceux indiqués ; en fait, il existe souvent des différences marquées entre les résultats de performance hypothétiques et les résultats réels obtenus par la suite par un programme de trading particulier. L’une des limites des résultats de performance hypothétiques est qu’ils sont généralement préparés avec le bénéfice du recul. De plus, la négociation hypothétique n’implique pas de risque financier, et aucun résultat de négociation hypothétique ne peut complètement rendre compte de l’impact du risque financier de la négociation réelle. Par exemple, la capacité à supporter les pertes ou à adhérer à un programme de négociation particulier malgré les pertes de négociation sont des points importants qui peuvent également affecter négativement les résultats de négociation réels. Il existe de nombreux autres facteurs liés aux marchés en général ou à la mise en œuvre d’un programme de trading spécifique qui ne peuvent pas être entièrement pris en compte dans la préparation de résultats de performance hypothétiques et qui peuvent tous avoir un impact négatif sur les résultats de trading.
+                            </p>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-XRGNdmYNrUn-text style-local-736-text" data-kubio="kubio/heading">Informations sur la Live Trade Room</h5>
+                            <p id="p_footer"  class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-rTRk6brB-Fs-text style-local-737-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Cette présentation a un but éducatif uniquement et les opinions exprimées sont uniquement celles du présentateur. Toutes les transactions présentées doivent être considérées comme hypothétiques et ne doivent pas être reproduites dans un compte de trading réel.
+                            </p>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-F7iQrZbrJ-N-text style-local-738-text" data-kubio="kubio/heading">Avertissement relatif aux témoignages</h5>
+                            <p  id="p_footer" class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-y0dnOvuXFgg-text style-local-739-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Les témoignages figurant sur ce site Web ne sont pas nécessairement représentatifs d’autres clients et ne constituent pas une garantie de performances ou de succès futurs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% block javascripts %}
+<!-- Le JavaScript Calendly est désormais géré de manière centralisée dans base.html.twig -->
+<script>
+// Gestion du popup cookies uniquement
+document.addEventListener('DOMContentLoaded', function () {
+    const popup = document.getElementById('cookiePopup');
+    const button = document.querySelector('.ot-sdk-show-settings');
+    if (popup && button) {
+    button.addEventListener('click', function (e) {
+        e.stopPropagation();
+        popup.style.display = 'flex';
+    });
+    document.addEventListener('click', function (event) {
+            if (popup.style.display === 'flex' &&
+                !popup.querySelector('.content-popup')?.contains(event.target)) {
+            popup.style.display = 'none';
+        }
+    });
+        popup.querySelector('.content-popup')?.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+    }
+});
+
+// Fonctions de gestion des cookies
+function saveCookiePreferences() {
+    const necessary = document.getElementById('necessary').checked;
+    const analytics = document.getElementById('analytics').checked;
+    const marketing = document.getElementById('marketing').checked;
+    
+    localStorage.setItem('cookiePreferences', JSON.stringify({
+        necessary: necessary,
+        analytics: analytics,
+        marketing: marketing,
+        timestamp: Date.now()
+    }));
+    
+    document.getElementById('cookiePopup').style.display = 'none';
+    console.log('Préférences sauvegardées:', { necessary, analytics, marketing });
+}
+
+function acceptAllCookies() {
+    localStorage.setItem('cookiePreferences', JSON.stringify({
+        necessary: true,
+        analytics: true,
+        marketing: true,
+        timestamp: Date.now()
+    }));
+    
+    document.getElementById('cookiePopup').style.display = 'none';
+    console.log('Tous les cookies acceptés');
+}
+</script>
+{% endblock %}
+</footer>

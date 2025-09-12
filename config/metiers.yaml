@@ -1,0 +1,235 @@
+# Configuration des métiers et formations INFPF
+# Chaque métier dispose de formations associées et d'informations détaillées
+
+metiers:
+  metiers_list:
+    commercial:
+      slug: "commercial"
+      title: "Devenir Commercial"
+      subtitle: "Maîtrisez l'art de la vente et développez votre carrière"
+      description: "Le métier de commercial consiste à vendre des produits ou services en développant une relation de confiance avec les clients. C'est un métier dynamique qui offre de belles perspectives d'évolution."
+      meta_description: "Découvrez le métier de commercial et les formations INFPF pour développer vos compétences en vente, négociation et relation client."
+      missions:
+        - "Prospecter et identifier de nouveaux clients"
+        - "Présenter et vendre les produits/services"
+        - "Négocier les conditions de vente"
+        - "Assurer le suivi client et la fidélisation"
+        - "Atteindre les objectifs de vente fixés"
+      competences:
+        - "Excellent relationnel et communication"
+        - "Capacité de persuasion et négociation"
+        - "Résistance au stress et persévérance"
+        - "Connaissance des techniques de vente"
+        - "Maîtrise des outils CRM"
+      salaire: "25 000€ - 60 000€ par an (selon expérience + commissions)"
+      evolution: "Commercial senior, Responsable des ventes, Directeur commercial"
+      secteurs: ["Immobilier", "Assurance", "Informatique", "Automobile", "Pharmaceutique"]
+      keywords:
+        - "commercial"
+        - "vente"
+        - "vendeur"
+        - "négociation"
+        - "relation client"
+        - "prospection"
+        - "techniques de vente"
+      category_ids: [6] # Management category
+
+    developpeur-web:
+      slug: "developpeur-web"
+      title: "Devenir Développeur Web"
+      subtitle: "Créez des sites et applications web modernes"
+      description: "Le développeur web conçoit et réalise des sites internet et applications web. C'est un métier technique en forte demande qui offre de nombreuses opportunités."
+      meta_description: "Découvrez le métier de développeur web et les formations INFPF pour apprendre HTML, CSS, PHP, WordPress et créer des sites web."
+      missions:
+        - "Analyser les besoins des clients"
+        - "Concevoir l'architecture technique"
+        - "Développer le front-end et back-end"
+        - "Tester et optimiser les performances"
+        - "Maintenir et faire évoluer les sites"
+      competences:
+        - "Maîtrise des langages web (HTML, CSS, JavaScript)"
+        - "Connaissance des frameworks modernes"
+        - "Bases de données et SQL"
+        - "Résolution de problèmes"
+        - "Veille technologique"
+      salaire: "30 000€ - 55 000€ par an (selon expérience)"
+      evolution: "Développeur senior, Lead developer, Chef de projet technique"
+      secteurs: ["Agences web", "Start-ups", "E-commerce", "Grandes entreprises", "Freelance"]
+      keywords:
+        - "web"
+        - "développeur"
+        - "site"
+        - "html"
+        - "css"
+        - "php"
+        - "wordpress"
+        - "création"
+        - "dynamiques"
+        - "programmeur"
+      category_ids: [4] # Web development category
+
+    trader-finance:
+      slug: "trader-finance"
+      title: "Devenir Trader & Expert Financier"
+      subtitle: "Maîtrisez les marchés financiers et la gestion de portefeuilles"
+      description: "Le trader et expert financier analyse les marchés, gère des portefeuilles d'investissement et prend des décisions stratégiques pour optimiser les rendements."
+      meta_description: "Découvrez le métier de trader et les formations INFPF en trading, bourse, gestion de portefeuilles et analyse financière."
+      missions:
+        - "Analyser les marchés financiers et économiques"
+        - "Gérer des portefeuilles d'investissement"
+        - "Effectuer des transactions sur les marchés"
+        - "Évaluer et gérer les risques financiers"
+        - "Conseiller les clients sur leurs investissements"
+      competences:
+        - "Analyse financière et économique"
+        - "Maîtrise des outils de trading"
+        - "Gestion du stress et réactivité"
+        - "Connaissance des produits dérivés"
+        - "Capacité de prise de décision rapide"
+      salaire: "35 000€ - 100 000€ par an (selon expérience + bonus)"
+      evolution: "Senior trader, Gestionnaire de fonds, Directeur financier"
+      secteurs: ["Banques", "Sociétés de gestion", "Hedge funds", "Assurances", "Conseil financier"]
+      keywords:
+        - "trading"
+        - "bourse"
+        - "portefeuille"
+        - "financier"
+        - "marché"
+        - "investissement"
+        - "gestion"
+        - "risques"
+        - "matières premières"
+        - "devises"
+        - "spread"
+      category_ids: [2] # Finance category
+
+    manager:
+      slug: "manager"
+      title: "Devenir Manager d'Équipe"
+      subtitle: "Dirigez et développez vos équipes avec succès"
+      description: "Le manager d'équipe coordonne et motive ses collaborateurs pour atteindre les objectifs fixés. C'est un rôle clé dans toute organisation."
+      meta_description: "Découvrez le métier de manager et les formations INFPF en management d'équipe, leadership et gestion des ressources humaines."
+      missions:
+        - "Encadrer et motiver une équipe"
+        - "Définir et suivre les objectifs"
+        - "Gérer les conflits et problématiques"
+        - "Développer les compétences de l'équipe"
+        - "Assurer la communication avec la direction"
+      competences:
+        - "Leadership et charisme"
+        - "Communication interpersonnelle"
+        - "Gestion de projets"
+        - "Résolution de conflits"
+        - "Capacité d'adaptation"
+      salaire: "35 000€ - 70 000€ par an (selon secteur et équipe)"
+      evolution: "Manager senior, Directeur de département, DRH"
+      secteurs: ["Tous secteurs", "Industrie", "Services", "Commerce", "Conseil"]
+      keywords:
+        - "management"
+        - "équipe"
+        - "manager"
+        - "leadership"
+        - "encadrement"
+        - "gestion"
+        - "coordination"
+      category_ids: [6] # Management category
+
+    marketing-digital:
+      slug: "marketing-digital"
+      title: "Devenir Expert Marketing Digital"
+      subtitle: "Maîtrisez les stratégies digitales et la communication moderne"
+      description: "L'expert marketing digital développe la visibilité et l'image de marque sur les canaux numériques. Un métier créatif en pleine expansion."
+      meta_description: "Découvrez le métier de marketing digital et les formations INFPF en stratégies digitales, réseaux sociaux et communication."
+      missions:
+        - "Élaborer des stratégies marketing digitales"
+        - "Gérer les réseaux sociaux et campagnes"
+        - "Analyser les performances et ROI"
+        - "Créer du contenu engageant"
+        - "Optimiser le référencement (SEO/SEA)"
+      competences:
+        - "Maîtrise des outils digitaux"
+        - "Créativité et sens artistique"
+        - "Analyse de données"
+        - "Rédaction web"
+        - "Veille concurrentielle"
+      salaire: "28 000€ - 50 000€ par an (selon expérience)"
+      evolution: "Chef de projet digital, Directeur marketing, Consultant"
+      secteurs: ["Agences", "E-commerce", "Start-ups", "Grandes entreprises", "Freelance"]
+      keywords:
+        - "marketing"
+        - "digital"
+        - "communication"
+        - "réseaux sociaux"
+        - "stratégie"
+        - "campagne"
+        - "créativité"
+      category_ids: [11] # Marketing category
+
+    assistant-administratif:
+      slug: "assistant-administratif"
+      title: "Devenir Assistant Administratif"
+      subtitle: "Organisez et facilitez le fonctionnement des entreprises"
+      description: "L'assistant administratif est le pilier organisationnel de l'entreprise. Il gère les tâches administratives et facilite le travail des équipes."
+      meta_description: "Découvrez le métier d'assistant administratif et les formations INFPF en bureautique, organisation et gestion administrative."
+      missions:
+        - "Gérer l'agenda et les rendez-vous"
+        - "Traiter la correspondance et les appels"
+        - "Organiser les réunions et déplacements"
+        - "Tenir les dossiers et archives"
+        - "Assister dans les tâches quotidiennes"
+      competences:
+        - "Maîtrise de la bureautique (Office, Outlook)"
+        - "Organisation et rigueur"
+        - "Sens du relationnel"
+        - "Discrétion et confidentialité"
+        - "Polyvalence"
+      salaire: "22 000€ - 35 000€ par an (selon expérience)"
+      evolution: "Assistant de direction, Coordinateur administratif, Office manager"
+      secteurs: ["Tous secteurs", "Administration", "Santé", "Juridique", "PME/TPE"]
+      keywords:
+        - "assistant"
+        - "administratif"
+        - "bureautique"
+        - "organisation"
+        - "office"
+        - "outlook"
+        - "secrétariat"
+        - "gestion"
+      category_ids: [3] # Bureautique category
+
+    graphiste:
+      slug: "graphiste"
+      title: "Devenir Graphiste & Designer"
+      subtitle: "Créez des visuels impactants et des identités visuelles"
+      description: "Le graphiste conçoit des supports de communication visuelle pour transmettre des messages et créer des identités de marque. Un métier créatif aux multiples débouchés."
+      meta_description: "Découvrez le métier de graphiste et les formations INFPF en Photoshop, Illustrator, InDesign et création graphique."
+      missions:
+        - "Créer des identités visuelles et logos"
+        - "Concevoir des supports de communication"
+        - "Retoucher et traiter les images"
+        - "Réaliser des mises en page attractives"
+        - "Adapter les créations aux différents supports"
+      competences:
+        - "Maîtrise des logiciels Adobe (Photoshop, Illustrator, InDesign)"
+        - "Sens artistique et créativité"
+        - "Connaissance des tendances graphiques"
+        - "Respect des contraintes techniques"
+        - "Capacité d'écoute et d'adaptation"
+      salaire: "24 000€ - 45 000€ par an (selon expérience)"
+      evolution: "Directeur artistique, Chef de projet créatif, Freelance"
+      secteurs: ["Agences de com", "Édition", "Web", "Industrie", "Freelance"]
+      keywords:
+        - "graphiste"
+        - "photoshop"
+        - "illustrator"
+        - "indesign"
+        - "design"
+        - "création"
+        - "visuel"
+        - "communication"
+        - "adobe"
+      category_ids: [5] # Design/Graphics category
+
+# Configuration des fonctionnalités
+features:
+  metiers_enabled: true

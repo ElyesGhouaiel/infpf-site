@@ -17,6 +17,10 @@ class Formation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $certificateur = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nameFormation = null;
@@ -267,6 +271,17 @@ class Formation
      {
          return $this->bloc;
      }
+     public function getCertificateur(): ?string
+    {
+    return $this->certificateur;
+     }
+
+    public function setCertificateur(?string $certificateur): self
+    {
+    $this->certificateur = $certificateur;
+    return $this;
+    }
+
  
      // Setter pour Bloc
      public function setBloc(?string $bloc): self

@@ -1,65 +1,80 @@
-{% extends 'base.html.twig' %}
+{% extends 'base1.html.twig' %}
 
-{% block title %}Formation index{% endblock %}
+{% block title %}Liste des Formations{% endblock %}
 
 {% block body %}
-{# <nav id="menu">
-    <!-- Autres éléments de menu ici -->
+    <div class="container mt-5">
+        <h1 class="mb-4">Liste des Formations</h1>
 
-    <!-- Menu dynamique pour les catégories de formations -->
-    <ul class="menu" id="menu-menu-2022">
-        {% for category in category %}
-            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children" id="menu-item-{{ category.id }}">
-                <a href="{{ path('app_category_show', {'id': category.id}) }}">{{ category.name }}</a>
-                <ul class="sub-menu">
-                    {% for formation in category.formations %}
-                        <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ formation.id }}">
-                            <a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    </ul>
+        {# Menu dynamique par catégories (désactivé pour l'instant) #}
+        {#
+        <nav id="menu">
+            <ul class="menu" id="menu-menu-2022">
+                {% for cat in category %}
+                    <li class="menu-item" id="menu-item-{{ cat.id }}">
+                        <a href="{{ path('app_category_show', {'id': cat.id}) }}">{{ cat.name }}</a>
+                        <ul class="sub-menu">
+                            {% for formation in cat.formations %}
+                                <li class="menu-item" id="menu-item-{{ formation.id }}">
+                                    <a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        #}
 
-    <!-- Autres éléments de menu ici -->
-</nav> #}
+        <table class="table table-bordered table-hover table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Durée (h)</th>
+                    <th>Prix (€)</th>
+                    <th>RNCP</th>
+                    <th>Certificateur</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for formation in formations %}
+                    <tr>
+                        <td>{{ formation.id }}</td>
+                        <td>{{ formation.nameFormation }}</td>
+                        <td class="text-start">{{ formation.descriptionFormation }}</td>
+                        <td>{{ formation.dureeFormation }}</td>
+                        <td>{{ formation.priceFormation | number_format(2, ',', ' ') }}</td>
+                        <td>{{ formation.numeroRncp ?? '—' }}</td>
+                        <td>
+                            {% if formation.certificateur %}
+                                <span class="badge bg-primary">{{ formation.certificateur }}</span>
+                            {% else %}
+                                <span class="text-muted">Non défini</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_formation_show', {'id': formation.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
 
-<h1>Liste des Formations</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Durée</th>
-            <th>Prix</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {# {% for category in category %} #}
-        {% for formation in formations %}
-            <tr>
-                <td>{{ formation.id }}</td>
-                <td>{{ formation.nameFormation }}</td>
-                <td>{{ formation.descriptionFormation }}</td>
-                <td>{{ formation.dureeFormation }}</td>
-                <td>{{ formation.priceFormation }}</td>
-                <td>
-                    <a href="{{ path('app_formation_show', {'id': formation.id}) }}">Voir</a>
-                        {% if is_granted("ROLE_ADMIN") %}
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <a href="{{ path('app_formation_edit', {'id': formation.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-muted">Aucune formation disponible.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-                    <a href="{{ path('app_formation_edit', {'id': formation.id}) }}">Modifier</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    {# {% endfor %} #}
-    </tbody>
-</table>
-
-{% if is_granted("ROLE_ADMIN") %}
-<a href="{{ path('app_formation_new') }}">Créer une nouvelle formation</a>
-{% endif %}
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="mt-3">
+                <a href="{{ path('app_formation_new') }}" class="btn btn-success">Créer une nouvelle formation</a>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

@@ -2,24 +2,50 @@
     <div class="popup-content">
         <span class="close">&times;</span>
         <h2>Demande de documentation</h2>
-        <form id="documentationForm">
-            <label for="prenom">Prénom:</label>
-            <input type="text" id="prenom" name="prenom" required><br><br>
-            <label for="nom">Nom:</label>
-            <input type="text" id="nom" name="nom" required><br><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            <label for="telephone">Numéro de téléphone:</label>
-            <input type="tel" id="telephone" name="telephone" required><br><br>
-            <label for="formation">Formation:</label>
-            <select id="formation" name="formation" required>
-                {% for formation in formations %}
-                    <option value="{{ formation.id }}">{{ formation.nameFormation }}</option>
-                {% endfor %}
-            </select><br><br>
-            <label for="commentaire">Commentaire:</label>
-            <textarea id="commentaire" name="commentaire" rows="4" required></textarea><br><br>
-            <button type="submit">Envoyer</button>
+        
+        <form>
+            <div>
+                <label for="prenom">Prénom:</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+            
+            <div>
+                <label for="nom">Nom:</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div>
+                <label for="telephone">Numéro de téléphone:</label>
+                <input type="tel" id="telephone" name="telephone" required>
+            </div>
+            
+            <div>
+                <label for="formation">Formation:</label>
+                <select id="formation" name="formation" required>
+                    {% for formation in formations %}
+                        <option value="{{ formation.id }}">{{ formation.nameFormation }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div>
+                <!-- Champ vide pour maintenir l'équilibre des colonnes -->
+                &nbsp;
+            </div>
+            
+            <div>
+                <label for="commentaire">Commentaire:</label>
+                <textarea id="commentaire" name="commentaire" rows="4" required></textarea>
+            </div>
+            
+            <div>
+                <button type="submit">Envoyer</button>
+            </div>
         </form>
     </div>
 </div>

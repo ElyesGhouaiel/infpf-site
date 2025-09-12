@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Formation;
 use App\Entity\User;
 use App\Entity\Blog;
+use App\Entity\Comment;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Formations', 'fas fa-book', Formation::class);
         yield MenuItem::linkToCrud('Users', 'fas fa-user', User::class);
-        yield MenuItem::linkToCrud('Blogs', 'fas fa-newspaper', Blog::class);
+        yield MenuItem::linkToCrud('Articles de blog', 'fas fa-newspaper', Blog::class);
+        yield MenuItem::linkToCrud('Commentaires', 'fas fa-comments', Comment::class);
     }
 }

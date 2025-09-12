@@ -1,0 +1,129 @@
+.footer {
+  background-color: #172a3c;
+  color: white;
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.footer__social {
+  background-color: #84c1f1;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer__social__label {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.footer__social__svg {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.footer__social__svg div {
+  background: #f0f8ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.footer__social__svg div:hover {
+  background: #0e1c2a;
+}
+
+.footer__social__svg img {
+  width: 20px;
+  height: 20px;
+}
+
+.footer__social__tel {
+  font-size: 20px;
+  font-weight: bold;
+  color: #172a3c;
+  background-color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.footer__container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer__menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.footer__menu li {
+  flex: 1 0 33.33%;
+  padding: 10px 0;
+}
+
+.footer__menu a,
+.footer__menu button {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.footer__menu a:hover,
+.footer__menu button:hover {
+  color: #84c1f1;
+}
+
+.footer__mentionslegales {
+  font-size: 14px;
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.footer__copyright {
+  text-align: center;
+  font-size: 14px;
+  padding: 15px;
+  color: #ccc;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer__menu {
+    flex-direction: column;
+  }
+
+  .footer__menu li {
+    flex: 1 0 100%;
+  }
+
+  .footer__social__svg {
+    gap: 10px;
+  }
+
+  .footer__social__tel {
+    margin-top: 10px;
+    font-size: 18px;
+  }
+}

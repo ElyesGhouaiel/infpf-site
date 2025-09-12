@@ -1,14 +1,15 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
+
 
 {% block title %}Formation
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
-
+    <link href="../css/footer1.css" rel="stylesheet"/>
 
 {% endblock %}
 {% block body %}
-	<img class="im" src="../img/8.png" alt="Nos formations à distance">
+	<img class="im" src="{{ asset('img/8.png') }}" alt="Nos formations à distance">
 
 	<div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
@@ -47,7 +48,7 @@
 <details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
     <summary>Les chefs de projets pédagogiques :</summary>
     <div style="display: flex; align-items: center; justify-content: space-around;">
-        <img src="../img/chef-pedago.png" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
+        <img src="{{ asset('img/chef-pedago.png') }}" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
         <div style="flex: 0 0 48%; max-width: 48%;">
             <p>Nos chefs de projets pédagogiques conçoivent des programmes d'apprentissage adaptés et innovants, en collaboration étroite avec des formateurs et des experts. Leur objectif est de vous fournir une formation efficace et pertinente, facilitant ainsi votre réussite professionnelle et personnelle.</p>
             <p>Ces professionnels travaillent également en étroite collaboration avec nos professeurs et experts en e-learning pour élaborer des programmes pédagogiques de grande qualité et des méthodes d’apprentissages innovants.</p>
@@ -61,14 +62,14 @@
         <div style="flex: 0 0 48%; max-width: 48%;">
             <p>Chaque professeur de l'INFPF détient une expertise unique et est dévoué à vous accompagner dans l'atteinte de vos objectifs éducatifs. Sélectionnés pour leur pédagogie et leur expérience professionnelle approfondie, ils sont à votre disposition pour toute question.</p>
         </div>
-        <img src="../img/profess.png" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
+        <img src="{{ asset('img/profess.png') }}" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
     </div>
 </details>
 
 <details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
     <summary>Les coachs pédagogiques :</summary>
     <div style="display: flex; align-items: center; justify-content: space-around;">
-        <img src="../img/coach-pedagoo.png" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
+        <img src="{{ asset('img/coach-pedagoo.png') }}" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
         <div style="flex: 0 0 48%; max-width: 48%;">
             <p>Les coachs pédagogiques offrent un soutien sur mesure, s'adaptant aux besoins individuels de chaque étudiant. Ils sont là pour répondre à vos interrogations, vous conseiller et vous motiver tout au long de votre parcours.</p>
         </div>

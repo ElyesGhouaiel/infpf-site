@@ -1,16 +1,16 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Notre formation à distance et en ligne
 {% endblock %}
 {% block stylesheets %}
-	<link href="../css/fichier.css?v=48" rel="stylesheet"/>
-
+	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
+    <link href="../css/footer1.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
 
 
-	<img class="im" src="../img/3.png" alt="Nos formations à distance">
+	<img class="im" src="{{ asset('img/3.png') }}" alt="Nos formations à distance">
 
 	<div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
@@ -238,4 +238,5 @@
 
 </div>
 
-{% include 'footer.html.twig' %}</html>{% endblock %}
+{% include 'footer.html.twig' %}
+{% endblock %}

@@ -1,44 +1,259 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        :root {
+            --primary-color: #0b3f89;
+            --secondary-color: #1e5cb8;
+            --accent-color: #d71a22;
+            --light-gray: #f8fafc;
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
 
-{% block title %}Log in!{% endblock %}
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .auth-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-heavy);
+            padding: 4rem;
+            width: 100%;
+            max-width: 600px;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-subtitle {
+            color: #64748b;
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.5rem 1.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            background: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(30, 92, 184, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1.5rem;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .auth-error {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border: 1px solid #f87171;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #dc2626;
+            font-weight: 500;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-footer p {
+            color: #64748b;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .auth-footer a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 2.5rem;
+                margin: 1rem;
+                max-width: 90vw;
+            }
+
+            .auth-title {
+                font-size: 2.5rem;
+            }
+
+            .form-control {
+                padding: 1.3rem 1.5rem;
+                font-size: 1.1rem;
+            }
+
+            .btn-auth {
+                padding: 1.3rem 2rem;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+
+{% block title %}Connexion - INFPF{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Connexion</h1>
+            <p class="auth-subtitle">Accédez à votre espace personnel</p>
         </div>
-    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        {% if error %}
+            <div class="auth-error">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        <form method="post">
+            <div class="form-group">
+                <label for="inputEmail" class="form-label">Email ou nom d'utilisateur</label>
+                <input type="text" 
+                       value="{{ last_username }}" 
+                       name="email" 
+                       id="inputEmail" 
+                       class="form-control" 
+                       placeholder="Votre email ou nom d'utilisateur"
+                       autocomplete="username" 
+                       required 
+                       autofocus>
+            </div>
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+            <div class="form-group">
+                <label for="inputPassword" class="form-label">Mot de passe</label>
+                <input type="password" 
+                       name="password" 
+                       id="inputPassword" 
+                       class="form-control" 
+                       placeholder="Votre mot de passe"
+                       autocomplete="current-password" 
+                       required>
+            </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn-auth" type="submit">
+                Se connecter
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Pas encore inscrit ? <a href="{{ path('app_register') }}">Créer un compte</a></p>
         </div>
-    #}
-
-    <button href="{{ path('app_home') }}" class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
-<p>Pas encore inscrit ? <a href="{{ path('app_register') }}">S'inscrire</a></p>
+    </div>
+</div>
 {% endblock %}
 

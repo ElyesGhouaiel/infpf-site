@@ -1,9 +1,13 @@
+
+
 <!DOCTYPE html>
 <html>
 	<head>
 		{% block stylesheets %}{% endblock %}
-			<link href="../css/fichier.css?v=45" rel="stylesheet"/>
-			<link rel="stylesheet" href="{{ asset('css/popup.css') }}">
+			<link href="../css/fichier.css?v=59" rel="stylesheet"/>
+			<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
+			<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
+
 		<!-- CSS de Bootstrap -->
 		
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
@@ -16,6 +20,2380 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 			<script src="{{ asset('js/popup.js') }}"></script>
 		{% endblock %}
+
+		<!-- Calendly Integration -->
+		<link rel="preconnect" href="https://assets.calendly.com">
+		<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+		
+		<style>
+		/* ===== CONTRAINTES GLOBALES ET OVERRIDES ===== */
+		html, body {
+			max-width: 100vw !important;
+			overflow-x: hidden !important;
+			box-sizing: border-box !important;
+		}
+		
+		*, *::before, *::after {
+			box-sizing: border-box !important;
+		}
+		
+		/* Contrainte globale pour tous les éléments du header */
+		.header, .header * {
+			box-sizing: border-box !important;
+		}
+		
+		/* Éviter les débordements sur les menus */
+		.header #menu .sub-menu {
+			max-width: 100vw !important;
+			box-sizing: border-box !important;
+		}
+
+		/* ===== OVERRIDES SPÉCIFIQUES POUR ÉLIMINER CONFLITS ===== */
+		/* Neutralisation des styles de fichier.css pour le menu Formations */
+		.header #menu .menu-item:nth-child(2) .sub-menu,
+		.header #menu .menu-item:nth-child(2) .sub-menu *,
+		.header #menu .menu-item:nth-child(2) .sub-menu li,
+		.header #menu .menu-item:nth-child(2) .sub-menu li a {
+			/* Reset complet des propriétés critiques */
+			float: none !important;
+			clear: none !important;
+			position: static !important;
+			left: auto !important;
+			right: auto !important;
+			top: auto !important;
+			bottom: auto !important;
+		}
+
+		/* Override pour le conteneur principal du menu Formations */
+		.header #menu .menu-item:nth-child(2) .sub-menu {
+			/* Force les propriétés critiques définies plus haut */
+			position: absolute !important;
+			left: 50% !important;
+			top: 100% !important;
+			transform: translateX(-50%) !important;
+		}
+
+		/* ===== HEADER SIMPLE ===== */
+		.header {
+			position: fixed;
+			left: 0;
+			width: 100%;
+			top: 0;
+			z-index: 9000;
+			padding-top: 0px;
+			background: #0b3f89;
+		}
+
+		/* ===== MENU FORMATIONS - SOLUTION FINALE STABLE ===== */
+		
+		/* Conteneur parent stable */
+		.header #menu .menu-item:nth-child(2) {
+			position: relative !important;
+		}
+
+		/* Menu principal - Positionnement et dimensions fixes */
+		.header #menu .menu-item:nth-child(2) .sub-menu {
+			/* État initial */
+			display: none !important;
+			
+			/* Positionnement robuste et centré */
+			position: absolute !important;
+			top: 100% !important;
+			left: 50% !important;
+			transform: translateX(-50%) !important;
+			
+			/* Dimensions calculées pour éviter tout débordement */
+			width: clamp(320px, 92vw, 1000px) !important;
+			max-width: calc(100vw - 40px) !important;
+			
+			/* Style visuel propre */
+			background: #ffffff !important;
+			border: 2px solid #0b3f89 !important;
+			border-radius: 6px !important;
+			box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
+			
+			/* Z-index et interactivité */
+			z-index: 9999 !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+			pointer-events: all !important;
+			
+			/* Espacement interne optimal */
+			padding: 25px !important;
+			box-sizing: border-box !important;
+			overflow: visible !important;
+		}
+
+		/* Affichage au hover - Desktop uniquement */
+		@media (min-width: 769px) {
+			.header #menu .menu-item:nth-child(2):hover .sub-menu {
+				display: flex !important;
+				flex-wrap: wrap !important;
+				justify-content: space-between !important;
+				align-items: flex-start !important;
+				gap: 15px !important;
+			}
+		}
+
+		/* Responsive adaptatif */
+		@media (max-width: 1200px) {
+			.header #menu .menu-item:nth-child(2) .sub-menu {
+				width: clamp(300px, 94vw, 800px) !important;
+				padding: 20px !important;
+				gap: 12px !important;
+			}
+		}
+
+		@media (max-width: 900px) {
+			.header #menu .menu-item:nth-child(2) .sub-menu {
+				width: clamp(280px, 96vw, 600px) !important;
+				padding: 18px !important;
+				gap: 10px !important;
+			}
+		}
+
+		.header__container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 15px 20px;
+			max-width: 1400px;
+			position: relative;
+			min-height: 60px;
+
+			margin: 0 auto;
+		}
+
+		.logo-infpf {
+			filter: brightness(0) invert(1);
+		}
+
+		/* Menu desktop seulement */
+		@media (min-width: 769px) {
+			#menu {
+				display: flex;
+				align-items: center;
+			}
+		}
+		
+		/* Menu mobile masqué par défaut - SIMPLE */
+		@media (max-width: 768px) {
+			/* Seul le menu principal est caché par défaut */
+			#menu {
+				display: none !important;
+			}
+		}
+
+		/* Menu liste desktop seulement - ALIGNEMENT FORCÉ SUR UNE LIGNE */
+		@media (min-width: 769px) {
+			.header #menu .menu {
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				gap: 20px !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				list-style: none !important;
+				flex-wrap: nowrap !important;
+			}
+		}
+
+		/* Force la suppression des séparateurs de menu */
+		.header #menu .menu > .menu-item:before,
+		.header #menu .menu > .menu-item::before {
+			display: none !important;
+			content: none !important;
+		}
+
+		.header #menu .menu-item > a,
+		.header #menu .menu-item > span {
+			color: white !important;
+			text-decoration: none !important;
+			font-weight: 500 !important;
+			font-size: 15px !important;
+			padding: 10px 16px !important;
+			white-space: nowrap !important;
+			border-radius: 6px !important;
+			transition: all 0.3s ease !important;
+			
+		}
+
+		.header #menu .menu-item > a:hover,
+		.header #menu .menu-item > span:hover {
+			background: rgba(255, 255, 255, 0.15);
+		}
+
+		/* ===== MENU FORMATIONS MEGA-MENU - VERSION FINALE ===== */
+		
+		/* Conteneur du menu formations */
+		.header #menu .menu-formations-dropdown {
+			position: relative;
+		}
+		
+		/* Mega menu caché par défaut */
+		.header #menu .menu-formations-dropdown .formations-mega-menu {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: -150px;
+			background: #ffffff;
+			border: 1px solid #ddd;
+			border-radius: 8px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+			padding: 25px 20px;
+			width: 1100px;
+			max-width: calc(100vw - 40px);
+			height: auto;
+			min-height: auto;
+			z-index: 9999;
+			overflow: hidden;
+		}
+		
+		/* Affichage au survol - 2 LIGNES DE 4 COLONNES */
+		.header #menu .menu-formations-dropdown:hover .formations-mega-menu {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+			justify-content: space-between;
+			align-content: flex-start;
+			gap: 20px 12px;
+		}
+		
+		/* Desktop : disposition flexible avec retour à la ligne */
+		@media (min-width: 769px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				height: auto;
+				min-height: auto;
+				overflow: visible;
+			}
+			
+			.header #menu .menu-formations-dropdown:hover .formations-mega-menu {
+				flex-wrap: wrap;
+				overflow: visible;
+				justify-content: center;
+				align-items: start;
+			}
+		}
+		
+		/* Chaque colonne de catégorie - 4 PAR LIGNE EXACTEMENT */
+		.header #menu .formations-mega-menu .formation-category-column {
+			flex: 0 0 calc(25% - 9px);
+			width: calc(25% - 9px);
+			min-width: 240px;
+			max-width: 260px;
+			height: 280px;
+			padding: 10px;
+			margin: 0;
+			background: #ffffff;
+			border: 1px solid #e9ecef;
+			border-radius: 6px;
+			box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+			display: flex;
+			flex-direction: column;
+		}
+		
+		/* Titre de catégorie - GRANDE TAILLE ET UNE SEULE LIGNE */
+		.header #menu .formations-mega-menu .category-header {
+			margin: -10px -10px 12px -10px;
+			padding: 12px 8px;
+			background: #0b3f89;
+			border-radius: 6px 6px 0 0;
+			text-align: center;
+			flex-shrink: 0;
+			min-height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.header #menu .formations-mega-menu .category-header a {
+			color: #ffffff;
+			text-decoration: none;
+			font-size: 16px;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.4px;
+			display: block;
+			text-align: center;
+			line-height: 1.1;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 100%;
+			padding: 0 4px;
+		}
+		
+		.header #menu .formations-mega-menu .category-header:hover {
+			background: #094578;
+		}
+		
+		.header #menu .formations-mega-menu .category-header a:hover {
+			color: #ffffff;
+		}
+		
+		/* Liste des formations - COMPACT ET EFFICACE */
+		.header #menu .formations-mega-menu .formation-links {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 3px;
+			flex: 1;
+			overflow: hidden;
+		}
+		
+		.header #menu .formations-mega-menu .formation-links li {
+			margin: 0;
+			min-height: auto;
+			flex-shrink: 0;
+		}
+		
+		.header #menu .formations-mega-menu .formation-links a {
+			display: -webkit-box;
+			padding: 8px 10px;
+			color: #495057;
+			text-decoration: none;
+			font-size: 13px;
+			line-height: 1.4;
+			border-radius: 4px;
+			background: #f8f9fa;
+			border: 1px solid #e9ecef;
+			transition: background 0.15s ease;
+			text-align: left;
+			box-sizing: border-box;
+			
+			/* AFFICHAGE 2 LIGNES AVEC PLUS DE TEXTE VISIBLE */
+			white-space: normal;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			height: 3.2em;
+			width: 100%;
+			margin-bottom: 4px;
+		}
+		
+		.header #menu .formations-mega-menu .formation-links a:hover {
+			background: #e3f2fd;
+			color: #0b3f89;
+			border-color: #0b3f89;
+		}
+		
+		/* Lien "Voir toutes" - COMPACT ET UNIFORME */
+		.header #menu .formations-mega-menu .see-all-link {
+			margin-top: auto;
+			flex-shrink: 0;
+		}
+		
+		.header #menu .formations-mega-menu .see-all-link a {
+			background: #0b3f89;
+			color: #ffffff;
+			font-weight: 600;
+			font-size: 11px;
+			text-align: center;
+			text-transform: uppercase;
+			letter-spacing: 0.3px;
+			border: 1px solid #0b3f89;
+			min-height: 35px;
+			padding: 8px 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-top: auto;
+			border-radius: 4px;
+		}
+		
+		.header #menu .formations-mega-menu .see-all-link a:hover {
+			background: #094578;
+			border-color: #094578;
+		}
+		
+		/* ===== RESPONSIVE POUR MEGA MENU ===== */
+		
+		/* Écrans larges - optimisation */
+		@media (max-width: 1400px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				width: 1000px;
+				left: -200px;
+			}
+			
+			.header #menu .formations-mega-menu .formation-category-column {
+				min-width: 220px;
+				max-width: 240px;
+			}
+		}
+		
+		/* Écrans moyens - 3 colonnes par ligne */
+		@media (max-width: 1200px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				width: 850px;
+				left: -250px;
+				padding: 20px 15px;
+			}
+			
+			.header #menu .formations-mega-menu .formation-category-column {
+				flex: 0 0 calc(33.333% - 8px);
+				width: calc(33.333% - 8px);
+				min-width: 250px;
+				max-width: 280px;
+				height: 270px;
+			}
+		}
+		
+		/* Tablettes - 2 colonnes par ligne */
+		@media (max-width: 900px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				width: 650px;
+				left: -200px;
+				padding: 20px 15px;
+			}
+			
+			.header #menu .formations-mega-menu .formation-category-column {
+				flex: 0 0 calc(50% - 6px);
+				width: calc(50% - 6px);
+				min-width: 300px;
+				max-width: 320px;
+				height: 260px;
+			}
+		}
+		
+		/* Petites tablettes - 2 colonnes adaptatives */
+		@media (max-width: 768px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				width: 95vw;
+				left: -47.5vw;
+				transform: translateX(50%);
+				height: auto;
+				max-height: 85vh;
+				overflow-y: auto;
+				padding: 20px 15px;
+			}
+			
+			.header #menu .formations-mega-menu .formation-category-column {
+				flex: 0 0 calc(50% - 8px);
+				width: calc(50% - 8px);
+				min-width: 280px;
+				max-width: none;
+				height: auto;
+			}
+		}
+		
+		/* Mobile - 1 colonne par ligne */
+		@media (max-width: 480px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				position: fixed;
+				top: 70px;
+				left: 0;
+				width: 100vw;
+				max-width: 100vw;
+				transform: none;
+				flex-direction: column;
+				max-height: calc(100vh - 80px);
+				overflow-y: auto;
+				border-radius: 0;
+				border: none;
+				box-shadow: 0 0 20px rgba(0,0,0,0.1);
+				background: #ffffff;
+				padding: 15px 10px;
+				gap: 15px;
+			}
+			
+			.header #menu .formations-mega-menu .formation-category-column {
+				flex: none;
+				width: 100%;
+				min-width: 100%;
+				max-width: 100%;
+				height: auto;
+				margin: 0;
+				border: 1px solid #e9ecef;
+				border-radius: 8px;
+				padding: 15px;
+			}
+			
+			.header #menu .formations-mega-menu .category-header {
+				margin: -15px -15px 15px -15px;
+				border-radius: 8px 8px 0 0;
+				min-height: 45px;
+			}
+			
+			.header #menu .formations-mega-menu .category-header a {
+				font-size: 15px;
+				letter-spacing: 0.2px;
+			}
+			
+			.header #menu .formations-mega-menu .formation-links a {
+				font-size: 14px;
+				padding: 10px 12px;
+				height: auto;
+				-webkit-line-clamp: 3;
+			}
+		}
+
+		/* ===== SUPPRESSION RÈGLES REDONDANTES ===== */
+		/* Cette section a été nettoyée pour éviter les conflits */
+
+
+
+		/* ===== STYLES POUR LES AUTRES MENUS (L'École, Métiers, Information) ===== */
+		
+		/* Tous les sous-menus standards cachés par défaut */
+		.header #menu .menu-item .sub-menu {
+			display: none;
+		}
+
+		/* Affichage au survol pour les menus standards */
+		.header #menu .menu-item:hover > .sub-menu {
+			display: block;
+		}
+		
+		/* Styles pour les menus simples (pas le menu formations) */
+		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu {
+			position: absolute;
+			top: 100%;
+			left: -30px;
+			background: #eaeef0;
+			padding: 20px 25px;
+			min-width: 250px;
+			border-radius: 6px;
+			border: 1px solid #d1d5db;
+			box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+			z-index: 9998;
+		}
+		
+		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li {
+			border-bottom: 1px solid #c3c4c5;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		
+		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li:last-child {
+			border-bottom: 0;
+		}
+		
+		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li a {
+			display: flex;
+			align-items: center;
+			text-transform: uppercase;
+			color: #1e3e5d;
+			font-weight: 900;
+			padding: 10px 0;
+			font-size: 14px;
+			text-decoration: none;
+		}
+		
+		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li a:hover {
+			color: #1e3e5d;
+		}
+
+		/* ===== FORMATIONS INDIVIDUELLES ÉLÉGANTES ===== */
+		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu {
+			/* Structure propre et lisible */
+			display: flex !important;
+			flex-direction: column !important;
+			position: static !important;
+			background: none !important;
+			
+			/* Espacement optimal */
+			padding: 6px 0 8px 0 !important;
+			margin-top: 6px !important;
+			gap: 2px !important;
+			
+			/* Containment naturel */
+			width: 100% !important;
+			box-sizing: border-box !important;
+			overflow: visible !important;
+			
+			/* Suppression effets inutiles */
+			border: none !important;
+			border-radius: 0 !important;
+			box-shadow: none !important;
+		}
+
+		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu li {
+			/* Éléments formation propres */
+			width: 100% !important;
+			margin: 0 0 2px 0 !important;
+			padding: 0 !important;
+			border: none !important;
+			box-sizing: border-box !important;
+		}
+
+		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu li a {
+			/* Affichage moderne et lisible */
+			display: block !important;
+			text-decoration: none !important;
+			
+			/* Style subtil et professionnel */
+			background: #f8f9fb !important;
+			border-radius: 4px !important;
+			border-left: 3px solid transparent !important;
+			
+			/* Typographie claire */
+			font-size: 12px !important;
+			font-weight: 500 !important;
+			color: #4a5568 !important;
+			line-height: 1.4 !important;
+			
+			/* Espacement équilibré */
+			padding: 7px 10px !important;
+			margin: 0 !important;
+			
+			/* Gestion texte avancée */
+			white-space: normal !important;
+			word-wrap: break-word !important;
+			overflow-wrap: break-word !important;
+			hyphens: auto !important;
+			
+			/* Contraintes flexibles */
+			width: 100% !important;
+			min-height: 30px !important;
+			box-sizing: border-box !important;
+			
+			/* Transition élégante */
+			transition: all 0.2s ease !important;
+		}
+
+		/* Hover élégant pour les formations */
+		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu li a:hover {
+			background: #e6f3ff !important;
+			color: #0b3f89 !important;
+			border-left-color: #0b3f89 !important;
+			transform: translateX(3px) !important;
+		}
+
+		/* Bouton "Voir plus" moderne */
+		.header #menu .menu-item:nth-child(2) .sub-menu .see-more a {
+			background: #0b3f89 !important;
+			color: white !important;
+			font-weight: 600 !important;
+			text-align: center !important;
+			text-transform: uppercase !important;
+			font-size: 10px !important;
+			letter-spacing: 0.5px !important;
+			padding: 6px 12px !important;
+			margin-top: 6px !important;
+			border-radius: 15px !important;
+			display: inline-block !important;
+			border: none !important;
+			box-shadow: 0 2px 4px rgba(11, 63, 137, 0.2) !important;
+		}
+
+		.header #menu .menu-item:nth-child(2) .sub-menu .see-more a:hover {
+			background: #004080 !important;
+			transform: translateY(-1px) !important;
+			box-shadow: 0 4px 8px rgba(11, 63, 137, 0.3) !important;
+		}
+
+		/* ===== MENU MÉTIERS OPTIMISÉ (3ème) ===== */
+		.header #menu .menu-item:nth-child(3) .sub-menu {
+			position: absolute !important;
+			left: -50px !important;
+			top: 29px !important;
+			background: #eaeef0 !important;
+			padding: 20px 25px !important;
+			width: 350px !important;
+			max-width: 90vw !important;
+			min-width: 250px !important;
+			column-gap: initial !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+			transform: none !important;
+			display: none !important;
+			border-radius: 6px !important;
+			backdrop-filter: none !important;
+			border: 1px solid #d1d5db !important;
+			box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+			transition: none !important;
+			z-index: 9998 !important;
+			overflow: hidden !important;
+		}
+
+		.header #menu .menu-item:nth-child(3):hover .sub-menu {
+			display: block !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+			transform: none !important;
+		}
+
+		.header #menu .menu-item:nth-child(3) .sub-menu li {
+			border-bottom: 1px solid #c3c4c5 !important;
+			width: 100% !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			margin-bottom: 0 !important;
+		}
+
+		.header #menu .menu-item:nth-child(3) .sub-menu li:last-child {
+			border-bottom: 0 !important;
+		}
+
+		.header #menu .menu-item:nth-child(3) .sub-menu li a {
+			display: flex !important;
+			align-items: center !important;
+			text-transform: uppercase !important;
+			color: #1e3e5d !important;
+			font-weight: 900 !important;
+			padding: 10px 0 !important;
+			font-size: 14px !important;
+			letter-spacing: 0 !important;
+			border-radius: 0 !important;
+			transition: none !important;
+			background: none !important;
+		}
+
+		.header #menu .menu-item:nth-child(3) .sub-menu li a:hover {
+			background: none !important;
+			color: #1e3e5d !important;
+			transform: none !important;
+		}
+
+		/* ===== MENU L'ÉCOLE OPTIMISÉ (1er) ===== */
+		.header #menu .menu-item:nth-child(1) .sub-menu {
+			position: absolute !important;
+			left: -30px !important;
+			top: 29px !important;
+			background: #eaeef0 !important;
+			padding: 20px 25px !important;
+			width: 400px !important;
+			max-width: 90vw !important;
+			min-width: 280px !important;
+			column-gap: initial !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+			transform: none !important;
+			display: none !important;
+			border-radius: 6px !important;
+			backdrop-filter: none !important;
+			border: 1px solid #d1d5db !important;
+			box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+			transition: none !important;
+			z-index: 9997 !important;
+			overflow: hidden !important;
+		}
+
+		.header #menu .menu-item:nth-child(1):hover .sub-menu {
+			display: block !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+			transform: none !important;
+		}
+
+		.header #menu .menu-item:nth-child(1) .sub-menu li {
+			border-bottom: 1px solid #c3c4c5 !important;
+			width: 100% !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			margin-bottom: 0 !important;
+		}
+
+		.header #menu .menu-item:nth-child(1) .sub-menu li:last-child {
+			border-bottom: 0 !important;
+		}
+
+		.header #menu .menu-item:nth-child(1) .sub-menu li a {
+			display: flex !important;
+			align-items: center !important;
+			text-transform: uppercase !important;
+			color: #1e3e5d !important;
+			font-weight: 900 !important;
+			padding: 10px 0 !important;
+			font-size: 14px !important;
+			letter-spacing: 0 !important;
+			border-radius: 0 !important;
+			transition: none !important;
+			background: none !important;
+		}
+
+		.header #menu .menu-item:nth-child(1) .sub-menu li a:hover {
+			background: none !important;
+			color: #1e3e5d !important;
+			transform: none !important;
+		}
+
+
+
+
+
+		/* Boutons CTA simples */
+		.header__cta {
+			padding: 12px 24px;
+			color: white;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 14px;
+			margin-left: 10px;
+			border-radius: 25px;
+			transition: all 0.3s ease;
+		}
+
+		.header__cta__INFPFlearning {
+			background: rgba(255, 255, 255, 0.2);
+			border: 2px solid rgba(255, 255, 255, 0.3);
+		}
+
+		.header__cta__INFPFlearning:hover {
+			background: rgba(255, 255, 255, 0.3);
+		}
+
+		.header__cta__doc {
+			background: #d71a22;
+			cursor: pointer;
+		}
+
+		.header__cta__doc:hover {
+			background: #b5161c;
+		}
+
+		/* ===== FIX PROBLÈME BOUTONS QUI DISPARAISSENT AU SCROLL ===== */
+		/* Override du CSS fichier.css qui cache les boutons INFPFlearning */
+		.header--scrolling .header__cta__INFPFlearning {
+			display: inline-block !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+		}
+
+		/* Assurer que les boutons restent visibles dans tous les états */
+		.header__cta__INFPFlearning,
+		.header__cta__doc {
+			display: inline-block !important;
+		}
+
+		/* ===== AMÉLIORATION ESPACEMENT ET ALIGNEMENT BOUTONS ===== */
+		.header-cta-container {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-left: 20px;
+		}
+
+		/* Alignement symétrique dans le header container - TOUT SUR UNE LIGNE */
+		.header__container {
+			display: flex !important;
+			align-items: center !important;
+			justify-content: space-between !important;
+			padding: 15px 25px !important;
+			max-width: 1400px !important;
+			margin: 0 auto !important;
+			position: relative !important;
+			gap: 20px !important;
+		}
+
+		/* Groupe navigation + boutons pour l'alignement */
+		.header-nav-group {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+
+		/* Logo - prend la largeur minimale nécessaire */
+		.header__container > a {
+			flex: 0 0 auto !important;
+			margin-right: 0 !important;
+		}
+
+		/* Menu centré - prend l'espace disponible et centre son contenu - DESKTOP SEULEMENT */
+		@media (min-width: 769px) {
+			.header__container #menu {
+				flex: 1 !important;
+				display: flex !important;
+				justify-content: center !important;
+				margin: 0 !important;
+			}
+		}
+
+		/* Menu container - DESKTOP SEULEMENT */
+		@media (min-width: 769px) {
+			.header__container #menu .menu {
+				display: flex !important;
+				justify-content: center !important;
+				align-items: center !important;
+				gap: 30px !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				list-style: none !important;
+			}
+		}
+
+		/* Éléments de menu - DESKTOP SEULEMENT */
+		@media (min-width: 769px) {
+			.header__container #menu .menu > .menu-item > a,
+			.header__container #menu .menu > .menu-item > span {
+				padding: 12px 20px !important;
+				color: white !important;
+				text-decoration: none !important;
+				font-weight: 500 !important;
+				font-size: 15px !important;
+				border-radius: 6px !important;
+				transition: all 0.3s ease !important;
+			}
+
+			.header__container #menu .menu > .menu-item > a:hover,
+			.header__container #menu .menu > .menu-item > span:hover {
+				background: rgba(255, 255, 255, 0.15) !important;
+			}
+		}
+
+		/* Conteneur des actions header (boutons + burger) - ALIGNÉ À DROITE */
+		.header-actions {
+			flex: 0 0 auto !important;
+			display: flex !important;
+			align-items: center !important;
+			gap: 12px !important;
+			position: relative !important;
+			z-index: 9001 !important;
+		}
+
+		/* Boutons CTA sur la même ligne - DESKTOP SEULEMENT */
+		@media (min-width: 769px) {
+			.header-actions {
+				margin-left: auto !important;
+			}
+			
+			.header__cta {
+				white-space: nowrap !important;
+				padding: 10px 18px !important;
+				font-size: 14px !important;
+			}
+		}
+
+		/* Responsive ajustements pour écrans moyens - tout reste sur une ligne */
+		@media (max-width: 1200px) and (min-width: 769px) {
+			.header__container {
+				gap: 15px !important;
+				padding: 12px 18px !important;
+			}
+			
+			.header #menu .menu {
+				gap: 16px !important;
+			}
+			
+			.header #menu .menu-item > a,
+			.header #menu .menu-item > span {
+				font-size: 14px !important;
+				padding: 8px 12px !important;
+			}
+			
+			.header__cta {
+				padding: 8px 14px !important;
+				font-size: 13px !important;
+			}
+		}
+
+		@media (max-width: 992px) and (min-width: 769px) {
+			.header__container {
+				gap: 12px !important;
+				padding: 10px 15px !important;
+			}
+			
+			.header #menu .menu {
+				gap: 14px !important;
+			}
+			
+			.header #menu .menu-item > a,
+			.header #menu .menu-item > span {
+				font-size: 13px !important;
+				padding: 6px 10px !important;
+			}
+			
+			.header__cta {
+				padding: 6px 12px !important;
+				font-size: 12px !important;
+			}
+		}
+
+		/* OVERRIDE GLOBAL ULTRA-PUISSANT pour les textes de menu mobile */
+		.header--active #menu a:not(.header__cta),
+		.header--active #menu span:not(.header__cta),
+		body .header--active #menu a:not(.header__cta),
+		body .header--active #menu span:not(.header__cta),
+		html body .header--active #menu a:not(.header__cta),
+		html body .header--active #menu span:not(.header__cta) {
+			color: #0b3f89 !important;
+		}
+
+		/* Neutraliser les styles de fichier.css qui forcent la couleur blanche */
+		.header--active #menu .menu a,
+		.header--active #menu .menu span {
+			color: #0b3f89 !important;
+		}
+
+		/* Burger menu simple */
+		.header__menu-burger {
+			display: none;
+			flex-direction: column;
+			cursor: pointer;
+			padding: 10px;
+			position: relative;
+			z-index: 9999;
+			order: 999;
+			flex-shrink: 0;
+		}
+
+		.header__menu-burger__trait {
+			width: 25px;
+			height: 3px;
+			background: white;
+			margin: 3px 0;
+			transition: all 0.3s ease;
+		}
+
+		/* Info utilisateur simple */
+		.user-info {
+			display: flex;
+			align-items: center;
+			gap: 1.5rem;
+			color: white;
+			font-size: 16px;
+		}
+
+		.user-welcome {
+			display: flex;
+			align-items: center;
+			padding: 1.2rem 2rem;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 30px;
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+		}
+
+		.welcome-content {
+			display: flex;
+			flex-direction: column;
+			line-height: 1.2;
+		}
+
+		.welcome-greeting {
+			font-size: 1.1rem;
+			opacity: 0.8;
+			font-weight: 400;
+		}
+
+		.welcome-username {
+			font-size: 1.4rem;
+			font-weight: 600;
+			color: #ffffff;
+		}
+
+		.header__cta__logout {
+			display: flex !important;
+			align-items: center;
+			padding: 1.2rem 2rem !important;
+			background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+			color: white !important;
+			border: 2px solid #dc2626 !important;
+			border-radius: 30px !important;
+			font-size: 1.3rem !important;
+			font-weight: 600;
+			transition: all 0.3s ease !important;
+			text-decoration: none;
+		}
+
+		.header__cta__logout:hover {
+			background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4) !important;
+		}
+
+
+		/* Responsive */
+		@media (max-width: 1024px) {
+			.header__container {
+				padding: 12px 20px !important;
+			}
+
+			.user-info {
+				gap: 1rem;
+			}
+
+			.user-welcome {
+				padding: 1rem 1.5rem;
+				border-radius: 25px;
+			}
+
+			.welcome-greeting {
+				font-size: 1rem;
+			}
+
+			.welcome-username {
+				font-size: 1.2rem;
+			}
+
+			.header__cta__logout {
+				padding: 1rem 1.5rem !important;
+				font-size: 1.1rem !important;
+				border-radius: 25px !important;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.user-info {
+				gap: 0.8rem;
+				flex-wrap: wrap;
+			}
+
+			.user-welcome {
+				padding: 0.8rem 1.2rem;
+			}
+
+			.welcome-greeting {
+				font-size: 0.9rem;
+			}
+
+			.welcome-username {
+				font-size: 1.1rem;
+			}
+
+			.header__cta__logout {
+				padding: 0.8rem 1.2rem !important;
+				font-size: 1rem !important;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.header__container {
+				padding: 10px 15px !important;
+				position: relative !important;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+				width: 100% !important;
+				box-sizing: border-box !important;
+			}
+			
+			/* PROTECTION ABSOLUE - Les CTA mobiles sont cachés par défaut */
+			.menu-mobile-ctas {
+				display: none !important;
+				visibility: hidden !important;
+				opacity: 0 !important;
+			}
+			
+			.header__container #menu {
+				display: none !important;
+			}
+			
+			.header__menu-burger {
+				display: flex !important;
+				position: relative !important;
+				z-index: 9999 !important;
+				order: 999 !important;
+				flex-shrink: 0 !important;
+				margin-left: auto !important;
+			}
+			
+			/* Masquer les boutons connexion/infpflearning sur mobile - ils sont dans le menu burger */
+			.header-actions {
+				position: absolute !important;
+				top: -9999px !important;
+				left: -9999px !important;
+				visibility: hidden !important;
+				opacity: 0 !important;
+				pointer-events: none !important;
+				width: 0 !important;
+				height: 0 !important;
+				overflow: hidden !important;
+			}
+		}
+		@media (max-width: 768px) {
+  .header #menu .sub-menu {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    background: #fff !important;
+    display: none;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .header #menu .sub-menu.sub-menu--active {
+    display: block !important;
+  }
+  .header #menu .sub-menu li a {
+    display: block;
+    width: 100%;
+    padding: 14px 32px !important;
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #0b3f89;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+    box-sizing: border-box;
+  }
+  .header #menu .sub-menu li:last-child a {
+    border-bottom: none;
+  }
+}
+
+
+		/* Système Calendly simple */
+		.calendly-btn {
+			display: inline-block;
+			background: #0b3f89;
+			color: white;
+			padding: 12px 24px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 16px;
+			border: none;
+			cursor: pointer;
+			text-align: center;
+		}
+
+		.calendly-btn:hover {
+			background: #004080;
+			color: white;
+			text-decoration: none;
+		}
+
+		/* Variantes de taille */
+		.calendly-btn--small {
+			padding: 8px 16px;
+			font-size: 14px;
+		}
+
+		.calendly-btn--large {
+			padding: 16px 32px;
+			font-size: 18px;
+		}
+
+		/* Variantes de style */
+		.calendly-btn--outline {
+			background: transparent;
+			border: 2px solid #0b3f89;
+			color: #0b3f89;
+		}
+
+		.calendly-btn--outline:hover {
+			background: #0b3f89;
+			color: white;
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.calendly-btn {
+				padding: 14px 20px;
+				font-size: 15px;
+				width: 100%;
+				max-width: 300px;
+			}
+		}
+
+		/* ===== SELECT NATIF FORMATIONS AVEC CATÉGORIES COLORÉES ===== */
+		
+		.select-container {
+			position: relative;
+			width: 100%;
+			max-width: 450px;
+			margin: 0 auto;
+		}
+		
+		/* Masquer les animations de fond quand le select est actif */
+		.select-container:focus-within ~ * [data-aos],
+		.select-container:focus-within ~ .scroll-indicator,
+		.select-container:focus-within ~ .wave-separator {
+			opacity: 0.1 !important;
+			transition: opacity 0.2s ease !important;
+		}
+		
+		.modern-select {
+			width: 100%;
+			padding: 18px 50px 18px 20px;
+			font-size: 16px;
+			font-weight: 500;
+			color: #2d3748;
+			background: #ffffff;
+			border: 2px solid #e1e8f0;
+			border-radius: 12px;
+			outline: none;
+			cursor: pointer;
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			box-shadow: 0 4px 20px rgba(11, 63, 137, 0.08);
+			transition: all 0.3s ease;
+			z-index: 10000;
+			position: relative;
+			
+			/* Optimisé pour 49 formations */
+			max-height: 500px;
+			overflow-y: auto;
+			min-width: 420px;
+		}
+		
+		/* Dropdown au premier plan avec z-index très élevé */
+		.modern-select:focus,
+		.modern-select:active {
+			z-index: 999999 !important;
+			box-shadow: 0 12px 40px rgba(11, 63, 137, 0.2) !important;
+		}
+		
+		/* Assurer que la dropdown du select soit au premier plan */
+		.modern-select:focus option,
+		.modern-select:active option {
+			background: #ffffff;
+			color: #2d3748;
+		}
+		
+		/* Améliorer la visibilité du dropdown */
+		.modern-select option {
+			padding: 10px 16px;
+			line-height: 1.6;
+			font-size: 14px;
+			color: #4a5568;
+			background: #ffffff;
+		}
+		
+		.modern-select option:hover {
+			background: #e6f3ff !important;
+			color: #0b3f89 !important;
+		}
+		
+		/* Styles pour les optgroups - tentative de coloration */
+		.modern-select optgroup {
+			font-weight: bold;
+			font-size: 15px;
+			padding: 12px 8px;
+			margin: 4px 0;
+			color: #ffffff;
+			background: #0b3f89;
+			border-radius: 4px;
+		}
+		
+		/* Styles spécifiques par catégorie (si supporté) */
+		.modern-select optgroup[data-category="finance"] {
+			background: #3b82f6 !important;
+		}
+		
+		.modern-select optgroup[data-category="informatique"] {
+			background: #10b981 !important;
+		}
+		
+		.modern-select optgroup[data-category="management"] {
+			background: #ef4444 !important;
+		}
+		
+		.modern-select optgroup[data-category="marketing"] {
+			background: #a855f7 !important;
+		}
+		
+		.modern-select optgroup[data-category="sante"] {
+			background: #f97316 !important;
+		}
+		
+		.modern-select optgroup[data-category="beaute"] {
+			background: #f472b6 !important;
+		}
+		
+		.modern-select optgroup[data-category="cuisine"] {
+			background: #facc15 !important;
+			color: #1f2937 !important;
+		}
+		
+		.modern-select optgroup[data-category="social"] {
+			background: #06b6d4 !important;
+		}
+		
+		.modern-select optgroup[data-category="petite-enfance"] {
+			background: #8b5cf6 !important;
+		}
+		
+		/* Amélioration supplémentaire de la visibilité */
+		.modern-select optgroup {
+			border: 2px solid transparent;
+			margin: 2px 0;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+		
+		/* Espacement entre les groupes d'options */
+		.modern-select optgroup + optgroup {
+			border-top: 1px solid #e2e8f0;
+			margin-top: 6px;
+		}
+		
+		.modern-select:hover {
+			border-color: #0b3f89;
+			box-shadow: 0 6px 25px rgba(11, 63, 137, 0.12);
+		}
+		
+		.modern-select:focus {
+			border-color: #0b3f89;
+			box-shadow: 0 8px 30px rgba(11, 63, 137, 0.15);
+		}
+		
+		.select-container .select-arrow {
+			position: absolute;
+			top: 50%;
+			right: 20px;
+			transform: translateY(-50%);
+			color: #0b3f89;
+			pointer-events: none;
+			z-index: 1;
+		}
+		
+		/* Z-index élevé pour passer au premier plan */
+		.modern-select:focus,
+		.modern-select:active {
+			z-index: 99999 !important;
+			position: relative;
+		}
+		
+
+		
+		/* Responsive */
+		@media (max-width: 768px) {
+			.select-container {
+				max-width: 100%;
+			}
+			
+			.modern-select {
+				padding: 16px 40px 16px 18px;
+				font-size: 15px;
+				min-width: 350px;
+				max-height: 400px;
+			}
+			
+			.select-container .select-arrow {
+				right: 18px;
+			}
+			
+			.modern-select optgroup {
+				font-size: 14px;
+				padding: 10px 6px;
+			}
+			
+			.modern-select option {
+				padding: 9px 14px;
+				font-size: 13px;
+			}
+		}
+		
+		@media (max-width: 480px) {
+			.modern-select {
+				padding: 14px 35px 14px 16px;
+				font-size: 14px;
+				min-width: 300px;
+				max-height: 350px;
+			}
+			
+			.select-container .select-arrow {
+				right: 16px;
+			}
+			
+			.modern-select optgroup {
+				font-size: 13px;
+				padding: 8px 4px;
+			}
+			
+			.modern-select option {
+				padding: 8px 12px;
+				font-size: 12px;
+			}
+		}
+
+		/* ===== TITRE CENTRÉ ET VRAIMENT AGRANDI ===== */
+		.section-title.centered-title {
+			text-align: center !important;
+			font-size: 4rem !important;
+			font-weight: 900 !important;
+			margin: 1rem auto 3rem auto !important;
+			max-width: 1200px !important;
+			color: #0b3f89 !important;
+			line-height: 1.1 !important;
+			letter-spacing: 0.03em !important;
+			display: block !important;
+			width: 100% !important;
+			text-transform: uppercase !important;
+			text-shadow: 0 2px 4px rgba(11, 63, 137, 0.1) !important;
+		}
+		
+		/* S'assurer que le conteneur parent permette le centrage */
+		.categories-section .container {
+			text-align: center !important;
+		}
+		
+		/* Responsive pour le titre */
+		@media (max-width: 768px) {
+			.section-title.centered-title {
+				font-size: 3.2rem !important;
+				margin: 0.8rem auto 2.5rem auto !important;
+				letter-spacing: 0.02em !important;
+			}
+		}
+		
+		@media (max-width: 480px) {
+			.section-title.centered-title {
+				font-size: 2.5rem !important;
+				margin: 0.5rem auto 2rem auto !important;
+				line-height: 1.2 !important;
+				letter-spacing: 0.01em !important;
+			}
+		}
+
+		/* ===== CORRECTION PADDING MAIN POUR HEADER FIXE ===== */
+		main.site-main {
+			padding-top: 120px !important; /* Augmenté pour compenser la hauteur du header */
+		}
+
+		/* Responsive padding */
+		@media (max-width: 1024px) {
+			main.site-main {
+				padding-top: 100px !important;
+			}
+		}
+
+		@media (max-width: 768px) {
+			main.site-main {
+				padding-top: 80px !important;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.menu-mobile-close {
+				display: none;
+				position: absolute;
+				top: 15px;
+				right: 15px;
+				background: #ffffff;
+				border: 2px solid #0b3f89;
+				border-radius: 50%;
+				width: 40px;
+				height: 40px;
+				font-size: 1.5rem;
+				color: #0b3f89;
+				z-index: 10001;
+				cursor: pointer;
+				padding: 0;
+				line-height: 1;
+				align-items: center;
+				justify-content: center;
+				box-shadow: 0 2px 8px rgba(11, 63, 137, 0.2);
+				transition: all 0.3s ease;
+				font-weight: bold;
+			}
+			.menu-mobile-close:hover {
+				background: #0b3f89;
+				color: white;
+				transform: scale(1.05);
+			}
+			.header--active .menu-mobile-close {
+				display: flex !important;
+			}
+			.menu-mobile-ctas {
+				display: none !important;
+				flex-direction: column;
+				gap: 12px;
+				margin: 32px 0 0 0;
+				align-items: center;
+				width: 100%;
+			}
+			
+			/* Afficher les CTA seulement quand le menu est actif */
+			.header--active .menu-mobile-ctas {
+				display: flex !important;
+				visibility: visible !important;
+				opacity: 1 !important;
+			}
+			.menu-mobile-ctas .header__cta {
+				width: 90%;
+				margin: 0 auto;
+				text-align: center;
+				font-size: 1.1rem;
+			}
+		}
+		@media (min-width: 769px) {
+			.menu-mobile-close, .menu-mobile-ctas {
+				display: none !important;
+			}
+		}
+		
+		/* FORCER LE MEGA-MENU FORMATIONS À ÊTRE MOBILE */
+		@media (max-width: 768px) {
+			/* Mega-menu formations transformé en sous-menu simple */
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				display: none !important;
+				position: static !important;
+				width: 100% !important;
+				height: auto !important;
+				max-height: calc(50vh) !important; /* Limite la hauteur */
+				left: 0 !important;
+				right: 0 !important;
+				top: auto !important;
+				transform: none !important;
+				max-width: 100% !important;
+				overflow-y: auto !important; /* Permettre le scroll vertical */
+				overflow-x: hidden !important;
+				background: #f0f4f8 !important; /* Même fond que les autres sous-menus */
+				padding: 8px 0 !important;
+				margin: 0 !important;
+				border: none !important;
+				box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important; /* Même ombre */
+				flex-direction: column !important;
+				flex-wrap: nowrap !important;
+			}
+			
+			/* Mega-menu visible quand actif */
+			.header #menu .menu-formations-dropdown .formations-mega-menu.sub-menu--active {
+				display: block !important;
+			}
+			
+			/* Catégories du mega-menu simplifiées */
+			.header #menu .formations-mega-menu .formation-category-column {
+				width: 100% !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				border-bottom: 1px solid #e2e8f0 !important;
+				box-sizing: border-box !important;
+			}
+			
+			/* Headers de catégorie comme des liens de sous-menu */
+			.header #menu .formations-mega-menu .category-header {
+				margin: 0 !important;
+				padding: 0 !important;
+				background: transparent !important;
+				border-radius: 0 !important;
+				min-height: auto !important;
+			}
+			
+			.header #menu .formations-mega-menu .category-header a {
+				display: block !important;
+				width: 100% !important;
+				color: #374151 !important;
+				background: transparent !important;
+				padding: 14px 16px 14px 40px !important;
+				font-size: 0.95rem !important;
+				font-weight: 500 !important;
+				text-align: left !important;
+				text-decoration: none !important;
+				border-left: 3px solid transparent !important;
+				min-height: 48px !important;
+				box-sizing: border-box !important;
+			}
+			
+			.header #menu .formations-mega-menu .category-header a:hover {
+				background: #ffffff !important;
+				color: #0b3f89 !important;
+				border-left-color: #0b3f89 !important;
+				transform: translateX(3px) !important;
+			}
+			
+			/* Masquer les liens de formation détaillés */
+			.header #menu .formations-mega-menu .formation-links {
+				display: none !important;
+			}
+			
+			/* Correction pour éviter les conflits d'anciens styles */
+			#menu.overflow {
+				overflow: auto !important;
+			}
+			
+			/* Assurer une structure propre */
+			body.overflow {
+				overflow: hidden !important;
+			}
+			
+			/* Forcer tous les conteneurs à ne pas déborder */
+			.header #menu *,
+			.header #menu .menu-item,
+			.header #menu .sub-menu,
+			.header #menu .formations-mega-menu,
+			.header #menu .formation-category-column,
+			.header #menu .formation-links,
+			.header #menu li,
+			.header #menu a {
+				max-width: 100vw !important;
+				box-sizing: border-box !important;
+				overflow: hidden !important;
+			}
+			
+			/* Règle ultime anti-débordement pour mobile */
+			.header--active #menu * {
+				max-width: 100vw !important;
+			}
+		}
+		
+		/* OPTIMISATION SPÉCIFIQUE IPHONE 12 PRO (390px) */
+		@media (max-width: 390px) {
+			.header #menu .sub-menu li a,
+			.header #menu .menu-item:nth-child(1) .sub-menu li a,
+			.header #menu .menu-item:nth-child(2) .sub-menu li a,
+			.header #menu .menu-item:nth-child(3) .sub-menu li a {
+				padding: 12px 16px 12px 32px !important;
+				font-size: 0.9rem !important;
+			}
+			
+			.menu > li > a, .menu > li > span {
+				padding: 14px 20px !important;
+				font-size: 1rem !important;
+			}
+			
+			.header #menu .formations-mega-menu .category-header {
+				padding: 12px 20px !important;
+			}
+		}
+
+		/* === MENU MOBILE SIMPLE ET FONCTIONNEL === */
+		@media (max-width: 768px) {
+			#menu {
+				display: none;
+			}
+			
+			.header--active #menu {
+				display: block !important;
+				position: fixed !important;
+				top: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				width: 100vw !important;
+				height: 100vh !important;
+				background: white !important;
+				z-index: 99999 !important;
+				overflow-y: auto !important;
+				overflow-x: hidden !important;
+				padding: 80px 0 120px 0 !important;
+				margin: 0 !important;
+				box-sizing: border-box !important;
+				/* Reset complet pour éviter l'héritage */
+				flex: none !important;
+				align-items: stretch !important;
+				justify-content: flex-start !important;
+			}
+			
+			/* Liste du menu */
+			.header--active #menu .menu {
+				display: flex !important;
+				flex-direction: column !important;
+				list-style: none !important;
+				margin: 0 !important;
+				padding: 0 20px !important;
+				width: 100% !important;
+				box-sizing: border-box !important;
+				visibility: visible !important;
+			}
+			
+			/* Items du menu */
+			.header--active #menu .menu > li {
+				display: block !important;
+				width: 100% !important;
+				border-bottom: 1px solid #eee !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				box-sizing: border-box !important;
+				visibility: visible !important;
+			}
+			
+			/* Liens du menu */
+			.header--active #menu .menu > li > a,
+			.header--active #menu .menu > li > span {
+				display: block !important;
+				width: 100% !important;
+				padding: 20px 0 !important;
+				color: #0b3f89 !important;
+				text-decoration: none !important;
+				font-size: 18px !important;
+				font-weight: 500 !important;
+				text-align: left !important;
+				box-sizing: border-box !important;
+				visibility: visible !important;
+			}
+			
+
+		/* Empêcher le scroll */
+		body.menu-mobile-open {
+			overflow: hidden !important;
+		}
+		
+		/* CORRECTION Z-INDEX: Quand le menu burger est ouvert, les filtres passent derrière */
+		body.menu-mobile-open .mobile-filter-toggle,
+		body.menu-mobile-open .mobile-filter-overlay,
+		body.menu-mobile-open .mobile-filter-panel {
+			z-index: 1 !important;
+			pointer-events: none !important;
+		}
+		
+		/* Mais quand les filtres sont ouverts normalement, ils passent au-dessus de la nav */
+		.mobile-filter-overlay.active {
+			z-index: 15000 !important;
+		}
+		
+		.mobile-filter-panel.active {
+			z-index: 15001 !important;
+		}
+		
+		/* Forcer le menu burger à rester au top niveau */
+		.header--active #menu {
+			z-index: 99999 !important;
+		}
+		
+		.header--active .header__menu-burger {
+			z-index: 100000 !important;
+			display: none !important; /* Masquer le burger quand le menu est ouvert */
+		}
+		
+		/* Règle générale: Header et menu burger toujours au dessus des filtres */
+		.header {
+			z-index: 10000 !important;
+			position: fixed !important;
+		}
+		
+		.header * {
+			z-index: inherit !important;
+		}
+		
+		.header__menu-burger {
+			z-index: 50000 !important;
+		}
+		
+		/* ===== RESPONSIVE GLOBAL ===== */
+		* {
+			box-sizing: border-box !important;
+		}
+
+		html, body {
+			overflow-x: hidden !important; /* Empêche le scroll horizontal */
+			max-width: 100vw !important;
+		}
+
+		/* Container responsif pour tout le contenu */
+		.entry-content, 
+		.bodyclass, 
+		.container {
+			max-width: 100% !important;
+			overflow-x: hidden !important;
+			padding-left: 15px !important;
+			padding-right: 15px !important;
+		}
+
+		/* ===== IMAGES DE BANNIÈRE RESPONSIVES ===== */
+		.im {
+			width: calc(100% - 30px) !important; /* Laisse de l'espace sur les côtés */
+			max-width: 1200px !important; /* Limite la largeur maximale */
+			height: 200px !important;
+			object-fit: cover !important;
+			object-position: center !important;
+			margin: 20px auto 30px auto !important; /* Centré avec marges auto */
+			border-radius: 12px !important;
+			box-shadow: 0 4px 20px rgba(11, 63, 137, 0.1) !important;
+			display: block !important; /* Force le block pour centrer */
+		}
+
+		/* Responsive pour les images de bannière */
+		@media (max-width: 1024px) {
+			.im {
+				width: calc(100% - 20px) !important;
+				height: 180px !important;
+				margin: 15px auto 25px auto !important;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.im {
+				width: calc(100% - 15px) !important;
+				height: 150px !important;
+				margin: 15px auto 20px auto !important;
+				border-radius: 8px !important;
+			}
+			
+			/* Réduire le padding des containers sur mobile */
+			.entry-content, 
+			.bodyclass, 
+			.container {
+				padding-left: 10px !important;
+				padding-right: 10px !important;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.im {
+				width: calc(100% - 10px) !important;
+				height: 120px !important;
+				margin: 10px auto 15px auto !important;
+			}
+			
+			/* Padding minimal sur très petits écrans */
+			.entry-content, 
+			.bodyclass, 
+			.container {
+				padding-left: 5px !important;
+				padding-right: 5px !important;
+			}
+		}
+
+		/* ===== RESPONSIVE SUPPLÉMENTAIRE ===== */
+		/* Images et médias responsifs */
+		img, video, iframe {
+			max-width: 100% !important;
+			height: auto !important;
+		}
+
+		/* Colonnes responsives */
+		.wp-block-columns, 
+		.wp-block-column {
+			max-width: 100% !important;
+			overflow-x: hidden !important;
+		}
+
+		/* Tableaux responsifs */
+		table {
+			width: 100% !important;
+			overflow-x: auto !important;
+			display: block !important;
+		}
+
+		/* Texts et paragraphes */
+		p, h1, h2, h3, h4, h5, h6 {
+			word-wrap: break-word !important;
+			overflow-wrap: break-word !important;
+			max-width: 100% !important;
+		}
+
+		/* Containers de sections */
+		.sections-container,
+		.section {
+			max-width: 100% !important;
+			overflow-x: hidden !important;
+		}
+
+		@media (max-width: 768px) {
+			.sections-container {
+				flex-direction: column !important;
+			}
+			
+			.section {
+				flex: none !important;
+				width: 100% !important;
+				margin-bottom: 20px !important;
+			}
+			
+			/* Force les colonnes à s'empiler sur mobile */
+			.wp-block-columns {
+				flex-direction: column !important;
+			}
+			
+			.wp-block-column {
+				flex: none !important;
+				width: 100% !important;
+				margin-bottom: 15px !important;
+			}
+		}
+
+		/* Ajuster les z-index des filtres pour qu'ils passent au-dessus de la nav mais sous le burger */
+		.mobile-filter-toggle {
+			z-index: 900 !important;
+		}
+		
+		.mobile-filter-overlay {
+			z-index: 15000 !important;
+		}
+		
+		.mobile-filter-panel {
+			z-index: 15001 !important;
+		}
+			
+			/* Animations du menu mobile */
+			@keyframes slideInFromRight {
+				0% {
+					transform: translateX(100%);
+					opacity: 0;
+				}
+				100% {
+					transform: translateX(0);
+					opacity: 1;
+				}
+			}
+			
+			@keyframes slideOutToRight {
+				0% {
+					transform: translateX(0);
+					opacity: 1;
+				}
+				100% {
+					transform: translateX(100%);
+					opacity: 0;
+				}
+			}
+			.menu-menu-2022-container {
+				flex: 1 !important;
+				display: flex !important;
+				flex-direction: column !important;
+				min-height: 0 !important;
+				overflow-y: auto !important;
+				overflow-x: hidden !important;
+				padding-bottom: 250px !important; /* Plus d'espace pour les boutons fixes */
+				max-height: calc(100vh - 70px) !important; /* Limite la hauteur pour forcer le scroll */
+			}
+			.menu {
+				flex: 0 0 auto !important;
+				display: flex !important;
+				flex-direction: column !important;
+				align-items: stretch !important;
+				min-height: 0 !important;
+				overflow: visible !important;
+				gap: 0 !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+			.menu > li {
+				width: 100% !important;
+				border-bottom: 1px solid #e2e8f0;
+				transition: all 0.3s ease;
+			}
+			.menu > li:last-child {
+				border-bottom: none;
+			}
+			.menu > li > a, .menu > li > span {
+				display: flex !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+				padding: 16px 24px !important;
+				font-size: 1.05rem !important;
+				font-weight: 600 !important;
+				color: #0b3f89 !important;
+				text-decoration: none !important;
+				background: transparent !important;
+				border-radius: 0 !important;
+				transition: all 0.3s ease !important;
+				min-height: 56px !important;
+			}
+
+			/* OVERRIDE ULTRA-SPÉCIFIQUE pour la couleur des textes de menu */
+			.header--active .menu > li > a,
+			.header--active .menu > li > span,
+			.header.header--active .menu > li > a,
+			.header.header--active .menu > li > span,
+			.header--active #menu .menu > li > a,
+			.header--active #menu .menu > li > span,
+			.header.header--active #menu .menu > li > a,
+			.header.header--active #menu .menu > li > span {
+				color: #0b3f89 !important;
+				background: transparent !important;
+			}
+
+			/* Override pour combattre app.css et autres styles externes */
+			@media (max-width: 768px) {
+				.header--active #menu a:not(.header__cta),
+				.header--active #menu span:not(.header__cta),
+				.header.header--active #menu a:not(.header__cta),
+				.header.header--active #menu span:not(.header__cta),
+				#menu.header--active a:not(.header__cta),
+				#menu.header--active span:not(.header__cta) {
+					color: #0b3f89 !important;
+				}
+			}
+			.menu > li:hover {
+				background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+			}
+			.menu > li > a:hover, .menu > li > span:hover {
+				color: #004080 !important;
+				background: transparent !important;
+			}
+			/* CTA cachés par défaut */
+			.menu-mobile-ctas {
+				display: none !important;
+			}
+			
+			/* CTA visibles seulement quand le menu est actif */
+			.header--active .menu-mobile-ctas {
+				display: flex !important;
+				flex-direction: column !important;
+				gap: 12px !important;
+				align-items: stretch !important;
+				width: 100% !important;
+				border-top: 1px solid #e2e8f0;
+				background: #ffffff !important;
+				position: fixed !important;
+				bottom: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				z-index: 100001 !important;
+				box-sizing: border-box !important;
+				box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+				padding: 20px 16px !important;
+				margin: 0 !important;
+			}
+			.menu-mobile-ctas .header__cta {
+				width: 100% !important;
+				margin: 0 !important;
+				text-align: center !important;
+				font-size: 0.95rem !important;
+				font-weight: 600 !important;
+				padding: 12px 16px !important;
+				border-radius: 8px !important;
+				text-decoration: none !important;
+				transition: all 0.3s ease !important;
+				box-shadow: 0 2px 8px rgba(11, 63, 137, 0.15) !important;
+				color: #ffffff !important;
+			}
+			.menu-mobile-ctas .header__cta__doc {
+				background: linear-gradient(135deg, #d71a22 0%, #b5161c 100%) !important;
+				color: #fff !important;
+				border: 2px solid #d71a22 !important;
+			}
+			.menu-mobile-ctas .header__cta__doc:hover {
+				background: linear-gradient(135deg, #b5161c 0%, #9a1419 100%) !important;
+				transform: translateY(-2px) !important;
+				box-shadow: 0 6px 20px rgba(215, 26, 34, 0.4) !important;
+			}
+			.menu-mobile-ctas .header__cta__INFPFlearning {
+				background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%) !important;
+				color: #fff !important;
+				border: 2px solid #0b3f89 !important;
+			}
+			.menu-mobile-ctas .header__cta__INFPFlearning:hover {
+				background: linear-gradient(135deg, #004080 0%, #0056b3 100%) !important;
+				transform: translateY(-2px) !important;
+				box-shadow: 0 6px 20px rgba(11, 63, 137, 0.4) !important;
+			}
+			
+			/* Styles pour les informations utilisateur mobile */
+			.mobile-user-info {
+				background: rgba(11, 63, 137, 0.1) !important;
+				border: 2px solid #0b3f89 !important;
+				border-radius: 8px !important;
+				padding: 12px 16px !important;
+				text-align: center !important;
+				width: 100% !important;
+				margin: 0 !important;
+			}
+			
+			.mobile-user-welcome {
+				color: #0b3f89 !important;
+				font-weight: 600 !important;
+				font-size: 0.95rem !important;
+			}
+			
+			.menu-mobile-ctas .header__cta__logout {
+				background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+				color: #fff !important;
+				border: 2px solid #dc2626 !important;
+			}
+			
+			.menu-mobile-ctas .header__cta__logout:hover {
+				background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
+				transform: translateY(-2px) !important;
+				box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4) !important;
+			}
+		}
+
+
+
+		/* === MENU MOBILE : FLÈCHES AMÉLIORÉES POUR SOUS-MENUS === */
+		@media (max-width: 768px) {
+			.menu-item-has-children > a::after,
+			.menu-item-has-children > span::after,
+			.menu-formations-dropdown > a::after {
+				content: '▼';
+				font-size: 1rem;
+				color: #6b7280;
+				margin-left: auto;
+				transition: all 0.3s ease;
+				transform: rotate(0deg);
+				font-weight: bold;
+			}
+			.menu-item-has-children.clicked > a::after,
+			.menu-item-has-children.clicked > span::after,
+			.menu-formations-dropdown.clicked > a::after {
+				transform: rotate(180deg);
+				color: #0b3f89;
+			}
+			.menu-item-has-children:hover > a::after,
+			.menu-item-has-children:hover > span::after,
+			.menu-formations-dropdown:hover > a::after {
+				color: #0b3f89;
+			}
+		}
+
+		/* ===== MASQUER LE BOUTON RETOUR VERS LE HAUT DANS LE MENU BURGER ===== */
+		@media (max-width: 768px) {
+			/* Masquer le bouton scroll-to-top quand le menu burger est ouvert */
+			.header--active ~ #btnScrollTop,
+			.header--active + main #btnScrollTop,
+			body.overflow #btnScrollTop {
+				display: none !important;
+				opacity: 0 !important;
+				visibility: hidden !important;
+				pointer-events: none !important;
+			}
+			
+			/* ===== DÉSACTIVER LES HOVER DESKTOP QUI EMPÊCHENT LE REPLIEMENT ===== */
+			/* Désactiver le hover pour L'École sur mobile */
+			.header #menu .menu-item:nth-child(1):hover .sub-menu {
+				display: none !important;
+			}
+			
+			/* Désactiver le hover pour Métiers sur mobile */
+			.header #menu .menu-item:nth-child(3):hover .sub-menu {
+				display: none !important;
+			}
+			
+			/* Forcer le contrôle JavaScript uniquement */
+			.header #menu .menu-item:nth-child(1) .sub-menu.sub-menu--active,
+			.header #menu .menu-item:nth-child(3) .sub-menu.sub-menu--active {
+				display: block !important;
+			}
+		}
+
+		/* ===== FORCE TOTALE SOUS-MENUS MOBILE ===== */
+		@media (max-width: 768px) {
+			/* RESET COMPLET DE TOUS LES SOUS-MENUS EXISTANTS */
+			.header #menu .menu-item:nth-child(1) .sub-menu,
+			.header #menu .menu-item:nth-child(2) .sub-menu,
+			.header #menu .menu-item:nth-child(3) .sub-menu,
+			.header #menu .sub-menu,
+			.header #menu .menu-item-has-children .sub-menu {
+				position: static !important;
+				left: 0 !important;
+				right: 0 !important;
+				top: auto !important;
+				width: 100% !important;
+				min-width: 100% !important;
+				max-width: 100% !important;
+				height: auto !important;
+				min-height: auto !important;
+				max-height: calc(50vh) !important; /* Limite la hauteur des sous-menus */
+				box-sizing: border-box !important;
+				z-index: 1 !important;
+				background: #f0f4f8 !important;
+				display: none !important;
+				padding: 8px 0 !important;
+				margin: 0 !important;
+				border-radius: 0 !important;
+				border: none !important;
+				box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+				opacity: 1 !important;
+				visibility: visible !important;
+				transform: none !important;
+				overflow-y: auto !important; /* Permettre le scroll vertical */
+				overflow-x: hidden !important;
+				flex-direction: column !important;
+				flex-wrap: nowrap !important;
+				column-count: 1 !important;
+				columns: 1 !important;
+				column-gap: 0 !important;
+				float: none !important;
+			}
+			
+			/* FORCE AFFICHAGE QUAND ACTIF */
+			.header #menu .menu-item:nth-child(1) .sub-menu.sub-menu--active,
+			.header #menu .menu-item:nth-child(2) .sub-menu.sub-menu--active,
+			.header #menu .menu-item:nth-child(3) .sub-menu.sub-menu--active,
+			.header #menu .sub-menu.sub-menu--active,
+			.header #menu .menu-item-has-children .sub-menu.sub-menu--active {
+				display: block !important;
+				visibility: visible !important;
+				opacity: 1 !important;
+			}
+			
+			/* RESET COMPLET DES ÉLÉMENTS LI DE SOUS-MENU */
+			.header #menu .menu-item:nth-child(1) .sub-menu li,
+			.header #menu .menu-item:nth-child(2) .sub-menu li,
+			.header #menu .menu-item:nth-child(3) .sub-menu li,
+			.header #menu .sub-menu li {
+				width: 100% !important;
+				box-sizing: border-box !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				border-bottom: 1px solid #e2e8f0 !important;
+				float: none !important;
+				position: static !important;
+				left: auto !important;
+				right: auto !important;
+				top: auto !important;
+				display: block !important;
+				opacity: 1 !important;
+				visibility: visible !important;
+				transform: none !important;
+				column-break-inside: avoid !important;
+				page-break-inside: avoid !important;
+				break-inside: avoid !important;
+			}
+			
+			.header #menu .sub-menu li:last-child {
+				border-bottom: none !important;
+			}
+			
+			/* RESET COMPLET DES LIENS DE SOUS-MENU */
+			.header #menu .menu-item:nth-child(1) .sub-menu li a,
+			.header #menu .menu-item:nth-child(2) .sub-menu li a,
+			.header #menu .menu-item:nth-child(3) .sub-menu li a,
+			.header #menu .sub-menu li a {
+				display: block !important;
+				width: 100% !important;
+				box-sizing: border-box !important;
+				color: #374151 !important;
+				background: transparent !important;
+				padding: 14px 16px 14px 40px !important;
+				font-size: 0.95rem !important;
+				font-weight: 500 !important;
+				text-align: left !important;
+				text-decoration: none !important;
+				transition: all 0.3s ease !important;
+				border-left: 3px solid transparent !important;
+				min-height: 48px !important;
+				float: none !important;
+				position: static !important;
+				left: auto !important;
+				right: auto !important;
+				top: auto !important;
+				opacity: 1 !important;
+				visibility: visible !important;
+				transform: none !important;
+				border-radius: 0 !important;
+				border-top: none !important;
+				border-right: none !important;
+				border-bottom: none !important;
+				margin: 0 !important;
+				line-height: normal !important;
+				white-space: normal !important;
+				overflow: visible !important;
+				text-overflow: clip !important;
+				word-wrap: normal !important;
+				overflow-wrap: normal !important;
+				hyphens: none !important;
+			}
+			
+			.header #menu .sub-menu li a:hover {
+				background: #ffffff !important;
+				color: #0b3f89 !important;
+				border-left-color: #0b3f89 !important;
+				transform: translateX(3px) !important;
+			}
+			
+			/* CONTRAINTES GLOBALES ANTI-DÉBORDEMENT */
+			html, body {
+				overflow-x: hidden !important;
+				max-width: 100vw !important;
+			}
+			#menu {
+				overflow-x: hidden !important;
+				max-width: 100vw !important;
+			}
+			.header, .header * {
+				max-width: 100vw !important;
+				box-sizing: border-box !important;
+			}
+
+		}
+
+
+
+
+
+		</style>
 
 		<meta
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
@@ -50,28 +2428,24 @@
 		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
 		<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
 	</head>
-</html></link>
+</html>
 <header class="header" style="  position: fixed;
   left: 0;
   width: 100%;
   top: 0;
   color: #fff;
   z-index: 40;
-  padding-top: 20px;">
+  padding-top: 0px;">
 <div class="header__container">
-	<div id="branding">
 		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
-			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="62" src="../img/LOGO__INFPF.png" width="100" color="none"/>
+			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="22" src="{{ asset('img/CROPPED_LOGO__INFPF_2.png') }}" width="22" color="none"/>
 		</a>
-	</div>
 	<nav id="menu">
+		<button class="menu-mobile-close" style="display:none">×</button>
 		<div class="menu-menu-2022-container">
 			<ul class="menu" id="menu-menu-2022">
-				<li class="header-menu-retour menu-item menu-item-type-custom menu-item-object-custom menu-item-442852" id="menu-item-442852">
-					<a href="#">Retour</a>
-				</li>
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442796" id="menu-item-442796">
-					<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">L’École</a>
+					<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">L'École</a>
 					<ul class="sub-menu">
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442797" id="menu-item-442797">
 							<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">Nos formations à
@@ -82,7 +2456,7 @@
 						</li>
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442799" id="menu-item-442799">
 							<a href="{{ path('redirectToNotreMethodeApprentissage') }}">Notre méthode
-																																																																																																                    d’apprentissage</a>
+																																																																																																                    d'apprentissage</a>
 						</li>
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442800" id="menu-item-442800">
 							<a href="{{ path('redirectToNosCoursParCorrespondance') }}">Nos cours par
@@ -115,31 +2489,33 @@
 																		</li> #}
 					</ul>
 				</li>
-				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442808" id="menu-item-442808">
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-formations-dropdown" id="menu-item-442808">
 					<a href="{{ path('app_home') }}">Formations</a>
-					<ul class="sub-menu">
+					<div class="formations-mega-menu">
 						{% for category in dataProvider.getCategories() %}
-							<li class="header-menu-asa menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children" id="menu-item-{{ category.id }}">
-								<a class="category-link" href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
-								<ul class="sub-menu">
+							<div class="formation-category-column">
+								<h3 class="category-header">
+									<a href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
+								</h3>
+								<ul class="formation-links">
 									{% set counter = 0 %}
 									{% for formation in category.formations %}
 										{% if counter < 3 %}
-											<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ formation.id }}">
+											<li>
 												<a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
 											</li>
 											{% set counter = counter + 1 %}
 										{% endif %}
 									{% endfor %}
 									{% if category.formations|length > 3 %}
-										<li class="menu-item menu-item-type-post_type menu-item-object-page see-more" id="see-more-{{ category.id }}">
-											<a href="{{ path('app_home', {'category_id': category.id}) }}" style="background-color: transparent; color: #0077c1;">Voir plus</a>
+										<li class="see-all-link">
+											<a href="{{ path('app_home', {'category_id': category.id}) }}">Voir toutes ({{ category.formations|length }})</a>
 										</li>
 									{% endif %}
 								</ul>
-							</li>
+							</div>
 						{% endfor %}
-					</ul>
+					</div>
 				</li>
 
 				{# <ul>
@@ -155,356 +2531,707 @@
 																																																    {% endfor %}
 																																																</ul> #}
 
-				<ul class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442839" id="menu-item-442839">
-					<a href="#">Métiers</a>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442839" id="menu-item-442839">
+					<a href="{{ path('app_metiers_index') }}">Métiers</a>
 					<ul class="sub-menu">
-						{% for category in categories %}
-							<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ category.id }}">
-								<a class="category-link" href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
-							</li>
-						{% endfor %}
-					</ul>
-				</ul>
-				<li class="obfcuscated menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-461428" id="menu-item-461428">
-					<a href="#">Information</a>
-					<ul class="sub-menu">
-						{# <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461431" id="menu-item-461431">
-							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/eleve-mois/', '');">Élèves
-																																																																																																                    du mois</span>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442840" id="menu-item-442840">
+							<a href="{{ path('app_metiers_show', {'slug': 'commercial'}) }}">Devenir Commercial</a>
 						</li>
-						<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-461432" id="menu-item-461432">
-							<span class="ljoptimizer" onclick="ljo_open('https://www..fr/temoignages/projet-du-mois/', '');">Projet
-																																																																																																                    du mois</span>
-						</li> #}
-						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
-							<a href="{{ path('app_blog_index')}}">Blog</a>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442841" id="menu-item-442841">
+							<a href="{{ path('app_metiers_show', {'slug': 'developpeur-web'}) }}">Devenir Développeur Web</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442842" id="menu-item-442842">
+							<a href="{{ path('app_metiers_show', {'slug': 'trader'}) }}">Devenir Trader</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442843" id="menu-item-442843">
+							<a href="{{ path('app_metiers_index') }}">Voir tous les métiers</a>
 						</li>
 					</ul>
 				</li>
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
+					<a href="{{ path('app_blog_index')}}">Actualités</a>
+				</li>
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
 					<a href="{{ path('app_contact')}}">Contact</a>
 				</li>
-			</li>
 
 		</ul>
 	</div>
-</nav>
-{% if app.user %}
-<div class="user-info">
-        <span>Bonjour, {{ app.user.username }}!</span>
-        <a href="{{ path('app_logout') }}">Déconnexion</a>
-    </div>
-	{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
-	
-{% else %}
-	<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF
-																												          learning</a>
-
-{% endif %}
-{% if is_granted("ROLE_ADMIN") %}
-	{# <a href="{{ path('app_admin') }}">Admin</a> #}
-{% endif %}
-
-<div class="header__cta header__cta__doc btn-documentation">
-    <span>Demande de documentation</span>
-</div>
-
-{% include 'components/modal.html.twig' %}
-   
-
-<div class="header__menu-burger icon-fill gtm-cta-burger">
-	<span class="header__menu-burger__trait"></span>
-	<span class="header__menu-burger__trait"></span>
-	<span class="header__menu-burger__trait"></span>
-</div></div></header>
-
-<main class="site-main" id="main">
-<article class="post-404182 page type-page status-publish has-post-thumbnail hentry" id="post-404182">
-<div class="bandeau">
-	<div class="bandeau--blur">
-		<picture class="attachment-post-thumbnail size-post-thumbnail wp-post-image" decoding="async" fetchpriority="high">
-			<source
-			sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www..fr/wp-content/uploads/2023/07/bandeau-multimarque-2023.jpg.webp 1920w, https://www..fr/wp-content/uploads/2023/07/bandeau-multimarque-2023-300x88.jpg.webp 300w, https://www..fr/wp-content/uploads/2023/07/bandeau-multimarque-2023-768x225.jpg.webp 768w" type="image/webp"/>
-		{# <img alt="" decoding="async" height="345" loading="lazy" sizes="(max-width: 278px) 100vw, 278px" src="https://www..fr/wp-content/uploads/2022/01/visuel-formation-financable-cpf.jpg" srcset="https://www..fr/wp-content/uploads/2022/01/visuel-formation-financable-cpf.jpg 278w, https://www..fr/wp-content/uploads/2022/01/visuel-formation-financable-cpf-242x300.jpg 242w" width="278"/> #}
-		</picture>
+	<div class="menu-mobile-ctas" style="display:none">
+		<a class="header__cta header__cta__doc btn-documentation" href="#">Demande de documentation</a>
+		{% if app.user %}
+			<div class="mobile-user-info">
+				<span class="mobile-user-welcome">
+					Bonjour {% if app.user.username %}{{ app.user.username }}{% else %}{{ app.user.email }}{% endif %}
+				</span>
+			</div>
+			<a class="header__cta header__cta__logout" href="{{ path('app_logout') }}">Déconnexion</a>
+		{% else %}
+			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Connexion</a>
+		{% endif %}
+		<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF learning</a>
 	</div>
-	<div class="bandeau-formulaire-pedago">
-		<script type="text/javascript"></script>
-		<div class="gf_browser_unknown gform_wrapper gform_legacy_markup_wrapper gform-theme--no-framework gform-multimarque-site_wrapper gform-multistep_wrapper" data-form-index="0" data-form-theme="legacy" id="gform_wrapper_151">
-			<div class="gform_heading">
-				<div class="gform_description">
-					<strong style="color: white;">Bienvenue à l'Institut National de la Formation Professionnelle Française</strong>
+</nav>
+	{# Boutons d'action dans le header #}
+	<div class="header-actions">
+		{% if app.user %}
+		<div class="user-info">
+			<div class="user-welcome">
+				<div class="welcome-content">
+					<span class="welcome-greeting">Bonjour</span>
+					<span class="welcome-username">
+						{% if app.user.username %}
+							{{ app.user.username }}
+						{% else %}
+							{{ app.user.email }}
+						{% endif %}
+					</span>
 				</div>
 			</div>
-			<form action="/" class="gform-multimarque-site gform-multistep" data-formid="151" enctype="multipart/form-data" id="gform_151" method="post" novalidate="" target="gform_ajax_frame_151">
-				<div class="gf_page_steps" id="gf_page_steps_151">
-					<div class="gf_step gf_step_active gf_step_first" id="gf_step_151_1"  style="padding-bottom:15px">
-						<span class="gf_step_number">1</span>
-						<span class="gf_step_label" style="color: #0b3e6fd6;"><strong  style="font-size:25px">Quelle formation vous intéresse ?</strong
-						</span>
-					</div>
-					{# <div class="gf_step gf_step_next gf_step_pending" id="gf_step_151_2">
-																																									<span class="gf_step_number">2</span>
-																																									<span class="gf_step_label">Pour qui est cette brochure ?</span>
-																																								</div>
-																																								<div class="gf_step gf_step_pending" id="gf_step_151_3">
-																																									<span class="gf_step_number">3</span>
-																																									<span class="gf_step_label">Sur quel email allons-nous vous envoyer votre doc ?</span>
-																																								</div>
-																																								<div class="gf_step gf_step_last gf_step_pending" id="gf_step_151_4">
-																																									<span class="gf_step_number">4</span>
-																																									<span class="gf_step_label">Comment vous joindre ?</span>
-																																								</div> #}
-				</div>
-				<div class="gform-body gform_body">
-					<div class="gform_page" data-js="page-field-id-1" id="gform_page_151_1">
-						<div class="gform_page_fields">
-							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151">
-								<li class="gfield gfield--type-select formation gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" id="field_151_1">
-									<label class="gfield_label gform-field-label" for="input_151_1">Formation
-										<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_select">
-										<select aria-invalid="false" aria-required="true" class="medium gfield_select" id="input_151_1" name="input_1" onchange="if (this.value) window.location.href='/formation/' + this.value;">
-											<option class="gf_placeholder" selected="selected" value="">Choisissez votre formation</option>
-											{% for category in categories %}
-												<optgroup label="{{ category.name }}">
-													{% for formation in category.formations %}
-														<option value="{{ formation.id }}">{{ formation.nameFormation }}</option>
-													{% endfor %}
-												</optgroup>
-											{% endfor %}
-										</select>
-									</div>
-								</li>
-							</ul>
-						</div>
-						{# <div class="gform_page_footer top_label">
-							<input class="gform_next_button gform-theme-button button" id="gform_next_button_151_25" onclick='jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Suivant"/>
-						</div> #}
-					</div>
-					<div class="gform_page" data-js="page-field-id-25" id="gform_page_151_2" style="display:none;">
-						<div class="gform_page_fields">
-							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151_2">
-								<li class="gfield gfield--type-text prenom gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_2" id="field_151_2">
-									<label class="gfield_label gform-field-label" for="input_151_2">Prénom<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_2" name="input_2" placeholder="Prénom" type="text" value=""/>
-									</div>
-								</li>
-								<li class="gfield gfield--type-text nom gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_3" id="field_151_3">
-									<label class="gfield_label gform-field-label" for="input_151_3">Nom<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_3" name="input_3" placeholder="Nom" type="text" value=""/>
-									</div>
-								</li>
-							</ul>
-						</div> 
-						<div class="gform_page_footer top_label">
-							<input class="gform_previous_button gform-theme-button gform-theme-button--secondary button" id="gform_previous_button_151_27" onclick='jQuery("#gform_target_page_number_151").val("1");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("1");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Précédent"/>
-							<input class="gform_next_button gform-theme-button button" id="gform_next_button_151_27" onclick='jQuery("#gform_target_page_number_151").val("3");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("3");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Suivant"/>
-						</div>
-					</div>
-					<div class="gform_page" data-js="page-field-id-27" id="gform_page_151_3" style="display:none;">
-						<div class="gform_page_fields">
-							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151_3">
-								<li class="gfield gfield--type-email email gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_5" id="field_151_5">
-									<label class="gfield_label gform-field-label" for="input_151_5">E-mail<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_email">
-										<input aria-invalid="false" aria-required="true" class="medium" id="input_151_5" name="input_5" placeholder="E-mail" type="email" value=""/>
-									</div>
-								</li>
-								<li class="gfield gfield--type-text cp gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_22" id="field_151_22">
-									<label class="gfield_label gform-field-label" for="input_151_22">Code postal<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_22" name="input_22" placeholder="Code Postal" type="text" value=""/>
-									</div>
-								</li>
-							</ul>
-						</div>
-						<div class="gform_page_footer top_label">
-							<input class="gform_previous_button gform-theme-button gform-theme-button--secondary button" id="gform_previous_button_151_28" onclick='jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("2");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Précédent"/>
-							<input class="gform_next_button gform-theme-button button" id="gform_next_button_151_28" onclick='jQuery("#gform_target_page_number_151").val("4");  jQuery("#gform_151").trigger("submit",[true]); ' onkeypress='if( event.keyCode == 13 ){ jQuery("#gform_target_page_number_151").val("4");  jQuery("#gform_151").trigger("submit",[true]); } ' type="button" value="Suivant"/>
-						</div>
-					</div>
-					<div class="gform_page" data-js="page-field-id-28" id="gform_page_151_4" style="display:none;">
-						<div class="gform_page_fields">
-							<ul class="gform_fields top_label form_sublabel_below description_above" id="gform_fields_151_4">
-								<li class="gfield gfield--type-phone tel gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_visible" data-js-reload="field_151_6" id="field_151_6">
-									<label class="gfield_label gform-field-label" for="input_151_6">Téléphone<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_phone"><input aria-invalid="false" aria-required="true" class="medium" id="input_151_6" name="input_6" placeholder="Téléphone" type="tel" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_7" id="field_151_7">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_7" name="input_7" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_8" id="field_151_8">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_8" name="input_8" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_9" id="field_151_9">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_9" name="input_9" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_10" id="field_151_10">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_10" name="input_10" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_11" id="field_151_11">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_11" name="input_11" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_12" id="field_151_12">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_12" name="input_12" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_13" id="field_151_13">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_13" name="input_13" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_14" id="field_151_14">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_14" name="input_14" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_15" id="field_151_15">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_15" name="input_15" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_16" id="field_151_16">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_16" name="input_16" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_17" id="field_151_17">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_17" name="input_17" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_18" id="field_151_18">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_18" name="input_18" type="hidden" value="brochure-gratuite"/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_19" id="field_151_19">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_19" name="input_19" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_20" id="field_151_20">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_20" name="input_20" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-hidden gform_hidden field_sublabel_below gfield--no-description field_description_above gfield_visibility_visible" data-js-reload="field_151_21" id="field_151_21">
-									<div class="ginput_container ginput_container_text"><input aria-invalid="false" class="gform_hidden" id="input_151_21" name="input_21" type="hidden" value=""/></div>
-								</li>
-								<li class="gfield gfield--type-checkbox gfield--type-choice gdpr gfield_contains_required field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_hidden" data-js-reload="field_151_24" id="field_151_24">
-									<div class="admin-hidden-markup">
-										<i class="gform-icon gform-icon--hidden"></i>
-										<span>Hidden</span>
-									</div>
-									<label class="gfield_label gform-field-label gfield_label_before_complex">CGU<span class="gfield_required">
-											<span class="gfield_required gfield_required_asterisk">*</span>
-										</span>
-									</label>
-									<div class="ginput_container ginput_container_checkbox">
-										<ul class="gfield_checkbox" id="input_151_24">
-											<li class="gchoice gchoice_151_24_1">
-												<input checked="checked" class="gfield-choice-input" id="choice_151_24_1" name="input_24.1" type="checkbox" value="1"/>
-												<label class="gform-field-label gform-field-label--type-inline" for="choice_151_24_1" id="label_151_24_1">J'accepte d'être contacté par
-																																																																																																																																																																                             pour recevoir plus d'information sur la formation</label>
-											</li>
-										</ul>
-									</div>
-								</li>
-								<li class="gfield gfield--type-checkbox gfield--type-choice newsletter field_sublabel_below gfield--no-description field_description_above hidden_label gfield_visibility_hidden" data-js-reload="field_151_23" id="field_151_23">
-									<div class="admin-hidden-markup">
-										<i class="gform-icon gform-icon--hidden"></i>
-										<span>Hidden</span>
-									</div>
-									<label class="gfield_label gform-field-label gfield_label_before_complex">Newsletter</label>
-									<div class="ginput_container ginput_container_checkbox">
-										<ul class="gfield_checkbox" id="input_151_23">
-											<li class="gchoice gchoice_151_23_1">
-												<input checked="checked" class="gfield-choice-input" id="choice_151_23_1" name="input_23.1" type="checkbox" value="1"/>
-												<label class="gform-field-label gform-field-label--type-inline" for="choice_151_23_1" id="label_151_23_1">Je souhaite recevoir la
-																																																																																																																																																																                                Newsletter du INFPF</label>
-											</li>
-										</ul>
-									</div>
-								</li>
-								<li class="gfield gfield--type-honeypot gform_validation_container field_sublabel_below gfield--has-description field_description_above gfield_visibility_visible" data-js-reload="field_151_29" id="field_151_29">
-									<label class="gfield_label gform-field-label" for="input_151_29">Phone</label>
-									<div class="gfield_description" id="gfield_description_151_29">Ce champ n’est utilisé qu’à des
-																																																																																																																												                          fins de validation et devrait rester inchangé.</div>
-									<div class="ginput_container"><input autocomplete="new-password" id="input_151_29" name="input_29" type="text" value=""/></div>
-								</li>
-							</ul>
-						</div>
-						<div class="gform_page_footer top_label"><input class="gform_previous_button gform-theme-button gform-theme-button--secondary button" id="gform_previous_button_151" onclick='if(window["gf_submitting_151"]){return false;}  if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  ' onkeypress='if( event.keyCode == 13 ){ if(window["gf_submitting_151"]){return false;} if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  jQuery("#gform_151").trigger("submit",[true]); }' type="submit" value="Précédent"/>
-							<input class="gform_button button" id="gform_submit_button_151" onclick='if(window["gf_submitting_151"]){return false;}  if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  ' onkeypress='if( event.keyCode == 13 ){ if(window["gf_submitting_151"]){return false;} if( !jQuery("#gform_151")[0].checkValidity || jQuery("#gform_151")[0].checkValidity()){window["gf_submitting_151"]=true;}  jQuery("#gform_151").trigger("submit",[true]); }' type="submit" value="Je valide"/>
-							<p class="form-rgpd-text form-rgpd-text__footer">En validant ce formulaire, j'accepte d'être
-																																																																																																				                      contacté par l'Institut national de la formation professionnelle française pour me donner de l'information sur la
-																																																																																																				                      formation.
-								<span class="gtm-cta-cg-gdpr popmake-gdpr pum-trigger">En savoir plus</span>
-							</p>
-							<input name="gform_ajax" type="hidden" value="form_id=151&amp;title=&amp;description=1&amp;tabindex=0&amp;theme=data-form-theme='legacy'"/>
-							<input class="gform_hidden" name="is_submit_151" type="hidden" value="1"/>
-							<input class="gform_hidden" name="gform_submit" type="hidden" value="151"/>
-							<input class="gform_hidden" name="gform_unique_id" type="hidden" value=""/>
-							<input class="gform_hidden" name="state_151" type="hidden" value="WyJbXSIsImQwMjk5ZGZmNGE2OTE2MzZkMjc0NTJjYTVmYWE5NGJlIl0="/>
-							<input class="gform_hidden" id="gform_target_page_number_151" name="gform_target_page_number_151" type="hidden" value="2"/>
-							<input class="gform_hidden" id="gform_source_page_number_151" name="gform_source_page_number_151" type="hidden" value="1"/>
-							<input name="gform_field_values" type="hidden" value=""/>
-						</div>
-					</div>
-				</div>
-				<p style="display: none !important;">
-					<label>Δ<textarea cols="45" maxlength="100" name="ak_hp_textarea" rows="8"></textarea>
-					</label><input id="ak_js_1" name="ak_js" type="hidden" value="65"/>
-					<script>
-						document.getElementById("ak_js_1").setAttribute("value", (new Date()).getTime());
-					</script>
-				</p>
-			</form>
+			<a class="header__cta header__cta__logout" href="{{ path('app_logout') }}">
+				<span>Déconnexion</span>
+			</a>
 		</div>
-		<iframe id="gform_ajax_frame_151" name="gform_ajax_frame_151" src="about:blank" style="display:none;width:0px;height:0px;" title="Cette iframe contient la logique nécessaire pour manipuler Gravity Forms avec Ajax."></iframe>
-
+		{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
+		{% else %}
+		<div class="header-cta-container">
+			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Connexion</a>
+			<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF learning</a>
+		</div>
+		{% endif %}
+		{% if is_granted("ROLE_ADMIN") %}
+		{# <a href="{{ path('app_admin') }}">Admin</a> #}
+		{% endif %}
 	</div>
-</div>
-<div class="bandeau-service-client bandeau-service-client-vsimon">
-	<a href="https://www..fr/blog/ecole/service-client-de-annee/" target="_blank">
-		<img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" data-lazy-src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" height="82" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2076%2082'%3E%3C/svg%3E" width="76"/><noscript><img alt="Service client de l'année 2024" class="footer__partenaires__accreditations__datadock" height="82" src="/wp-content/themes/INFPF/images/refonte-2022/ico-service-client-2024.png" width="76"/></noscript>
-		<span style="padding-top:15px;padding-bottom:15px;color:#0b3e6fd6"><strong>L'Institut National de la Formation Professionnelle Française, premier organisme de formation.</strong></span>
-	</a>
-</div></head>{# <body class="home page-template-default page page-id-404182 wp-custom-logo accueil-form-php elementor-default elementor-kit-403738">
-								   
-								
-								    </body> #}<body>
-{% block body %}{% endblock %}</body></html>
+
+	{# Menu burger mobile #}
+	<div class="header__menu-burger icon-fill gtm-cta-burger">
+		<span class="header__menu-burger__trait"></span>
+		<span class="header__menu-burger__trait"></span>
+		<span class="header__menu-burger__trait"></span>
+	</div>
+</div></header>
+
+{# Déplacement de la modal ici, juste avant </body> #}
+{% include 'components/modal.html.twig' %}
+
+<main class="site-main" id="main">
+{% block body %}{% endblock %}
+</main>
+
+<img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
+</body>
+</html>
 <script src="{{ asset('js/popup.js') }}"></script>
 
-<script>let lastKnownScrollPosition = 0,
-ticking = !1;
-var header = document.querySelector(".header");
-function doSomething(e) {
-0 != lastKnownScrollPosition ? header.classList.add("header--scrolling") : header.classList.remove("header--scrolling")
-}
-document.addEventListener("scroll", (function (e) {
-lastKnownScrollPosition = window.scrollY,
-ticking || (window.requestAnimationFrame((function () {
-doSomething(lastKnownScrollPosition),
-ticking = !1
-})), ticking =! 0)
-})),
-jQuery(".header__menu-burger").on("click", (function () {
-jQuery(".header").toggleClass("header--active"),
-jQuery(this).hasClass("header__menu-burger--active") ? (jQuery(".header #menu").hide(), jQuery("body").removeClass("overflow"), jQuery(this).removeClass("header__menu-burger--active"), jQuery(".sub-menu").removeClass("sub-menu--active"), jQuery(".header #menu .menu .menu-item a").removeClass("clicked"), jQuery(".menu-item").siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header-menu-retour").hide()) : (jQuery(this).addClass("header__menu-burger--active"), jQuery(".header #menu").toggle(), jQuery("body").toggleClass("overflow"))
-})),
-jQuery(window).width() <= 1199 && (jQuery(".header #menu .menu .menu-item > a").on("click", (function (e) {
-jQuery(this).hasClass("clicked") || 0 == jQuery(this).next(".sub-menu").length ? jQuery(".header__cta__INFPFlearning").show(0) : (e.preventDefault(), jQuery(this).addClass("clicked"), jQuery(this).next(".sub-menu").addClass("sub-menu--active"), jQuery(".header-menu-retour").show(), jQuery(this).parent(".menu-item").siblings("li:not(.header-menu-retour)").addClass("menu-item--disappear"), jQuery(".header__cta__INFPFlearning").hide(0))
-})), jQuery(".header-menu-retour a").click((function () {
-jQuery(".header .menu .menu-item-has-children .menu-item-has-children a").hasClass("clicked") ? (jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a.clicked").next().removeClass("sub-menu--active"), jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a.clicked").parent().siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header .menu  .menu-item-has-children .menu-item-has-children a").removeClass("clicked")) : (jQuery(".header .menu > .menu-item-has-children a.clicked").next().removeClass("sub-menu--active"), jQuery(".header .menu > .menu-item-has-children a.clicked").parent().siblings("li:not(.header-menu-retour)").removeClass("menu-item--disappear"), jQuery(".header .menu > .menu-item-has-children a").removeClass("clicked")),
-0 == jQuery(".header #menu .menu-item-has-children .sub-menu--active").length && jQuery(this).parent().hide()
-})));</script><script>document.querySelectorAll('.category-link').forEach(function (link) {
-link.addEventListener('click', function (e) {
-e.preventDefault(); // Empêche le comportement de lien par défaut
-const categoryId = this.getAttribute('href').split('category_id=')[1];
-window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // MENU BURGER MOBILE AMÉLIORÉ
+  var burger = document.querySelector('.header__menu-burger');
+  var header = document.querySelector('.header');
+  var menu = document.getElementById('menu');
+  var closeBtn = document.querySelector('.menu-mobile-close');
+  var ctas = document.querySelector('.menu-mobile-ctas');
+
+  // Fonction pour ouvrir le menu avec animation
+  function openMobileMenu() {
+    header.classList.add('header--active');
+    menu.classList.add('header--active');
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('overflow');
+    document.body.classList.add('menu-mobile-open');
+    
+    // Animation eschelonnée des éléments du menu
+    setTimeout(() => {
+      const menuItems = menu.querySelectorAll('.menu > li');
+      menuItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(20px)';
+        setTimeout(() => {
+          item.style.transition = 'all 0.3s ease';
+          item.style.opacity = '1';
+          item.style.transform = 'translateX(0)';
+        }, index * 80);
+      });
+    }, 50);
+  }
+
+  // Fonction pour fermer le menu avec animation
+  function closeMobileMenu() {
+    // Fermer tous les sous-menus ouverts (y compris le mega-menu)
+    document.querySelectorAll('.sub-menu--active, .formations-mega-menu.sub-menu--active').forEach(submenu => {
+      submenu.classList.remove('sub-menu--active');
+      if (submenu.parentElement) {
+        submenu.parentElement.classList.remove('clicked');
+      }
+    });
+    
+    header.classList.remove('header--active');
+    menu.classList.remove('header--active');
+    burger.classList.remove('header__menu-burger--active');
+    
+    // Animation de fermeture
+    menu.style.animation = 'slideOutToRight 0.3s ease-in forwards';
+    
+    setTimeout(() => {
+        menu.style.animation = '';
+        document.body.style.overflow = '';
+        document.body.classList.remove('overflow');
+        document.body.classList.remove('menu-mobile-open');
+    }, 300);
+  }
+
+  // Gestion du burger
+  if (burger) {
+    burger.addEventListener('click', function () {
+      if (header.classList.contains('header--active')) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+  }
+
+  // Gestion du bouton de fermeture
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      closeMobileMenu();
+    });
+  }
+
+  // Fermeture en glissant depuis le bord
+  let startX = 0;
+  let startY = 0;
+  
+  if (menu) {
+    menu.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    });
+    
+    menu.addEventListener('touchend', function(e) {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = endX - startX;
+      const diffY = Math.abs(endY - startY);
+      
+      // Swipe vers la droite pour fermer (au moins 100px horizontalement, max 50px verticalement)
+      if (diffX > 100 && diffY < 50 && header.classList.contains('header--active')) {
+        closeMobileMenu();
+      }
+    });
+  }
 });
-});</script>
+</script>
+
+
+<script>
+  // Gestion du scroll header
+  let lastKnownScrollPosition = 0,
+      ticking = !1;
+  var header = document.querySelector(".header");
+
+  function doSomething(e) {
+    lastKnownScrollPosition !== 0
+      ? header.classList.add("header--scrolling")
+      : header.classList.remove("header--scrolling");
+  }
+
+  document.addEventListener("scroll", function () {
+    lastKnownScrollPosition = window.scrollY;
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        doSomething(lastKnownScrollPosition);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+
+
+  // Scroll top button
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("btnScrollTop");
+
+    if (!btn) return;
+
+    window.addEventListener("scroll", function () {
+      btn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    btn.addEventListener("click", function () {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  });
+
+  // Redirection par catégorie
+  document.querySelectorAll('.category-link').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const categoryId = this.getAttribute('href').split('category_id=')[1];
+      window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+    });
+  });
+
+  // ===== SYSTÈME CALENDLY CENTRALISÉ ET OPTIMISÉ =====
+  window.CalendlyManager = {
+    config: {
+      defaultUrl: 'https://calendly.com/contact-infpf?locale=fr',
+      loadTimeout: 10000,
+      retryAttempts: 3
+    },
+
+    // État du système
+    isLoaded: false,
+    isLoading: false,
+    loadPromise: null,
+    buttons: new Set(),
+
+    // Chargement optimisé de Calendly
+    async loadCalendly() {
+      if (this.isLoaded) return Promise.resolve();
+      if (this.loadPromise) return this.loadPromise;
+
+      this.isLoading = true;
+      this.loadPromise = new Promise((resolve, reject) => {
+        // Vérifier si déjà chargé
+        if (typeof window.Calendly !== 'undefined') {
+          this.isLoaded = true;
+          this.isLoading = false;
+          resolve();
+          return;
+        }
+
+        // Timeout de sécurité
+        const timeout = setTimeout(() => {
+          this.isLoading = false;
+          reject(new Error('Timeout lors du chargement de Calendly'));
+        }, this.config.loadTimeout);
+
+        // Charger le script si pas déjà présent
+        let script = document.querySelector('script[src*="calendly.com"]');
+        if (!script) {
+          script = document.createElement('script');
+          script.src = 'https://assets.calendly.com/assets/external/widget.js';
+          script.async = true;
+          document.head.appendChild(script);
+        }
+
+        // Attendre le chargement
+        const checkLoaded = () => {
+          if (typeof window.Calendly !== 'undefined') {
+            clearTimeout(timeout);
+            this.isLoaded = true;
+            this.isLoading = false;
+            resolve();
+          } else {
+            setTimeout(checkLoaded, 100);
+          }
+        };
+
+        script.onload = checkLoaded;
+        script.onerror = () => {
+          clearTimeout(timeout);
+          this.isLoading = false;
+          reject(new Error('Erreur lors du chargement de Calendly'));
+        };
+
+        // Si le script est déjà chargé
+        if (script.readyState === 'complete' || script.readyState === 'loaded') {
+          checkLoaded();
+        }
+      });
+
+      return this.loadPromise;
+    },
+
+    // Ouverture du popup avec gestion d'erreurs
+    async openPopup(url = null, button = null) {
+      const targetUrl = url || this.config.defaultUrl;
+      
+      // Animation de chargement
+      if (button) {
+        button.classList.add('loading');
+        button.setAttribute('aria-busy', 'true');
+      }
+
+      try {
+        await this.loadCalendly();
+        
+        if (typeof window.Calendly !== 'undefined' && window.Calendly.initPopupWidget) {
+          window.Calendly.initPopupWidget({ url: targetUrl });
+          
+          // Tracking (optionnel)
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'calendly_popup_opened', {
+              event_category: 'engagement',
+              event_label: targetUrl
+            });
+          }
+        } else {
+          throw new Error('Calendly non disponible');
+        }
+      } catch (error) {
+        console.error('Erreur Calendly:', error);
+        
+        // Fallback : redirection directe
+        const fallbackUrl = targetUrl.replace('?locale=fr', '') + (targetUrl.includes('?') ? '&' : '?') + 'embed_domain=' + encodeURIComponent(window.location.hostname);
+        window.open(fallbackUrl, '_blank', 'width=800,height=600');
+        
+        // Notification utilisateur (optionnel)
+        this.showNotification('Une nouvelle fenêtre s\'est ouverte pour la prise de rendez-vous.');
+      } finally {
+        // Retirer l'animation de chargement
+        if (button) {
+          button.classList.remove('loading');
+          button.setAttribute('aria-busy', 'false');
+        }
+      }
+    },
+
+    // Enregistrement des boutons
+    registerButton(button) {
+      if (this.buttons.has(button)) return;
+      
+      this.buttons.add(button);
+      
+      // Ajouter les attributs d'accessibilité
+      button.setAttribute('role', 'button');
+      button.setAttribute('aria-label', button.textContent + ' - Ouvre une nouvelle fenêtre');
+      button.setAttribute('aria-busy', 'false');
+      
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const url = button.getAttribute('data-calendly-url') || button.dataset.calendlyUrl;
+        await this.openPopup(url, button);
+      });
+    },
+
+    // Auto-découverte des boutons
+    discoverButtons() {
+      const selectors = [
+        '.calendly-btn',
+        '[data-calendly-url]',
+        '.btn-calendly-contact',
+        '.btn-calendly-footer', 
+        '.btn-calendly-detail',
+        '.calendly-trigger',
+        '#cta-rdv'
+      ];
+      
+      selectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(button => {
+          this.registerButton(button);
+        });
+      });
+    },
+
+    // Notification simple
+    showNotification(message) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #0b3f89;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        z-index: 10000;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+      `;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    },
+
+    // Initialisation
+    init() {
+      // Précharger Calendly de manière asynchrone après le DOM
+      requestIdleCallback(() => {
+        this.loadCalendly().catch(console.warn);
+      });
+      
+      // Découverte initiale
+      this.discoverButtons();
+      
+      // Observer les nouveaux éléments (pour le contenu dynamique)
+      if (window.MutationObserver) {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(mutation => {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeType === 1) { // Element node
+                // Vérifier si le nœud lui-même est un bouton Calendly
+                if (node.matches && node.matches('[data-calendly-url], .calendly-btn, .btn-calendly-contact, .btn-calendly-footer, .btn-calendly-detail, .calendly-trigger, #cta-rdv')) {
+                  this.registerButton(node);
+                }
+                // Chercher dans les enfants
+                node.querySelectorAll && node.querySelectorAll('[data-calendly-url], .calendly-btn, .btn-calendly-contact, .btn-calendly-footer, .btn-calendly-detail, .calendly-trigger, #cta-rdv').forEach(button => {
+                  this.registerButton(button);
+                });
+              }
+            });
+          });
+        });
+        
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      }
+    }
+  };
+
+
+
+  // Initialisation du système Calendly
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => CalendlyManager.init());
+  } else {
+    CalendlyManager.init();
+  }
+
+  // ===== GESTION MENU FORMATIONS FINALE =====
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuFormations = document.querySelector('.header #menu .menu-item:nth-child(2)');
+    const subMenu = document.querySelector('.header #menu .menu-item:nth-child(2) .sub-menu');
+    
+    if (menuFormations && subMenu) {
+      console.log('✅ Menu Formations prêt avec système Flexbox');
+      
+      // Variables pour stabilité et performance
+      let hoverTimeout;
+      let isMenuOpen = false;
+      
+      // Gestion hover avec zone de sécurité
+      menuFormations.addEventListener('mouseenter', function() {
+        clearTimeout(hoverTimeout);
+        if (!isMenuOpen) {
+          subMenu.style.display = 'flex';
+          isMenuOpen = true;
+          
+          // Vérification de l'affichage correct après 50ms
+          setTimeout(() => {
+            if (window.getComputedStyle(subMenu).display === 'flex') {
+              console.log('✅ Menu Formations affiché correctement');
+            }
+          }, 50);
+        }
+      });
+      
+      // Zone de sécurité étendue pour éviter fermetures accidentelles
+      menuFormations.addEventListener('mouseleave', function() {
+        hoverTimeout = setTimeout(() => {
+          subMenu.style.display = 'none';
+          isMenuOpen = false;
+        }, 200);
+      });
+      
+      // Maintenir le menu ouvert si on survole le sous-menu
+      subMenu.addEventListener('mouseenter', function() {
+        clearTimeout(hoverTimeout);
+      });
+      
+      subMenu.addEventListener('mouseleave', function() {
+        hoverTimeout = setTimeout(() => {
+          subMenu.style.display = 'none';
+          isMenuOpen = false;
+        }, 200);
+      });
+      
+      // Debug avancé (activé avec ?debug dans l'URL)
+      if (window.location.search.includes('debug')) {
+        menuFormations.addEventListener('mouseenter', function() {
+          setTimeout(() => {
+            const rect = subMenu.getBoundingClientRect();
+            const viewport = window.innerWidth;
+            const columns = subMenu.children.length;
+            
+            console.log('📊 Infos Menu:', {
+              largeur: rect.width + 'px',
+              colonnes: columns,
+              viewport: viewport + 'px',
+              deborde: rect.right > viewport ? 'OUI' : 'NON'
+            });
+          }, 100);
+        });
+      }
+      
+    } else {
+      console.error('❌ Menu Formations non trouvé - vérifiez la structure HTML');
+    }
+  });
+
+  // ===== SELECT NATIF FORMATIONS AVEC COULEURS CATÉGORIES =====
+  document.addEventListener('DOMContentLoaded', function() {
+    const formationSelect = document.getElementById('input_151_1');
+    
+    if (!formationSelect) return;
+    
+    console.log('✅ Select Formations natif initialisé');
+    
+    // Styles appliqués aux optgroups (couleurs de fond via CSS)
+    const categoryColors = {
+      'finance': '#3b82f6',
+      'informatique': '#10b981', 
+      'management': '#ef4444',
+      'marketing': '#a855f7',
+      'sante': '#f97316',
+      'beaute': '#f472b6',
+      'cuisine': '#facc15',
+      'social': '#06b6d4',
+      'petite-enfance': '#8b5cf6'
+    };
+    
+    // Mettre les labels en uppercase pour une meilleure visibilité
+    const optgroups = formationSelect.querySelectorAll('optgroup');
+    optgroups.forEach(optgroup => {
+      const originalLabel = optgroup.getAttribute('label');
+      
+      // Mettre à jour le label en uppercase seulement
+      optgroup.setAttribute('label', originalLabel.toUpperCase());
+    });
+    
+    // Gestion focus/blur avec suppression animations de fond
+    formationSelect.addEventListener('focus', function() {
+      this.style.zIndex = '999999';
+      
+      // Masquer les animations de fond pendant l'ouverture du select
+      const animatedElements = document.querySelectorAll('[data-aos], .scroll-indicator, .wave-separator');
+      animatedElements.forEach(el => {
+        if (el) {
+          el.style.visibility = 'hidden';
+          el.style.opacity = '0';
+        }
+      });
+    });
+    
+    formationSelect.addEventListener('blur', function() {
+      this.style.zIndex = '10000';
+      
+      // Restaurer les animations de fond après fermeture du select
+      setTimeout(() => {
+        const animatedElements = document.querySelectorAll('[data-aos], .scroll-indicator, .wave-separator');
+        animatedElements.forEach(el => {
+          if (el) {
+            el.style.visibility = 'visible';
+            el.style.opacity = '1';
+          }
+        });
+      }, 100);
+    });
+    
+    // Améliorer la visibilité lors de l'ouverture
+    formationSelect.addEventListener('click', function() {
+      // S'assurer que le dropdown reste au premier plan
+      setTimeout(() => {
+        this.style.zIndex = '999999';
+      }, 10);
+    });
+    
+    console.log('✅ Select Formations: ' + formationSelect.querySelectorAll('option').length + ' formations disponibles avec catégories colorées');
+  });
+</script>
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Gestion SOUS-MENUS mobile sans système de Retour !
+  // SCRIPT SUPPRIMÉ - Remplacé par la version améliorée plus bas
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ===== SOUS-MENUS MOBILE SIMPLE ET FIABLE =====
+  if (window.innerWidth <= 768) {
+    
+    // Fonction simple pour toggle un sous-menu
+    function toggleSubmenu(parentLi, submenu) {
+      var isOpen = submenu.classList.contains('sub-menu--active');
+      
+      // Fermer TOUS les sous-menus d'abord
+      document.querySelectorAll('#menu .sub-menu, #menu .formations-mega-menu').forEach(function(s) {
+        s.classList.remove('sub-menu--active');
+        if (s.parentElement) {
+          s.parentElement.classList.remove('clicked');
+        }
+      });
+      
+      // Si ce sous-menu était fermé, l'ouvrir
+      if (!isOpen) {
+        submenu.classList.add('sub-menu--active');
+        parentLi.classList.add('clicked');
+      }
+    }
+    
+    // Gérer L'École
+    var ecoleLink = document.querySelector('#menu-item-442796 > a');
+    if (ecoleLink) {
+      ecoleLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        var parentLi = this.parentElement;
+        var submenu = parentLi.querySelector('.sub-menu');
+        if (submenu) {
+          toggleSubmenu(parentLi, submenu);
+        }
+      });
+    }
+    
+    // Gérer Formations (mega-menu)
+    var formationsLink = document.querySelector('#menu-item-442808 > a');
+    if (formationsLink) {
+      formationsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        var parentLi = this.parentElement;
+        var submenu = parentLi.querySelector('.formations-mega-menu');
+        if (submenu) {
+          toggleSubmenu(parentLi, submenu);
+        }
+      });
+    }
+    
+    // Gérer Métiers
+    var metiersLink = document.querySelector('#menu-item-442839 > a');
+    if (metiersLink) {
+      metiersLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        var parentLi = this.parentElement;
+        var submenu = parentLi.querySelector('.sub-menu');
+        if (submenu) {
+          toggleSubmenu(parentLi, submenu);
+        }
+      });
+    }
+    
+    // Gérer Information
+    var infoLink = document.querySelector('#menu-item-461428 > a');
+    if (infoLink) {
+      infoLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        var parentLi = this.parentElement;
+        var submenu = parentLi.querySelector('.sub-menu');
+        if (submenu) {
+          toggleSubmenu(parentLi, submenu);
+        }
+      });
+    }
+  }
+});
+</script>

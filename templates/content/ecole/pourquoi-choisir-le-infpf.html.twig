@@ -1,13 +1,14 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
+
 
 {% block title %}Pourquoi choisir la formation par correspondance du INFPF ?
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
-
+    <link href="../css/footer1.css" rel="stylesheet"/>
 {% endblock %}
 {% block body %}
-		<img class="im" src="../img/4.png" alt="Nos formations à distance">
+		<img class="im" src="{{ asset('img/4.png') }}" alt="Nos formations à distance">
 <div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
 			<span>
@@ -40,7 +41,7 @@
 			<strong style="color: #0b3e6fd6;">espace élève en ligne</strong>
 			pour accéder à
 																					          l’ensemble de nos services e-learning.</p>
-		<img class="im" src="../img/pourquoi-choisir-1.png" alt="Nos formations à distance">
+		<img class="im" src="{{ asset('img/pourquoi-choisir-1.png') }}" alt="Nos formations à distance">
 			<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:77%">
 
 				<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
@@ -56,7 +57,7 @@
 			{# <div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:23%">
 				<div class="wp-block-image">
 
-					<img alt="formation par correspondance" decoding="async" height="250" sizes="(max-width: 250px) 100vw, 250px" src="../img/picture.webp" width="250"/>
+					<img alt="formation par correspondance" decoding="async" height="250" sizes="(max-width: 250px) 100vw, 250px" src="{{ asset('img/picture.webp') }}" width="250"/>
 
 				</div>
 			</div> #}

@@ -1,3 +1,77 @@
+.calendly-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.calendly-button-container a {
+    background-color: #007BFF; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    padding: 12px 24px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.calendly-button-container a:hover {
+    background-color: #0056b3; /* Couleur au survol */
+}
+
+.pagination {
+    margin-top: 1.5rem;
+    text-align: center;
+    padding: 10px;
+}
+
+.pagination-button,
+.pagination a {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 0 5px;
+    border: 1px solid #0b3e6fd6;
+    border-radius: 5px;
+    background-color: #f4f6fa;
+    color: #0b3e6fd6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.pagination-button:hover,
+.pagination a:hover {
+    background-color: #0b3e6fd6;
+    color: white;
+}
+
+.pagination-active {
+    font-weight: bold;
+    background-color: #0b3e6fd6;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.pagination-counter {
+    margin-bottom: 0.75rem;
+    font-size: 16px;
+    color: #333;
+}
+
+.pagination-wrapper {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.pagination-button, .pagination-active {
+    font-size: 18px;
+    padding: 8px 15px;
+}
+
+.pagination-button:hover {
+    transform: translateY(-2px);
+}
 
 .category-link {
     text-decoration: none;
@@ -6,7 +80,7 @@
 .category {
     /* border: 1px solid #ccc; */
     border-radius: 5px;
-    padding: 10px;
+    /*padding: 10px;*/
     margin-bottom: 20px;
 }
 
@@ -150,7 +224,6 @@
 .wrapper_select_domaine{
 width: 100%;
 height: 100%;
-padding-left: 190px;
 font-size: 14px;
 position: relative;
 z-index: 2;
@@ -197,8 +270,9 @@ border-radius: 5px;
   /* Styles supplémentaires */
   .result {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 0.9em;
     color: #ffffff; /* Couleur du texte */
+    margin-right:40px;
   }
   
   .libelle {
@@ -210,14 +284,34 @@ border-radius: 5px;
     border-radius: 4px;
   }
   
-  .libellee {
-    color: white; /* Couleur du texte */
-    text-decoration: none;
-    /* color: #000; */
-    margin-right: 10px;
-    padding: 5px 10px;
-    border-radius: 4px;
-  }
+/* Styling the sort buttons with smaller borders */
+.libellee {
+    color: #fff; /* White text */
+    background-color: #007bff; /* Blue background */
+    text-decoration: none; /* Remove underline */
+    padding: 8px 16px; /* Adjust padding for a cleaner, less bulky button */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Standard font size */
+    display: inline-block; /* Keep the buttons aligned in one line */
+    border: 1px solid #007bff; /* Thin border to match the background color */
+    transition: all 0.3s ease; /* Smooth transition on hover */
+    margin-right: 10px; /* Space between buttons */
+}
+
+/* Hover effect for buttons */
+.libellee:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale effect for a smooth hover */
+    color: #fff; /* Keep the text white */
+}
+
+/* Active button style */
+.libellee.active {
+    background-color: #28a745; /* Green background when active */
+    color: #fff; /* White text */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.4); /* Shadow effect to highlight active button */
+}
+
 
 
 @media (max-width: 768px) {
@@ -238,7 +332,7 @@ border-radius: 5px;
 }
 
 #searchInput {
-    /* width: 100%; */
+    width: 100%;
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -247,7 +341,6 @@ border-radius: 5px;
 
 #searchResults {
     position: absolute;
-    width: 100%;
     background: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 1000; /* Assurez-vous que les résultats apparaissent au-dessus des autres éléments */
@@ -255,6 +348,7 @@ border-radius: 5px;
     max-height: 300px; /* Limite la hauteur et permet le défilement */
     overflow-y: auto;
     border-radius: 0 0 4px 4px;
+    margin-top:346px;
 }
 
 .formation-item {
@@ -309,22 +403,23 @@ border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05); /* Ombre douce pour le relief */
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Ajustez pour aligner le contenu en haut */
+    /*align-items: flex-start;*/ /* Ajustez pour aligner le contenu en haut */
     padding: 20px; /* Espacement interne pour plus de respiration */
     width: 100%; /* Prend toute la largeur du conteneur parent */
 }
 
-/* Media query pour les téléphones */
+/* Media query pour les téléphones - CORRIGÉ */
 @media (max-width: 600px) {
     .formation-card {
-        padding: 0; /* Suppression du padding */
-        width: 125%; /* Ajustement de la largeur à 125% */
-        /* Assurez-vous que cette largeur élargie convient à votre mise en page globale */
+        padding: 15px; /* Padding restauré pour une meilleure lisibilité */
+        width: 100%; /* Largeur corrigée à 100% pour éviter les débordements */
+        max-width: 100%;
+        box-sizing: border-box;
     }
 }
 
 .formation-column-left {
-    flex: 0 0 70%; /* La colonne de gauche prend 70% de l'espace disponible */
+    flex: 0 0 55%; /* La colonne de gauche prend 70% de l'espace disponible */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -332,7 +427,7 @@ border-radius: 5px;
 }
 
 .formation-column-right {
-    flex: 0 0 30%; /* La colonne de droite prend 30% de l'espace disponible */
+    flex: 0 0 45%; /* La colonne de droite prend 30% de l'espace disponible */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -371,7 +466,7 @@ border-radius: 5px;
     color: white; /* Couleur du texte */
     margin: 0; /* Annule la marge par défaut */
 }
-.category-name-administratifs {
+.category-name-administration {
     display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
     padding: 8px 16px; /* Padding intérieur */
     background-color: #fd5b5b; /* Couleur de fond */
@@ -386,7 +481,7 @@ border-radius: 5px;
     border-radius: 20px; /* Bord arrondi */
     color: white; /* Couleur du texte */
     margin: 0; /* Annule la marge par défaut */
-}.category-name-désign {
+}.category-name-design {
     display: inline-block; /* Rend le paragraphe se comporter comme un bloc inline */
     padding: 8px 16px; /* Padding intérieur */
     background-color: #bffd5b; /* Couleur de fond */
@@ -492,9 +587,6 @@ border-radius: 5px;
     }
 }
 .checkbox-group {
-    display: none; /* Masqué par défaut */
-    /* background-color: rgba(255, 255, 255, 0.8); Légèrement transparent */
-    padding: 10px;
     /* border-radius: 5px; */
     margin-bottom: 10px;
 }
@@ -582,22 +674,27 @@ input[type="checkbox"] {
   }
   
   .sort_and_results_area {
-    flex: 1;
     display: flex;
-    /* font-size: 1.5em; */
+    justify-content: space-between; /* Centers the content horizontally */
+    align-items: center; /* Vertically align the content in the center */
+    gap: 20px; /* Add spacing between the label and buttons */
+    padding: 23px 0; /* Padding for space between the content and the top/bottom of the banner */
+  }
+/* Style for the "Trier par" label */
+.sort_area {
+    display: flex;
+    align-items: center; /* Vertically aligns the label and buttons */
+    gap: 15px; /* Spacing between label and buttons */
+}
 
-    align-items: center;
-    justify-content: space-between; /* Espacement entre le tri et les résultats */
-  }
-  
-  .sort_area {
-    display: inline-grid;
-    align-items: center;
-  }
+/* Adjust the "Trier par" label */
+.sort_area .libelle {
+    color: #ffffff; /* White text color */
+    font-weight: bold; /* Bold for visibility */
+    font-size: 18px; /* Font size increased for prominence */
+    margin:0 20px; /* Extra margin for better spacing */
+}
 
-  .sort_area .libelle {
-    margin-right: 10px;
-  }
 
   .container {
     display: flex; 
@@ -616,9 +713,10 @@ input[type="checkbox"] {
 
 /* Ajustez la marge entre les deux colonnes si nécessaire */
 .left {
-    margin-right: 20px; /* Ajoute un peu d'espace entre les colonnes */
+    /*margin-right: 20px;*/ /* Ajoute un peu d'espace entre les colonnes */
     flex: 0 1 25%;
-    padding: 10px;
+    padding-left: 90px;
+    padding-right: 90px;
 }
 
 @media (max-width: 768px) {
@@ -628,15 +726,15 @@ input[type="checkbox"] {
     }
 }
 .right {
-    margin-left: 20px; /* Ajoute un peu d'espace entre les colonnes */
-    flex: 1; /* Prend le reste de l'espace disponible */
-    padding: 10px;
+    /*margin-left: 20px; */ /* Ajoute un peu d'espace entre les colonnes */
+    flex: auto; /* Prend le reste de l'espace disponible */
+    /*padding: 10px;*/
 }
   
 .bodyclass {
     /* display: flex; */
     justify-content: space-between;
-    padding: 20px;
+    /*padding: 20px;*/
     width: 100%;
     background-color: #F9F9F9F9;
 }
@@ -653,7 +751,7 @@ input[type="checkbox"] {
 .col_gauche {
     background-color: #5ba6fd;
     color: white;
-    width: 30%;
+    width: 20%;
 }
 
 /* Media Query pour les téléphones */
@@ -666,5 +764,911 @@ input[type="checkbox"] {
 .col_droite {
 background-color: #031f2f;
 color: white;
-width: 70%;
+width: 100%;
 }
+
+/* ============================================ */
+/* FORÇAGE RESPONSIVITÉ MOBILE - RÈGLES GLOBALES */
+/* ============================================ */
+
+/* Forçage global pour tous les écrans mobiles */
+@media (max-width: 768px) {
+    /* Indicateur de test supprimé */
+    
+    /* RESET complet des largeurs fixes */
+    .bodyclass, .container, .left, .right, .wrapper_sidebar, 
+    .wrapper_content_container_formation, .col_droite, .col_gauche,
+    .tool_bar_liste_formations_ff, .sort_and_results_area,
+    .search_area, .sort_area, .results_area, .filters, 
+    #formations_container, #cards_wrapper, .formation-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: auto !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Forçage flexbox en colonne pour le layout principal - COMPACT */
+    .bodyclass .container {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 5px !important;
+        margin-top: 0 !important;
+    }
+    
+    /* Réduction globale des espacements pour voir les formations plus vite */
+    .bodyclass {
+        padding-top: 0 !important;
+    }
+    
+    .tool_bar_liste_formations_ff .wrapper_content_container_formation {
+        margin-bottom: 0 !important;
+        padding-bottom: 5px !important;
+    }
+    
+    /* Zone de tri - COMPACTE et moderne */
+    .tool_bar_liste_formations_ff {
+        background-color: #031f2f !important;
+        color: white !important;
+        padding: 10px !important;
+        display: block !important;
+    }
+    
+    .sort_and_results_area {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 10px !important;
+    }
+    
+    .sort_area {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+    
+    .sort_area .libelle {
+        color: white !important;
+        font-size: 14px !important;
+        margin: 0 8px 0 0 !important;
+        display: inline-block !important;
+        white-space: nowrap !important;
+    }
+    
+    .sort_area a.libellee {
+        display: inline-block !important;
+        width: auto !important;
+        min-width: 120px !important;
+        margin: 0 4px !important;
+        padding: 8px 16px !important;
+        background-color: #007bff !important;
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 20px !important;
+        text-align: center !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .sort_area a.libellee:hover {
+        background-color: #0056b3 !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    /* Filtres - MODERNES en accordéon pour tous écrans */
+    .left {
+        order: 1 !important;
+        margin-bottom: 15px !important;
+        padding: 5px !important;
+    }
+    
+    .right {
+        order: 2 !important;
+        padding: 5px !important;
+    }
+    
+    .filters {
+        display: block !important;
+        background-color: white !important;
+        padding: 10px !important;
+        border-radius: 12px !important;
+        margin-bottom: 15px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    .filter-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        padding: 12px 15px !important;
+        margin-bottom: 8px !important;
+        background-color: #f8f9fa !important;
+        color: #495057 !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 8px !important;
+        text-align: left !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .filter-btn:hover {
+        background-color: #e9ecef !important;
+        border-color: #007bff !important;
+        color: #007bff !important;
+    }
+    
+    .filter-btn:active,
+    .filter-btn.active {
+        background-color: #007bff !important;
+        color: white !important;
+        border-color: #007bff !important;
+    }
+    
+    .filter-btn::after {
+        content: "▼" !important;
+        font-size: 12px !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .filter-btn.collapsed::after {
+        transform: rotate(-90deg) !important;
+    }
+    
+    .checkbox-group {
+        display: none !important;
+        width: 100% !important;
+        padding: 10px 15px !important;
+        background-color: #fafbfc !important;
+        border-radius: 8px !important;
+        margin-bottom: 8px !important;
+        border: 1px solid #e9ecef !important;
+        animation: slideDown 0.3s ease !important;
+    }
+    
+    .checkbox-group.show {
+        display: block !important;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            max-height: 0;
+        }
+        to {
+            opacity: 1;
+            max-height: 200px;
+        }
+    }
+    
+    .checkbox-groupbox {
+        display: flex !important;
+        align-items: center !important;
+        margin: 6px 0 !important;
+        padding: 4px 0 !important;
+        cursor: pointer !important;
+        transition: background-color 0.2s ease !important;
+        border-radius: 4px !important;
+    }
+    
+    .checkbox-groupbox:hover {
+        background-color: rgba(0,123,255,0.1) !important;
+    }
+    
+    .checkbox-groupbox input[type="checkbox"] {
+        margin-right: 8px !important;
+        transform: scale(1.1) !important;
+        accent-color: #007bff !important;
+    }
+    
+    .checkbox-groupbox label {
+        font-size: 13px !important;
+        color: #495057 !important;
+        cursor: pointer !important;
+        line-height: 1.4 !important;
+        flex: 1 !important;
+    }
+    
+    /* Cards de formation - Une colonne COMPACTE */
+    #cards_wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        margin-top: 10px !important;
+    }
+    
+    .formation-card {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        margin: 0 0 10px 0 !important;
+        padding: 12px !important;
+        border-radius: 10px !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08) !important;
+        background-color: white !important;
+        border: 1px solid #f0f0f0 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .formation-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    .formation-column-left, .formation-column-right {
+        width: 100% !important;
+        flex: none !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+    
+    .formation-column-right {
+        border-top: 1px solid #eee !important;
+        padding-top: 10px !important;
+        margin-top: 10px !important;
+    }
+    
+    .formation-name {
+        font-size: 16px !important;
+        line-height: 1.3 !important;
+        margin-bottom: 8px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+    }
+    
+    .formation-description {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 10px !important;
+        color: #666 !important;
+    }
+    
+    .formation-column-right p {
+        margin-bottom: 6px !important;
+        font-size: 12px !important;
+        line-height: 1.3 !important;
+        color: #555 !important;
+    }
+    
+    .formation-column-right p strong {
+        font-weight: 600 !important;
+        color: #333 !important;
+    }
+    
+    .buttonVoirLeProgramme {
+        margin-top: 8px !important;
+        padding: 10px !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Barre de recherche - MODERNE et compacte */
+    .search_area {
+        width: 100% !important;
+        margin-bottom: 10px !important;
+        padding: 0 10px !important;
+    }
+    
+    #searchInput {
+        width: 100% !important;
+        padding: 10px 15px !important;
+        font-size: 14px !important;
+        border-radius: 25px !important;
+        border: 1px solid #ddd !important;
+        box-sizing: border-box !important;
+        background-color: white !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        transition: all 0.3s ease !important;
+        outline: none !important;
+    }
+    
+    #searchInput:focus {
+        border-color: #007bff !important;
+        box-shadow: 0 2px 8px rgba(0,123,255,0.3) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    #searchInput::placeholder {
+        color: #999 !important;
+        font-style: italic !important;
+    }
+    
+    /* Correction débordements */
+    body, html {
+        overflow-x: hidden !important;
+    }
+    
+    * {
+        box-sizing: border-box !important;
+    }
+}
+
+/* ============================================ */
+/* OPTIMISATIONS RESPONSIVE POUR MOBILE/TABLETTE */
+/* ============================================ */
+
+/* Optimisations Desktop - Filtres en accordéon même sur grand écran */
+@media (min-width: 769px) {
+    .filters {
+        background-color: white !important;
+        padding: 15px !important;
+        border-radius: 12px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    .filter-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        padding: 10px 15px !important;
+        margin-bottom: 6px !important;
+        background-color: #f8f9fa !important;
+        color: #495057 !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 6px !important;
+        text-align: left !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .filter-btn::after {
+        content: "▼" !important;
+        font-size: 10px !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .filter-btn.collapsed::after {
+        transform: rotate(-90deg) !important;
+    }
+    
+    .checkbox-group {
+        display: none !important;
+        padding: 8px 12px !important;
+        background-color: #fafbfc !important;
+        border-radius: 6px !important;
+        margin-bottom: 6px !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    .checkbox-group.show {
+        display: block !important;
+    }
+    
+    .checkbox-groupbox {
+        margin: 4px 0 !important;
+        padding: 2px 0 !important;
+    }
+    
+    .checkbox-groupbox label {
+        font-size: 12px !important;
+    }
+}
+
+/* Media queries pour tablettes (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .container {
+        flex-direction: row;
+        padding: 15px;
+    }
+    
+    .left {
+        width: 30% !important;
+        padding: 10px;
+        margin-bottom: 0;
+    }
+    
+    .right {
+        width: 70% !important;
+        padding: 10px;
+    }
+    
+    .formation-card {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    /* Zone de tri plus compacte sur tablette */
+    .tool_bar_liste_formations_ff {
+        padding: 8px !important;
+    }
+    
+    .sort_and_results_area {
+        padding: 8px !important;
+        gap: 8px !important;
+    }
+    
+    .sort_area a.libellee {
+        min-width: 100px !important;
+        padding: 6px 12px !important;
+        font-size: 11px !important;
+    }
+}
+
+/* Media queries pour mobiles (max-width: 768px) - FORÇAGE */
+@media (max-width: 768px) {
+    /* Barre d'outils principale */
+    .tool_bar_liste_formations_ff {
+        padding: 10px 0 !important;
+    }
+    
+    .wrapper_content_container_formation {
+        flex-direction: column !important;
+        padding: 0 10px !important;
+    }
+    
+    /* Zone de recherche et tri - réorganisation verticale - FORÇAGE */
+    .col_droite .sort_and_results_area,
+    .sort_and_results_area {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 15px 10px !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+    
+    .sort_and_results_area .search_area,
+    .search_area {
+        width: 100% !important;
+        margin-bottom: 15px !important;
+        flex: none !important;
+    }
+    
+    .search_area #searchInput,
+    #searchInput {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+        border: 2px solid #ccc !important;
+        box-sizing: border-box !important;
+    }
+    
+    .sort_and_results_area .sort_area,
+    .sort_area {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
+    .sort_area .libelle {
+        font-size: 16px !important;
+        margin: 0 0 10px 0 !important;
+        color: white !important;
+        display: block !important;
+    }
+    
+    .sort_area .libellee,
+    .libellee {
+        display: block !important;
+        width: 90% !important;
+        max-width: 200px !important;
+        text-align: center !important;
+        margin: 5px auto !important;
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        background-color: #007bff !important;
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 5px !important;
+    }
+    
+    .results_area {
+        margin-top: 5px !important;
+        padding: 5px 10px !important;
+        background-color: rgba(255,255,255,0.9) !important;
+        border-radius: 15px !important;
+        backdrop-filter: blur(5px) !important;
+    }
+    
+    .result {
+        font-size: 12px !important;
+        text-align: center !important;
+        display: block !important;
+        margin-bottom: 5px !important;
+        color: white !important;
+        font-weight: 500 !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    }
+    
+    /* Container principal - FORÇAGE */
+    .bodyclass .container {
+        flex-direction: column !important;
+        padding: 5px !important;
+        width: 100% !important;
+    }
+    
+    .container .left {
+        width: 100% !important;
+        padding: 10px !important;
+        margin-bottom: 20px !important;
+        flex: none !important;
+    }
+    
+    .container .right {
+        width: 100% !important;
+        padding: 10px !important;
+        flex: none !important;
+    }
+    
+    /* Filtres - réorganisation verticale complète - FORÇAGE */
+    .wrapper_sidebar .filters,
+    .left .filters,
+    div.filters {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 15px !important;
+        margin-bottom: 20px !important;
+        background-color: #f8f9fa !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+    }
+    
+    .filters .filter-btn,
+    .filter-btn {
+        width: 100% !important;
+        text-align: left !important;
+        padding: 15px !important;
+        margin-bottom: 10px !important;
+        background-color: #007bff !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 6px !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: background-color 0.3s ease !important;
+        display: block !important;
+    }
+    
+    .filter-btn:hover {
+        background-color: #0056b3;
+    }
+    
+    .filter-btn:active {
+        background-color: #004085;
+    }
+    
+    .checkbox-group {
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: white;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .checkbox-groupbox {
+        margin: 8px 0;
+        padding: 8px 0;
+    }
+    
+    .checkbox-groupbox label {
+        font-size: 15px;
+        line-height: 1.4;
+        cursor: pointer;
+        padding-left: 5px;
+    }
+    
+    input[type="checkbox"] {
+        margin-right: 10px;
+        transform: scale(1.2);
+    }
+    
+    /* Cards de formation - une colonne fluide - FORÇAGE */
+    .right #formations_container,
+    #formations_container {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    #formations_container #cards_wrapper,
+    #cards_wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        width: 100% !important;
+    }
+    
+    #cards_wrapper .formation-card,
+    .formation-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-direction: column !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        display: flex !important;
+        box-sizing: border-box !important;
+    }
+    
+    .formation-column-left {
+        flex: none;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+    
+    .formation-column-right {
+        flex: none;
+        width: 100%;
+        padding: 0;
+        border-left: none;
+        border-top: 2px solid #eee;
+        padding-top: 15px;
+    }
+    
+    .formation-name {
+        font-size: 18px;
+        line-height: 1.3;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+    
+    .formation-description {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        max-width: none;
+        padding-right: 0;
+    }
+    
+    .buttonVoirLeProgramme {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+        background-color: #007bff;
+        color: white !important;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .buttonVoirLeProgramme:hover {
+        background-color: #0056b3;
+    }
+    
+    .formation-column-right p {
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    .formation-column-right p strong {
+        display: inline-block;
+        min-width: 80px;
+        font-weight: 600;
+    }
+    
+    /* Catégories */
+    .category-name {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-bottom: 10px;
+        display: inline-block;
+        border-radius: 15px;
+    }
+    
+    /* Pagination responsive */
+    .pagination,
+    #pagination_container {
+        margin-top: 20px;
+        text-align: center;
+    }
+    
+    .pagination-button,
+    .pagination-active {
+        font-size: 14px;
+        padding: 8px 12px;
+        margin: 2px;
+        display: inline-block;
+    }
+    
+    /* Section blog actualités */
+    .blog-container {
+        flex-direction: column;
+    }
+    
+    .blog-postactualite {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    /* Calendly button responsive */
+    .calendly-button-container {
+        margin: 20px 10px !important;
+        padding: 20px !important;
+        text-align: center !important;
+    }
+    
+    .calendly-button-container h2 {
+        font-size: 22px !important;
+    }
+    
+    .calendly-button-container h3 {
+        font-size: 18px !important;
+    }
+    
+    .calendly-btn {
+        display: block !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        margin: 15px auto !important;
+        padding: 15px 20px !important;
+        font-size: 16px !important;
+        text-align: center !important;
+    }
+}
+
+/* Media queries pour petits mobiles (max-width: 480px) */
+@media (max-width: 480px) {
+    .sort_and_results_area {
+        padding: 10px 5px;
+    }
+    
+    .libellee {
+        width: 100%;
+        max-width: none;
+        margin: 3px 0;
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    
+    .formation-card {
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+    }
+    
+    .formation-name {
+        font-size: 16px;
+    }
+    
+    .formation-description {
+        font-size: 13px;
+    }
+    
+    .formation-column-right p {
+        font-size: 13px;
+    }
+    
+    .filter-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+    
+    .checkbox-groupbox label {
+        font-size: 14px;
+    }
+    
+    .calendly-button-container h2 {
+        font-size: 20px !important;
+    }
+    
+    .calendly-button-container h3 {
+        font-size: 16px !important;
+    }
+    
+    .calendly-button-container p {
+        font-size: 14px !important;
+    }
+    
+    /* Ajustements pour très petits écrans */
+    .left {
+        padding: 5px;
+    }
+    
+    .right {
+        padding: 5px;
+    }
+    
+    .filters {
+        padding: 10px;
+    }
+    
+    .search_area {
+        padding: 0 5px;
+    }
+    
+    #searchInput {
+        padding: 10px;
+        font-size: 15px;
+    }
+}
+
+/* Corrections pour les éléments qui débordent */
+@media (max-width: 768px) {
+    * {
+        box-sizing: border-box;
+    }
+    
+    .bodyclass {
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .wrapper_content_container_formation {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    /* Assurer que les images ne débordent pas */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Corriger les largeurs fixes problématiques */
+    .formation-card {
+        width: 100% !important;
+        max-width: 100%;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .search_area,
+    .sort_area,
+    .results_area {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Amélioration de la lisibilité des textes sur tous les écrans */
+@media (max-width: 768px) {
+    body {
+        line-height: 1.6;
+        font-size: 16px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1.3;
+        margin-bottom: 10px;
+    }
+    
+    p {
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Assurer une bonne lisibilité des liens */
+    a {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Améliorer les contrastes pour la lisibilité mobile */
+    .formation-description {
+        color: #333;
+    }
+    
+    .formation-column-right p {
+        color: #555;
+    }
+}
+

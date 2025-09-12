@@ -1,13 +1,14 @@
-{% extends 'base1.html.twig' %}
+{% extends 'base.html.twig' %}
+
 
 {% block title %}Formation
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css" rel="stylesheet"/>
-
+    <link href="../css/footer1.css" rel="stylesheet"/>
 {% endblock %}
 {% block body %}
-	<img class="im" src="../img/5.png" alt="Nos formations à distance">
+	<img class="im" src="{{ asset('img/5.png') }}" alt="Nos formations à distance">
 	<div class="entry-content">
 		<div class="wp-block-yoast-breadcrumb breadcrumbs">
 			<span>

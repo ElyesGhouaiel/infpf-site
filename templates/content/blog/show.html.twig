@@ -1,467 +1,1001 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ blog.titleOne }} - Blog INFPF{% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
-<style>
+    {{ parent() }}
+    <style>
+        :root {
+            --primary-color: #0b3f89;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --light-gray: #f8fafc;
+            --border-radius: 20px;
+            --box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            --shadow-light: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --shadow-heavy: 0 25px 60px rgba(0, 0, 0, 0.15);
+            --primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-.comment-section {
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            color: #1e293b;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
 
-.comment-section h3 {
-    color: #333;
-    margin-bottom: 10px;
-}
-
-#userComment {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-.submit-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.submit-button:hover {
-    background-color: #45a049;
-}
-
-
-.blog-post {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px; /* Ajoute un peu d'espace entre les articles du blog */
-}
-
-.blog-meta {
-    align-items: flex-start; /* Aligner les éléments en haut */
-    gap: 20px; /* Espace entre l'image et le contenu textuel */
-}
-
-.blog-image {
-    width: 100px; /* ou la taille souhaitée */
-    height: auto; /* Pour maintenir l'aspect ratio */
-    border-radius: 10px; /* Optionnel: pour les coins arrondis */
-    object-fit: cover;
-}
-.card-img-top {
-			width: 30%;
-			height: auto; /* Hauteur auto pour maintenir le ratio de l'image */
-			object-fit: cover;
-		}
-
-.blog-info {
-    display: flex;
-    flex-direction: column; /* Organise le contenu textuel verticalement */
-}
-
-.published-date, .author {
-    font-weight: bold; /* Optionnel: pour mettre en évidence */
-}
-
-.blog-description {
-    margin-top: 10px; /* Ajoute un peu d'espace entre l'en-tête et le contenu */
-}
- 
-    .blog-show-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-        width: 100%; /* Assurez-vous que le conteneur prend toute la largeur */
-    }
-    .blog-card {
-        width: 100%; /* Ajustez pour que la carte prenne toute la largeur disponible */
-
-        overflow: hidden;
-        margin: auto; /* Centre la carte si moins large que l'écran */
-    }
-    .blog-titleOne{
+        /* Hero Header moderne */
+        .blog-hero {
+            position: relative;
+            background: var(--primary-gradient);
+            padding: 120px 0 80px;
+            overflow: hidden;
+            min-height: 60vh;
             display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    background: linear-gradient(135deg,#6fafdf 0,#2a4f74 100%);
-    }
-    .blog-image {
-        width: 60%;
-        height: auto;
-    }
-    .blog-content {
-        padding: 20px;
-    }
-    .blog-meta {
-        
-        color: #007bff; /* Bleu Bootstrap par défaut pour la cohérence */
-        margin-bottom: 20px;
-    }
-    .published-date, .author {
-        margin-right: 10px;
-    }
-    h1, h2, h3, h4 {
-        margin-top: 0;
-    }
-    .blog-description, p {
-        line-height: 1.6;
-        text-align: justify; /* Améliore la lisibilité des paragraphes */
-    }
-/* Styles globaux pour la page du blog */
-.blog-post-show {
-    max-width: 800px; /* Limite la largeur du contenu pour une meilleure lisibilité */
-    margin: 40px auto; /* Centre le blog verticalement et horizontalement avec un peu d'espace autour */
-    background: #fff; /* Couleur de fond blanc pour une lecture aisée */
-    padding: 20px; /* Espace interne autour du texte */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Ombre subtile pour un effet élévé */
-    border-radius: 10px; /* Bords arrondis pour un look moderne */
-}
+            align-items: center;
+        }
 
-/* Styles pour les titres pour hiérarchiser visuellement l'information */
-h2, h3, h4 {
-    color: #333; /* Couleur foncée pour plus de sérieux et de lisibilité */
-    margin-top: 20px; /* Espacement au-dessus de chaque titre pour séparer les sections */
-}
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            z-index: 1;
+        }
 
-h2 {
-    font-size: 24px; /* Taille plus grande pour les titres principaux */
-}
+        .blog-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(241, 245, 249, 0.3));
+            z-index: 2;
+        }
 
-h3 {
-    font-size: 20px; /* Taille moyenne pour les sous-titres */
-}
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
 
-h4 {
-    font-size: 18px; /* Taille légèrement plus petite pour les sous-sous-titres */
-}
+        .hero-breadcrumb {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
 
-/* Styles pour les paragraphes pour assurer une lecture confortable */
-p {
-    font-size: 16px; /* Taille optimale pour la lecture */
-    line-height: 1.6; /* Hauteur de ligne pour une meilleure lisibilité */
-    color: #666; /* Couleur plus douce pour le texte, moins agressive pour les yeux */
-    margin-bottom: 15px; /* Espacement en bas de chaque paragraphe pour séparer clairement les idées */
-}
+        .hero-breadcrumb:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
 
-/* Ajout d'un style supplémentaire pour mettre en évidence les sections importantes si nécessaire */
-.highlight {
-    background-color: #f9f9f9; /* Fond légèrement gris pour les sections importantes */
-    padding: 10px; /* Padding pour ces sections */
-    border-left: 5px solid #0056b3; /* Bordure sur le côté pour un effet visuel accentué */
-}
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
 
-.blog-show-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
 
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-.carousel-container {
-    margin-top: 20px;
-}
+        /* Main Content moderne */
+        .blog-article-container {
+            max-width: 1200px;
+            margin: -60px auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 4;
+        }
 
-.carousel {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    white-space: nowrap;
-}
+        .blog-image-featured {
+            width: 100%;
+            max-width: 900px;
+            height: 450px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-heavy);
+            margin: 0 auto 3rem;
+            display: block;
+            border: 4px solid white;
+            transition: var(--transition);
+        }
 
-.carousel div {
-    flex: none;
-    width: 200px;
-    margin-right: 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    background: #f9f9f9;
-}
+        .blog-image-featured:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
+        }
 
-.card-img-top {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 20px;
-}
+        .blog-content-main {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 4rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
 
-.blog-info p {
-    margin-top: 10px;
-}
+        .blog-content-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent-gradient);
+        }
 
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
 
-.like-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        .blog-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
+        .blog-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
 
-.like-button {
-    padding: 10px 20px;
-    background-color: #3f6285;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.8rem;
-}
+        .blog-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
 
-.submit-button {
-    padding: 10px 20px;
-    background-color: #3f6285;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.8rem;
-}
+        .blog-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+        }
 
-.like-button:hover {
-    background-color: #45a049;
-}
+        .content-section {
+            margin-bottom: 3rem;
+        }
 
- .modal {
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
+        .section-subtitle {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin: 2rem 0 1.5rem 0;
+        }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-</style>
+        .content-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #374151;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
 
+        .comments-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 4rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .comments-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent-gradient);
+        }
+
+        .comments-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comment-form {
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.9));
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .comment-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1.25rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(11, 63, 137, 0.4);
+        }
+
+        .comment-list {
+            space-y: 1.5rem;
+        }
+
+        .comment-item {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+        }
+
+        .comment-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-delete-comment {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete-comment:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            transform: translateY(-1px);
+        }
+
+        .btn-reply-comment {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .btn-reply-comment:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit-reply {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit-reply:hover {
+            background: linear-gradient(135deg, #047857, #065f46);
+            transform: translateY(-1px);
+        }
+
+        .btn-cancel-reply {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel-reply:hover {
+            background: #4b5563;
+            transform: translateY(-1px);
+        }
+
+        .reply-form {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .comment-date {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            color: #374151;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            color: var(--accent-color);
+            transform: translateX(-5px);
+        }
+
+        .login-notice {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .login-notice-text {
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 1px solid #10b981;
+            color: #065f46;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .blog-content-main,
+        .comments-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .blog-image-featured {
+            animation: slideInFromLeft 0.8s ease-out 0.2s both;
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .hero-breadcrumb {
+            animation-delay: 0.1s;
+        }
+
+        .hero-title {
+            animation-delay: 0.2s;
+        }
+
+        .hero-meta {
+            animation-delay: 0.3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-hero {
+                padding: 100px 0 60px;
+                min-height: 50vh;
+            }
+
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .blog-article-container {
+                margin: -40px auto 0;
+                padding: 0 1rem;
+            }
+
+            .blog-image-featured {
+                height: 300px;
+            }
+
+            .blog-content-main {
+                padding: 2.5rem;
+            }
+
+            .content-text {
+                font-size: 1.15rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.25rem;
+            }
+
+            .comments-title {
+                font-size: 1.75rem;
+            }
+
+            .comments-section {
+                padding: 2.5rem;
+            }
+
+            .comment-form {
+                padding: 2rem;
+            }
+
+            .comment-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content {
+                padding: 0 0.5rem;
+            }
+
+            .blog-content-main,
+            .comments-section {
+                padding: 2rem;
+            }
+
+            .comment-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 {% endblock %}
 
-
-{% block title %}{{ blog.titleOne }}{% endblock %}
-
 {% block body %}
-<div class="blog-show-container">
-    <div class="blog-card">
-        <h1 class="blog-titleOne">{{ blog.titleOne }}</h1>
-
-        <div class="blog-content">
-            <div class="blog-post">
-    <div class="blog-meta">
-								{% if blog.image %}
-								{# <img
-								src="{{ asset('img/image_finance.webp') }}" alt="Image description" class="blog-imag"> #}
-
-<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description">
- {% endif %}        
-<div id="blogCarousel" class="carousel">
-
-    <div>
-        <h4>{{ blog.titleOne }}</h4>
-        <p>{{ blog.contentOne|slice(0, 100) ~ '...' }}</p> <!-- Affiche les 100 premiers caractères -->
-    </div>
-
-</div>
- 
- <div class="blog-info">
-            <span class="published-date">Publié le {{ blog.publishedAt|date('d F Y') }}</span> |
-            <span class="author">par {{ blog.author }}</span>
-            <p class="blog-description">{{ blog.contentOne|raw }}</p>
-                        <h2>{{ blog.titleTwo }}</h2>
-            <p>{{ blog.contentTwo|raw }}</p>
-
-            <!-- Titre et contenu tertiaire -->
-            <h3>{{ blog.titleTree }}</h3>
-            <p>{{ blog.contentTree|raw }}</p>
+    <!-- Hero Header moderne -->
+    <div class="blog-hero">
+        <div class="hero-content">
+            <a href="{{ path('app_blog_index') }}" class="hero-breadcrumb">
+                ← Retour aux actualités
+            </a>
             
-            <!-- Sous-titre et sous-contenu tertiaire -->
-            <h4>{{ blog.sousTitleTree }}</h4>
-            <p>{{ blog.sousContentTree|raw }}</p>
-
-            <!-- Quatrième titre et contenu -->
-            <h2>{{ blog.titleFor }}</h2>
-            <p>{{ blog.contentFor|raw }}</p>
+            <h1 class="hero-title">{{ blog.titleOne }}</h1>
+            
+            <div class="hero-meta">
+                {% if blog.publishedAt %}
+                <div class="hero-meta-item">
+                    {{ blog.publishedAt|date('d F Y') }}
+                </div>
+                {% endif %}
+                {% if blog.author %}
+                <div class="hero-meta-item">
+                    Par {{ blog.author }}
+                </div>
+                {% endif %}
+                {% if blog.comments|length > 0 %}
+                <div class="hero-meta-item">
+                    {{ blog.comments|length }} commentaire{{ blog.comments|length > 1 ? 's' : '' }}
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
-<div class="like-section">
-    <form action="{{ path('blog_like', {'id': blog.id}) }}" method="post">
-        <button type="submit" class="like-button">👍 Like</button>
-    </form>
-    <span>{{ likes }} likes</span>
-</div>
+    <div class="blog-article-container">
+        {% for message in app.flashes('success') %}
+            <div class="success-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        {% for message in app.flashes('error') %}
+            <div class="error-message" style="background: #fee2e2; color: #dc2626; padding: 1rem; margin: 1rem 0; border-radius: 8px; border: 1px solid #fecaca;">
+                {{ message }}
+            </div>
+        {% endfor %}
 
+        {% if blog.image %}
+        <img src="{{ asset('uploads/images/' ~ blog.image) }}" alt="{{ blog.titleOne }}" class="blog-image-featured">
+        {% endif %}
 
+        <div class="blog-content-main">
+            {% if blog.contentOne %}
+            <div class="content-section">
+                <div class="content-text">{{ blog.contentOne|nl2br }}</div>
+            </div>
+            {% endif %}
 
-<!-- Modale pour commentaire -->
-{# <div id="commentModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Voulez-vous donner votre avis?</p>
-        <form id="commentForm">
-            <textarea id="userComment" name="comment" placeholder="Votre commentaire..."></textarea>
-            <button type="submit">Envoyer</button>
-        </form>
-    </div>
-</div> #}
+            {% if blog.titleTwo %}
+            <div class="content-section">
+                <h2 class="section-title">{{ blog.titleTwo }}</h2>
+                {% if blog.contentTwo %}
+                <div class="content-text">{{ blog.contentTwo|nl2br }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
 
-<!-- Section des commentaires directement intégrée sur la page -->
-<div class="comment-section">
-    <h3>Voulez-vous donner votre avis?</h3>
-    <form id="commentForm" action="{{ path('submit_comment') }}" method="post">
-        <textarea id="userComment" name="comment" placeholder="Votre commentaire..." rows="4" required></textarea>
-        <input type="hidden" name="blog_id" value="{{ blog.id }}">
-        <button type="submit" class="submit-button">Envoyer</button>
-    </form>
-</div>
+            {% if blog.titleTree %}
+            <div class="content-section">
+                <h2 class="section-title">{{ blog.titleTree }}</h2>
+                {% if blog.contentTree %}
+                <div class="content-text">{{ blog.contentTree|nl2br }}</div>
+                {% endif %}
+                
+                {% if blog.sousTitleTree %}
+                <h3 class="section-subtitle">{{ blog.sousTitleTree }}</h3>
+                {% if blog.sousContentTree %}
+                <div class="content-text">{{ blog.sousContentTree|nl2br }}</div>
+                {% endif %}
+                {% endif %}
+            </div>
+            {% endif %}
 
-{# <div id="commentModal" class="modal" >
-    <div class="modal-content">
-        <span class="close" onclick="document.getElementById('commentModal').style.display='none'">&times;</span>
-        <p>Voulez-vous donner votre avis?</p>
-<form id="commentForm" action="{{ path('submit_comment') }}" method="post">
-    <textarea id="userComment" name="comment" placeholder="Votre commentaire..."></textarea>
-    <input type="hidden" name="blog_id" value="{{ blog.id }}">
-    <button type="submit">Envoyer</button>
-</form> 
+            {% if blog.titleFor %}
+            <div class="content-section">
+                <h2 class="section-title">{{ blog.titleFor }}</h2>
+                {% if blog.contentFor %}
+                <div class="content-text">{{ blog.contentFor|nl2br }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
 
-</div>
-</div> #}
-<div class="blog-post-show">
-            <!-- Titre et contenu secondaire -->
+        <div class="comments-section">
+            <h2 class="comments-title">
+                Commentaires ({{ blog.comments|length }})
+            </h2>
 
-            
-            <!-- Autres sections selon votre modèle -->
-            <!-- Ajoutez ici d'autres sections de votre article si nécessaire -->
+            {% if app.user %}
+                {{ form_start(commentForm, {'attr': {'class': 'comment-form'}, 'method': 'POST'}) }}
+                    <div class="form-group">
+                        {{ form_label(commentForm.text, 'Votre commentaire', {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(commentForm.text, {'attr': {'class': 'form-control comment-textarea', 'placeholder': 'Partagez votre avis sur cet article...'}}) }}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-submit">
+                            <span>Publier le commentaire</span>
+                        </button>
+                    </div>
+                    {{ form_rest(commentForm) }}
+                {{ form_end(commentForm) }}
+            {% else %}
+                <div class="login-notice">
+                    <p class="login-notice-text">Vous devez être connecté pour laisser un commentaire</p>
+                    <a href="{{ path('app_login') }}" class="login-button">Se connecter</a>
+                </div>
+            {% endif %}
+
+            {% if blog.comments|length > 0 %}
+            <div class="comment-list">
+                {% for comment in blog.comments %}
+                    {% if not comment.parent %}
+                        {{ include('content/blog/_comment.html.twig', {'comment': comment, 'blog': blog, 'level': 0}) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="text-align: center; color: #64748b; font-style: italic; margin-top: 2rem;">
+                Aucun commentaire pour le moment. Soyez le premier à partager votre avis !
+            </p>
+            {% endif %}
         </div>
     </div>
-</div>
-</div>
-    <a href="{{ path('app_blog_index') }}">Revenir en Arriére</a>
 
-                            {# <a href="{{ path('app_blog_show', {'id': blog.id}) }}" class="btn btn-primary">Show</a> #}
-                            {% if is_granted("ROLE_ADMIN") %}
-                                <a href="{{ path('app_blog_edit', {'id': blog.id}) }}" class="btn btn-secondary">Modifier</a>
-                                <a href="{{ path('app_blog_new') }}" class="btn btn-success">Créer un Nouveau</a>
-
-                            {% endif %}
-                            {% include('footer.html.twig') %}
-{% endblock %} 
-
-{% block javascript %}
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('modal') === 'comment') {
-        const commentModal = document.getElementById('commentModal');
-        if (commentModal) {
-            commentModal.style.display = 'block';
-        }
-    }
+        // Variables globales
+        const BLOG_REPLY_URL = '{{ path('blog_reply_ajax', {'id': blog.id}) }}';
+        const BLOG_ID = {{ blog.id }};
 
-    document.querySelector('.close').addEventListener('click', function() {
-        if (commentModal) {
-            commentModal.style.display = 'none';
+        function toggleReplyForm(commentId) {
+            const replyForm = document.getElementById('reply-form-' + commentId);
+            const isVisible = replyForm.style.display !== 'none';
+            
+            // Masquer tous les autres formulaires de réponse
+            document.querySelectorAll('.reply-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            
+            // Afficher/masquer le formulaire ciblé
+            if (!isVisible) {
+                replyForm.style.display = 'block';
+                // Focus sur le textarea
+                const textarea = replyForm.querySelector('textarea');
+                if (textarea) {
+                    setTimeout(() => textarea.focus(), 100);
+                }
+            }
         }
-    });
-});
+
+        function submitReply(event, parentId, blogId) {
+            event.preventDefault();
+            
+            console.log('Submitting reply to parent:', parentId, 'blog:', blogId);
+            console.log('URL:', BLOG_REPLY_URL);
+            
+            const form = event.target;
+            const textarea = form.querySelector('textarea[name="text"]');
+            const submitBtn = form.querySelector('.btn-submit-reply');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoader = submitBtn.querySelector('.btn-loader');
+            
+            if (!textarea.value.trim()) {
+                alert('Veuillez écrire une réponse.');
+                return;
+            }
+
+            // État de chargement
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            
+            const formData = new FormData();
+            formData.append('text', textarea.value.trim());
+            formData.append('parent_id', parentId);
+            
+            console.log('FormData:', {
+                text: textarea.value.trim(),
+                parent_id: parentId
+            });
+            
+            fetch(BLOG_REPLY_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                if (data.success) {
+                    // Créer le nouveau commentaire HTML
+                    const newCommentHtml = createCommentHtml(data.comment, 1, BLOG_ID);
+                    
+                    // Ajouter à la liste des réponses
+                    const repliesContainer = document.getElementById('comment-replies-' + parentId);
+                    repliesContainer.insertAdjacentHTML('beforeend', newCommentHtml);
+                    
+                    // Réinitialiser et masquer le formulaire
+                    textarea.value = '';
+                    toggleReplyForm(parentId);
+                    
+                    // Afficher un message de succès
+                    showMessage('Réponse publiée avec succès !', 'success');
+                } else {
+                    showMessage(data.message || 'Erreur lors de la publication.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                showMessage('Erreur de connexion.', 'error');
+            })
+            .finally(() => {
+                // Restaurer l'état du bouton
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            });
+        }
+
+        function createCommentHtml(comment, level, blogId) {
+            const deleteButton = comment.isAdmin ? 
+                `<form method="post" action="/admin/comment/${comment.id}/delete" style="display: inline-block; margin-left: 1rem;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');">
+                    <input type="hidden" name="_token" value="">
+                    <button type="submit" class="btn-delete-comment" title="Supprimer ce commentaire">
+                        Supprimer
+                    </button>
+                </form>` : '';
+
+            return `
+                <div class="comment-item" style="margin-left: ${level * 2}rem;">
+                    <div class="comment-header">
+                        <div class="comment-author">${comment.author}</div>
+                        <div class="comment-actions">
+                            <div class="comment-date">${comment.createdAt}</div>
+                            <button type="button" class="btn-reply-comment" onclick="toggleReplyForm(${comment.id})" title="Répondre à ce commentaire">
+                                Répondre
+                            </button>
+                            ${deleteButton}
+                        </div>
+                    </div>
+                    <div class="comment-text">${comment.text.replace(/\n/g, '<br>')}</div>
+                    
+                    <div id="reply-form-${comment.id}" class="reply-form" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <form id="ajax-reply-form-${comment.id}" onsubmit="submitReply(event, ${comment.id}, ${blogId})">
+                            <div class="form-group">
+                                <label for="reply-text-${comment.id}">Votre réponse :</label>
+                                <textarea 
+                                    id="reply-text-${comment.id}" 
+                                    name="text" 
+                                    rows="3" 
+                                    required
+                                    placeholder="Écrivez votre réponse..."
+                                    style="width: 100%; padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; resize: vertical; background: rgba(255, 255, 255, 0.9);"
+                                ></textarea>
+                            </div>
+                            <div class="reply-form-actions" style="margin-top: 1rem; display: flex; gap: 1rem;">
+                                <button type="submit" class="btn-submit-reply">
+                                    <span class="btn-text">Publier la réponse</span>
+                                    <span class="btn-loader" style="display: none;">Envoi...</span>
+                                </button>
+                                <button type="button" class="btn-cancel-reply" onclick="toggleReplyForm(${comment.id})">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div id="comment-replies-${comment.id}" class="comment-replies" style="margin-top: 1rem;"></div>
+                </div>
+            `;
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `alert alert-${type}`;
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 6px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+                ${type === 'success' ? 'background: #059669;' : 'background: #dc2626;'}
+            `;
+            messageDiv.textContent = message;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 3000);
+        }
+
+        // Ajouter les animations CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const modalParam = "{{ app.request.query.get('modal') }}";
-    const commentModal = document.getElementById('commentModal');
-
-    if (modalParam === 'comment') {
-        commentModal.style.display = 'block';
-    }
-
-    document.querySelector('.close').addEventListener('click', function() {
-        commentModal.style.display = 'none';
-    });
-
-    // Gestion de l'envoi du formulaire
-    document.getElementById('commentForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // Implémentez l'envoi du formulaire si nécessaire
-        commentModal.style.display = 'none';
-    });
-});
-</script>
-
-
-
-{# <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const likeButton = document.getElementById('likeButton');
-    const closeButton = document.querySelector('.close');
-    const commentModal = document.getElementById('commentModal');
-    const commentForm = document.getElementById('commentForm');
-
-    likeButton.addEventListener('click', function() {
-        commentModal.style.display = 'block';
-    });
-
-    closeButton.addEventListener('click', function() {
-        commentModal.style.display = 'none';
-    });
-
-    commentForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const comment = document.getElementById('userComment').value;
-
-        fetch('/submit-comment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ comment: comment })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Merci pour votre commentaire!');
-            commentModal.style.display = 'none';
-        })
-        .catch(error => console.error('Erreur lors de l\'envoi du commentaire:', error));
-    });
-});
-
-</script> #}
-{% endblock %} 
+{% endblock %}

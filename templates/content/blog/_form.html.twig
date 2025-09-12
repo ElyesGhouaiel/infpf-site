@@ -1,4 +1,75 @@
-<div class="container">
+{% block stylesheets %}
+<style>
+.custom-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    justify-self:center;
+    width:80%;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    background-color: #0b3e6f;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.25em;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+}
+
+.card-body {
+    padding: 2rem;
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    margin-bottom: 1.5em;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5em;
+    display: block;
+}
+
+.form-control {
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    transition: border 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0b3e6f;
+    box-shadow: 0 0 0 0.2rem rgba(11, 62, 111, 0.25);
+}
+
+.btn-primary {
+    background-color: #0b3e6f;
+    border-color: #0b3e6f;
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #093158;
+    border-color: #093158;
+}
+</style>
+{% endblock %}
+<div >
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

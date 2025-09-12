@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+.guide-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-section {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(to right, #0b3e6f, #569bf5);
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+}
+
+.featured-formations, .categories-section {
+    margin-bottom: 40px;
+}
+
+.featured-card, .formation-card {
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: white;
+}
+
+.featured-card:hover, .formation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-discover, .btn-view-formation, .btn-show-more {
+    display: inline-block;
+    background: #0b3e6f;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-discover:hover, .btn-view-formation:hover, .btn-show-more:hover {
+    background: #569bf5;
+    cursor: pointer;
+}
+
+.category-block {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+.featured-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.btn-discover, .btn-see-more {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-discover:hover, .btn-see-more:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.formation-card:hover {
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+}
+
+    </style>
+{% endblock %}
+
+{% block title %}Guide des Formations{% endblock %}
+
+{% block body %}
+
+{% if featuredFormations is defined %}
+<section class="featured-formations">
+    <h2>Formations à la Une</h2>
+    <div class="formations-list">
+        {% for formation in featuredFormations %}
+            <div class="formation-card">
+                <h3>{{ formation.nameFormation }}</h3>
+                <p>{{ formation.descriptionFormation|slice(0, 100) ~ '...' }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+
+<section class="all-categories" style="margin-top: 50px;">
+    {% for category in categories %}
+        <div class="category" style="margin-bottom: 40px;">
+            <h2 style="font-size: 26px; border-bottom: 2px solid #0b3e6f; color:#0b3e6f; margin-bottom:20px;">
+                {{ category.name }}
+            </h2>
+
+            <div class="formations-list">
+                {% for formation in formationsByCategory[category.name]|slice(0, 5) %}
+                    <div class="formation-card" style="padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 10px;">
+                        <h3 style="font-size: 20px; color: #333;">
+                            {{ formation.nameFormation }}
+                        </h3>
+                        <p style="margin: 5px 0; color: #555;">
+                            {{ formation.descriptionFormation|slice(0,200) ~ '...' }}
+                        </p>
+                        <a href="{{ path('app_formation_show', {'id': formation.id}) }}" style="color: #0b3e6f;">
+                            En savoir plus →
+                        </a>
+                    </div>
+                {% endfor %}
+                
+                {% if formationsByCategory[category.name]|length > 5 %}
+                    <button class="btn-see-more" onclick="showMore(this)" style="background-color:#0b3e6f;color:#fff;padding:8px 15px;border-radius:5px;border:none;cursor:pointer;">
+                        Voir plus
+                    </button>
+                    <div class="more-formations" style="display:none;">
+                        {% for formation in formationsByCategory[category.name]|slice(5) %}
+                            <div class="formation-card" style="padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 10px;">
+                                <h3 style="font-size: 20px; color: #333;">
+                                    {{ formation.nameFormation }}
+                                </h3>
+                                <p style="margin: 5px 0; color: #555;">
+                                    {{ formation.descriptionFormation|slice(0,200) ~ '...' }}
+                                </p>
+                                <a href="{{ path('app_formation_show', {'id': formation.id}) }}" style="color: #0b3e6f;">
+                                    En savoir plus →
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</section>
+
+<script>
+function showMore(btn) {
+    let moreFormations = btn.nextElementSibling;
+    if (moreFormations.style.display === 'none' || moreFormations.style.display === '') {
+        moreFormations.style.display = 'block';
+        btn.textContent = 'Voir moins';
+    } else {
+        moreFormations.style.display = 'none';
+        btn.textContent = 'Voir plus';
+    }
+}
+</script>
+{% include 'footer.html.twig' %}
+
+{% endblock %}

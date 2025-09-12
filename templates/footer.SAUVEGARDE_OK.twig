@@ -1,0 +1,298 @@
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+{% block stylesheets %}
+<style>
+    #p_footer {
+        width: 75%;
+        justify-self: center;
+    }
+    
+    .cookie-preferences-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .cookie-preferences-popup {
+        background: white;
+        width: 1000px;
+        height: 800px;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease-in-out;
+        position: relative;
+    }
+    .content-popup{
+        background-color: #172a3c;
+        padding:30px;
+        border-radius:10px;
+    }
+    .btn-calendly-footer {
+    background-color: #0b3f89;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-calendly-footer:hover {
+    background-color: #004080;
+}
+    .btn-calendly-footer {
+        color: white;
+        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .btn-calendly-footer:hover {
+        color: #d2d2d2;
+    }
+
+    .cookie-preferences-popup {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}
+<footer class="footer">
+    <div class="footer__social">
+        <div class="footer__container footer__social__container">
+            <div class="footer__social__svg">
+                <span class="footer__social__label">Rejoignez-nous sur</span>
+                <div class="gtm-cta-btn-facebook" onclick="window.open('https://www.facebook.com/infpf.fr/');" title="Facebook">
+                    <img alt="Facebook" data-lazy-src="../img/facebook.png" height="15" src="../img/Facebook_Logo_2023.png" width="20"/>
+                </div>
+                <div class="gtm-cta-btn-youtube" onclick="window.open('https://www.youtube.com/@infpf');" title="Youtube">
+                    <img alt="Youtube" data-lazy-src="../img/youtube.svg" height="10" src="../img/free-youtube-logo-icon-2431-thumb.png" width="15"/>
+                </div>
+                <div class="gtm-cta-btn-instagram" onclick="window.open('https://www.instagram.com/infpf.fr/');" title="Instagram">
+                    <img alt="Instagram" data-lazy-src="../img/instagram.webp" height="15" src="../img/instagram.webp" width="15"/>
+                </div>
+            </div>
+            <div class="footer__social__tel gtm-cta-btn-telephone" onclick="location.href='tel:0366060201'" title="Contactez nous !">Tél. 04 89 05 03 55</div>
+        </div>
+    </div>
+	<div class="footer__container">
+		<ul class="footer__menu">
+			<li>
+				<a href="{{ path('app_contact') }}">
+					<span>Contactez-nous</span>
+				</a>
+			</li>
+
+			{# <li>
+			<span onclick="document.getElementById('contactFormModal').style.display='block'">Contactez nous</span>
+			</li>
+			
+			
+			<div id="contactFormModal" class="modal" style="display:none;">
+			  <div class="modal-content">
+			    <span class="close-btn" onclick="document.getElementById('contactFormModal').style.display='none'">&times;</span>
+			    <form action="/send-contact-form" method="POST">
+			      <label for="name">Nom:</label>
+			      <input type="text" id="name" name="name" required>
+			      
+			      <label for="email">Email:</label>
+			      <input type="email" id="email" name="email" required>
+			      
+			      <label for="message">Message:</label>
+			      <textarea id="message" name="message" required></textarea>
+			      
+			      <input type="submit" value="Envoyer">
+			    </form>
+			  </div>
+			</div> #}
+
+			<li>
+				<a href="{{ path('legal_mentions') }}">Règlement intérieur</a>
+			</li>
+			<li>
+				<a href="{{ path('cgv') }}">Conditions Générales de Vente</A>
+			</li>
+			<li>
+				<a href="{{ path('disclaimer') }}">Mentions légales</a>
+			</li>
+			<li>
+				<a href="/avis/">Les avis sur l'INFPF</a>
+			</li>
+			<li>
+				<a href="/guide/">Nos guides formations</a>
+			</li>
+			<li>
+        <button class="ot-sdk-show-settings" name="Mes cookies" value="Mes cookies">Personnaliser mes cookies</button>
+    </li>
+        </ul>
+        <div id="cookiePopup" class="cookie-preferences-overlay" style="display: none;">
+        <div class="content-popup">
+            <button class="cookie-preferences-close" onclick="document.getElementById('cookiePopup').style.display='none'">&times;</button>
+            <h2>Préférences des cookies</h2>
+            <p>Ce site utilise des cookies pour améliorer votre expérience utilisateur. Vous pouvez choisir les types de cookies que vous souhaitez activer.</p>
+            <form>
+                <div>
+                    <input type="checkbox" id="necessary" checked disabled>
+                    <label for="necessary"><strong>Cookies nécessaires</strong> – toujours actifs</label>
+                    <p>Indispensables pour le bon fonctionnement du site (ex. connexion, sécurité, panier...)</p>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="analytics">
+                    <label for="analytics"><strong>Cookies de mesure d’audience</strong></label>
+                    <p>Permettent de collecter des données pour améliorer nos services (ex. Google Analytics).</p>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="marketing">
+                    <label for="marketing"><strong>Cookies marketing</strong></label>
+                    <p>Utilisés pour vous proposer des publicités personnalisées en dehors de notre site.</p>
+                </div>
+            </form>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="button" onclick="saveCookiePreferences()">Enregistrer mes préférences</button>
+                <button type="button" onclick="acceptAllCookies()">Tout accepter</button>
+            </div>
+        </div>
+    </div>
+
+<div style="text-align: center; margin: 40px 0;">
+    <a class="calendly-btn calendly-btn--large" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+        📅 Prendre rendez-vous avec un conseiller
+    </a>
+</div>
+
+
+        
+        <div class="footer__mentionslegales" style="text-align: center;">
+            <p style="margin-bottom: 10px;">
+                Ecole certifiée QUALIOPI. La certification nationale a été attribuée au titre des actions de formation.<br/>
+                Établissement privé d'enseignement.
+            </p>
+        
+            <div style="
+                display: inline-flex;
+                gap: 30px;
+                background: white;
+                padding: 20px 40px;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            ">
+                <a href="{{ asset('pdf/Qualiopi.pdf') }}" target="_blank">
+                    <img src="{{ asset('img/logo-qualiopi-avec-textes.png') }}" alt="Logo Qualiopi" style="height: 130px;">
+                </a>
+                    <img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo Datadocké" style="height: 130px;">
+            </div>
+        </div>
+
+    <br>
+
+    <p style="text-align: center; color: white; font-size: 15px; line-height: 1.6; max-width: 1000px; margin: 0 auto 20px;">
+        Ecole certifiée QUALIOPI et référencée sur DataDock sous le numéro 0150654. La certification nationale a été attribuée au titre des actions de formation.<br>
+        Établissement privé d'enseignement à distance soumis au contrôle pédagogique de l'Etat, immatriculé sous le numéro 24FOR01596.1<br>
+        Centre de formation professionnelle continue, déclarée sous le numéro 93 06 11166 06.
+    </p>
+    
+    	<div class="footer__copyright">
+		© Institut National De La Formation Professionnelle Française - 2024
+	</div>
+    
+
+	<div class="wp-block wp-block-kubio-section position-relative wp-block-kubio-section__outer style--pvpxVlV8qmYeEluhNp402p-outer style-local-727-outer d-flex h-section-global-spacing align-items-lg-center align-items-md-center align-items-center" data-kubio="kubio/section" id="footer-section">
+    <div class="position-relative wp-block-kubio-section__inner style--pvpxVlV8qmYeEluhNp402p-inner style-local-727-inner h-section-grid-container h-section-boxed-container">
+        <div class="wp-block wp-block-kubio-row position-relative wp-block-kubio-row__container style--pvpxVlV8qmYZ9YRWZouzBM-container style-local-728-container gutters-row-lg-1 gutters-row-v-lg-1 gutters-row-md-1 gutters-row-v-md-1 gutters-row-2 gutters-row-v-2" data-kubio="kubio/row">
+             <div class="position-relative wp-block-kubio-row__inner style--pvpxVlV8qmYZ9YRWZouzBM-inner style-local-728-inner h-row align-items-lg-stretch align-items-md-stretch align-items-stretch justify-content-lg-center justify-content-md-center justify-content-center gutters-col-lg-1 gutters-col-v-lg-1 gutters-col-md-1 gutters-col-v-md-1 gutters-col-2 gutters-col-v-2" style="text-align: center;">
+                <div class="wp-block wp-block-kubio-column position-relative wp-block-kubio-column__container style--pvpxVlV8qmYVoBOi2eMR2I-container style-local-729-container d-flex h-col-lg-auto h-col-md-auto h-col-auto" data-kubio="kubio/column">
+                    <div class="position-relative wp-block-kubio-column__inner style--pvpxVlV8qmYVoBOi2eMR2I-inner style-local-729-inner d-flex h-flex-basis h-px-lg-1 v-inner-lg-1 h-px-md-1 v-inner-md-1 h-px-2 v-inner-2"
+                         style="border-top: 1px solid #ffffff; padding-top: 20px; padding-bottom: 5px;">
+                        <div class="position-relative wp-block-kubio-column__align style--pvpxVlV8qmYVoBOi2eMR2I-align style-local-729-align h-y-container h-column__content h-column__v-align flex-basis-100 align-self-lg-start align-self-md-start align-self-start">
+                            <h3 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-qi6Vzqz87Xw-text style-local-731-text" data-kubio="kubio/heading"style="color: red;">
+                                <strong>Tradez de manière responsable :</strong>
+                            </h3>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-ZoLrG_L09N0-text style-local-732-text" data-kubio="kubio/heading">Avertissement relatif aux risques</h5>
+                            <p id="p_footer" class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-A65dw3-J67L-text style-local-733-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Les opérations sur les marchés à terme et les marchés des changes comportent des risques importants et ne conviennent pas à tous les investisseurs. Un investisseur peut potentiellement perdre la totalité ou une partie de son investissement initial. Le capital-risque est l’argent que l’on peut perdre sans mettre en péril sa sécurité financière ou son style de vie. Seul le capital-risque doit être utilisé pour la négociation et seules les personnes disposant d’un capital-risque suffisant doivent envisager de négocier. Les performances passées ne sont pas nécessairement indicatives des résultats futurs.
+                            </p>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-heiH1sqAHzg-text style-local-734-text" data-kubio="kubio/heading">Avertissement relatif aux performances hypothétiques</h5>
+                            <p id="p_footer"  class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-rRWUAgSn6Tq-text style-local-735-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Les résultats des performances hypothétiques ont de nombreuses limitations inhérentes, dont certaines sont décrites ci-dessous. Aucune déclaration n’est faite selon laquelle un compte réalisera ou est susceptible de réaliser des profits ou des pertes similaires à ceux indiqués ; en fait, il existe souvent des différences marquées entre les résultats de performance hypothétiques et les résultats réels obtenus par la suite par un programme de trading particulier. L’une des limites des résultats de performance hypothétiques est qu’ils sont généralement préparés avec le bénéfice du recul. De plus, la négociation hypothétique n’implique pas de risque financier, et aucun résultat de négociation hypothétique ne peut complètement rendre compte de l’impact du risque financier de la négociation réelle. Par exemple, la capacité à supporter les pertes ou à adhérer à un programme de négociation particulier malgré les pertes de négociation sont des points importants qui peuvent également affecter négativement les résultats de négociation réels. Il existe de nombreux autres facteurs liés aux marchés en général ou à la mise en œuvre d’un programme de trading spécifique qui ne peuvent pas être entièrement pris en compte dans la préparation de résultats de performance hypothétiques et qui peuvent tous avoir un impact négatif sur les résultats de trading.
+                            </p>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-XRGNdmYNrUn-text style-local-736-text" data-kubio="kubio/heading">Informations sur la Live Trade Room</h5>
+                            <p id="p_footer"  class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-rTRk6brB-Fs-text style-local-737-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Cette présentation a un but éducatif uniquement et les opinions exprimées sont uniquement celles du présentateur. Toutes les transactions présentées doivent être considérées comme hypothétiques et ne doivent pas être reproduites dans un compte de trading réel.
+                            </p>
+                            <h5 class="wp-block wp-block-kubio-heading position-relative wp-block-kubio-heading__text style-F7iQrZbrJ-N-text style-local-738-text" data-kubio="kubio/heading">Avertissement relatif aux témoignages</h5>
+                            <p  id="p_footer" class="wp-block wp-block-kubio-text position-relative wp-block-kubio-text__text style-y0dnOvuXFgg-text style-local-739-text" data-kubio="kubio/text" style="font-size: 9px;">
+                                Les témoignages figurant sur ce site Web ne sont pas nécessairement représentatifs d’autres clients et ne constituent pas une garantie de performances ou de succès futurs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% block javascripts %}
+<!-- Le JavaScript Calendly est désormais géré de manière centralisée dans base.html.twig -->
+<script>
+// Gestion du popup cookies uniquement
+document.addEventListener('DOMContentLoaded', function () {
+    const popup = document.getElementById('cookiePopup');
+    const button = document.querySelector('.ot-sdk-show-settings');
+    if (popup && button) {
+    button.addEventListener('click', function (e) {
+        e.stopPropagation();
+        popup.style.display = 'flex';
+    });
+    document.addEventListener('click', function (event) {
+            if (popup.style.display === 'flex' &&
+                !popup.querySelector('.content-popup')?.contains(event.target)) {
+            popup.style.display = 'none';
+        }
+    });
+        popup.querySelector('.content-popup')?.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+    }
+});
+
+// Fonctions de gestion des cookies
+function saveCookiePreferences() {
+    const necessary = document.getElementById('necessary').checked;
+    const analytics = document.getElementById('analytics').checked;
+    const marketing = document.getElementById('marketing').checked;
+    
+    localStorage.setItem('cookiePreferences', JSON.stringify({
+        necessary: necessary,
+        analytics: analytics,
+        marketing: marketing,
+        timestamp: Date.now()
+    }));
+    
+    document.getElementById('cookiePopup').style.display = 'none';
+    console.log('Préférences sauvegardées:', { necessary, analytics, marketing });
+}
+
+function acceptAllCookies() {
+    localStorage.setItem('cookiePreferences', JSON.stringify({
+        necessary: true,
+        analytics: true,
+        marketing: true,
+        timestamp: Date.now()
+    }));
+    
+    document.getElementById('cookiePopup').style.display = 'none';
+    console.log('Tous les cookies acceptés');
+}
+</script>
+{% endblock %}
+</footer>

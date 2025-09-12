@@ -1,11 +1,431 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Blog{% endblock %}
+{% block title %}Nouvel Article - Blog INFPF{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        :root {
+            --primary-color: #0b3f89;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --light-gray: #f8fafc;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.7;
+        }
+
+        .blog-form-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .form-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .blog-form {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-textarea-large {
+            min-height: 200px;
+        }
+
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            background: var(--light-gray);
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .file-input:hover {
+            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .file-input-text {
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        .form-help {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .preview-section {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
+
+        .preview-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-form-container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            .blog-form {
+                padding: 2rem;
+            }
+
+            .form-title {
+                font-size: 2rem;
+            }
+
+            .form-group-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Form validation styles */
+        .form-control.is-invalid {
+            border-color: #ef4444;
+        }
+
+        .invalid-feedback {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Blog</h1>
+    <div class="blog-form-container">
+        <div class="form-header">
+            <h1 class="form-title">Créer un Nouvel Article</h1>
+            <p class="form-subtitle">Partagez vos actualités et informations avec la communauté INFPF</p>
+        </div>
 
-    {{ include('content/blog/_form.html.twig') }}
+        {{ form_start(form, {'attr': {'class': 'blog-form', 'enctype': 'multipart/form-data'}}) }}
+            
+            <div class="form-section">
+                <h2 class="section-title">📝 Informations principales</h2>
+                
+                <div class="form-group">
+                    {{ form_label(form.title_one, 'Titre principal *', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.title_one, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le titre principal de l\'article...'}}) }}
+                    <div class="form-help">Ce titre apparaîtra en en-tête de l'article et dans la liste des actualités</div>
+                </div>
 
-    <a href="{{ path('app_blog_index') }}">back to list</a>
+                <div class="form-group">
+                    {{ form_label(form.shortDesc, 'Description courte', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.shortDesc, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Rédigez une description courte qui apparaîtra dans la liste des articles...'}}) }}
+                    <div class="form-help">Cette description apparaîtra comme aperçu dans la liste des articles (recommandé: 150-200 caractères)</div>
+                </div>
+
+                <div class="form-group-row">
+                    <div class="form-group">
+                        {{ form_label(form.author, 'Auteur', {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.author, {'attr': {'class': 'form-control', 'placeholder': 'Nom de l\'auteur'}}) }}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form_label(form.publishedAt, 'Date de publication', {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.publishedAt, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.image, 'Image de l\'article', {'attr': {'class': 'form-label'}}) }}
+                    <div class="file-input-container">
+                        {{ form_widget(form.image, {'attr': {'class': 'file-input'}}) }}
+                    </div>
+                    <div class="form-help">Formats acceptés: JPG, PNG, WebP. Taille recommandée: 1200x600px</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">📄 Contenu principal</h2>
+                
+                <div class="form-group">
+                    {{ form_label(form.content_one, 'Contenu principal *', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content_one, {'attr': {'class': 'form-control form-textarea-large', 'placeholder': 'Rédigez le contenu principal de votre article...'}}) }}
+                    <div class="form-help">Le contenu principal de votre article. Vous pouvez utiliser des retours à la ligne pour structurer le texte.</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">📋 Sections additionnelles (optionnel)</h2>
+                
+                <div class="form-group">
+                    {{ form_label(form.title_two, 'Titre de la 2ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.title_two, {'attr': {'class': 'form-control', 'placeholder': 'Titre de la deuxième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.content_two, 'Contenu de la 2ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content_two, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Contenu de la deuxième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.title_tree, 'Titre de la 3ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.title_tree, {'attr': {'class': 'form-control', 'placeholder': 'Titre de la troisième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.content_tree, 'Contenu de la 3ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content_tree, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Contenu de la troisième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.sous_title_tree, 'Sous-titre de la 3ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.sous_title_tree, {'attr': {'class': 'form-control', 'placeholder': 'Sous-titre de la troisième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.sous_content_tree, 'Sous-contenu de la 3ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.sous_content_tree, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Sous-contenu de la troisième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.title_for, 'Titre de la 4ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.title_for, {'attr': {'class': 'form-control', 'placeholder': 'Titre de la quatrième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.content_for, 'Contenu de la 4ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content_for, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Contenu de la quatrième section...'}}) }}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    ✅ Publier l'article
+                </button>
+                <a href="{{ path('app_blog_index') }}" class="btn btn-secondary">
+                    ❌ Annuler
+                </a>
+            </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preview functionality
+            const titleInput = document.querySelector('input[name="blog[title_one]"]');
+            const shortDescInput = document.querySelector('textarea[name="blog[shortDesc]"]');
+            
+            if (titleInput && shortDescInput) {
+                titleInput.addEventListener('input', updateCharCount);
+                shortDescInput.addEventListener('input', updateCharCount);
+            }
+            
+            function updateCharCount() {
+                const shortDesc = shortDescInput.value;
+                const charCount = shortDesc.length;
+                const recommended = charCount >= 150 && charCount <= 200;
+                
+                // Add visual feedback for optimal length
+                if (recommended) {
+                    shortDescInput.style.borderColor = '#10b981';
+                } else if (charCount > 200) {
+                    shortDescInput.style.borderColor = '#f59e0b';
+                } else {
+                    shortDescInput.style.borderColor = '#e2e8f0';
+                }
+            }
+
+            // File input enhancement
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const fileName = file.name;
+                        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                        console.log(`Fichier sélectionné: ${fileName} (${fileSize} MB)`);
+                    }
+                });
+            }
+
+            // Form validation enhancement
+            const form = document.querySelector('.blog-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const titleInput = document.querySelector('input[name="blog[title_one]"]');
+                    const contentInput = document.querySelector('textarea[name="blog[content_one]"]');
+                    
+                    if (!titleInput.value.trim()) {
+                        e.preventDefault();
+                        titleInput.focus();
+                        alert('Le titre principal est obligatoire');
+                        return false;
+                    }
+                    
+                    if (!contentInput.value.trim()) {
+                        e.preventDefault();
+                        contentInput.focus();
+                        alert('Le contenu principal est obligatoire');
+                        return false;
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}

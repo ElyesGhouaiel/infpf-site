@@ -15,7 +15,7 @@ class Blog
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title_one = null;
 
@@ -27,6 +27,9 @@ class Blog
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content_one = null;
+    
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $shortDesc = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title_two = null;
@@ -57,9 +60,6 @@ class Blog
 
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Comment::class, cascade: ['persist', 'remove'])]
     private Collection $comments;
-    
-    #[ORM\Column(type: Types::INTEGER, options: ["default" => 0])]
-    private int $likes = 0;
 
 
     public function __construct() {
@@ -71,15 +71,26 @@ class Blog
         return $this->id;
     }
 
+
     public function getTitleOne(): ?string
     {
         return $this->title_one;
     }
+    
 
     public function setTitleOne(?string $title_one): static
     {
         $this->title_one = $title_one;
 
+        return $this;
+    }
+    
+    public function getShortDesc(){
+        return $this->shortDesc;
+    }
+    
+    public function setShortDesc(?string $shortDesc){
+        $this->shortDesc = $shortDesc;
         return $this;
     }
 
@@ -227,26 +238,6 @@ class Blog
         return $this;
     }
 
-        // Getters et Setters
-
-        public function getLikes(): ?int
-        {
-            return $this->likes;
-        }
-    
-        public function setLikes(int $likes): self
-        {
-            $this->likes = $likes;
-    
-            return $this;
-        }
-    
-        public function incrementLikes(): self
-        {
-            $this->likes++;
-    
-            return $this;
-        }
 
         
     // Getter et setter pour comments

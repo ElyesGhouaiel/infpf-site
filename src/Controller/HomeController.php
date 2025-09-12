@@ -44,7 +44,13 @@ class HomeController extends AbstractController
 
         // Applique les filtres additionnels
         $queryBuilder = $formationRepository->findFormationsByCriteria(array_filter($filterCriteria, function($value) { return !is_null($value) && $value !== ''; }));
-
+        
+        // Ajout du filtre RNCP (formations éligibles si elles ont un RNCP rempli)
+        $hasRncp = $request->query->get('has_rncp');
+        if ($hasRncp) {
+            $queryBuilder->andWhere('f.rncp IS NOT NULL')
+                         ->andWhere('f.rncp != \'\'');
+        }
         // Appliquer l'ordre de tri
         if ($sortOrder === 'asc') {
             $queryBuilder->orderBy('f.priceFormation', 'ASC');
@@ -207,6 +213,31 @@ public function downloadDocument($id, FormationRepository $formationRepository)
     {
         return $this->render('content/footer/avis.html.twig');
     }
+    
+    #[Route('/guide', name: 'guide')]
+    public function guide(EntityManagerInterface $em): Response
+    {
+        $repo = $em->getRepository(Formation::class);
+        $formations = $repo->findAll();
+        $featuredFormations = array_slice($formations, 0, 3);
+    
+        $grouped = [];
+        foreach ($formations as $formation) {
+            $cat = $formation->getCategory()->getName(); // ou adapte selon ta BDD
+            $grouped[$cat][] = $formation;
+        }
+    
+        return $this->render('content/footer/guide.html.twig', [
+            'formationsByCategory' => $grouped,
+            'featuredFormations' => $featuredFormations, 
+        ]);
+    }
+    #[Route('/category/{id}/formations', name: 'category_formations', methods: ['GET'])]
+    public function getFormations(Category $category, FormationRepository $repo): JsonResponse {
+        $formations = $repo->findBy(['category' => $category]);
+        return $this->json($formations);
+    }
+
 
     #[Route('/disclaimer', name: 'disclaimer')]
     public function disclaimer(): Response

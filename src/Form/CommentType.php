@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CommentType extends AbstractType
 {
@@ -17,9 +16,6 @@ class CommentType extends AbstractType
             ->add('text', TextareaType::class, [
                 'label' => 'Votre commentaire',
                 'attr' => ['placeholder' => 'Écrivez votre commentaire ici...']
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Publier'
             ]);
     }
 

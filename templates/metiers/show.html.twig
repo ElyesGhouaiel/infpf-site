@@ -1,0 +1,1486 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }} - Institut National de la Formation Professionnelle Française{% endblock %}
+
+{% block head %}
+    <meta name="description" content="{{ meta_description }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('app_metiers_show', {'slug': metier.slug}) }}">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ page_title }} - INFPF">
+    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('app_metiers_show', {'slug': metier.slug}) }}">
+    
+    <!-- JSON-LD Schema -->
+    {% if json_ld %}
+        <script type="application/ld+json">
+            {{ json_ld|json_encode|raw }}
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main class="site-main metier-page-ef">
+    <!-- Hero avec bouton retour intégré -->
+    <section class="hero-metier-ef">
+        <div class="hero-background-ef"></div>
+        <div class="container">
+            <!-- Bouton retour - Position corrigée -->
+            <div class="back-navigation-ef">
+                <a href="{{ path('app_metiers_index') }}" class="btn-back-ef">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/>
+                    </svg>
+                    <span>Tous les métiers</span>
+                </a>
+            </div>
+            
+            <div class="hero-content-ef">
+                <div class="hero-icon-ef">
+                    {% if metier.slug == 'commercial' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16,2A3,3 0 0,1 19,5V19A3,3 0 0,1 16,22H8A3,3 0 0,1 5,19V5A3,3 0 0,1 8,2H16M16,4H8A1,1 0 0,0 7,5V19A1,1 0 0,0 8,20H16A1,1 0 0,0 17,19V5A1,1 0 0,0 16,4M12,6A2,2 0 0,1 14,8A2,2 0 0,1 12,10A2,2 0 0,1 10,8A2,2 0 0,1 12,6M8,16V14C8,12.67 10.67,12 12,12C13.33,12 16,12.67 16,14V16H8Z"/>
+                        </svg>
+                    {% elseif metier.slug == 'developpeur-web' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14.6,16.6L19.2,12L14.6,7.4L16,6L22,12L16,18L14.6,16.6M9.4,16.6L4.8,12L9.4,7.4L8,6L2,12L8,18L9.4,16.6Z"/>
+                        </svg>
+                    {% elseif metier.slug == 'trader' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                        </svg>
+                    {% elseif metier.slug == 'manager-equipe' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"/>
+                        </svg>
+                    {% elseif metier.slug == 'marketing-digital' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.5,1L2,6V8H21V6M16,10V17H19V19H5V17H8V10H10V17H14V10"/>
+                        </svg>
+                    {% elseif metier.slug == 'assistant-administratif' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,2V4H17V2H19V4H20A2,2 0 0,1 22,6V20A2,2 0 0,1 20,22H4A2,2 0 0,1 2,20V6A2,2 0 0,1 4,4H5V2H7M4,8V20H20V8H4M6,10H8V12H6V10M10,10H12V12H10V10M14,10H16V12H14V10M18,10H20V12H18V10M6,14H8V16H6V14M10,14H12V16H10V14M14,14H16V16H14V14M6,18H8V20H6V18M10,18H12V20H10V18"/>
+                        </svg>
+                    {% elseif metier.slug == 'graphiste-designer' %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5,6H23V18H5V6M14,9A3,3 0 0,1 17,12A3,3 0 0,1 14,15A3,3 0 0,1 11,12A3,3 0 0,1 14,9M9,8A2,2 0 0,1 7,10V14A2,2 0 0,1 9,16A2,2 0 0,1 11,14V10A2,2 0 0,1 9,8M1,10H3V14H1V10Z"/>
+                        </svg>
+                    {% else %}
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20,6H4V4A2,2 0 0,1 6,2H18A2,2 0 0,1 20,4V6M20,8V19A2,2 0 0,1 18,21H6A2,2 0 0,1 4,19V8H20M6,10V12H18V10H6Z"/>
+                        </svg>
+                    {% endif %}
+                </div>
+                
+                <h1 class="hero-title-ef">{{ metier.title }}</h1>
+                <p class="hero-description-ef">{{ metier.description }}</p>
+                
+                <!-- Stats horizontales -->
+                <div class="hero-stats-ef">
+                    <div class="stat-ef">
+                        <span class="stat-number-ef">{{ formations_count }}</span>
+                        <span class="stat-label-ef">Formation{{ formations_count > 1 ? 's' : '' }} disponible{{ formations_count > 1 ? 's' : '' }}</span>
+                    </div>
+                    <div class="stat-ef">
+                        <span class="stat-number-ef">{{ metier.salaire|split(' - ')[0] }}</span>
+                        <span class="stat-label-ef">Salaire moyen</span>
+                    </div>
+                    <div class="stat-ef">
+                        <span class="stat-number-ef">{{ metier.secteurs|length }}+</span>
+                        <span class="stat-label-ef">Secteur{{ metier.secteurs|length > 1 ? 's' : '' }} qui recrutent</span>
+                    </div>
+                </div>
+                
+                <div class="hero-cta-ef">
+                    <a href="#formations" class="btn-hero-primary-ef">
+                        <span>Découvrir nos formations</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section présentation métier -->
+    <section class="presentation-metier-ef">
+        <div class="container">
+            <div class="presentation-header-ef">
+                <h2 class="section-title-ef">Pourquoi choisir le métier de {{ metier.title|replace({'Devenir ': ''})|lower }} ?</h2>
+                <p class="section-subtitle-ef">
+                    Un secteur en pleine croissance avec de nombreuses opportunités d'évolution et des perspectives salariales attractives.
+                </p>
+            </div>
+            
+            <!-- Benefits en ligne horizontale -->
+            <div class="benefits-grid-ef">
+                <div class="benefit-card-ef">
+                    <div class="benefit-icon-ef">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                        </svg>
+                    </div>
+                    <h4>Rémunération attractive</h4>
+                    <p>{{ metier.salaire }}</p>
+                </div>
+                <div class="benefit-card-ef">
+                    <div class="benefit-icon-ef">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                        </svg>
+                    </div>
+                    <h4>Évolution rapide</h4>
+                    <p>{{ metier.evolution }}</p>
+                </div>
+                <div class="benefit-card-ef">
+                    <div class="benefit-icon-ef">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                        </svg>
+                    </div>
+                    <h4>Secteurs porteurs</h4>
+                    <p>{{ metier.secteurs|length }} secteurs dynamiques qui recrutent activement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Profil Professionnel - Design moderne et épuré -->
+    <section class="professional-profile">
+        <div class="container">
+            <div class="profile-header">
+                <div class="header-badge">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,2L13.09,8.26L22,9L13.09,9.74L12,16L10.91,9.74L2,9L10.91,8.26L12,2Z"/>
+                    </svg>
+                    <span>Profil professionnel</span>
+                </div>
+                <h2>Ce que vous ferez au quotidien</h2>
+            </div>
+
+            <div class="profile-content">
+                <!-- Missions avec design moderne -->
+                <div class="missions-section">
+                    <div class="section-title">
+                        <div class="title-icon primary">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V5H19V19Z"/>
+                                <path d="M7,7V9H17V7H7M7,11V13H17V11H7M7,15V17H14V15H7Z"/>
+                            </svg>
+                        </div>
+                        <h3>Missions principales</h3>
+                    </div>
+                    <div class="missions-tags">
+                        {% for mission in metier.missions %}
+                            <span class="mission-tag">{{ mission }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Compétences avec tags modernes -->
+                <div class="skills-section">
+                    <div class="section-title">
+                        <div class="title-icon secondary">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                            </svg>
+                        </div>
+                        <h3>Compétences développées</h3>
+                    </div>
+                    <div class="skills-tags">
+                        {% for competence in metier.competences %}
+                            <span class="skill-tag">{{ competence }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formations -->
+    <section class="formations-ef" id="formations">
+        <div class="container">
+            <div class="formations-header-ef">
+                <h2 class="section-title-ef">{{ formations_count }} formation{{ formations_count > 1 ? 's' : '' }} pour accéder à ce métier</h2>
+                <p class="section-subtitle-ef">
+                    Découvrez nos formations spécialement conçues pour vous préparer efficacement à ce métier d'avenir
+                </p>
+            </div>
+            
+            <div class="formations-grid-ef">
+                {% if formations|length > 0 %}
+                    {% for formation in formations %}
+                        <article class="formation-card-ef">
+                            <div class="card-header-ef">
+                                {% if formation.category %}
+                                    <span class="formation-category-ef">{{ formation.category.name }}</span>
+                                {% endif %}
+                                <h3 class="formation-title-ef">
+                                    <a href="{{ path('app_formation_show', {'id': formation.id}) }}">
+                                        {{ formation.nameFormation }}
+                                    </a>
+                                </h3>
+                            </div>
+                        
+                        <div class="card-content-ef">
+                            {% if formation.phraseOne %}
+                                <p class="formation-excerpt-ef">{{ formation.phraseOne }}</p>
+                            {% elseif formation.descriptionFormation %}
+                                <p class="formation-excerpt-ef">{{ formation.descriptionFormation|slice(0, 150) }}...</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-meta-ef">
+                            {% if formation.dureeFormation %}
+                                <div class="meta-item-ef">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                    </svg>
+                                    <span>{{ formation.dureeFormation }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if formation.niveau %}
+                                <div class="meta-item-ef">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                                    </svg>
+                                    <span>{{ formation.niveau }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if formation.priceFormation %}
+                            <div class="card-price-ef">
+                                <span class="price-amount-ef">{{ formation.priceFormation }}€</span>
+                                <span class="price-note-ef">Éligible CPF</span>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-actions-ef">
+                            <a href="{{ path('app_formation_show', {'id': formation.id}) }}" 
+                               class="btn-formation-ef">
+                                <span>En savoir plus</span>
+                            </a>
+                        </div>
+                    </article>
+                    {% endfor %}
+                    
+                    {# Ajouter des cartes factices pour compléter à un multiple de 3 (pour avoir des lignes complètes) #}
+                    {% set remainingSlots = (3 - (formations|length % 3)) % 3 %}
+                    {% for i in 1..remainingSlots %}
+                        <article class="formation-card-ef formation-placeholder">
+                            <div class="card-header-ef">
+                                <span class="formation-category-ef">
+                                    {% if i == 1 %}Bientôt disponible{% elseif i == 2 %}Sur mesure{% else %}Personnalisé{% endif %}
+                                </span>
+                                <h3 class="formation-title-ef">
+                                    <a href="{% if i == 1 %}{{ path('app_home') }}{% else %}#{% endif %}">
+                                        {% if i == 1 %}
+                                            Nouvelle formation en préparation
+                                        {% elseif i == 2 %}
+                                            Formation personnalisée
+                                        {% else %}
+                                            Conseil sur mesure
+                                        {% endif %}
+                                    </a>
+                                </h3>
+                            </div>
+                            
+                            <div class="card-content-ef">
+                                <p class="formation-excerpt-ef">
+                                    {% if i == 1 %}
+                                        D'autres formations pour ce métier sont en cours de développement. Découvrez notre catalogue !
+                                    {% elseif i == 2 %}
+                                        Besoin d'une formation adaptée à vos besoins spécifiques ? Contactez-nous !
+                                    {% else %}
+                                        Conseil personnalisé pour votre projet professionnel dans ce domaine.
+                                    {% endif %}
+                                </p>
+                            </div>
+                            
+                            <div class="card-meta-ef">
+                                <div class="meta-item-ef">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                    </svg>
+                                    <span>
+                                        {% if i == 1 %}Prochainement{% elseif i == 2 %}Sur demande{% else %}Consultation{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-actions-ef">
+                                <a href="{% if i == 1 %}{{ path('app_home') }}{% else %}#{% endif %}" class="btn-formation-ef btn-formation-secondary">
+                                    <span>
+                                        {% if i == 1 %}Voir le catalogue{% elseif i == 2 %}Nous contacter{% else %}En savoir plus{% endif %}
+                                    </span>
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                
+                {% else %}
+                    {# Si aucune formation, afficher 3 cartes factices pour une ligne complète #}
+                    <article class="formation-card-ef formation-placeholder">
+                        <div class="card-header-ef">
+                            <span class="formation-category-ef">En développement</span>
+                            <h3 class="formation-title-ef">
+                                <a href="{{ path('app_home') }}">
+                                    Formations spécialisées à venir
+                                </a>
+                            </h3>
+                        </div>
+                        
+                        <div class="card-content-ef">
+                            <p class="formation-excerpt-ef">Nous préparons des formations spécifiquement adaptées à ce métier. En attendant, explorez nos autres programmes !</p>
+                        </div>
+                        
+                        <div class="card-meta-ef">
+                            <div class="meta-item-ef">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                </svg>
+                                <span>Prochainement</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions-ef">
+                            <a href="{{ path('app_home') }}" class="btn-formation-ef btn-formation-secondary">
+                                <span>Voir notre catalogue</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <article class="formation-card-ef formation-placeholder">
+                        <div class="card-header-ef">
+                            <span class="formation-category-ef">Personnalisé</span>
+                            <h3 class="formation-title-ef">
+                                <a href="#">
+                                    Formation sur mesure
+                                </a>
+                            </h3>
+                        </div>
+                        
+                        <div class="card-content-ef">
+                            <p class="formation-excerpt-ef">Besoin d'une formation personnalisée pour ce métier ? Contactez-nous pour créer un programme adapté à vos besoins !</p>
+                        </div>
+                        
+                        <div class="card-meta-ef">
+                            <div class="meta-item-ef">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                </svg>
+                                <span>Sur demande</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions-ef">
+                            <a href="#" class="btn-formation-ef btn-formation-secondary">
+                                <span>Nous contacter</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <article class="formation-card-ef formation-placeholder">
+                        <div class="card-header-ef">
+                            <span class="formation-category-ef">Conseil</span>
+                            <h3 class="formation-title-ef">
+                                <a href="#">
+                                    Accompagnement professionnel
+                                </a>
+                            </h3>
+                        </div>
+                        
+                        <div class="card-content-ef">
+                            <p class="formation-excerpt-ef">Accompagnement personnalisé et conseil dans votre évolution vers ce métier. Parlons de votre projet !</p>
+                        </div>
+                        
+                        <div class="card-meta-ef">
+                            <div class="meta-item-ef">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                </svg>
+                                <span>Consultation</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions-ef">
+                            <a href="#" class="btn-formation-ef btn-formation-secondary">
+                                <span>Prendre RDV</span>
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="cta-final-ef">
+        <div class="container">
+            <div class="cta-content-ef">
+                <h2 class="cta-title-ef">Prêt à commencer votre transformation professionnelle ?</h2>
+                <p class="cta-description-ef">
+                    Rejoignez les milliers de professionnels qui ont choisi l'INFPF pour développer leurs compétences et accélérer leur carrière
+                </p>
+                <div class="cta-actions-ef">
+                    <a href="{{ path('app_contact') }}" class="btn-cta-primary-ef">
+                        <span>Être rappelé gratuitement</span>
+                    </a>
+                    <a href="{{ path('app_metiers_index') }}" class="btn-cta-secondary-ef">
+                        <span>Découvrir d'autres métiers</span>
+                    </a>
+                </div>
+                <div class="cta-garantees-ef">
+                    <div class="garantee-item-ef">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                        </svg>
+                        <span>Formations certifiées</span>
+                    </div>
+                    <div class="garantee-item-ef">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                        </svg>
+                        <span>Accompagnement personnalisé</span>
+                    </div>
+                    <div class="garantee-item-ef">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                        </svg>
+                        <span>Financement flexible</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<style>
+/* ===== STYLES OPTIMISÉS PERFORMANCES ===== */
+
+/* Variables CSS personnalisées */
+:root {
+    --ef-primary: #1E40AF;         /* Bleu principal */
+    --ef-secondary: #3B82F6;       /* Bleu secondaire */
+    --ef-accent: #06B6D4;          /* Cyan accent */
+    --ef-dark: #1F2937;            /* Gris foncé texte */
+    --ef-gray: #6B7280;            /* Gris moyen */
+    --ef-light-gray: #9CA3AF;      /* Gris clair */
+    --ef-bg-light: #F9FAFB;        /* Background clair */
+    --ef-bg-white: #FFFFFF;        /* Blanc pur */
+    --ef-border: #E5E7EB;          /* Bordures */
+    --ef-success: #10B981;         /* Vert succès */
+    --ef-gradient: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+    --ef-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --ef-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* OPTIMISATIONS SCROLL ULTRA-FLUIDE */
+* {
+    scroll-behavior: smooth;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Optimisation GPU pour les animations */
+.stat-ef,
+.benefit-card-ef,
+.content-block-ef,
+.formation-card-ef {
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU rendering */
+}
+
+/* Base - suppression forcée des marges/paddings + optimisations */
+main.metier-page-ef {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+    /* Optimisations scroll */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* iOS scroll fluide */
+    transform: translateZ(0); /* Force GPU */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero-metier-ef {
+    position: relative;
+    background: var(--ef-gradient);
+    padding: 120px 0 80px 0;
+    margin-top: 0 !important;
+    color: white;
+    overflow: hidden;
+}
+
+/* Background simplifié pour de meilleures performances */
+.hero-background-ef {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.05);
+    opacity: 0.8;
+}
+
+.back-navigation-ef {
+    position: absolute;
+    top: 140px;  /* Position corrigée pour éviter la nav fixe */
+    left: 24px;
+    z-index: 15; /* Z-index plus élevé */
+}
+
+.btn-back-ef {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.95); /* Background plus opaque */
+    color: var(--ef-primary);
+    padding: 12px 20px; /* Plus de padding */
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease; /* Transition plus rapide */
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(30, 64, 175, 0.1);
+}
+
+.btn-back-ef:hover {
+    background: var(--ef-primary);
+    color: white;
+    transform: translateX(-2px);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+.hero-content-ef {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 5;
+}
+
+.hero-icon-ef {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px auto;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-icon-ef svg {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-title-ef {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-description-ef {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    opacity: 0.95;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Stats horizontales */
+.hero-stats-ef {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.stat-ef {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2); /* Suppression du backdrop-filter pour performances */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px 24px;
+    min-width: 160px;
+    transition: transform 0.2s ease; /* Transition simplifiée */
+}
+
+.stat-ef:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.stat-number-ef {
+    display: block;
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.stat-label-ef {
+    font-size: 13px;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-cta-ef {
+    text-align: center;
+}
+
+.btn-hero-primary-ef {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ef-bg-white);
+    color: var(--ef-primary);
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--ef-bg-white);
+    box-shadow: var(--ef-shadow);
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-hero-primary-ef:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: var(--ef-shadow-lg);
+    color: var(--ef-primary);
+    text-decoration: none;
+}
+
+/* ===== SECTION PRÉSENTATION ===== */
+.presentation-metier-ef {
+    padding: 80px 0;
+    background: var(--ef-bg-white);
+}
+
+.presentation-header-ef {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title-ef {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--ef-dark);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    font-family: 'Inter', sans-serif;
+}
+
+.section-subtitle-ef {
+    font-size: 1.125rem;
+    color: var(--ef-gray);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Benefits en ligne horizontale */
+.benefits-grid-ef {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.benefit-card-ef {
+    flex: 1;
+    min-width: 280px;
+    background: var(--ef-bg-white);
+    border: 1px solid var(--ef-border);
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--ef-shadow);
+}
+
+.benefit-card-ef:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ef-shadow-lg);
+    border-color: var(--ef-primary);
+}
+
+.benefit-icon-ef {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px auto;
+    color: var(--ef-primary);
+    background: rgba(30, 64, 175, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.benefit-icon-ef svg {
+    width: 28px;
+    height: 28px;
+}
+
+.benefit-card-ef h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--ef-dark);
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.benefit-card-ef p {
+    color: var(--ef-gray);
+    line-height: 1.6;
+    font-size: 14px;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== NOUVELLE SECTION PROFIL PROFESSIONNEL - DESIGN MODERNE ===== */
+
+.professional-profile {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(30, 64, 175, 0.1);
+    color: var(--ef-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.header-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+.profile-header h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ef-dark);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Styles pour chaque section */
+.missions-section,
+.skills-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(30, 64, 175, 0.1);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.title-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.title-icon.primary {
+    background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+}
+
+.title-icon.secondary {
+    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+}
+
+.title-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.section-title h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ef-dark);
+    margin: 0;
+}
+
+
+/* Missions tags - Style similaire aux compétences mais couleur différente */
+.missions-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.mission-tag {
+    background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%); /* Bleu au lieu de cyan */
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(30, 64, 175, 0.2); /* Shadow bleue */
+}
+
+.mission-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3); /* Shadow bleue plus intense */
+}
+
+/* Skills tags */
+.skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill-tag {
+    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.2);
+}
+
+.skill-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+/* Responsive pour la nouvelle section */
+@media (max-width: 768px) {
+    .profile-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .missions-section,
+    .skills-section {
+        padding: 24px;
+    }
+    
+    .profile-header h2 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .professional-profile {
+        padding: 60px 0;
+    }
+    
+    .missions-section,
+    .skills-section {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    
+    .missions-tags,
+    .skills-tags {
+        gap: 8px;
+    }
+    
+    .mission-tag,
+    .skill-tag {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
+
+.content-grid-ef {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.content-block-ef {
+    background: var(--ef-bg-white);
+    border-radius: 12px;
+    padding: 32px;
+    border: 1px solid var(--ef-border);
+    transition: all 0.3s ease;
+    box-shadow: var(--ef-shadow);
+}
+
+.content-block-ef:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--ef-shadow-lg);
+    border-color: var(--ef-primary);
+}
+
+.block-header-ef {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ef-border);
+}
+
+.block-icon-ef {
+    width: 32px;
+    height: 32px;
+    color: var(--ef-primary);
+    flex-shrink: 0;
+}
+
+.block-icon-ef svg {
+    width: 100%;
+    height: 100%;
+}
+
+.block-title-ef {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ef-dark);
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.missions-list-ef,
+.competences-list-ef {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.missions-list-ef li,
+.competences-list-ef li {
+    padding: 12px 16px;
+    background: var(--ef-bg-light);
+    border-radius: 8px;
+    color: var(--ef-gray);
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    border-left: 3px solid var(--ef-primary);
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.missions-list-ef li:hover,
+.competences-list-ef li:hover {
+    background: rgba(30, 64, 175, 0.05);
+    transform: translateX(4px);
+}
+
+/* ===== FORMATIONS ===== */
+.formations-ef {
+    padding: 80px 0;
+    background: var(--ef-bg-white);
+}
+
+.formations-header-ef {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.formations-grid-ef {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonnes pour 2 lignes de 3 formations */
+    gap: 24px;
+}
+
+.formation-card-ef {
+    background: var(--ef-bg-white);
+    border: 1px solid var(--ef-border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--ef-shadow);
+}
+
+.formation-card-ef::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--ef-gradient);
+}
+
+.formation-card-ef:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ef-shadow-lg);
+    border-color: var(--ef-primary);
+}
+
+.card-header-ef {
+    margin-bottom: 16px;
+}
+
+.formation-category-ef {
+    display: inline-block;
+    background: rgba(30, 64, 175, 0.1);
+    color: var(--ef-primary);
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.formation-title-ef {
+    margin: 0;
+}
+
+.formation-title-ef a {
+    color: var(--ef-dark);
+    text-decoration: none;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.formation-title-ef a:hover {
+    color: var(--ef-primary);
+}
+
+.card-content-ef {
+    margin-bottom: 20px;
+}
+
+.formation-excerpt-ef {
+    color: var(--ef-gray);
+    line-height: 1.6;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.card-meta-ef {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.meta-item-ef {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ef-gray);
+    padding: 6px 10px;
+    background: var(--ef-bg-light);
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.meta-item-ef svg {
+    width: 14px;
+    height: 14px;
+    color: var(--ef-primary);
+}
+
+.card-price-ef {
+    text-align: center;
+    padding: 12px;
+    background: rgba(30, 64, 175, 0.05);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--ef-primary);
+}
+
+.price-amount-ef {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ef-primary);
+    margin-bottom: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+.price-note-ef {
+    font-size: 12px;
+    color: var(--ef-gray);
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.card-actions-ef {
+    text-align: center;
+}
+
+.btn-formation-ef {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ef-gradient);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    width: 100%;
+    border: 2px solid transparent;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-formation-ef:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+/* Carte formation factice pour équilibrer le grid 2 colonnes */
+.formation-placeholder {
+    opacity: 0.8;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    border: 2px dashed var(--ef-border) !important;
+}
+
+.formation-placeholder::before {
+    background: linear-gradient(90deg, #94a3b8 0%, #cbd5e1 100%) !important;
+}
+
+.formation-placeholder .formation-category-ef {
+    background: var(--ef-light-gray) !important;
+    color: white !important;
+}
+
+.formation-placeholder .formation-title-ef a {
+    color: var(--ef-gray) !important;
+}
+
+.btn-formation-secondary {
+    background: var(--ef-light-gray) !important;
+    color: white !important;
+}
+
+.btn-formation-secondary:hover {
+    background: var(--ef-gray) !important;
+}
+
+/* ===== CTA FINAL ===== */
+.cta-final-ef {
+    background: var(--ef-dark);
+    padding: 80px 0;
+    color: white;
+    text-align: center;
+}
+
+.cta-content-ef {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-title-ef {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    font-family: 'Inter', sans-serif;
+}
+
+.cta-description-ef {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+}
+
+.cta-actions-ef {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.btn-cta-primary-ef,
+.btn-cta-secondary-ef {
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-cta-primary-ef {
+    background: var(--ef-gradient);
+    color: white;
+    border: 2px solid transparent;
+}
+
+.btn-cta-primary-ef:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-cta-secondary-ef {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-cta-secondary-ef:hover {
+    background: white;
+    color: var(--ef-dark);
+    text-decoration: none;
+}
+
+.cta-garantees-ef {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.garantee-item-ef {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+    font-family: 'Inter', sans-serif;
+}
+
+.garantee-item-ef svg {
+    width: 18px;
+    height: 18px;
+    color: var(--ef-success);
+}
+
+/* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
+
+/* Tablette : 2 colonnes au lieu de 3 */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .formations-grid-ef {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Position bouton mobile */
+@media (max-width: 768px) {
+    .back-navigation-ef {
+        top: 120px; /* Ajustement mobile */
+        left: 16px;
+    }
+    
+    .btn-back-ef {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    .hero-title-ef {
+        font-size: 2.25rem;
+    }
+    
+    .hero-description-ef {
+        font-size: 1rem;
+    }
+    
+    .hero-stats-ef {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .stat-ef {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .section-title-ef {
+        font-size: 1.875rem;
+    }
+    
+    .benefits-grid-ef {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .content-grid-ef {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .formations-grid-ef {
+        grid-template-columns: 1fr; /* 1 colonne sur mobile */
+        gap: 20px;
+    }
+    
+    .cta-actions-ef {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-garantees-ef {
+        gap: 20px;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-metier-ef {
+        padding: 100px 0 60px 0;
+    }
+    
+    .back-navigation-ef {
+        top: 110px; /* Position encore plus basse sur petit mobile */
+        left: 12px;
+    }
+    
+    .hero-title-ef {
+        font-size: 1.875rem;
+    }
+    
+    .hero-description-ef {
+        font-size: 0.875rem;
+    }
+    
+    .section-title-ef {
+        font-size: 1.5rem;
+    }
+    
+    .benefit-card-ef {
+        padding: 24px 16px;
+    }
+    
+    .content-block-ef {
+        padding: 24px 16px;
+    }
+    
+    .formation-card-ef {
+        padding: 20px 16px;
+    }
+    
+    .cta-title-ef {
+        font-size: 1.875rem;
+    }
+    
+    .cta-description-ef {
+        font-size: 1rem;
+    }
+}
+</style>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // AOS désactivé pour améliorer les performances de scroll
+    // AOS.init({
+    //     duration: 800,
+    //     once: true,
+    //     offset: 100,
+    //     easing: 'ease-out-cubic'
+    // });
+    
+    // Smooth scroll pour le bouton "Découvrir nos formations"
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnHero = document.querySelector('.btn-hero-primary-ef[href="#formations"]');
+        if (btnHero) {
+            btnHero.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#formations').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

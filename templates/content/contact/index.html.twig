@@ -1,244 +1,879 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contactez-nous{% endblock %}
+{% block title %}Contactez-nous - INFPF{% endblock %}
 
 {% block stylesheets %}
 <link href="../css/fichier.css" rel="stylesheet"/>
 <style>
-    .flex-row {
-        display: flex;
-        justify-content: space-between; /* Assure une répartition équitable de l'espace */
-        align-items: stretch; /* Étend les éléments pour qu'ils aient la même hauteur */
-        margin: 0 -10px; /* Négation de l'effet de marge des sections pour un alignement parfait */
+    /* Variables INFPF - Cohérence avec l'ADN du site */
+    :root {
+        --primary-color: #0b3f89;
+        --secondary-color: #1e40af;
+        --accent-color: #3b82f6;
+        --success-color: #059669;
+        --light-gray: #f8fafc;
+        --primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+        --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+        --success-gradient: linear-gradient(135deg, #059669 0%, #047857 100%);
+        --glassmorphism: rgba(255, 255, 255, 0.1);
+        --backdrop-blur: blur(20px);
+        --border-radius-lg: 24px;
+        --border-radius-xl: 32px;
+        --shadow-soft: 0 20px 40px rgba(11, 63, 137, 0.08);
+        --shadow-medium: 0 25px 50px rgba(11, 63, 137, 0.12);
+        --shadow-heavy: 0 35px 70px rgba(11, 63, 137, 0.15);
+        --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-spring: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .section, .contact-form, .map-iframe {
-        background-color: #e7eff9;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        margin: 10px; /* Marge uniforme autour des sections */
-        flex: 1 1 48%; /* Permet à chaque élément de prendre jusqu'à 48% de l'espace disponible */
-        max-width: 48%; /* Prévention des débordements et maintien de l'uniformité */
-    }
-.contact-form {
-    max-width: 600px; /* Largeur maximale du formulaire */
-    margin: 40px auto; /* Centrage du formulaire avec un peu plus d'espace autour */
-    padding: 30px; /* Espace intérieur généreux pour une meilleure esthétique */
-    background-color: #a9ccef; /* Couleur de fond légère */
-    border-radius: 10px; /* Bordures arrondies plus prononcées */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre portée plus profonde pour un effet de flottaison */
-    font-family: 'Arial', sans-serif; /* Police de caractères élégante et lisible */
-    border: 1px solid #ccc; /* Bordure subtile pour définir le contour */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ajout de transitions pour l'effet de transformation et l'ombre */
-}
-
-.contact-form:hover {
-    transform: scale(1.05); /* Agrandit la carte de 5% lors du survol */
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); /* Ombre plus profonde et plus visible au survol */
-}
-
-.contact-form input, .contact-form textarea {
-    width: 100%; /* Utilisation de toute la largeur disponible */
-    padding: 12px 20px; /* Padding plus généreux pour une meilleure saisie */
-    margin-top: 10px; /* Espacement vertical pour ne pas que les champs se touchent */
-    border: 1px solid #ddd; /* Légère bordure pour les champs */
-    border-radius: 6px; /* Bordures arrondies pour les champs */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06); /* Petite ombre interne pour un effet de profondeur subtil */
-}
-
-.contact-form button {
-    width: 100%; /* Le bouton occupe toute la largeur du formulaire */
-    padding: 10px 0; /* Padding vertical */
-    background-color: #4CAF50; /* Couleur de fond vert vibrant */
-    color: white; /* Texte blanc pour contraster avec le fond */
-    border: none; /* Pas de bordure */
-    border-radius: 6px; /* Bordures arrondies pour le bouton */
-    cursor: pointer; /* Cursor pointeur pour indiquer qu'il s'agit d'un élément cliquable */
-    transition: background-color 0.3s ease; /* Transition douce pour l'effet de survol */
-}
-
-.contact-form button:hover {
-    background-color: #45a049; /* Couleur de survol légèrement plus foncée */
-}
-
-
-/* Styles supplémentaires pour améliorer la lisibilité et l'esthétique des étiquettes */
-.contact-form label {
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-    .contact-form input[type="text"],
-    .contact-form input[type="email"],
-    .contact-form input[type="tel"],
-    .contact-form textarea {
-        width: 100%; /* Utiliser toute la largeur disponible */
-        padding: 10px; /* Padding confortable */
-        margin-top: 8px; /* Espacement entre chaque champ */
-        margin-bottom: 16px; /* Espacement après chaque champ */
-        border: 1px solid #ccc; /* Bordure discrète */
-        border-radius: 4px; /* Bordures légèrement arrondies */
-        box-sizing: border-box; /* La largeur inclut le padding et la bordure */
+    * {
+    box-sizing: border-box;
     }
 
-    .contact-form label {
-        font-weight: bold; /* Texte en gras pour les labels */
-        margin-top: 15px; /* Espacement au-dessus des labels */
-        display: block; /* Assure que les labels s'affichent comme des blocs */
-        color: #333; /* Couleur du texte plus sombre pour une bonne lisibilité */
+    body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #1e293b;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
     }
 
-    .contact-form button[type="submit"] {
-        background-color: #0056b3; /* Couleur de fond du bouton */
-        color: white; /* Texte du bouton en blanc */
-        padding: 12px 20px; /* Padding du bouton */
-        border: none; /* Pas de bordure pour le bouton */
-        border-radius: 4px; /* Bordures arrondies pour le bouton */
-        cursor: pointer; /* Curseur de type pointeur */
-        font-size: 16px; /* Taille de la police pour le texte du bouton */
-        transition: background-color 0.3s; /* Transition pour un effet hover doux */
+    /* Hero Section - Style INFPF Moderne */
+    .contact-hero {
+        position: relative;
+        background: var(--primary-gradient);
+        padding: clamp(80px, 10vw, 120px) 0 clamp(60px, 8vw, 80px);
+        text-align: center;
+        overflow: hidden;
     }
 
-    .contact-form button[type="submit"]:hover {
-        background-color: #004494; /* Changement de couleur au survol */
+    .contact-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        z-index: 1;
     }
 
-    .contact-form input, .contact-form textarea {
-        width: calc(100% - 20px);
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 2rem);
     }
 
-    .contact-form label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .contact-form button[type="submit"] {
-        background-color: #0056b3;
+    .hero-title {
+        font-size: clamp(3.5rem, 8vw, 6rem);
+        font-weight: 900;
         color: white;
+        margin-bottom: clamp(1rem, 3vw, 1.5rem);
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1.3rem, 3vw, 1.8rem);
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 500;
+        max-width: 850px;
+        margin: 0 auto;
+        line-height: 1.5;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Flash Messages Modernes */
+    .flash-messages {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+    }
+
+    .flash-success, .flash-error {
+        padding: 1rem 1.5rem;
+        border-radius: var(--border-radius-lg);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        backdrop-filter: var(--backdrop-blur);
+        border: 1px solid;
+        animation: slideInRight 0.5s var(--transition-spring);
+    }
+
+    .flash-success {
+        background: rgba(5, 150, 105, 0.95);
+        color: white;
+        border-color: rgba(5, 150, 105, 0.3);
+        box-shadow: var(--shadow-soft);
+    }
+
+    .flash-error {
+        background: rgba(239, 68, 68, 0.95);
+        color: white;
+        border-color: rgba(239, 68, 68, 0.3);
+        box-shadow: var(--shadow-soft);
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* Layout Principal Ultra-Moderne */
+    .contact-container {
+        max-width: 1400px;
+        margin: -60px auto 0;
+        padding: 0 clamp(1rem, 4vw, 2rem);
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Section Principale - Design Fluide INFPF */
+    .contact-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 5vw, 4rem);
+        margin-bottom: clamp(3rem, 6vw, 5rem);
+    }
+
+    /* Formulaire Principal - Design Glassmorphism Moderne */
+    .contact-form-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: var(--backdrop-blur);
+        border-radius: var(--border-radius-xl);
+        padding: clamp(2.5rem, 6vw, 4rem);
+        box-shadow: var(--shadow-heavy);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-form-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--primary-gradient);
+        z-index: 1;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: clamp(2rem, 4vw, 3rem);
+        position: relative;
+        z-index: 2;
+    }
+
+    .form-title {
+        font-size: clamp(3rem, 6vw, 4rem);
+        font-weight: 900;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    .form-subtitle {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+        color: #64748b;
+        font-weight: 500;
+        max-width: 700px;
+        margin: 0 auto clamp(2rem, 4vw, 3rem);
+        line-height: 1.6;
+    }
+
+    .form-urgency {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+        border: 2px solid #f59e0b;
+        border-radius: var(--border-radius-lg);
+        padding: clamp(1.25rem, 3vw, 2rem);
+        text-align: center;
+        margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-urgency::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+
+    .form-urgency-text {
+        font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+        font-weight: 700;
+        color: #92400e;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Grid Formulaire Moderne */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: clamp(2rem, 4vw, 3rem);
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+    display: block;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        transition: var(--transition-smooth);
+    }
+
+    .form-group input,
+    .form-group textarea {
+    width: 100%;
+        padding: 1.5rem 1.75rem;
+        font-size: 1.3rem;
+        line-height: 1.5;
+        color: #374151;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid #e5e7eb;
+        border-radius: var(--border-radius-lg);
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(10px);
+        font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        background: white;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), var(--shadow-soft);
+        transform: translateY(-2px);
+    }
+
+    .form-group textarea {
+        min-height: 140px;
+        resize: vertical;
+    }
+
+    /* Bouton Submit Ultra-Moderne */
+    .submit-section {
+        text-align: center;
+        margin-top: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.5rem 3.5rem;
+        font-size: 1.4rem;
+        font-weight: 700;
+    color: white;
+        background: var(--primary-gradient);
+    border: none;
+        border-radius: var(--border-radius-lg);
+    cursor: pointer;
+        transition: var(--transition-spring);
+        position: relative;
+        overflow: hidden;
+        text-transform: none;
+        letter-spacing: 0.025em;
+        box-shadow: var(--shadow-medium);
+        min-width: 320px;
+    }
+
+    .submit-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: var(--shadow-heavy), 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    .submit-btn:hover::before {
+        transform: translateX(100%);
+    }
+
+    .submit-btn:active {
+        transform: translateY(-2px) scale(0.98);
+    }
+
+    /* Section Contact Info - Design Fluide */
+    .contact-info-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: clamp(2rem, 4vw, 3rem);
+        margin: clamp(3rem, 6vw, 5rem) 0;
+    }
+
+    .contact-info-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: var(--backdrop-blur);
+        border-radius: var(--border-radius-xl);
+        padding: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+        box-shadow: var(--shadow-medium);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: var(--transition-spring);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-info-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--accent-gradient);
+        transform: scaleX(0);
+        transition: transform 0.5s var(--transition-spring);
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-heavy);
+    }
+
+    .contact-info-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .contact-info-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--accent-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 2rem;
+        box-shadow: var(--shadow-soft);
+        transition: var(--transition-spring);
+    }
+
+    .contact-info-card:hover .contact-info-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .contact-info-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .contact-info-text {
+        font-size: 1.3rem;
+        color: #64748b;
+        font-weight: 500;
+        line-height: 1.6;
+    }
+
+    /* Section Calendly Moderne */
+    .calendly-section {
+        background: linear-gradient(135deg, rgba(11, 63, 137, 0.05), rgba(59, 130, 246, 0.05));
+        border-radius: var(--border-radius-xl);
+        padding: clamp(2.5rem, 5vw, 4rem);
+        text-align: center;
+        margin: clamp(3rem, 6vw, 5rem) 0;
+        border: 2px solid rgba(59, 130, 246, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .calendly-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="1" fill="rgba(59,130,246,0.1)"/></svg>');
+        z-index: 1;
+    }
+
+    .calendly-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .calendly-section h3 {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .calendly-section p {
+        font-size: clamp(1.3rem, 3vw, 1.6rem);
+        color: #64748b;
+        font-weight: 500;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .calendly-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.5rem 3rem;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: white;
+        background: var(--accent-gradient);
+        text-decoration: none;
+        border-radius: var(--border-radius-lg);
+        transition: var(--transition-spring);
+        box-shadow: var(--shadow-medium);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .calendly-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s;
+    }
+
+    .calendly-btn:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: var(--shadow-heavy);
+        text-decoration: none;
+        color: white;
+    }
+
+    .calendly-btn:hover::before {
+        transform: translateX(100%);
+    }
+
+    /* Section Map Ultra-Moderne */
+    .map-full-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: var(--backdrop-blur);
+        border-radius: var(--border-radius-xl);
+        padding: clamp(2.5rem, 5vw, 4rem);
+        margin: clamp(3rem, 6vw, 5rem) 0;
+        box-shadow: var(--shadow-heavy);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .map-full-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--success-gradient);
+        z-index: 1;
+    }
+
+    .map-header {
+        text-align: center;
+        margin-bottom: clamp(2rem, 4vw, 3rem);
+        position: relative;
+        z-index: 2;
+    }
+
+    .map-title {
+        font-size: clamp(3rem, 6vw, 4rem);
+        font-weight: 900;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    .map-subtitle {
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+        color: #64748b;
+        font-weight: 500;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .map-container {
+        position: relative;
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-medium);
+        background: #f8fafc;
+        z-index: 2;
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: clamp(350px, 50vw, 500px);
         border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
+        transition: var(--transition-smooth);
     }
 
-    .contact-form button[type="submit"]:hover {
-        background-color: #004494;
+    .map-container:hover iframe {
+        transform: scale(1.02);
     }
 
-    .map-iframe iframe {
-        width: 100%; /* Assure que l'iframe prend toute la largeur de son conteneur */
-        height: 550px; /* Hauteur fixe pour aligner visuellement avec le formulaire */
-        border-radius: 10px; /* Bordures arrondies pour l'iframe */
+    /* Styles Responsive Ultra-Modernes */
+    @media (max-width: 1200px) {
+        .contact-container {
+            margin-top: -40px;
+        }
+        
+        .contact-form-section {
+            padding: clamp(2rem, 5vw, 3rem);
+        }
+        
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .contact-info-section {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
     }
 
-.map-iframe {
-        background-color: #e7eff9;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        margin: 10px;
-		font-family: Arial, sans-serif;
-        flex-basis: calc(50% - 20px); /* Largeur ajustée pour l'espacement */
+    @media (max-width: 968px) {
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 4.5rem);
+        }
+        
+        .contact-container {
+            padding: 0 1.5rem;
+            margin-top: -30px;
+        }
+        
+        .contact-form-section,
+        .map-full-section,
+        .calendly-section {
+            padding: clamp(2rem, 6vw, 2.5rem);
+        }
+        
+        .submit-btn {
+    width: 100%;
+            min-width: auto;
+        }
+        
+        .contact-info-section {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .contact-info-card {
+            padding: 2rem 1.5rem;
+        }
     }
 
-.section {
-    font-family: Arial, sans-serif;
-}
-
-.info-item {
-    display: flex;
-}
-
-.logo {
-    margin-right: 10px;
-    width: 30px;
-    height: 30px;
-}
-
-    .contact-form, .map-iframe {
-        align-self: start; /* Alignement au début pour éviter les étirements disproportionnés */
-    }
     @media (max-width: 768px) {
-        .flex-row {
-            flex-direction: column;
+        .contact-hero {
+            padding: clamp(60px, 12vw, 80px) 0 clamp(40px, 8vw, 60px);
         }
-
-        .section, .contact-form, .map-iframe {
-            flex: 1 1 100%; /* Chaque élément prend la pleine largeur sur les petits écrans */
-            max-width: 100%;
+        
+        .hero-content {
+            padding: 0 1.5rem;
+        }
+        
+        .contact-container {
+            padding: 0 1rem;
+            margin-top: -20px;
+        }
+        
+        .form-grid {
+            gap: 1.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 1.25rem 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .form-group label {
+            font-size: 1.2rem;
+        }
+        
+        .contact-info-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+        
+        .flash-messages {
+            left: 10px;
+            right: 10px;
+            top: 10px;
+            max-width: none;
         }
     }
+
+    @media (max-width: 480px) {
+        .contact-hero {
+            padding: clamp(50px, 15vw, 70px) 0 clamp(30px, 10vw, 50px);
+        }
+        
+        .hero-content,
+        .contact-container {
+            padding: 0 1rem;
+        }
+        
+        .contact-form-section,
+        .map-full-section,
+        .calendly-section {
+            padding: 1.5rem;
+            border-radius: 20px;
+        }
+        
+        .form-urgency {
+            padding: 1rem;
+        }
+        
+        .submit-btn,
+        .calendly-btn {
+            padding: 1.25rem 2.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .contact-info-card {
+            padding: 1.5rem;
+        }
+        
+        .map-container iframe {
+            height: 300px;
+        }
+    }
+
+    /* Animations Avancées */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .contact-form-section,
+    .contact-info-card,
+    .calendly-section,
+    .map-full-section {
+        animation: fadeInUp 0.8s ease-out both;
+    }
+
+    .contact-info-card:nth-child(1) { animation-delay: 0.1s; }
+    .contact-info-card:nth-child(2) { animation-delay: 0.2s; }
+    .contact-info-card:nth-child(3) { animation-delay: 0.3s; }
+    .calendly-section { animation-delay: 0.4s; }
+    .map-full-section { animation-delay: 0.5s; }
+
 </style>
+
 {% endblock %}
 
 {% block body %}
-<div class="flex-row">
-    <section class="section">
-        <div class="contact-info-text">
-            <h2>Nous contacter</h2>
-            <p>Vous pouvez contacter INFPF Team par mail 24h/24h & 7j/7j. Votre mail sera traité en moins de 24h par notre équipe ✅.</p>
-        </div>
-    </section>
-
-<section class="section">
-    <h2>Informations de l'Entreprise</h2>
-    <div class="info-item">
-        <img src="../img/telephone.png" alt="Téléphone" class="logo">
-        <p>257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR</p>
+<!-- Hero Section - Gardée intacte selon demande -->
+<div class="contact-hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Accélérez votre carrière</h1>
+        <p class="hero-subtitle">
+            Obtenez une réponse personnalisée sous 24h et transformez votre projet professionnel en réussite
+        </p>
     </div>
-    <div class="info-item">
-        <img src="../img/adresse.png" alt="Adresse" class="logo">
-        <p>Téléphone: 04 89 05 03 55</p>
-    </div>
-    <div class="info-item">
-        <img src="../img/emails.png" alt="E-mail" class="logo">
-        <p>E-mail: contact@infpf.fr</p>
-    </div>
-</section>
-
-
 </div>
+
+<!-- Flash Messages -->
 <div class="flash-messages">
     {% for message in app.flashes('success') %}
-        <div class="flash-success">
-            {{ message }}
-        </div>
+        <div class="flash-success">{{ message }}</div>
     {% endfor %}
     {% for message in app.flashes('error') %}
-        <div class="flash-error">
-            {{ message }}
-        </div>
+        <div class="flash-error">{{ message }}</div>
     {% endfor %}
 </div>
-<div class="flex-row">
-    <div class="contact-form">
-        {{ form_start(contactForm) }}
-        {{ form_row(contactForm.name, {'attr': {'placeholder': 'Nom Prénom'}}) }}
-        {{ form_row(contactForm.email, {'attr': {'placeholder': 'E-mail'}}) }}
-        {{ form_row(contactForm.numero, {'label': 'Téléphone'}) }}
-        {{ form_row(contactForm.content, {'attr': {'placeholder': 'Votre message ici'}}) }}
-        {{ form_end(contactForm) }}
+
+<!-- Container Principal -->
+<div class="contact-container">
+    <!-- Section Informations de Contact - MAINTENANT EN PREMIER -->
+    <div class="contact-info-section">
+        <div class="contact-info-card">
+            <div class="contact-info-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+            </div>
+            <h3 class="contact-info-title">Téléphone</h3>
+            <p class="contact-info-text">04 93 29 50 77<br>Du lundi au vendredi<br>9h - 18h</p>
+        </div>
+        
+        <div class="contact-info-card">
+            <div class="contact-info-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+            </div>
+            <h3 class="contact-info-title">Email</h3>
+            <p class="contact-info-text">contact@infpf.fr<br>Réponse sous 24h</p>
+        </div>
+        
+        <div class="contact-info-card">
+            <div class="contact-info-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+            </div>
+            <h3 class="contact-info-title">Adresse</h3>
+            <p class="contact-info-text">257 Avenue Saint-Exupéry<br>06700 Saint-Laurent-du-Var<br>Côte d'Azur</p>
+        </div>
     </div>
 
-    <div class="map-iframe">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.0385500261586!2d7.182744376855092!3d43.66816807110144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdd16489388b83%3A0x5f9bd1b30eb8340a!2s257%20Av.%20Saint-Exup%C3%A9ry%2C%2006700%20Saint-Laurent-du-Var!5e0!3m2!1sfr!2sfr!4v1715769457806!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>    </div>
-</div>
-{{ include('footer.html.twig') }}
-{% endblock %}
+    <!-- Section Formulaire Principal - MAINTENANT EN SECOND -->
+    <div class="contact-content">
+        <div class="contact-form-section">
+            <div class="form-header">
+                <h2 class="form-title">Démarrons votre projet</h2>
+                <p class="form-subtitle">Remplissez le formulaire ci-dessous et recevez votre plan de formation personnalisé</p>
+                
+                <div class="form-urgency">
+                    <p class="form-urgency-text">Réponse garantie sous 24h</p>
+                </div>
+            </div>
+            
+            {{ form_start(contactForm) }}
+            <div class="form-grid">
+                <div class="form-group">
+                    {{ form_label(contactForm.name, 'Nom complet *') }}
+                    {{ form_widget(contactForm.name, {'attr': {'placeholder': 'Prénom et nom', 'required': true}}) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form_label(contactForm.email, 'Email *') }}
+                    {{ form_widget(contactForm.email, {'attr': {'placeholder': 'votre.email@exemple.com', 'required': true}}) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form_label(contactForm.numero, 'Téléphone') }}
+                    {{ form_widget(contactForm.numero, {'attr': {'placeholder': '06 12 34 56 78'}}) }}
+                </div>
+                
+                <div class="form-group full-width">
+                    {{ form_label(contactForm.content, 'Votre projet *') }}
+                    {{ form_widget(contactForm.content, {'attr': {'placeholder': 'Décrivez votre objectif professionnel et le type de formation recherché...', 'required': true}}) }}
+                </div>
+            </div>
+            
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Obtenir mon plan personnalisé
+                </button>
+            </div>
+            {{ form_rest(contactForm) }}
+            {{ form_end(contactForm, {'render_rest': false}) }}
+        </div>
+    </div>
 
-{% block javascripts %}
-{{ parent() }}
+    <!-- Section Calendly -->
+    <div class="calendly-section">
+        <div class="calendly-content">
+            <h3>Ou discutons directement</h3>
+            <p>Réservez un créneau gratuit avec nos conseillers pour un accompagnement personnalisé</p>
+            <a class="calendly-btn" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                </svg>
+                Réserver un appel gratuit
+        </a>
+        </div>
+    </div>
+
+    <!-- Section Map -->
+    <div class="map-full-section">
+        <div class="map-header">
+            <h3 class="map-title">Notre localisation</h3>
+            <p class="map-subtitle">Venez nous rencontrer au cœur de la Côte d'Azur</p>
+        </div>
+        <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.0385500261586!2d7.182744376855092!3d43.66816807110144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdd16489388b83%3A0x5f9bd1b30eb8340a!2s257%20Av.%20Saint-Exup%C3%A9ry%2C%2006700%20Saint-Laurent-du-Var!5e0!3m2!1sfr!2sfr!4v1715769457806!5m2!1sfr!2sfr" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Localisation INFPF - 257 Avenue Saint-Exupéry, Saint-Laurent-du-Var">
+        </iframe>
+    </div>
+</div>
+</div>
+
+<!-- Scripts Calendly -->
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <script>
-    document.querySelector('.contact-link').addEventListener('click', function (event) {
-        event.preventDefault();
-        document.querySelector('.contact-form').style.display = 'block';
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du clic sur le bouton Calendly
+    const calendlyBtn = document.querySelector('.calendly-btn');
+    if (calendlyBtn) {
+        calendlyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('data-calendly-url');
+            if (typeof Calendly !== 'undefined') {
+                Calendly.initPopupWidget({url: url});
+            }
+        });
+    }
+});
 </script>
+
+
+
+{% include 'footer.html.twig' %}
+
 {% endblock %}

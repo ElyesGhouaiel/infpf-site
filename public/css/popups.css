@@ -1,0 +1,135 @@
+/* Style pour le popup */
+#popupForm {
+    display: none;
+    position: fixed;
+    z-index: 2147483647; /* MAXIMUM */
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: #1f6ebbb5;
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    position: relative;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* Style pour le bouton de fermeture */
+.popup-content .close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Titre du formulaire */
+.popup-content h2, 
+.popup-content h2:first-child {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    font-size: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Structure en grille pour le formulaire - arrangement en deux colonnes */
+.popup-content form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+/* Les labels et champs */
+.popup-content form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Le champ commentaire et le bouton prennent toute la largeur */
+.popup-content form > div:nth-last-child(2),
+.popup-content form > div:last-child {
+    grid-column: 1 / span 2;
+}
+
+/* Style des labels */
+.popup-content label {
+    margin-bottom: 8px;
+    color: white;
+    font-size: 16px;
+}
+
+/* Style des champs de saisie et select */
+.popup-content input,
+.popup-content select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Style spécifique pour le textarea avec restriction de redimensionnement */
+.popup-content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    min-height: 100px;
+    resize: vertical;
+    max-height: 200px;
+    box-sizing: border-box;
+}
+
+/* Style pour le bouton d'envoi */
+.popup-content button,
+.popup-content input[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin: 0 auto;
+    display: block;
+    width: auto;
+}
+
+.popup-content button:hover,
+.popup-content input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Media query pour les petits écrans */
+@media (max-width: 768px) {
+    .popup-content form {
+        grid-template-columns: 1fr;
+    }
+    
+    .popup-content form > div:nth-last-child(2),
+    .popup-content form > div:last-child {
+        grid-column: 1;
+    }
+    
+    .popup-content {
+        width: 90%;
+        padding: 20px;
+    }
+}

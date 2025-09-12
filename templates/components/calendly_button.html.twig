@@ -1,0 +1,47 @@
+{# 
+  Composant Calendly Button réutilisable
+  
+  Paramètres:
+  - text: Texte du bouton (défaut: "Prendre rendez-vous")
+  - icon: Emoji/icône à afficher (défaut: "📅")
+  - size: Taille du bouton ('small', 'normal', 'large') (défaut: 'normal')
+  - variant: Style du bouton ('default', 'outline') (défaut: 'default')
+  - url: URL Calendly personnalisée (défaut: URL par défaut)
+  - class: Classes CSS supplémentaires
+  - title: Titre/description supplémentaire
+  - subtitle: Sous-titre explicatif
+#}
+
+{% set button_text = text|default('Prendre rendez-vous') %}
+{% set button_icon = icon|default('📅') %}
+{% set button_size = size|default('normal') %}
+{% set button_variant = variant|default('default') %}
+{% set button_url = url|default('https://calendly.com/contact-infpf?locale=fr') %}
+{% set button_class = class|default('') %}
+
+{% set size_class = button_size == 'small' ? 'calendly-btn--small' : (button_size == 'large' ? 'calendly-btn--large' : '') %}
+{% set variant_class = button_variant == 'outline' ? 'calendly-btn--outline' : '' %}
+
+{% if title or subtitle %}
+<div class="calendly-cta-section" style="text-align: center; margin: 24px 0;">
+    {% if title %}
+    <h3 style="color: #0b3f89; margin: 0 0 8px 0; font-size: 20px;">{{ title }}</h3>
+    {% endif %}
+    {% if subtitle %}
+    <p style="color: #6c757d; margin: 0 0 20px 0; font-size: 16px;">{{ subtitle }}</p>
+    {% endif %}
+    <a class="calendly-btn {{ size_class }} {{ variant_class }} {{ button_class }}" 
+       href="#" 
+       data-calendly-url="{{ button_url }}"
+       aria-label="{{ button_text }} - Ouvre une fenêtre de prise de rendez-vous">
+        {{ button_icon }} {{ button_text }}
+    </a>
+</div>
+{% else %}
+<a class="calendly-btn {{ size_class }} {{ variant_class }} {{ button_class }}" 
+   href="#" 
+   data-calendly-url="{{ button_url }}"
+   aria-label="{{ button_text }} - Ouvre une fenêtre de prise de rendez-vous">
+    {{ button_icon }} {{ button_text }}
+</a>
+{% endif %} 
