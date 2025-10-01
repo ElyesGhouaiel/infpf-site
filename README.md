@@ -283,7 +283,7 @@ composer dump-autoload --optimize
 ## 📞 Contact & Support
 
 **Développeur** : Elyes Ghouaiel  
-**Email** : elyes.ghouaiel@infpf.fr  
+**Email** : elyes@xeilos.fr or elyes06700@gmail.com  
 **GitHub** : [ElyesGhouaiel](https://github.com/ElyesGhouaiel)  
 **Projet** : [infpf-site](https://github.com/ElyesGhouaiel/infpf-site)  
 
