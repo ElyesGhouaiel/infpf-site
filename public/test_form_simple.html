@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Formulaire Simple</title>
+</head>
+<body>
+    <h1>Test Formulaire Contact</h1>
+    <form action="/contactez-nous" method="POST">
+        <p>
+            <label>Nom:</label><br>
+            <input type="text" name="contact_form[name]" value="Test Simple" required>
+        </p>
+        <p>
+            <label>Email:</label><br>
+            <input type="email" name="contact_form[email]" value="test@simple.com" required>
+        </p>
+        <p>
+            <label>Message:</label><br>
+            <textarea name="contact_form[content]" required>Test du formulaire simple</textarea>
+        </p>
+        <p>
+            <button type="submit">Envoyer Test</button>
+        </p>
+    </form>
+</body>
+</html>

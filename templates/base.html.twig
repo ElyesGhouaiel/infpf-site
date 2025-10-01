@@ -26,7 +26,7 @@
 		<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
 		
 		<style>
-		/* ===== CONTRAINTES GLOBALES ET OVERRIDES ===== */
+		/* ===== CONTRAINTES GLOBALES ET OVERRIDES v20250929-15h54 ===== */
 		html, body {
 			max-width: 100vw !important;
 			overflow-x: hidden !important;
@@ -82,6 +82,105 @@
 			z-index: 9000;
 			padding-top: 0px;
 			background: #0b3f89;
+		}
+
+		/* ===== CATÉGORIE IA DANS LE MEGA MENU ===== */
+		.formation-category-column.ia-category-menu .category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			color: #1a1a1a !important;
+			border: 2px solid #FFD700 !important;
+			border-radius: 12px !important;
+			position: relative;
+			overflow: hidden;
+			box-shadow: 
+				0 8px 24px rgba(255, 215, 0, 0.3),
+				0 4px 12px rgba(255, 165, 0, 0.2);
+		}
+
+		.formation-category-column.ia-category-menu .category-header a {
+			color: #1a1a1a !important;
+			font-weight: 900 !important;
+			text-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			position: relative;
+		}
+
+		/* Animation blanche supprimée pour IA - UX plus claire */
+
+		/* Badge NOUVEAU - Design simple sur GOLD */
+		.header #menu .formations-mega-menu .ia-category-menu .nouveau-badge {
+			background: linear-gradient(135deg, #FF4757 0%, #FF6B6B 100%) !important;
+			color: white !important;
+			font-size: 8px !important;
+			font-weight: 700 !important;
+			padding: 2px 6px !important;
+			border-radius: 8px !important;
+			text-transform: uppercase !important;
+			letter-spacing: 0.3px !important;
+			box-shadow: 
+				0 2px 8px rgba(255, 71, 87, 0.4),
+				0 1px 4px rgba(255, 107, 107, 0.6) !important;
+			border: 1px solid rgba(255, 255, 255, 0.8) !important;
+			position: absolute;
+			top: -3px;
+			right: 8px;
+			z-index: 15;
+			margin: 0 !important;
+		}
+
+		@keyframes pulse-badge-menu {
+			0%, 100% { 
+				transform: scale(1);
+				box-shadow: 
+					0 3px 8px rgba(255, 107, 107, 0.4),
+					0 2px 4px rgba(255, 107, 107, 0.6);
+			}
+			50% { 
+				transform: scale(1.05);
+				box-shadow: 
+					0 4px 12px rgba(255, 107, 107, 0.6),
+					0 3px 6px rgba(255, 107, 107, 0.8);
+			}
+		}
+
+		/* Améliorer la lisibilité du mega menu général */
+		.header #menu .formations-mega-menu {
+			background: #ffffff !important;
+			border: 2px solid #e2e8f0 !important;
+			border-radius: 12px !important;
+			box-shadow: 
+				0 20px 50px rgba(0, 0, 0, 0.15),
+				0 8px 24px rgba(11, 63, 137, 0.1) !important;
+		}
+
+		.header #menu .formations-mega-menu .category-header {
+			background: linear-gradient(135deg, #f8fafc, #e2e8f0) !important;
+			color: #1e293b !important;
+			border: 1px solid #cbd5e1 !important;
+			border-radius: 8px !important;
+			padding: 12px 16px !important;
+			margin-bottom: 12px !important;
+		}
+
+		.header #menu .formations-mega-menu .category-header a {
+			color: #1e293b !important;
+			font-weight: 700 !important;
+			text-decoration: none;
+		}
+
+		.header #menu .formations-mega-menu .formation-links a {
+			color: #475569 !important;
+			padding: 8px 12px !important;
+			border-radius: 6px !important;
+			transition: all 0.3s ease !important;
+		}
+
+		.header #menu .formations-mega-menu .formation-links a:hover {
+			background: #e2e8f0 !important;
+			color: #0b3f89 !important;
+			transform: translateX(4px) !important;
 		}
 
 		/* ===== MENU FORMATIONS - SOLUTION FINALE STABLE ===== */
@@ -230,33 +329,33 @@
 			position: relative;
 		}
 		
-		/* Mega menu caché par défaut */
+		/* NOUVEAU: Menu moderne SANS encadrement + largeur adaptée */
 		.header #menu .menu-formations-dropdown .formations-mega-menu {
 			display: none;
 			position: absolute;
 			top: 100%;
-			left: -150px;
-			background: #ffffff;
-			border: 1px solid #ddd;
-			border-radius: 8px;
-			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-			padding: 25px 20px;
-			width: 1100px;
-			max-width: calc(100vw - 40px);
+			left: -30px;
+			background: rgba(255, 255, 255, 0.98);
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			border-radius: 12px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+			padding: 12px;
+			width: 280px;
+			max-width: calc(100vw - 60px);
 			height: auto;
 			min-height: auto;
-			z-index: 9999;
-			overflow: hidden;
+			z-index: 10000 !important;
+			overflow: visible;
+			backdrop-filter: blur(20px);
 		}
 		
-		/* Affichage au survol - 2 LIGNES DE 4 COLONNES */
-		.header #menu .menu-formations-dropdown:hover .formations-mega-menu {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: stretch;
-			justify-content: space-between;
-			align-content: flex-start;
-			gap: 20px 12px;
+		/* Affichage INSTANTANÉ - Pas d'animation pour fiabilité maximale */
+		.header #menu .menu-formations-dropdown:hover .formations-mega-menu,
+		.header #menu .formations-mega-menu:hover {
+			display: block !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+			transform: none !important;
 		}
 		
 		/* Desktop : disposition flexible avec retour à la ligne */
@@ -275,72 +374,173 @@
 			}
 		}
 		
-		/* Chaque colonne de catégorie - 4 PAR LIGNE EXACTEMENT */
+		/* NOUVEAU: Éléments SANS encadrement - complètement transparent */
 		.header #menu .formations-mega-menu .formation-category-column {
-			flex: 0 0 calc(25% - 9px);
-			width: calc(25% - 9px);
-			min-width: 240px;
-			max-width: 260px;
-			height: 280px;
-			padding: 10px;
+			width: 100%;
 			margin: 0;
-			background: #ffffff;
-			border: 1px solid #e9ecef;
-			border-radius: 6px;
-			box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-			display: flex;
-			flex-direction: column;
+			padding: 0;
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			box-shadow: none;
+			display: block;
+			position: relative;
 		}
 		
-		/* Titre de catégorie - GRANDE TAILLE ET UNE SEULE LIGNE */
+		/* Positionnement spécial pour IA avec badge */
+		.header #menu .formations-mega-menu .ia-category-menu {
+			position: relative;
+		}
+		
+		.header #menu .formations-mega-menu .ia-category-menu .category-header {
+			position: relative;
+			overflow: visible;
+		}
+		
+		.header #menu .formations-mega-menu .formation-category-column:last-child {
+			margin-bottom: 0;
+		}
+		
+		/* Assurer que le menu couvre bien toute la hauteur */
+		.header #menu .formations-mega-menu .all-formations-link {
+			margin-top: 4px;
+			margin-bottom: 0;
+		}
+		
+		/* NOUVEAU: Header de catégorie comme élément de liste */
 		.header #menu .formations-mega-menu .category-header {
-			margin: -10px -10px 12px -10px;
-			padding: 12px 8px;
-			background: #0b3f89;
-			border-radius: 6px 6px 0 0;
-			text-align: center;
+			margin: 0;
+			padding: 0;
+			background: transparent;
+			border-radius: 0;
+			text-align: left;
 			flex-shrink: 0;
-			min-height: 50px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			min-height: auto;
+			display: block;
+			position: relative;
+			cursor: pointer;
 		}
 		
 		.header #menu .formations-mega-menu .category-header a {
-			color: #ffffff;
+			color: #1d1d1f;
 			text-decoration: none;
-			font-size: 16px;
-			font-weight: 700;
-			text-transform: uppercase;
-			letter-spacing: 0.4px;
-			display: block;
-			text-align: center;
-			line-height: 1.1;
+			font-size: 15px;
+			font-weight: 600;
+			text-transform: none;
+			letter-spacing: -0.01em;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-align: left;
+			line-height: 1.3;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			width: 100%;
-			padding: 0 4px;
+			padding: 8px 12px;
+			border-radius: 0;
+			margin: 0;
+			position: relative;
+			background: transparent;
+			box-shadow: none;
+			border: none;
+			transition: all 0.2s ease;
 		}
 		
-		.header #menu .formations-mega-menu .category-header:hover {
-			background: #094578;
+		/* Icône SVG dans le header */
+		.header #menu .formations-mega-menu .category-header a svg {
+			flex-shrink: 0;
+			transition: all 0.3s ease;
 		}
 		
-		.header #menu .formations-mega-menu .category-header a:hover {
-			color: #ffffff;
+		.header #menu .formations-mega-menu .category-header a::after {
+			content: "›";
+			font-size: 14px;
+			color: #86868b;
+			margin-left: auto;
+			font-weight: 300;
+			opacity: 0.7;
 		}
 		
-		/* Liste des formations - COMPACT ET EFFICACE */
+		/* Hover subtle pour toutes les catégories SAUF IA */
+		.header #menu .formations-mega-menu .formation-category-column:not(.ia-category-menu) .category-header:hover a {
+			background: rgba(0, 102, 255, 0.06);
+			transform: translateX(4px);
+		}
+		
+		/* IA - Design GOLD CLEAN sans encadrement excessif */
+		.header #menu .formations-mega-menu .ia-category-menu .category-header a {
+			background: linear-gradient(135deg, #FFD700 0%, #FFC107 50%, #FF8F00 100%) !important;
+			background-color: #FFD700 !important;
+			color: #000000 !important;
+			box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important;
+			border: none !important;
+			border-radius: 8px !important;
+			font-weight: 700 !important;
+		}
+		
+		
+		/* Toutes les catégories avec touches bleu subtiles */
+		.header #menu .formations-mega-menu .category-header a:has(svg) {
+			background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+			border: 1px solid rgba(0, 102, 255, 0.12);
+			color: #475569;
+		}
+		
+		/* Hover général - accent bleu */
+		.header #menu .formations-mega-menu .formation-category-column:not(.ia-category-menu) .category-header:hover a {
+			background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+			border-color: rgba(0, 102, 255, 0.2);
+			color: #1e40af;
+		}
+		
+		/* Hover simplifié sans transformations */
+		.header #menu .formations-mega-menu .category-header:hover a {
+			box-shadow: 
+				0 4px 16px rgba(0, 102, 255, 0.15),
+				0 2px 8px rgba(0, 77, 179, 0.1);
+		}
+		
+		.header #menu .formations-mega-menu .category-header:hover a::after {
+			opacity: 1;
+		}
+		
+		/* Hover spécial pour IA - GOLD simple et clean */
+		.header #menu .formations-mega-menu .ia-category-menu:hover .category-header a {
+			background: linear-gradient(135deg, #FFED4E 0%, #FFD700 50%, #FFC107 100%) !important;
+			background-color: #FFD700 !important;
+			color: #000000 !important;
+			box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5) !important;
+			transform: translateX(4px) !important;
+		}
+		
+		/* NOUVEAU: Sous-menu style Apple minimaliste */
 		.header #menu .formations-mega-menu .formation-links {
 			list-style: none;
-			padding: 0;
+			padding: 4px;
 			margin: 0;
-			display: flex;
+			display: none;
 			flex-direction: column;
-			gap: 3px;
-			flex: 1;
+			gap: 1px;
+			background: rgba(248, 248, 248, 0.8);
+			border-radius: 10px;
+			margin: 2px 8px 4px 8px;
 			overflow: hidden;
+			box-shadow: 
+				inset 0 1px 0 rgba(255, 255, 255, 0.8),
+				0 1px 3px rgba(0, 0, 0, 0.06);
+			border: 0.5px solid rgba(0, 0, 0, 0.04);
+			backdrop-filter: blur(20px);
+		}
+		
+		/* Zone de hover étendue pour la catégorie */
+		.header #menu .formations-mega-menu .formation-category-column {
+			position: relative;
+		}
+		
+		/* DÉSACTIVÉ: Plus de sous-menus, que les titres principaux */
+		.header #menu .formations-mega-menu .formation-category-column:hover .formation-links {
+			display: none !important;
 		}
 		
 		.header #menu .formations-mega-menu .formation-links li {
@@ -350,186 +550,129 @@
 		}
 		
 		.header #menu .formations-mega-menu .formation-links a {
-			display: -webkit-box;
-			padding: 8px 10px;
-			color: #495057;
+			display: block;
+			padding: 6px 10px;
+			color: #424245;
 			text-decoration: none;
-			font-size: 13px;
-			line-height: 1.4;
-			border-radius: 4px;
-			background: #f8f9fa;
-			border: 1px solid #e9ecef;
-			transition: background 0.15s ease;
+			font-size: 12px;
+			font-weight: 400;
+			line-height: 1.3;
+			border-radius: 6px;
+			background: transparent;
+			border: none;
+			transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 			text-align: left;
 			box-sizing: border-box;
-			
-			/* AFFICHAGE 2 LIGNES AVEC PLUS DE TEXTE VISIBLE */
-			white-space: normal;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			height: 3.2em;
-			width: 100%;
-			margin-bottom: 4px;
-		}
-		
-		.header #menu .formations-mega-menu .formation-links a:hover {
-			background: #e3f2fd;
-			color: #0b3f89;
-			border-color: #0b3f89;
-		}
-		
-		/* Lien "Voir toutes" - COMPACT ET UNIFORME */
-		.header #menu .formations-mega-menu .see-all-link {
-			margin-top: auto;
-			flex-shrink: 0;
-		}
-		
-		.header #menu .formations-mega-menu .see-all-link a {
-			background: #0b3f89;
-			color: #ffffff;
-			font-weight: 600;
-			font-size: 11px;
-			text-align: center;
-			text-transform: uppercase;
-			letter-spacing: 0.3px;
-			border: 1px solid #0b3f89;
-			min-height: 35px;
-			padding: 8px 10px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			margin-top: auto;
-			border-radius: 4px;
+			width: 100%;
+			position: relative;
+			letter-spacing: -0.01em;
+		}
+		
+		.header #menu .formations-mega-menu .formation-links a:hover {
+			background: rgba(0, 122, 255, 0.08);
+			color: #007AFF;
+			transform: scale(1.01);
+		}
+		
+		/* NOUVEAU: Lien "Voir toutes" style Apple */
+		.header #menu .formations-mega-menu .see-all-link {
+			margin-top: 4px;
+			border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+			padding-top: 4px;
+		}
+		
+		.header #menu .formations-mega-menu .see-all-link a {
+			background: rgba(0, 122, 255, 0.1);
+			color: #007AFF;
+			font-weight: 500;
+			font-size: 11px;
+			text-align: center;
+			text-transform: none;
+			letter-spacing: -0.01em;
+			border: 0.5px solid rgba(0, 122, 255, 0.2);
+			padding: 6px 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 4px;
+			white-space: nowrap;
+			border-radius: 8px;
+			transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		
+		.header #menu .formations-mega-menu .see-all-link a::before {
+			content: "→";
+			font-size: 12px;
+			opacity: 0.8;
 		}
 		
 		.header #menu .formations-mega-menu .see-all-link a:hover {
-			background: #094578;
-			border-color: #094578;
+			background: #007AFF;
+			color: #ffffff;
+			border-color: #007AFF;
+			transform: scale(1.02);
 		}
 		
-		/* ===== RESPONSIVE POUR MEGA MENU ===== */
+		/* Style pour "Toutes les formations" en bas - TEXTE BLANC LISIBLE */
+		.header #menu .formations-mega-menu .all-formations-link .category-header a {
+			background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+			color: white !important;
+			font-weight: 600;
+			border-top: 1px solid rgba(0, 0, 0, 0.08);
+			margin-top: 4px;
+			padding-top: 10px;
+		}
 		
-		/* Écrans larges - optimisation */
-		@media (max-width: 1400px) {
+		.header #menu .formations-mega-menu .all-formations-link:hover .category-header a {
+			background: linear-gradient(135deg, #0056CC 0%, #003D99 100%);
+			color: white !important;
+		}
+		
+		/* Zones étendues supprimées pour fiabilité maximale */
+		
+		/* ===== RESPONSIVE STYLE APPLE ===== */
+		
+		@media (max-width: 1024px) {
 			.header #menu .menu-formations-dropdown .formations-mega-menu {
-				width: 1000px;
-				left: -200px;
-			}
-			
-			.header #menu .formations-mega-menu .formation-category-column {
-				min-width: 220px;
-				max-width: 240px;
+				width: 220px;
+				left: -5px;
 			}
 		}
 		
-		/* Écrans moyens - 3 colonnes par ligne */
-		@media (max-width: 1200px) {
-			.header #menu .menu-formations-dropdown .formations-mega-menu {
-				width: 850px;
-				left: -250px;
-				padding: 20px 15px;
-			}
-			
-			.header #menu .formations-mega-menu .formation-category-column {
-				flex: 0 0 calc(33.333% - 8px);
-				width: calc(33.333% - 8px);
-				min-width: 250px;
-				max-width: 280px;
-				height: 270px;
-			}
-		}
-		
-		/* Tablettes - 2 colonnes par ligne */
-		@media (max-width: 900px) {
-			.header #menu .menu-formations-dropdown .formations-mega-menu {
-				width: 650px;
-				left: -200px;
-				padding: 20px 15px;
-			}
-			
-			.header #menu .formations-mega-menu .formation-category-column {
-				flex: 0 0 calc(50% - 6px);
-				width: calc(50% - 6px);
-				min-width: 300px;
-				max-width: 320px;
-				height: 260px;
-			}
-		}
-		
-		/* Petites tablettes - 2 colonnes adaptatives */
 		@media (max-width: 768px) {
 			.header #menu .menu-formations-dropdown .formations-mega-menu {
-				width: 95vw;
-				left: -47.5vw;
-				transform: translateX(50%);
-				height: auto;
-				max-height: 85vh;
-				overflow-y: auto;
-				padding: 20px 15px;
-			}
-			
-			.header #menu .formations-mega-menu .formation-category-column {
-				flex: 0 0 calc(50% - 8px);
-				width: calc(50% - 8px);
-				min-width: 280px;
-				max-width: none;
-				height: auto;
-			}
-		}
-		
-		/* Mobile - 1 colonne par ligne */
-		@media (max-width: 480px) {
-			.header #menu .menu-formations-dropdown .formations-mega-menu {
-				position: fixed;
-				top: 70px;
-				left: 0;
-				width: 100vw;
-				max-width: 100vw;
-				transform: none;
-				flex-direction: column;
-				max-height: calc(100vh - 80px);
-				overflow-y: auto;
-				border-radius: 0;
-				border: none;
-				box-shadow: 0 0 20px rgba(0,0,0,0.1);
-				background: #ffffff;
-				padding: 15px 10px;
-				gap: 15px;
-			}
-			
-			.header #menu .formations-mega-menu .formation-category-column {
-				flex: none;
-				width: 100%;
-				min-width: 100%;
-				max-width: 100%;
-				height: auto;
-				margin: 0;
-				border: 1px solid #e9ecef;
-				border-radius: 8px;
-				padding: 15px;
-			}
-			
-			.header #menu .formations-mega-menu .category-header {
-				margin: -15px -15px 15px -15px;
-				border-radius: 8px 8px 0 0;
-				min-height: 45px;
+				width: 200px;
+				left: -20px;
+				max-height: 65vh;
+				padding: 6px;
 			}
 			
 			.header #menu .formations-mega-menu .category-header a {
-				font-size: 15px;
-				letter-spacing: 0.2px;
+				padding: 6px 10px;
+				font-size: 12px;
+			}
+		}
+		
+		@media (max-width: 480px) {
+			.header #menu .menu-formations-dropdown .formations-mega-menu {
+				width: 80vw;
+				left: -40px;
+				max-height: 60vh;
+				padding: 6px;
+			}
+			
+			.header #menu .formations-mega-menu .category-header a {
+				padding: 6px 8px;
+				font-size: 11px;
+				gap: 6px;
 			}
 			
 			.header #menu .formations-mega-menu .formation-links a {
-				font-size: 14px;
-				padding: 10px 12px;
-				height: auto;
-				-webkit-line-clamp: 3;
+				padding: 4px 8px;
+				font-size: 11px;
 			}
 		}
 
@@ -545,23 +688,26 @@
 			display: none;
 		}
 
-		/* Affichage au survol pour les menus standards */
-		.header #menu .menu-item:hover > .sub-menu {
-			display: block;
+		/* Affichage au survol pour les menus standards - FORCE */
+		.header #menu .menu-item:hover > .sub-menu,
+		.header #menu .menu-item:hover .sub-menu {
+			display: block !important;
+			opacity: 1 !important;
+			visibility: visible !important;
 		}
 		
-		/* Styles pour les menus simples (pas le menu formations) */
+		/* Styles pour TOUS les menus simples (pas le menu formations) - Z-INDEX INFÉRIEUR */
 		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu {
 			position: absolute;
 			top: 100%;
-			left: -30px;
+			left: 0;
 			background: #eaeef0;
 			padding: 20px 25px;
 			min-width: 250px;
 			border-radius: 6px;
 			border: 1px solid #d1d5db;
 			box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-			z-index: 9998;
+			z-index: 9000 !important;
 		}
 		
 		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li {
@@ -689,11 +835,19 @@
 			box-shadow: 0 4px 8px rgba(11, 63, 137, 0.3) !important;
 		}
 
-		/* ===== MENU MÉTIERS OPTIMISÉ (3ème) ===== */
-		.header #menu .menu-item:nth-child(3) .sub-menu {
+		/* ===== MENU MÉTIERS ULTRA-SPÉCIFIQUE - FORCE DROITE - PRIORITÉ ABSOLUE ===== */
+		.header #menu .menu-item:nth-child(3) .sub-menu,
+		.header #menu #menu-item-442839 .sub-menu,
+		body .header #menu .menu-item:nth-child(3) .sub-menu,
+		html body .header #menu .menu-item:nth-child(3) .sub-menu,
+		.header #menu li:nth-child(3) .sub-menu,
+		#menu-item-442839 .sub-menu,
+		li#menu-item-442839 .sub-menu,
+		.header li#menu-item-442839 .sub-menu {
 			position: absolute !important;
-			left: -50px !important;
-			top: 29px !important;
+			left: auto !important;
+			right: 0 !important;
+			top: 100% !important;
 			background: #eaeef0 !important;
 			padding: 20px 25px !important;
 			width: 350px !important;
@@ -709,15 +863,28 @@
 			border: 1px solid #d1d5db !important;
 			box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
 			transition: none !important;
-			z-index: 9998 !important;
+			z-index: 9000 !important;
 			overflow: hidden !important;
 		}
 
-		.header #menu .menu-item:nth-child(3):hover .sub-menu {
+		/* FORCE ABSOLUE POUR LE MENU MÉTIERS - PRIORITÉ MAXIMALE */
+		.header #menu .menu-item:nth-child(3) .sub-menu[style*="left"],
+		.header #menu .menu-item:nth-child(3) .sub-menu[style*="right"] {
+			left: auto !important;
+			right: 0 !important;
+		}
+		
+		.header #menu .menu-item:nth-child(3):hover .sub-menu,
+		.header #menu #menu-item-442839:hover .sub-menu,
+		body .header #menu .menu-item:nth-child(3):hover .sub-menu,
+		html body .header #menu .menu-item:nth-child(3):hover .sub-menu,
+		.header #menu li:nth-child(3):hover .sub-menu {
 			display: block !important;
 			opacity: 1 !important;
 			visibility: visible !important;
 			transform: none !important;
+			left: auto !important;
+			right: 0 !important;
 		}
 
 		.header #menu .menu-item:nth-child(3) .sub-menu li {
@@ -752,11 +919,12 @@
 			transform: none !important;
 		}
 
-		/* ===== MENU L'ÉCOLE OPTIMISÉ (1er) ===== */
+		/* ===== MENU L'ÉCOLE OPTIMISÉ (1er) - Z-INDEX RÉDUIT POUR ÉVITER CONFLITS ===== */
 		.header #menu .menu-item:nth-child(1) .sub-menu {
 			position: absolute !important;
 			left: -30px !important;
-			top: 29px !important;
+			top: 100% !important;
+			margin-top: 8px !important;
 			background: #eaeef0 !important;
 			padding: 20px 25px !important;
 			width: 400px !important;
@@ -772,7 +940,7 @@
 			border: 1px solid #d1d5db !important;
 			box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
 			transition: none !important;
-			z-index: 9997 !important;
+			z-index: 9000 !important;
 			overflow: hidden !important;
 		}
 
@@ -1629,7 +1797,7 @@
 				position: static !important;
 				width: 100% !important;
 				height: auto !important;
-				max-height: calc(50vh) !important; /* Limite la hauteur */
+				max-height: none !important; /* Hauteur adaptative */
 				left: 0 !important;
 				right: 0 !important;
 				top: auto !important;
@@ -1658,6 +1826,9 @@
 				padding: 0 !important;
 				border-bottom: 1px solid #e2e8f0 !important;
 				box-sizing: border-box !important;
+				height: auto !important;
+				min-height: auto !important;
+				max-height: none !important;
 			}
 			
 			/* Headers de catégorie comme des liens de sous-menu */
@@ -1691,9 +1862,28 @@
 				transform: translateX(3px) !important;
 			}
 			
-			/* Masquer les liens de formation détaillés */
+			/* Masquer les liens de formation détaillés mais garder les boutons voir toutes */
 			.header #menu .formations-mega-menu .formation-links {
 				display: none !important;
+			}
+			
+			/* Garder visible les boutons voir toutes sur mobile */
+			.header #menu .formations-mega-menu .see-all-link {
+				display: block !important;
+				margin-top: 8px;
+			}
+			
+			/* Style spécial pour la colonne globale sur mobile */
+			.header #menu .formations-mega-menu .global-voir-toutes {
+				background: #0b3f89 !important;
+				border: none !important;
+				order: -1; /* Mettre en premier */
+			}
+			
+			.header #menu .formations-mega-menu .global-voir-toutes .category-header a {
+				color: white !important;
+				background: transparent !important;
+				font-weight: 600 !important;
 			}
 			
 			/* Correction pour éviter les conflits d'anciens styles */
@@ -1701,12 +1891,12 @@
 				overflow: auto !important;
 			}
 			
-			/* Assurer une structure propre */
+			/* Assurer une structure propre - permettre le scroll */
 			body.overflow {
-				overflow: hidden !important;
+				overflow: auto !important;
 			}
 			
-			/* Forcer tous les conteneurs à ne pas déborder */
+			/* Forcer tous les conteneurs à ne pas déborder horizontalement */
 			.header #menu *,
 			.header #menu .menu-item,
 			.header #menu .sub-menu,
@@ -1717,7 +1907,9 @@
 			.header #menu a {
 				max-width: 100vw !important;
 				box-sizing: border-box !important;
-				overflow: hidden !important;
+				overflow-x: hidden !important;
+				/* Permettre le scroll vertical */
+				overflow-y: visible !important;
 			}
 			
 			/* Règle ultime anti-débordement pour mobile */
@@ -1812,9 +2004,9 @@
 			}
 			
 
-		/* Empêcher le scroll */
+		/* Permettre le scroll dans le menu mobile */
 		body.menu-mobile-open {
-			overflow: hidden !important;
+			overflow: auto !important;
 		}
 		
 		/* CORRECTION Z-INDEX: Quand le menu burger est ouvert, les filtres passent derrière */
@@ -2035,6 +2227,7 @@
 				overflow-x: hidden !important;
 				padding-bottom: 250px !important; /* Plus d'espace pour les boutons fixes */
 				max-height: calc(100vh - 70px) !important; /* Limite la hauteur pour forcer le scroll */
+				overflow-y: auto !important; /* Permettre le scroll vertical */
 			}
 			.menu {
 				flex: 0 0 auto !important;
@@ -2264,7 +2457,7 @@
 				max-width: 100% !important;
 				height: auto !important;
 				min-height: auto !important;
-				max-height: calc(50vh) !important; /* Limite la hauteur des sous-menus */
+				max-height: none !important; /* Hauteur adaptative des sous-menus */
 				box-sizing: border-box !important;
 				z-index: 1 !important;
 				background: #f0f4f8 !important;
@@ -2397,23 +2590,23 @@
 
 		<meta
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
-		{# <link href="http://gmpg.org/xfn/11" rel="profile"/>
-										<link href="/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57"/>
-										<link href="/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60"/>
-										<link href="/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72"/>
-										<link href="/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76"/>
-										<link href="/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114"/>
-										<link href="/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
-										<link href="/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
-										<link href="/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
-										<link href="/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/>
-										<link href="/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
-										<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
-										<link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
-										<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
-										<link href="/manifest.json" rel="manifest"/> #}
+		<!-- Favicon et icônes -->
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="icon" type="image/png"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="57x57"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="60x60"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="72x72"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="76x76"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="114x114"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="120x120"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="144x144"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="152x152"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="apple-touch-icon" sizes="180x180"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="icon" sizes="192x192" type="image/png"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="icon" sizes="32x32" type="image/png"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="icon" sizes="96x96" type="image/png"/>
+		<link href="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" rel="icon" sizes="16x16" type="image/png"/>
 		<meta content="#ffffff" name="msapplication-TileColor"/>
-		<meta content="/ms-icon-144x144.png" name="msapplication-TileImage"/>
+		<meta content="{{ asset('img/Logo_infpf_bleu_site_onglet.png') }}?v=20250922" name="msapplication-TileImage"/>
 		<meta content="#ffffff" name="theme-color"/>
 		<!-- Preload des JS -->
 		{# <link as="script" href="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" rel="preload"/>
@@ -2445,7 +2638,7 @@
 		<div class="menu-menu-2022-container">
 			<ul class="menu" id="menu-menu-2022">
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442796" id="menu-item-442796">
-					<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">L'École</a>
+					<a href="{{ path('app_ecole_index') }}">L'École</a>
 					<ul class="sub-menu">
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442797" id="menu-item-442797">
 							<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">Nos formations à
@@ -2492,29 +2685,110 @@
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-formations-dropdown" id="menu-item-442808">
 					<a href="{{ path('app_home') }}">Formations</a>
 					<div class="formations-mega-menu">
+						{# IA en premier car "NOUVEAU" #}
+						{% set iaCategory = null %}
+						{% set otherCategories = [] %}
 						{% for category in dataProvider.getCategories() %}
+							{% if category.name|lower == 'ia' %}
+								{% set iaCategory = category %}
+							{% else %}
+								{% set otherCategories = otherCategories|merge([category]) %}
+							{% endif %}
+						{% endfor %}
+						
+						{# Afficher IA en premier #}
+						{% if iaCategory %}
+							<div class="formation-category-column ia-category-menu">
+								<h3 class="category-header">
+									<a href="{{ path('app_home', {'category_id': iaCategory.id}) }}">
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<path d="M12 2L2 7l10 5 10-5-10-5z"/>
+											<path d="M2 17l10 5 10-5"/>
+											<path d="M2 12l10 5 10-5"/>
+										</svg>
+										{{ iaCategory.name }}
+									</a>
+									<span class="nouveau-badge">NOUVEAU</span>
+								</h3>
+							</div>
+										{% endif %}
+						
+						{# Afficher les autres catégories #}
+						{% for category in otherCategories %}
 							<div class="formation-category-column">
 								<h3 class="category-header">
-									<a href="{{ path('app_home', {'category_id': category.id}) }}">{{ category.name }}</a>
-								</h3>
-								<ul class="formation-links">
-									{% set counter = 0 %}
-									{% for formation in category.formations %}
-										{% if counter < 3 %}
-											<li>
-												<a href="{{ path('app_formation_show', {'id': formation.id}) }}">{{ formation.nameFormation }}</a>
-											</li>
-											{% set counter = counter + 1 %}
-										{% endif %}
-									{% endfor %}
-									{% if category.formations|length > 3 %}
-										<li class="see-all-link">
-											<a href="{{ path('app_home', {'category_id': category.id}) }}">Voir toutes ({{ category.formations|length }})</a>
-										</li>
+									<a href="{{ path('app_home', {'category_id': category.id}) }}">
+										{% if category.name|lower == 'finance' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<line x1="12" y1="1" x2="12" y2="23"/>
+												<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+											</svg>
+											{{ category.name }}
+										{% elseif category.name|lower == 'informatique' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<polyline points="16,18 22,12 16,6"/>
+												<polyline points="8,6 2,12 8,18"/>
+											</svg>
+											{{ category.name }}
+										{% elseif category.name|lower == 'management' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+												<circle cx="9" cy="7" r="4"/>
+												<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+												<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+											</svg>
+											{{ category.name }}
+										{% elseif category.name|lower == 'marketing' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M3 11l18-5v12L3 14v-3z"/>
+												<path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+											</svg>
+											{{ category.name }}
+										{% elseif category.name|lower == 'design' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+												<line x1="16" y1="8" x2="2" y2="22"/>
+												<line x1="17.5" y1="15" x2="9" y2="15"/>
+											</svg>
+											{{ category.name }}
+										{% elseif category.name|lower == 'administration' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+												<polyline points="14,2 14,8 20,8"/>
+												<line x1="16" y1="13" x2="8" y2="13"/>
+												<line x1="16" y1="17" x2="8" y2="17"/>
+												<polyline points="10,9 9,9 8,9"/>
+											</svg>
+											{{ category.name }}
+										{% elseif category.name|lower == 'vente' %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+												<line x1="3" y1="6" x2="21" y2="6"/>
+												<path d="M16 10a4 4 0 0 1-8 0"/>
+											</svg>
+											{{ category.name }}
+										{% else %}
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<circle cx="12" cy="12" r="3"/>
+												<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+											</svg>
+											{{ category.name }}
 									{% endif %}
-								</ul>
+									</a>
+								</h3>
 							</div>
 						{% endfor %}
+						<!-- Bouton "Voir toutes" en bas du menu -->
+						<div class="formation-category-column all-formations-link">
+							<h3 class="category-header">
+								<a href="{{ path('app_home') }}">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M3 6h18M3 12h18M3 18h18"/>
+									</svg>
+									Toutes les formations
+								</a>
+							</h3>
+						</div>
 					</div>
 				</li>
 
@@ -2541,7 +2815,19 @@
 							<a href="{{ path('app_metiers_show', {'slug': 'developpeur-web'}) }}">Devenir Développeur Web</a>
 						</li>
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442842" id="menu-item-442842">
-							<a href="{{ path('app_metiers_show', {'slug': 'trader'}) }}">Devenir Trader</a>
+							<a href="{{ path('app_metiers_show', {'slug': 'trader-finance'}) }}">Devenir Trader & Expert Financier</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442844" id="menu-item-442844">
+							<a href="{{ path('app_metiers_show', {'slug': 'manager'}) }}">Devenir Manager d'Équipe</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442845" id="menu-item-442845">
+							<a href="{{ path('app_metiers_show', {'slug': 'marketing-digital'}) }}">Devenir Expert Marketing Digital</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442846" id="menu-item-442846">
+							<a href="{{ path('app_metiers_show', {'slug': 'assistant-administratif'}) }}">Devenir Assistant Administratif</a>
+						</li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442847" id="menu-item-442847">
+							<a href="{{ path('app_metiers_show', {'slug': 'graphiste'}) }}">Devenir Graphiste & Designer</a>
 						</li>
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442843" id="menu-item-442843">
 							<a href="{{ path('app_metiers_index') }}">Voir tous les métiers</a>
@@ -2549,7 +2835,13 @@
 					</ul>
 				</li>
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
-					<a href="{{ path('app_blog_index')}}">Actualités</a>
+					<a href="{{ path('app_blog_index')}}">Blog</a>
+					{% if is_granted('ROLE_ADMIN') %}
+					<ul class="sub-menu">
+						<li><a href="{{ path('app_blog_admin') }}">📊 Gestion des articles</a></li>
+						<li><a href="{{ path('app_blog_new') }}">➕ Créer un article</a></li>
+					</ul>
+					{% endif %}
 				</li>
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
 					<a href="{{ path('app_contact')}}">Contact</a>
@@ -2637,7 +2929,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function openMobileMenu() {
     header.classList.add('header--active');
     menu.classList.add('header--active');
-    document.body.style.overflow = 'hidden';
+    // Permettre le scroll dans le menu mobile
+    document.body.style.overflow = 'auto';
     document.body.classList.add('overflow');
     document.body.classList.add('menu-mobile-open');
     
@@ -3004,74 +3297,107 @@ document.addEventListener('DOMContentLoaded', function () {
     CalendlyManager.init();
   }
 
-  // ===== GESTION MENU FORMATIONS FINALE =====
+  // ===== FORCE MENU MÉTIERS POSITION DROITE =====
   document.addEventListener('DOMContentLoaded', function() {
-    const menuFormations = document.querySelector('.header #menu .menu-item:nth-child(2)');
-    const subMenu = document.querySelector('.header #menu .menu-item:nth-child(2) .sub-menu');
-    
-    if (menuFormations && subMenu) {
-      console.log('✅ Menu Formations prêt avec système Flexbox');
+    const menuMetiers = document.querySelector('#menu-item-442839 .sub-menu');
+    if (menuMetiers) {
+      // Force le positionnement côté droit du bouton (vers Blog)
+      menuMetiers.style.left = 'auto';
+      menuMetiers.style.right = '0';
+      console.log('✅ Menu Métiers forcé côté droit vers Blog');
       
-      // Variables pour stabilité et performance
-      let hoverTimeout;
-      let isMenuOpen = false;
-      
-      // Gestion hover avec zone de sécurité
-      menuFormations.addEventListener('mouseenter', function() {
-        clearTimeout(hoverTimeout);
-        if (!isMenuOpen) {
-          subMenu.style.display = 'flex';
-          isMenuOpen = true;
-          
-          // Vérification de l'affichage correct après 50ms
-          setTimeout(() => {
-            if (window.getComputedStyle(subMenu).display === 'flex') {
-              console.log('✅ Menu Formations affiché correctement');
+      // Observer les changements de style
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+            if (menuMetiers.style.right !== '0' || menuMetiers.style.left !== 'auto') {
+              menuMetiers.style.left = 'auto';
+              menuMetiers.style.right = '0';
+              console.log('🔧 Menu Métiers repositionné côté droit');
             }
-          }, 50);
-        }
+          }
+        });
       });
+      observer.observe(menuMetiers, { attributes: true, attributeFilter: ['style'] });
+    }
+  });
+
+  // ===== GESTION MENU FORMATIONS ANTI-CONFLIT =====
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuFormations = document.querySelector('.header #menu .menu-formations-dropdown');
+    const megaMenu = document.querySelector('.header #menu .formations-mega-menu');
+    const allOtherMenus = document.querySelectorAll('.header #menu .menu-item:not(.menu-formations-dropdown)');
+    
+    if (menuFormations && megaMenu) {
+      console.log('✅ Menu Formations ANTI-CONFLIT initialisé');
       
-      // Zone de sécurité étendue pour éviter fermetures accidentelles
-      menuFormations.addEventListener('mouseleave', function() {
-        hoverTimeout = setTimeout(() => {
-          subMenu.style.display = 'none';
-          isMenuOpen = false;
-        }, 200);
-      });
+      let hoverTimeout;
+      let isMouseInside = false;
       
-      // Maintenir le menu ouvert si on survole le sous-menu
-      subMenu.addEventListener('mouseenter', function() {
-        clearTimeout(hoverTimeout);
-      });
-      
-      subMenu.addEventListener('mouseleave', function() {
-        hoverTimeout = setTimeout(() => {
-          subMenu.style.display = 'none';
-          isMenuOpen = false;
-        }, 200);
-      });
-      
-      // Debug avancé (activé avec ?debug dans l'URL)
-      if (window.location.search.includes('debug')) {
-        menuFormations.addEventListener('mouseenter', function() {
-          setTimeout(() => {
-            const rect = subMenu.getBoundingClientRect();
-            const viewport = window.innerWidth;
-            const columns = subMenu.children.length;
-            
-            console.log('📊 Infos Menu:', {
-              largeur: rect.width + 'px',
-              colonnes: columns,
-              viewport: viewport + 'px',
-              deborde: rect.right > viewport ? 'OUI' : 'NON'
-            });
-          }, 100);
+      // Masquer tous les autres sous-menus
+      function hideAllOtherMenus() {
+        allOtherMenus.forEach(menu => {
+          const subMenu = menu.querySelector('.sub-menu');
+          if (subMenu) {
+            subMenu.style.display = 'none';
+          }
         });
       }
       
+      // Apparition INSTANTANÉE + Masquage autres menus
+      function showMenu() {
+        clearTimeout(hoverTimeout);
+        hideAllOtherMenus(); // Force fermeture autres menus
+        megaMenu.style.display = 'block';
+        megaMenu.style.zIndex = '10000'; // Force z-index maximum
+      }
+      
+      // Disparition INSTANTANÉE avec petit délai sécurité
+      function hideMenu() {
+        hoverTimeout = setTimeout(() => {
+          if (!isMouseInside) {
+            megaMenu.style.display = 'none';
+          }
+        }, 50); // Délai minimal pour éviter scintillement
+      }
+      
+      // Events sur le menu principal + zone élargie
+      menuFormations.addEventListener('mouseenter', function() {
+        isMouseInside = true;
+        showMenu();
+      });
+      
+      menuFormations.addEventListener('mouseleave', function() {
+        isMouseInside = false;
+        hideMenu();
+      });
+      
+      // Events sur le mega menu
+      megaMenu.addEventListener('mouseenter', function() {
+        isMouseInside = true;
+        clearTimeout(hoverTimeout);
+      });
+      
+      megaMenu.addEventListener('mouseleave', function() {
+        isMouseInside = false;
+        hideMenu();
+      });
+      
+      // Protection contre autres menus ouverts en même temps
+      allOtherMenus.forEach(menu => {
+        menu.addEventListener('mouseenter', function() {
+          if (megaMenu.style.display === 'block') {
+            // Si menu Formations ouvert, empêcher ouverture autres menus
+            const subMenu = this.querySelector('.sub-menu');
+            if (subMenu) {
+              subMenu.style.display = 'none';
+            }
+          }
+        });
+      });
+      
     } else {
-      console.error('❌ Menu Formations non trouvé - vérifiez la structure HTML');
+      console.error('❌ Menu Formations ANTI-CONFLIT non trouvé');
     }
   });
 

@@ -1,0 +1,1635 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration Blog - INFPF{% endblock %}
+
+{% block body %}
+<div class="admin-blog-container">
+    <!-- Hero Section -->
+    <div class="admin-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="admin-title">📝 Administration du Blog</h1>
+                    <p class="admin-subtitle">Gérez vos articles, brouillons et publications programmées</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="{{ path('app_blog_new') }}" class="btn btn-create">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Créer un article
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Section -->
+    <div class="notifications-container">
+        {% if nextScheduledArticle %}
+            <div class="notification-card scheduled" id="notification-scheduled">
+                <div class="notification-icon">⏰</div>
+                <div class="notification-content">
+                    <h4>Article Programmé</h4>
+                    <p>"{{ nextScheduledArticle.titleOne }}" sera publié le {{ nextScheduledArticle.publishedAt|date('d/m/Y à H:i') }}</p>
+                </div>
+                <button class="notification-close" onclick="closeNotification('notification-scheduled')" title="Fermer">
+                    ✕
+                </button>
+            </div>
+        {% endif %}
+        
+        {% set publishedToday = blogs|filter(blog => blog.isPublished and blog.publishedAt|date('Y-m-d') == "now"|date('Y-m-d'))|length %}
+        {% if publishedToday > 0 %}
+            <div class="notification-card published" id="notification-published">
+                <div class="notification-icon">✅</div>
+                <div class="notification-content">
+                    <h4>Articles Publiés Aujourd'hui</h4>
+                    <p>{{ publishedToday }} article{{ publishedToday > 1 ? 's' : '' }} publié{{ publishedToday > 1 ? 's' : '' }} aujourd'hui</p>
+                </div>
+                <button class="notification-close" onclick="closeNotification('notification-published')" title="Fermer">
+                    ✕
+                </button>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Content Section -->
+    <div class="container" style="padding: 3rem 15px 4rem;"><!-- Plus d'espacement vertical -->
+        <!-- Main Content Layout -->
+        {% if blogs %}
+        <div class="admin-layout">
+            <!-- Sidebar Section (Left) avec filtres -->
+            <div class="sidebar-column">
+                <!-- Section Filtres -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">🔍 Filtres</h3>
+                    
+                    <!-- Trier par -->
+                    <div class="filter-subsection">
+                        <h4 class="filter-subtitle">Trier par :</h4>
+                        <div class="btn-group-sidebar">
+                            <a href="{{ path('app_blog_admin', {'sort': 'recent', 'status': currentStatus}) }}" 
+                               class="btn-filter-sidebar {{ currentSort == 'recent' ? 'active' : '' }}">
+                                Plus récent
+                            </a>
+                            <a href="{{ path('app_blog_admin', {'sort': 'oldest', 'status': currentStatus}) }}" 
+                               class="btn-filter-sidebar {{ currentSort == 'oldest' ? 'active' : '' }}">
+                                Plus ancien
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtrer par statut -->
+                    <div class="filter-subsection">
+                        <h4 class="filter-subtitle">Statut :</h4>
+                        <div class="status-filters-sidebar">
+                            <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'all'}) }}" 
+                               class="status-badge-sidebar all {{ currentStatus == 'all' ? 'active' : '' }}">
+                                <span class="badge-icon">📊</span>
+                                Tous les articles
+                            </a>
+                            <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'draft'}) }}" 
+                               class="status-badge-sidebar draft {{ currentStatus == 'draft' ? 'active' : '' }}">
+                                <span class="badge-icon">📝</span>
+                                Brouillons
+                            </a>
+                            <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'scheduled'}) }}" 
+                               class="status-badge-sidebar scheduled {{ currentStatus == 'scheduled' ? 'active' : '' }}">
+                                <span class="badge-icon">⏰</span>
+                                Programmés
+                            </a>
+                            <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'published'}) }}" 
+                               class="status-badge-sidebar published {{ currentStatus == 'published' ? 'active' : '' }}">
+                                <span class="badge-icon">✅</span>
+                                Publiés
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Statistiques -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">📊 Statistiques</h3>
+                    <div class="stats-vertical">
+                        <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'all'}) }}" 
+                           class="stat-item total {{ currentStatus == 'all' ? 'active' : '' }}">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-info">
+                                <span class="stat-number">{{ stats.total }}</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                        </a>
+                        <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'published'}) }}" 
+                           class="stat-item published {{ currentStatus == 'published' ? 'active' : '' }}">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <span class="stat-number">{{ stats.published }}</span>
+                                <span class="stat-label">Publiés</span>
+                            </div>
+                        </a>
+                        <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'scheduled'}) }}" 
+                           class="stat-item scheduled {{ currentStatus == 'scheduled' ? 'active' : '' }}">
+                            <div class="stat-icon">⏰</div>
+                            <div class="stat-info">
+                                <span class="stat-number">{{ stats.scheduled }}</span>
+                                <span class="stat-label">Programmés</span>
+                            </div>
+                        </a>
+                        <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'draft'}) }}" 
+                           class="stat-item draft {{ currentStatus == 'draft' ? 'active' : '' }}">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-info">
+                                <span class="stat-number">{{ stats.draft }}</span>
+                                <span class="stat-label">Brouillons</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Minuteur Prochain Article -->
+                {% if nextScheduledArticle %}
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">⏱️ Prochain Article</h3>
+                    <div class="timer-sidebar">
+                        <div class="article-preview">
+                            <span class="article-title-small">"{{ nextScheduledArticle.titleOne }}"</span>
+                        </div>
+                        <div class="countdown-display-sidebar" 
+                             data-publish-time="{{ nextScheduledArticle.publishedAt|date('Y-m-d H:i:s') }}"
+                             data-timezone="Europe/Paris">
+                            <div class="time-unit-sidebar">
+                                <span class="time-value-sidebar" id="timer-days">--</span>
+                                <span class="time-label-sidebar">jours</span>
+                            </div>
+                            <div class="time-unit-sidebar">
+                                <span class="time-value-sidebar" id="timer-hours">--</span>
+                                <span class="time-label-sidebar">heures</span>
+                            </div>
+                            <div class="time-unit-sidebar">
+                                <span class="time-value-sidebar" id="timer-minutes">--</span>
+                                <span class="time-label-sidebar">min</span>
+                            </div>
+                            <div class="time-unit-sidebar">
+                                <span class="time-value-sidebar" id="timer-seconds">--</span>
+                                <span class="time-label-sidebar">sec</span>
+                            </div>
+                        </div>
+                        <div class="publish-date-sidebar">
+                            📅 {{ nextScheduledArticle.publishedAt|date('d/m/Y à H:i') }}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">⏱️ Programmation</h3>
+                    <div class="no-scheduled-sidebar">
+                        <p>Aucun article programmé</p>
+                        <a href="{{ path('app_blog_new') }}" class="btn-schedule-sidebar">Programmer un article</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Articles Section (Right) -->
+            <div class="articles-section">
+                <!-- Indicateur de filtrage -->
+                <div class="filter-indicator">
+                    {% set statusNames = {
+                        'all': 'tous les articles',
+                        'published': 'articles publiés',
+                        'scheduled': 'articles programmés',
+                        'draft': 'brouillons'
+                    } %}
+                    <p class="filter-text">
+                        <strong>{{ blogs|length }}</strong> {{ statusNames[currentStatus] ?? 'articles' }} affiché{{ blogs|length > 1 ? 's' : '' }}
+                        {% if currentStatus != 'all' %}
+                            <a href="{{ path('app_blog_admin', {'sort': currentSort, 'status': 'all'}) }}" class="clear-filter">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                                Afficher tous
+                            </a>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="articles-grid">
+            {% for blog in blogs %}
+                <div class="article-card {{ blog.status }}">
+                    <div class="card-header">
+                        <div class="article-info">
+                            <h3 class="article-title">{{ blog.titleOne }}</h3>
+                            {% if blog.shortDesc %}
+                                <p class="article-excerpt">{{ blog.shortDesc|slice(0, 120) }}{% if blog.shortDesc|length > 120 %}...{% endif %}</p>
+                            {% endif %}
+                        </div>
+                        <div class="article-status">
+                            {% if blog.isDraft %}
+                                <span class="status-badge draft">Brouillon</span>
+                            {% elseif blog.isScheduled %}
+                                <span class="status-badge scheduled">Programmé</span>
+                            {% else %}
+                                <span class="status-badge published">Publié</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="article-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Auteur</span>
+                                <span class="meta-value">{{ blog.author ?? 'Non défini' }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Date</span>
+                                <span class="meta-value">
+                                    {% if blog.publishedAt %}
+                                        {{ blog.publishedAt|date('d/m/Y à H:i') }}
+                                        {% if blog.isScheduled and blog.publishedAt > date() %}
+                                            <small class="future-date">• Dans le futur</small>
+                                        {% endif %}
+                                    {% else %}
+                                        Non définie
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <a href="{{ path('blog_show', {'id': blog.id}) }}" class="action-btn view" title="Voir l'article">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            Voir
+                        </a>
+                        <a href="{{ path('app_blog_edit', {'id': blog.id}) }}" class="action-btn edit" title="Modifier l'article">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            Modifier
+                        </a>
+                        <button type="button" class="action-btn delete" onclick="confirmDelete('{{ blog.id }}', '{{ blog.titleOne|e('js') }}')" title="Supprimer l'article">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"/>
+                                <path d="M19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"/>
+                            </svg>
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        <!-- Modal de suppression unique -->
+        <div id="deleteModal" class="modal-overlay" style="display: none;">
+            <div class="modal-content-modern">
+                <div class="modal-header-modern">
+                    <h3>Confirmer la suppression</h3>
+                    <button type="button" class="close-btn" onclick="closeDeleteModal()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body-modern">
+                    <div class="warning-icon">⚠️</div>
+                    <p>Êtes-vous sûr de vouloir supprimer l'article <strong id="articleToDelete"></strong> ?</p>
+                    <p class="warning-text">Cette action est irréversible !</p>
+                </div>
+                <div class="modal-footer-modern">
+                    <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Annuler</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        <input type="hidden" name="_token" id="deleteToken">
+                        <button type="submit" class="btn-delete-confirm">Supprimer définitivement</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="text-center py-5">
+            <div class="display-1 mb-3">📝</div>
+            <h2>Aucun article trouvé</h2>
+            <p class="text-muted mb-4">Commencez par créer votre premier article de blog !</p>
+            <a href="{{ path('app_blog_new') }}" class="btn btn-primary btn-lg">
+                ➕ Créer le premier article
+            </a>
+        </div>
+        {% endif %}
+</div>
+
+<style>
+/* Variables CSS */
+:root {
+    --primary-color: #1E40AF;
+    --primary-light: #3B82F6;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+}
+
+/* Container principal */
+.admin-blog-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--gray-50) 0%, #ffffff 100%);
+    padding-top: 0; /* Suppression du padding-top pour enlever la ligne blanche */
+}
+
+/* Section Hero */
+.admin-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 5rem 0; /* Augmentation du padding */
+    margin-bottom: 3rem; /* Plus d'espace en bas */
+    box-shadow: 0 8px 32px rgba(30, 64, 175, 0.3);
+}
+
+.admin-title {
+    font-size: 4.5rem; /* Augmentation de 3.5rem à 4.5rem */
+    font-weight: 800;
+    margin-bottom: 1.5rem; /* Plus d'espace */
+    line-height: 1.1;
+}
+
+.admin-subtitle {
+    font-size: 1.75rem; /* Augmentation de 1.25rem à 1.75rem */
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Notifications Section */
+.notifications-container {
+    position: fixed;
+    top: 400px; /* Beaucoup plus bas pour éviter toute superposition */
+    right: 20px;
+    z-index: 2000; /* Z-index très élevé */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 450px;
+}
+
+.notification-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 2.5rem; /* Padding encore plus généreux */
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.25);
+    border-left: 6px solid; /* Bordure encore plus épaisse */
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    position: relative;
+    animation: slideInFromRight 0.4s ease-out;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+.notification-card.scheduled {
+    border-left-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+}
+
+.notification-card.published {
+    border-left-color: #10b981;
+    background: linear-gradient(135deg, #d1fae5 0%, #ffffff 100%);
+}
+
+.notification-icon {
+    font-size: 2.5rem; /* Encore plus grand */
+    line-height: 1;
+    margin-top: 0.25rem;
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-content h4 {
+    font-size: 1.375rem; /* Beaucoup plus grand (de 1.125rem à 1.375rem) */
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: var(--text-dark);
+    line-height: 1.3;
+}
+
+.notification-content p {
+    font-size: 1.25rem; /* Beaucoup plus grand (de 1rem à 1.25rem) */
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.notification-close {
+    position: absolute;
+    top: -8px; /* Position au-dessus de la notification */
+    right: -8px; /* Position à droite de la notification */
+    background: #dc2626;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
+    z-index: 10;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.notification-close:hover {
+    background: #b91c1c;
+    border-color: #ffffff;
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.7);
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutToRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+
+/* Sidebar Section */
+.sidebar-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--gray-100);
+}
+
+.sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 1.5rem 0;
+    border-bottom: 2px solid var(--gray-100);
+    padding-bottom: 0.75rem;
+}
+
+/* Statistiques Sidebar */
+.stats-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: var(--gray-50);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+    background: white;
+}
+
+.stat-item.active {
+    background: white;
+    border-color: currentColor;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.stat-item.total {
+    border-left: 4px solid var(--primary-color);
+}
+
+.stat-item.published {
+    border-left: 4px solid #10b981;
+}
+
+.stat-item.scheduled {
+    border-left: 4px solid #f59e0b;
+}
+
+.stat-item.draft {
+    border-left: 4px solid #6b7280;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Minuteur Sidebar */
+.timer-sidebar {
+    text-align: center;
+}
+
+.article-preview {
+    margin-bottom: 1.5rem;
+}
+
+.article-title-small {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-style: italic;
+    display: block;
+    padding: 0.75rem;
+    background: var(--gray-50);
+    border-radius: 8px;
+}
+
+.countdown-display-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.time-unit-sidebar {
+    background: var(--primary-color);
+    color: white;
+    border-radius: 12px;
+    padding: 1rem 0.5rem;
+    text-align: center;
+}
+
+.time-value-sidebar {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.time-label-sidebar {
+    display: block;
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    opacity: 0.9;
+}
+
+.publish-date-sidebar {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding: 0.75rem;
+    background: var(--gray-50);
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.no-scheduled-sidebar {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.no-scheduled-sidebar p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.btn-schedule-sidebar {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.btn-schedule-sidebar:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+
+/* État de publication en cours */
+.timer-expired {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.timer-expired p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gray-200);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.btn-create {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 1.25rem 2.5rem; /* Augmentation du padding */
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.3rem; /* Augmentation de 1.1rem à 1.3rem */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem; /* Plus d'espace entre icône et texte */
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn-create:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Section des contrôles */
+.admin-controls {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem; /* Augmentation de 2rem à 3rem */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem; /* Augmentation de 2rem à 3rem */
+    border: 1px solid var(--gray-200);
+}
+
+.section-title {
+    font-size: 1.5rem; /* Augmentation de 1.125rem à 1.5rem */
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: 1.5rem; /* Plus d'espace */
+}
+
+.btn-group-modern {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-filter {
+    padding: 1rem 2rem; /* Augmentation du padding */
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    color: var(--gray-600);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem; /* Ajout d'une taille de police plus grande */
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.btn-filter:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: var(--gray-50);
+}
+
+.btn-filter.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+.status-legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.status-badge {
+    padding: 0.75rem 1.25rem; /* Augmentation du padding */
+    border-radius: 8px;
+    font-size: 1rem; /* Augmentation de 0.875rem à 1rem */
+    font-weight: 500;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.status-badge:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-badge.all {
+    background: var(--primary-color);
+    color: white;
+}
+
+.status-badge.all:hover {
+    background: var(--primary-light);
+    color: white;
+}
+
+.status-badge.all.active {
+    background: var(--primary-light);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.2);
+    color: white;
+}
+
+.status-badge.draft {
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+.status-badge.draft:hover {
+    background: var(--gray-200);
+    color: var(--gray-800);
+}
+
+.status-badge.draft.active {
+    background: var(--gray-200);
+    border-color: var(--gray-600);
+    box-shadow: 0 0 0 4px rgba(107, 114, 128, 0.2);
+    color: var(--gray-800);
+}
+
+.status-badge.scheduled {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.status-badge.scheduled:hover {
+    background: #FDE68A;
+    color: #78350F;
+}
+
+.status-badge.scheduled.active {
+    background: #FDE68A;
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+    color: #78350F;
+}
+
+.status-badge.published {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.status-badge.published:hover {
+    background: #A7F3D0;
+    color: #064E3B;
+}
+
+.status-badge.published.active {
+    background: #A7F3D0;
+    border-color: #10B981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+    color: #064E3B;
+}
+
+/* Layout Admin Principal - Sidebar à gauche, articles à droite */
+.admin-layout {
+    display: flex;
+    gap: 2rem;
+    min-height: 500px;
+    align-items: flex-start;
+}
+
+.sidebar-column {
+    width: 320px;
+    flex-shrink: 0;
+    order: 1; /* Premier dans l'ordre visuel (gauche) */
+}
+
+.articles-section {
+    flex: 1;
+    min-width: 0; /* Important pour éviter le débordement */
+    order: 2; /* Deuxième dans l'ordre visuel (droite) */
+}
+
+/* Indicateur de filtrage */
+.filter-indicator {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--gray-200);
+}
+
+.filter-text {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-text strong {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.clear-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-500);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--gray-300);
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.clear-filter:hover {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+    background: #FEF2F2;
+    text-decoration: none;
+}
+
+/* ===== STYLES SIDEBAR AVEC FILTRES ===== */
+
+/* Sections de filtres */
+.filter-subsection {
+    margin-bottom: 2rem;
+}
+
+.filter-subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* Boutons de tri dans la sidebar */
+.btn-group-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-filter-sidebar {
+    display: block;
+    padding: 0.75rem 1rem;
+    background: var(--gray-50);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.btn-filter-sidebar:hover {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    text-decoration: none;
+    transform: translateX(3px);
+}
+
+.btn-filter-sidebar.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-dark);
+    box-shadow: 0 2px 8px rgba(11, 63, 137, 0.2);
+}
+
+/* Filtres de statut dans la sidebar */
+.status-filters-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.status-badge-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: var(--gray-50);
+}
+
+.status-badge-sidebar:hover {
+    text-decoration: none;
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge-sidebar.active {
+    background: white;
+    border-color: currentColor;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateX(6px);
+}
+
+.status-badge-sidebar.all.active {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.status-badge-sidebar.draft.active {
+    color: var(--gray-700);
+    border-color: var(--gray-500);
+}
+
+.status-badge-sidebar.scheduled.active {
+    color: #92400E;
+    border-color: #FEF3C7;
+    background: #FEF3C7;
+}
+
+.status-badge-sidebar.published.active {
+    color: #065F46;
+    border-color: #D1FAE5;
+    background: #D1FAE5;
+}
+
+.badge-icon {
+    font-size: 1rem;
+    filter: none;
+}
+
+/* Grille d'articles */
+.articles-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.article-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    padding: 2rem 2rem 1.5rem; /* Augmentation du padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem; /* Plus d'espace */
+}
+
+.article-title {
+    font-size: 1.5rem; /* Augmentation de 1.25rem à 1.5rem */
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: 0 0 0.75rem 0; /* Plus d'espace */
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    color: var(--gray-600);
+    margin: 0;
+    font-size: 1.1rem; /* Augmentation de 0.9rem à 1.1rem */
+    line-height: 1.6; /* Amélioration de la lisibilité */
+}
+
+.card-body {
+    padding: 0 2rem 1.5rem; /* Augmentation du padding */
+}
+
+.article-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Augmentation de 0.75rem à 1rem */
+}
+
+.meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.meta-label {
+    font-weight: 500;
+    color: var(--gray-600);
+    font-size: 1rem; /* Augmentation de 0.875rem à 1rem */
+}
+
+.meta-value {
+    color: var(--gray-800);
+    font-size: 1rem; /* Augmentation de 0.875rem à 1rem */
+}
+
+.future-date {
+    color: var(--warning-color);
+    font-weight: 500;
+}
+
+.card-actions {
+    padding: 1.5rem 2rem; /* Augmentation du padding */
+    background: var(--gray-50);
+    display: flex;
+    gap: 1rem; /* Augmentation de 0.75rem à 1rem */
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem; /* Augmentation du padding */
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem; /* Augmentation de 0.875rem à 1rem */
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Plus d'espace entre icône et texte */
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.action-btn.view {
+    background: var(--primary-color);
+    color: white;
+}
+
+.action-btn.view:hover {
+    background: var(--primary-light);
+    color: white;
+}
+
+.action-btn.edit {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+
+.action-btn.edit:hover {
+    background: var(--gray-300);
+    color: var(--gray-800);
+}
+
+.action-btn.delete {
+    background: var(--danger-color);
+    color: white;
+}
+
+.action-btn.delete:hover {
+    background: #DC2626;
+}
+
+/* Section des statistiques */
+.stats-section {
+    margin: 4rem 0; /* Augmentation de 3rem à 4rem */
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Augmentation de 200px à 250px */
+    gap: 2rem; /* Augmentation de 1.5rem à 2rem */
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem; /* Augmentation de 2rem à 3rem */
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+    font-size: 3.5rem; /* Augmentation de 2.5rem à 3.5rem */
+    margin-bottom: 1.5rem; /* Plus d'espace */
+}
+
+.stat-number {
+    font-size: 4rem; /* Augmentation de 3rem à 4rem */
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 0 0 0.75rem 0; /* Plus d'espace */
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 1.1rem; /* Ajout d'une taille de police */
+    margin: 0;
+}
+
+/* Modal moderne */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal-content-modern {
+    background: white;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    animation: modalShow 0.3s ease forwards;
+}
+
+@keyframes modalShow {
+    to {
+        transform: scale(1);
+    }
+}
+
+.modal-header-modern {
+    padding: 2rem 2rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-modern h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: var(--gray-100);
+}
+
+.modal-body-modern {
+    padding: 1rem 2rem;
+    text-align: center;
+}
+
+.warning-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.warning-text {
+    color: var(--danger-color);
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.modal-footer-modern {
+    padding: 1rem 2rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-cancel {
+    padding: 0.75rem 2rem;
+    border: 2px solid var(--gray-300);
+    background: white;
+    color: var(--gray-700);
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    border-color: var(--gray-400);
+    background: var(--gray-50);
+}
+
+.btn-delete-confirm {
+    padding: 0.75rem 2rem;
+    border: none;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-delete-confirm:hover {
+    background: #DC2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-title {
+        font-size: 2.5rem;
+    }
+    
+    .admin-subtitle {
+        font-size: 1rem;
+    }
+    
+    .btn-create {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .sidebar-column {
+        width: 280px;
+    }
+    
+    .sidebar-section {
+        padding: 1.5rem;
+    }
+    
+    .countdown-display-sidebar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .time-unit-sidebar {
+        padding: 0.75rem 0.25rem;
+    }
+    
+    .time-value-sidebar {
+        font-size: 1rem;
+    }
+    
+    .notifications-container {
+        right: 10px;
+        top: 350px; /* Position plus basse pour tablette */
+        max-width: 400px;
+    }
+    
+    .notification-card {
+        padding: 1.75rem 2rem;
+    }
+    
+    .notification-content h4 {
+        font-size: 1.25rem;
+    }
+    
+    .notification-content p {
+        font-size: 1.125rem;
+    }
+    
+    .notification-close {
+        width: 30px;
+        height: 30px;
+        top: -6px;
+        right: -6px;
+        font-size: 14px;
+    }
+    
+    .btn-group-modern {
+        flex-direction: column;
+    }
+    
+    .card-actions {
+        flex-direction: column;
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .admin-hero {
+        padding: 2rem 0;
+    }
+    
+    .admin-layout {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .sidebar-column {
+        width: 100%;
+        order: 1; /* Sidebar en premier sur mobile aussi */
+    }
+    
+    .articles-section {
+        order: 2; /* Articles après la sidebar sur mobile */
+    }
+    
+    .sidebar-section {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-title {
+        font-size: 1rem;
+    }
+    
+    .countdown-display-sidebar {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.25rem;
+    }
+    
+    .time-unit-sidebar {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .time-value-sidebar {
+        font-size: 0.875rem;
+    }
+    
+    .time-label-sidebar {
+        font-size: 0.6rem;
+    }
+    
+    .notifications-container {
+        position: static;
+        margin: 0.5rem;
+        order: -1;
+        max-width: 100%;
+    }
+    
+    .notification-card {
+        padding: 1.5rem 1.75rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .notification-content h4 {
+        font-size: 1.125rem;
+    }
+    
+    .notification-content p {
+        font-size: 1rem;
+    }
+    
+    .notification-close {
+        width: 28px;
+        height: 28px;
+        top: -6px;
+        right: -6px;
+        font-size: 12px;
+    }
+}
+</style>
+
+<script>
+// Variables globales
+let currentBlogId = null;
+let currentBlogTitle = null;
+let countdownInterval = null;
+
+// Fonction pour le minuteur en temps réel
+function initializeCountdown() {
+    const countdownElement = document.querySelector('.countdown-display-sidebar');
+    if (!countdownElement) return;
+    
+    const publishTime = countdownElement.getAttribute('data-publish-time');
+    const timezone = countdownElement.getAttribute('data-timezone');
+    
+    if (!publishTime) return;
+    
+    // Parse de la date de publication (format: Y-m-d H:i:s)
+    // La date vient déjà du serveur en fuseau horaire de Paris, donc on la parse directement
+    const targetDate = new Date(publishTime.replace(' ', 'T'));
+    
+    function updateCountdown() {
+        const now = new Date();
+        const difference = targetDate.getTime() - now.getTime();
+        
+        if (difference > 0) {
+            // Calculer les unités de temps
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            
+            // Mettre à jour l'affichage avec les nouveaux IDs
+            const timerDays = document.getElementById('timer-days');
+            const timerHours = document.getElementById('timer-hours');
+            const timerMinutes = document.getElementById('timer-minutes');
+            const timerSeconds = document.getElementById('timer-seconds');
+            
+            if (timerDays) timerDays.textContent = days.toString().padStart(2, '0');
+            if (timerHours) timerHours.textContent = hours.toString().padStart(2, '0');
+            if (timerMinutes) timerMinutes.textContent = minutes.toString().padStart(2, '0');
+            if (timerSeconds) timerSeconds.textContent = seconds.toString().padStart(2, '0');
+        } else {
+            // Le temps est écoulé, faire disparaître le minuteur et recharger la page
+            const timerSection = document.querySelector('.sidebar-section:has(.countdown-display-sidebar)');
+            if (timerSection) {
+                timerSection.style.opacity = '0.5';
+                timerSection.innerHTML = `
+                    <h3 class="sidebar-title">⏱️ Publication en cours...</h3>
+                    <div class="timer-expired">
+                        <p>L'article est en cours de publication automatique.</p>
+                        <div class="loading-spinner"></div>
+                    </div>
+                `;
+            }
+            
+            // Recharger la page après 3 secondes pour voir l'article publié
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+            
+            clearInterval(countdownInterval);
+        }
+    }
+    
+    // Mettre à jour immédiatement puis chaque seconde
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+// Initialiser le minuteur au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCountdown();
+});
+
+// Fonction pour fermer les notifications
+function closeNotification(notificationId) {
+    const notification = document.getElementById(notificationId);
+    if (notification) {
+        notification.style.animation = 'slideOutToRight 0.3s ease-in';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }
+}
+
+// Fonction pour confirmer la suppression
+function confirmDelete(blogId, blogTitle) {
+    currentBlogId = blogId;
+    currentBlogTitle = blogTitle;
+    
+    // Mettre à jour le contenu de la modal
+    document.getElementById('articleToDelete').textContent = '"' + blogTitle + '"';
+    document.getElementById('deleteForm').action = '{{ path('blog_delete', {'id': 'BLOG_ID'}) }}'.replace('BLOG_ID', blogId);
+    document.getElementById('deleteToken').value = '{{ csrf_token('delete') }}' + blogId;
+    
+    // Afficher la modal
+    document.getElementById('deleteModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// Fonction pour fermer la modal de suppression
+function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    currentBlogId = null;
+    currentBlogTitle = null;
+}
+
+// Fermer la modal en cliquant sur l'overlay
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'deleteModal') {
+        closeDeleteModal();
+    }
+});
+
+// Fermer la modal avec Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeDeleteModal();
+    }
+});
+
+// Amélioration UX pour le filtrage
+document.addEventListener('DOMContentLoaded', function() {
+    // Ajouter des indicateurs de chargement lors du filtrage
+    const filterLinks = document.querySelectorAll('.status-badge, .stat-item');
+    
+    filterLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Ajouter un indicateur de chargement visuel
+            const originalText = this.textContent;
+            const isStatItem = this.classList.contains('stat-item');
+            
+            if (!isStatItem) {
+                this.style.opacity = '0.7';
+                this.style.pointerEvents = 'none';
+            }
+            
+            // Restaurer après un délai court pour donner un feedback
+            setTimeout(() => {
+                if (!isStatItem) {
+                    this.style.opacity = '';
+                    this.style.pointerEvents = '';
+                }
+            }, 200);
+        });
+    });
+    
+    // Animation d'entrée pour les articles
+    const articleCards = document.querySelectorAll('.article-card');
+    articleCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.4s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 50);
+    });
+});
+</script>
+{% endblock %}

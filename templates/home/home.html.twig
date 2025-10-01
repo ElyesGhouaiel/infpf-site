@@ -198,8 +198,15 @@
 			}
 
 			.modern-select {
-				padding: 16px 45px 16px 16px;
-				font-size: 15px;
+				padding: 22px 65px 22px 28px;
+				font-size: 18px;
+				border-radius: 22px;
+				min-height: 70px;
+				border-width: 4px;
+				box-shadow: 
+					0 12px 40px rgba(11, 63, 137, 0.4), 
+					inset 0 2px 8px rgba(11, 63, 137, 0.1),
+					0 0 0 2px rgba(255, 255, 255, 1);
 			}
 
 			.select-arrow {
@@ -216,7 +223,17 @@
 			}
 
 			.scroll-arrow-simple {
-				font-size: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20px;
+			height: 20px;
+		}
+
+		.scroll-arrow-simple svg {
+			width: 100%;
+			height: 100%;
+			color: inherit;
 			}
 
 			.wave-separator {
@@ -247,7 +264,8 @@
 			}
 
 			.question-subtitle {
-				font-size: 14px;
+				font-size: 16px;
+				margin-bottom: 24px;
 			}
 
 			.cta-buttons {
@@ -266,8 +284,15 @@
 			}
 
 			.modern-select {
-				padding: 14px 40px 14px 14px;
-				font-size: 14px;
+				padding: 20px 60px 20px 26px;
+				font-size: 17px;
+				border-radius: 20px;
+				min-height: 64px;
+				border-width: 4px;
+				box-shadow: 
+					0 10px 35px rgba(11, 63, 137, 0.35), 
+					inset 0 2px 6px rgba(11, 63, 137, 0.1),
+					0 0 0 2px rgba(255, 255, 255, 1);
 			}
 
 			.scroll-indicator {
@@ -445,6 +470,7 @@
 			gap: 30px;
 			max-width: 1400px;
 			margin: 0 auto;
+			padding: 20px;
 }
 
 .category {
@@ -494,6 +520,94 @@
 			overflow: hidden;
 		}
 
+		/* ===== CATÉGORIE IA EN OR ===== */
+		.category.ia-category .category-title {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+			color: #1a1a1a;
+			font-weight: 800;
+			text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+			position: relative;
+		}
+
+		.category.ia-category .category-title::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+			transition: left 0.3s;
+		}
+
+		.category.ia-category .category-card {
+			border: 3px solid #FFD700;
+			box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+			position: relative;
+		}
+
+		.category.ia-category:not(.expanded) .category-card:hover {
+			transform: translateY(-12px) scale(1.03);
+			box-shadow: 
+				0 20px 60px rgba(255, 215, 0, 0.4),
+				0 0 30px rgba(255, 215, 0, 0.6);
+			border-color: #FFA500;
+		}
+
+		.category.ia-category .category-card:hover .category-title::before {
+			left: 100%;
+		}
+
+		/* ===== BADGE NOUVEAU POUR CATÉGORIE IA ===== */
+		.category.ia-category .category-card::after {
+			content: 'NOUVEAU';
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%);
+			color: white;
+			font-size: 12px;
+			font-weight: 900;
+			padding: 8px 16px;
+			border-radius: 20px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			box-shadow: 
+				0 4px 12px rgba(255, 107, 107, 0.4),
+				0 2px 6px rgba(255, 107, 107, 0.6);
+			z-index: 10;
+			animation: pulse-badge 2s infinite;
+			border: 2px solid rgba(255, 255, 255, 0.9);
+		}
+
+		.category.ia-category:hover .category-card::after {
+			transform: scale(1.1);
+			box-shadow: 
+				0 6px 20px rgba(255, 107, 107, 0.6),
+				0 3px 10px rgba(255, 107, 107, 0.8);
+		}
+
+		@keyframes pulse-badge {
+			0%, 100% { 
+				transform: scale(1);
+				box-shadow: 
+					0 4px 12px rgba(255, 107, 107, 0.4),
+					0 2px 6px rgba(255, 107, 107, 0.6);
+			}
+			50% { 
+				transform: scale(1.05);
+				box-shadow: 
+					0 6px 18px rgba(255, 107, 107, 0.6),
+					0 3px 10px rgba(255, 107, 107, 0.8);
+			}
+		}
+
+		/* ===== AJUSTEMENT BADGE QUAND MODAL OUVERTE ===== */
+		.category.ia-category.expanded .category-card::after {
+			right: 70px; /* Déplace vers la gauche pour éviter la croix */
+			top: 20px;
+		}
+
 		.category-title::before {
 			content: '';
 			position: absolute;
@@ -505,11 +619,48 @@
 			transition: left 0.3s;
 		}
 
+		/* ===== MASQUAGE INTELLIGENT DES AUTRES CATÉGORIES ===== */
+		body.modal-open .category:not(.expanded) {
+			opacity: 0.3;
+			pointer-events: none;
+			filter: blur(2px);
+			transform: scale(0.98);
+			transition: all 0.4s ease;
+		}
+
+		body.modal-open .category.expanded {
+			opacity: 1;
+			pointer-events: all;
+			filter: none;
+			transform: scale(1);
+		}
+
+		/* ===== ANIMATION RAPIDE D'APPARITION AVEC DÉGRADÉ ===== */
+		.category {
+			animation: fastFadeInGradient 0.6s ease-out;
+		}
+
+		@keyframes fastFadeInGradient {
+			0% {
+				opacity: 0;
+				transform: translateY(20px);
+				background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+			}
+			60% {
+				background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
+			}
+			100% {
+				opacity: 1;
+				transform: translateY(0);
+				background: transparent;
+			}
+		}
+
 		.category:not(.expanded) .category-card:hover .category-title::before {
 			left: 100%;
 		}
 
-				/* ===== SYSTÈME MODAL EN PREMIER PLAN ===== */
+				/* ===== SYSTÈME MODAL CENTRÉ AVEC TRANSITION FLUIDE ===== */
 		.category.expanded {
 			position: fixed !important;
 			top: 50% !important;
@@ -522,7 +673,8 @@
 			margin: 0 !important;
 			padding: 0 !important;
 			grid-column: auto !important;
-			animation: modalAppear 0.3s ease-out;
+			animation: smoothExpandToCenter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+			box-shadow: 0 25px 80px rgba(11, 63, 137, 0.6);
 		}
 
 		.category.expanded .category-card {
@@ -533,8 +685,10 @@
 			gap: 0;
 			margin: 0 !important;
 			overflow: hidden;
-			box-shadow: 0 25px 80px rgba(11, 63, 137, 0.3);
-			border: 2px solid rgba(11, 63, 137, 0.1);
+			overflow-y: auto;
+			max-height: 90vh;
+			box-shadow: 0 30px 100px rgba(11, 63, 137, 0.5);
+			border: 3px solid rgba(11, 63, 137, 0.3);
 			border-radius: 20px;
 			background: rgba(255, 255, 255, 0.98);
 			backdrop-filter: blur(20px);
@@ -545,6 +699,7 @@
 			height: 100%;
 			min-height: 500px;
 			border-radius: 18px 0 0 18px;
+			object-fit: cover;
 		}
 
 		.category.expanded .category-title {
@@ -556,7 +711,7 @@
 			border-radius: 18px 18px 0 0;
 		}
 
-		/* ===== OVERLAY ARRIÈRE-PLAN ===== */
+		/* ===== OVERLAY ARRIÈRE-PLAN RÉACTIVÉ ===== */
 		.modal-overlay {
 			position: fixed;
 			top: 0;
@@ -568,7 +723,7 @@
 			z-index: 999;
 			opacity: 0;
 			visibility: hidden;
-			transition: all 0.3s ease;
+			transition: all 0.4s ease;
 		}
 
 		.modal-overlay.active {
@@ -576,30 +731,44 @@
 			visibility: visible;
 		}
 
-		/* ===== ANIMATION DIRECTE AU CENTRE ===== */
-		@keyframes modalAppear {
+		/* ===== ANIMATION FLUIDE VERS LE CENTRE ===== */
+		@keyframes smoothExpandToCenter {
 			0% {
-				opacity: 0;
-				transform: translate(-50%, -50%) scale(0.8);
+				transform: translate(-50%, -50%) scale(0.85);
+				opacity: 0.8;
+				box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+			}
+			60% {
+				transform: translate(-50%, -50%) scale(1.05);
+				opacity: 0.95;
+				box-shadow: 0 20px 60px rgba(11, 63, 137, 0.4);
 			}
 			100% {
-				opacity: 1;
 				transform: translate(-50%, -50%) scale(1);
+				opacity: 1;
+				box-shadow: 0 25px 80px rgba(11, 63, 137, 0.6);
 			}
 		}
 
 		.category.closing {
-			animation: modalDisappear 0.3s ease-in forwards;
+			animation: smoothShrinkFromCenter 0.4s ease-in forwards;
 		}
 
-		@keyframes modalDisappear {
+		@keyframes smoothShrinkFromCenter {
 			0% {
-				opacity: 1;
 				transform: translate(-50%, -50%) scale(1);
+				opacity: 1;
+				box-shadow: 0 25px 80px rgba(11, 63, 137, 0.6);
+			}
+			40% {
+				transform: translate(-50%, -50%) scale(0.95);
+				opacity: 0.8;
+				box-shadow: 0 15px 40px rgba(11, 63, 137, 0.4);
 			}
 			100% {
-				opacity: 0;
 				transform: translate(-50%, -50%) scale(0.8);
+				opacity: 0;
+				box-shadow: 0 5px 15px rgba(11, 63, 137, 0.2);
 			}
 		}
 
@@ -672,11 +841,19 @@
 		}
 
 		.formation-arrow {
-			font-size: 18px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 18px;
+			height: 18px;
 			color: #0b3f89;
-  font-weight: bold;
 			margin-left: 10px;
 			transition: transform 0.3s ease;
+		}
+
+		.formation-arrow svg {
+			width: 100%;
+			height: 100%;
 		}
 
 		.formation-item:hover .formation-arrow {
@@ -997,6 +1174,55 @@
 			box-shadow: 0 5px 15px rgba(11, 63, 137, 0.4);
 }
 
+		/* ===== BOUTON VOIR TOUS LES ARTICLES OPTIMISÉ ===== */
+		.btn-view-all-articles {
+			display: inline-block;
+			padding: 14px 28px;
+			background: rgba(255, 255, 255, 0.15);
+			color: #0b3f89;
+			text-decoration: none;
+			border: 2px solid #0b3f89;
+			border-radius: 25px;
+			font-size: 16px;
+			font-weight: 600;
+			transition: all 0.3s ease;
+			backdrop-filter: blur(10px);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.btn-view-all-articles::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(135deg, #0b3f89, #1e5cb8);
+			transition: left 0.4s ease;
+			z-index: -1;
+		}
+
+		.btn-view-all-articles:hover {
+			color: white;
+			border-color: #1e5cb8;
+			transform: translateY(-2px);
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+			text-decoration: none;
+		}
+
+		.btn-view-all-articles:hover::before {
+			left: 0;
+		}
+
+		/* ===== CONTENEUR CTA BLOG ===== */
+		.blog-cta-container {
+			text-align: center;
+			margin: 60px auto 0;
+			padding: 30px 20px;
+			max-width: 400px;
+}
+
 		/* ===== VIDEO SECTION MODERNISÉE (COULEURS COHÉRENTES AVEC LE SITE) ===== */
 		.video-section {
 			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
@@ -1083,11 +1309,23 @@
 		}
 
 		.contact-info h2 {
-			font-size: clamp(2.5rem, 5vw, 4rem);
+			font-size: clamp(2.2rem, 4.5vw, 3.5rem);
 			font-weight: 700;
 			margin-bottom: 30px;
-			line-height: 1.2;
+			line-height: 1.3;
 			color: #0b3f89;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		/* Titre contact sans césure sur écrans moyens et grands */
+		@media (min-width: 640px) {
+			.contact-info h2 {
+				white-space: normal;
+				overflow: visible;
+				text-overflow: initial;
+			}
 		}
 
 		.contact-info p {
@@ -1332,6 +1570,18 @@
 				gap: 20px;
   }
 
+			/* Bouton voir tous les articles responsive */
+			.btn-view-all-articles {
+				padding: 12px 24px;
+				font-size: 15px;
+				border-radius: 22px;
+			}
+
+			.blog-cta-container {
+				margin: 40px auto 0;
+				padding: 20px 16px;
+  }
+
 			.wp-block-formation-financable-cpf {
 				grid-template-columns: 1fr;
 				gap: 40px;
@@ -1362,7 +1612,19 @@
 			}
 
 			.contact-info h2 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  		/* Gestion spéciale pour très petits écrans */
+  		@media (max-width: 400px) {
+  			.contact-info h2 {
+  				font-size: 1.9rem;
+  				white-space: normal;
+  				hyphens: none;
+  				word-break: keep-all;
+  			}
   }
 
 			.contact-info p {
@@ -1578,16 +1840,20 @@
 
 		.question-title {
 			color: white;
-			font-size: clamp(20px, 3vw, 28px);
-			font-weight: 600;
-			margin: 0 0 12px 0;
+			font-size: clamp(24px, 4vw, 32px);
+			font-weight: 700;
+			margin: 0 0 16px 0;
+			text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+			letter-spacing: 0.3px;
 		}
 
 		.question-subtitle {
-			color: rgba(255, 255, 255, 0.8);
-			font-size: 16px;
-			margin: 0;
+			color: rgba(255, 255, 255, 0.95);
+			font-size: 18px;
+			font-weight: 500;
+			margin: 0 0 28px 0;
 			line-height: 1.5;
+			text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 		}
 
 		.form-field {
@@ -1600,41 +1866,68 @@
 
 		.modern-select {
 			width: 100%;
-			padding: 18px 50px 18px 20px;
-			background: rgba(255, 255, 255, 0.9);
-			border: 2px solid rgba(255, 255, 255, 0.3);
-			border-radius: 16px;
-			font-size: 16px;
-			font-weight: 500;
-			color: #333;
+			padding: 24px 70px 24px 32px;
+			background: linear-gradient(135deg, #ffffff, #f8fbff);
+			border: 5px solid #0b3f89;
+			border-radius: 25px;
+			font-size: 20px;
+			font-weight: 800;
+			color: #0b3f89;
 			appearance: none;
 			cursor: pointer;
-			transition: var(--transition);
-			backdrop-filter: blur(10px);
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			backdrop-filter: blur(25px);
+			box-shadow: 
+				0 15px 50px rgba(11, 63, 137, 0.4), 
+				inset 0 3px 12px rgba(11, 63, 137, 0.15),
+				0 0 0 3px rgba(255, 255, 255, 1),
+				0 0 25px rgba(11, 63, 137, 0.2);
+			min-height: 80px;
+			position: relative;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
 		}
 
 		.modern-select:hover {
-			background: white;
-			border-color: rgba(255, 255, 255, 0.5);
-			transform: translateY(-2px);
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			background: linear-gradient(135deg, #e8f4f8, #ffffff);
+			border-color: #1e5cb8;
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 
+				0 25px 60px rgba(11, 63, 137, 0.5), 
+				inset 0 4px 16px rgba(30, 92, 184, 0.2),
+				0 0 0 5px rgba(255, 255, 255, 1),
+				0 0 40px rgba(11, 63, 137, 0.4),
+				0 0 80px rgba(30, 92, 184, 0.2);
 		}
 
 		.modern-select:focus {
 			outline: none;
-			background: white;
-			border-color: white;
-			box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+			background: linear-gradient(135deg, #e0f7fa, #ffffff);
+			border-color: #00b4d8;
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 
+				0 25px 60px rgba(0, 180, 216, 0.6), 
+				inset 0 4px 16px rgba(0, 180, 216, 0.25),
+				0 0 0 6px rgba(255, 255, 255, 1),
+				0 0 50px rgba(0, 180, 216, 0.5),
+				0 0 100px rgba(0, 180, 216, 0.3);
 		}
 
 		.select-arrow {
 			position: absolute;
-			right: 20px;
+			right: 32px;
 			top: 50%;
-			transform: translateY(-50%);
-			color: #666;
+			transform: translateY(-50%) scale(1.8);
+			color: #0b3f89;
 			pointer-events: none;
-			transition: var(--transition);
+			transition: all 0.4s ease;
+			filter: drop-shadow(0 4px 8px rgba(11, 63, 137, 0.5));
+			animation: pulse 2s ease-in-out infinite;
+		}
+
+		@keyframes pulse {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.7; }
 		}
 
 		.modern-select:hover + .select-arrow {
@@ -1642,15 +1935,722 @@
 		}
 
 		.modern-select optgroup {
-			font-weight: 600;
-			color: var(--primary-color, #0b3f89);
-			background: #f8f9fa;
+			font-weight: 900;
+			color: white;
+			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			padding: 16px 24px;
+			margin: 8px 0;
+			border: none;
+			border-top: 5px solid #ffffff;
+			border-bottom: 5px solid #00b4d8;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-size: 16px;
+			text-align: center;
+			box-shadow: 
+				inset 0 2px 8px rgba(255, 255, 255, 0.3),
+				0 4px 16px rgba(11, 63, 137, 0.4);
+			position: relative;
+		}
+
+		.modern-select optgroup::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
 		}
 
 		.modern-select option {
-			padding: 12px;
-			font-weight: 400;
-			color: #333;
+			padding: 18px 28px;
+			font-weight: 600;
+			color: #2d3748;
+			background: white;
+			border: none;
+			border-bottom: 3px solid #e2e8f0;
+			border-left: 6px solid transparent;
+			border-right: 2px solid #f1f5f9;
+			line-height: 1.8;
+			margin: 2px 0;
+			font-size: 16px;
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			position: relative;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.modern-select option::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 3px;
+			background: linear-gradient(180deg, #e2e8f0, #cbd5e1);
+			transition: all 0.3s ease;
+		}
+
+		.modern-select option:hover {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.15) 0%, rgba(30, 92, 184, 0.1) 50%, rgba(0, 180, 216, 0.05) 100%);
+			color: #0b3f89;
+			border-left: 6px solid #0b3f89;
+			border-bottom: 3px solid #1e5cb8;
+			border-right: 2px solid #00b4d8;
+			transform: translateX(8px) scale(1.02);
+			font-weight: 700;
+			box-shadow: 
+				0 6px 20px rgba(11, 63, 137, 0.2),
+				inset 0 1px 4px rgba(255, 255, 255, 0.8);
+		}
+
+		.modern-select option:hover::before {
+			width: 6px;
+			background: linear-gradient(180deg, #0b3f89, #1e5cb8, #00b4d8);
+		}
+
+		.modern-select option:nth-child(even) {
+			background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+			border-right: 2px solid #e2e8f0;
+		}
+
+		.modern-select option:nth-child(even):hover {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.2) 0%, rgba(30, 92, 184, 0.15) 50%, rgba(0, 180, 216, 0.1) 100%);
+		}
+
+		.modern-select option:first-of-type {
+			border-top: 3px solid #cbd5e1;
+			margin-top: 4px;
+		}
+
+		.modern-select option:last-of-type {
+			border-bottom: 4px solid #94a3b8;
+			margin-bottom: 4px;
+		}
+
+		/* Accessibilité - Label pour lecteurs d'écran */
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
+		}
+
+		/* ===== NOUVEAU COMPOSANT DE SÉLECTION MODERNE ===== */
+		.formation-selector-modern {
+			position: relative;
+			width: 100%;
+		}
+
+		.formation-placeholder {
+			width: 100%;
+			background: linear-gradient(135deg, #ffffff, #f8fbff);
+			border: 5px solid #0b3f89;
+			border-radius: 25px;
+			cursor: pointer;
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			backdrop-filter: blur(25px);
+			box-shadow: 
+				0 15px 50px rgba(11, 63, 137, 0.4), 
+				inset 0 3px 12px rgba(11, 63, 137, 0.15),
+				0 0 0 3px rgba(255, 255, 255, 1),
+				0 0 25px rgba(11, 63, 137, 0.2);
+			min-height: 90px;
+			overflow: hidden;
+		}
+
+		.placeholder-content {
+			display: flex;
+			align-items: center;
+			padding: 24px 32px;
+			justify-content: space-between;
+		}
+
+		.placeholder-text {
+			flex: 1;
+		}
+
+		.placeholder-title {
+			font-size: 20px;
+			font-weight: 900;
+			color: #0b3f89;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			margin-bottom: 4px;
+		}
+
+		.placeholder-subtitle {
+			font-size: 14px;
+			font-weight: 600;
+			color: #1e5cb8;
+			opacity: 0.8;
+		}
+
+		.placeholder-arrow {
+			color: #0b3f89;
+			transition: all 0.3s ease;
+			filter: drop-shadow(0 2px 4px rgba(11, 63, 137, 0.3));
+			margin-left: 30px;
+		}
+
+		.formation-placeholder:hover {
+			background: linear-gradient(135deg, #e8f4f8, #ffffff);
+			border-color: #1e5cb8;
+			transform: translateY(-6px) scale(1.02);
+			box-shadow: 
+				0 25px 60px rgba(11, 63, 137, 0.5), 
+				inset 0 4px 16px rgba(30, 92, 184, 0.2),
+				0 0 0 5px rgba(255, 255, 255, 1),
+				0 0 40px rgba(11, 63, 137, 0.4);
+		}
+
+		.formation-placeholder:hover .placeholder-arrow {
+			transform: translateY(2px);
+			color: #1e5cb8;
+		}
+
+		/* Dropdown avec contexte de stacking indépendant */
+		.formation-dropdown {
+			position: fixed !important;
+			top: auto !important;
+			left: 50% !important;
+			transform: translateX(-50%) !important;
+			width: 90% !important;
+			max-width: 800px !important;
+			z-index: 2147483647 !important; /* Plus haut z-index possible */
+			background: #ffffff !important;
+			border: 3px solid #0b3f89 !important;
+			border-radius: 25px !important;
+			box-shadow: 
+				0 25px 80px rgba(11, 63, 137, 0.8) !important,
+				inset 0 3px 12px rgba(11, 63, 137, 0.1) !important;
+			max-height: 70vh !important;
+			overflow-y: auto !important;
+			backdrop-filter: blur(25px) !important;
+			visibility: visible !important;
+			opacity: 1 !important;
+			isolation: isolate !important; /* Crée un nouveau contexte de stacking */
+			contain: layout style !important; /* Optimisation de rendu */
+		}
+
+		/* S'assurer que le dropdown soit visible quand ouvert */
+		.formation-dropdown[style*="display: block"] {
+			display: block !important;
+			visibility: visible !important;
+			opacity: 1 !important;
+			z-index: 2147483647 !important;
+		}
+
+		/* Forcer tous les enfants du dropdown à être visibles */
+		.formation-dropdown * {
+			z-index: auto !important;
+			position: relative !important;
+		}
+
+		/* Forcer le dropdown au-dessus de tout, même de la section IA */
+		body .formation-dropdown {
+			z-index: 2147483647 !important;
+			position: fixed !important;
+		}
+
+		/* Réduire le z-index de tous les autres éléments potentiellement gênants */
+		.featured-formation-banner,
+		.featured-formation-banner *,
+		.scroll-indicator,
+		.wave-separator {
+			z-index: 1 !important;
+		}
+
+		/* Bouton de fermeture du modal */
+		.modal-close-button {
+			position: absolute !important;
+			top: 20px !important;
+			right: 20px !important;
+			width: 40px !important;
+			height: 40px !important;
+			background: rgba(11, 63, 137, 0.1) !important;
+			border: 2px solid #0b3f89 !important;
+			border-radius: 50% !important;
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			cursor: pointer !important;
+			transition: all 0.3s ease !important;
+			color: #0b3f89 !important;
+			z-index: 10 !important;
+		}
+
+		.modal-close-button:hover {
+			background: #0b3f89 !important;
+			color: white !important;
+			transform: scale(1.1) !important;
+			box-shadow: 0 5px 15px rgba(11, 63, 137, 0.3) !important;
+		}
+
+		.modal-close-button svg {
+			width: 20px !important;
+			height: 20px !important;
+		}
+
+		/* Bouton "Voir plus" de formations */
+		.voir-plus-formations {
+			display: flex;
+			align-items: center;
+			padding: 20px;
+			background: linear-gradient(135deg, #f0f8ff, #e8f4f8);
+			border: 2px dashed #0b3f89;
+			border-radius: 15px;
+			cursor: pointer;
+			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			margin-top: 8px;
+		}
+
+		.voir-plus-formations:hover {
+			background: linear-gradient(135deg, #e8f4f8, #d4edda);
+			border-color: #1e5cb8;
+			transform: translateY(-2px);
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+		}
+
+		.voir-plus-content {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			width: 100%;
+		}
+
+		.voir-plus-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 48px;
+			height: 48px;
+			background: rgba(11, 63, 137, 0.1);
+			border-radius: 12px;
+			color: #0b3f89;
+			transition: all 0.3s ease;
+		}
+
+		.voir-plus-formations:hover .voir-plus-icon {
+			background: #0b3f89;
+			color: white;
+			transform: scale(1.1);
+		}
+
+		.voir-plus-text {
+			flex-grow: 1;
+		}
+
+		.voir-plus-title {
+			font-weight: 700;
+			font-size: 16px;
+			color: #0b3f89;
+			margin-bottom: 4px;
+		}
+
+		.voir-plus-count {
+			font-size: 14px;
+			color: #666;
+			font-weight: 500;
+		}
+
+		.voir-plus-arrow {
+			color: #0b3f89;
+			transition: transform 0.3s ease;
+		}
+
+		.voir-plus-formations:hover .voir-plus-arrow {
+			transform: translateX(5px);
+		}
+
+		.formation-category-section {
+			padding: 24px;
+		}
+
+		.category-header {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			margin-bottom: 20px;
+			padding: 16px 20px;
+			border-radius: 15px;
+			/* PAS de color ici - laissé aux spécificités */
+			/* PAS de box-shadow ici - laissé aux spécificités */
+			/* IMPORTANT : Pas de background ici pour éviter d'écraser les spécificités */
+		}
+
+		/* Fond bleu SEULEMENT pour les catégories NON-IA */
+		.formation-category-section:not([data-category="ia"]) .category-header {
+			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			color: white;
+			box-shadow: 0 8px 24px rgba(11, 63, 137, 0.3);
+		}
+
+		/* OVERRIDE SPÉCIFIQUE POUR IA - Le plus prioritaire possible */
+		[data-category="ia"] .category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			color: #1a1a1a !important;
+			border: 2px solid #FFD700 !important;
+			box-shadow: 
+				0 8px 32px rgba(255, 215, 0, 0.3) !important,
+				0 4px 16px rgba(255, 165, 0, 0.2) !important;
+		}
+
+		/* FORCE ULTIME - Même les styles inline ne peuvent pas surpasser ça */
+		.formation-dropdown [data-category="ia"] .category-header,
+		#formationDropdown [data-category="ia"] .category-header,
+		div[id="formationDropdown"] div[data-category="ia"] div.category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			color: #1a1a1a !important;
+			border: 2px solid #FFD700 !important;
+			box-shadow: 
+				0 8px 32px rgba(255, 215, 0, 0.3) !important,
+				0 4px 16px rgba(255, 165, 0, 0.2) !important;
+		}
+
+		.formation-dropdown [data-category="ia"] .category-title,
+		#formationDropdown [data-category="ia"] .category-title {
+			color: #1a1a1a !important;
+			font-weight: 900 !important;
+		}
+
+		.formation-dropdown [data-category="ia"] .category-count,
+		#formationDropdown [data-category="ia"] .category-count {
+			background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
+			color: #FFD700 !important;
+			border: 2px solid #FFD700 !important;
+			font-weight: 900 !important;
+		}
+
+		/* ANNULATION ULTRA SPÉCIFIQUE DU FOND BLEU */
+		.formation-dropdown .formation-category-section[data-category="ia"] .category-header,
+		#formationDropdown .formation-category-section[data-category="ia"] .category-header,
+		div[id="formationDropdown"] .formation-category-section[data-category="ia"] .category-header,
+		[data-category="ia"] .category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			background-color: #FFD700 !important;
+		}
+
+		/* Suppression explicite des styles bleus */
+		.category-header[style*="0b3f89"],
+		.category-header[style*="1e5cb8"],
+		.category-header[style*="00b4d8"] {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+		}
+
+		/* RÈGLE ULTIME - SPÉCIFICITÉ MAXIMALE POUR IA */
+		div.formation-dropdown div[data-category="ia"] div.category-header,
+		#formationDropdown div[data-category="ia"] div.category-header,
+		div[id="formationDropdown"] div[data-category="ia"] div.category-header,
+		.formation-category-section[data-category="ia"] div.category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			background-color: #FFD700 !important;
+			color: #1a1a1a !important;
+		}
+
+		.category-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 24px;
+			height: 24px;
+			color: white;
+			animation: bounce-icon 2s ease-in-out infinite;
+		}
+
+		.category-icon svg {
+			width: 100%;
+			height: 100%;
+		}
+
+		.category-title {
+			flex: 1;
+			margin: 0;
+			font-size: 18px;
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.category-count {
+			background: linear-gradient(135deg, #ffffff, #f0f8ff);
+			border: 2px solid #0b3f89;
+			padding: 8px 16px;
+			border-radius: 25px;
+			font-size: 14px;
+			font-weight: 800;
+			color: #0b3f89;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			box-shadow: 
+				0 4px 15px rgba(11, 63, 137, 0.3),
+				inset 0 2px 8px rgba(255, 255, 255, 0.8);
+			backdrop-filter: blur(15px);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.category-count::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+			transition: left 0.5s ease;
+		}
+
+		.category-header:hover .category-count::before {
+			left: 100%;
+		}
+
+		.category-header:hover .category-count {
+			background: linear-gradient(135deg, #e8f4f8, #ffffff);
+			transform: scale(1.05);
+			box-shadow: 
+				0 6px 20px rgba(11, 63, 137, 0.4),
+				inset 0 2px 10px rgba(255, 255, 255, 0.9);
+		}
+
+		/* ===== CATÉGORIE IA SPÉCIALE EN OR ===== */
+		.formation-category-section[data-category="ia"] .category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			color: #1a1a1a !important;
+			border: 2px solid #FFD700 !important;
+			box-shadow: 
+				0 8px 32px rgba(255, 215, 0, 0.3),
+				0 4px 16px rgba(255, 165, 0, 0.2) !important;
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* S'assurer que c'est appliqué aussi dans le dropdown avec spécificité maximale */
+		.formation-dropdown #formationDropdown .formation-category-section[data-category="ia"] .category-header,
+		#formationDropdown .formation-category-section[data-category="ia"] .category-header,
+		div[id="formationDropdown"] .formation-category-section[data-category="ia"] .category-header {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			color: #1a1a1a !important;
+			border: 2px solid #FFD700 !important;
+			box-shadow: 
+				0 8px 32px rgba(255, 215, 0, 0.3),
+				0 4px 16px rgba(255, 165, 0, 0.2) !important;
+		}
+
+		.formation-category-section[data-category="ia"] .category-header::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+			transition: left 0.3s ease;
+		}
+
+		.formation-category-section[data-category="ia"] .category-header:hover::before {
+			left: 100%;
+		}
+
+		.formation-category-section[data-category="ia"] .category-title,
+		#formationDropdown .formation-category-section[data-category="ia"] .category-title {
+			color: #1a1a1a !important;
+			font-weight: 900 !important;
+			text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3) !important;
+		}
+
+		.formation-category-section[data-category="ia"] .category-count,
+		#formationDropdown .formation-category-section[data-category="ia"] .category-count {
+			background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
+			color: #FFD700 !important;
+			border: 2px solid #FFD700 !important;
+			font-weight: 900 !important;
+			box-shadow: 
+				0 4px 15px rgba(255, 215, 0, 0.4),
+				inset 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+		}
+
+		.formation-category-section[data-category="ia"] .category-header:hover .category-count {
+			background: linear-gradient(135deg, #2d2d2d, #1a1a1a) !important;
+			transform: scale(1.1) !important;
+			box-shadow: 
+				0 6px 20px rgba(255, 215, 0, 0.6),
+				inset 0 2px 10px rgba(0, 0, 0, 0.4);
+		}
+
+		/* Badge NOUVEAU pour IA */
+		.formation-category-section[data-category="ia"]::after,
+		#formationDropdown .formation-category-section[data-category="ia"]::after {
+			content: 'NOUVEAU';
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%) !important;
+			color: white !important;
+			font-size: 11px;
+			font-weight: 900;
+			padding: 6px 12px;
+			border-radius: 15px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			box-shadow: 
+				0 4px 12px rgba(255, 107, 107, 0.4),
+				0 2px 6px rgba(255, 107, 107, 0.6) !important;
+			z-index: 10;
+			animation: pulse-badge-ia 2s infinite;
+			border: 2px solid rgba(255, 255, 255, 0.9) !important;
+		}
+
+		@keyframes pulse-badge-ia {
+			0%, 100% { 
+				transform: scale(1);
+				box-shadow: 
+					0 4px 12px rgba(255, 107, 107, 0.4),
+					0 2px 6px rgba(255, 107, 107, 0.6);
+			}
+			50% { 
+				transform: scale(1.08);
+				box-shadow: 
+					0 6px 18px rgba(255, 107, 107, 0.6),
+					0 3px 10px rgba(255, 107, 107, 0.8);
+			}
+		}
+
+		.formations-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 16px;
+		}
+
+		.formation-card {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			padding: 20px;
+			background: linear-gradient(135deg, #f8fbff, #ffffff);
+			border: 2px solid #e8f4f8;
+			border-radius: 15px;
+			cursor: pointer;
+			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		}
+
+		.formation-card:hover {
+			background: linear-gradient(135deg, #e8f4f8, #ffffff);
+			border-color: #0b3f89;
+			transform: translateY(-4px) scale(1.02);
+			box-shadow: 
+				0 15px 40px rgba(11, 63, 137, 0.3),
+				inset 0 2px 8px rgba(0, 180, 216, 0.1);
+		}
+
+		.formation-card-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 24px;
+			height: 24px;
+			color: #0b3f89;
+			opacity: 0.8;
+		}
+
+		.formation-card-icon svg {
+			width: 100%;
+			height: 100%;
+		}
+
+		.formation-card-content {
+			flex: 1;
+		}
+
+		.formation-card-title {
+			font-size: 16px;
+			font-weight: 700;
+			color: #0b3f89;
+			margin-bottom: 4px;
+			line-height: 1.2;
+		}
+
+		.formation-card-badge {
+			font-size: 12px;
+			font-weight: 600;
+			color: #1e5cb8;
+			opacity: 0.8;
+		}
+
+		.formation-card-arrow {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20px;
+			height: 20px;
+			color: #0b3f89;
+			transition: all 0.3s ease;
+		}
+
+		.formation-card-arrow svg {
+			width: 100%;
+			height: 100%;
+		}
+
+		.formation-card:hover .formation-card-arrow {
+			transform: translateX(4px);
+			color: #1e5cb8;
+		}
+
+		/* Séparateurs modernes */
+		.category-separator {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			margin: 32px 24px;
+			opacity: 0.6;
+		}
+
+		.separator-line {
+			flex: 1;
+			height: 2px;
+			background: linear-gradient(90deg, transparent, #0b3f89, transparent);
+		}
+
+		.separator-dot {
+			width: 12px;
+			height: 12px;
+			background: #0b3f89;
+			border-radius: 50%;
+			box-shadow: 0 0 0 4px rgba(11, 63, 137, 0.2);
+			animation: pulse-dot 2s ease-in-out infinite;
+		}
+
+		/* Animations */
+		@keyframes pulse-icon {
+			0%, 100% { opacity: 1; transform: scale(1); }
+			50% { opacity: 0.7; transform: scale(1.1); }
+		}
+
+		@keyframes bounce-icon {
+			0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+			40% { transform: translateY(-3px); }
+			60% { transform: translateY(-1px); }
+		}
+
+		@keyframes pulse-dot {
+			0%, 100% { opacity: 1; transform: scale(1); }
+			50% { opacity: 0.7; transform: scale(1.2); }
+		}
+
+		/* État ouvert du dropdown */
+		.formation-selector-modern[data-open="true"] .placeholder-arrow {
+			transform: rotate(180deg);
+		}
+
+		.formation-selector-modern[data-open="true"] .formation-placeholder {
+			border-radius: 25px 25px 0 0;
+			border-bottom: 2px solid #e8f4f8;
 		}
 
 		/* CTA Section */
@@ -1728,6 +2728,98 @@
 			.select-container {
 				max-width: 100%;
 				padding: 0 5px;
+			}
+
+			/* Responsivité du nouveau composant */
+			.formation-placeholder {
+				min-height: 80px;
+			}
+
+			.placeholder-content {
+				padding: 20px 24px;
+			}
+
+			.placeholder-title {
+				font-size: 18px;
+			}
+
+			.placeholder-subtitle {
+				font-size: 13px;
+			}
+
+			.formations-grid {
+				grid-template-columns: 1fr;
+				gap: 12px;
+			}
+
+			.formation-card {
+				padding: 16px;
+				gap: 12px;
+			}
+
+			.formation-card-title {
+				font-size: 15px;
+			}
+
+			.category-header {
+				padding: 12px 16px;
+				gap: 12px;
+			}
+
+			.category-title {
+				font-size: 16px;
+			}
+
+			/* Optimisations mobile pour modal centré */
+			.formation-dropdown {
+				width: 95% !important;
+				max-height: 85vh !important;
+				padding-top: 50px !important;
+			}
+
+			.modal-close-button {
+				width: 36px !important;
+				height: 36px !important;
+				top: 15px !important;
+				right: 15px !important;
+			}
+
+			.modal-close-button svg {
+				width: 18px !important;
+				height: 18px !important;
+			}
+
+			.voir-plus-formations {
+				padding: 16px !important;
+			}
+
+			.voir-plus-content {
+				gap: 12px !important;
+			}
+
+			.voir-plus-icon {
+				width: 40px !important;
+				height: 40px !important;
+			}
+
+			.voir-plus-title {
+				font-size: 15px !important;
+			}
+
+			.voir-plus-count {
+				font-size: 13px !important;
+			}
+
+			/* Compteur de formations mobile */
+			.category-count {
+				font-size: 12px !important;
+				padding: 6px 12px !important;
+				font-weight: 700 !important;
+			}
+
+			/* Espacement flèche mobile */
+			.placeholder-arrow {
+				margin-left: 20px !important;
 			}
 		}
 
@@ -1827,7 +2919,7 @@
 			box-shadow: 
 				0 0 20px rgba(11, 63, 137, 0.3),
 				inset 0 0 30px rgba(11, 63, 137, 0.1);
-			z-index: 10;
+			z-index: 1 !important; /* Forcer un z-index très bas pour ne pas gêner le dropdown */
 			margin: 0;
 			transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		}
@@ -1958,6 +3050,136 @@
 			height: 6px;
 			background: linear-gradient(90deg, #1e5cb8, #0b3f89);
 			border-radius: 25px 25px 0 0;
+		}
+
+		/* Badge OFFRE SPÉCIALE - Cercle parfait avec cible */
+		.special-offer-badge {
+			position: absolute;
+			top: 12px;
+			right: 12px;
+			z-index: 15;
+			animation: specialOfferPulse 3s ease-in-out infinite;
+		}
+
+		.special-offer-badge .badge-circle {
+			position: relative;
+			width: 70px; /* PLUS GROS pour le texte */
+			height: 70px;
+			background: linear-gradient(135deg, #2E7D32, #4CAF50, #66BB6A);
+			color: white;
+			border: 2px solid #FFFFFF;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 
+				0 4px 15px rgba(46, 125, 50, 0.6),
+				inset 0 2px 5px rgba(255, 255, 255, 0.4);
+			overflow: visible; /* VISIBLE pour voir les rayons hypnotiques */
+		}
+
+		.special-offer-badge .badge-circle::before {
+			content: '';
+			position: absolute;
+			top: -10px; /* RAYONS PLUS VISIBLES */
+			left: -10px;
+			right: -10px;
+			bottom: -10px;
+			background: conic-gradient(from 0deg, transparent, #4CAF50, transparent, #2E7D32, transparent, #4CAF50, transparent, #2E7D32, transparent); /* RAYONS VERTS CONTRASTÉS */
+			border-radius: 50%;
+			z-index: -1;
+			animation: targetRotateSlow 4s linear infinite;
+			opacity: 0.7; /* Légèrement transparent pour l'effet */
+		}
+
+		/* Badge BEST SELLER - Cercle parfait avec cible DOMINANTE */
+		.best-seller-badge {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+			z-index: 20;
+			animation: bestSellerPulse 2.5s ease-in-out infinite;
+		}
+
+		.best-seller-badge .badge-circle {
+			position: relative;
+			width: 85px;
+			height: 85px;
+			background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+			color: white;
+			border: 4px solid #FFFFFF;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 
+				0 8px 30px rgba(255, 215, 0, 0.8),
+				inset 0 3px 10px rgba(255, 255, 255, 0.6),
+				0 0 20px rgba(255, 165, 0, 0.5);
+			overflow: visible; /* VISIBLE pour voir les rayons hypnotiques */
+		}
+
+		.best-seller-badge .badge-circle::before {
+			content: '';
+			position: absolute;
+			top: -15px; /* RAYONS ENCORE PLUS GROS pour dominer */
+			left: -15px;
+			right: -15px;
+			bottom: -15px;
+			background: conic-gradient(from 0deg, transparent, #FFD700, transparent, #FF8C00, transparent, #FFD700, transparent, #FF8C00, transparent); /* RAYONS DORÉS INTENSES */
+			border-radius: 50%;
+			z-index: -1;
+			animation: targetRotateFast 3s linear infinite;
+			opacity: 0.8; /* Plus opaque = plus visible */
+		}
+
+		/* Styles communs pour les textes */
+		.badge-text {
+			font-size: 11px; /* Plus gros maintenant qu'on a plus d'espace */
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: 0.7px;
+			line-height: 1.1;
+			text-align: center;
+			text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+			z-index: 1;
+		}
+
+		.best-seller-badge .badge-text {
+			font-size: 12px;
+			font-weight: 900;
+			letter-spacing: 0.8px;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+		}
+
+		/* Animations des cercles */
+		@keyframes specialOfferPulse {
+			0%, 100% { 
+				transform: scale(1);
+			}
+			50% { 
+				transform: scale(1.04);
+			}
+		}
+
+		@keyframes bestSellerPulse {
+			0%, 100% { 
+				transform: scale(1);
+			}
+			50% { 
+				transform: scale(1.07);
+			}
+		}
+
+		/* Animations des cibles - PROPRES sans artefacts */
+		@keyframes targetRotateSlow {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		@keyframes targetRotateFast {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
 		}
 
 
@@ -2134,6 +3356,25 @@
 				padding: 25px 20px;
 			}
 
+			/* Badges responsives - Tablette */
+			.special-offer-badge .badge-circle {
+				width: 62px; /* Gardons la proportion avec la nouvelle taille */
+				height: 62px;
+			}
+
+			.special-offer-badge .badge-text {
+				font-size: 10px;
+			}
+
+			.best-seller-badge .badge-circle {
+				width: 75px;
+				height: 75px;
+			}
+
+			.best-seller-badge .badge-text {
+				font-size: 11px;
+			}
+
 			.formation-level-title {
 				font-size: clamp(1.6rem, 5vw, 2.2rem);
 				margin-bottom: 15px;
@@ -2202,6 +3443,25 @@
 				padding: 22px 18px;
 			}
 
+			/* Badges responsives - Mobile */
+			.special-offer-badge .badge-circle {
+				width: 58px; /* Gardons la lisibilité même sur mobile */
+				height: 58px;
+			}
+
+			.special-offer-badge .badge-text {
+				font-size: 9px;
+			}
+
+			.best-seller-badge .badge-circle {
+				width: 68px;
+				height: 68px;
+			}
+
+			.best-seller-badge .badge-text {
+				font-size: 10px;
+			}
+
 			.formation-level-title {
 				font-size: clamp(1.4rem, 6vw, 1.8rem);
 				margin-bottom: 12px;
@@ -2264,23 +3524,160 @@
 					</div>
 								
 								<div class="form-field">
-									<div class="select-container">
-										<select aria-invalid="false" aria-required="true" class="modern-select" id="input_151_1" name="input_1" onchange="if (this.value) window.location.href='/formation/' + this.value;">
-											<option class="select-placeholder" selected="selected" value="">Choisissez votre formation</option>
+									<!-- Nouveau composant de sélection moderne -->
+									<div class="formation-selector-modern" id="formationSelector">
+										<div class="formation-placeholder" id="formationPlaceholder" onclick="toggleFormationDropdown()">
+											<div class="placeholder-content">
+												<div class="placeholder-text">
+													<div class="placeholder-title">Sélectionnez votre domaine de formation</div>
+													<div class="placeholder-subtitle">Cliquez pour explorer nos formations par catégorie</div>
+												</div>
+											<div class="placeholder-arrow" id="placeholderArrow">
+													<svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+														<path d="M2 2L8 8L14 2" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
+												</div>
+											</div>
+										</div>
+
+										<div class="formation-dropdown" id="formationDropdown" style="display: none;">
+											<!-- Bouton de fermeture -->
+											<div class="modal-close-button" onclick="window.toggleFormationDropdown()">
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+													<path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+												</svg>
+											</div>
 											{% for category in category %}
-												<optgroup label="{{ category.name }}" data-category="{{ category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) }}">
-													{% for formation in formations %}
-														{% if formation.category.id == category.id %}
-															<option value="{{ formation.id }}">{{ formation.nameFormation }}</option>
+												<div class="formation-category-section" data-category="{{ category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) }}">
+													<div class="category-header"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
+														<div class="category-icon">
+															{% if category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'ia' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<!-- Icône Robot/IA -->
+																	<rect x="6" y="6" width="12" height="12" rx="2" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+																	<circle cx="9" cy="9" r="1" fill="#1a1a1a"/>
+																	<circle cx="15" cy="9" r="1" fill="#1a1a1a"/>
+																	<rect x="10" y="12" width="4" height="2" rx="1" fill="#1a1a1a"/>
+																	<!-- Antennes -->
+																	<line x1="8" y1="6" x2="8" y2="4" stroke="#1a1a1a" stroke-width="2"/>
+																	<line x1="16" y1="6" x2="16" y2="4" stroke="#1a1a1a" stroke-width="2"/>
+																	<circle cx="8" cy="4" r="1" fill="#1a1a1a"/>
+																	<circle cx="16" cy="4" r="1" fill="#1a1a1a"/>
+																	<!-- Corps -->
+																	<line x1="12" y1="18" x2="12" y2="20" stroke="#1a1a1a" stroke-width="2"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'finance' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'administration' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<polyline points="14,2 14,8 20,8" stroke="white" stroke-width="1.5" fill="white"/>
+																	<line x1="16" y1="13" x2="8" y2="13" stroke="white" stroke-width="1.5"/>
+																	<line x1="16" y1="17" x2="8" y2="17" stroke="white" stroke-width="1.5"/>
+																	<line x1="10" y1="9" x2="8" y2="9" stroke="white" stroke-width="1.5"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'informatique' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<polyline points="16,18 22,12 16,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+																	<polyline points="8,6 2,12 8,18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+																	<rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.1"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'design' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+																	<line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="currentColor" stroke-width="2"/>
+																	<line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="currentColor" stroke-width="2"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'management' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" fill="none"/>
+																	<circle cx="8.5" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<path d="M20 8v6M23 11l-3 3-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+																	<circle cx="20" cy="4" r="2" stroke="currentColor" stroke-width="1.5" fill="currentColor"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'vente' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<path d="M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L5.4 5H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+																	<circle cx="9" cy="20" r="1" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<circle cx="20" cy="20" r="1" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<path d="M7 13h10v4a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-4z" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.3"/>
+																</svg>
+															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'marketing' %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 5-18 5-18s-3 0-9 0-9 0-9 0 2 18 5 18c1.25 0 2.5-1.06 4-1.06Z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<path d="M12 9s4-2 8-2-4 6-4 6 0 2.5-2 5-2-2.5-2-5 0-2 0-4z" stroke="white" stroke-width="1.5" fill="white"/>
+																</svg>
+															{% else %}
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																	<path d="M12 2l3.09 6.26L22 9l-5.45 4.97L19.18 22 12 17.27 4.82 22l2.63-8.03L2 9l6.91-.74L12 2z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+																	<circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5" fill="white"/>
+																</svg>
 														{% endif %}
+														</div>
+														<h4 class="category-title" {% if category.name|lower == 'ia' %}style="color: #1a1a1a !important; font-weight: 900 !important;"{% endif %}>{{ category.name }}</h4>
+														<div class="category-count" {% if category.name|lower == 'ia' %}style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important; color: #FFD700 !important; border: 2px solid #FFD700 !important; font-weight: 900 !important;"{% endif %}>{{ formations|filter(f => f.category.id == category.id)|length }} formation{{ formations|filter(f => f.category.id == category.id)|length > 1 ? 's' : '' }}</div>
+													</div>
+													
+													<div class="formations-grid">
+														{% set categoryFormations = formations|filter(f => f.category.id == category.id) %}
+														{% set maxFormations = 5 %}
+														{% for formation in categoryFormations|slice(0, maxFormations) %}
+															<div class="formation-card" onclick="selectFormation({{ formation.id }})" data-formation-id="{{ formation.id }}">
+																<div class="formation-card-icon">
+																	<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																		<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" fill="none"/>
+																		<polyline points="3,8 12,13 21,8" stroke="currentColor" stroke-width="2"/>
+																		<line x1="12" y1="22" x2="12" y2="13" stroke="currentColor" stroke-width="2"/>
+																	</svg>
+																</div>
+																<div class="formation-card-content">
+																	<div class="formation-card-title">{{ formation.nameFormation }}</div>
+																	<div class="formation-card-badge">Formation professionnelle</div>
+																</div>
+																<div class="formation-card-arrow">
+																	<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+																		<path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+																		<path d="m12 5 7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+																	</svg>
+																</div>
+															</div>
 													{% endfor %}
-												</optgroup>
-											{% endfor %}
-										</select>
-										<div class="select-arrow">
-											<svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-												<path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+														
+														{% if categoryFormations|length > maxFormations %}
+															<div class="voir-plus-formations" onclick="window.location.href='/formation?category={{ category.name|url_encode }}'">
+																<div class="voir-plus-content">
+																	<div class="voir-plus-icon">
+																		<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+																			<path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 											</svg>
+										</div>
+																	<div class="voir-plus-text">
+																		<div class="voir-plus-title">Voir toutes les formations {{ category.name }}</div>
+																		<div class="voir-plus-count">{{ categoryFormations|length - maxFormations }} formation{{ (categoryFormations|length - maxFormations) > 1 ? 's' : '' }} supplémentaire{{ (categoryFormations|length - maxFormations) > 1 ? 's' : '' }}</div>
+																	</div>
+																	<div class="voir-plus-arrow">
+																		<svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+																			<path d="M13 1L19 8L13 15M19 8H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+																		</svg>
+																	</div>
+																</div>
+															</div>
+														{% endif %}
+													</div>
+												</div>
+												
+												{% if not loop.last %}
+													<div class="category-separator">
+														<div class="separator-line"></div>
+														<div class="separator-dot"></div>
+														<div class="separator-line"></div>
+													</div>
+												{% endif %}
+											{% endfor %}
 										</div>
 									</div>
 								</div>
@@ -2296,7 +3693,11 @@
 		<!-- Indicateur de scroll simplifié -->
 		<div class="scroll-indicator" onclick="document.querySelector('.featured-formation-banner').scrollIntoView({behavior: 'smooth'})">
 			<div class="scroll-text">Découvrez nos nouvelles formations IA</div>
-			<div class="scroll-arrow-simple">↓</div>
+			<div class="scroll-arrow-simple">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+					<path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</div>
 		</div>
 
 		<!-- Séparateur en vague -->
@@ -2316,6 +3717,12 @@
 		<div class="featured-formation-content">
 					<!-- Formation IA Générative - Niveau Découverte -->
 		<div class="featured-formation-card">
+				<!-- Badge Offre Spéciale ROND avec cible -->
+				<div class="special-offer-badge">
+					<div class="badge-circle">
+						<span class="badge-text">Offre<br>Spéciale</span>
+					</div>
+				</div>
 				<h2 class="formation-level-title">DÉCOUVERTE</h2>
 				<div class="formation-badges">
 					<a href="https://www.moncompteformation.gouv.fr/espace-prive/html/#/formation/recherche/92791645200018_infpf15/92791645200018_infpf2" target="_blank" class="formation-cpf-badge">Finançable CPF</a>
@@ -2330,6 +3737,12 @@
 
 			<!-- Formation 100% Finançable - Niveau Avancée -->
 			<div class="featured-formation-card">
+				<!-- Badge BEST SELLER ROND avec cible -->
+				<div class="best-seller-badge">
+					<div class="badge-circle">
+						<span class="badge-text">BEST<br>SELLER</span>
+					</div>
+				</div>
 				<h2 class="formation-level-title">Avancée</h2>
 				<div class="formation-badges">
 					<div class="featured-formation-badge">Formation Premium</div>
@@ -2354,7 +3767,7 @@
 
 			<div class="categories" id="categories-grid">
 				{% for category in category %}
-					<div class="category" data-category-id="{{ category.id }}" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+					<div class="category {% if category.name == 'IA' %}ia-category{% endif %}" data-category-id="{{ category.id }}" data-aos="fade-up" data-aos-delay="{{ loop.index * 30 }}">
 			<div class="category-card">
 							<button class="close-button">×</button>
 							<img 
@@ -2378,7 +3791,12 @@
 									{% for formation in categoryFormations|slice(0, maxFormations) %}
 										<div class="formation-item" data-formation-id="{{ formation.id }}" onclick="window.location.href='{{ path('app_formation_show', { 'id': formation.id }) }}'">
 											<div class="formation-name">{{ formation.nameFormation }}</div>
-											<div class="formation-arrow">→</div>
+											<div class="formation-arrow">
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+													<path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+													<path d="m12 5 7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+												</svg>
+											</div>
 			</div>
 				{% endfor %}
 									
@@ -2442,8 +3860,12 @@
 				</a>
 	{% endfor %}
 </div>	
-		<div style="text-align: center; margin-top: 40px;">
-			<button id="cta-rdv-2" class="cta-popup-blue" data-aos="fade-up">Réserver un rendez-vous gratuit</button>
+		
+		<!-- Bouton pour voir tous les articles -->
+		<div class="blog-cta-container" data-aos="fade-up">
+			<a href="{{ path('app_blog_index') }}" class="btn-view-all-articles">
+				Voir tous les articles
+			</a>
 </div>
 	</div>
 
@@ -2581,10 +4003,11 @@
 				category.classList.add('closing');
 				modalOverlay.classList.remove('active');
 				document.body.style.overflow = ''; // Réactiver le scroll
+				document.body.classList.remove('modal-open'); // Retirer le masquage
 				
 				setTimeout(() => {
 					category.classList.remove('expanded', 'closing');
-				}, 300);
+				}, 400); // Durée ajustée à l'animation
 			}
 
 			// Clic sur les cartes
@@ -2611,10 +4034,11 @@
 					if (isExpanded) {
 						closeModal(category);
 					} else {
-						// Ouvrir la modal directement au centre
+						// Ouvrir la modal centrée avec transition fluide
 						category.classList.add('expanded');
 						modalOverlay.classList.add('active');
 						document.body.style.overflow = 'hidden'; // Bloquer le scroll
+						document.body.classList.add('modal-open'); // Ajouter le masquage
 						
 						// Animation des formations avec délai
 						setTimeout(() => {
@@ -2851,6 +4275,399 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
+  }
+});
+
+// ===== FORMATION SELECTOR MODERNE - JavaScript Simple =====
+let isDropdownOpen = false;
+
+// S'assurer que les fonctions sont globales
+window.toggleFormationDropdown = function() {
+    console.log('Toggle clicked! Function called successfully');
+    const dropdown = document.getElementById('formationDropdown');
+    const arrow = document.getElementById('placeholderArrow');
+    const selector = document.getElementById('formationSelector');
+    const placeholder = document.getElementById('formationPlaceholder');
+    
+    console.log('Elements found:', {dropdown, arrow, selector, placeholder});
+    
+    if (!dropdown || !arrow || !selector || !placeholder) {
+        console.error('Some elements not found!');
+        return;
+    }
+    
+    if (isDropdownOpen) {
+        // Fermer
+        console.log('Closing dropdown and overlay');
+        
+        // 1. Masquer l'overlay
+        const overlay = document.getElementById('formation-dropdown-overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+        
+        // 2. Remettre le dropdown dans son container original
+        const formationSelector = document.getElementById('formationSelector');
+        if (formationSelector) {
+            formationSelector.appendChild(dropdown);
+        }
+        
+        // 3. Masquer le dropdown
+        dropdown.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+        selector.removeAttribute('data-open');
+        
+        isDropdownOpen = false;
+    } else {
+        // SOLUTION NUCLÉAIRE - Créer un overlay modal
+        console.log('Opening dropdown with overlay');
+        
+        // 1. Créer l'overlay si il n'existe pas
+        let overlay = document.getElementById('formation-dropdown-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'formation-dropdown-overlay';
+            overlay.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                background: rgba(0, 0, 0, 0.3) !important;
+                z-index: 2147483640 !important;
+                display: none !important;
+            `;
+            // Fermer en cliquant sur l'overlay
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    window.toggleFormationDropdown();
+                }
+            });
+            document.body.appendChild(overlay);
+        }
+        
+        // 2. Afficher l'overlay
+        overlay.style.display = 'block';
+        
+        // 3. Déplacer le dropdown dans l'overlay
+        overlay.appendChild(dropdown);
+        
+        // 4. Styler et positionner le dropdown - CENTRÉ
+        dropdown.style.cssText = `
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 90% !important;
+            max-width: 800px !important;
+            max-height: 80vh !important;
+            z-index: 2147483647 !important;
+            background: #ffffff !important;
+            border: 3px solid #0b3f89 !important;
+            border-radius: 25px !important;
+            box-shadow: 0 25px 80px rgba(11, 63, 137, 0.8) !important;
+            overflow-y: auto !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            padding-top: 60px !important;
+        `;
+        console.log('Modal centré avec overlay');
+        
+        arrow.style.transform = 'rotate(180deg)';
+        selector.setAttribute('data-open', 'true');
+        isDropdownOpen = true;
+    }
+};
+
+// Alias pour compatibilité
+function toggleFormationDropdown() {
+    window.toggleFormationDropdown();
+}
+
+// ===== DIAGNOSTIC ULTRA DÉTAILLÉ DROPDOWN IA =====
+function diagnosticDropdownIA() {
+    console.log('🔍 === DÉBUT DIAGNOSTIC DROPDOWN IA ===');
+    
+    // 1. Vérifier que le dropdown existe
+    const dropdown = document.getElementById('formationDropdown');
+    console.log('🎯 Dropdown trouvé:', dropdown ? 'OUI' : 'NON');
+    
+    if (!dropdown) {
+        console.log('❌ DROPDOWN INTROUVABLE !');
+        return;
+    }
+    
+    // 2. Chercher la section IA
+    const iaSection = dropdown.querySelector('[data-category="ia"]');
+    console.log('🎯 Section IA trouvée:', iaSection ? 'OUI' : 'NON');
+    console.log('📊 Data-category de la section IA:', iaSection ? iaSection.getAttribute('data-category') : 'N/A');
+    
+    if (!iaSection) {
+        console.log('❌ SECTION IA INTROUVABLE !');
+        console.log('🔍 Toutes les sections trouvées:');
+        const allSections = dropdown.querySelectorAll('[data-category]');
+        allSections.forEach((section, i) => {
+            console.log(`   ${i+1}. data-category="${section.getAttribute('data-category')}"`);
+        });
+        return;
+    }
+    
+    // 3. Chercher le header de la section IA
+    const iaHeader = iaSection.querySelector('.category-header');
+    console.log('🎯 Header IA trouvé:', iaHeader ? 'OUI' : 'NON');
+    
+    if (!iaHeader) {
+        console.log('❌ HEADER IA INTROUVABLE !');
+        return;
+    }
+    
+    // 4. DIAGNOSTIC COMPLET DU HEADER IA
+    console.log('📊 === DIAGNOSTIC HEADER IA ===');
+    console.log('  📍 Tag name:', iaHeader.tagName);
+    console.log('  📍 Class list:', iaHeader.className);
+    console.log('  📍 ID:', iaHeader.id || 'AUCUN');
+    
+    // 5. STYLES APPLIQUÉS
+    const computedStyle = window.getComputedStyle(iaHeader);
+    console.log('📊 === STYLES COMPUTED ===');
+    console.log('  🎨 Background:', computedStyle.background);
+    console.log('  🎨 Background-color:', computedStyle.backgroundColor);
+    console.log('  🎨 Background-image:', computedStyle.backgroundImage);
+    console.log('  🎨 Color:', computedStyle.color);
+    console.log('  🎨 Border:', computedStyle.border);
+    
+    // 6. STYLES INLINE
+    console.log('📊 === STYLES INLINE ===');
+    console.log('  🎨 Style attribute:', iaHeader.getAttribute('style') || 'AUCUN');
+    console.log('  🎨 Inline background:', iaHeader.style.background || 'AUCUN');
+    console.log('  🎨 Inline backgroundColor:', iaHeader.style.backgroundColor || 'AUCUN');
+    
+    // 7. CHERCHER LES RÈGLES CSS QUI S'APPLIQUENT
+    console.log('📊 === RÈGLES CSS MATCHÉES ===');
+    try {
+        const matchedRules = [];
+        for (let sheet of document.styleSheets) {
+            try {
+                for (let rule of sheet.cssRules) {
+                    if (rule.selectorText && iaHeader.matches(rule.selectorText)) {
+                        matchedRules.push({
+                            selector: rule.selectorText,
+                            background: rule.style.background || rule.style.backgroundColor,
+                            text: rule.cssText
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log('  ⚠️ Impossible de lire la feuille de style:', sheet.href);
+            }
+        }
+        console.log('  🎯 Règles matchées:', matchedRules);
+    } catch (e) {
+        console.log('  ❌ Erreur lors de l\'analyse des CSS:', e);
+    }
+    
+    // 8. HIÉRARCHIE DES PARENTS
+    console.log('📊 === HIÉRARCHIE PARENTS ===');
+    let parent = iaHeader.parentElement;
+    let level = 1;
+    while (parent && level <= 5) {
+        const parentStyle = window.getComputedStyle(parent);
+        console.log(`  📍 Niveau ${level} - ${parent.tagName}:`);
+        console.log(`    Class: ${parent.className}`);
+        console.log(`    Background: ${parentStyle.background || parentStyle.backgroundColor}`);
+        console.log(`    Z-index: ${parentStyle.zIndex}`);
+        console.log(`    Position: ${parentStyle.position}`);
+        parent = parent.parentElement;
+        level++;
+    }
+    
+    // 9. FORCE LE STYLE DORÉ
+    console.log('🔥 === FORCE STYLE DORÉ ===');
+    console.log('  📝 Avant forçage:');
+    console.log('    Background computed:', window.getComputedStyle(iaHeader).background);
+    
+    // FORÇAGE MULTIPLE MÉTHODES
+    iaHeader.style.setProperty('background', 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)', 'important');
+    iaHeader.style.setProperty('background-color', '#FFD700', 'important');
+    iaHeader.style.setProperty('color', '#1a1a1a', 'important');
+    iaHeader.style.setProperty('border', '2px solid #FFD700', 'important');
+    
+    // Forçage par attribut
+    const currentStyle = iaHeader.getAttribute('style') || '';
+    iaHeader.setAttribute('style', currentStyle + '; background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; background-color: #FFD700 !important; color: #1a1a1a !important;');
+    
+    console.log('  📝 Après forçage:');
+    console.log('    Background computed:', window.getComputedStyle(iaHeader).background);
+    console.log('    Style attribute:', iaHeader.getAttribute('style'));
+    
+    // 10. CHERCHER LES ÉLÉMENTS QUI POURRAIENT CACHER LE HEADER (SEULEMENT DANS LE DROPDOWN)
+    console.log('🕵️ === RECHERCHE ÉLÉMENTS BLEUS SUSPECTS (DROPDOWN UNIQUEMENT) ===');
+    const dropdownElements = dropdown.querySelectorAll('*');
+    const suspiciousElements = [];
+    
+    dropdownElements.forEach(el => {
+        const style = window.getComputedStyle(el);
+        const bg = style.background + ' ' + style.backgroundColor;
+        
+        if (bg.includes('rgb(11, 63, 137)') || bg.includes('#0b3f89') || bg.includes('0b3f89')) {
+            const rect = el.getBoundingClientRect();
+            const headerRect = iaHeader.getBoundingClientRect();
+            
+            // Vérifier si ça chevauche ET si c'est dans le même dropdown
+            if (rect.left < headerRect.right && rect.right > headerRect.left &&
+                rect.top < headerRect.bottom && rect.bottom > headerRect.top &&
+                dropdown.contains(el)) {
+                
+                suspiciousElements.push({
+                    element: el,
+                    tag: el.tagName,
+                    class: el.className,
+                    id: el.id,
+                    background: bg,
+                    zIndex: style.zIndex,
+                    position: style.position
+                });
+            }
+        }
+    });
+    
+    console.log('🚨 ÉLÉMENTS BLEUS SUSPECTS qui chevauchent:', suspiciousElements);
+    
+    // 11. SUPPRESSION DES ÉLÉMENTS BLEUS SUSPECTS (SÉLECTIF)
+    suspiciousElements.forEach((suspect, i) => {
+        // NE PAS toucher au hero banner, section principale, ou éléments importants
+        const isHeroOrMainSection = suspect.element.classList.contains('hero-section') || 
+                                  suspect.element.classList.contains('hero') ||
+                                  suspect.element.classList.contains('bandeau') ||
+                                  suspect.element.tagName === 'SECTION' ||
+                                  suspect.element.tagName === 'MAIN' ||
+                                  suspect.element.tagName === 'BODY' ||
+                                  suspect.element.tagName === 'HTML';
+        
+        if (!isHeroOrMainSection) {
+            console.log(`🗑️ Neutralisation élément suspect ${i+1}:`, suspect.element);
+            suspect.element.style.setProperty('background', 'transparent', 'important');
+            suspect.element.style.setProperty('background-color', 'transparent', 'important');
+            suspect.element.style.setProperty('background-image', 'none', 'important');
+        } else {
+            console.log(`🛡️ Protection élément important ${i+1} (non neutralisé):`, suspect.element);
+        }
+    });
+    
+    console.log('✅ === FIN DIAGNOSTIC DROPDOWN IA ===');
+}
+
+// FONCTION POUR RESTAURER LE HERO BANNER ORIGINAL
+function restoreHeroBackground() {
+    console.log('🔄 Restauration du background hero original...');
+    
+    // Chercher les éléments hero
+    const heroElements = document.querySelectorAll('.hero-section, .hero, .bandeau, section[class*="hero"]');
+    
+    heroElements.forEach((hero, i) => {
+        console.log(`🏠 Restauration hero ${i+1}:`, hero);
+        
+        // Supprimer les styles forcés précédemment
+        hero.style.removeProperty('background');
+        hero.style.removeProperty('background-color');
+        hero.style.removeProperty('background-image');
+        
+        // Force le style original si nécessaire
+        if (hero.classList.contains('hero-section')) {
+            hero.style.setProperty('background', 'linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%)', 'important');
+        }
+        
+        console.log(`✅ Hero ${i+1} restauré`);
+    });
+}
+
+// LANCER LE DIAGNOSTIC
+document.addEventListener('DOMContentLoaded', function() {
+    // Diagnostic immédiat
+    setTimeout(() => {
+        console.log('🚀 Lancement diagnostic immédiat...');
+        diagnosticDropdownIA();
+    }, 1000);
+    
+    // Observer le dropdown pour diagnostiquer quand il s'ouvre ET restaurer quand il se ferme
+    const dropdown = document.getElementById('formationDropdown');
+    if (dropdown) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    const target = mutation.target;
+                    if (target.style.display !== 'none' && target.style.visibility !== 'hidden') {
+                        console.log('👁️ Dropdown ouvert, lancement diagnostic...');
+                        setTimeout(() => diagnosticDropdownIA(), 100);
+                    } else if (target.style.display === 'none' || target.style.visibility === 'hidden') {
+                        console.log('👁️ Dropdown fermé, restauration hero...');
+                        setTimeout(() => restoreHeroBackground(), 50);
+                    }
+                }
+            });
+        });
+        observer.observe(dropdown, { attributes: true, attributeFilter: ['style'] });
+    }
+    
+    // Diagnostic aussi au clic sur le sélecteur
+    const selector = document.getElementById('formationSelector');
+    if (selector) {
+        selector.addEventListener('click', function() {
+            console.log('🖱️ Clic sur sélecteur, diagnostic dans 500ms...');
+            setTimeout(() => diagnosticDropdownIA(), 500);
+        });
+    }
+});
+
+window.selectFormation = function(formationId) {
+    console.log('Formation selected:', formationId);
+    
+    // Animation de sélection
+    if (event && event.target) {
+        const card = event.target.closest('.formation-card');
+        if (card) {
+            card.style.transform = 'scale(0.95)';
+            card.style.transition = 'transform 0.1s ease';
+        }
+    }
+    
+    setTimeout(() => {
+        // Redirection vers la formation
+        console.log('Redirecting to:', `/formation/${formationId}`);
+        window.location.href = '/formation/' + formationId;
+    }, 100);
+};
+
+// Alias pour compatibilité
+function selectFormation(formationId) {
+    window.selectFormation(formationId);
+}
+
+// Composant formation selector opérationnel
+
+// Fermer le dropdown si on clique en dehors (désactivé temporairement pour debug)
+document.addEventListener('click', function(event) {
+    const selector = document.getElementById('formationSelector');
+    const dropdown = document.getElementById('formationDropdown');
+    
+    // Vérifier si le clic est vraiment en dehors
+    if (isDropdownOpen && selector && dropdown) {
+        const isClickInSelector = selector.contains(event.target);
+        const isClickInDropdown = dropdown.contains(event.target);
+        
+        console.log('Click detected:', {
+            isClickInSelector,
+            isClickInDropdown,
+            target: event.target,
+            isDropdownOpen
+        });
+        
+        // Ne fermer que si vraiment en dehors
+        if (!isClickInSelector && !isClickInDropdown) {
+            console.log('Closing dropdown due to outside click');
+            window.toggleFormationDropdown();
+        }
   }
 });
 </script>

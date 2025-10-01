@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Blog;
+use App\Entity\BlogSection;
 use App\Entity\Comment;
 use App\Form\BlogType;
 use App\Form\CommentType;
@@ -22,10 +23,70 @@ use Symfony\Component\HttpFoundation\File\File;
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'app_blog_index', methods: ['GET'])]
-    public function index(BlogRepository $blogRepository): Response
+    public function index(BlogRepository $blogRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Publier automatiquement les articles programmés dont l'heure est passée
+        $this->publishScheduledBlogs($blogRepository, $entityManager);
+        
+        // Récupérer l'ordre de tri depuis les paramètres de requête (par défaut: récent)
+        $sortOrder = $request->query->get('sort', 'recent');
+        
+        // Récupérer seulement les articles publiés
+        $blogs = $blogRepository->findPublishedBlogs($sortOrder);
+        
         return $this->render('content/blog/index.html.twig', [
-            'blogs' => $blogRepository->findAll(),
+            'blogs' => $blogs,
+            'currentSort' => $sortOrder,
+        ]);
+    }
+
+    #[Route('/admin', name: 'app_blog_admin', methods: ['GET'])]
+    public function admin(BlogRepository $blogRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Vérifier que l'utilisateur est admin
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
+        // Publier automatiquement les articles programmés dont l'heure est passée
+        $this->publishScheduledBlogs($blogRepository, $entityManager);
+        
+        // Récupérer l'ordre de tri depuis les paramètres de requête (par défaut: récent)
+        $sortOrder = $request->query->get('sort', 'recent');
+        
+        // Récupérer le filtre de statut depuis les paramètres de requête
+        $statusFilter = $request->query->get('status', 'all');
+        
+        // Récupérer TOUS les articles pour l'admin
+        $allBlogs = $blogRepository->findAllForAdmin($sortOrder);
+        
+        // Filtrer les articles selon le statut sélectionné
+        $blogs = match($statusFilter) {
+            'published' => array_filter($allBlogs, fn($blog) => $blog->getStatus() === Blog::STATUS_PUBLISHED),
+            'scheduled' => array_filter($allBlogs, fn($blog) => $blog->getStatus() === Blog::STATUS_SCHEDULED),
+            'draft' => array_filter($allBlogs, fn($blog) => $blog->getStatus() === Blog::STATUS_DRAFT),
+            default => $allBlogs, // 'all' ou toute autre valeur
+        };
+        
+        // Récupérer le prochain article programmé pour le minuteur
+        $nextScheduledArticle = $blogRepository->findNextScheduledArticle();
+        
+        // Calculer les statistiques (sur tous les articles, pas seulement les filtrés)
+        $totalBlogs = count($allBlogs);
+        $publishedBlogs = array_filter($allBlogs, fn($blog) => $blog->getStatus() === Blog::STATUS_PUBLISHED);
+        $scheduledBlogs = array_filter($allBlogs, fn($blog) => $blog->getStatus() === Blog::STATUS_SCHEDULED);
+        $draftBlogs = array_filter($allBlogs, fn($blog) => $blog->getStatus() === Blog::STATUS_DRAFT);
+        
+        return $this->render('content/blog/admin.html.twig', [
+            'blogs' => $blogs,
+            'allBlogs' => $allBlogs, // Pour garder accès à tous les articles si nécessaire
+            'currentSort' => $sortOrder,
+            'currentStatus' => $statusFilter,
+            'nextScheduledArticle' => $nextScheduledArticle,
+            'stats' => [
+                'total' => $totalBlogs,
+                'published' => count($publishedBlogs),
+                'scheduled' => count($scheduledBlogs),
+                'draft' => count($draftBlogs),
+            ]
         ]);
     }
 
@@ -61,15 +122,33 @@ class BlogController extends AbstractController
                 }
             }
 
-            // Définir la date de publication si elle n'est pas fournie
-            if (!$blog->getPublishedAt()) {
-                $blog->setPublishedAt(new \DateTimeImmutable());
-            }
+            // Logique de publication basée sur le statut
+            $this->handlePublicationLogic($blog);
 
             $entityManager->persist($blog);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Article créé avec succès !');
+            // Traitement des sections dynamiques
+            $dynamicSections = $request->request->all('dynamic_sections');
+            if (!empty($dynamicSections)) {
+                $position = 1;
+                foreach ($dynamicSections as $sectionData) {
+                    if (!empty($sectionData['title']) && !empty($sectionData['content'])) {
+                        $section = new BlogSection();
+                        $section->setTitle($sectionData['title']);
+                        $section->setContent($sectionData['content']);
+                        $section->setPosition($position);
+                        $section->setBlog($blog);
+                        
+                        $entityManager->persist($section);
+                        $position++;
+                    }
+                }
+                $entityManager->flush();
+            }
+
+            $message = $this->getPublicationSuccessMessage($blog);
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
         }
 
@@ -146,11 +225,50 @@ class BlogController extends AbstractController
                 // Garder l'image actuelle si aucune nouvelle image n'est téléchargée
                 $blog->setImage($currentImage);
             }
-    
-            $entityManager->flush();
-            $this->addFlash('success', 'Article modifié avec succès !');
-    
-            return $this->redirectToRoute('blog_show', ['id' => $blog->getId()]);
+
+            // Traitement des sections dynamiques
+            $dynamicSections = $request->request->all('dynamic_sections');
+            
+            // Récupérer toutes les sections existantes pour ce blog
+            $existingSections = $entityManager->getRepository(BlogSection::class)->findBy(['blog' => $blog]);
+            
+            // Supprimer toutes les sections existantes d'abord
+            foreach ($existingSections as $existingSection) {
+                $entityManager->remove($existingSection);
+            }
+            
+            // Recréer toutes les sections à partir des données soumises
+            if (!empty($dynamicSections)) {
+                $position = 1;
+                foreach ($dynamicSections as $sectionId => $sectionData) {
+                    if (!empty($sectionData['title']) && !empty($sectionData['content'])) {
+                        // Créer une nouvelle section pour toutes les données soumises
+                        $section = new BlogSection();
+                        $section->setBlog($blog);
+                        $section->setTitle($sectionData['title']);
+                        $section->setContent($sectionData['content']);
+                        $section->setPosition($position);
+                        
+                        $entityManager->persist($section);
+                        $position++;
+                    }
+                }
+            }
+
+            // Logique de publication basée sur le statut
+            try {
+                $this->handlePublicationLogic($blog);
+                $entityManager->flush();
+                $message = $this->getPublicationSuccessMessage($blog);
+                $this->addFlash('success', $message);
+                return $this->redirectToRoute('app_blog_admin'); // Retour vers l'admin au lieu de show
+            } catch (\InvalidArgumentException $e) {
+                $this->addFlash('error', $e->getMessage());
+                // Rester sur la page d'édition pour corriger l'erreur
+            } catch (\Exception $e) {
+                // Capture toute autre erreur
+                $this->addFlash('error', 'Erreur lors de la sauvegarde: ' . $e->getMessage());
+            }
         }
     
         return $this->render('content/blog/edit.html.twig', [
@@ -314,5 +432,87 @@ class BlogController extends AbstractController
         return $this->json(['success' => true, 'comment' => $commentData]);
     }
 
-    
+    private function handlePublicationLogic(Blog $blog): void
+    {
+        $now = new \DateTimeImmutable();
+        
+        switch ($blog->getStatus()) {
+            case Blog::STATUS_PUBLISHED:
+                // Si publié maintenant et pas de date définie, utiliser maintenant
+                if (!$blog->getPublishedAt()) {
+                    $blog->setPublishedAt($now);
+                }
+                break;
+                
+            case Blog::STATUS_SCHEDULED:
+                // Pour un article programmé, vérifier la date
+                if (!$blog->getPublishedAt()) {
+                    throw new \InvalidArgumentException('Une date de publication est requise pour programmer un article.');
+                }
+                
+                if ($blog->getPublishedAt() <= $now) {
+                    throw new \InvalidArgumentException('La date de publication doit être dans le futur pour un article programmé. Date actuelle: ' . $now->format('d/m/Y H:i'));
+                }
+                break;
+                
+            case Blog::STATUS_DRAFT:
+                // Pour un brouillon, aucune contrainte sur la date
+                // On conserve la date existante pour permettre un retour facile en publié
+                break;
+        }
+    }
+
+    private function getPublicationSuccessMessage(Blog $blog): string
+    {
+        return match($blog->getStatus()) {
+            Blog::STATUS_PUBLISHED => 'Article publié avec succès !',
+            Blog::STATUS_SCHEDULED => 'Article programmé avec succès ! Il sera publié le ' . 
+                                      $blog->getPublishedAt()->format('d/m/Y à H:i'),
+            Blog::STATUS_DRAFT => 'Article sauvegardé en brouillon !',
+            default => 'Article sauvegardé !'
+        };
+    }
+
+    /**
+     * Publier automatiquement les articles programmés dont l'heure est passée
+     */
+    private function publishScheduledBlogs(BlogRepository $blogRepository, EntityManagerInterface $entityManager): void
+    {
+        // Définir le fuseau horaire français
+        $parisTimezone = new \DateTimeZone('Europe/Paris');
+        $now = new \DateTimeImmutable('now', $parisTimezone);
+        
+        // Debug : afficher l'heure actuelle
+        error_log("Heure actuelle Paris : " . $now->format('Y-m-d H:i:s T'));
+        
+        // Récupérer les articles programmés dont la date est passée
+        $scheduledBlogs = $blogRepository->findScheduledToPublish();
+        
+        if (!empty($scheduledBlogs)) {
+            $publishedCount = 0;
+            foreach ($scheduledBlogs as $blog) {
+                // Convertir la date de publication en fuseau horaire parisien
+                $publishTime = $blog->getPublishedAt();
+                if ($publishTime) {
+                    $publishTimeInParis = $publishTime->setTimezone($parisTimezone);
+                    error_log("Article '{$blog->getTitleOne()}' programmé pour : " . $publishTimeInParis->format('Y-m-d H:i:s T'));
+                    
+                    // Vérifier si l'heure est vraiment passée en heure de Paris
+                    if ($publishTimeInParis <= $now) {
+                        // Changer le statut en publié
+                        $blog->setStatus(Blog::STATUS_PUBLISHED);
+                        $entityManager->persist($blog);
+                        $publishedCount++;
+                        error_log("Article '{$blog->getTitleOne()}' publié automatiquement !");
+                    }
+                }
+            }
+            
+            if ($publishedCount > 0) {
+                // Sauvegarder en base
+                $entityManager->flush();
+                error_log("$publishedCount article(s) publié(s) automatiquement");
+            }
+        }
+    }
 }

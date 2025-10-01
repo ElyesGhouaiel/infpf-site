@@ -1,107 +1,955 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}certifié QUALIOPI
+{% block title %}L'INFPF certifié Qualiopi
 {% endblock %}
-{% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
-    <link href="../css/footer1.css" rel="stylesheet"/>
-{% endblock %}
-{% block body %}
-	<img class="im" src="{{ asset('img/9.png') }}" alt="Nos formations à distance">
 
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut national de la formation professionnelle française</a>
-				</span>
-				&gt;
-				<span>
-					<a href="../ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">L'INFPF certifié Qualiopi</span>
-			</span>
+{% block stylesheets %}
+	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
+    <link href="../css/footer1.css" rel="stylesheet"/>
+	<style>
+		/* ===== VARIABLES CSS MODERNES ===== */
+		:root {
+			--primary-color: #0b3f89;
+			--primary-light: #1e5cb8;
+			--accent-color: #00b4d8;
+			--text-dark: #2d3748;
+			--text-light: #718096;
+			--white: #ffffff;
+			--bg-light: #f8fafc;
+			--bg-section: #fafbfc;
+			--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+			--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+			--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+			--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			--transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			--border-radius: 24px;
+		}
+
+		/* ===== RESET ET BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			line-height: 1.6;
+			color: var(--text-dark);
+			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+		}
+
+		/* ===== HERO SECTION MODERNE ===== */
+		.qaliopi-hero-formation {
+			position: relative;
+			min-height: 45vh;
+			background: var(--primary-gradient);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 40px;
+		}
+
+		.qaliopi-hero-formation::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('{{ asset('img/9.png') }}') center center/cover;
+			background-repeat: no-repeat;
+			opacity: 0.08;
+			z-index: 1;
+		}
+
+		.qaliopi-hero-formation::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+			z-index: 2;
+		}
+
+		.qaliopi-hero-content {
+			position: relative;
+			z-index: 3;
+			color: white;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.qaliopi-hero-title {
+			font-size: clamp(2.8rem, 6vw, 4.5rem);
+			font-weight: 800;
+			margin-bottom: 24px;
+			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			letter-spacing: -0.02em;
+		}
+
+		.qaliopi-hero-subtitle {
+			font-size: clamp(1.3rem, 3vw, 1.8rem);
+			font-weight: 400;
+			margin-bottom: 50px;
+			opacity: 0.95;
+			line-height: 1.4;
+		}
+
+		.qaliopi-hero-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			backdrop-filter: blur(10px);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			transition: var(--transition);
+			text-shadow: none;
+		}
+
+		.qaliopi-hero-cta:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			color: white;
+		}
+
+		/* ===== BREADCRUMBS MODERNES ===== */
+		.modern-breadcrumbs {
+			background: white;
+			padding: 20px 0;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		.breadcrumbs-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 40px;
+		}
+
+		.breadcrumbs-list {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 0.95rem;
+			color: var(--text-light);
+		}
+
+		.breadcrumbs-list a {
+			color: var(--primary-color);
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		.breadcrumbs-list a:hover {
+			color: var(--accent-color);
+		}
+
+		.breadcrumb-separator {
+			color: #cbd5e0;
+			font-weight: 600;
+		}
+
+		.breadcrumb-current {
+			color: var(--text-dark);
+			font-weight: 500;
+		}
+
+		/* ===== CONTAINER PRINCIPAL ===== */
+		.qaliopi-main-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 80px 40px;
+		}
+
+		/* ===== SECTIONS MODERNES ===== */
+		.qaliopi-modern-section {
+			margin-bottom: 80px;
+		}
+
+		.qaliopi-section-header {
+			text-align: center;
+			margin-bottom: 60px;
+		}
+
+		.qaliopi-section-title {
+			font-size: clamp(3rem, 5vw, 4rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 32px;
+			line-height: 1.2;
+		}
+
+		.qaliopi-section-subtitle {
+			font-size: 1.6rem;
+			color: var(--text-dark);
+			max-width: 900px;
+			margin: 0 auto;
+			line-height: 1.8;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			padding: 48px 56px;
+			border-radius: 24px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			box-shadow: 0 8px 30px rgba(11, 63, 137, 0.08);
+		}
+
+		/* ===== LAYOUT SECTIONS ===== */
+		.qaliopi-section-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 80px;
+			align-items: center;
+			margin-bottom: 80px;
+		}
+
+		.qaliopi-section-row.reverse {
+			direction: rtl;
+		}
+
+		.qaliopi-section-row.reverse > * {
+			direction: ltr;
+		}
+
+		.qaliopi-section-content {
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.7) 0%, rgba(241, 245, 249, 0.9) 100%);
+			padding: 48px 56px;
+			border-radius: 24px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			box-shadow: 0 8px 30px rgba(11, 63, 137, 0.08);
+		}
+
+		.qaliopi-section-content h2 {
+			font-size: clamp(2rem, 3vw, 2.6rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 28px;
+			line-height: 1.3;
+		}
+
+		.qaliopi-section-content p {
+			font-size: 1.4rem;
+			line-height: 1.9;
+			color: var(--text-dark);
+			margin-bottom: 28px;
+		}
+
+		.qaliopi-section-content strong {
+			color: var(--primary-color);
+		}
+
+		.qaliopi-section-content a {
+			color: var(--primary-color);
+			text-decoration: none;
+			font-weight: 600;
+			transition: var(--transition);
+		}
+
+		.qaliopi-section-content a:hover {
+			color: var(--accent-color);
+		}
+
+		/* ===== CERTIFICATION BADGE ===== */
+		.qaliopi-certification-section {
+			background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			padding: 70px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-medium);
+			text-align: center;
+			margin: 70px 0;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0;
+		}
+
+		.qaliopi-certification-section::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: radial-gradient(circle, rgba(11, 63, 137, 0.02) 0%, transparent 70%);
+			animation: rotate 20s linear infinite;
+		}
+
+		@keyframes rotate {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		.qaliopi-certification-section > * {
+			position: relative;
+			z-index: 2;
+		}
+
+		.qaliopi-certification-logo {
+			max-width: 320px;
+			width: 100%;
+			height: auto;
+			margin: 0 auto 44px;
+			border-radius: 20px;
+			box-shadow: 0 12px 40px rgba(11, 63, 137, 0.15);
+			transition: var(--transition);
+		}
+
+		.qaliopi-certification-logo:hover {
+			transform: scale(1.05);
+			box-shadow: 0 16px 50px rgba(11, 63, 137, 0.2);
+		}
+
+		.qaliopi-certification-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 16px;
+			background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+			color: white;
+			padding: 20px 36px;
+			border-radius: 50px;
+			font-weight: 700;
+			font-size: 1.2rem;
+			margin-bottom: 36px;
+			box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+			transition: var(--transition);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.qaliopi-certification-badge::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+			transition: left 0.6s ease;
+		}
+
+		.qaliopi-certification-badge:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+		}
+
+		.qaliopi-certification-badge:hover::before {
+			left: 100%;
+		}
+
+		.qaliopi-certification-icon {
+			width: 32px;
+			height: 32px;
+			background: rgba(255, 255, 255, 0.2);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			font-size: 16px;
+			font-weight: bold;
+			box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+		}
+
+		/* ===== CRITÈRES LISTE ===== */
+		.qaliopi-criteria-section {
+			margin: 70px 0;
+		}
+
+		.qaliopi-criteria-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+			gap: 32px;
+			margin-top: 50px;
+		}
+
+		.qaliopi-criteria-item {
+			background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			padding: 36px;
+			border-radius: 24px;
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* Suppression des traits bleus sur les critères */
+
+		.qaliopi-criteria-item:hover {
+			transform: translateY(-6px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		/* Suppression des effets hover sur les traits bleus */
+
+		.qaliopi-criteria-number {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 48px;
+			height: 48px;
+			background: var(--primary-gradient);
+			color: white;
+			border-radius: 50%;
+			font-weight: 800;
+			font-size: 1.2rem;
+			margin-bottom: 20px;
+			box-shadow: 0 6px 20px rgba(11, 63, 137, 0.2);
+			transition: var(--transition);
+		}
+
+		.qaliopi-criteria-item:hover .qaliopi-criteria-number {
+			transform: scale(1.1) rotate(5deg);
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+		}
+
+		.qaliopi-criteria-item h4 {
+			font-size: 1.6rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+			line-height: 1.3;
+		}
+
+		.qaliopi-criteria-item p {
+			color: var(--text-dark);
+			line-height: 1.9;
+			margin: 0;
+			font-size: 1.3rem;
+		}
+
+		/* ===== HIGHLIGHT SECTION ===== */
+		.qaliopi-highlight-section {
+			background: var(--primary-gradient);
+			padding: 90px 40px;
+			margin: 80px -40px;
+			border-radius: var(--border-radius);
+			color: white;
+			text-align: center;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.qaliopi-highlight-section::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="12.5" cy="12.5" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="6.25" cy="6.25" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="18.75" cy="18.75" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+			z-index: 1;
+			opacity: 0.4;
+		}
+
+		.qaliopi-highlight-section > * {
+			position: relative;
+			z-index: 2;
+		}
+
+		.qaliopi-highlight-title {
+			font-size: clamp(2.8rem, 5vw, 3.8rem);
+			font-weight: 700;
+			margin-bottom: 32px;
+			text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+			color: white;
+		}
+
+		.qaliopi-highlight-content {
+			font-size: 1.5rem;
+			color: white;
+			max-width: 900px;
+			margin: 0 auto;
+			line-height: 1.8;
+		}
+
+		.qaliopi-highlight-content p {
+			color: white;
+			opacity: 0.95;
+		}
+
+		/* ===== STATS SECTION ===== */
+		.qaliopi-stats-row {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 36px;
+			margin: 70px 0;
+		}
+
+		.qaliopi-stat-card {
+			background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			padding: 50px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			text-align: center;
+			transition: var(--transition);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.qaliopi-stat-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 6px;
+			background: var(--primary-gradient);
+			transform: scaleX(0);
+			transform-origin: left;
+			transition: transform 0.4s ease;
+		}
+
+		.qaliopi-stat-card:hover {
+			transform: translateY(-10px) scale(1.02);
+			box-shadow: var(--shadow-heavy);
+		}
+
+		.qaliopi-stat-card:hover::before {
+			transform: scaleX(1);
+		}
+
+		.qaliopi-stat-number {
+			font-size: 3.5rem;
+			font-weight: 900;
+			color: var(--primary-color);
+			display: block;
+			margin-bottom: 16px;
+			text-shadow: 0 2px 4px rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.qaliopi-stat-card:hover .qaliopi-stat-number {
+			transform: scale(1.1);
+			color: var(--primary-light);
+		}
+
+		.qaliopi-stat-label {
+			font-size: 1.3rem;
+			color: var(--text-dark);
+			font-weight: 600;
+			line-height: 1.4;
+		}
+
+		/* ===== NOTICE SECTION ===== */
+		.qaliopi-notice-section {
+			background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.12) 100%);
+			border: 2px solid rgba(34, 197, 94, 0.25);
+			padding: 40px 48px;
+			border-radius: 20px;
+			margin: 50px 0;
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* Suppression du trait bleu/vert sur la notice */
+
+		.qaliopi-notice-section::after {
+			content: 'ℹ️';
+			position: absolute;
+			top: 24px;
+			right: 24px;
+			font-size: 1.8rem;
+			opacity: 0.4;
+		}
+
+		.qaliopi-notice-title {
+			color: #16a34a;
+			font-weight: 700;
+			font-size: 1.5rem;
+			margin-bottom: 24px;
+			text-transform: uppercase;
+			letter-spacing: 0.8px;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.qaliopi-notice-title::before {
+			content: '📅';
+			font-size: 1.4rem;
+		}
+
+		.qaliopi-notice-text {
+			color: var(--text-dark);
+			line-height: 1.9;
+			margin: 0;
+			font-size: 1.3rem;
+		}
+
+		/* ===== BOUTONS MODERNES ===== */
+		.qaliopi-modern-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 14px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			transition: var(--transition);
+			border: none;
+			cursor: pointer;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.qaliopi-modern-button::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+			transition: left 0.6s ease;
+		}
+
+		.qaliopi-modern-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 12px 35px rgba(11, 63, 137, 0.3);
+			color: white;
+		}
+
+		.qaliopi-modern-button:hover::before {
+			left: 100%;
+		}
+
+		/* ===== BOUTON RETOUR HUB ===== */
+		.back-to-hub {
+			position: fixed;
+			top: 180px;
+			left: 30px;
+			z-index: 1000;
+		}
+
+		.back-hub-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+			color: white;
+			padding: 16px 24px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+			border: 1px solid rgba(255, 107, 53, 0.2);
+			transition: var(--transition);
+			backdrop-filter: blur(10px);
+		}
+
+		.back-hub-btn:hover {
+			background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+		}
+
+		.back-hub-btn svg {
+			width: 20px;
+			height: 20px;
+			transition: var(--transition);
+		}
+
+		.back-hub-btn:hover svg {
+			transform: translateX(-3px);
+		}
+
+		/* ===== RESPONSIVE DESIGN ===== */
+		@media (max-width: 1024px) {
+			.qaliopi-hero-formation {
+				min-height: 40vh;
+				padding: 30px 30px;
+			}
+
+			.qaliopi-section-row {
+				grid-template-columns: 1fr;
+				gap: 60px;
+				text-align: center;
+			}
+
+			.qaliopi-section-row.reverse {
+				direction: ltr;
+			}
+
+			.qaliopi-main-container {
+				padding: 60px 30px;
+			}
+
+			.qaliopi-criteria-grid {
+				grid-template-columns: 1fr;
+				gap: 24px;
+			}
+
+			.qaliopi-certification-section {
+				padding: 50px;
+			}
+
+			.qaliopi-stats-row {
+				grid-template-columns: 1fr;
+				gap: 24px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.qaliopi-hero-formation {
+				min-height: 35vh;
+				padding: 25px 20px;
+			}
+
+			.qaliopi-hero-title {
+				font-size: clamp(2.2rem, 8vw, 3rem);
+				margin-bottom: 16px;
+			}
+
+			.qaliopi-hero-subtitle {
+				font-size: clamp(1.1rem, 4vw, 1.4rem);
+				margin-bottom: 30px;
+			}
+
+			.qaliopi-main-container,
+			.qaliopi-section-row,
+			.qaliopi-certification-section,
+			.qaliopi-highlight-section {
+				padding: 0 20px;
+			}
+
+			.qaliopi-modern-section {
+				margin-bottom: 60px;
+			}
+
+			.qaliopi-section-header {
+				margin-bottom: 40px;
+			}
+
+			.qaliopi-criteria-item,
+			.qaliopi-stat-card {
+				padding: 28px;
+			}
+
+			.qaliopi-certification-section {
+				padding: 40px 20px;
+			}
+
+			.qaliopi-notice-section {
+				padding: 28px;
+			}
+
+			.qaliopi-hero-cta {
+				padding: 16px 32px;
+				font-size: 1rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.qaliopi-hero-formation {
+				min-height: 30vh;
+				padding: 20px 16px;
+			}
+
+			.qaliopi-hero-title {
+				font-size: clamp(1.8rem, 8vw, 2.5rem);
+			}
+
+			.qaliopi-hero-subtitle {
+				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+
+			.qaliopi-main-container {
+				padding: 40px 16px;
+			}
+
+			.qaliopi-criteria-item,
+			.qaliopi-stat-card {
+				padding: 24px;
+			}
+
+			.qaliopi-certification-section {
+				padding: 32px 16px;
+			}
+
+			.qaliopi-notice-section {
+				padding: 24px;
+			}
+
+			.qaliopi-hero-cta {
+				padding: 14px 28px;
+				font-size: 0.95rem;
+			}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+
+<!-- Hero Section Moderne -->
+<section class="qaliopi-hero-formation">
+	<div class="qaliopi-hero-content">
+		<h1 class="qaliopi-hero-title">L'INFPF Certifié Qualiopi</h1>
+		<p class="qaliopi-hero-subtitle">Un gage de qualité reconnu par l'État pour nos formations professionnelles</p>
+		<a href="{{ asset('pdf/Qualiopi.pdf') }}" target="_blank" class="qaliopi-hero-cta">
+			<span>Voir notre certification</span>
+		</a>
+	</div>
+</section>
+
+<!-- Breadcrumbs Modernes -->
+<!-- Bouton Retour vers le Hub -->
+<div class="back-to-hub">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		</svg>
+		<span>Retour à L'École</span>
+	</a>
+</div>
+
+<!-- Container Principal -->
+<main class="qaliopi-main-container">
+	
+	<!-- Introduction -->
+	<section class="qaliopi-modern-section">
+		<div class="qaliopi-section-header">
+			<p class="qaliopi-section-subtitle">Notre établissement possède la <a href="{{ asset('pdf/Qualiopi.pdf') }}" target="_blank"><strong>certification Qualiopi</strong></a> délivrée par des organismes certificateurs retenus par le Comité français d'accréditation (Cofrac).</p>
 		</div>
-		{# <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">L'Institut national de la formation professionnelle française
-			<strong style="color: #0b3e6fd6;">certifié Qualiopi</strong>
-		</h2> #}
-		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex">
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:71%">
-				<br>
-				<p>Notre établissement possède la
-					<a href="../img/Certificat_de_Conformite.jpg">
-						<strong style="color: #0b3e6fd6;">certification</strong>
-						<strong style="color: #0b3e6fd6;">Qualiopi</strong>
-					</a>
-					délivrée par des organismes certificateurs retenus par le Comité français d’accréditation (Cofrac).</p>
-				<p>Nous avons répondu positivement aux
-					<strong style="color: #0b3e6fd6;">7 critères et aux 31 points de contrôle audités.</strong>
-					Nous sommes très fiers d’avoir obtenu la certification Qualiopi ! C’est une véritable reconnaissance de
-																				              notre démarche qualité mise en oeuvre depuis plusieurs années.</p>
+	</section>
+
+	<!-- Certification highlight -->
+	<div class="qaliopi-certification-section">
+		<div class="qaliopi-certification-badge">
+			<div class="qaliopi-certification-icon">✓</div>
+			<span>Certifié Qualiopi</span>
+		</div>
+		<img src="{{ asset('img/Qualiopi.png') }}" alt="Logo Qualiopi" class="qaliopi-certification-logo" />
+		<p style="font-size: 1.4rem; color: var(--text-dark); margin-top: 28px; line-height: 1.8;">Nous avons répondu positivement aux <strong>7 critères et aux 31 points de contrôle audités.</strong> Nous sommes très fiers d'avoir obtenu la certification Qualiopi ! C'est une véritable reconnaissance de notre démarche qualité mise en œuvre depuis plusieurs années.</p>
+	</div>
+
+	<!-- Stats section -->
+	<div class="qaliopi-stats-row">
+		<div class="qaliopi-stat-card">
+			<span class="qaliopi-stat-number">7</span>
+			<span class="qaliopi-stat-label">Critères validés</span>
+		</div>
+		<div class="qaliopi-stat-card">
+			<span class="qaliopi-stat-number">31</span>
+			<span class="qaliopi-stat-label">Points de contrôle</span>
+		</div>
+	</div>
+
+	<!-- Qu'est-ce que Qualiopi -->
+	<section class="qaliopi-modern-section">
+		<div class="qaliopi-section-header">
+			<h2 class="qaliopi-section-title">Qu'est-ce que la certification Qualiopi ?</h2>
 			</div>
 
+		<div class="qaliopi-section-content">
+			<p>Le Qualiopi est le nom donné au Référentiel National Qualité (RNQ). Celui-ci trouve son origine dans la loi du 5 Septembre 2018.</p>
+			<p>À savoir que le décret d'application de la loi en lien avec le contrôle de la Qualité des Organismes de formation, est le décret du 6 juin 2019. Il détaille le contenu du Référentiel National Qualité (RNQ), celui-ci a été présenté et s'appelle officiellement : Qualiopi. Ce décret sert de base de travail aux acteurs de la formation professionnelle pour constituer leur démarche qualité.</p>
+			<p>Grâce à cette démarche qualité, les organismes de formation pourront viser la certification Qualiopi requise au 1<sup>er</sup> janvier 2021 pour bénéficier des fonds de la formation professionnelle.</p>
 		</div>
-		<div aria-hidden="true" class="wp-block-spacer" style="height:20px"></div>
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0;margin: 0px;"><strong style="color: #0b3e6fd6;">Qu’est-ce que
-			la certification
-																            Qualiopi ?</strong>
-			</h2>
-		<p style="margin: 5px;padding-top:10px;">Le Qualiopi est le nom donné au Référentiel National Qualité (RNQ). Celui-ci trouve son origine dans la loi
-												          du 5 Septembre 2018.</p>
-		<p style="margin: 5px;">À savoir que le décret d’application de la loi en lien avec le contrôle de la Qualité des Organismes de
-												          formation, est le décret du 6 juin 2019. Il détaille le contenu du Référentiel National Qualité (RNQ),
-												          celui-ci a été présenté et s’appelle officiellement : Qualiopi. Ce décret sert de base de travail aux acteurs
-												          de la formation professionnelle pour constituer leur démarche qualité.</p>
-		<p style="margin: 5px;">Grâce à cette démarche qualité, les organismes de formation pourront viser la certification Qualiopi requise
-												          au 1<sup>er</sup>
-			janvier 2021 pour bénéficier des fonds de la formation professionnelle.</p>
-		<p style="margin: 10px;"><div>
-			<p style="margin: 5px;">NOTE : suite à la crise sanitaire du Covid-19,<strong style="color: #0b3e6fd6;">
-					la date de certification Qualiopi a été
-				décalée au 1er janvier 2022</strong>
-				pour tous les organismes de formation CFA inclus (nouveau comme historique)</p>.<br/> </div>
+	</section>
 
-<p> <strong style="color: #0b3e6fd6;margin: 5px;">Qualiopi remplace la majorité des anciens labels qualité existants</strong>dans le domaine de la formation professionnelle (APP, OPQF…).</p>
-			<img src="{{ asset('img/Qualiopi.png') }}" alt="Qualiopi" style="width:100%; height:auto;">
-		<div aria-hidden="true" class="wp-block-spacer" style="height:20px"></div>
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">Les critères de qualité
-			de la
-												          certification Qualiopi</strong></h2>
-		<p style="margin: 5px;">La certification Qualiopi se base sur 7 critères principaux, déclinés en 22 indicateurs qui s’appliquent à
-												          l’ensemble des prestataires, auxquels s’ajoutent 10 indicateurs spécifiques (aux formations certifiantes, à
-												          l’apprentissage…).</p>
-		<p style="margin: 5px;">1.
-			<strong style="color: #0b3e6fd6;">Les conditions d’information</strong>
-			du public sur les prestations proposées, les
-												          délais pour y accéder et les résultats obtenus.<br/>2.
-			<strong style="color: #0b3e6fd6;">L’identification précise des
-																            objectifs</strong>
-			des prestations proposées et l’adaptation de ces prestations aux publics
-												          bénéficiaires, lors de la conception des prestations.<br/>3.
-			<strong style="color: #0b3e6fd6;">L’adaptation aux publics
-																            bénéficiaires</strong>
-			des prestations et des modalités d’accueil, d’accompagnement, de suivi et
-												          d’évaluation mises en œuvre.<br/>4.
-			<strong style="color: #0b3e6fd6;">L’adéquation des moyens pédagogiques, techniques et
-																            d’encadrement aux prestations</strong>
-			mises en œuvre.<br/>5.
-			<strong style="color: #0b3e6fd6;">La qualification et
-																            développement des connaissances et compétences</strong>
-			des personnels chargés de mettre en œuvre les
-												          prestations.<br/>6.
-			<strong style="color: #0b3e6fd6;">L’inscription et investissement du prestataire</strong>
-			dans son
-												          environnement professionnel.<br/>7.
-			<strong style="color: #0b3e6fd6;">Le recueil et prise en compte des appréciations et des
-																            réclamations</strong>
-			formulées par les parties prenantes aux prestations délivrées.<br/>( Pour en
-												          savoir plus sur le référentiel, consultez ce
-			<a href="https://travail-emploi.gouv.fr/demarches-ressources-documentaires/documentation-et-publications-officielles/guides/guide-referentiel-national-qualite">lien</a>
-			)
-		</p>
+	<!-- Notice COVID -->
+	<div class="qaliopi-notice-section">
+		<div class="qaliopi-notice-title">NOTE IMPORTANTE :</div>
+		<p class="qaliopi-notice-text">Suite à la crise sanitaire du Covid-19, <strong>la date de certification Qualiopi a été décalée au 1er janvier 2022</strong> pour tous les organismes de formation CFA inclus (nouveau comme historique).</p>
+		<p class="qaliopi-notice-text" style="margin-top: 16px;"><strong>Qualiopi remplace la majorité des anciens labels qualité existants</strong> dans le domaine de la formation professionnelle (APP, OPQF…).</p>
 	</div>
-	<!-- .entry-content -->
-</article>
-<!-- #post-409607 --></main><!-- #main --></body></html>{% include 'footer.html.twig' %}{% endblock %}
+
+	<!-- Les critères -->
+	<section class="qaliopi-criteria-section">
+		<div class="qaliopi-section-header">
+			<h2 class="qaliopi-section-title">Les critères de qualité de la certification Qualiopi</h2>
+			<p class="qaliopi-section-subtitle">La certification Qualiopi se base sur 7 critères principaux, déclinés en 22 indicateurs qui s'appliquent à l'ensemble des prestataires, auxquels s'ajoutent 10 indicateurs spécifiques (aux formations certifiantes, à l'apprentissage…).</p>
+		</div>
+		
+		<div class="qaliopi-criteria-grid">
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">1</div>
+				<h4>Les conditions d'information</h4>
+				<p>Les conditions d'information du public sur les prestations proposées, les délais pour y accéder et les résultats obtenus.</p>
+			</div>
+
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">2</div>
+				<h4>L'identification précise des objectifs</h4>
+				<p>L'identification précise des objectifs des prestations proposées et l'adaptation de ces prestations aux publics bénéficiaires, lors de la conception des prestations.</p>
+			</div>
+
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">3</div>
+				<h4>L'adaptation aux publics bénéficiaires</h4>
+				<p>L'adaptation aux publics bénéficiaires des prestations et des modalités d'accueil, d'accompagnement, de suivi et d'évaluation mises en œuvre.</p>
+			</div>
+
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">4</div>
+				<h4>L'adéquation des moyens pédagogiques</h4>
+				<p>L'adéquation des moyens pédagogiques, techniques et d'encadrement aux prestations mises en œuvre.</p>
+			</div>
+
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">5</div>
+				<h4>La qualification et développement des compétences</h4>
+				<p>La qualification et développement des connaissances et compétences des personnels chargés de mettre en œuvre les prestations.</p>
+			</div>
+
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">6</div>
+				<h4>L'inscription et investissement du prestataire</h4>
+				<p>L'inscription et investissement du prestataire dans son environnement professionnel.</p>
+			</div>
+
+			<div class="qaliopi-criteria-item">
+				<div class="qaliopi-criteria-number">7</div>
+				<h4>Le recueil et prise en compte des appréciations</h4>
+				<p>Le recueil et prise en compte des appréciations et des réclamations formulées par les parties prenantes aux prestations délivrées.</p>
+			</div>
+		</div>
+
+		<div style="text-align: center; margin-top: 50px;">
+			<a href="https://travail-emploi.gouv.fr/demarches-ressources-documentaires/documentation-et-publications-officielles/guides/guide-referentiel-national-qualite" target="_blank" class="qaliopi-modern-button">
+				<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M14 2H6C4.9 2 4 2.9 4 4v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM16 18H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+				</svg>
+				<span>Consulter le référentiel complet</span>
+			</a>
+		</div>
+	</section>
+
+	<!-- Call to action -->
+	<section class="qaliopi-highlight-section">
+		<h2 class="qaliopi-highlight-title">Une garantie de qualité pour votre formation</h2>
+		<div class="qaliopi-highlight-content">
+			<p>La certification Qualiopi vous assure une formation de qualité, reconnue par l'État et éligible aux financements publics.</p>
+			<a href="{{ path('app_home') }}" class="qaliopi-modern-button" style="margin-top: 40px;">
+				<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M3 13h8V3l10 9-10 9V11H3v2z"/>
+				</svg>
+				<span>Découvrir nos formations</span>
+			</a>
+		</div>
+	</section>
+
+</main>
+
+{% include 'footer.html.twig' %}
+{% endblock %}

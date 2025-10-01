@@ -11,6 +11,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
 class Blog
 {
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_SCHEDULED = 'scheduled';
+    public const STATUS_PUBLISHED = 'published';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,6 +25,9 @@ class Blog
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
+
+    #[ORM\Column(length: 20, nullable: false)]
+    private string $status = 'draft';
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $author = null;
@@ -56,14 +63,24 @@ class Blog
     private ?string $content_for = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title_five = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $content_five = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Comment::class, cascade: ['persist', 'remove'])]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: BlogSection::class, cascade: ['persist', 'remove'])]
+    private Collection $dynamicSections;
+
 
     public function __construct() {
         $this->comments = new ArrayCollection();
+        $this->dynamicSections = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -226,6 +243,30 @@ class Blog
         return $this;
     }
 
+    public function getTitleFive(): ?string
+    {
+        return $this->title_five;
+    }
+
+    public function setTitleFive(?string $title_five): static
+    {
+        $this->title_five = $title_five;
+
+        return $this;
+    }
+
+    public function getContentFive(): ?string
+    {
+        return $this->content_five;
+    }
+
+    public function setContentFive(?string $content_five): static
+    {
+        $this->content_five = $content_five;
+
+        return $this;
+    }
+
     public function getImage(): ?string
     {
         return $this->image;
@@ -263,5 +304,75 @@ class Blog
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, BlogSection>
+     */
+    public function getDynamicSections(): Collection
+    {
+        return $this->dynamicSections;
+    }
+
+    public function addDynamicSection(BlogSection $dynamicSection): static
+    {
+        if (!$this->dynamicSections->contains($dynamicSection)) {
+            $this->dynamicSections->add($dynamicSection);
+            $dynamicSection->setBlog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDynamicSection(BlogSection $dynamicSection): static
+    {
+        if ($this->dynamicSections->removeElement($dynamicSection)) {
+            // set the owning side to null (unless already changed)
+            if ($dynamicSection->getBlog() === $this) {
+                $dynamicSection->setBlog(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getStatusLabel(): string
+    {
+        return match($this->status) {
+            self::STATUS_DRAFT => 'Brouillon',
+            self::STATUS_SCHEDULED => 'Programmé',
+            self::STATUS_PUBLISHED => 'Publié',
+            default => 'Inconnu'
+        };
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === self::STATUS_PUBLISHED && 
+               $this->publishedAt !== null && 
+               $this->publishedAt <= new \DateTimeImmutable();
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->status === self::STATUS_SCHEDULED && 
+               $this->publishedAt !== null && 
+               $this->publishedAt > new \DateTimeImmutable();
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === self::STATUS_DRAFT;
     }
 }

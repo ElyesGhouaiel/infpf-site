@@ -24,21 +24,22 @@ class MetierController extends AbstractController
     #[Route('/metiers', name: 'app_metiers_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        // Vérifier si la fonctionnalité est activée
-        if (!$this->metierService->isMetiersEnabled()) {
-            throw $this->createNotFoundException('Fonctionnalité métiers non disponible');
-        }
+        // Fonctionnalité métiers activée par défaut
+        // if (!$this->metierService->isMetiersEnabled()) {
+        //     throw $this->createNotFoundException('Fonctionnalité métiers non disponible');
+        // }
 
         $metiers = $this->metierService->getMetiersList();
         $formationsCounts = $this->metierService->getFormationsCountByMetier();
 
-        // Filtrer les métiers qui ont au moins une formation
+        // Filtrer les métiers qui ont une formation associée (approche 1:1)
         $metiersAvecFormations = [];
         foreach ($metiers as $slug => $metier) {
-            $formations = $this->metierService->findFormationsByMetierLimited($slug, 6);
-            if (count($formations) > 0) {
+            $formation = $this->metierService->findFormationByMetier($slug);
+            if ($formation) {
                 $metiersAvecFormations[$slug] = $metier;
-                $metiersAvecFormations[$slug]['formations_count'] = count($formations);
+                $metiersAvecFormations[$slug]['formations_count'] = 1; // Toujours 1 en approche 1:1
+                $metiersAvecFormations[$slug]['formation'] = $formation;
             }
         }
 
@@ -59,10 +60,10 @@ class MetierController extends AbstractController
     #[Route('/metiers/{slug}', name: 'app_metiers_show', methods: ['GET'])]
     public function show(string $slug, Request $request): Response
     {
-        // Vérifier si la fonctionnalité est activée
-        if (!$this->metierService->isMetiersEnabled()) {
-            throw $this->createNotFoundException('Fonctionnalité métiers non disponible');
-        }
+        // Fonctionnalité métiers activée par défaut
+        // if (!$this->metierService->isMetiersEnabled()) {
+        //     throw $this->createNotFoundException('Fonctionnalité métiers non disponible');
+        // }
 
         $metier = $this->metierService->getMetierBySlug($slug);
 
@@ -70,22 +71,29 @@ class MetierController extends AbstractController
             throw $this->createNotFoundException("Le métier '$slug' n'existe pas");
         }
 
-        $formations = $this->metierService->findFormationsByMetierLimited($slug, 6);
+        // Récupérer LA formation spécifique pour ce métier (approche 1:1)
+        $formation = $this->metierService->findFormationByMetier($slug);
 
-        // Maintenant qu'on gère les cas sans formation avec des cartes factices, on peut permettre l'affichage
-        // Note: Le template gère maintenant les cas avec 0, 1 ou plus de formations
+        if (!$formation) {
+            throw $this->createNotFoundException("Aucune formation trouvée pour le métier '$slug'");
+        }
 
-        // Génération des données structurées JSON-LD
-        $jsonLd = $this->metierService->generateJsonLd($slug, $formations);
+        // Récupérer les autres formations liées au métier
+        $otherFormations = $this->metierService->findOtherFormationsByMetier($slug);
+
+        // Génération des données structurées JSON-LD pour la formation principale
+        $jsonLd = $this->metierService->generateJsonLd($slug, [$formation]);
 
         return $this->render('metiers/show.html.twig', [
             'metier' => $metier,
-            'formations' => $formations,
+            'formation' => $formation, // Formation principale
+            'other_formations' => $otherFormations, // Autres formations liées
+            'other_formations_count' => count($otherFormations),
             'page_title' => $metier['title'],
             'page_description' => $metier['description'],
             'meta_description' => $metier['meta_description'],
             'json_ld' => $jsonLd,
-            'formations_count' => count($formations)
+            'formations_count' => 1
         ]);
     }
 

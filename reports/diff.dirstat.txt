@@ -1,0 +1,16 @@
+   2.4% assets/
+   4.8% config/packages/
+   2.4% config/
+   4.8% public/
+   9.7% src/Controller/
+   2.4% src/Entity/
+   4.8% src/Form/
+   4.8% src/Repository/
+   4.8% src/Service/
+   9.7% templates/content/blog/
+   2.4% templates/content/contact/
+  21.9% templates/content/ecole/
+   2.4% templates/content/formation/
+   4.8% templates/home/
+   4.8% templates/metiers/
+   4.8% templates/

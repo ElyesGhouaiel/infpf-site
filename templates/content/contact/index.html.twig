@@ -750,7 +750,7 @@
                 </svg>
             </div>
             <h3 class="contact-info-title">Téléphone</h3>
-            <p class="contact-info-text">04 93 29 50 77<br>Du lundi au vendredi<br>9h - 18h</p>
+            <p class="contact-info-text">04 89 05 03 55<br>Du lundi au vendredi<br>9h - 18h</p>
         </div>
         
         <div class="contact-info-card">
@@ -760,7 +760,7 @@
                 </svg>
             </div>
             <h3 class="contact-info-title">Email</h3>
-            <p class="contact-info-text">contact@infpf.fr<br>Réponse sous 24h</p>
+            <p class="contact-info-text">contact@infpf.fr<br></p>
         </div>
         
         <div class="contact-info-card">
@@ -781,12 +781,9 @@
                 <h2 class="form-title">Démarrons votre projet</h2>
                 <p class="form-subtitle">Remplissez le formulaire ci-dessous et recevez votre plan de formation personnalisé</p>
                 
-                <div class="form-urgency">
-                    <p class="form-urgency-text">Réponse garantie sous 24h</p>
-                </div>
             </div>
             
-            {{ form_start(contactForm) }}
+            {{ form_start(contactForm, {'attr': {'novalidate': 'novalidate', 'id': 'contact-form', 'data-turbo': 'false'}}) }}
             <div class="form-grid">
                 <div class="form-group">
                     {{ form_label(contactForm.name, 'Nom complet *') }}
@@ -818,7 +815,15 @@
                 </button>
             </div>
             {{ form_rest(contactForm) }}
-            {{ form_end(contactForm, {'render_rest': false}) }}
+            {{ form_end(contactForm) }}
+            
+            <!-- Script pour désactiver Turbo sur le formulaire -->
+            <script>
+            // Désactiver Turbo globalement pour cette page
+            if (window.Turbo) {
+                window.Turbo.session.drive = false;
+            }
+            </script>
         </div>
     </div>
 

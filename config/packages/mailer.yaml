@@ -1,5 +1,5 @@
-# config/packages/mailer.yaml
 framework:
     mailer:
-        # dsn: '%env(MAILER_DSN)%'
-
+        dsn: 'sendmail://default'
+        headers:
+            From: 'contact@infpf.fr'

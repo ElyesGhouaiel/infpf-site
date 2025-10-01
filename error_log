@@ -1,0 +1,5 @@
+[16-Sep-2025 13:49:24 UTC] 2025-09-16T13:49:24+00:00 [critical] Uncaught Error: syntax error, unexpected identifier "image", expecting "function" or "const"
+[16-Sep-2025 13:49:24 UTC] 2025-09-16T13:49:24+00:00 [critical] Uncaught Error: syntax error, unexpected identifier "image", expecting "function" or "const"
+[16-Sep-2025 13:49:27 UTC] 2025-09-16T13:49:27+00:00 [critical] Uncaught Error: syntax error, unexpected identifier "image", expecting "function" or "const"
+[01-Oct-2025 10:43:19 UTC] 2025-10-01T10:43:19+00:00 [critical] Uncaught Error: Class "Symfony\Bundle\DebugBundle\DebugBundle" not found
+[01-Oct-2025 10:44:03 UTC] 2025-10-01T10:44:03+00:00 [critical] Uncaught Error: Class "Symfony\Bundle\DebugBundle\DebugBundle" not found

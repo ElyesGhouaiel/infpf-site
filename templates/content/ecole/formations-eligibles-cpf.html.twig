@@ -1,123 +1,875 @@
 {% extends 'base.html.twig' %}
-{% block title %}Les formations de l'Institut National de la Formation Professionnelle Française éligibles au Compte Personnel de Formation
-{% endblock %}
-{% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
-    <link href="../css/footer1.css" rel="stylesheet"/>
+
+{% block title %}Formations éligibles CPF - INFPF
 {% endblock %}
 
+{% block stylesheets %}
+	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
+    <link href="../css/footer1.css" rel="stylesheet"/>
+	<style>
+		/* ===== VARIABLES CSS MODERNES ===== */
+		:root {
+			--primary-color: #0b3f89;
+			--primary-light: #1e5cb8;
+			--accent-color: #00b4d8;
+			--text-dark: #2d3748;
+			--text-light: #718096;
+			--white: #ffffff;
+			--bg-light: #f8fafc;
+			--bg-section: #fafbfc;
+			--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+			--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+			--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+			--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			--transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			--border-radius: 24px;
+		}
+
+		/* ===== RESET ET BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			line-height: 1.6;
+			color: var(--text-dark);
+			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+		}
+
+		/* ===== HERO SECTION MODERNE ===== */
+		.cpf-hero-formation {
+			position: relative;
+			min-height: 45vh;
+			background: var(--primary-gradient);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 40px;
+		}
+
+		.cpf-hero-formation::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('{{ asset('img/11.png') }}') center center/contain;
+			background-repeat: no-repeat;
+			opacity: 0.08;
+			z-index: 1;
+		}
+
+		.cpf-hero-formation::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+			z-index: 2;
+		}
+
+		.cpf-hero-content {
+			position: relative;
+			z-index: 3;
+			color: white;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.cpf-hero-title {
+			font-size: clamp(2.8rem, 6vw, 4.5rem);
+			font-weight: 800;
+			margin-bottom: 24px;
+			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			letter-spacing: -0.02em;
+		}
+
+		.cpf-hero-subtitle {
+			font-size: clamp(1.3rem, 3vw, 1.8rem);
+			font-weight: 400;
+			margin-bottom: 50px;
+			opacity: 0.95;
+			line-height: 1.4;
+		}
+
+		.cpf-hero-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			backdrop-filter: blur(10px);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			transition: var(--transition);
+			text-shadow: none;
+		}
+
+		.cpf-hero-cta:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			color: white;
+		}
+
+		/* ===== BREADCRUMBS MODERNES ===== */
+		.modern-breadcrumbs {
+			background: white;
+			padding: 20px 0;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		.breadcrumbs-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 40px;
+		}
+
+		.breadcrumbs-list {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 0.95rem;
+			color: var(--text-light);
+		}
+
+		.breadcrumbs-list a {
+			color: var(--primary-color);
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		.breadcrumbs-list a:hover {
+			color: var(--accent-color);
+		}
+
+		.breadcrumb-separator {
+			color: #cbd5e0;
+			font-weight: 600;
+		}
+
+		.breadcrumb-current {
+			color: var(--text-dark);
+			font-weight: 500;
+		}
+
+		/* ===== CONTAINER PRINCIPAL ===== */
+		.main-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 80px 40px;
+		}
+
+		/* ===== SECTIONS MODERNES ===== */
+		.modern-section {
+			margin-bottom: 80px;
+		}
+
+		.cpf-section-header {
+			text-align: center;
+			margin-bottom: 60px;
+		}
+
+		.cpf-section-title {
+			font-size: clamp(2.8rem, 5vw, 3.8rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+			line-height: 1.2;
+		}
+
+		.cpf-section-subtitle {
+			font-size: 1.4rem;
+			color: var(--text-dark);
+			max-width: 800px;
+			margin: 0 auto;
+			line-height: 1.6;
+		}
+
+		/* ===== PARAGRAPHES ULTRA-MODERNES ===== */
+		.cpf-intro-paragraph {
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.98) 100%);
+			padding: 40px 48px;
+			border-radius: 24px;
+			margin: 40px auto;
+			border: 1px solid rgba(11, 63, 137, 0.08);
+			box-shadow: 
+				0 20px 60px rgba(11, 63, 137, 0.08),
+				0 8px 25px rgba(0, 0, 0, 0.04),
+				inset 0 1px 0 rgba(255, 255, 255, 0.9);
+			position: relative;
+			max-width: 900px;
+			backdrop-filter: blur(20px);
+			overflow: hidden;
+		}
+
+		.cpf-intro-paragraph::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: 
+				radial-gradient(circle at 20% 80%, rgba(11, 63, 137, 0.03) 0%, transparent 50%),
+				radial-gradient(circle at 80% 20%, rgba(0, 180, 216, 0.03) 0%, transparent 50%);
+			z-index: 1;
+		}
+
+		.cpf-intro-paragraph::after {
+			content: '';
+			position: absolute;
+			top: -1px;
+			left: 20px;
+			right: 20px;
+			height: 3px;
+			background: linear-gradient(90deg, 
+				transparent 0%, 
+				var(--primary-color) 20%, 
+				var(--accent-color) 50%, 
+				var(--primary-color) 80%, 
+				transparent 100%);
+			border-radius: 0 0 24px 24px;
+			z-index: 2;
+		}
+
+		.cpf-intro-paragraph p {
+			margin: 0;
+			font-size: 1.3rem;
+			line-height: 1.7;
+			color: var(--text-dark);
+			font-weight: 500;
+			position: relative;
+			z-index: 3;
+		}
+
+		/* ===== LAYOUT ZIGZAG ALTERNÉ ===== */
+		.cpf-section-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 80px;
+			align-items: center;
+			margin-bottom: 80px;
+		}
+
+		.cpf-section-row.reverse {
+			direction: rtl;
+		}
+
+		.cpf-section-row.reverse > * {
+			direction: ltr;
+		}
+
+		.cpf-section-content h2 {
+			font-size: clamp(2.4rem, 4vw, 3.2rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+			line-height: 1.3;
+		}
+
+		.cpf-section-content p {
+			font-size: 1.3rem;
+			line-height: 1.7;
+			color: var(--text-dark);
+			margin-bottom: 20px;
+		}
+
+		.cpf-section-image {
+			position: relative;
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			box-shadow: var(--shadow-medium);
+		}
+
+		.cpf-section-image img {
+			width: 100%;
+			height: auto;
+			transition: var(--transition);
+		}
+
+		.cpf-section-image:hover img {
+			transform: scale(1.05);
+		}
+
+		/* ===== CARTES INFORMATIVES ===== */
+		.info-cards {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+			gap: 40px;
+			margin: 60px 0;
+		}
+
+		.info-card {
+			background: var(--white-gradient);
+			padding: 40px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.info-card:hover {
+			transform: translateY(-8px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.info-card h3 {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+		}
+
+		.info-card p {
+			color: var(--text-dark);
+			line-height: 1.6;
+			margin-bottom: 0;
+			font-size: 1.2rem;
+		}
+
+		/* ===== ACCORDÉONS MODERNES ===== */
+		.modern-accordion {
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.feature-item {
+			background: white;
+			border-radius: 16px;
+			margin-bottom: 16px;
+			overflow: hidden;
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.feature-item:hover {
+			box-shadow: var(--shadow-medium);
+		}
+
+		.feature-header {
+			background: var(--white-gradient);
+			padding: 24px 32px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-weight: 600;
+			font-size: 1.3rem;
+			color: var(--primary-color);
+			transition: var(--transition);
+			border: none;
+			width: 100%;
+			text-align: left;
+		}
+
+		.feature-header:hover {
+			background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+		}
+
+		.feature-icon {
+			width: 24px;
+			height: 24px;
+			transition: var(--transition);
+			opacity: 0.7;
+		}
+
+		.feature-item[open] .feature-icon {
+			transform: rotate(180deg);
+		}
+
+		.feature-content {
+			padding: 0 32px 32px 32px;
+			color: var(--text-dark);
+			line-height: 1.6;
+		}
+
+		.feature-content p {
+			font-size: 1.2rem;
+			line-height: 1.7;
+			margin: 0;
+		}
+
+		/* ===== SECTION VIDÉO YOUTUBE ===== */
+		.video-section {
+			background: var(--white-gradient);
+			padding: 80px 40px;
+			margin: 80px -40px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+		}
+
+		.video-container {
+			max-width: 900px;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		.video-title {
+			font-size: clamp(2.6rem, 5vw, 3.6rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+		}
+
+		.video-description {
+			font-size: 1.4rem;
+			color: var(--text-dark);
+			margin-bottom: 40px;
+			max-width: 700px;
+			margin-left: auto;
+			margin-right: auto;
+			line-height: 1.6;
+		}
+
+		.video-wrapper {
+			position: relative;
+			width: 100%;
+			height: 0;
+			padding-bottom: 56.25%; /* Ratio 16:9 */
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			box-shadow: var(--shadow-medium);
+		}
+
+		.video-wrapper iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border: none;
+		}
+
+		/* ===== BOUTONS MODERNES ===== */
+		.modern-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 16px 32px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1rem;
+			transition: var(--transition);
+			border: none;
+			cursor: pointer;
+		}
+
+		.modern-button:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-medium);
+			color: white;
+		}
+
+		.modern-button.secondary {
+			background: white;
+			color: var(--primary-color);
+			border: 2px solid var(--primary-color);
+		}
+
+		.modern-button.secondary:hover {
+			background: var(--primary-color);
+			color: white;
+		}
+
+		/* ===== BOUTON RETOUR HUB ===== */
+		.back-to-hub {
+			position: fixed;
+			top: 180px;
+			left: 30px;
+			z-index: 1000;
+		}
+
+		.back-hub-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+			color: white;
+			padding: 16px 24px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+			border: 1px solid rgba(255, 107, 53, 0.2);
+			transition: var(--transition);
+			backdrop-filter: blur(10px);
+		}
+
+		.back-hub-btn:hover {
+			background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+		}
+
+		.back-hub-btn svg {
+			width: 20px;
+			height: 20px;
+			transition: var(--transition);
+		}
+
+		.back-hub-btn:hover svg {
+			transform: translateX(-3px);
+		}
+
+		/* ===== RESPONSIVE DESIGN ===== */
+		@media (max-width: 1024px) {
+			.back-to-hub {
+				top: 80px;
+				left: 20px;
+			}
+			
+			.back-hub-btn {
+				padding: 14px 20px;
+				font-size: 0.9rem;
+			}
+			
+			.cpf-hero-formation {
+				min-height: 40vh;
+				padding: 30px 30px;
+			}
+
+			.cpf-section-row {
+				grid-template-columns: 1fr;
+				gap: 60px;
+				text-align: center;
+			}
+
+			.cpf-section-row.reverse {
+				direction: ltr;
+			}
+
+			.main-container {
+				padding: 60px 30px;
+			}
+
+			.info-cards {
+				grid-template-columns: 1fr;
+				gap: 30px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.back-to-hub {
+				top: 70px;
+				left: 15px;
+			}
+			
+			.back-hub-btn {
+				padding: 12px 16px;
+				font-size: 0.85rem;
+			}
+			
+			.back-hub-btn span {
+				display: none;
+			}
+			
+			.back-hub-btn svg {
+				width: 18px;
+				height: 18px;
+			}
+			
+			.cpf-hero-formation {
+				min-height: 35vh;
+				padding: 25px 20px;
+			}
+
+			.cpf-hero-title {
+				font-size: clamp(2.2rem, 8vw, 3rem);
+				margin-bottom: 16px;
+			}
+
+			.cpf-hero-subtitle {
+				font-size: clamp(1.1rem, 4vw, 1.4rem);
+				margin-bottom: 30px;
+			}
+
+			.main-container,
+			.cpf-section-row,
+			.video-section {
+				padding: 0 20px;
+			}
+
+			.modern-section {
+				margin-bottom: 60px;
+			}
+
+			.cpf-section-header {
+				margin-bottom: 40px;
+			}
+
+			.info-card {
+				padding: 30px;
+			}
+
+			.feature-header {
+				padding: 20px 24px;
+				font-size: 1.2rem;
+			}
+
+			.cpf-intro-paragraph {
+				padding: 32px 36px;
+				margin: 30px auto;
+				border-radius: 20px;
+			}
+
+			.cpf-intro-paragraph::after {
+				left: 16px;
+				right: 16px;
+			}
+
+			.cpf-intro-paragraph p {
+				font-size: 1.2rem;
+			}
+
+			.cpf-hero-cta {
+				padding: 16px 32px;
+				font-size: 1rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.cpf-hero-formation {
+				min-height: 30vh;
+				padding: 20px 16px;
+			}
+
+			.cpf-hero-title {
+				font-size: clamp(1.8rem, 8vw, 2.5rem);
+			}
+
+			.cpf-hero-subtitle {
+				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+
+			.feature-header {
+				padding: 20px 24px;
+				font-size: 1.1rem;
+			}
+
+			.cpf-intro-paragraph {
+				padding: 28px 32px;
+				margin: 24px auto;
+				border-radius: 16px;
+			}
+
+			.cpf-intro-paragraph::after {
+				left: 12px;
+				right: 12px;
+				height: 2px;
+			}
+
+			.cpf-intro-paragraph p {
+				font-size: 1.1rem;
+			}
+
+			.info-card h3 {
+				font-size: 1.6rem;
+			}
+
+			.info-card p {
+				font-size: 1.1rem;
+			}
+
+			.main-container {
+				padding: 40px 16px;
+			}
+
+			.info-card {
+				padding: 24px;
+			}
+
+			.cpf-hero-cta {
+				padding: 14px 28px;
+				font-size: 0.95rem;
+			}
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-	<img class="im" src="{{ asset('img/11.png') }}" alt="Nos formations à distance">
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut national de la formation professionnelle française
-					</a>
-				</span>
-				&gt;
-				<span>
-					<a href="../ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">Les formations éligibles CPF</span>
-			</span>
-		</div>
-		<br>
-		<p>Le Compte Personnel de Formation (CPF) représente une opportunité inestimable pour les travailleurs désireux de se former tout au long de leur carrière en France. Cette initiative, centrée sur l'individu plutôt que sur l'employeur, assure la conservation des droits à la formation indépendamment des changements d'emploi.</p>
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">Qu’est-ce que le Compte Personnel de
-																            Formation ?</strong>
-		</h2>
-		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex">
-			<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:71%">
-				<p>Le CPF alloue annuellement une somme de 500 à 800 euros selon le statut professionnel et le niveau de diplôme de l'individu. Ces fonds, cumulables jusqu'à une limite définie, sont destinés à financer des formations visant l'amélioration des compétences professionnelles, la reconversion, ou l'acquisition d'une certification. Les démarches pour activer ces droits sont simplifiées et peuvent être réalisées directement en ligne.
-				</p>
 
-			</div>
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow">
-				<div class="wp-block-image">
-				<img src="{{ asset('img/meuf.png') }}" alt="CPF" class="img" />
-				</div>
-			</div>
-		</div>
-<div style="display: flex; justify-content: space-between;">
-    <div style="flex-basis: 48%;">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">Éligibilité et fonctionnement</strong>
-        </h2>
-        <p style="margin:0;">Accessible dès 16 ans (ou 15 ans pour les apprentis), le CPF concerne salariés, fonctionnaires, indépendants, conjoints collaborateurs, et demandeurs d'emploi. L'alimentation annuelle du compte se fait en euros, avec des spécificités pour les agents publics, qui bénéficient d'une alimentation basée sur les heures.</p>
-    </div>
-    <div style="flex-basis: 48%;">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">Charte de déontologie CPF</strong>
-        </h2>
-        <div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-2 wp-block-columns-is-layout-flex">
-            <div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
-                <p style="margin:0;">Face aux fraudes, une Charte de Déontologie encadrant l'utilisation du CPF a été instaurée pour garantir transparence, équité, et qualité des formations. L'INFPF s'engage à respecter scrupuleusement ces principes, assurant ainsi une gestion éthique et responsable du CPF.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0;padding-top:15px">
-			<strong style="color: #0b3e6fd6;">Formations éligibles au CPF par l'INFPF</strong>
-		</h2>
-		<p>L'INFPF offre une gamme de formations professionnelles éligibles au CPF, couvrant un large éventail de domaines. Ces formations, reconnues pour leur qualité, sont accessibles via le CPF pour favoriser le développement de compétences, la reconversion professionnelle ou l'obtention de certifications spécifiques.</p>
-
-		{# <div aria-hidden="true" class="wp-block-spacer" style="height:216px"></div>
-								<div aria-hidden="true" class="wp-block-spacer" style="height:0px"></div> #}
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">Utilisation du CPF avec l'INFPF</strong>
-		</h2>
-		<p>Pour bénéficier d'une formation financée par le CPF avec l'INFPF, il est nécessaire de s'inscrire sur le site moncompteformation.gouv.fr, de sélectionner la formation désirée et de suivre les étapes pour valider le financement. L'INFPF accompagne chaque étape, facilitant l'accès à des formations de qualité.</p>
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">Pourquoi choisir l'INFPF ?</strong>
-		</h2>
-
-				<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>La flexibilité :</summary>
-			<p>Apprenez à votre rythme, sans contrainte de déplacement, avec la possibilité d'ajuster votre emploi du temps selon vos besoins.</p>
-		</details>
-
-				<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>La qualité :</summary>
-			<p>Bénéficiez de contenus pédagogiques clairs, complets, et d'un suivi personnalisé tout au long de votre formation.</p>
-		</details>
-
-				<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>La diversité :</summary>
-			<p>Un large choix de formations dans divers secteurs, répondant à vos aspirations professionnelles.</p>
-		</details>
-
-<div class="sections-container">
-    <div class="section">
-        <div class="card">
-		<img src="{{ asset('img/avantages-elegible-cpf.png') }}" alt="CPF" class="img" />
-            <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-                <strong style="color: #0b3e6fd6;">Les avantages du compte personnel de formation (CPF) ?</strong>
-            </h2>
-            <p>Le CPF, universel et accessible à tous les actifs, permet une formation continue, s'adapte aux besoins individuels, est partiellement ou totalement financé par des fonds publics et privés, et favorise la reconversion professionnelle.</p>
-        </div>
-    </div>
-    <div class="section">
-        <div class="card">
-				<img src="{{ asset('img/verification-elegible-cpf.png') }}" alt="CPF" class="img" />
-
-            <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-                <strong style="color: #0b3e6fd6;">Vérification de l'éligibilité au CPF</strong>
-            </h2>
-            <p>Pour confirmer l'éligibilité d'une formation au CPF, consultez le site officiel ou contactez directement l'INFPF. Les formations doivent répondre à des critères précis pour être financées par le CPF, incluant certifications professionnelles et diplômes reconnus.</p>
-                    <a href="lien_vers_le_CPF" class="btn">En savoir plus sur le CPF</a>
-</div>
-    </div>
-</div>
-
-
+<!-- Hero Section Moderne -->
+<section class="cpf-hero-formation">
+	<div class="cpf-hero-content">
+		<h1 class="cpf-hero-title">Formations Éligibles CPF</h1>
+		<p class="cpf-hero-subtitle">Financez votre formation professionnelle avec le Compte Personnel de Formation</p>
+		<a href="https://www.moncompteformation.gouv.fr" target="_blank" class="cpf-hero-cta">
+			<span>Accéder à mon CPF</span>
+		</a>
 	</div>
-	<!-- .entry-content -->
-</article>
-<!-- #post-417736 --></main><!-- #main -->{% include 'footer.html.twig' %}</body></html>{% endblock %}
+</section>
+
+<!-- Breadcrumbs Modernes -->
+<!-- Bouton Retour vers le Hub -->
+<div class="back-to-hub">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		</svg>
+		<span>Retour à L'École</span>
+	</a>
+</div>
+
+<!-- Container Principal -->
+<main class="main-container">
+	
+	<!-- Introduction -->
+	<section class="modern-section">
+		<div class="cpf-section-header">
+			<div class="cpf-intro-paragraph">
+				<p>Le Compte Personnel de Formation (CPF) représente une opportunité inestimable pour les travailleurs désireux de se former tout au long de leur carrière en France. Cette initiative, centrée sur l'individu plutôt que sur l'employeur, assure la conservation des droits à la formation indépendamment des changements d'emploi.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Qu'est-ce que le CPF -->
+	<section class="cpf-section-row">
+		<div class="cpf-section-content">
+			<h2>Qu'est-ce que le Compte Personnel de Formation ?</h2>
+			<div class="cpf-intro-paragraph">
+				<p>Le CPF alloue annuellement une somme de 500 à 800 euros selon le statut professionnel et le niveau de diplôme de l'individu. Ces fonds, cumulables jusqu'à une limite définie, sont destinés à financer des formations visant l'amélioration des compétences professionnelles, la reconversion, ou l'acquisition d'une certification. Les démarches pour activer ces droits sont simplifiées et peuvent être réalisées directement en ligne.</p>
+			</div>
+		</div>
+		<div class="cpf-section-image">
+			<img src="{{ asset('img/meuf.png') }}" alt="CPF Formation" />
+		</div>
+	</section>
+
+	<!-- Cartes informatives -->
+	<div class="info-cards">
+		<div class="info-card">
+			<h3>Éligibilité et fonctionnement</h3>
+			<p>Accessible dès 16 ans (ou 15 ans pour les apprentis), le CPF concerne salariés, fonctionnaires, indépendants, conjoints collaborateurs, et demandeurs d'emploi. L'alimentation annuelle du compte se fait en euros, avec des spécificités pour les agents publics, qui bénéficient d'une alimentation basée sur les heures.</p>
+		</div>
+		<div class="info-card">
+			<h3>Charte de déontologie CPF</h3>
+			<p>Face aux fraudes, une Charte de Déontologie encadrant l'utilisation du CPF a été instaurée pour garantir transparence, équité, et qualité des formations. L'INFPF s'engage à respecter scrupuleusement ces principes, assurant ainsi une gestion éthique et responsable du CPF.</p>
+		</div>
+	</div>
+
+	<!-- Section Vidéo YouTube -->
+	<section class="video-section">
+		<div class="video-container">
+			<h2 class="video-title">Découvrez le CPF en vidéo</h2>
+			<p class="video-description">Comprenez en quelques minutes comment fonctionne le Compte Personnel de Formation et comment l'utiliser pour financer votre formation professionnelle.</p>
+			<div class="video-wrapper">
+				<iframe 
+					src="https://www.youtube.com/embed/7TSFCp66Jb0?rel=0&modestbranding=1&showinfo=0" 
+					title="Vidéo explicative du CPF"
+					allowfullscreen>
+				</iframe>
+			</div>
+		</div>
+	</section>
+
+	<!-- Formations éligibles -->
+	<section class="modern-section">
+		<div class="cpf-section-header">
+			<h2 class="cpf-section-title">Formations éligibles au CPF par l'INFPF</h2>
+			<div class="cpf-intro-paragraph">
+				<p>L'INFPF offre une gamme de formations professionnelles éligibles au CPF, couvrant un large éventail de domaines. Ces formations, reconnues pour leur qualité, sont accessibles via le CPF pour favoriser le développement de compétences, la reconversion professionnelle ou l'obtention de certifications spécifiques.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Utilisation du CPF -->
+	<section class="cpf-section-row reverse">
+		<div class="cpf-section-content">
+			<h2>Utilisation du CPF avec l'INFPF</h2>
+			<div class="cpf-intro-paragraph">
+				<p>Pour bénéficier d'une formation financée par le CPF avec l'INFPF, il est nécessaire de s'inscrire sur le site moncompteformation.gouv.fr, de sélectionner la formation désirée et de suivre les étapes pour valider le financement. L'INFPF accompagne chaque étape, facilitant l'accès à des formations de qualité.</p>
+			</div>
+			<a href="https://www.moncompteformation.gouv.fr" target="_blank" class="modern-button">
+				<span>Accéder au site officiel</span>
+			</a>
+		</div>
+		<div class="cpf-section-image">
+			<img src="{{ asset('img/verification-elegible-cpf.png') }}" alt="Vérification CPF" />
+		</div>
+	</section>
+
+	<!-- Pourquoi choisir l'INFPF -->
+	<section class="modern-section">
+		<div class="cpf-section-header">
+			<h2 class="cpf-section-title">Pourquoi choisir l'INFPF ?</h2>
+		</div>
+		
+		<div class="modern-accordion">
+			<details class="feature-item">
+				<summary class="feature-header">
+					La flexibilité
+					<svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</summary>
+				<div class="feature-content">
+					<p>Apprenez à votre rythme, sans contrainte de déplacement, avec la possibilité d'ajuster votre emploi du temps selon vos besoins.</p>
+				</div>
+			</details>
+
+			<details class="feature-item">
+				<summary class="feature-header">
+					La qualité
+					<svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</summary>
+				<div class="feature-content">
+					<p>Bénéficiez de contenus pédagogiques clairs, complets, et d'un suivi personnalisé tout au long de votre formation.</p>
+				</div>
+			</details>
+
+			<details class="feature-item">
+				<summary class="feature-header">
+					La diversité
+					<svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</summary>
+				<div class="feature-content">
+					<p>Un large choix de formations dans divers secteurs, répondant à vos aspirations professionnelles.</p>
+				</div>
+			</details>
+		</div>
+	</section>
+
+	<!-- Avantages et vérification -->
+	<div class="info-cards">
+		<div class="info-card">
+			<img src="{{ asset('img/avantages-elegible-cpf.png') }}" alt="Avantages CPF" style="width: 100%; height: auto; border-radius: 12px; margin-bottom: 20px;" />
+			<h3>Les avantages du compte personnel de formation (CPF)</h3>
+			<p>Le CPF, universel et accessible à tous les actifs, permet une formation continue, s'adapte aux besoins individuels, est partiellement ou totalement financé par des fonds publics et privés, et favorise la reconversion professionnelle.</p>
+		</div>
+		<div class="info-card">
+			<img src="{{ asset('img/verification-elegible-cpf.png') }}" alt="Vérification CPF" style="width: 100%; height: auto; border-radius: 12px; margin-bottom: 20px;" />
+			<h3>Vérification de l'éligibilité au CPF</h3>
+			<p>Pour confirmer l'éligibilité d'une formation au CPF, consultez le site officiel ou contactez directement l'INFPF. Les formations doivent répondre à des critères précis pour être financées par le CPF, incluant certifications professionnelles et diplômes reconnus.</p>
+			<a href="https://www.moncompteformation.gouv.fr" target="_blank" class="modern-button secondary" style="margin-top: 20px;">
+				<span>En savoir plus sur le CPF</span>
+			</a>
+		</div>
+	</div>
+
+</main>
+
+{% include 'footer.html.twig' %}
+{% endblock %}

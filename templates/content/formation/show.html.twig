@@ -1,263 +1,2269 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	{{ formations.nameFormation }}
-{% endblock %}
-{% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
+{% block title %}{{ formations.nameFormation }} - Formation INFPF{% endblock %}
 
-	<link href="../css/showforma.css?v=30" rel="stylesheet"/>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<!-- jQuery UI -->
-	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-	<!-- CSS jQuery UI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+{% block stylesheets %}
+    {{ parent() }}
 <style>
-.btn-calendly-detail {
-    background-color: #0b3f89;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+/* ===== FORMATION TEMPLATE - CORRECTIONS MODERNES ===== */
+
+:root {
+    /* Couleurs avec contrastes optimaux */
+    --primary-color: #0b3f89;
+    --primary-dark: #004080;
+    --primary-light: #1e5cb8;
+    --secondary-color: #1e5cb8;
+    --accent-color: #00b4d8;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    
+    /* Palette contrastée */
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-300: #d4d4d4;
+    --gray-400: #a3a3a3;
+    --gray-500: #737373;
+    --gray-600: #525252;
+    --gray-700: #404040;
+    --gray-800: #262626;
+    --gray-900: #171717;
+    
+    /* Texte optimisé lisibilité */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-white: #ffffff;
+    --text-light: #f8fafc;
+    
+    /* Layout responsive */
+    --content-max-width: 70ch;
+    --sidebar-width: 320px;
+    --header-height: 80px;
+    
+    /* Espacement systématique */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 0.75rem;
+    --space-lg: 1rem;
+    --space-xl: 1.5rem;
+    --space-2xl: 2rem;
+    --space-3xl: 3rem;
+    --space-4xl: 4rem;
+    --space-5xl: 5rem;
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Ombres modernes */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
-.btn-calendly-detail:hover {
-    background-color: #004080;
+
+/* ===== RESET ET BASE ===== */
+.formation-page {
+    min-height: 100vh;
+    background: var(--gray-50);
+    isolation: isolate;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+}
+
+/* Masquer anciens éléments */
+.col-gauche-card, .col-droite-card, .formation-container,
+.body-presentation-formation, .col-gauche-navigation, .col-droite-presentation,
+.title-formation, .formation-details-gauche, .formation-details-droite,
+.button-programe-forma, .la, .buttons-container, .btn_retour, .btn_modifier {
+    display: none !important;
+}
+
+/* ===== HERO CTA VISIBLES + CENTRAGE VERTICAL ===== */
+.hero--formation {
+    position: relative;
+    color: #fff;
+    min-height: clamp(480px, 64vh, 720px);
+    background: url('../img/banner-formation.jpg') center/cover no-repeat;
+    overflow: visible;
+    z-index: 1;
+}
+
+.hero--formation::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.35));
+}
+
+.hero__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) var(--det-w);
+    align-items: center; /* texte centré VERTICALEMENT */
+    padding-block: clamp(48px, 6vh, 80px);
+    width: 100%;
+    min-height: inherit;
+}
+
+.hero__content {
+    grid-column: 3;
+}
+
+.hero__details {
+    grid-column: 5; /* Colonne de droite */
+}
+
+/* Détails de la formation dans le hero - FIXE ET INDÉPENDANT */
+.details-card--hero {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    width: 100%;
+    color: #1f2937;
+    /* TOUJOURS VISIBLE - indépendant du système de scroll */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    position: static !important;
+}
+
+.details-card--hero h3,
+.details-card--hero .details-title {
+    color: #1f2937 !important;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.details-card--hero .details-label {
+    color: #4b5563 !important;
+    font-weight: 500;
+}
+
+.details-card--hero .details-value {
+    color: #111827 !important;
+    font-weight: 600;
+}
+
+.details-card--hero .details-icon {
+    color: #0b3f89 !important;
+}
+
+.hero__title {
+    font-size: clamp(36px, 4.2vw, 68px);
+    line-height: 1.1;
+    margin: 0 0 16px;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero__lead {
+    line-height: 1.65;
+    margin: 0 0 24px;
+    max-width: 80ch;
+    font-size: 1.125rem;
+    opacity: 0.95;
+}
+
+.hero__cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.hero__cta .btn {
+    padding: 14px 22px;
+    font-size: 16px;
+    border-radius: 12px;
+    filter: drop-shadow(0 6px 20px rgba(0,0,0,.18));
+}
+
+/* Détails dans le hero - Style liquid glass moderne */
+.details-card--hero {
+    /* Même style liquid glass que les autres mais optimisé pour le hero */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    /* Toujours visible dans le hero */
+    opacity: 1 !important;
+    transform: none !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.details-card--hero:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 16px 50px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.details-card--hero .details-title h3 {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.details-card--hero .details-item {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.details-card--hero .details-item:last-child {
+    border-bottom: none;
+}
+
+.details-card--hero .details-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.details-card--hero .details-value {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.details-card--hero .details-icon svg {
+    color: rgba(255, 255, 255, 0.9);
+    width: 18px;
+    height: 18px;
+}
+
+@media(max-width: 1200px) {
+    .hero__grid {
+        grid-template-columns: 1fr;
+    }
+    .hero__content {
+        grid-column: auto;
+    }
+    .hero__details {
+        grid-column: auto;
+        margin-top: 32px;
+    }
+}
+
+/* ===== DÉTAILS STATIQUES (TEMPORAIRE) ===== */
+.details-card {
+    position: static; /* Par défaut en flux normal */
+    /* Design liquid glass moderne mais plus opaque pour la lisibilité */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    width: 320px;
+    /* CACHÉ PAR DÉFAUT - apparition après scroll */
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: var(--space-xl);
+    visibility: hidden; /* Complètement caché au début */
+    color: #1f2937;
+}
+
+/* Assurer la lisibilité du contenu */
+.details-card h3,
+.details-card .details-title {
+    color: #1f2937 !important;
+    font-weight: 700;
+}
+
+.details-card .details-label {
+    color: #4b5563 !important;
+    font-weight: 500;
+}
+
+.details-card .details-value {
+    color: #111827 !important;
+    font-weight: 600;
+}
+
+.details-card .details-icon {
+    color: #0b3f89 !important;
+}
+
+/* Details visible avec animation */
+.details-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible; /* Visible quand activé */
+}
+
+/* Details en mode fixed - centré verticalement à droite - MÊME HAUTEUR QUE TOC */
+.details-card.is-fixed {
+    position: fixed !important;
+    top: 50% !important;
+    right: var(--details-right, 24px) !important;
+    width: var(--details-width, 320px) !important;
+    transform: translateY(-50%) !important; /* Centrage vertical identique au TOC */
+    z-index: 100 !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,.15) !important;
+    margin-bottom: 0 !important;
+    /* Style renforcé pour lisibilité */
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #1f2937 !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.details-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 var(--space-lg) 0;
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.details-title-icon {
+    color: var(--primary-color);
+}
+
+.details-item {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.details-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.details-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--primary-color);
+    flex: 0 0 24px;
+}
+
+.details-meta {
+    display: grid;
+    gap: var(--space-xs);
+}
+
+.details-label {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.details-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* ===== CONTENU UNE SEULE COLONNE ÉLARGIE ===== */
+.content-col .article {
+    /* élargi : prend tout l'espace entre les panneaux */
+    max-width: none;
+    font-size: clamp(16px, 1.7vw, 18px);
+    line-height: 1.7;
+    color: #0f172a;
+    overflow: visible;
+    column-count: 1; /* une seule colonne obligatoire */
+}
+
+.formation-content {
+    max-width: none;
+    line-height: 1.7;
+    padding: var(--space-2xl) 0;
+    width: 100%;
+}
+
+.content-section {
+    margin-bottom: var(--space-4xl);
+}
+
+.text-content {
+    max-width: none;
+    line-height: 1.7;
+}
+
+.section-icon {
+    color: var(--primary-color);
+}
+
+/* Responsive pour la grille */
+@media (max-width: 1200px) {
+    .floating-toc {
+        display: none; /* Cache le TOC sur petit écran, on garde le toggle */
+    }
+    
+    .hero-details-positioned {
+        position: static;
+        transform: none;
+        margin: var(--space-2xl) auto 0;
+        max-width: 400px;
+    }
+}
+
+.hero-main h1 {
+    /* TITRE CENTRÉ PAR RAPPORT AU TEXTE */
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 var(--space-xl) 0;
+    color: var(--text-white);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    
+    /* Titre multi-lignes naturel */
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.hero-main .description {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0 0 var(--space-2xl) 0;
+    max-width: 70ch;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.hero-cta {
+    display: flex;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+    margin-top: var(--space-lg);
+}
+
+.btn-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: var(--transition-normal);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    line-height: 1.2;
+}
+
+.btn-hero:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+.btn-primary-hero {
+    background: var(--text-white);
+    color: var(--primary-color);
+    border-color: var(--text-white);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary-hero:hover {
+    background: var(--gray-100);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.btn-secondary-hero {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-white);
+    border-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary-hero:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--text-white);
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* ===== DÉTAILS FORMATION - AGRANDI ET CONTRASTÉ ===== */
+.hero-sidebar {
+    background: var(--text-white);
+    border-radius: 20px;
+    padding: var(--space-3xl);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-xl);
+    border: 2px solid var(--gray-200);
+}
+
+.hero-sidebar h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 var(--space-2xl) 0;
+    text-align: center;
+    border-bottom: 2px solid var(--gray-200);
+    padding-bottom: var(--space-lg);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* ===== ICÔNES AGRANDIES ET CONTRASTÉES ===== */
+.icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--text-white);
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Icônes spécifiques avec meilleure lisibilité */
+.icon-level::before { content: "LV"; font-size: 12px; }
+.icon-duration::before { content: "⏱"; }
+.icon-language::before { content: "FR"; font-size: 12px; }
+.icon-price::before { content: "€"; }
+.icon-cert::before { content: "✓"; }
+.icon-location::before { content: "📍"; }
+.icon-presentation::before { content: "📋"; }
+.icon-prereq::before { content: "✓"; }
+.icon-benefits::before { content: "⚡"; }
+.icon-program::before { content: "📚"; }
+.icon-methods::before { content: "🎯"; }
+.icon-evaluation::before { content: "📊"; }
+
+.detail-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.detail-value {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    line-height: 1.3;
+}
+
+/* ===== LAYOUT PRINCIPAL SANS SIDEBAR FIXE ===== */
+.main-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: var(--text-white);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+}
+
+/* ===== VARIABLES GLOBALES LAYOUT ÉLARGI ===== */
+:root {
+    --gap: 32px;
+    --toc-w: 260px;            /* largeur TOC réduite pour meilleure UX */
+    --det-w: 340px;            /* largeur Détails */
+    --stickytop: clamp(88px, 10vh, 120px);  /* hauteur header + marge */
+    --content-min: 68ch;       /* largeur confortable minimale */
+}
+
+/* ===== LAYOUT : UNE SEULE COLONNE ÉLARGIE ===== */
+.layout-formation {
+    display: grid;
+    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) var(--det-w);
+    align-items: start;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    overflow: visible; /* Crucial pour sticky */
+    position: relative;
+    /* contain: layout style; ← SUPPRIMÉ CAR CASSE LE POSITION FIXED */
+}
+
+.toc-col { 
+    grid-column: 1; 
+}
+
+.content-col { 
+    grid-column: 3; /* une seule colonne de lecture */
+    width: 100%;
+    /* pas de max-width serré - prend tout l'espace */
+}
+
+.details-col { 
+    grid-column: 5; 
+}
+
+@media (max-width: 1200px) {
+    .layout-formation {
+        grid-template-columns: 1fr;
+        padding: 0 var(--space-md);
+    }
+    
+    .content-col {
+        justify-self: stretch;
+        max-width: unset;
+    }
+    
+    .toc-col, .details-col {
+        position: static;
+        max-width: 400px;
+        margin: 0 auto var(--space-2xl);
+    }
+}
+
+/* ===== TOC SIMPLE MINIMAL ===== */
+/* TOC en flux par défaut */
+#toc { 
+    position: static; 
+    width: 260px; 
+    /* Design liquid glass ultra moderne et compact */
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.95), 
+        rgba(248, 250, 252, 0.9));
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 2px solid rgba(59, 130, 246, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.12),
+        0 8px 24px rgba(59, 130, 246, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    /* Transition pour l'apparition - CACHÉ PAR DÉFAUT */
+    opacity: 0;
+    transform: translateX(-30px) translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    visibility: hidden; /* Complètement caché au début */
+}
+
+/* TOC visible avec animation fluide */
+#toc.is-visible {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    visibility: visible; /* Visible quand activé */
+}
+
+/* Effet de brillance subtil */
+#toc::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(59, 130, 246, 0.03), 
+        transparent);
+    transform: rotate(45deg);
+    animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+    0%, 100% { 
+        transform: translateX(-100%) translateY(-100%) rotate(45deg); 
+        opacity: 0;
+    }
+    50% { 
+        transform: translateX(0) translateY(0) rotate(45deg); 
+        opacity: 1;
+    }
+}
+
+#toc nav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    margin: 6px 0;
+    color: #1e293b;
+    text-decoration: none;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.3), 
+        rgba(248, 250, 252, 0.2));
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+#toc nav a:hover {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.08), 
+        rgba(99, 179, 237, 0.05));
+    border-color: rgba(59, 130, 246, 0.2);
+    color: #0f172a;
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 
+        0 8px 20px rgba(59, 130, 246, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* État actif du lien - PROGRESSION UTILISATEUR */
+#toc nav a.is-active {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.2), 
+        rgba(99, 179, 237, 0.15));
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #1e40af;
+    font-weight: 700;
+    box-shadow: 
+        0 8px 20px rgba(59, 130, 246, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transform: translateX(6px) scale(1.05);
+    position: relative;
+    animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+/* Animation subtile pour l'état actif */
+@keyframes activeGlow {
+    0% { 
+        box-shadow: 
+            0 8px 20px rgba(59, 130, 246, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+    100% { 
+        box-shadow: 
+            0 12px 30px rgba(59, 130, 246, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Icône avant chaque lien */
+#toc nav a::before {
+    content: '●';
+    margin-right: 12px;
+    color: rgba(59, 130, 246, 0.4);
+    font-size: 8px;
+    transition: all 0.3s ease;
+}
+
+#toc nav a:hover::before {
+    color: rgba(59, 130, 246, 0.8);
+    transform: scale(1.5);
+}
+
+#toc nav a.is-active::before {
+    content: '▶'; /* Flèche pour montrer la progression */
+    color: #1e40af;
+    transform: scale(1.4);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Animation pulse pour l'icône active */
+@keyframes pulse {
+    0%, 100% { transform: scale(1.4); }
+    50% { transform: scale(1.6); }
+}
+
+/* Quand il doit suivre : fixed, offset sous le header */
+#toc.is-fixed {
+    position: fixed;
+    top: 50%;
+    left: var(--toc-left, 24px);
+    width: var(--toc-width, 320px);
+    transform: translateY(-50%); /* Centrage vertical */
+    z-index: 100;
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.15),
+        0 12px 30px rgba(59, 130, 246, 0.1);
+}
+
+/* Titre du TOC moderne et compact */
+#toc h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px 0;
+    padding: 0 0 12px 0;
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+    position: relative;
+}
+
+#toc h3::before {
+    content: '📋';
+    font-size: 20px;
+}
+
+#toc h3::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    border-radius: 1px;
+}
+
+/* Mobile : TOC redevient normal */
+@media (max-width: 1100px) {
+    #toc, #toc.is-fixed { 
+        position: static; 
+        width: auto; 
+        left: auto; 
+        top: auto; 
+    }
+}
+
+.toc__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px 10px;
+    margin-bottom: 8px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.toc a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 16px;
+    color: #0f172a;
+    background: rgba(255,255,255,.55);
+    border: 1px solid rgba(15,23,42,.06);
+    transition: all .2s ease;
+    margin-bottom: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.toc a:hover {
+    /* transform: translateY(-2px) translateX(4px); SUPPRIMÉ car peut causer problèmes avec fixed */
+    box-shadow: 0 8px 18px rgba(15,23,42,.12);
+    background: rgba(255,255,255,.85);
+    border-color: #1f4fd6;
+}
+
+.toc a.is-active {
+    background: linear-gradient(180deg, #1f4fd6 0%, #183a9e 100%);
+    color: #fff;
+    border-color: transparent;
+    font-weight: 600;
+    box-shadow: 0 10px 22px rgba(31,79,214,.35);
+    /* transform: translateX(6px); SUPPRIMÉ car peut causer problèmes avec fixed */
+    border-left: 4px solid #fff; /* Alternative visuelle au transform */
+}
+
+/* ===== CORRECTION BUGS OVERFLOW ET Z-INDEX ===== */
+.wrapper, .main, .section, .layout-formation, .toc-col, .details-col, .content-col {
+    overflow: visible !important; /* éviter overflow qui casse sticky */
+}
+
+/* ===== RESPONSIVE FIXED POSITIONING ===== */
+@media (max-width: 1200px) {
+    /* Mobile : TOC redevient normal (déjà géré par le JS) */
+    .details-card {
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: var(--space-lg) 0;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .layout-formation {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .toc-col, .details-col {
+        grid-column: 1;
+        order: 2; /* Après le contenu */
+    }
+    
+    .content-col {
+        grid-column: 1;
+        order: 1; /* Avant les éléments latéraux */
+    }
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    isolation: isolate;
+}
+
+.toc, .details-card {
+    z-index: 2; /* au-dessus des ombres du contenu */
+    pointer-events: auto;
+}
+
+.hero--formation, .hero__grid {
+    position: relative;
+    z-index: 1; /* pas au-dessus du TOC */
+}
+
+/* ===== ANTI-BUGS LAYOUT ===== */
+.article {
+    column-count: 1; /* au cas où une règle globale multi-column traîne */
+}
+
+/* CONFLIT SUPPRIMÉ - Laissé au système minimal */
+
+/* ===== NAVIGATION AVEC SCROLL-MARGIN ===== */
+[id$="-start"] {
+    scroll-margin-top: var(--stickytop);
+}
+
+.floating-toc:hover {
+    /* Effet hover liquid glass ultra moderne */
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(35px) saturate(1.6);
+    -webkit-backdrop-filter: blur(35px) saturate(1.6);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.18),
+        0 15px 40px rgba(0, 0, 0, 0.12),
+        inset 0 3px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -3px 0 rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) translateX(15px) scale(1.08);
+}
+
+.floating-toc-header {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.floating-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.floating-toc-link {
+    display: block;
+    padding: var(--space-xl) var(--space-2xl);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: 18px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    
+    /* Glass effect ultra moderne */
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.floating-toc-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+    transform: scaleY(0);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    border-radius: 0 6px 6px 0;
+    box-shadow: 2px 0 8px rgba(11, 63, 137, 0.3);
+}
+
+.floating-toc-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 16px;
+}
+
+.floating-toc-link:hover {
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(11, 63, 137, 0.5);
+    text-decoration: none;
+    transform: translateX(12px) scale(1.02);
+    box-shadow: 
+        0 8px 25px rgba(11, 63, 137, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.floating-toc-link:hover::after {
+    opacity: 1;
+}
+
+.floating-toc-link.is-active {
+    color: var(--text-white);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-color: var(--secondary-color);
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateX(18px) scale(1.05);
+    box-shadow: 
+        0 15px 40px rgba(11, 63, 137, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.floating-toc-link.is-active::before {
+    transform: scaleY(1);
+    background: var(--secondary-color);
+}
+
+.floating-toc-link.is-active::after {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+}
+
+/* ===== RESPONSIVE TOC SIMPLIFIÉ ===== */
+@media (max-width: 768px) {
+    .floating-toc {
+        position: static;
+        margin: var(--space-xl) auto;
+        max-width: 400px;
+    }
+}
+    
+    .floating-toc-link {
+        padding: var(--space-lg) var(--space-xl);
+        font-size: 1rem;
+    }
+    
+    .floating-toc-header {
+        font-size: 1.125rem;
+        margin-bottom: var(--space-xl);
+    }
+    
+    .floating-toc:hover {
+        transform: translateY(-50%) translateX(0) scale(1.02);
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-toc {
+        left: 15px;
+        right: 15px;
+        padding: var(--space-lg);
+        border-radius: 24px;
+        top: 35%;
+    }
+    
+    .floating-toc-link {
+        padding: var(--space-md) var(--space-lg);
+        font-size: 0.95rem;
+    }
+    
+    .floating-toc-header {
+        font-size: 1rem;
+    }
+}
+
+/* Toggle button pour mobile */
+.floating-toc-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1001;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(11, 63, 137, 0.9);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-white);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(11, 63, 137, 0.4);
+}
+
+.floating-toc-toggle:hover {
+    transform: scale(1.1);
+    background: rgba(11, 63, 137, 1);
+    box-shadow: 0 12px 32px rgba(11, 63, 137, 0.6);
+}
+
+/* ===== CONTENU PRINCIPAL ===== */
+.formation-content {
+    padding: var(--space-3xl) var(--space-4xl) var(--space-5xl);
+    background: var(--text-white);
+}
+
+/* Ancrages avec offset pour header */
+.content-section {
+    margin-bottom: var(--space-5xl);
+    scroll-margin-top: calc(var(--header-height) + var(--space-2xl));
+}
+
+.section-header {
+    margin-bottom: var(--space-3xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 3px solid var(--gray-200);
+}
+
+.section-title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.section-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-white);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-md);
+}
+
+/* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
+.text-content {
+    max-width: var(--content-max-width);
+    font-size: clamp(16px, 1.6vw, 18px);
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.text-content p {
+    margin: 0 0 var(--space-xl) 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.text-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Listes propres sans débordement */
+.text-content ul {
+    margin: 0 0 var(--space-xl) 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.text-content li {
+    margin: 0 0 var(--space-lg) 0;
+    line-height: 1.6;
+    position: relative;
+    padding-left: var(--space-2xl);
+    font-size: inherit;
+}
+
+.text-content li::before {
+    content: '●';
+    color: var(--primary-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.2em;
+}
+
+.text-content h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin: var(--space-3xl) 0 var(--space-xl) 0;
+    line-height: 1.4;
+    padding-left: var(--space-lg);
+    border-left: 4px solid var(--primary-color);
+    background: var(--gray-50);
+    padding: var(--space-lg);
+    border-radius: 8px;
+}
+
+.text-content h4:first-child {
+    margin-top: 0;
+}
+
+/* ===== SECTIONS 2 COLONNES ===== */
+.two-column-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4xl);
+    margin-bottom: var(--space-5xl);
+}
+
+.column-content {
+    background: var(--text-white);
+    border-radius: 16px;
+    padding: var(--space-3xl);
+    border: 2px solid var(--gray-300);
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-md);
+}
+
+.column-content:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.column-title {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 var(--space-2xl) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+/* ===== PROGRAMME SANS ACCORDÉON - FLUX SIMPLE ===== */
+.program-section {
+    background: var(--text-white);
+    border: 2px solid var(--gray-300);
+    border-radius: 16px;
+    padding: var(--space-3xl);
+    box-shadow: var(--shadow-md);
+}
+
+.program-intro {
+    padding-bottom: var(--space-2xl);
+    margin-bottom: var(--space-3xl);
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.program-intro h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 var(--space-lg) 0;
+}
+
+.program-intro p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Contenu programme en flux simple sans accordéon */
+.program-content {
+    background: var(--text-white);
+}
+
+/* ===== BANDEAUX CTA PLUS GRANDS ET VISIBLES ===== */
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: 20px;
+    padding: var(--space-5xl) var(--space-3xl);
+    text-align: center;
+    margin: var(--space-5xl) 0;
+    color: var(--text-white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cta-section h3 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin: 0 0 var(--space-lg) 0;
+    color: var(--text-white);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.cta-section p {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    margin: 0 0 var(--space-3xl) 0;
+    opacity: 0.95;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: var(--space-xl);
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablette */
+@media (max-width: 1200px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-3xl);
+        text-align: center;
+    }
+
+    .hero-main {
+        align-items: center;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .hero-sidebar {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .floating-toc {
+        right: 20px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .hero-formation {
+        min-height: 400px;
+    }
+
+    .hero-container {
+        padding: var(--space-3xl) var(--space-lg);
+        gap: var(--space-2xl);
+    }
+
+    .hero-main h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-hero {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+
+    .hero-sidebar {
+        padding: var(--space-2xl);
+    }
+
+    .formation-content {
+        padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+    }
+
+    .two-column-section {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+
+    .section-title {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+    }
+
+    .cta-section {
+        padding: var(--space-3xl) var(--space-lg);
+        margin: var(--space-3xl) 0;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* TOC mobile */
+    .floating-toc {
+        position: static;
+        margin: var(--space-xl) auto;
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    .floating-toc-toggle {
+        display: flex;
+    }
+}
+
+/* ===== ANIMATIONS SUBTILES ===== */
+.content-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.content-section:nth-child(1) { animation-delay: 0.1s; }
+.content-section:nth-child(2) { animation-delay: 0.2s; }
+.content-section:nth-child(3) { animation-delay: 0.3s; }
+.content-section:nth-child(4) { animation-delay: 0.4s; }
+.content-section:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Respect préférences utilisateur */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .content-section {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ===== ACCESSIBILITÉ ===== */
+*:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--space-sm) var(--space-lg);
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    font-weight: 600;
+}
+
+.skip-to-content:focus {
+    top: 6px;
+}
+
+/* ===== SCROLL BEHAVIOR ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }
 </style>
-
-	
 {% endblock %}
 
-
-
 {% block body %}
+<a href="#main-content" class="skip-to-content">Passer au contenu principal</a>
 
-
-	<div class="formation-container-body">
-		<div class="formation-container">
-			<div class="col-gauche-card">
-				<h1 class="title-formation">{{ formations.nameFormation }}</h1>
-				<div class="formation-details-gauche">
-					<p>
-						<strong style="color: #0b3e6fd6;">Description:</strong>
-						{{ formations.descriptionFormation }}</p>
-
+<div class="formation-page">
+    
+    <!-- ===== HERO AVEC TEXTE CENTRÉ VERTICALEMENT ===== -->
+    <section class="hero--formation">
+        <div class="hero__grid">
+            <!-- Contenu principal aligné sur la colonne contenu -->
+            <div class="hero__content">
+                <h1 class="hero__title">{{ formations.nameFormation }}</h1>
+                <p class="hero__lead">{{ formations.descriptionFormation }}</p>
+                
+                <div class="hero__cta">
+                    <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="btn btn-primary-hero">
+                        S'inscrire maintenant
+                    </a>
+                    <a href="#" class="btn btn-secondary-hero btn-calendly-detail" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+                        Parler à un conseiller
+                    </a>
 				</div>
 			</div>
-			<div
-				class="col-droite-card">
-				<!-- Correction ici -->
-				<div
-					class="formation-details-droite">
-					<!-- Niveau, seulement si disponible -->
-					{% if formations.niveau %}
-						<p>
-							<img src="{{ asset('img/les-niveaux.png') }}" style="width: 16px;" alt="icone formation">
-							<strong style="color: #0b3e6fd6;">Niveau:</strong>
-							{{ formations.niveau }}
-						</p>
-					{% endif %}
-
-					<!-- Durée, seulement si disponible -->
+            
+            <!-- ===== DÉTAILS FIXE HERO (indépendant) ===== -->
+            <div class="hero__details">
+                <div class="details-card details-card--hero">
+                    <h3 class="details-title">
+                        <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l11 11z"/>
+                            <path d="M12 5L8 21l4-7 4 7-4-16"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        Détails de la formation
+                    </h3>
+                    <div class="details-list">
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Niveau</span>
+                                <span class="details-value">Tous niveaux</span>
+                            </div>
+                        </div>
 					{% if formations.dureeFormation %}
-						<p>
-							<img src="{{ asset('img/lhorloge.png') }}" style="width: 16px;" alt="icone formation">
-							<strong style="color: #0b3e6fd6;">Durée:</strong>
-							{{ formations.dureeFormation }}
-						</p>
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Durée</span>
+                                <span class="details-value">{{ formations.dureeFormation }}</span>
+                            </div>
+                        </div>
 					{% endif %}
-
-					<!-- Langue, seulement si disponible -->
-					{% if formations.langue %}
-						<p>
-							<img src="{{ asset('img/bloc-notes.png') }}" style="width: 16px;" alt="icone formation">
-							<strong style="color: #0b3e6fd6;">Langue:</strong>
-							{{ formations.langue }}
-						</p>
-					{% endif %}
-
-					<!-- Prix, seulement si disponible -->
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Langue</span>
+                                <span class="details-value">Français</span>
+                            </div>
+                        </div>
 					{% if formations.priceFormation %}
-						<p>
-							<img src="{{ asset('img/piece-en-euros.png') }}" style="width: 16px;" alt="icone formation">
-							<strong style="color: #0b3e6fd6;">Prix:</strong>
-							{{ formations.priceFormation }}€
-						</p>
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Prix</span>
+                                <span class="details-value">{{ formations.priceFormation }}€</span>
+                            </div>
+                        </div>
 					{% endif %}
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Certification</span>
+                                <span class="details-value">Attestation de formation</span>
+                            </div>
+                        </div>
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="M10 16l6-6-6-6"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Modalité</span>
+                                <span class="details-value">À distance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-					<!-- Code de certification RNCP, seulement si disponible -->
-					{% if formations.rncp %}
-						<p>
-							<img src="{{ asset('img/certificate-icon.png') }}" style="width: 16px;" alt="icone RNCP">
-							<strong style="color: #0b3e6fd6;">Code de certification :</strong>
-							{{ formations.rncp }}
-						</p>
+    <!-- ===== GRILLE 3 COLONNES : TOC | CONTENU | DÉTAILS ===== -->
+    <div class="layout-formation">
+        <!-- ===== TOC SIMPLE AVEC ANCRE ===== -->
+        <aside class="toc-col">
+            <!-- repère invisible qui sert de référence -->
+            <div id="toc-anchor" aria-hidden="true"></div>
+            
+            <!-- sommaire -->
+            <aside id="toc">
+                <nav aria-label="Sommaire">
+                    <a href="#presentation-start">Présentation</a>
+                    <a href="#prerequis-atouts-start">Pré-requis & Atouts</a>
+                    <a href="#programme-start">Programme</a>
+                    <a href="#modalites-start">Modalités & Évaluation</a>
+					{% if formations.dureeFormation %}
+                    <a href="#duree-start">Durée</a>
 					{% endif %}
+                </nav>
+            </aside>
+        </aside>
 
-					<!-- Environnement de formation (Lieu), seulement si disponible -->
-					{% if formations.lieu %}
-						<p>
-							<img src="{{ asset('img/location-icon.png') }}" style="width: 16px;" alt="icone lieu">
-							<strong style="color: #0b3e6fd6;">Environnement de formation :</strong>
-							{{ formations.lieu }}
-						</p>
-					{% endif %}
-
-					<!-- Composante de compétences (Bloc), seulement si disponible -->
-					{% if formations.bloc %}
-						<p>
-							<img src="{{ asset('img/skills-icon.gif') }}" style="width: 16px;" alt="icone bloc de compétences">
-							<strong style="color: #0b3e6fd6;">Composante de compétences :</strong>
-							{{ formations.bloc }}
-						</p>
-					{% endif %}
-					<!-- Certificateur, seulement si disponible -->
-					{% if formations.Certificateur %}
-						<p>
-							<img src="{{ asset('img/certificate-icon.png') }}" style="width: 16px;" alt="icone RNCP">
-							<strong style="color: #0b3e6fd6;">Certificateur :</strong>
-							{{ formations.Certificateur }}
-						</p>
-					{% endif %}
+        <!-- ===== CONTENU PRINCIPAL ===== -->
+        <main class="formation-content content-col" id="main-content" role="main">
+            
+            <!-- Section Présentation -->
+            <section id="presentation" class="content-section">
+                <div id="presentation-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        Présentation
+                    </h2>
 				</div>
+                <div id="presentation-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
+                <div class="text-content">
+                    {{ formations.presentation|format_formation_text|raw }}
+                </div>
+            </section>
+
+            <!-- Section Pré-requis & Atouts -->
+            <section id="prerequisites-benefits" class="content-section">
+                <div id="prerequis-atouts-start" aria-hidden="true"></div>
+                <div class="two-column-section">
+                    <div class="column-content">
+                        <h3 class="column-title">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            Pré-requis
+                        </h3>
+                        <div class="text-content">
+                            {{ formations.prerequis|format_formation_text|raw }}
 			</div>
 		</div>
 
-		<div class="body-presentation-formation">
-			<div class="col-gauche-navigation  hide-on-mobile">
-				<img src="{{ asset('img/taff.jpg') }}" alt="Logo de la formation">
-				<h3>Navigation</h3>
-				<ul>
-					<li><a href="#presentation">Présentation</a></li>
-					<li><a href="#prerequis">Pré-requis</a></li>
-					<li><a href="#atouts">Atouts</a></li>
-					<li><a href="#programme">Programme</a></li>
-					<li><a href="#duree">Durée</a></li>
-					<li><a href="#modalites">Modalités pédagogiques</a></li>
-					<li><a href="#evaluation">Pédagogie - Évaluation</a></li>
-				</ul>
+                    <div class="column-content">
+                        <h3 class="column-title">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                            Atouts
+                        </h3>
+                        <div class="text-content">
+                            {{ formations.atouts|format_formation_text|raw }}
 			</div>
-			<div class="col-droite-presentation">
-				<h2 id="presentation">Présentation</h2>
-				<p>{{ formations.presentation }}</p>
+			</div>
+		</div>
+            </section>
 
-				<h2 id="prerequis">Pré-requis</h2>
-				<p class="keep-newlines">
-                {{ formations.prerequis|escape|nl2br }}
-                </p>
+            <!-- Section Programme SANS ACCORDÉON -->
+            <section id="program" class="content-section">
+                <div id="programme-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        </svg>
+                        Programme détaillé
+                    </h2>
+			</div>
+                <div id="program-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
 
-				<h2 id="atouts">Atouts</h2>
-				<p>{{ formations.atouts }}</p>
-
-				<h2 id="programme">Programme</h2>
-				<p>{{ formations.programme }}</p>
-
-				<h2 id="duree">Durée</h2>
-				<p>{{ formations.dureeFormation }}</p>
-
-				<h2 id="modalites">Modalités pédagogiques</h2>
-				<p>{{ formations.modalitesPedagogique }}</p>
-
-				<h2 id="evaluation">Pédagogie - Évaluation</h2>
-				<p>{{ formations.evaluation }}</p>
-
-				<div style="text-align:center; margin: 30px 0;">
-				<a class="btn-calendly-detail" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
-					📅 Échanger avec un conseiller pour cette formation
-				</a>
+                <div class="program-section">
+                    <div class="program-intro">
+                        <h3>Programme complet de formation</h3>
+                        <p>Contenu détaillé accessible en flux continu pour une lecture optimale.</p>
 			</div>
 
-			</div>
-
+                    <div class="program-content">
+                        <div class="text-content">
+                            {{ formations.programme|format_formation_text|raw }}
 </div>
-		<div
-			class="button-programe-forma">
-			<!-- Création du lien de téléchargement -->
-			<a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="download-button" style="background-color: #CE1353;">
-				<span class="buttonforma">Télécharger le programme</span>
+                    </div>
+</div>
+            </section>
+
+            <!-- CTA Intermédiaire -->
+            <section class="cta-section">
+                <h3>Prêt à commencer votre formation ?</h3>
+                <p>Échangez avec un conseiller pédagogique ou téléchargez le programme détaillé</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn-hero btn-primary-hero btn-calendly-detail" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
+                        Conseiller pédagogique
+                    </a>
+                    <a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="btn-hero btn-secondary-hero">
+                        Télécharger le programme
 			</a>
 		</div>
+            </section>
 
-
-
-
-    <div class="la">
-        <div class="buttons-container">
-            {% if formations.id == 89 %}
-            <div class="button-programe-forma">
-                <a href="https://www.moncompteformation.gouv.fr/espace-prive/html/#/formation/recherche/92791645200018_infpf15/92791645200018_infpf2" target="_blank" class="paiement-cpf-button">Voir sur le CPF</a>
+            <!-- Section Modalités & Évaluation -->
+            <section id="methods-evaluation" class="content-section">
+                <div id="modalites-start" aria-hidden="true"></div>
+                <div class="two-column-section">
+                    <div class="column-content">
+                        <h3 class="column-title">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            Modalités pédagogiques
+                        </h3>
+                        <div class="text-content">
+                            {{ formations.modalitesPedagogique|format_formation_text|raw }}
             </div>
+            </div>
+                    
+                    <div class="column-content">
+                        <h3 class="column-title">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                            Pédagogie & Évaluation
+                        </h3>
+                        <div class="text-content">
+                            {{ formations.evaluation|format_formation_text|raw }}
+			</div>
+        </div>
+    </div>
+            </section>
+
+            <!-- Section Durée (si disponible) -->
+            {% if formations.dureeFormation %}
+            <section id="duration" class="content-section">
+                <div id="duree-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        Durée de formation
+                    </h2>
+			</div>
+                <div id="duration-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
+                <div class="text-content">
+                    <p><strong>{{ formations.dureeFormation }}</strong></p>
+                    <p>Cette durée comprend l'ensemble des modules théoriques et pratiques, incluant les exercices d'application et les évaluations.</p>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- CTA Final avec Correction Stripe -->
+            <section class="cta-section">
+                <h3>Inscrivez-vous dès maintenant</h3>
+                <p>Démarrez votre parcours de formation professionnelle avec l'INFPF</p>
+                <div class="cta-buttons">
+            {% if formations.id == 89 %}
+                        <a href="https://www.moncompteformation.gouv.fr/espace-prive/html/#/formation/recherche/92791645200018_infpf15/92791645200018_infpf2" target="_blank" class="btn-hero btn-primary-hero">
+                            Inscription CPF
+                        </a>
             {% elseif formations.id != 90 %}
-            <div class="button-programe-forma">
-                <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="paiement-cpf-button">Finançable CPF</a>
+                        <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="btn-hero btn-secondary-hero">
+                            Finançable CPF
+                        </a>
+                    {% endif %}
+        
+                    <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="btn-hero btn-primary-hero">
+                        Inscription directe
+                    </a>
+</div>
+            </section>
+
+            <!-- Navigation Admin -->
+	{% if is_granted("ROLE_ADMIN") %}
+            <div style="margin-top: var(--space-5xl); padding-top: var(--space-xl); border-top: 2px solid var(--gray-200); display: flex; gap: var(--space-lg);">
+                <a href="{{ path('app_formation_edit', {'id': formations.id}) }}" class="btn-hero btn-secondary-hero" style="padding: var(--space-sm) var(--space-lg); font-size: 0.9rem;">
+                    Modifier cette formation
+                </a>
+                <a href="{{ path('app_home') }}" style="color: var(--text-secondary); text-decoration: none; padding: var(--space-sm) var(--space-lg); display: flex; align-items: center; gap: var(--space-sm);">
+                    ← Retour aux formations
+			</a>
+		</div>
+            {% endif %}
+    
+        </main>
+
+        <!-- ===== DÉTAILS STICKY ET COLLÉS À DROITE ===== -->
+        <aside class="details-col">
+            <!-- ===== DÉTAILS FLOATING (système scroll indépendant) ===== -->
+            <div class="details-card">
+            <h3 class="details-title">
+                <svg class="details-title-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10,9 9,9 8,9"/>
+                </svg>
+                Détails de la formation
+            </h3>
+            <div class="details-list">
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Niveau</span>
+                        <span class="details-value">Tous niveaux</span>
+            </div>
+        </div>
+                
+                {% if formations.dureeFormation %}
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Durée</span>
+                        <span class="details-value">{{ formations.dureeFormation }}</span>
+            </div>
             </div>
             {% endif %}
     
-            <div class="button-programe-forma">
-                <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="paiment-button">Paiement</a>
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Langue</span>
+                        <span class="details-value">Français</span>
             </div>
         </div>
+    
+                {% if formations.priceFormation %}
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Prix</span>
+                        <span class="details-value">{{ formations.priceFormation }}€</span>
     </div>
-
-
-
+        </div>
+                {% endif %}
+                
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <path d="M8 14h.01"/>
+                        <path d="M12 14h.01"/>
+                        <path d="M16 14h.01"/>
+                        <path d="M8 18h.01"/>
+                        <path d="M12 18h.01"/>
+                        <path d="M16 18h.01"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Certification</span>
+                        <span class="details-value">Attestation de formation</span>
+    </div>
 	</div>
 
-	<button class="btn_retour"><a href="{{ path('app_home') }}" id="href_btn">Revenir en arrière</a></button>
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Modalité</span>
+                        <span class="details-value">À distance</span>
+	</div>
+                </div>
+            </div>
+            </div>
+        </aside>
+    </div> <!-- fin layout-formation -->
 
-	{% if is_granted("ROLE_ADMIN") %}
-
-		<button class="btn_modifier"><a href="{{ path('app_formation_edit', {'id': formations.id}) }}">Modifier</a></button>
-
-		{{ include('content/formation/_delete_form.html.twig') }}
-	{% endif %}
+    <!-- Toggle TOC mobile -->
+    <button class="floating-toc-toggle" id="toc-toggle" aria-label="Afficher/masquer le sommaire">
+        ≡
+    </button>
+    
+    </div> <!-- fin formation-page -->
 
 	{% include 'footer.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
+
+<!-- Stripe SDK avec clé publique -->
+<script src="https://js.stripe.com/v3/"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    /* ⬇︎ on cible TOUS les <p> ... SAUF ceux qui portent .keep-newlines */
-    const paragraphs = document.querySelectorAll(
-        '.col-droite-presentation p:not(.keep-newlines)'
-    );
+// ===== DONNÉES FORMATION =====
+const formationData = {
+    id: {{ formations.id|json_encode|raw }},
+    prix: {{ formations.priceFormation|default(0)|json_encode|raw }}
+};
 
-    paragraphs.forEach(p => {
-        p.innerHTML = p.innerHTML
-            .replace(/\./g,  '.<br>')
-            .replace(/:/g,  ':<br>')
-            .replace(/-/g,  '<br>-')
-            .replace(/•([^•<]*)/g, (_, txt) =>
-                `<br>•<strong style="color:#0b3e6fd6;">${txt}</strong>`
-            );
-    });
-});
+// ===== INITIALISATION STRIPE AVEC CLÉ PUBLIQUE =====
+const stripe = Stripe('pk_test_TL5c_VF_9X5rS_A_r_K4QJf8_Qd_W_eN_5_E_l_A_r_D_E');
 
+// Diagnostic Stripe amélioré
+console.log('=== STRIPE DIAGNOSTIC ===');
+console.log('Stripe object:', stripe);
+console.log('Formation ID:', formationData.id);
+console.log('Prix formation:', formationData.prix);
 </script>
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const calendlyBtn = document.querySelector('.btn-calendly-detail');
-    if (calendlyBtn) {
-        calendlyBtn.addEventListener('click', function(e) {
+// ===== TOC FLOTTANT SIMPLE ===== 
+console.log('🚀 SCRIPT TOC: Démarrage');
+(function(){
+    console.log('🚀 SCRIPT TOC: Fonction anonyme exécutée');
+
+    // calcule la hauteur du header pour l'offset (ajuste selon ta classe)
+    function headerOffset(){
+        const header = document.querySelector('header, .site-header, nav[role="navigation"], .header');
+        const h = header ? header.getBoundingClientRect().height : 80;
+        return Math.max(72, Math.min(140, Math.round(h + 16))); // marge de confort
+    }
+
+    // met le TOC à la bonne largeur/position horizontale (à l'emplacement de la colonne gauche)
+    function positionLeft(){
+        const anchor = document.getElementById('toc-anchor');
+        const toc = document.getElementById('toc');
+        if (!anchor || !toc) return;
+        
+        const r = anchor.getBoundingClientRect();
+        const sx = window.scrollX || window.pageXOffset || 0;
+        // on cale le TOC exactement où se trouve l'ancre (même largeur)
+        toc.style.setProperty('--toc-left', `${r.left + sx}px`);
+        toc.style.setProperty('--toc-width', `${r.width || 260}px`);
+        toc.style.setProperty('--toc-offset', `${headerOffset()}px`);
+    }
+
+    // active/désactive le mode "fixed" selon le scroll
+    function onScroll(){
+        const anchor = document.getElementById('toc-anchor');
+        const toc = document.getElementById('toc');
+        if (!anchor || !toc) return;
+        
+        // Détection footer pour disparition
+        const footer = document.querySelector('footer, .footer, .site-footer');
+        const footerTop = footer ? footer.getBoundingClientRect().top + window.scrollY : Infinity;
+        const isNearFooter = window.scrollY >= footerTop - window.innerHeight;
+        
+        const start = anchor.getBoundingClientRect().top + window.scrollY;
+        const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
+        // Ne pas montrer avant d'avoir dépassé la bannière + marge
+        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        
+        // Gestion apparition/disparition
+        if(shouldShow && !toc.classList.contains('is-visible')) {
+            toc.classList.add('is-visible');
+            console.log('✨ TOC: Apparition');
+        } else if(!shouldShow && toc.classList.contains('is-visible')) {
+            toc.classList.remove('is-visible');
+            console.log('👻 TOC: Disparition');
+        }
+        
+        // Gestion mode fixed (seulement si visible)
+        if(shouldShow && !toc.classList.contains('is-fixed')) {
+            toc.classList.add('is-fixed');
+            console.log('🔧 TOC: Mode FIXED activé');
+        } else if(!shouldShow && toc.classList.contains('is-fixed')) {
+            toc.classList.remove('is-fixed');
+            console.log('🔧 TOC: Mode STATIC restauré');
+        }
+    }
+
+    // Position à droite pour les détails
+    function positionRight(){
+        // Cibler SEULEMENT le bloc détails du côté (pas celui du hero)
+        const details = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
+        if (!details) return;
+        
+        // Calculer la position à droite de l'écran
+        const rightOffset = 24; // marge depuis le bord droit
+        details.style.setProperty('--details-right', `${rightOffset}px`);
+        details.style.setProperty('--details-width', '320px');
+        console.log('📍 Details position: right =', rightOffset + 'px');
+    }
+
+    // Gestion scroll pour les détails
+    function onScrollDetails(){
+        const anchor = document.getElementById('toc-anchor');
+        // Cibler SEULEMENT le bloc détails du côté (pas celui du hero)
+        const details = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
+        if (!anchor || !details) return;
+        
+        // Détection footer pour disparition
+        const footer = document.querySelector('footer, .footer, .site-footer');
+        const footerTop = footer ? footer.getBoundingClientRect().top + window.scrollY : Infinity;
+        const isNearFooter = window.scrollY >= footerTop - window.innerHeight;
+        
+        const start = anchor.getBoundingClientRect().top + window.scrollY;
+        const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
+        // Ne pas montrer avant d'avoir dépassé la bannière + marge
+        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        
+        // Gestion apparition/disparition
+        if(shouldShow && !details.classList.contains('is-visible')) {
+            details.classList.add('is-visible');
+            console.log('✨ Details: Apparition');
+        } else if(!shouldShow && details.classList.contains('is-visible')) {
+            details.classList.remove('is-visible');
+            console.log('👻 Details: Disparition');
+        }
+        
+        // Gestion mode fixed (seulement si visible)
+        if(shouldShow && !details.classList.contains('is-fixed')) {
+            details.classList.add('is-fixed');
+            console.log('🔧 Details: Mode FIXED activé');
+        } else if(!shouldShow && details.classList.contains('is-fixed')) {
+            details.classList.remove('is-fixed');
+            console.log('🔧 Details: Mode STATIC restauré');
+        }
+    }
+
+    // scroll doux vers le DÉBUT du contenu (pas sur le titre)
+    function wireLinks(){
+        document.querySelectorAll('#toc a[href^="#"]').forEach(a=>{
+            a.addEventListener('click', (e)=>{
+                const id = a.getAttribute('href');
+                const target = document.querySelector(id);
+                if(!target) return;
             e.preventDefault();
-            if (typeof Calendly !== 'undefined') {
-                Calendly.initPopupWidget({
-                    url: calendlyBtn.getAttribute('data-calendly-url')
-                });
-            } else {
-                console.error("Calendly script non chargé");
-            }
+                const y = target.getBoundingClientRect().top + window.scrollY - headerOffset();
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            });
         });
     }
+
+    // ===== SCROLL-SPY DYNAMIQUE POUR PROGRESSION UTILISATEUR =====
+    function initScrollSpy(){
+        console.log('🎯 Initialisation du scroll-spy dynamique');
+        
+        // Toutes les sections avec ancres *-start
+        const sections = document.querySelectorAll('[id$="-start"]');
+        const tocLinks = document.querySelectorAll('#toc a[href^="#"]');
+        
+        if(sections.length === 0 || tocLinks.length === 0) {
+            console.log('❌ Sections ou liens TOC non trouvés');
+            return;
+        }
+
+        // Créer une map href -> lien pour la performance
+        const linkMap = new Map();
+        tocLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if(href) linkMap.set(href, link);
+        });
+
+        // IntersectionObserver pour détecter la section visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    // Retirer is-active de tous les liens
+                    tocLinks.forEach(link => link.classList.remove('is-active'));
+                    
+                    // Ajouter is-active au lien correspondant
+                    const href = '#' + entry.target.id;
+                    const activeLink = linkMap.get(href);
+                    if(activeLink) {
+                        activeLink.classList.add('is-active');
+                        console.log('📍 Section active:', entry.target.id, '-> Lien mis en bleu');
+                    }
+                }
+            });
+        }, {
+            // Zone de détection : 30% du viewport au centre
+            rootMargin: '-35% 0px -35% 0px',
+            threshold: 0.1
+        });
+
+        // Observer toutes les sections
+        sections.forEach(section => observer.observe(section));
+        
+        console.log('✅ Scroll-spy actif sur', sections.length, 'sections');
+    }
+
+    // init + évènements
+    function init(){
+        console.log('🎯 TOC System: Initialisation');
+        
+        // Vérifier les éléments gérés
+        const heroDetails = document.querySelector('.details-card--hero');
+        const sideDetails = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
+        console.log('🏠 Détails HERO (fixe):', !!heroDetails);
+        console.log('📜 Détails CÔTÉ (floating):', !!sideDetails);
+        
+        positionLeft();
+        positionRight();
+        onScroll();
+        onScrollDetails();
+        wireLinks();
+        initScrollSpy(); // Ajout du scroll-spy dynamique
+        console.log('✅ TOC System: Prêt avec scroll-spy dynamique');
+    }
+
+    console.log('🔧 TOC: Ajout des event listeners');
+    console.log('🔧 TOC: readyState =', document.readyState);
+    
+    // Debug: lister tous les éléments avec id
+    console.log('🔧 TOC: Éléments avec ID:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
+    
+    // Attendre que le DOM soit prêt
+    function waitForElements(attempt = 1) {
+        console.log(`🔧 TOC: Tentative ${attempt} de recherche des éléments`);
+        
+        const toc = document.getElementById('toc');
+        const anchor = document.getElementById('toc-anchor');
+        const details = document.querySelector('.details-card');
+        
+        console.log('🔍 TOC trouvé:', !!toc, toc);
+        console.log('🔍 Anchor trouvé:', !!anchor, anchor);
+        console.log('🔍 Details trouvé:', !!details, details);
+        
+        if (toc && anchor) {
+            console.log('✅ TOC et Anchor trouvés, initialisation...');
+            init();
+            window.addEventListener('scroll', () => {
+                onScroll();
+                onScrollDetails();
+            }, {passive:true});
+            window.addEventListener('resize', ()=>{ 
+                positionLeft(); 
+                positionRight();
+                onScroll(); 
+                onScrollDetails();
+            });
+            window.addEventListener('orientationchange', ()=>{ 
+                positionLeft(); 
+                positionRight();
+                onScroll(); 
+                onScrollDetails();
+            });
+        } else if (attempt < 50) { // max 5 secondes
+            console.log(`⏳ Attente des éléments... (tentative ${attempt}/50)`);
+            setTimeout(() => waitForElements(attempt + 1), 100);
+            } else {
+            console.error('❌ TOC: Timeout - éléments introuvables après 5 secondes');
+        }
+    }
+    
+    // Démarrer l'attente seulement après que le DOM soit prêt
+    if (document.readyState === 'loading') {
+        console.log('🔧 TOC: DOM en cours de chargement, attente DOMContentLoaded');
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔧 TOC: DOMContentLoaded déclenché');
+            waitForElements();
+        });
+    } else {
+        console.log('🔧 TOC: DOM déjà prêt, démarrage immédiat');
+        waitForElements();
+    }
+})();
+
+// ===== CALENDLY (GARDÉ) =====
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-calendly-detail').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('data-calendly-url');
+            
+            if (typeof Calendly !== 'undefined') {
+                Calendly.initPopupWidget({ url });
+            } else {
+                window.open(url, '_blank');
+            }
+        });
+    });
 });
 </script>
 
-
-
+<!-- Calendly Integration -->
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 {% endblock %}

@@ -81,7 +81,10 @@
                 </div>
                 
                 <h1 class="hero-title-ef">{{ metier.title }}</h1>
+                <div class="hero-formation-highlight">
+                    <span class="highlight-badge">Objectif Carriere</span>
                 <p class="hero-description-ef">{{ metier.description }}</p>
+                </div>
                 
                 <!-- Stats horizontales -->
                 <div class="hero-stats-ef">
@@ -101,7 +104,7 @@
                 
                 <div class="hero-cta-ef">
                     <a href="#formations" class="btn-hero-primary-ef">
-                        <span>Découvrir nos formations</span>
+                        <span>Choisir ma formation</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
                         </svg>
@@ -210,33 +213,35 @@
     <section class="formations-ef" id="formations">
         <div class="container">
             <div class="formations-header-ef">
-                <h2 class="section-title-ef">{{ formations_count }} formation{{ formations_count > 1 ? 's' : '' }} pour accéder à ce métier</h2>
+                <h2 class="section-title-ef">La formation pour {{ metier.title|replace({'Devenir ': ''})|lower }}</h2>
                 <p class="section-subtitle-ef">
-                    Découvrez nos formations spécialement conçues pour vous préparer efficacement à ce métier d'avenir
+                    Une formation spécialement conçue pour vous préparer à ce métier d'avenir
                 </p>
             </div>
             
-            <div class="formations-grid-ef">
-                {% if formations|length > 0 %}
-                    {% for formation in formations %}
-                        <article class="formation-card-ef">
-                            <div class="card-header-ef">
-                                {% if formation.category %}
-                                    <span class="formation-category-ef">{{ formation.category.name }}</span>
-                                {% endif %}
-                                <h3 class="formation-title-ef">
-                                    <a href="{{ path('app_formation_show', {'id': formation.id}) }}">
-                                        {{ formation.nameFormation }}
-                                    </a>
-                                </h3>
-                            </div>
+            <div class="formation-single-ef">
+                <article class="formation-card-ef formation-highlighted-ef">
+                        <div class="card-header-ef">
+                            {% if formation.category %}
+                                <span class="formation-category-ef">{{ formation.category.name }}</span>
+                            {% endif %}
+                        <div class="formation-badge-ef">Formation Recommandee</div>
+                            <h3 class="formation-title-ef">
+                                    {{ formation.nameFormation }}
+                            </h3>
+                        </div>
                         
                         <div class="card-content-ef">
                             {% if formation.phraseOne %}
                                 <p class="formation-excerpt-ef">{{ formation.phraseOne }}</p>
                             {% elseif formation.descriptionFormation %}
-                                <p class="formation-excerpt-ef">{{ formation.descriptionFormation|slice(0, 150) }}...</p>
+                            <p class="formation-excerpt-ef">{{ formation.descriptionFormation }}</p>
                             {% endif %}
+
+                        <div class="metier-alignment-ef">
+                            <div class="alignment-title-ef">Cette formation vous prépare directement au métier de :</div>
+                            <div class="target-metier-ef">{{ metier.title|replace({'Devenir ': ''}) }}</div>
+                        </div>
                         </div>
                         
                         <div class="card-meta-ef">
@@ -257,6 +262,15 @@
                                     <span>{{ formation.niveau }}</span>
                                 </div>
                             {% endif %}
+
+                        {% if metier.salaire %}
+                            <div class="meta-item-ef">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                                </svg>
+                                <span>Salaire : {{ metier.salaire }}</span>
+                                </div>
+                            {% endif %}
                         </div>
                         
                         {% if formation.priceFormation %}
@@ -266,173 +280,108 @@
                             </div>
                         {% endif %}
                         
-                        <div class="card-actions-ef">
+                    <div class="card-actions-ef card-actions-highlighted-ef">
                             <a href="{{ path('app_formation_show', {'id': formation.id}) }}" 
-                               class="btn-formation-ef">
-                                <span>En savoir plus</span>
-                            </a>
+                           class="btn-formation-ef btn-formation-primary-ef">
+                            <span>Commencer cette formation</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Bouton centré pour voir d'autres formations -->
+            {% if other_formations_count >= 2 %}
+            <div style="display: flex; justify-content: center; width: 100%; margin: 40px 0; padding: 0 20px; box-sizing: border-box;">
+            <div class="other-formations-discover-ef">
+                <div class="discover-content-ef">
+                    <h3 class="discover-title-ef">Élargissez vos compétences</h3>
+                    <p class="discover-subtitle-ef">
+                        {{ other_formations_count }} formations complémentaires pour enrichir votre profil professionnel en {{ metier.title|replace({'Devenir ': ''})|lower }}
+                    </p>
+                    <button onclick="toggleOtherFormations()" class="btn-discover-formations-ef" id="btn-toggle-formations">
+                        <div class="btn-discover-icon-wrapper-ef">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="other-formations-icon-ef">
+                                <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M21,9V7L15,1H5C3.89,1 3,1.89 3,3V21A2,2 0 0,0 5,23H19A2,2 0 0,0 21,21V9M12,18.5L9.5,16L10.91,14.59L12,15.67L13.09,14.59L14.5,16L12,18.5Z"/>
+                            </svg>
+                            <span class="btn-discover-count-ef">{{ other_formations_count }}</span>
                         </div>
-                    </article>
-                    {% endfor %}
-                    
-                    {# Ajouter des cartes factices pour compléter à un multiple de 3 (pour avoir des lignes complètes) #}
-                    {% set remainingSlots = (3 - (formations|length % 3)) % 3 %}
-                    {% for i in 1..remainingSlots %}
-                        <article class="formation-card-ef formation-placeholder">
+                        <div class="btn-discover-text-ef">
+                            <span class="btn-discover-action-ef">Découvrir les formations complémentaires</span>
+                            <span class="btn-discover-detail-ef">{{ other_formations_count }} options disponibles</span>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="btn-discover-arrow-ef">
+                            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+            <!-- Section des autres formations (masquée par défaut) -->
+            <div class="other-formations-grid-ef" id="other-formations-section" style="display: none;">
+                <div class="container">
+                    <div class="other-formations-header-ef">
+                        <h3 class="other-formations-title-ef">Formations complémentaires</h3>
+                        <p style="color: #6b7280; font-size: 16px; margin: 8px 0 0 0; font-weight: 400;">Enrichissez votre profil professionnel avec ces formations spécialisées</p>
+                    </div>
+                    <div class="formations-grid-ef">
+                    {% for otherFormation in other_formations %}
+                        <article class="formation-card-ef">
                             <div class="card-header-ef">
-                                <span class="formation-category-ef">
-                                    {% if i == 1 %}Bientôt disponible{% elseif i == 2 %}Sur mesure{% else %}Personnalisé{% endif %}
-                                </span>
+                                {% if otherFormation.category %}
+                                    <span class="formation-category-ef">{{ otherFormation.category.name }}</span>
+                                {% endif %}
                                 <h3 class="formation-title-ef">
-                                    <a href="{% if i == 1 %}{{ path('app_home') }}{% else %}#{% endif %}">
-                                        {% if i == 1 %}
-                                            Nouvelle formation en préparation
-                                        {% elseif i == 2 %}
-                                            Formation personnalisée
-                                        {% else %}
-                                            Conseil sur mesure
-                                        {% endif %}
-                                    </a>
+                                    {{ otherFormation.nameFormation }}
                                 </h3>
                             </div>
                             
                             <div class="card-content-ef">
-                                <p class="formation-excerpt-ef">
-                                    {% if i == 1 %}
-                                        D'autres formations pour ce métier sont en cours de développement. Découvrez notre catalogue !
-                                    {% elseif i == 2 %}
-                                        Besoin d'une formation adaptée à vos besoins spécifiques ? Contactez-nous !
-                                    {% else %}
-                                        Conseil personnalisé pour votre projet professionnel dans ce domaine.
-                                    {% endif %}
-                                </p>
+                                {% if otherFormation.phraseOne %}
+                                    <p class="formation-excerpt-ef">{{ otherFormation.phraseOne|slice(0, 120) }}{% if otherFormation.phraseOne|length > 120 %}...{% endif %}</p>
+                                {% elseif otherFormation.descriptionFormation %}
+                                    <p class="formation-excerpt-ef">{{ otherFormation.descriptionFormation|slice(0, 120) }}{% if otherFormation.descriptionFormation|length > 120 %}...{% endif %}</p>
+                                {% endif %}
                             </div>
                             
                             <div class="card-meta-ef">
-                                <div class="meta-item-ef">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
-                                    </svg>
-                                    <span>
-                                        {% if i == 1 %}Prochainement{% elseif i == 2 %}Sur demande{% else %}Consultation{% endif %}
-                                    </span>
-                                </div>
+                                {% if otherFormation.dureeFormation %}
+                                    <div class="meta-item-ef">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                        </svg>
+                                        <span>{{ otherFormation.dureeFormation }}</span>
+                                    </div>
+                                {% endif %}
+                                
+                                {% if otherFormation.niveau %}
+                                    <div class="meta-item-ef">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                                        </svg>
+                                        <span>{{ otherFormation.niveau }}</span>
+                                    </div>
+                                {% endif %}
                             </div>
                             
+                            {% if otherFormation.priceFormation %}
+                                <div class="card-price-ef">
+                                    <span class="price-amount-ef">{{ otherFormation.priceFormation }}€</span>
+                                    <span class="price-note-ef">Éligible CPF</span>
+                                </div>
+                            {% endif %}
+                            
                             <div class="card-actions-ef">
-                                <a href="{% if i == 1 %}{{ path('app_home') }}{% else %}#{% endif %}" class="btn-formation-ef btn-formation-secondary">
-                                    <span>
-                                        {% if i == 1 %}Voir le catalogue{% elseif i == 2 %}Nous contacter{% else %}En savoir plus{% endif %}
-                                    </span>
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </article>
-                    {% endfor %}
-                
-                {% else %}
-                    {# Si aucune formation, afficher 3 cartes factices pour une ligne complète #}
-                    <article class="formation-card-ef formation-placeholder">
-                        <div class="card-header-ef">
-                            <span class="formation-category-ef">En développement</span>
-                            <h3 class="formation-title-ef">
-                                <a href="{{ path('app_home') }}">
-                                    Formations spécialisées à venir
-                                </a>
-                            </h3>
-                        </div>
-                        
-                        <div class="card-content-ef">
-                            <p class="formation-excerpt-ef">Nous préparons des formations spécifiquement adaptées à ce métier. En attendant, explorez nos autres programmes !</p>
-                        </div>
-                        
-                        <div class="card-meta-ef">
-                            <div class="meta-item-ef">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
-                                </svg>
-                                <span>Prochainement</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-actions-ef">
-                            <a href="{{ path('app_home') }}" class="btn-formation-ef btn-formation-secondary">
-                                <span>Voir notre catalogue</span>
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
-                                </svg>
+                                <a href="{{ path('app_formation_show', {'id': otherFormation.id}) }}" 
+                                   class="btn-formation-ef btn-formation-secondary-ef">
+                                    <span>Découvrir cette formation</span>
                             </a>
                         </div>
                     </article>
-                    
-                    <article class="formation-card-ef formation-placeholder">
-                        <div class="card-header-ef">
-                            <span class="formation-category-ef">Personnalisé</span>
-                            <h3 class="formation-title-ef">
-                                <a href="#">
-                                    Formation sur mesure
-                                </a>
-                            </h3>
-                        </div>
-                        
-                        <div class="card-content-ef">
-                            <p class="formation-excerpt-ef">Besoin d'une formation personnalisée pour ce métier ? Contactez-nous pour créer un programme adapté à vos besoins !</p>
-                        </div>
-                        
-                        <div class="card-meta-ef">
-                            <div class="meta-item-ef">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
-                                </svg>
-                                <span>Sur demande</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-actions-ef">
-                            <a href="#" class="btn-formation-ef btn-formation-secondary">
-                                <span>Nous contacter</span>
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </article>
-                    
-                    <article class="formation-card-ef formation-placeholder">
-                        <div class="card-header-ef">
-                            <span class="formation-category-ef">Conseil</span>
-                            <h3 class="formation-title-ef">
-                                <a href="#">
-                                    Accompagnement professionnel
-                                </a>
-                            </h3>
-                        </div>
-                        
-                        <div class="card-content-ef">
-                            <p class="formation-excerpt-ef">Accompagnement personnalisé et conseil dans votre évolution vers ce métier. Parlons de votre projet !</p>
-                        </div>
-                        
-                        <div class="card-meta-ef">
-                            <div class="meta-item-ef">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
-                                </svg>
-                                <span>Consultation</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-actions-ef">
-                            <a href="#" class="btn-formation-ef btn-formation-secondary">
-                                <span>Prendre RDV</span>
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </article>
-                {% endif %}
+                {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -441,16 +390,16 @@
     <section class="cta-final-ef">
         <div class="container">
             <div class="cta-content-ef">
-                <h2 class="cta-title-ef">Prêt à commencer votre transformation professionnelle ?</h2>
+                <h2 class="cta-title-ef">Lancez votre carriere des maintenant !</h2>
                 <p class="cta-description-ef">
-                    Rejoignez les milliers de professionnels qui ont choisi l'INFPF pour développer leurs compétences et accélérer leur carrière
+                    Nos conseillers vous accompagnent personnellement pour choisir la formation parfaite et vous ouvrir les portes de {{ metier.title|replace({'Devenir ': ''})|lower }}
                 </p>
                 <div class="cta-actions-ef">
                     <a href="{{ path('app_contact') }}" class="btn-cta-primary-ef">
-                        <span>Être rappelé gratuitement</span>
+                        <span>Conseil gratuit immediat</span>
                     </a>
-                    <a href="{{ path('app_metiers_index') }}" class="btn-cta-secondary-ef">
-                        <span>Découvrir d'autres métiers</span>
+                    <a href="{{ path('app_home') }}" class="btn-cta-secondary-ef">
+                        <span>Voir toutes nos formations</span>
                     </a>
                 </div>
                 <div class="cta-garantees-ef">
@@ -515,8 +464,7 @@ body {
 /* Optimisation GPU pour les animations */
 .stat-ef,
 .benefit-card-ef,
-.content-block-ef,
-.formation-card-ef {
+.content-block-ef {
     will-change: transform;
     transform: translateZ(0); /* Force GPU rendering */
 }
@@ -621,14 +569,31 @@ main.metier-page-ef {
     font-family: 'Inter', sans-serif;
 }
 
+.hero-formation-highlight {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 3rem;
+    backdrop-filter: blur(10px);
+}
+
+.highlight-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--ef-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
 .hero-description-ef {
     font-size: 1.25rem;
     line-height: 1.6;
-    margin-bottom: 3rem;
+    margin: 0;
     opacity: 0.95;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
     font-family: 'Inter', sans-serif;
 }
 
@@ -1060,10 +1025,97 @@ main.metier-page-ef {
     margin-bottom: 60px;
 }
 
-.formations-grid-ef {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colonnes pour 2 lignes de 3 formations */
-    gap: 24px;
+/* Styles pour l'approche 1:1 */
+.formation-single-ef {
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.formation-highlighted-ef {
+    border: 2px solid var(--ef-primary);
+    box-shadow: 0 8px 30px rgba(11, 63, 137, 0.15);
+    position: relative;
+    transform: scale(1.02);
+}
+
+.formation-highlighted-ef::before {
+    background: linear-gradient(135deg, var(--ef-primary), #1a5a9a);
+}
+
+.formation-badge-ef {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    background: var(--ef-primary);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.metier-alignment-ef {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-align: center;
+    border-left: 4px solid var(--ef-primary);
+}
+
+.alignment-title-ef {
+    font-size: 14px;
+    color: var(--ef-text-light);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.target-metier-ef {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ef-primary);
+    margin-bottom: 0;
+}
+
+.card-actions-highlighted-ef {
+    background: var(--ef-bg-light);
+    padding: 24px;
+    margin: -24px -24px -24px -24px;
+    margin-top: 24px;
+    border-radius: 0 0 12px 12px;
+}
+
+.btn-formation-primary-ef {
+    background: var(--ef-primary);
+    color: white;
+    font-weight: 600;
+    padding: 16px 32px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-formation-primary-ef:hover {
+    background: #004080;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(11, 63, 137, 0.3);
+}
+
+/* Grid pour la formation principale (une seule card) */
+.formation-single-ef {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .formation-card-ef {
@@ -1075,6 +1127,12 @@ main.metier-page-ef {
     position: relative;
     overflow: hidden;
     box-shadow: var(--ef-shadow);
+    width: 100%;
+}
+
+/* Card principale - largeur limitée */
+.formation-single-ef .formation-card-ef {
+    max-width: 600px;
 }
 
 .formation-card-ef::before {
@@ -1094,7 +1152,9 @@ main.metier-page-ef {
 }
 
 .card-header-ef {
+    position: relative;
     margin-bottom: 16px;
+    padding-top: 20px; /* Espace pour le badge */
 }
 
 .formation-category-ef {
@@ -1216,35 +1276,6 @@ main.metier-page-ef {
     text-decoration: none;
 }
 
-/* Carte formation factice pour équilibrer le grid 2 colonnes */
-.formation-placeholder {
-    opacity: 0.8;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-    border: 2px dashed var(--ef-border) !important;
-}
-
-.formation-placeholder::before {
-    background: linear-gradient(90deg, #94a3b8 0%, #cbd5e1 100%) !important;
-}
-
-.formation-placeholder .formation-category-ef {
-    background: var(--ef-light-gray) !important;
-    color: white !important;
-}
-
-.formation-placeholder .formation-title-ef a {
-    color: var(--ef-gray) !important;
-}
-
-.btn-formation-secondary {
-    background: var(--ef-light-gray) !important;
-    color: white !important;
-}
-
-.btn-formation-secondary:hover {
-    background: var(--ef-gray) !important;
-}
-
 /* ===== CTA FINAL ===== */
 .cta-final-ef {
     background: var(--ef-dark);
@@ -1345,27 +1376,513 @@ main.metier-page-ef {
     color: var(--ef-success);
 }
 
-/* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
+/* ===== BOUTON AUTRES FORMATIONS ===== */
+.other-formations-cta-ef {
+    margin-top: 32px;
+    padding: 24px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e6f3ff 100%);
+    border-radius: 16px;
+    border: 2px solid rgba(11, 63, 137, 0.1);
+    text-align: center;
+}
 
-/* Tablette : 2 colonnes au lieu de 3 */
-@media (max-width: 1024px) and (min-width: 769px) {
-    .formations-grid-ef {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+.other-formations-content-ef {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.other-formations-text-ef {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    color: #4a5568;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.btn-other-formations-ef {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--ef-primary) 0%, #1a5a9a 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(11, 63, 137, 0.2);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-other-formations-ef:hover {
+    background: linear-gradient(135deg, #004080 0%, #0056b3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.other-formations-icon-ef {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+/* Section des autres formations */
+.other-formations-grid-ef {
+    margin-top: 32px;
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    border: 2px solid rgba(11, 63, 137, 0.08);
+    animation: slideDown 0.5s ease-out;
+}
+
+.other-formations-header-ef {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.other-formations-title-ef {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ef-primary);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.formations-grid-ef {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Bouton secondaire pour les autres formations */
+.btn-formation-secondary-ef {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+    border: 2px solid transparent;
+}
+
+.btn-formation-secondary-ef:hover {
+    background: linear-gradient(135deg, var(--ef-primary) 0%, #1a5a9a 100%);
+    color: white;
+    text-decoration: none;
+    border-color: var(--ef-primary);
+    transform: translateY(-2px);
+}
+
+/* Section découverte des autres formations */
+.other-formations-discover-ef {
+    margin: 0;
+    padding: 32px 24px;
+    text-align: center;
+    background: linear-gradient(135deg, #f8fafc 0%, #e6f3ff 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(30, 64, 175, 0.1);
+    position: relative;
+    overflow: hidden;
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.other-formations-discover-ef::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--ef-primary), #3b82f6, var(--ef-accent));
+    border-radius: 20px 20px 0 0;
+}
+
+.discover-content-ef {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.discover-title-ef {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ef-primary);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    width: 100%;
+}
+
+.discover-subtitle-ef {
+    font-size: 16px;
+    color: #4b5563;
+    margin: 0 0 28px 0;
+    line-height: 1.6;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+}
+
+/* Bouton découverte moderne */
+.btn-discover-formations-ef {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px 32px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px solid var(--ef-primary);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: inherit;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(30, 64, 175, 0.15);
+    min-width: 320px;
+    margin: 0 auto;
+}
+
+.btn-discover-formations-ef::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-discover-formations-ef:hover::before {
+    left: 100%;
+}
+
+.btn-discover-formations-ef:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(30, 64, 175, 0.25);
+    border-color: #1e40af;
+}
+
+.btn-discover-icon-wrapper-ef {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--ef-primary);
+    border-radius: 12px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.btn-discover-icon-wrapper-ef .other-formations-icon-ef {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    transition: opacity 0.3s ease;
+}
+
+.btn-discover-count-ef {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ef4444;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-discover-text-ef {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex: 1;
+}
+
+.btn-discover-action-ef {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ef-primary);
+    margin-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-discover-detail-ef {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-discover-arrow-ef {
+    width: 20px;
+    height: 20px;
+    color: var(--ef-primary);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.btn-discover-formations-ef:hover .btn-discover-arrow-ef {
+    transform: translateX(4px);
+}
+
+.btn-discover-formations-ef.active .btn-discover-arrow-ef {
+    transform: rotate(90deg);
+}
+
+.btn-discover-formations-ef:focus {
+    outline: 3px solid rgba(30, 64, 175, 0.3);
+    outline-offset: 4px;
+}
+
+.btn-discover-formations-ef.active {
+    border-color: #ef4444;
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2);
+}
+
+.btn-discover-formations-ef.active .btn-discover-icon-wrapper-ef {
+    background: #ef4444;
+}
+
+/* Animation pour la flèche */
+.btn-other-formations-ef.active .other-formations-icon-ef {
+    transform: rotate(180deg);
+}
+
+/* Bouton retour en haut */
+.back-to-top-ef {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--ef-primary) 0%, #1a5a9a 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.back-to-top-ef:hover {
+    background: linear-gradient(135deg, #1a5a9a 0%, var(--ef-primary) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 64, 175, 0.4);
+}
+
+.back-to-top-ef:active {
+    transform: translateY(0);
+}
+
+.back-to-top-ef svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.back-to-top-ef:hover svg {
+    transform: translateY(-1px);
+}
+
+/* Responsive pour bouton retour en haut */
+@media (max-width: 768px) {
+    .back-to-top-ef {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .back-to-top-ef svg {
+        width: 20px;
+        height: 20px;
     }
 }
+
+/* Animations pour le toggle des formations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 1000px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 1000px;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
+}
+
+
+/* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
 
 /* Position bouton mobile */
 @media (max-width: 768px) {
     .back-navigation-ef {
-        top: 120px; /* Ajustement mobile */
+        top: 100px; /* Position plus haute pour éviter l'icône */
         left: 16px;
+        right: 16px; /* Empêcher le débordement */
+    }
+
+    /* Responsive pour section découverte */
+    .other-formations-discover-ef {
+        margin: 0;
+        padding: 24px 16px;
+        max-width: 95%;
+    }
+
+    .discover-title-ef {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    /* Responsive pour les formations */
+    .formations-grid-ef {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .other-formations-header-ef {
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+
+    .other-formations-title-ef {
+        font-size: 24px;
+    }
+
+    .discover-subtitle-ef {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .btn-discover-formations-ef {
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px 16px;
+        min-width: auto;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .btn-discover-text-ef {
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn-discover-action-ef {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .btn-discover-detail-ef {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .btn-discover-arrow-ef {
+        display: none;
     }
     
     .btn-back-ef {
         padding: 10px 16px;
         font-size: 13px;
+        max-width: fit-content; /* Éviter l'étalement */
     }
+    
+    .hero-content-ef {
+        margin-top: 40px; /* Espace supplémentaire pour éviter le bouton */
+    }
+    
+    .hero-icon-ef {
+        margin-bottom: 16px; /* Réduction de l'espace sous l'icône */
+    }
+
+    /* Responsive bouton autres formations */
+    .other-formations-cta-ef {
+        margin-top: 24px;
+        padding: 20px 16px;
+    }
+
+    .other-formations-text-ef {
+        font-size: 15px;
+        margin-bottom: 16px;
+    }
+
+    .btn-other-formations-ef {
+        padding: 12px 24px;
+        font-size: 14px;
+        gap: 10px;
+    }
+
+    .other-formations-icon-ef {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Responsive autres formations */
+    .other-formations-grid-ef {
+        margin-top: 24px;
+        padding: 24px 16px;
+    }
+
+    .other-formations-title-ef {
+        font-size: 24px;
+    }
+
+    .formations-grid-ef {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
     .hero-title-ef {
         font-size: 2.25rem;
     }
@@ -1400,7 +1917,7 @@ main.metier-page-ef {
     }
     
     .formations-grid-ef {
-        grid-template-columns: 1fr; /* 1 colonne sur mobile */
+        grid-template-columns: 1fr;
         gap: 20px;
     }
     
@@ -1417,12 +1934,23 @@ main.metier-page-ef {
 
 @media (max-width: 480px) {
     .hero-metier-ef {
-        padding: 100px 0 60px 0;
+        padding: 90px 0 60px 0; /* Réduction du padding top */
     }
     
     .back-navigation-ef {
-        top: 110px; /* Position encore plus basse sur petit mobile */
+        top: 85px; /* Position plus haute pour éviter l'icône */
         left: 12px;
+        right: 12px; /* Empêcher le débordement */
+    }
+    
+    .hero-content-ef {
+        margin-top: 50px; /* Plus d'espace sur très petit écran */
+    }
+    
+    .hero-icon-ef {
+        width: 56px; /* Icône plus petite sur très petit écran */
+        height: 56px;
+        margin-bottom: 12px;
     }
     
     .hero-title-ef {
@@ -1482,5 +2010,74 @@ main.metier-page-ef {
             });
         }
     });
+
+    // Fonction pour afficher/masquer les autres formations
+    function toggleOtherFormations() {
+        const section = document.getElementById('other-formations-section');
+        const button = document.getElementById('btn-toggle-formations');
+        const buttonAction = button.querySelector('.btn-discover-action-ef');
+        const buttonDetail = button.querySelector('.btn-discover-detail-ef');
+        const buttonArrow = button.querySelector('.btn-discover-arrow-ef');
+        
+        // Récupérer le nombre de formations depuis le badge
+        const countBadge = button.querySelector('.btn-discover-count-ef');
+        const formationCount = countBadge ? countBadge.textContent : '1';
+        const isPlural = parseInt(formationCount) > 1;
+        
+        if (section.style.display === 'none' || section.style.display === '') {
+            // Afficher les formations
+            section.style.display = 'block';
+            section.style.animation = 'slideDown 0.5s ease-out';
+            
+            // Changer le texte du bouton
+            buttonAction.textContent = 'Masquer les formations';
+            buttonDetail.textContent = 'Réduire la liste';
+            button.classList.add('active');
+            
+            // Scroll vers la section avec un délai pour l'animation
+            setTimeout(() => {
+                section.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 200);
+        } else {
+            // Masquer les formations
+            section.style.animation = 'slideUp 0.3s ease-in';
+            setTimeout(() => {
+                section.style.display = 'none';
+                // Restaurer le texte original
+                buttonAction.textContent = `Découvrir ${isPlural ? 'les autres formations' : 'l\'autre formation'}`;
+                buttonDetail.textContent = 'Pour ce métier';
+                button.classList.remove('active');
+            }, 300);
+        }
+    }
+
+    // Fonction scroll vers le haut
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    // Afficher/masquer le bouton selon la position de scroll
+    window.addEventListener('scroll', function() {
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+        if (window.pageYOffset > 300) {
+            backToTopBtn.style.display = 'flex';
+        } else {
+            backToTopBtn.style.display = 'none';
+        }
+    });
 </script>
+
+<!-- Bouton retour en haut -->
+<button id="back-to-top-btn" class="back-to-top-ef" onclick="scrollToTop()" title="Retour en haut" style="display: none;">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/>
+    </svg>
+</button>
+
 {% endblock %}

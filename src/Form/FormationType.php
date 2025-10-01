@@ -48,17 +48,29 @@ class FormationType extends AbstractType
                 'label' => 'Présentation',
                 'attr' => ['class' => 'form-control mb-3'],
             ])
-            ->add('prerequis', TextType::class, [
+            ->add('prerequis', TextareaType::class, [
                 'label' => 'Prérequis',
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => [
+                    'class' => 'form-control mb-3',
+                    'rows' => 6,
+                    'placeholder' => 'Séparez chaque prérequis par une ligne. Utilisez • ou - pour les listes.'
+                ],
             ])
-            ->add('atouts', TextType::class, [
+            ->add('atouts', TextareaType::class, [
                 'label' => 'Atouts',
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => [
+                    'class' => 'form-control mb-3',
+                    'rows' => 8,
+                    'placeholder' => 'Séparez chaque atout par une ligne. Utilisez • ou - pour les listes.'
+                ],
             ])
-            ->add('programme', TextType::class, [
+            ->add('programme', TextareaType::class, [
                 'label' => 'Programme',
-                'attr' => ['class' => 'form-control mb-3'],
+                'attr' => [
+                    'class' => 'form-control mb-3',
+                    'rows' => 15,
+                    'placeholder' => 'Décrivez le programme détaillé. Séparez les modules/parties par des lignes vides.'
+                ],
             ])
             ->add('modalites_pedagogique', TextareaType::class, [
                 'label' => 'Modalités Pédagogiques',

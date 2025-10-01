@@ -345,10 +345,38 @@
                         {{ form_label(form.author, 'Auteur', {'attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.author, {'attr': {'class': 'form-control', 'placeholder': 'Nom de l\'auteur'}}) }}
                     </div>
+                </div>
+
+                <!-- Section Publication -->
+                <div class="publication-section">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">
+                        📅 Paramètres de publication
+                        <span class="current-status-badge">
+                            {% if blog.isDraft %}
+                                <span class="badge bg-secondary">📝 {{ blog.statusLabel }}</span>
+                            {% elseif blog.isScheduled %}
+                                <span class="badge bg-warning text-dark">⏰ {{ blog.statusLabel }}</span>
+                            {% else %}
+                                <span class="badge bg-success">✅ {{ blog.statusLabel }}</span>
+                            {% endif %}
+                        </span>
+                    </h3>
                     
                     <div class="form-group">
-                        {{ form_label(form.publishedAt, 'Date de publication', {'attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.publishedAt, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(form.status, 'Statut de publication *', {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.status, {'attr': {'class': 'form-control publication-status-select'}}) }}
+                        <div class="publication-status-help"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="publication-date-container">
+                            {{ form_label(form.publishedAt, 'Date et heure de publication', {'attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.publishedAt, {'attr': {'class': 'form-control publication-date-field'}}) }}
+                            <div class="form-help">
+                                💡 <strong>Conseil :</strong> Pour un article programmé, choisissez une date dans le futur. 
+                                L'article sera automatiquement visible à cette date.
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -409,16 +437,6 @@
                 </div>
 
                 <div class="form-group">
-                    {{ form_label(form.sous_title_tree, 'Sous-titre de la 3ème section', {'attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.sous_title_tree, {'attr': {'class': 'form-control', 'placeholder': 'Sous-titre de la troisième section...'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_label(form.sous_content_tree, 'Sous-contenu de la 3ème section', {'attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.sous_content_tree, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Sous-contenu de la troisième section...'}}) }}
-                </div>
-
-                <div class="form-group">
                     {{ form_label(form.title_for, 'Titre de la 4ème section', {'attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.title_for, {'attr': {'class': 'form-control', 'placeholder': 'Titre de la quatrième section...'}}) }}
                 </div>
@@ -426,6 +444,49 @@
                 <div class="form-group">
                     {{ form_label(form.content_for, 'Contenu de la 4ème section', {'attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.content_for, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Contenu de la quatrième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.title_five, 'Titre de la 5ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.title_five, {'attr': {'class': 'form-control', 'placeholder': 'Titre de la cinquième section...'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.content_five, 'Contenu de la 5ème section', {'attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content_five, {'attr': {'class': 'form-control form-textarea', 'placeholder': 'Contenu de la cinquième section...'}}) }}
+                </div>
+
+                <!-- Sections dynamiques -->
+                <div class="dynamic-sections-container">
+                    <h3 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">
+                        Sections supplémentaires (optionnel)
+                    </h3>
+                    <div id="dynamic-sections">
+                        {% for section in blog.dynamicSections %}
+                            <div class="dynamic-section" data-section="{{ section.id }}">
+                                <div class="dynamic-section-header">
+                                    <h4>Section supplémentaire {{ loop.index }}</h4>
+                                    <button type="button" class="btn-remove-section" data-section-id="{{ section.id }}">
+                                        ❌ Supprimer
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Titre de la section</label>
+                                    <input type="text" name="dynamic_sections[{{ section.id }}][title]" 
+                                           class="form-control" value="{{ section.title }}" placeholder="Titre de la section..." />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Contenu de la section</label>
+                                    <textarea name="dynamic_sections[{{ section.id }}][content]" 
+                                              class="form-control form-textarea" rows="5" 
+                                              placeholder="Contenu de la section...">{{ section.content }}</textarea>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="add-section-btn" class="btn-add-section" onclick="addSectionManual()">
+                        ➕ Ajouter une section
+                    </button>
                 </div>
             </div>
 
@@ -464,6 +525,47 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        // Fonction de secours pour ajouter une section manuellement
+        function addSectionManual() {
+            console.log('🎯 Admin Debug - Fonction manuelle appelée !');
+            
+            // Récupérer le compteur actuel et les éléments
+            let currentSections = document.querySelectorAll('.dynamic-section').length;
+            let newSectionNumber = currentSections + 1;
+            
+            const container = document.getElementById('dynamic-sections');
+            if (!container) {
+                alert('❌ Erreur: Container non trouvé');
+                return;
+            }
+            
+            const sectionHtml = `
+                <div class="dynamic-section" data-section="new_${newSectionNumber}">
+                    <div class="dynamic-section-header">
+                        <h4>Section supplémentaire ${newSectionNumber}</h4>
+                        <button type="button" class="btn-remove-section" onclick="this.closest('.dynamic-section').remove()">
+                            ❌ Supprimer
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Titre de la section</label>
+                        <input type="text" name="dynamic_sections[new_${newSectionNumber}][title]" 
+                               class="form-control" placeholder="Titre de la section..." />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contenu de la section</label>
+                        <textarea name="dynamic_sections[new_${newSectionNumber}][content]" 
+                                  class="form-control form-textarea" rows="5" 
+                                  placeholder="Contenu de la section..."></textarea>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', sectionHtml);
+            console.log('✅ Admin Debug - Nouvelle section ajoutée avec succès !');
+        }
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Character count for short description
@@ -523,6 +625,276 @@
                         return false;
                     }
                 });
+            }
+
+            // Dynamic sections functionality
+            let sectionCounter = {{ blog.dynamicSections|length }};
+            const dynamicSectionsContainer = document.getElementById('dynamic-sections');
+            const addSectionBtn = document.getElementById('add-section-btn');
+            
+            // Debug logs
+            console.log('🔧 Admin Debug - Section counter:', sectionCounter);
+            console.log('🔧 Admin Debug - Dynamic sections container:', dynamicSectionsContainer);
+            console.log('🔧 Admin Debug - Add section button:', addSectionBtn);
+
+            // Attacher les event listeners aux boutons de suppression existants
+            document.querySelectorAll('.btn-remove-section').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionElement = this.closest('.dynamic-section');
+                    console.log('Suppression de section existante:', sectionElement?.dataset.section);
+                    if (sectionElement) {
+                        sectionElement.remove();
+                    }
+                });
+            });
+
+            // Vérifier si le bouton existe avant d'ajouter l'event listener
+            if (addSectionBtn && dynamicSectionsContainer) {
+                console.log('✅ Admin Debug - Bouton et container trouvés, ajout de l\'event listener');
+                
+                addSectionBtn.addEventListener('click', function() {
+                    console.log('🎯 Admin Debug - Bouton "Ajouter section" cliqué !');
+                    sectionCounter++;
+                    const sectionHtml = `
+                    <div class="dynamic-section" data-section="new_${sectionCounter}">
+                        <div class="dynamic-section-header">
+                            <h4>Section supplémentaire ${sectionCounter + {{ blog.dynamicSections|length }} + 1}</h4>
+                            <button type="button" class="btn-remove-section" data-section-id="new_${sectionCounter}">
+                                ❌ Supprimer
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Titre de la section</label>
+                            <input type="text" name="dynamic_sections[new_${sectionCounter}][title]" 
+                                   class="form-control" placeholder="Titre de la section..." />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contenu de la section</label>
+                            <textarea name="dynamic_sections[new_${sectionCounter}][content]" 
+                                      class="form-control form-textarea" rows="5" 
+                                      placeholder="Contenu de la section..."></textarea>
+                        </div>
+                    </div>
+                `;
+                dynamicSectionsContainer.insertAdjacentHTML('beforeend', sectionHtml);
+
+                // Ajouter l'event listener au nouveau bouton de suppression
+                const newSection = dynamicSectionsContainer.lastElementChild;
+                const removeBtn = newSection.querySelector('.btn-remove-section');
+                removeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Suppression de nouvelle section:', sectionCounter);
+                    newSection.remove();
+                });
+                });
+            } else {
+                console.error('❌ Admin Debug - Éléments manquants:', {
+                    addSectionBtn: !!addSectionBtn,
+                    dynamicSectionsContainer: !!dynamicSectionsContainer
+                });
+                
+                // Tentative de fallback après un délai
+                setTimeout(function() {
+                    console.log('🔄 Admin Debug - Tentative de fallback...');
+                    const fallbackBtn = document.getElementById('add-section-btn');
+                    const fallbackContainer = document.getElementById('dynamic-sections');
+                    
+                    if (fallbackBtn && fallbackContainer) {
+                        console.log('✅ Admin Debug - Fallback réussi, ajout de l\'event listener');
+                        fallbackBtn.addEventListener('click', function() {
+                            console.log('🎯 Admin Debug - Bouton cliqué via fallback !');
+                            location.reload(); // Rechargement temporaire pour test
+                        });
+                    } else {
+                        console.error('❌ Admin Debug - Fallback échoué, éléments toujours manquants');
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+
+    <style>
+        .btn-add-section {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-add-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .dynamic-section {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .dynamic-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .dynamic-section-header h4 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .btn-remove-section {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-remove-section:hover {
+            transform: scale(1.05);
+        }
+
+        .dynamic-sections-container {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .publication-date-field {
+            transition: all 0.3s ease;
+        }
+
+        .publication-date-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .publication-date-container.hidden {
+            display: none;
+        }
+
+        .publication-status-help {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .status-draft .publication-status-help {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+
+        .status-published .publication-status-help {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-scheduled .publication-status-help {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        .current-status-badge {
+            font-size: 0.75rem;
+            margin-left: 1rem;
+        }
+
+        .publication-section {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 2rem;
+        }
+    </style>
+
+    <script>
+        function togglePublicationDate(status) {
+            const dateContainer = document.querySelector('.publication-date-container');
+            const dateField = document.querySelector('#blog_publishedAt');
+            const statusHelp = document.querySelector('.publication-status-help');
+            
+            if (!dateContainer || !dateField || !statusHelp) {
+                console.warn('Éléments du formulaire non trouvés pour togglePublicationDate');
+                return;
+            }
+            
+            const formGroup = dateContainer.closest('.form-group');
+
+            // Retirer toutes les classes de statut
+            formGroup.classList.remove('status-draft', 'status-published', 'status-scheduled');
+
+            switch(status) {
+                case 'draft':
+                    dateContainer.style.display = 'none';
+                    dateField.removeAttribute('required');
+                    dateField.disabled = true; // Désactiver pour éviter les erreurs de validation
+                    formGroup.classList.add('status-draft');
+                    statusHelp.innerHTML = '📝 Cet article sera sauvegardé comme brouillon et ne sera pas visible publiquement.';
+                    break;
+                    
+                case 'published':
+                    dateContainer.style.display = 'block';
+                    dateField.removeAttribute('required');
+                    dateField.disabled = false;
+                    formGroup.classList.add('status-published');
+                    statusHelp.innerHTML = '✅ Cet article sera publié immédiatement. Laissez la date vide pour utiliser maintenant.';
+                    break;
+                    
+                case 'scheduled':
+                    dateContainer.style.display = 'block';
+                    dateField.setAttribute('required', 'required');
+                    dateField.disabled = false;
+                    formGroup.classList.add('status-scheduled');
+                    statusHelp.innerHTML = '⏰ Choisissez une date et heure dans le futur. L\'article sera publié automatiquement.';
+                    
+                    // Définir la date minimum à maintenant + 1 minute
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + 1);
+                    const minDate = now.toISOString().slice(0, 16);
+                    dateField.setAttribute('min', minDate);
+                    
+                    // Si pas de date définie ou date dans le passé, suggérer demain à 9h
+                    if (!dateField.value || new Date(dateField.value) <= now) {
+                        const tomorrow = new Date();
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        tomorrow.setHours(9, 0, 0, 0);
+                        dateField.value = tomorrow.toISOString().slice(0, 16);
+                    }
+                    break;
+            }
+        }
+
+        // Initialiser l'état au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.querySelector('#blog_status');
+            if (statusSelect) {
+                togglePublicationDate(statusSelect.value);
             }
         });
     </script>
