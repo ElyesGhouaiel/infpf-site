@@ -747,13 +747,6 @@
                 {% if blog.contentTree %}
                 <div class="content-text">{{ blog.contentTree|nl2br }}</div>
                 {% endif %}
-                
-                {% if blog.sousTitleTree %}
-                <h3 class="section-subtitle">{{ blog.sousTitleTree }}</h3>
-                {% if blog.sousContentTree %}
-                <div class="content-text">{{ blog.sousContentTree|nl2br }}</div>
-                {% endif %}
-                {% endif %}
             </div>
             {% endif %}
 
@@ -765,6 +758,22 @@
                 {% endif %}
             </div>
             {% endif %}
+
+            {% if blog.titleFive %}
+            <div class="content-section">
+                <h2 class="section-title">{{ blog.titleFive }}</h2>
+                {% if blog.contentFive %}
+                <div class="content-text">{{ blog.contentFive|nl2br }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% for section in blog.dynamicSections|sort((a, b) => a.position <=> b.position) %}
+            <div class="content-section">
+                <h2 class="section-title">{{ section.title }}</h2>
+                <div class="content-text">{{ section.content|nl2br }}</div>
+            </div>
+            {% endfor %}
         </div>
 
         <div class="comments-section">

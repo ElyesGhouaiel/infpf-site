@@ -1,116 +1,858 @@
 {% extends 'base.html.twig' %}
 
-
-{% block title %}Formation
+{% block title %}Notre méthode d'apprentissage - INFPF
 {% endblock %}
+
 {% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
+	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
     <link href="../css/footer1.css" rel="stylesheet"/>
+	<style>
+		/* ===== VARIABLES CSS MODERNES ===== */
+		:root {
+			--primary-color: #0b3f89;
+			--primary-light: #1e5cb8;
+			--accent-color: #00b4d8;
+			--text-dark: #2d3748;
+			--text-light: #718096;
+			--white: #ffffff;
+			--bg-light: #f8fafc;
+			--bg-section: #fafbfc;
+			--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+			--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+			--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+			--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			--transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			--border-radius: 24px;
+		}
+
+		/* ===== RESET ET BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			line-height: 1.6;
+			color: var(--text-dark);
+			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+		}
+
+		/* ===== HERO SECTION MODERNE ===== */
+		.methode-hero-formation {
+			position: relative;
+			min-height: 45vh;
+			background: var(--primary-gradient);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 40px;
+		}
+
+		.methode-hero-formation::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('{{ asset('img/meth-apprentis.png') }}') center center/cover;
+			background-repeat: no-repeat;
+			opacity: 0.12;
+			z-index: 1;
+		}
+
+		.methode-hero-formation::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+			z-index: 2;
+		}
+
+		.methode-hero-content {
+			position: relative;
+			z-index: 3;
+			color: white;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.methode-hero-title {
+			font-size: clamp(3.2rem, 7vw, 5.2rem);
+			font-weight: 800;
+			margin-bottom: 28px;
+			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			letter-spacing: -0.02em;
+		}
+
+		.methode-hero-subtitle {
+			font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+			font-weight: 400;
+			margin-bottom: 50px;
+			opacity: 0.95;
+			line-height: 1.4;
+		}
+
+		.methode-hero-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			backdrop-filter: blur(10px);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			transition: var(--transition);
+			text-shadow: none;
+		}
+
+		.methode-hero-cta:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			color: white;
+		}
+
+		/* ===== BREADCRUMBS MODERNES ===== */
+		.modern-breadcrumbs {
+			background: white;
+			padding: 20px 0;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		.breadcrumbs-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 40px;
+		}
+
+		.breadcrumbs-list {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 0.95rem;
+			color: var(--text-light);
+		}
+
+		.breadcrumbs-list a {
+			color: var(--primary-color);
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		.breadcrumbs-list a:hover {
+			color: var(--accent-color);
+		}
+
+		.breadcrumb-separator {
+			color: #cbd5e0;
+			font-weight: 600;
+		}
+
+		.breadcrumb-current {
+			color: var(--text-dark);
+			font-weight: 500;
+		}
+
+		/* ===== CONTAINER PRINCIPAL ===== */
+		.methode-main-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 80px 40px;
+		}
+
+		/* ===== SECTIONS MODERNES ===== */
+		.modern-section {
+			margin-bottom: 80px;
+		}
+
+		.section-header {
+			text-align: center;
+			margin-bottom: 60px;
+		}
+
+		.section-title {
+			font-size: clamp(2.2rem, 4vw, 3rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+			line-height: 1.2;
+		}
+
+		.section-subtitle {
+			font-size: 1.25rem;
+			color: var(--text-light);
+			max-width: 600px;
+			margin: 0 auto;
+		}
+
+		/* ===== LAYOUT ZIGZAG ALTERNÉ ===== */
+		.methode-section-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 80px;
+			align-items: center;
+			margin-bottom: 80px;
+		}
+
+		.methode-section-row.reverse {
+			direction: rtl;
+		}
+
+		.methode-section-row.reverse > * {
+			direction: ltr;
+		}
+
+		.methode-section-content h2 {
+			font-size: clamp(2.2rem, 4vw, 2.8rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 28px;
+			line-height: 1.3;
+		}
+
+		.methode-section-content p {
+			font-size: 1.45rem;
+			line-height: 1.7;
+			color: var(--text-dark);
+			margin-bottom: 24px;
+			font-weight: 400;
+		}
+
+		.methode-section-image {
+			position: relative;
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			box-shadow: var(--shadow-medium);
+		}
+
+		.methode-section-image img {
+			width: 100%;
+			height: auto;
+			transition: var(--transition);
+		}
+
+		.methode-section-image:hover img {
+			transform: scale(1.05);
+		}
+
+		/* ===== FEATURES LISTE ===== */
+		.methode-features-list {
+			background: var(--white-gradient);
+			padding: 60px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			margin: 60px 0;
+		}
+
+		.methode-features-title {
+			font-size: clamp(2.2rem, 4vw, 2.8rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 40px;
+			text-align: center;
+		}
+
+		.methode-features-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 30px;
+			margin-top: 40px;
+		}
+
+		.feature-item {
+			display: flex;
+			align-items: flex-start;
+			gap: 16px;
+			padding: 24px;
+			background: white;
+			border-radius: 16px;
+			box-shadow: var(--shadow-light);
+			transition: var(--transition);
+		}
+
+		.feature-item:hover {
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.feature-icon {
+			width: 48px;
+			height: 48px;
+			background: var(--primary-gradient);
+			border-radius: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			font-size: 20px;
+			flex-shrink: 0;
+		}
+
+		.feature-content h4 {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: var(--primary-color);
+			margin-bottom: 8px;
+		}
+
+		.feature-content p {
+			font-size: 1.1rem;
+			color: var(--text-dark);
+			line-height: 1.5;
+			margin: 0;
+			font-weight: 400;
+		}
+
+		/* ===== CARTES INFORMATIVES ===== */
+		.info-cards {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+			gap: 40px;
+			margin: 60px 0;
+		}
+
+		.info-card {
+			background: var(--white-gradient);
+			padding: 40px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.info-card:hover {
+			transform: translateY(-8px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.info-card img {
+			width: 100%;
+			height: auto;
+			border-radius: 16px;
+			margin-bottom: 24px;
+		}
+
+		.info-card h3 {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+		}
+
+		.info-card p {
+			color: var(--text-dark);
+			line-height: 1.6;
+			margin-bottom: 16px;
+			font-size: 1.2rem;
+			font-weight: 400;
+		}
+
+		.info-card ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.info-card li {
+			position: relative;
+			padding-left: 24px;
+			margin-bottom: 12px;
+			color: var(--text-dark);
+			line-height: 1.6;
+			font-size: 1.15rem;
+			font-weight: 400;
+		}
+
+		.info-card li::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0.6em;
+			width: 6px;
+			height: 6px;
+			background: var(--primary-color);
+			border-radius: 50%;
+		}
+
+		.info-card li strong {
+			color: var(--primary-color);
+		}
+
+		/* ===== HIGHLIGHT SECTION ===== */
+		.highlight-section {
+			background: var(--primary-gradient);
+			padding: 80px 40px;
+			margin: 80px -40px;
+			border-radius: var(--border-radius);
+			color: white;
+			text-align: center;
+		}
+
+		.highlight-title {
+			font-size: clamp(2rem, 4vw, 2.8rem);
+			font-weight: 700;
+			margin-bottom: 24px;
+		}
+
+		.highlight-content {
+			font-size: 1.2rem;
+			opacity: 0.95;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		/* ===== ILLUSTRATIONS MODERNES ===== */
+		.modern-illustration {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			padding: 40px 30px;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			border-radius: 24px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.modern-illustration:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 20px 40px rgba(11, 63, 137, 0.15);
+		}
+
+		.illustration-circle {
+			width: 160px;
+			height: 160px;
+			background: var(--primary-gradient);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 24px;
+			color: white;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.illustration-circle::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+			animation: float 3s ease-in-out infinite alternate;
+		}
+
+		@keyframes float {
+			0% { transform: translateY(0px) rotate(0deg); }
+			100% { transform: translateY(-10px) rotate(5deg); }
+		}
+
+		.modern-illustration h3 {
+			font-size: 1.4rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 12px;
+		}
+
+		.modern-illustration p {
+			font-size: 1rem;
+			color: var(--text-light);
+			margin: 0;
+			line-height: 1.5;
+		}
+
+		/* ===== BOUTONS MODERNES ===== */
+		.modern-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 16px 32px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1rem;
+			transition: var(--transition);
+			border: none;
+			cursor: pointer;
+		}
+
+		.modern-button:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-medium);
+			color: white;
+		}
+
+		/* ===== BOUTON RETOUR HUB ===== */
+		.back-to-hub {
+			position: fixed;
+			top: 180px;
+			left: 30px;
+			z-index: 1000;
+		}
+
+		.back-hub-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+			color: white;
+			padding: 16px 24px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+			border: 1px solid rgba(255, 107, 53, 0.2);
+			transition: var(--transition);
+			backdrop-filter: blur(10px);
+		}
+
+		.back-hub-btn:hover {
+			background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+		}
+
+		.back-hub-btn svg {
+			width: 20px;
+			height: 20px;
+			transition: var(--transition);
+		}
+
+		.back-hub-btn:hover svg {
+			transform: translateX(-3px);
+		}
+
+		/* ===== RESPONSIVE DESIGN ===== */
+		@media (max-width: 1024px) {
+			.hero-formation {
+				min-height: 40vh;
+				padding: 30px 30px;
+			}
+
+			.methode-section-row {
+				grid-template-columns: 1fr;
+				gap: 60px;
+				text-align: center;
+			}
+
+			.methode-section-row.reverse {
+				direction: ltr;
+			}
+
+			.methode-main-container {
+				padding: 60px 30px;
+			}
+
+			.info-cards {
+				grid-template-columns: 1fr;
+				gap: 30px;
+			}
+
+			.methode-features-grid {
+				grid-template-columns: 1fr;
+				gap: 20px;
+			}
+
+			.methode-features-list {
+				padding: 40px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.hero-formation {
+				min-height: 35vh;
+				padding: 25px 20px;
+			}
+
+			.methode-hero-title {
+				font-size: clamp(2.2rem, 8vw, 3rem);
+				margin-bottom: 16px;
+			}
+
+			.methode-hero-subtitle {
+				font-size: clamp(1.1rem, 4vw, 1.4rem);
+				margin-bottom: 30px;
+			}
+
+			.methode-main-container,
+			.methode-section-row,
+			.methode-features-list,
+			.highlight-section {
+				padding: 0 20px;
+			}
+
+			.modern-section {
+				margin-bottom: 60px;
+			}
+
+			.section-header {
+				margin-bottom: 40px;
+			}
+
+			.info-card {
+				padding: 30px;
+			}
+
+			.methode-features-list {
+				padding: 30px 20px;
+			}
+
+			.methode-hero-cta {
+				padding: 16px 32px;
+				font-size: 1rem;
+			}
+
+			.methode-section-content p {
+				font-size: 1.3rem;
+			}
+
+			.feature-content p {
+				font-size: 1.05rem;
+			}
+
+			.feature-content h4 {
+				font-size: 1.2rem;
+			}
+
+			.info-card p {
+				font-size: 1.15rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.hero-formation {
+				min-height: 30vh;
+				padding: 20px 16px;
+			}
+
+			.methode-hero-title {
+				font-size: clamp(1.8rem, 8vw, 2.5rem);
+			}
+
+			.methode-hero-subtitle {
+				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+
+			.methode-main-container {
+				padding: 40px 16px;
+			}
+
+			.info-card {
+				padding: 24px;
+			}
+
+			.methode-features-list {
+				padding: 24px 16px;
+			}
+
+			.methode-hero-cta {
+				padding: 14px 28px;
+				font-size: 0.95rem;
+			}
+
+			.methode-section-content p {
+				font-size: 1.2rem;
+			}
+
+			.feature-content p {
+				font-size: 1rem;
+			}
+
+			.feature-content h4 {
+				font-size: 1.15rem;
+			}
+
+			.info-card p {
+				font-size: 1.1rem;
+			}
+		}
+	</style>
 {% endblock %}
+
 {% block body %}
-	<img class="im" src="{{ asset('img/5.png') }}" alt="Nos formations à distance">
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut national de la formation professionnelle française</a>
-				</span>
-				&gt;
-				<span>
-					<a href="https://www..fr/ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">Notre méthode d’apprentissage</span>
-			</span>
+
+<!-- Hero Section Moderne -->
+<section class="methode-hero-formation">
+	<div class="methode-hero-content">
+		<h1 class="methode-hero-title">Notre Méthode d'Apprentissage</h1>
+		<p class="methode-hero-subtitle">Une approche pédagogique innovante et flexible pour votre réussite professionnelle</p>
+		<a href="{{ path('app_home') }}" class="methode-hero-cta">
+			<span>Découvrir nos formations</span>
+		</a>
+	</div>
+</section>
+
+<!-- Breadcrumbs Modernes -->
+<!-- Bouton Retour vers le Hub -->
+<div class="back-to-hub">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		</svg>
+		<span>Retour à L'École</span>
+	</a>
+</div>
+
+<!-- Container Principal -->
+<main class="methode-main-container">
+	
+	<!-- Flexibilité et autonomie -->
+	<section class="methode-section-row">
+		<div class="methode-section-content">
+			<h2>Flexibilité et autonomie dans votre parcours d'apprentissage</h2>
+			<p>L'Institut National de la Formation Professionnelle Française (INFPF) vous offre la possibilité de personnaliser votre parcours éducatif sur une durée maximale de trois ans. Cette flexibilité vous permet d'adapter vos périodes d'étude et votre planning selon vos obligations personnelles et professionnelles.</p>
+			<p>Que vous soyez en emploi ou que vous disposiez de temps libre, notre structure vous permet d'avancer à votre rythme dans vos révisions. Ainsi, il vous est possible de compléter votre formation à distance, et d'obtenir votre diplôme ou certificat dans un délai d'un, deux, ou trois ans, selon votre cadence personnelle.</p>
 		</div>
-
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0;padding-top:20px">
-			<strong style="color: #0b3e6fd6;">Flexibilité et autonomie dans votre parcours d'apprentissage</strong>
-		</h2>
-		<br>
-		<p style="margin:0;">L'Institut National de la Formation Professionnelle Française (INFPF) vous offre la possibilité de personnaliser votre parcours éducatif sur une durée maximale de trois ans. Cette flexibilité vous permet d'adapter vos périodes d'étude et votre planning selon vos obligations personnelles et professionnelles.<br>
-			Que vous soyez en emploi ou que vous disposiez de temps libre, notre structure vous permet d'avancer à votre rythme dans vos révisions. Ainsi, il vous est possible de compléter votre formation à distance, et d'obtenir votre diplôme ou certificat dans un délai d'un, deux, ou trois ans, selon votre cadence personnelle. En cas de difficulté, vous avez l'opportunité de repasser les modules non réussis lors de la session suivante sans souci.</p>
-
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0;padding-top:20px">
-			<strong style="color: #0b3e6fd6;">Supports de cours interactifs et disponibles en formats papier et numérique
-			</strong>
-		</h2>
-		<div
-			class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex">
-			<!-- Colonne de texte à gauche -->
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:66.66%">
-				<p>Nos supports de cours sont conçus pour être à la fois intuitifs et facilement accessibles, vous permettant de progresser de manière fluide. Dès votre inscription, vous recevrez vos matériaux de cours adaptés à votre progression et également accessibles en ligne via votre espace personnel. Après chaque module, des exercices d'évaluation vous sont proposés pour vérifier votre assimilation du contenu et votre compréhension des concepts abordés. En cas de question ou de difficulté, votre formateur est à votre disposition pour vous guider et vous soutenir tout au long de votre progression.</p>
-				<p>L'INFPF vous accompagne dans votre parcours d'apprentissage à distance, y compris dans vos démarches pour trouver des stages. Grâce à nos partenariats solides avec des entreprises et acteurs locaux dans diverses régions telles que Paris, Marseille, Lyon, ou Lille, nous vous facilitons l'obtention d'une convention de stage sans frais supplémentaires.</p>
-			</div>
-			<!-- Colonne d'image à droite -->
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:33.33%">
-				<img src="{{ asset('img/3-support.png') }}" alt="Digital Education" style="width:100%; height:auto;">
-			</div>
-		</div>
-
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;padding-top:20px;">INFPF Learning : Votre portail e-learning pour un apprentissage facilité à distance
-			</strong>
-		</h2>
-		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-2 wp-block-columns-is-layout-flex">
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
-				<p>Exclusivement réservé à nos étudiants, l'espace élève INFPF est conçu pour enrichir et compléter votre formation à distance. Cette plateforme intuitive améliore l'interaction entre élèves et formateurs, mettant à votre disposition toutes les ressources pédagogiques nécessaires.</p>
-				<p>Une fois connecté avec vos identifiants, vous aurez accès à une gamme complète d'outils e-learning :
-				</p>
-				<p>Votre espace élève inclut :</p>
-				<ul>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Social-learning</strong>
-						: échangez avec d'autres étudiants sur vos devoirs, vos progrès, et l'examen.</li>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Gamification</strong>
-						: votre engagement et vos réussites sont récompensés par des badges et des points. Plus vous accumulez de points, plus vous grimpez dans le classement de votre promotion.</li>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Cours et devoirs auto corrigés en ligne</strong>
-						: optimisez votre temps d'apprentissage.</li>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Jeux ludiques</strong>
-						: apprenez de manière ludique avec des quiz, des glisser-déposer, et des sélections d'images.</li>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Tutoriels vidéo</strong>
-						: maîtrisez les compétences professionnelles étape par étape.</li>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Espace emploi</strong>
-						: bénéficiez d'un guide pour rédiger votre CV, ainsi que d'offres d'emploi et de stage.</li>
-
-					<li>
-						<strong style="color: #0b3e6fd6;">Profil élève</strong>
-						: consultez votre calendrier, vos notes, les livraisons de cours et vos paiements.</li>
-
-				</ul>
-				<p>86% de nos étudiants expriment une grande satisfaction vis-à-vis de notre plateforme d'apprentissage, témoignant de la qualité et de l'efficacité de notre approche pédagogique.</p>
+		<div class="methode-section-image">
+			<div class="modern-illustration flexibility">
+				<div class="illustration-circle">
+					<svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+					</svg>
+				</div>
+				<h3>Flexibilité complète</h3>
+				<p>Adaptez votre formation à votre rythme de vie</p>
 			</div>
 		</div>
-<div class="sections-container">
-    <div class="section">
-        <div class="card">
-		<img src="{{ asset('img/finance-forma-dist.png') }}" alt="Digital Education" style="width:100%; height:auto;">
-            <h2 class="wp-block-heading has-text-color" style="color:#1e68b0;    display: flex;
-    align-items: flex-end;
-    column-gap: 26px;
-    position: relative;
-    font-size: 3.3rem;
-    font-weight: 100;
-    letter-spacing: -1px;
-    z-index: 0;
-    color: #6fafdf;
-    max-width: 100%;
-    margin: 0 0 20px 0;
-    padding: 0;
-    flex-wrap: wrap">
-                <strong style="color: #0b3e6fd6;padding-top:15px;">Financer votre formation à distance</strong>
-            </h2>
+	</section>
+
+	<!-- Supports de cours -->
+	<section class="methode-section-row reverse">
+		<div class="methode-section-content">
+			<h2>Supports de cours interactifs et disponibles en formats papier et numérique</h2>
+			<p>Nos supports de cours sont conçus pour être à la fois intuitifs et facilement accessibles, vous permettant de progresser de manière fluide. Dès votre inscription, vous recevrez vos matériaux de cours adaptés à votre progression et également accessibles en ligne via votre espace personnel.</p>
+			<p>Après chaque module, des exercices d'évaluation vous sont proposés pour vérifier votre assimilation du contenu et votre compréhension des concepts abordés. En cas de question ou de difficulté, votre formateur est à votre disposition pour vous guider et vous soutenir tout au long de votre progression.</p>
+			<p>L'INFPF vous accompagne dans votre parcours d'apprentissage à distance, y compris dans vos démarches pour trouver des stages. Grâce à nos partenariats solides avec des entreprises et acteurs locaux dans diverses régions telles que Paris, Marseille, Lyon, ou Lille, nous vous facilitons l'obtention d'une convention de stage sans frais supplémentaires.</p>
+		</div>
+		<div class="methode-section-image">
+			<div class="modern-illustration support">
+				<div class="illustration-circle">
+					<svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+					</svg>
+				</div>
+				<h3>Supports interactifs</h3>
+				<p>Cours papier et numérique à votre disposition</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- INFPF Learning -->
+	<section class="methode-features-list">
+		<h2 class="methode-features-title">INFPF Learning : Votre portail e-learning pour un apprentissage facilité à distance</h2>
+		<p style="text-align: center; color: var(--text-light); font-size: 1.3rem; margin-bottom: 40px; font-weight: 400; line-height: 1.6;">Exclusivement réservé à nos étudiants, l'espace élève INFPF est conçu pour enrichir et compléter votre formation à distance. Cette plateforme intuitive améliore l'interaction entre élèves et formateurs, mettant à votre disposition toutes les ressources pédagogiques nécessaires.</p>
+
+		<div class="methode-features-grid">
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-6h3v-2.5c0-1.1.9-2 2-2h2V6c0-1.1.9-2 2-2h2c1.1 0 2 .9 2 2v1.5h2c1.1 0 2 .9 2 2V12h3v6H4z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Social-learning</h4>
+					<p>Échangez avec d'autres étudiants sur vos devoirs, vos progrès, et l'examen.</p>
+				</div>
+			</div>
+			
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19V1h-2v1H7V1H5v1H4.5C3.67 2 3 2.67 3 3.5v17C3 21.33 3.67 22 4.5 22h15c.83 0 1.5-.67 1.5-1.5v-17C21 2.67 20.33 2 19.5 2z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Gamification</h4>
+					<p>Votre engagement et vos réussites sont récompensés par des badges et des points. Plus vous accumulez de points, plus vous grimpez dans le classement de votre promotion.</p>
+				</div>
+			</div>
+			
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Cours et devoirs auto corrigés en ligne</h4>
+					<p>Optimisez votre temps d'apprentissage avec notre système d'auto-correction intelligent.</p>
+				</div>
+			</div>
+			
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M21,6H3A1,1 0 0,0 2,7V17A1,1 0 0,0 3,18H21A1,1 0 0,0 22,17V7A1,1 0 0,0 21,6M20,16H4V8H20V16Z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Jeux ludiques</h4>
+					<p>Apprenez de manière ludique avec des quiz, des glisser-déposer, et des sélections d'images.</p>
+				</div>
+			</div>
+			
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Tutoriels vidéo</h4>
+					<p>Maîtrisez les compétences professionnelles étape par étape grâce à nos vidéos explicatives.</p>
+				</div>
+			</div>
+			
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Espace emploi</h4>
+					<p>Bénéficiez d'un guide pour rédiger votre CV, ainsi que d'offres d'emploi et de stage.</p>
+				</div>
+			</div>
+			
+			<div class="feature-item">
+				<div class="feature-icon">
+					<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+					</svg>
+				</div>
+				<div class="feature-content">
+					<h4>Profil élève</h4>
+					<p>Consultez votre calendrier, vos notes, les livraisons de cours et vos paiements.</p>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- Cartes informatives -->
+	<div class="info-cards">
+		<div class="info-card">
+			<img src="{{ asset('img/finance-forma-dist.png') }}" alt="Financement formation" />
+			<h3>Financer votre formation à distance</h3>
             <p>Diverses options de financement sont disponibles pour soutenir votre formation à distance, adaptées à votre profil :</p>
             <ul>
                 <li>Le compte personnel de formation (CPF)</li>
@@ -121,22 +863,19 @@
                 <li>Les financements personnels</li>
             </ul>
         </div>
-    </div>
-    <div class="section">
-        <div class="card">
-			<img src="{{ asset('img/soutien-pedago.png') }}" alt="Digital Education" style="width:100%; height:auto;">
-            <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-                <strong style="color: #0b3e6fd6;padding-top:15px;">Un soutien pédagogique continu</strong>
-            </h2>
-            <div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-3 wp-block-columns-is-layout-flex">
-                <div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
-                    <p>Du début à la fin de votre formation, qui peut s'étendre de un à trois ans, notre équipe de formateurs, nos coachs, et le personnel administratif sont là pour vous épauler. Joignables par divers moyens, ils sont à votre disposition pour vous accompagner à chaque étape de votre apprentissage à distance.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+		
+		<div class="info-card">
+			<img src="{{ asset('img/soutien-pedago.png') }}" alt="Soutien pédagogique" />
+			<h3>Un soutien pédagogique continu</h3>
+			<p>Du début à la fin de votre formation, qui peut s'étendre de un à trois ans, notre équipe de formateurs, nos coachs, et le personnel administratif sont là pour vous épauler.</p>
+			<p>Joignables par divers moyens, ils sont à votre disposition pour vous accompagner à chaque étape de votre apprentissage à distance.</p>
+			<a href="{{ path('redirectToCoachPersonnel') }}" class="modern-button" style="margin-top: 20px;">
+				<span>En savoir plus sur le coaching</span>
+			</a>
 </div>
 	</div>
-	<!-- .entry-content -->
-</article>
-<!-- #post-33 --></main><!-- #main -->{% include 'footer.html.twig' %}</body></html>{% endblock %}
+
+</main>
+
+{% include 'footer.html.twig' %}
+{% endblock %}

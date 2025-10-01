@@ -1,0 +1,602 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }} - Institut National de la Formation Professionnelle Française{% endblock %}
+
+{% block head %}
+    <meta name="description" content="{{ meta_description }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('app_ecole_index') }}">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ page_title }} - INFPF">
+    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('app_ecole_index') }}">
+    
+    <!-- JSON-LD pour la page hub -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "{{ page_title }}",
+        "description": "{{ meta_description }}",
+        "numberOfItems": {{ pages_ecole|length }},
+        "itemListElement": [
+            {% for slug, page in pages_ecole %}
+                {
+                    "@type": "ListItem",
+                    "position": {{ loop.index }},
+                    "name": "{{ page.title }}",
+                    "description": "{{ page.description }}",
+                    "url": "{{ path(page.route) }}"
+                }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* ===== NEUTRALISATION DES CONFLITS D'AUTRES PAGES ===== */
+        /* Masquer tous les styles des sous-pages qui pourraient interférer */
+        .formation-section-row,
+        .cpf-intro-paragraph,
+        .cours-*, 
+        .coach-*,
+        .equipe-*,
+        .qaliopi-*,
+        .financer-*,
+        .methode-* {
+            display: none !important;
+        }
+
+        /* Forcer la réinitialisation des styles génériques sur la page hub */
+        .ecole-hub .section-text,
+        .ecole-hub .section-title,
+        .ecole-hub .highlight-text,
+        .ecole-hub .highlight-title {
+            all: unset !important;
+        }
+
+        /* ===== VARIABLES CSS MODERNES ===== */
+        :root {
+            --primary: #0b3f89;
+            --primary-light: #1e5cb8;
+            --accent: #00b4d8;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-section: #fafbfc;
+            --shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+            --shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+            --shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+            --primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+            --border-radius: 24px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+
+        .site-main {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Supprimer tous les espaces en haut */
+        .site-main:first-child {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ===== HERO SECTION UNIQUE POUR LA PAGE HUB ===== */
+        .ecole-hub-hero {
+            position: relative;
+            background: var(--primary-gradient);
+            padding: 120px 0 80px;
+            overflow: hidden;
+            margin-top: 0 !important;
+            margin-bottom: 0;
+        }
+
+        /* Supprimer tout espace au-dessus du hero */
+        .ecole-hub {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        .ecole-hub > *:first-child {
+            margin-top: 0 !important;
+        }
+
+        .ecole-hub-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            z-index: 1;
+        }
+
+        .ecole-hub-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ecole-hub-hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 32px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            align-self: center;
+            text-align: center;
+            color: white;
+        }
+
+        .ecole-hub-hero-title {
+            font-size: clamp(3rem, 5vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+            color: white;
+        }
+
+        .ecole-hub-hero-description {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            margin-bottom: 50px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            width: 100%;
+            color: white;
+        }
+
+        /* ===== STYLES UNIQUES POUR LA PAGE HUB - PRIORITÉ ABSOLUE ===== */
+        .ecole-hub-stats {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 40px !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+            text-align: center !important;
+            /* Réinitialisation complète pour éviter les conflits */
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        .ecole-hub-stat-item {
+            text-align: center !important;
+            /* Réinitialisation complète */
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            position: relative !important;
+        }
+
+        .ecole-hub-stat-number {
+            display: block !important;
+            font-size: 2.5rem !important;
+            font-weight: 800 !important;
+            margin-bottom: 8px !important;
+            color: white !important;
+            /* Réinitialisation complète */
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .ecole-hub-stat-label {
+            font-size: 0.95rem !important;
+            opacity: 0.9 !important;
+            color: white !important;
+            /* Réinitialisation complète */
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        .ecole-hub-stat-divider {
+            width: 1px !important;
+            height: 40px !important;
+            background: rgba(255, 255, 255, 0.3) !important;
+            /* Réinitialisation complète */
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        /* ===== SECTION PAGES ===== */
+        .pages-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            padding: 40px;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+            border: 1px solid rgba(11, 63, 137, 0.1);
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+        }
+
+        .page-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+            color: inherit;
+        }
+
+        .page-card.highlight {
+            border: 2px solid var(--accent);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .page-card.highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-top: 20px solid var(--accent);
+        }
+
+        .page-card.highlight::after {
+            content: '★';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .card-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .card-description {
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .card-arrow {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: var(--transition);
+        }
+
+        .page-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 30px;
+            }
+
+            .ecole-hub-hero {
+                padding: 80px 0 60px;
+            }
+
+            .pages-section {
+                padding: 80px 0;
+            }
+
+            .pages-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .page-card {
+                padding: 35px;
+                min-height: 180px;
+            }
+
+            .ecole-hub-stats {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .ecole-hub-hero {
+                padding: 60px 0 50px;
+            }
+
+            .pages-section {
+                padding: 60px 0;
+            }
+
+            .pages-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .page-card {
+                padding: 30px;
+                min-height: 160px;
+            }
+
+            .card-header {
+                gap: 20px;
+            }
+
+            .card-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .card-icon svg {
+                width: 28px;
+                height: 28px;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+
+            .ecole-hub-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .ecole-hub-stat-divider {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ecole-hub-stats {
+                gap: 15px;
+            }
+
+            .ecole-hub-stat-number {
+                font-size: 2rem;
+            }
+
+            .page-card {
+                padding: 25px;
+                min-height: 140px;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .card-icon {
+                width: 55px;
+                height: 55px;
+            }
+
+            .card-icon svg {
+                width: 26px;
+                height: 26px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<main class="site-main ecole-hub">
+    <!-- Hero Section -->
+    <section class="ecole-hub-hero">
+        <div class="container">
+            <div class="ecole-hub-hero-content">
+                <div class="ecole-hub-hero-badge">
+                    <span>Certification Qualiopi • 15+ ans d'expérience</span>
+                </div>
+                <h1 class="ecole-hub-hero-title">L'École INFPF</h1>
+                <p class="ecole-hub-hero-description">
+                    Excellence et innovation pédagogique pour votre formation professionnelle. 
+                    Découvrez notre approche unique de l'apprentissage à distance.
+                </p>
+                
+                <!-- Stats minimalistes -->
+                <div class="ecole-hub-stats">
+                    <div class="ecole-hub-stat-item">
+                        <span class="ecole-hub-stat-number">{{ stats.years_experience }}</span>
+                        <span class="ecole-hub-stat-label">Années d'expérience</span>
+                    </div>
+                    <div class="ecole-hub-stat-divider"></div>
+                    <div class="ecole-hub-stat-item">
+                        <span class="ecole-hub-stat-number">{{ stats.students_trained }}</span>
+                        <span class="ecole-hub-stat-label">Étudiants formés</span>
+                    </div>
+                    <div class="ecole-hub-stat-divider"></div>
+                    <div class="ecole-hub-stat-item">
+                        <span class="ecole-hub-stat-number">{{ stats.satisfaction_rate }}</span>
+                        <span class="ecole-hub-stat-label">Taux de satisfaction</span>
+                    </div>
+                    <div class="ecole-hub-stat-divider"></div>
+                    <div class="ecole-hub-stat-item">
+                        <span class="ecole-hub-stat-number">{{ stats.average_rating }}</span>
+                        <span class="ecole-hub-stat-label">Note moyenne</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Pages École -->
+    <section class="pages-section">
+        <div class="container">
+
+            <div class="pages-grid">
+                {% for slug, page in pages_ecole %}
+                    <a href="{{ path(page.route) }}" class="page-card {% if page.highlight %}highlight{% endif %}">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                {% if page.icon == 'monitor' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                    </svg>
+                                {% elseif page.icon == 'star' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                                    </svg>
+                                {% elseif page.icon == 'book' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                                    </svg>
+                                {% elseif page.icon == 'mail' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                        <polyline points="22,6 12,13 2,6"/>
+                                    </svg>
+                                {% elseif page.icon == 'users' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                    </svg>
+                                {% elseif page.icon == 'graduation-cap' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                                    </svg>
+                                {% elseif page.icon == 'award' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="8" r="7"/>
+                                        <polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88"/>
+                                    </svg>
+                                {% elseif page.icon == 'credit-card' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                        <line x1="1" y1="10" x2="23" y2="10"/>
+                                    </svg>
+                                {% elseif page.icon == 'check-circle' %}
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                        <polyline points="22,4 12,14.01 9,11.01"/>
+                                    </svg>
+                                {% endif %}
+                            </div>
+                            <h3 class="card-title">{{ page.title }}</h3>
+                        </div>
+                        <p class="card-description">{{ page.description }}</p>
+                        <svg class="card-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</main>
+
+{% include 'footer.html.twig' %}
+{% endblock %}

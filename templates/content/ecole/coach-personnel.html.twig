@@ -1,163 +1,1483 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formation
-{% endblock %}
-{% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
-    <link href="../css/footer1.css" rel="stylesheet"/>
+{% block title %}Le coaching : un suivi personnel - INFPF
 {% endblock %}
 
+{% block stylesheets %}
+	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
+    <link href="../css/footer1.css" rel="stylesheet"/>
+	<style>
+		/* ===== VARIABLES CSS MODERNES ===== */
+		:root {
+			--primary-color: #0b3f89;
+			--primary-light: #1e5cb8;
+			--accent-color: #00b4d8;
+			--text-dark: #2d3748;
+			--text-light: #718096;
+			--white: #ffffff;
+			--bg-light: #f8fafc;
+			--bg-section: #fafbfc;
+			--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+			--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+			--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+			--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			--transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			--border-radius: 24px;
+		}
+
+		/* ===== RESET ET BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			line-height: 1.6;
+			color: var(--text-dark);
+			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+		}
+
+		/* ===== HERO SECTION MODERNE ===== */
+		.coach-hero-formation {
+			position: relative;
+			min-height: 45vh;
+			background: var(--primary-gradient);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 40px;
+		}
+
+		.coach-hero-formation::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('{{ asset('img/coaach.png') }}') center center/cover;
+			background-repeat: no-repeat;
+			opacity: 0.08;
+			z-index: 1;
+		}
+
+		.coach-hero-formation::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+			z-index: 2;
+		}
+
+		.coach-hero-content {
+			position: relative;
+			z-index: 3;
+			color: white;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.coach-hero-title {
+			font-size: clamp(3.2rem, 7vw, 5.2rem);
+			font-weight: 800;
+			margin-bottom: 28px;
+			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			letter-spacing: -0.02em;
+		}
+
+		.coach-hero-subtitle {
+			font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+			font-weight: 400;
+			margin-bottom: 50px;
+			opacity: 0.95;
+			line-height: 1.4;
+		}
+
+		.coach-hero-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			backdrop-filter: blur(10px);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			transition: var(--transition);
+			text-shadow: none;
+		}
+
+		.coach-hero-cta:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			color: white;
+		}
+
+		/* ===== BREADCRUMBS MODERNES ===== */
+		.modern-breadcrumbs {
+			background: white;
+			padding: 20px 0;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		.breadcrumbs-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 40px;
+		}
+
+		.breadcrumbs-list {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 0.95rem;
+			color: var(--text-light);
+		}
+
+		.breadcrumbs-list a {
+			color: var(--primary-color);
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		.breadcrumbs-list a:hover {
+			color: var(--accent-color);
+		}
+
+		.breadcrumb-separator {
+			color: #cbd5e0;
+			font-weight: 600;
+		}
+
+		.breadcrumb-current {
+			color: var(--text-dark);
+			font-weight: 500;
+		}
+
+		/* ===== CONTAINER PRINCIPAL ===== */
+		.coach-main-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 80px 40px;
+		}
+
+		/* ===== SECTIONS MODERNES ===== */
+		.coach-modern-section {
+			margin-bottom: 80px;
+		}
+
+		.coach-section-header {
+			text-align: center;
+			margin-bottom: 60px;
+		}
+
+		.coach-section-title {
+			font-size: clamp(2.8rem, 5vw, 3.5rem);
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+			line-height: 1.2;
+		}
+
+		.coach-section-subtitle {
+			font-size: 1.25rem;
+			color: var(--text-dark);
+			max-width: 900px;
+			margin: 24px auto 0;
+			line-height: 1.7;
+			text-align: center;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			padding: 32px 40px;
+			border-radius: 20px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			box-shadow: 0 4px 20px rgba(11, 63, 137, 0.05);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.coach-section-subtitle::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 4px;
+			background: var(--primary-gradient);
+		}
+
+		/* ===== LAYOUT SECTIONS ===== */
+		.coach-section-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 80px;
+			align-items: center;
+			margin-bottom: 80px;
+		}
+
+		.coach-section-row.reverse {
+			direction: rtl;
+		}
+
+		.coach-section-row.reverse > * {
+			direction: ltr;
+		}
+
+		.coach-section-content h2 {
+			font-size: clamp(2.5rem, 4vw, 3.2rem);
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 28px;
+			line-height: 1.2;
+		}
+
+		.coach-section-content p {
+			font-size: 1.3rem;
+			line-height: 1.8;
+			color: var(--text-dark);
+			margin-bottom: 24px;
+		}
+
+		.coach-section-content strong {
+			color: var(--primary-color);
+		}
+
+		/* ===== IMAGES BANNIÈRE (ORIGINALES) ===== */
+		.coach-banner-image {
+			position: relative;
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			box-shadow: var(--shadow-medium);
+		}
+
+		.coach-banner-image img {
+			width: 100%;
+			height: auto;
+			transition: var(--transition);
+		}
+
+		.coach-banner-image:hover img {
+			transform: scale(1.02);
+		}
+
+		/* ===== HIGHLIGHT SECTION ===== */
+		.coach-highlight-section {
+			background: var(--primary-gradient);
+			padding: 80px 40px;
+			margin: 80px -40px;
+			border-radius: var(--border-radius);
+			color: white;
+			text-align: center;
+		}
+
+		.coach-highlight-title {
+			font-size: clamp(2.8rem, 5vw, 3.8rem);
+			font-weight: 800;
+			margin-bottom: 28px;
+			color: white;
+		}
+
+		.coach-highlight-content {
+			font-size: 1.2rem;
+			opacity: 0.95;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		/* ===== STATS SECTION ===== */
+		.coach-stats-section {
+			background: var(--white-gradient);
+			padding: 60px 40px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			text-align: center;
+			margin: 60px 0;
+		}
+
+		.coach-stats-number {
+			font-size: 4rem;
+			font-weight: 800;
+			color: var(--primary-color);
+			display: block;
+			margin-bottom: 12px;
+		}
+
+		.coach-stats-label {
+			font-size: 1.3rem;
+			color: var(--text-dark);
+			font-weight: 600;
+		}
+
+		.coach-stats-description {
+			font-size: 1.1rem;
+			color: var(--text-light);
+			margin-top: 16px;
+		}
+
+		/* ===== PROCESS STEPS ===== */
+		.process-steps {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 30px;
+			margin: 60px 0;
+		}
+
+		.process-step {
+			background: var(--white-gradient);
+			padding: 40px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+			text-align: center;
+			position: relative;
+		}
+
+		.process-step:hover {
+			transform: translateY(-8px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.step-icon {
+			width: 80px;
+			height: 80px;
+			background: var(--primary-gradient);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto 24px;
+			color: white;
+			font-size: 32px;
+			font-weight: bold;
+		}
+
+		.process-step h3 {
+			font-size: 1.4rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 16px;
+		}
+
+		.process-step p {
+			color: var(--text-dark);
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		/* ===== MISSION CARDS ===== */
+		.coach-mission-cards {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 30px;
+			margin: 60px 0;
+		}
+
+		.coach-mission-card {
+			background: white;
+			padding: 32px;
+			border-radius: 20px;
+			box-shadow: var(--shadow-light);
+			border-left: 5px solid var(--primary-color);
+			transition: var(--transition);
+		}
+
+		.coach-mission-card:hover {
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.coach-mission-icon {
+			width: 80px;
+			height: 80px;
+			background: var(--primary-gradient);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 20px;
+			color: white;
+			box-shadow: 0 6px 20px rgba(11, 63, 137, 0.15);
+			position: relative;
+			overflow: hidden;
+			transition: var(--transition);
+		}
+
+		.coach-mission-icon::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+			animation: float 3s ease-in-out infinite alternate;
+		}
+
+		.coach-mission-icon svg {
+			width: 32px;
+			height: 32px;
+			display: block;
+			z-index: 2;
+			position: relative;
+		}
+
+		.coach-mission-card h4 {
+			font-size: 1.4rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 16px;
+		}
+
+		.coach-mission-card p {
+			color: var(--text-dark);
+			line-height: 1.7;
+			margin: 0;
+			font-size: 1.1rem;
+		}
+
+		/* ===== ILLUSTRATIONS MODERNES ===== */
+		.modern-illustration {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			padding: 40px 30px;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			border-radius: 24px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.modern-illustration:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 20px 40px rgba(11, 63, 137, 0.15);
+		}
+
+		.illustration-circle {
+			width: 160px;
+			height: 160px;
+			background: var(--primary-gradient);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 24px;
+			color: white;
+			position: relative;
+			overflow: hidden;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+		}
+
+		.illustration-circle svg {
+			width: 80px;
+			height: 80px;
+			display: block;
+		}
+
+		.illustration-circle::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 50%, transparent 70%);
+			animation: float 3s ease-in-out infinite alternate;
+		}
+
+		@keyframes float {
+			0% { transform: translateY(0px) rotate(0deg); }
+			100% { transform: translateY(-10px) rotate(5deg); }
+		}
+
+		.modern-illustration h3 {
+			font-size: 1.4rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 12px;
+		}
+
+		.modern-illustration p {
+			font-size: 1rem;
+			color: var(--text-light);
+			margin: 0;
+			line-height: 1.5;
+		}
+
+		/* ===== INTRO PREMIUM ===== */
+		.coach-intro-premium {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.03) 0%, rgba(30, 92, 184, 0.05) 50%, rgba(0, 180, 216, 0.03) 100%);
+			padding: 100px 40px;
+			margin: 40px 0 80px 0;
+			border-radius: 32px;
+			text-align: center;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.coach-intro-premium::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="rgba(11,63,137,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+			z-index: 1;
+		}
+
+		.intro-premium-content {
+			position: relative;
+			z-index: 2;
+			max-width: 1000px;
+			margin: 0 auto;
+		}
+
+		.intro-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 16px 28px;
+			border-radius: 50px;
+			font-weight: 600;
+			font-size: 1.1rem;
+			margin-bottom: 32px;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+			animation: float 3s ease-in-out infinite alternate;
+		}
+
+		.intro-premium-title {
+			font-size: clamp(3rem, 6vw, 4.5rem);
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 32px;
+			line-height: 1.1;
+			text-shadow: 0 2px 10px rgba(11, 63, 137, 0.1);
+		}
+
+		.intro-premium-text {
+			font-size: 1.6rem;
+			color: var(--text-dark);
+			line-height: 1.7;
+			margin-bottom: 48px;
+			max-width: 900px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.intro-premium-text strong {
+			color: var(--primary-color);
+			font-weight: 800;
+		}
+
+		.intro-premium-features {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			gap: 32px;
+			margin-top: 48px;
+		}
+
+		.feature-point {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			padding: 16px 24px;
+			border-radius: 16px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			box-shadow: 0 4px 15px rgba(11, 63, 137, 0.08);
+			transition: var(--transition);
+		}
+
+		.feature-point:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.15);
+		}
+
+		.feature-point svg {
+			color: var(--primary-color);
+			flex-shrink: 0;
+		}
+
+		.feature-point span {
+			font-weight: 600;
+			color: var(--text-dark);
+			white-space: nowrap;
+		}
+
+		/* ===== STATS ENRICHIES ===== */
+		.coach-stats-enriched {
+			padding: 80px 40px;
+			margin: 60px 0;
+		}
+
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 40px;
+			max-width: 1000px;
+			margin: 0 auto;
+		}
+
+		.stat-item {
+			text-align: center;
+			padding: 40px 30px;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			border-radius: 20px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.stat-item.highlight {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.05) 0%, rgba(30, 92, 184, 0.08) 100%);
+			border: 2px solid rgba(11, 63, 137, 0.2);
+			transform: translateY(-8px);
+		}
+
+		.stat-item:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 15px 40px rgba(11, 63, 137, 0.15);
+		}
+
+		.stat-item.highlight:hover {
+			transform: translateY(-12px);
+		}
+
+		.stat-icon {
+			width: 80px;
+			height: 80px;
+			background: var(--primary-gradient);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto 20px;
+			color: white;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+		}
+
+		.stat-icon svg {
+			width: 48px;
+			height: 48px;
+			display: block;
+		}
+
+		.stat-number {
+			display: block;
+			font-size: 3rem;
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 8px;
+			line-height: 1;
+		}
+
+		.stat-label {
+			display: block;
+			font-size: 1.2rem;
+			font-weight: 700;
+			color: var(--text-dark);
+			margin-bottom: 8px;
+		}
+
+		.stat-description {
+			font-size: 1rem;
+			color: var(--text-light);
+			margin: 0;
+		}
+
+		/* ===== MISSIONS MODERNES ===== */
+		.missions-modern-grid {
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.mission-modern-item {
+			display: flex;
+			align-items: flex-start;
+			margin-bottom: 40px;
+			position: relative;
+		}
+
+		.mission-modern-item.last {
+			margin-bottom: 0;
+		}
+
+		.mission-visual {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-right: 30px;
+			position: relative;
+		}
+
+		.mission-circle {
+			width: 80px;
+			height: 80px;
+			background: var(--primary-gradient);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+			position: relative;
+			z-index: 2;
+		}
+
+		.mission-line {
+			width: 3px;
+			height: 80px;
+			background: linear-gradient(180deg, var(--primary-color) 0%, rgba(11, 63, 137, 0.3) 100%);
+			margin-top: 10px;
+		}
+
+		.mission-modern-item.last .mission-line {
+			display: none;
+		}
+
+		.mission-content {
+			flex: 1;
+			padding-top: 10px;
+		}
+
+		.mission-content h4 {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 16px;
+			line-height: 1.3;
+		}
+
+		.mission-content p {
+			font-size: 1.15rem;
+			color: var(--text-dark);
+			line-height: 1.7;
+			margin: 0;
+		}
+
+		/* ===== SPECIALIZATION SECTION ===== */
+		.coach-specialization-section {
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.6) 0%, rgba(240, 248, 255, 0.8) 100%);
+			padding: 80px 40px;
+			margin: 80px 0;
+			border-radius: 32px;
+			text-align: center;
+		}
+
+		.specialization-content h2 {
+			font-size: clamp(2.8rem, 5vw, 3.8rem);
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 32px;
+			line-height: 1.2;
+		}
+
+		.specialization-text {
+			max-width: 800px;
+			margin: 0 auto 40px;
+		}
+
+		.specialization-text p {
+			font-size: 1.4rem;
+			color: var(--text-dark);
+			line-height: 1.7;
+			margin: 0;
+		}
+
+		.coach-cta-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 20px 32px;
+			border-radius: 16px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			transition: var(--transition);
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+		}
+
+		.coach-cta-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(11, 63, 137, 0.4);
+			text-decoration: none;
+			color: white;
+		}
+
+		/* ===== BOUTONS MODERNES ===== */
+		.modern-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 16px 32px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1rem;
+			transition: var(--transition);
+			border: none;
+			cursor: pointer;
+		}
+
+		.modern-button:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-medium);
+			color: white;
+		}
+
+		/* ===== BOUTON RETOUR HUB ===== */
+		.back-to-hub {
+			position: fixed;
+			top: 180px;
+			left: 30px;
+			z-index: 1000;
+		}
+
+		.back-hub-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+			color: white;
+			padding: 16px 24px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+			border: 1px solid rgba(255, 107, 53, 0.2);
+			transition: var(--transition);
+			backdrop-filter: blur(10px);
+		}
+
+		.back-hub-btn:hover {
+			background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+		}
+
+		.back-hub-btn svg {
+			width: 20px;
+			height: 20px;
+			transition: var(--transition);
+		}
+
+		.back-hub-btn:hover svg {
+			transform: translateX(-3px);
+		}
+
+		/* ===== RESPONSIVE DESIGN ===== */
+		@media (max-width: 1024px) {
+			.coach-hero-formation {
+				min-height: 40vh;
+				padding: 30px 30px;
+			}
+
+			.coach-section-row {
+				grid-template-columns: 1fr;
+				gap: 60px;
+				text-align: center;
+			}
+
+			.coach-section-row.reverse {
+				direction: ltr;
+			}
+
+			.coach-main-container {
+				padding: 60px 30px;
+			}
+
+			.process-steps {
+				grid-template-columns: 1fr;
+				gap: 20px;
+			}
+
+			.coach-mission-cards {
+				grid-template-columns: 1fr;
+				gap: 20px;
+			}
+
+			.coach-mission-icon {
+				width: 70px;
+				height: 70px;
+			}
+
+			.coach-mission-icon svg {
+				width: 28px;
+				height: 28px;
+			}
+
+			.illustration-circle {
+				width: 140px;
+				height: 140px;
+			}
+
+			.illustration-circle svg {
+				width: 70px;
+				height: 70px;
+			}
+
+			.stats-grid {
+				grid-template-columns: 1fr;
+				gap: 30px;
+			}
+
+			.mission-visual {
+				margin-right: 20px;
+			}
+
+			.mission-circle {
+				width: 70px;
+				height: 70px;
+			}
+
+			.mission-content h4 {
+				font-size: 1.3rem;
+			}
+
+			.mission-content p {
+				font-size: 1.1rem;
+			}
+
+			.coach-intro-premium {
+				padding: 80px 30px;
+				margin: 30px 0 60px 0;
+			}
+
+			.intro-premium-features {
+				gap: 24px;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			.feature-point {
+				padding: 14px 20px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.coach-hero-formation {
+				min-height: 35vh;
+				padding: 25px 20px;
+			}
+
+			.coach-hero-title {
+				font-size: clamp(2.2rem, 8vw, 3rem);
+				margin-bottom: 16px;
+			}
+
+			.coach-hero-subtitle {
+				font-size: clamp(1.1rem, 4vw, 1.4rem);
+				margin-bottom: 30px;
+			}
+
+			.coach-main-container,
+			.coach-section-row,
+			.coach-stats-section,
+			.coach-highlight-section {
+				padding: 0 20px;
+			}
+
+			.coach-modern-section {
+				margin-bottom: 60px;
+			}
+
+			.coach-section-header {
+				margin-bottom: 40px;
+			}
+
+			.process-step,
+			.coach-mission-card {
+				padding: 24px;
+			}
+
+			.coach-hero-cta {
+				padding: 16px 32px;
+				font-size: 1rem;
+			}
+
+			.coach-mission-icon {
+				width: 60px;
+				height: 60px;
+			}
+
+			.coach-mission-icon svg {
+				width: 24px;
+				height: 24px;
+			}
+
+			.illustration-circle {
+				width: 120px;
+				height: 120px;
+			}
+
+			.illustration-circle svg {
+				width: 60px;
+				height: 60px;
+			}
+
+			.stats-grid {
+				grid-template-columns: 1fr;
+				gap: 24px;
+			}
+
+			.stat-item {
+				padding: 30px 20px;
+			}
+
+			.stat-number {
+				font-size: 2.5rem;
+			}
+
+			.mission-modern-item {
+				flex-direction: column;
+				text-align: center;
+				margin-bottom: 50px;
+			}
+
+			.mission-visual {
+				margin-right: 0;
+				margin-bottom: 20px;
+			}
+
+			.mission-line {
+				display: none;
+			}
+
+			.mission-circle {
+				width: 60px;
+				height: 60px;
+			}
+
+			.mission-content h4 {
+				font-size: 1.2rem;
+			}
+
+			.mission-content p {
+				font-size: 1rem;
+			}
+
+			.coach-specialization-section {
+				padding: 60px 20px;
+				margin: 60px 0;
+			}
+
+			.specialization-text p {
+				font-size: 1.2rem;
+			}
+
+			.coach-intro-premium {
+				padding: 60px 20px;
+				margin: 20px 0 40px 0;
+			}
+
+			.intro-premium-text {
+				font-size: 1.3rem;
+			}
+
+			.intro-premium-features {
+				gap: 20px;
+				margin-top: 32px;
+			}
+
+			.feature-point {
+				padding: 12px 16px;
+				font-size: 0.95rem;
+			}
+
+			.intro-badge {
+				padding: 12px 20px;
+				font-size: 1rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.coach-hero-formation {
+				min-height: 30vh;
+				padding: 20px 16px;
+			}
+
+			.coach-hero-title {
+				font-size: clamp(1.8rem, 8vw, 2.5rem);
+			}
+
+			.coach-hero-subtitle {
+				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+
+			.coach-main-container {
+				padding: 40px 16px;
+			}
+
+			.process-step,
+			.coach-mission-card {
+				padding: 20px;
+			}
+
+			.step-icon {
+				width: 60px;
+				height: 60px;
+				font-size: 24px;
+			}
+
+			.coach-hero-cta {
+				padding: 14px 28px;
+				font-size: 0.95rem;
+			}
+
+			.coach-mission-icon {
+				width: 50px;
+				height: 50px;
+			}
+
+			.coach-mission-icon svg {
+				width: 20px;
+				height: 20px;
+			}
+
+			.illustration-circle {
+				width: 100px;
+				height: 100px;
+			}
+
+			.illustration-circle svg {
+				width: 50px;
+				height: 50px;
+			}
+
+			.modern-illustration h3 {
+				font-size: 1.1rem;
+			}
+
+			.modern-illustration p {
+				font-size: 0.9rem;
+			}
+
+			.coach-mission-card h4 {
+				font-size: 1.2rem;
+			}
+
+			.coach-mission-card p {
+				font-size: 1rem;
+			}
+
+			.stat-item {
+				padding: 24px 16px;
+			}
+
+			.stat-number {
+				font-size: 2.2rem;
+			}
+
+			.stat-label {
+				font-size: 1.1rem;
+			}
+
+			.stat-icon {
+				width: 60px;
+				height: 60px;
+			}
+
+			.mission-circle {
+				width: 50px;
+				height: 50px;
+			}
+
+			.mission-content h4 {
+				font-size: 1.1rem;
+			}
+
+			.mission-content p {
+				font-size: 0.95rem;
+			}
+
+			.coach-specialization-section {
+				padding: 40px 16px;
+				margin: 40px 0;
+			}
+
+			.specialization-text p {
+				font-size: 1.1rem;
+			}
+
+			.coach-cta-button {
+				padding: 16px 24px;
+				font-size: 1rem;
+			}
+
+			.coach-intro-premium {
+				padding: 40px 16px;
+				margin: 15px 0 30px 0;
+			}
+
+			.intro-premium-text {
+				font-size: 1.2rem;
+			}
+
+			.intro-premium-features {
+				gap: 16px;
+				margin-top: 24px;
+			}
+
+			.feature-point {
+				padding: 10px 14px;
+				font-size: 0.9rem;
+			}
+
+			.intro-badge {
+				padding: 10px 16px;
+				font-size: 0.95rem;
+				margin-bottom: 24px;
+			}
+
+			.stat-icon {
+				width: 60px;
+				height: 60px;
+			}
+
+			.stat-icon svg {
+				width: 36px;
+				height: 36px;
+			}
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-	<img class="im" src="{{ asset('img/7.png') }}" alt="Nos formations à distance">
 
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut national de la formation professionnelle française</a>
-				</span>
-				&gt;
-				<span>
-					<a href="https://www..fr/ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">Le coaching a INFPF : pour un suivi personnel et
-																									              régulier</span>
-			</span>
-		</div>
-		<br>
-		<p>Étudier à distance ne signifie pas étudier seul. En plus du support digital proposé avec
-			notre plateforme INFPF
-																				            Learning, nous avons décidé de miser sur l’HUMAIN.</p>
-		<p>Afin de casser l’isolement de l’apprentissage à distance classique, d’engager nos élèves dans leur formation
-															          et les accompagner au quotidien dans leurs projets, l'Institut National de la Formation Professionnelle Française
-			<strong style="color: #0b3e6fd6;">a placé l’équipe
-																				            coaching au cœur de ses ambitions !</strong><br/><br/>Aujourd’hui, ce sont plus de
-			<strong style="color: #0b3e6fd6;">25
-																				            coachs</strong>
-			qui accompagnent et soutiennent nos élèves tout au long de leur formation avec un objectif unique : les
-															          faire réussir !<br/><br/></p>
-<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex">
-    <div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">Quel est le rôle du coach</strong>
-            ?
-        </h2>
-        <p>
-            <img src="{{ asset('img/coaach.png') }}" alt="Image du coach" style="float: left; margin-right: 15px;width: 50%;">
-            Un coach personnel est désigné dès votre entrée dans notre établissement. Il vous connaît et
-            <strong style="color: #0b3e6fd6;">va vous accompagner durant toute la durée de votre apprentissage</strong>. C’est un accompagnement personnalisé jusqu’à la réussite de vos objectifs.
-        </p>
-        <p>Son rôle évolue au cours de votre parcours pédagogiques<br/>Après votre inscription, le coach vous accompagnera pour la bonne mise en route de votre formation : présentation de l’école et des supports d’apprentissage.</p>
-        <p>En fonction de vos objectifs de fin de formation, le coach paramétrera votre agenda d’étude en fonction de vos disponibilités. Si vos objectifs ou vos disponibilités sont amenés à changer au cours de votre formation, votre coach pourra <strong style="color: #0b3e6fd6;">modifier les plages d’étude</strong>.</p>
-        <p>Sa mission principale est de vous accompagner et de vous motiver afin de vous aider à tenir vos engagements personnels et ne pas les perdre de vue.</p>
-        <p>L’accompagnement pédagogique des coachs passe également par :<br/>– des méthodes d’apprentissage et de révision,<br/>– des conseils sur votre organisation,<br/>– un suivi de vos stages.</p>
-    </div>
-</div>
-
-
-
-		<p>Votre coach dédié sera spécialisé dans le secteur de la formation que vous avez choisie.
-		</p>
+<!-- Hero Section Moderne -->
+<section class="coach-hero-formation">
+	<div class="coach-hero-content">
+		<h1 class="coach-hero-title">Le Coaching : Un Suivi Personnel</h1>
+		<p class="coach-hero-subtitle">Un accompagnement humain et personnalisé pour votre réussite</p>
+		<a href="tel:0489050355" class="coach-hero-cta">
+			<span>Contacter votre coach</span>
+		</a>
 	</div>
-	{# <div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-3 wp-block-columns-is-layout-flex">
-					<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:25%">
-						<div class="wp-block-image">
-							<figure class="aligncenter size-full is-resized">
-								<picture class="wp-image-390266" decoding="async" style="width:252px;height:252px">
-									<source data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-55x55.jpg.webp 55w" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" type="image/webp"/>
-									<img alt="coach" data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-src="https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB.jpg" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-55x55.jpg 55w" decoding="async" height="336" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" width="336"/>
-								</picture>
-								<noscript>
-									<picture class="wp-image-390266" decoding="async" loading="lazy" style="width:252px;height:252px">
-										<source sizes="(max-width: 336px) 100vw, 336px" srcset="https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-55x55.jpg.webp 55w" type="image/webp"/>
-										<img alt="coach" decoding="async" height="336" loading="lazy" sizes="(max-width: 336px) 100vw, 336px" src="https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB.jpg" srcset="https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0049_INFPF-50_WEB-55x55.jpg 55w" width="336"/>
-									</picture>
-								</noscript>
-							</figure>
-						</div>
-					</div>
-					<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:25%">
-						<div class="wp-block-image">
-							<figure class="aligncenter size-full is-resized">
-								<picture class="wp-image-390275" decoding="async" style="width:252px;height:252px">
-									<source data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-55x55.jpg.webp 55w" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" type="image/webp"/>
-									<img alt="coach" data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-src="https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB.jpg" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-55x55.jpg 55w" decoding="async" height="336" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" width="336"/>
-								</picture>
-								<noscript>
-									<picture class="wp-image-390275" decoding="async" loading="lazy" style="width:252px;height:252px">
-										<source sizes="(max-width: 336px) 100vw, 336px" srcset="https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-55x55.jpg.webp 55w" type="image/webp"/>
-										<img alt="coach" decoding="async" height="336" loading="lazy" sizes="(max-width: 336px) 100vw, 336px" src="https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB.jpg" srcset="https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0016_INFPF-17_WEB-55x55.jpg 55w" width="336"/>
-									</picture>
-								</noscript>
-							</figure>
-						</div>
-					</div>
-					<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:25%">
-						<div class="wp-block-image">
-							<figure class="aligncenter size-full is-resized">
-								<picture class="wp-image-390255" decoding="async" style="width:252px;height:252px">
-									<source data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-55x55.jpg.webp 55w" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" type="image/webp"/>
-									<img alt="coach" data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-src="https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB.jpg" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-55x55.jpg 55w" decoding="async" height="336" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" width="336"/>
-								</picture>
-								<noscript>
-									<picture class="wp-image-390255" decoding="async" loading="lazy" style="width:252px;height:252px">
-										<source sizes="(max-width: 336px) 100vw, 336px" srcset="https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-55x55.jpg.webp 55w" type="image/webp"/>
-										<img alt="coach" decoding="async" height="336" loading="lazy" sizes="(max-width: 336px) 100vw, 336px" src="https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB.jpg" srcset="https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0031_INFPF-32_WEB-55x55.jpg 55w" width="336"/>
-									</picture>
-								</noscript>
-							</figure>
-						</div>
-					</div>
-					<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:25%">
-						<div class="wp-block-image">
-							<figure class="aligncenter size-full is-resized">
-								<picture class="wp-image-390296" decoding="async" style="width:252px;height:252px">
-									<source data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-55x55.jpg.webp 55w" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" type="image/webp"/>
-									<img alt="coach" data-lazy-sizes="(max-width: 336px) 100vw, 336px" data-lazy-src="https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB.jpg" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-55x55.jpg 55w" decoding="async" height="336" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20336%20336'%3E%3C/svg%3E" width="336"/>
-								</picture>
-								<noscript>
-									<picture class="wp-image-390296" decoding="async" loading="lazy" style="width:252px;height:252px">
-										<source sizes="(max-width: 336px) 100vw, 336px" srcset="https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB.jpg.webp 336w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-300x300.jpg.webp 300w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-55x55.jpg.webp 55w" type="image/webp"/>
-										<img alt="coach" decoding="async" height="336" loading="lazy" sizes="(max-width: 336px) 100vw, 336px" src="https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB.jpg" srcset="https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB.jpg 336w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-300x300.jpg 300w, https://www..fr/wp-content/uploads/2018/08/0025_INFPF-26_WEB-55x55.jpg 55w" width="336"/>
-									</picture>
-								</noscript>
-							</figure>
-						</div>
-					</div>
-				</div> #}
-{# <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">Combien de séances de coaching
-												            vais-je avoir ?</strong>
-		</h2>
-		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-4 wp-block-columns-is-layout-flex">
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:100%">
-				<p>Le coach suit son apprenant tout au long de son parcours d’étude. Par défaut, l’accompagnement se fait
-															              sur
-					<strong style="color: #0b3e6fd6;">une période de 18 mois</strong>, mais cela peut aller au-delà si l’apprenant en a besoin.</p>
-				<p>En début du parcours, il va réaliser des visio collectives pour aider à la mise en route avec une
-															              présentation de l’école et des supports d’apprentissage.</p>
-				<p>Puis avec
-					<strong style="color: #0b3e6fd6;">une dizaine de rendez-vous individuels planifiés</strong>, il va accompagner l’étudiant
-																		              dans la réussite de ses objectifs. Ce parcours est personnalisable en fonction de vos besoins. Vous pouvez
-																		              demander d’autres séances si vous sentez que cela vous est nécessaire.</p>
-				<p>En 2023, 9 élèves sur 10 se déclarent satisfaits du suivi réalisé par le coach, durant leur formation.
-				</p>
-			</div>
-		</div> #}
-	{# <div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-5 wp-block-columns-is-layout-flex" style=" background-size: cover; background-position: center; opacity: 0.7;">
-					<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="background-color: rgba(255, 255, 255, 0.5); padding: 20px;">
-						<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-							<strong style="color: #0b3e6fd6;">Comment contacter mon coach ?</strong>
-						</h2>
-						<strong style="color: #0b3e6fd6;">
-							<p>En plus des séances prévues par votre coach, vous pourrez le contacter par :</p>
-							<p>– téléphone au 04 89 05 03 55</p>
-							<p>– la messagerie INFPF Learning, rubrique « J’ai une question pour mon coach »</p>
-						</strong>
-					</div>
-				</div> #}
+</section>
 
+<!-- Breadcrumbs Modernes -->
+<!-- Bouton Retour vers le Hub -->
+<div class="back-to-hub">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		</svg>
+		<span>Retour à L'École</span>
+	</a>
 </div>
-<!-- .entry-content --></article><!-- #post-439226 --></main><!-- #main --></body></html>{% include 'footer.html.twig' %}{% endblock %}
+
+<!-- Container Principal -->
+<main class="coach-main-container">
+	
+	<!-- Introduction premium -->
+	<section class="coach-intro-premium">
+		<div class="intro-premium-content">
+			<div class="intro-badge">
+				<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+					<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+				</svg>
+				<span>Excellence INFPF</span>
+			</div>
+			<h2 class="intro-premium-title">L'Humain au Cœur de Votre Formation</h2>
+			<p class="intro-premium-text">Étudier à distance ne signifie pas étudier seul. En plus du support digital proposé avec notre plateforme INFPF Learning, nous avons décidé de miser sur l'<strong>HUMAIN</strong>.</p>
+			<div class="intro-premium-features">
+				<div class="feature-point">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+					</svg>
+					<span>Accompagnement personnalisé</span>
+				</div>
+				<div class="feature-point">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+					</svg>
+					<span>Support digital + humain</span>
+				</div>
+				<div class="feature-point">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+					</svg>
+					<span>Plateforme INFPF Learning</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Section highlight -->
+	<section class="coach-highlight-section">
+		<h2 class="coach-highlight-title">L'équipe coaching au cœur de nos ambitions</h2>
+		<div class="coach-highlight-content">
+			<p>Afin de casser l'isolement de l'apprentissage à distance classique, d'engager nos élèves dans leur formation et les accompagner au quotidien dans leurs projets, l'Institut National de la Formation Professionnelle Française <strong>a placé l'équipe coaching au cœur de ses ambitions !</strong></p>
+			<p>Aujourd'hui, ce sont plus de <strong>25 coachs</strong> qui accompagnent et soutiennent nos élèves tout au long de leur formation avec un objectif unique : <strong>les faire réussir !</strong></p>
+		</div>
+	</section>
+
+	<!-- Stats section enrichie -->
+	<section class="coach-stats-enriched">
+		<div class="stats-grid">
+			<div class="stat-item highlight">
+				<div class="stat-icon">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+					</svg>
+    </div>
+				<span class="stat-number">25+</span>
+				<span class="stat-label">Coachs dédiés</span>
+				<p class="stat-description">Experts spécialisés</p>
+</div>
+
+			<div class="stat-item">
+				<div class="stat-icon">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+					</svg>
+				</div>
+				<span class="stat-number">100%</span>
+				<span class="stat-label">Accompagnement</span>
+				<p class="stat-description">Suivi personnalisé</p>
+			</div>
+			
+			<div class="stat-item">
+				<div class="stat-icon">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm8.2 6h-2.76a15.65 15.65 0 0 0-1.59-3.98A9.99 9.99 0 0 1 20.2 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/>
+					</svg>
+	</div>
+				<span class="stat-number">24/7</span>
+				<span class="stat-label">Disponibilité</span>
+				<p class="stat-description">Support continu</p>
+						</div>
+					</div>
+	</section>
+
+	<!-- Rôle du coach -->
+	<section class="coach-section-row">
+		<div class="coach-section-content">
+			<h2>Quel est le rôle du coach ?</h2>
+			<p>Un coach personnel est désigné dès votre entrée dans notre établissement. Il vous connaît et <strong>va vous accompagner durant toute la durée de votre apprentissage</strong>. C'est un accompagnement personnalisé jusqu'à la réussite de vos objectifs.</p>
+			<p>Son rôle évolue au cours de votre parcours pédagogique. Après votre inscription, le coach vous accompagnera pour la bonne mise en route de votre formation : présentation de l'école et des supports d'apprentissage.</p>
+			<p>En fonction de vos objectifs de fin de formation, le coach paramétrera votre agenda d'étude en fonction de vos disponibilités. Si vos objectifs ou vos disponibilités sont amenés à changer au cours de votre formation, votre coach pourra <strong>modifier les plages d'étude</strong>.</p>
+		</div>
+		<div class="coach-section-image">
+			<div class="modern-illustration coaching">
+				<div class="illustration-circle">
+					<svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+					</svg>
+				</div>
+				<h3>Coach personnel dédié</h3>
+				<p>Accompagnement expert tout au long de votre formation</p>
+						</div>
+					</div>
+	</section>
+
+	<!-- Missions du coach -->
+	<section class="coach-modern-section">
+		<div class="coach-section-header">
+			<h2 class="coach-section-title">Les missions de votre coach</h2>
+		</div>
+		
+		<div class="missions-modern-grid">
+			<div class="mission-modern-item">
+				<div class="mission-visual">
+					<div class="mission-circle">
+						<svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+						</svg>
+					</div>
+					<div class="mission-line"></div>
+				</div>
+				<div class="mission-content">
+					<h4>Accompagnement et motivation</h4>
+					<p>Sa mission principale est de vous accompagner et de vous motiver afin de vous aider à tenir vos engagements personnels et ne pas les perdre de vue.</p>
+				</div>
+						</div>
+
+			<div class="mission-modern-item">
+				<div class="mission-visual">
+					<div class="mission-circle">
+						<svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+						</svg>
+					</div>
+					<div class="mission-line"></div>
+				</div>
+				<div class="mission-content">
+					<h4>Méthodes d'apprentissage</h4>
+					<p>Des conseils personnalisés sur les méthodes d'apprentissage et de révision adaptées à votre profil.</p>
+				</div>
+						</div>
+
+			<div class="mission-modern-item">
+				<div class="mission-visual">
+					<div class="mission-circle">
+						<svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+						</svg>
+					</div>
+					<div class="mission-line"></div>
+				</div>
+				<div class="mission-content">
+					<h4>Conseils sur l'organisation</h4>
+					<p>Un accompagnement pour optimiser votre organisation personnelle et votre planning d'études.</p>
+				</div>
+			</div>
+
+			<div class="mission-modern-item last">
+				<div class="mission-visual">
+					<div class="mission-circle">
+						<svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/>
+						</svg>
+					</div>
+				</div>
+				<div class="mission-content">
+					<h4>Suivi de vos stages</h4>
+					<p>Un accompagnement dans la recherche et le suivi de vos stages professionnels.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Spécialisation -->
+	<section class="coach-specialization-section">
+		<div class="specialization-content">
+			<h2>Un coaching spécialisé</h2>
+			<div class="specialization-text">
+				<p>Votre coach dédié sera spécialisé dans le secteur de la formation que vous avez choisie, vous garantissant ainsi un accompagnement expert et pertinent.</p>
+			</div>
+			<a href="{{ path('app_home') }}" class="coach-cta-button">
+				<span>Découvrir nos formations</span>
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+					<path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+				</svg>
+			</a>
+</div>
+	</section>
+
+</main>
+
+{% include 'footer.html.twig' %}
+{% endblock %}

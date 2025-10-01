@@ -52,9 +52,34 @@ class MetierService
     }
 
     /**
-     * Trouve les formations correspondant à un métier
+     * Trouve LA formation spécifique correspondant à un métier (approche 1:1)
+     */
+    public function findFormationByMetier(string $slug): ?object
+    {
+        $metier = $this->getMetierBySlug($slug);
+        
+        if (!$metier || !isset($metier['formation_id'])) {
+            return null;
+        }
+
+        // Récupérer directement la formation par son ID
+        return $this->formationRepository->find($metier['formation_id']);
+    }
+
+    /**
+     * Trouve les formations correspondant à un métier (ancienne méthode conservée pour compatibilité)
+     * DEPRECATED: Utiliser findFormationByMetier() pour l'approche 1:1
      */
     public function findFormationsByMetier(string $slug): array
+    {
+        $formation = $this->findFormationByMetier($slug);
+        return $formation ? [$formation] : [];
+    }
+
+    /**
+     * Version obsolète maintenue pour compatibilité descendante
+     */
+    private function findFormationsByMetierOld(string $slug): array
     {
         $metier = $this->getMetierBySlug($slug);
         
@@ -295,5 +320,110 @@ class MetierService
            ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Trouve les autres formations liées au métier (exclut la formation principale)
+     * Utilise un système intelligent de correspondances logiques
+     */
+    public function findOtherFormationsByMetier(string $slug): array
+    {
+        $metier = $this->getMetierBySlug($slug);
+        $formationPrincipale = $this->findFormationByMetier($slug);
+        
+        if (!$metier) {
+            return [];
+        }
+
+        // Obtenir les IDs des formations logiquement liées au métier
+        $formationIds = $this->getLogicalFormationIds($slug);
+        
+        if (empty($formationIds)) {
+            return [];
+        }
+
+        $qb = $this->formationRepository->createQueryBuilder('f')
+            ->where('f.id IN (:formation_ids)')
+            ->setParameter('formation_ids', $formationIds);
+
+        // Exclure la formation principale si elle existe
+        if ($formationPrincipale) {
+            $qb->andWhere('f.id != :excluded_formation_id')
+               ->setParameter('excluded_formation_id', $formationPrincipale->getId());
+        }
+
+        // Ordonner par pertinence puis par nom
+        $qb->orderBy('f.nameFormation', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Retourne les IDs des formations logiquement liées à chaque métier
+     * STRICTEMENT dans le même domaine/thématique que le métier
+     */
+    private function getLogicalFormationIds(string $slug): array
+    {
+        $formationMappings = [
+            'commercial' => [
+                88, // Responsable de développement commercial (domaine commercial avancé)
+                30, // Marketing Digital (complémentaire commercial)
+                31, // Réseaux Sociaux (prospection moderne)
+                // Techniques de Vente (ID 29) est la formation principale donc exclue automatiquement
+                // Formations complémentaires du domaine commercial
+            ],
+            
+            'developpeur-web' => [
+                3,  // WordPress (développement web)
+                79, // Développeur web et web mobile (développement web complet)
+                // Formation principale (ID 6) Création de Sites Web est exclue automatiquement
+                // UNIQUEMENT des formations de développement web pur
+            ],
+            
+            'trader-finance' => [
+                21, // Gérer les portefeuilles financiers
+                22, // Formation Bourse & Trading Expert - Distanciel
+                23, // Formation Bourse & Trading Expert - Présentiel  
+                25, // Formation sur Le Trading en Spread
+                26, // Formation Trading des Matières Premières
+                27, // Formation Trading des Devises Euro/USD
+                80, // PILOTER ET GÉRER DES OPÉRATIONS DE MARCHÉS - Market Profile et VWAP
+                81, // PILOTER ET GÉRER DES OPÉRATIONS DE MARCHÉS - Market Profile, Footprint et VWAP
+                // UNIQUEMENT des formations de finance/trading/marchés financiers
+            ],
+            
+            'manager' => [
+                87, // Intégrer les pratiques managériales (management opérationnel)
+                29, // Techniques de Vente (management commercial)
+                // Management d'Équipe (ID 28) est la formation principale donc exclue automatiquement
+                // Formations de management et leadership
+            ],
+            
+            'marketing-digital' => [
+                31, // Réseaux Sociaux (spécialisation marketing)
+                82, // Gérer la communication digitale d'une entreprise via les réseaux sociaux
+                89, // Maîtriser l'IA Générative pour les Métiers du Marketing - Découverte
+                90, // Maîtrise de l'IA Générative pour les Métiers du Marketing - Avancée
+                // Marketing Digital (ID 30) est la formation principale donc exclue automatiquement
+                // UNIQUEMENT marketing digital et communication digitale pure
+            ],
+            
+            'assistant-administratif' => [
+                36, // Excel (bureautique)
+                84, // Formateur professionnel d'adultes avec spécialisation Gestion
+                85, // Communiquer en français dans les secteurs du social et du médico social
+                // Word (ID 35) est la formation principale donc exclue automatiquement
+                // UNIQUEMENT bureautique et administration
+            ],
+            
+            'graphiste' => [
+                33, // Illustrator (design graphique vectoriel)
+                34, // InDesign (design graphique/mise en page)
+                // Photoshop (ID 32) est la formation principale donc exclue automatiquement
+                // UNIQUEMENT design graphique et PAO pure
+            ],
+        ];
+
+        return $formationMappings[$slug] ?? [];
     }
 }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Actualités de l'INFPF - Blog{% endblock %}
+{% block title %}Blog de l'INFPF - Actualités et Nouveautés{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -76,6 +76,64 @@
             box-shadow: 0 10px 25px rgba(11, 63, 137, 0.3);
             color: white;
             text-decoration: none;
+        }
+
+        /* Styles pour la section de tri */
+        .sort-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .sort-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .sort-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sort {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-sort.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .btn-sort:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(11, 63, 137, 0.2);
+            text-decoration: none;
+        }
+
+        .btn-sort.active:hover {
+            color: white;
+        }
+
+        .btn-sort:not(.active):hover {
+            background: var(--light-gray);
+            color: var(--primary-color);
         }
 
         .blog-grid {
@@ -288,6 +346,22 @@
                 align-items: center;
             }
 
+            .sort-section {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .sort-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-sort {
+                text-align: center;
+                justify-content: center;
+            }
+
             .blog-card-actions {
                 flex-direction: column;
                 align-items: stretch;
@@ -309,10 +383,25 @@
 {% block body %}
     <div class="blog-index-container">
         <div class="blog-header">
-            <h1 class="blog-main-title">Actualités de l'INFPF</h1>
+            <h1 class="blog-main-title">Blog de l'INFPF</h1>
             <p class="blog-subtitle">
                 Découvrez les dernières nouvelles, événements et actualités de l'Institut National de la Formation Professionnelle Française
             </p>
+        </div>
+
+        <!-- Section de tri -->
+        <div class="sort-section">
+            <span class="sort-label">Trier par :</span>
+            <div class="sort-buttons">
+                <a href="{{ path('app_blog_index', {'sort': 'recent'}) }}" 
+                   class="btn-sort {% if currentSort == 'recent' %}active{% endif %}">
+                    🕒 Plus récent
+                </a>
+                <a href="{{ path('app_blog_index', {'sort': 'oldest'}) }}" 
+                   class="btn-sort {% if currentSort == 'oldest' %}active{% endif %}">
+                    📅 Plus ancien
+                </a>
+            </div>
         </div>
 
         {% if is_granted('ROLE_ADMIN') %}

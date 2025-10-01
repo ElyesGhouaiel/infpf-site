@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\File;
 
 
@@ -25,11 +26,29 @@ class BlogType extends AbstractType
                 'class' => 'custom-class-for-title',
             ]
         ])
+        ->add('status', ChoiceType::class, [
+            'label' => 'Statut de publication',
+            'choices' => [
+                'Brouillon (non publié)' => Blog::STATUS_DRAFT,
+                'Publier maintenant' => Blog::STATUS_PUBLISHED,
+                'Programmer la publication' => Blog::STATUS_SCHEDULED,
+            ],
+            // Pas de 'data' par défaut pour permettre au formulaire d'utiliser la valeur de l'entité
+            'attr' => [
+                'class' => 'publication-status-select',
+                'onchange' => 'togglePublicationDate(this.value)'
+            ]
+        ])
         ->add('publishedAt', DateTimeType::class, [
             'widget' => 'single_text',
-            'label' => 'Publication Date',
+            'label' => 'Date et heure de publication',
             'required' => false,
-            // Configurez les options selon vos besoins
+            'help' => 'Laissez vide pour publier immédiatement, ou choisissez une date future pour programmer la publication',
+            'attr' => [
+                'class' => 'publication-date-field',
+                'min' => (new \DateTime())->format('Y-m-d\TH:i'),
+                'step' => '60'
+            ]
         ])
         ->add('author', TextType::class, [
             'label' => 'Author',
@@ -78,44 +97,44 @@ class BlogType extends AbstractType
         ])
 
         ->add('title_tree', TextType::class, [
-            'label' => 'Tertiary Title',
+            'label' => 'Third Section Title',
             'required' => false,
             'attr' => [
-                'placeholder' => 'Enter the tertiary title here...',
+                'placeholder' => 'Enter the third section title here...',
                 'class' => 'custom-class-for-title',
             ]
         ])
         ->add('content_tree', TextareaType::class, [
-            'label' => 'Tertiary Content',
+            'label' => 'Third Section Content',
             'required' => false,
             'attr' => [
-                'placeholder' => 'Write the tertiary content here...',
-                'rows' => 5,
-            ]
-        ])
-        ->add('sous_title_tree', TextType::class, [
-            'label' => 'Sub-title for Tertiary Content',
-            'required' => false,
-            'attr' => ['placeholder' => 'Enter the sub-title for tertiary content here...']
-        ])
-        ->add('sous_content_tree', TextareaType::class, [
-            'label' => 'Sub-content for Tertiary Content',
-            'required' => false,
-            'attr' => [
-                'placeholder' => 'Write the sub-content for tertiary content here...',
+                'placeholder' => 'Write the third section content here...',
                 'rows' => 5,
             ]
         ])
         ->add('title_for', TextType::class, [
-            'label' => 'Quaternary Title',
+            'label' => 'Fourth Section Title',
             'required' => false,
-            'attr' => ['placeholder' => 'Enter the quaternary title here...']
+            'attr' => ['placeholder' => 'Enter the fourth section title here...']
         ])
         ->add('content_for', TextareaType::class, [
-            'label' => 'Quaternary Content',
+            'label' => 'Fourth Section Content',
             'required' => false,
             'attr' => [
-                'placeholder' => 'Write the quaternary content here...',
+                'placeholder' => 'Write the fourth section content here...',
+                'rows' => 5,
+            ]
+        ])
+        ->add('title_five', TextType::class, [
+            'label' => 'Fifth Section Title',
+            'required' => false,
+            'attr' => ['placeholder' => 'Enter the fifth section title here...']
+        ])
+        ->add('content_five', TextareaType::class, [
+            'label' => 'Fifth Section Content',
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Write the fifth section content here...',
                 'rows' => 5,
             ]
         ])

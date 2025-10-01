@@ -1,223 +1,1006 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Notre formation à distance et en ligne
+{% block title %}Formation à distance et en ligne - INFPF
 {% endblock %}
+
 {% block stylesheets %}
 	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
     <link href="../css/footer1.css" rel="stylesheet"/>
+	<style>
+		/* ===== VARIABLES CSS MODERNES ===== */
+		:root {
+			--primary-color: #0b3f89;
+			--primary-light: #1e5cb8;
+			--accent-color: #00b4d8;
+			--text-dark: #2d3748;
+			--text-light: #718096;
+			--white: #ffffff;
+			--bg-light: #f8fafc;
+			--bg-section: #fafbfc;
+			--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+			--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+			--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+			--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			--transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			--border-radius: 24px;
+		}
+
+		/* ===== RESET ET BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			line-height: 1.6;
+			color: var(--text-dark);
+			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+		}
+
+		/* ===== HERO SECTION MODERNE EN COLONNE ===== */
+		.hero-formation {
+			position: relative;
+			min-height: 45vh;
+			background: var(--primary-gradient);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 40px;
+		}
+
+		.hero-formation::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('{{ asset('img/3.png') }}') center center/contain;
+			background-repeat: no-repeat;
+			opacity: 0.08;
+			z-index: 1;
+		}
+
+		.hero-formation::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+			z-index: 2;
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 3;
+			color: white;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+
+
+		.hero-title {
+			font-size: clamp(2.8rem, 6vw, 4.5rem);
+			font-weight: 800;
+			margin-bottom: 24px;
+			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			animation: fadeInUp 1s ease-out;
+			letter-spacing: -0.02em;
+		}
+
+		.hero-subtitle {
+			font-size: clamp(1.3rem, 3vw, 1.8rem);
+			font-weight: 400;
+			margin-bottom: 50px;
+			opacity: 0.95;
+			animation: fadeInUp 1s ease-out 0.2s both;
+			line-height: 1.4;
+		}
+
+		.hero-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			padding: 20px 40px;
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			text-decoration: none;
+			border-radius: 60px;
+			font-weight: 600;
+			font-size: 1.1rem;
+			backdrop-filter: blur(20px);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			transition: var(--transition);
+			animation: fadeInUp 1s ease-out 0.4s both;
+		}
+
+		.hero-cta:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-3px);
+			box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+			border-color: rgba(255, 255, 255, 0.4);
+		}
+
+		/* ===== ANIMATIONS ===== */
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(40px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes slideInLeft {
+			from {
+				opacity: 0;
+				transform: translateX(-60px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		@keyframes slideInRight {
+			from {
+				opacity: 0;
+				transform: translateX(60px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		/* ===== BREADCRUMBS MODERNES ===== */
+		.modern-breadcrumbs {
+			background: rgba(255, 255, 255, 0.95);
+			backdrop-filter: blur(20px);
+			padding: 24px 0;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
+		}
+
+		.breadcrumbs-container {
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 24px;
+		}
+
+		.breadcrumbs-list {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			font-size: 15px;
+			color: var(--text-light);
+		}
+
+		.breadcrumbs-list a {
+			color: var(--primary-color);
+			text-decoration: none;
+			font-weight: 500;
+			transition: var(--transition);
+		}
+
+		.breadcrumbs-list a:hover {
+			color: var(--accent-color);
+		}
+
+		.breadcrumb-separator {
+			color: var(--text-light);
+			font-weight: 300;
+		}
+
+		/* ===== CONTENEUR PRINCIPAL ===== */
+		.main-container {
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 24px;
+		}
+
+		/* ===== SECTIONS ALTERNÉES (ZIGZAG) ===== */
+		.section-alternated {
+			padding: 120px 0;
+			position: relative;
+		}
+
+		.section-alternated:nth-child(even) {
+			background: var(--bg-section);
+		}
+
+		.formation-section-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 80px;
+			align-items: center;
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 24px;
+		}
+
+		.formation-section-row.reverse {
+			direction: rtl;
+		}
+
+		.formation-section-row.reverse > * {
+			direction: ltr;
+		}
+
+		.section-content {
+			animation: slideInLeft 1s ease-out;
+		}
+
+		.formation-section-row.reverse .section-content {
+			animation: slideInRight 1s ease-out;
+		}
+
+		.section-visual {
+			animation: slideInRight 1s ease-out;
+		}
+
+		.formation-section-row.reverse .section-visual {
+			animation: slideInLeft 1s ease-out;
+		}
+
+		.section-title {
+			font-size: clamp(2.8rem, 5vw, 4rem);
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+			line-height: 1.2;
+			position: relative;
+		}
+
+		.section-title::after {
+			content: '';
+			position: absolute;
+			bottom: -12px;
+			left: 0;
+			width: 80px;
+			height: 5px;
+			background: var(--primary-gradient);
+			border-radius: 3px;
+		}
+
+		.section-subtitle {
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--accent-color);
+			margin-bottom: 20px;
+		}
+
+		.section-text {
+			font-size: 1.4rem;
+			line-height: 1.8;
+			color: var(--text-dark);
+			margin-bottom: 24px;
+			font-weight: 500;
+		}
+
+		.section-image {
+			width: 100%;
+			aspect-ratio: 4/3;
+			object-fit: cover;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-heavy);
+			transition: var(--transition);
+		}
+
+		.section-image:hover {
+			transform: scale(1.02);
+			box-shadow: 0 20px 60px rgba(11, 63, 137, 0.3);
+		}
+
+		/* ===== ACCORDÉONS MODERNES 2025 ===== */
+		.modern-features {
+			display: grid;
+			gap: 20px;
+			margin: 40px 0;
+		}
+
+		.feature-item {
+			background: rgba(255, 255, 255, 0.8);
+			border-radius: 20px;
+			overflow: hidden;
+			box-shadow: 0 8px 32px rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+		}
+
+		.feature-item:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 16px 48px rgba(11, 63, 137, 0.15);
+		}
+
+		.feature-header {
+			background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+			color: white;
+			padding: 24px 28px;
+			cursor: pointer;
+			font-weight: 600;
+			font-size: 1.3rem;
+			transition: var(--transition);
+			position: relative;
+			border: none;
+			width: 100%;
+			text-align: left;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.feature-header:hover {
+			background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-color) 100%);
+		}
+
+		.feature-icon {
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.2);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.2rem;
+			transition: var(--transition);
+		}
+
+		.feature-item[open] .feature-icon {
+			transform: rotate(180deg);
+		}
+
+		.feature-content {
+			padding: 28px;
+			line-height: 1.8;
+			color: var(--text-dark);
+			font-size: 1.2rem;
+		}
+
+		/* ===== SECTION HIGHLIGHT MODERNE ===== */
+		.highlight-section {
+			background: var(--primary-gradient);
+			color: white;
+			padding: 100px 40px;
+			text-align: center;
+			margin: 0;
+			position: relative;
+			overflow: hidden;
+			border-radius: 0;
+		}
+
+		.highlight-section::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="40" cy="80" r="1.2" fill="rgba(255,255,255,0.08)"/></svg>') repeat;
+			animation: float 25s ease-in-out infinite;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translateY(0px) rotate(0deg); }
+			33% { transform: translateY(-8px) rotate(1deg); }
+			66% { transform: translateY(8px) rotate(-1deg); }
+		}
+
+		.highlight-content {
+			position: relative;
+			z-index: 2;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.highlight-title {
+			font-size: clamp(2.5rem, 5vw, 3.5rem);
+			font-weight: 800;
+			margin-bottom: 24px;
+			line-height: 1.2;
+			color: white !important;
+		}
+
+		.highlight-text {
+			font-size: 1.3rem;
+			line-height: 1.6;
+			opacity: 0.95;
+			color: white !important;
+		}
+
+		/* ===== LISTES MODERNES ===== */
+		.modern-list {
+			list-style: none;
+			padding: 0;
+			margin: 32px 0;
+			display: grid;
+			gap: 16px;
+		}
+
+		.modern-list li {
+			background: var(--white);
+			padding: 20px 24px 20px 50px;
+			border-radius: 16px;
+			box-shadow: var(--shadow-light);
+			transition: var(--transition);
+			position: relative;
+			font-size: 1.2rem;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+		}
+
+		.modern-list li:hover {
+			background: var(--bg-light);
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.modern-list li::before {
+			content: '';
+			position: absolute;
+			left: 24px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 8px;
+			height: 8px;
+			background: var(--primary-color);
+			border-radius: 50%;
+		}
+
+		/* ===== SECTIONS FINALES ===== */
+		.final-sections {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+			gap: 60px;
+			margin: 120px 0;
+			padding: 0 24px;
+			align-items: stretch;
+		}
+
+		.final-card {
+			background: rgba(255, 255, 255, 0.9);
+			border-radius: var(--border-radius);
+			padding: 50px;
+			box-shadow: var(--shadow-medium);
+			transition: var(--transition);
+			text-align: center;
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			min-height: 600px;
+		}
+
+		.final-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 6px;
+			background: var(--primary-gradient);
+		}
+
+		.final-card:hover {
+			transform: translateY(-12px);
+			box-shadow: var(--shadow-heavy);
+		}
+
+		.final-card-image {
+			width: 120px;
+			height: 120px;
+			object-fit: contain;
+			margin: 0 auto 24px;
+			border-radius: 20px;
+			background: rgba(11, 63, 137, 0.05);
+			padding: 16px;
+		}
+
+		.final-card-title {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+		}
+
+		.final-card-text {
+			font-size: 1.3rem;
+			line-height: 1.7;
+			color: var(--text-dark);
+		}
+
+		/* ===== BOUTON RETOUR HUB ===== */
+		.back-to-hub {
+			position: fixed;
+			top: 180px;
+			left: 30px;
+			z-index: 1000;
+		}
+
+		.back-hub-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+			color: white;
+			padding: 16px 24px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+			border: 1px solid rgba(255, 107, 53, 0.2);
+			transition: var(--transition);
+			backdrop-filter: blur(10px);
+		}
+
+		.back-hub-btn:hover {
+			background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+		}
+
+		.back-hub-btn svg {
+			width: 20px;
+			height: 20px;
+			transition: var(--transition);
+		}
+
+		.back-hub-btn:hover svg {
+			transform: translateX(-3px);
+		}
+
+		/* ===== RESPONSIVE DESIGN ===== */
+		@media (max-width: 1024px) {
+			.back-to-hub {
+				top: 160px;
+				left: 20px;
+			}
+			
+			.back-hub-btn {
+				padding: 14px 20px;
+				font-size: 0.9rem;
+			}
+			
+			.hero-formation {
+				min-height: 40vh;
+				padding: 30px 30px;
+			}
+
+			.formation-section-row {
+				grid-template-columns: 1fr;
+				gap: 60px;
+				text-align: center;
+			}
+
+			.formation-section-row.reverse {
+				direction: ltr;
+			}
+
+			.section-alternated {
+				padding: 80px 0;
+			}
+
+			.final-sections {
+				grid-template-columns: 1fr;
+				gap: 40px;
+			}
+
+			.final-card {
+				min-height: auto;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.back-to-hub {
+				top: 140px;
+				left: 15px;
+			}
+			
+			.back-hub-btn {
+				padding: 12px 16px;
+				font-size: 0.85rem;
+			}
+			
+			.back-hub-btn span {
+				display: none;
+			}
+			
+			.back-hub-btn svg {
+				width: 18px;
+				height: 18px;
+			}
+			
+			.hero-formation {
+				min-height: 35vh;
+				padding: 25px 20px;
+			}
+
+			.hero-title {
+				font-size: clamp(2.2rem, 8vw, 3rem);
+				margin-bottom: 16px;
+			}
+
+			.hero-subtitle {
+				font-size: clamp(1.1rem, 4vw, 1.4rem);
+				margin-bottom: 30px;
+			}
+
+			.main-container,
+			.formation-section-row,
+			.final-sections {
+				padding: 0 20px;
+			}
+
+			.section-alternated {
+				padding: 60px 0;
+			}
+
+			.final-card {
+				padding: 32px;
+			}
+
+			.formation-section-row {
+				gap: 40px;
+			}
+
+			.hero-cta {
+				padding: 16px 32px;
+				font-size: 1rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.hero-formation {
+				min-height: 30vh;
+				padding: 20px 16px;
+			}
+
+			.hero-title {
+				font-size: clamp(1.8rem, 8vw, 2.5rem);
+			}
+
+			.hero-subtitle {
+				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+
+			.feature-header {
+				padding: 20px 24px;
+				font-size: 1.1rem;
+			}
+
+			.feature-content {
+				padding: 24px;
+				font-size: 1.1rem;
+			}
+
+			.highlight-section {
+				padding: 60px 24px;
+			}
+
+			.final-card {
+				padding: 24px;
+				min-height: auto;
+			}
+
+			.final-card-image {
+				width: 100px;
+				height: 100px;
+				margin-bottom: 20px;
+			}
+
+			.final-card-title {
+				font-size: 1.5rem;
+			}
+
+			.modern-list li {
+				padding: 16px 20px;
+				font-size: 1.1rem;
+			}
+		}
+
+		/* ===== ANIMATIONS SUPPRIMÉES - AFFICHAGE DIRECT ===== */
+	</style>
 {% endblock %}
 
 {% block body %}
 
+<!-- Hero Section Moderne -->
+<section class="hero-formation">
+	<div class="hero-content">
+		<h1 class="hero-title">Formation à Distance & En Ligne</h1>
+		<p class="hero-subtitle">L'excellence de l'INFPF accessible partout, à tout moment</p>
+		<a href="{{ path('app_home') }}" class="hero-cta">
+			<span>Découvrir nos formations</span>
+		</a>
+	</div>
+</section>
 
-	<img class="im" src="{{ asset('img/3.png') }}" alt="Nos formations à distance">
+<!-- Breadcrumbs Modernes -->
+<!-- Bouton Retour vers le Hub -->
+<div class="back-to-hub">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		</svg>
+		<span>Retour à L'École</span>
+	</a>
+</div>
 
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut National de la Formation Professionnelle Française</a>
-				</span>
-				&gt;
-				<span>
-					<a href="../ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">Nos formations à distance</span>
-			</span>
+<!-- Section Introduction avec Layout Alterné -->
+<section class="section-alternated">
+	<div class="formation-section-row">
+		<div class="section-content">
+			<h2 class="section-title">L'Excellence à Distance</h2>
+			<p class="section-text">
+				<strong>L'Institut National de la Formation Professionnelle Française (INFPF)</strong> révolutionne l'accès à l'éducation avec sa formation à distance et en ligne, marquant un engagement sans faille vers l'excellence et l'accessibilité.
+			</p>
+			<p class="section-text">
+				Si vous envisagez de renforcer vos compétences professionnelles tout en conservant votre activité actuelle, et que la recherche d'une formation adaptée à vos ambitions s'avère compliquée, alors l'apprentissage en ligne est la solution parfaite pour vous.
+			</p>
+			<p class="section-text">
+				Notre mission est d'offrir un apprentissage personnalisé et innovant, répondant aux besoins des individus souhaitant exceller dans leur domaine, tout en conciliant vie professionnelle et personnelle.
+			</p>
 		</div>
-		
-		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex">
-			<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:75%">
-				<br>
+		<div class="section-visual">
+			<img src="{{ asset('img/meth-apprentis.png') }}" alt="Méthodes d'apprentissage INFPF" class="section-image"/>
+		</div>
+	</div>
+</section>
+
+<!-- Section Avantages avec Layout Alterné Inversé -->
+<section class="section-alternated">
+	<div class="formation-section-row reverse">
+		<div class="section-content">
+			<h2 class="section-title">Les Avantages de la Formation à Distance</h2>
+			<h3 class="section-subtitle">Diversité des programmes et accessibilité universelle</h3>
+			<p class="section-text">
+				L'Institut National de la Formation Professionnelle Française propose une gamme étendue de formations en ligne couvrant une multitude de secteurs. De la finance, avec une attention spéciale sur le trading, à la technologie, le management, l'informatique... nos programmes sont conçus pour doter nos étudiants des compétences nécessaires à une carrière réussie.
+			</p>
+
+			<div class="modern-features">
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>Flexibilité optimale</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>Opter pour une formation en ligne avec l'INFPF représente une option économique significative, éliminant les frais de déplacement et d'hébergement associés aux formations traditionnelles. Cette accessibilité financière s'inscrit dans notre mission de rendre l'éducation de qualité accessible à tous, sans contrainte financière.</p>
+					</div>
+				</details>
+
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>Coût avantageux</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>Notre modèle d'éducation à distance supprime les barrières géographiques, permettant à quiconque dans le monde d'accéder à des formations de qualité. Peu importe votre emplacement, l'INFPF vous apporte l'éducation directement chez vous, transcendant les limitations physiques.</p>
+					</div>
+				</details>
+
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>Aucune contrainte géographique</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>Transcendant les limitations physiques pour offrir une éducation professionnelle continue à une audience globale, notre plateforme vous permet d'apprendre depuis n'importe où dans le monde, 24h/24 et 7j/7.</p>
+					</div>
+				</details>
+			</div>
+	</div>
+		<div class="section-visual">
+			<img src="{{ asset('img/forma-distance.png') }}" alt="Formation à distance" class="section-image"/>
+		</div>
+	</div>
+</section>
+
+<!-- Section Pourquoi Choisir l'INFPF -->
+<section class="section-alternated">
+	<div class="formation-section-row">
+		<div class="section-content">
+			<h2 class="section-title">Pourquoi opter pour la formation à distance avec l'INFPF ?</h2>
+			<p class="section-text">
+				Dans un marché du travail en perpétuelle évolution, se doter de nouvelles compétences et connaissances s'avère crucial pour les professionnels comme pour les entreprises. L'Institut National de la Formation Professionnelle Française (INFPF) reconnaît l'importance de la formation continue pour tous.
+			</p>
+			<p class="section-text">La formation à distance proposée par l'INFPF vous permet de :</p>
+
+			<div class="modern-features">
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>Consolider et réorienter votre carrière professionnelle</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>Que vous aspiriez à devenir un expert dans votre domaine ou que vous envisagiez une toute nouvelle trajectoire professionnelle, nos programmes variés et adaptatifs sont conçus pour renforcer votre parcours professionnel. Grâce à des formations spécialisées dans des secteurs clés tels que la finance et le trading, la technologie, le management, et bien plus, l'INFPF vous équipe pour réussir.</p>
+</div>
+		</details>
+
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>S'adapter aux évolutions du marché</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>Les marchés et les industries se transforment à un rythme accéléré. Notre offre de formation est constamment mise à jour pour refléter ces changements, vous assurant d'acquérir des compétences actuelles et demandées. Apprenez des techniques de trading avancées, des stratégies de gestion innovantes et bien plus encore, directement des professionnels du secteur.</p>
+					</div>
+		</details>
+
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>Élargir votre palette de compétences</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>La diversité de nos programmes en ligne vous permet d'élargir significativement votre éventail de compétences. Que vous cherchiez à maîtriser de nouveaux outils technologiques, à comprendre les subtilités de la finance mondiale, ou à développer des compétences en management, l'INFPF vous offre les ressources nécessaires pour évoluer.</p>
+					</div>
+		</details>
+
+				<details class="feature-item">
+					<summary class="feature-header">
+						<span>Améliorer vos performances</span>
+						<div class="feature-icon">↓</div>
+					</summary>
+					<div class="feature-content">
+						<p>Avec des cours conçus par des experts du secteur et des traders professionnels, nos formations sont centrées sur l'application pratique des connaissances. Cela signifie non seulement une meilleure compréhension théorique mais aussi l'amélioration tangible de vos performances professionnelles, grâce à des stratégies éprouvées et des conseils pratiques.</p>
+						<p><strong>Choisir l'apprentissage à distance avec l'INFPF, c'est choisir une voie d'excellence qui s'aligne sur les ambitions professionnelles et personnelles de chacun.</strong></p>
+					</div>
+				</details>
+			</div>
+		</div>
+		<div class="section-visual">
+			<div style="background: var(--white); border-radius: var(--border-radius); padding: 40px; box-shadow: var(--shadow-medium); text-align: center;">
+				<h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 30px; font-weight: 700;">L'INFPF en chiffres</h3>
 				
-				<p><strong>L'Institut National de la Formation Professionnelle Française (INFPF)</strong> révolutionne l'accès à l'éducation avec sa formation à distance et en ligne, marquant un engagement sans faille vers l'excellence et l'accessibilité. Si vous envisagez de renforcer vos compétences professionnelles tout en conservant votre activité actuelle, et que la recherche d'une formation adaptée à vos ambitions s'avère compliquée, surtout à cause de contraintes géographiques ou d'une réticence à suivre un enseignement en présentiel, alors l'apprentissage en ligne est la solution parfaite pour vous.</p>
+				<div style="display: grid; gap: 20px;">
+					<div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.98) 100%); padding: 32px; border-radius: 20px; box-shadow: 0 8px 25px rgba(11, 63, 137, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); position: relative; overflow: hidden;">
+						<div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);"></div>
+						<div style="font-size: 3rem; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; text-shadow: 0 2px 4px rgba(11, 63, 137, 0.1);">15+</div>
+						<div style="font-size: 1.2rem; color: var(--text-dark); font-weight: 600;">Années d'expérience</div>
+					</div>
+					
+					<div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.98) 100%); padding: 32px; border-radius: 20px; box-shadow: 0 8px 25px rgba(11, 63, 137, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); position: relative; overflow: hidden;">
+						<div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-color) 0%, var(--primary-light) 100%);"></div>
+						<div style="font-size: 3rem; font-weight: 800; color: var(--accent-color); margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0, 180, 216, 0.1);">5000+</div>
+						<div style="font-size: 1.2rem; color: var(--text-dark); font-weight: 600;">Étudiants formés</div>
+	</div>
+
+					<div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.98) 100%); padding: 32px; border-radius: 20px; box-shadow: 0 8px 25px rgba(11, 63, 137, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); position: relative; overflow: hidden;">
+						<div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary-light) 0%, var(--primary-color) 100%);"></div>
+						<div style="font-size: 3rem; font-weight: 800; color: var(--primary-light); margin-bottom: 8px; text-shadow: 0 2px 4px rgba(30, 92, 184, 0.1);">95%</div>
+						<div style="font-size: 1.2rem; color: var(--text-dark); font-weight: 600;">Taux de satisfaction</div>
+					</div>
+
+					<div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.98) 100%); padding: 32px; border-radius: 20px; box-shadow: 0 8px 25px rgba(11, 63, 137, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); position: relative; overflow: hidden;">
+						<div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);"></div>
+						<div style="font-size: 3rem; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; text-shadow: 0 2px 4px rgba(11, 63, 137, 0.1);">24/7</div>
+						<div style="font-size: 1.2rem; color: var(--text-dark); font-weight: 600;">Support pédagogique</div>
+					</div>
+				</div>
+				
+				<div style="margin-top: 30px; padding: 20px; background: var(--primary-gradient); border-radius: 16px; color: white;">
+					<div style="font-size: 1.3rem; font-weight: 600; margin-bottom: 8px;">Certification Qualiopi</div>
+					<div style="font-size: 1rem; opacity: 0.9;">Gage de qualité reconnu par l'État</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Section Public Ciblé -->
+<section class="section-alternated">
+	<div class="main-container">
+		<div class="animate-on-scroll" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+			<h2 class="section-title" style="text-align: center;">Public ciblé par l'INFPF</h2>
+			<p class="section-text" style="text-align: center; margin-bottom: 40px;">
+				L'Institut National de la Formation Professionnelle Française (INFPF) offre une large palette de formations professionnelles dans divers domaines essentiels. Ces programmes sont destinés à quiconque désire acquérir de nouvelles compétences ou approfondir ses connaissances existantes, que vous soyez débutant ou en quête de perfectionnement.
+			</p>
+			<p class="section-text" style="text-align: center;">
+				Conçues pour s'intégrer harmonieusement à votre vie professionnelle et personnelle, nos formations en ligne offrent une flexibilité inégalée, avec des parcours d'apprentissage adaptés aux adultes. Elles sont disponibles en format temps plein ou partiel, répondant ainsi parfaitement à vos besoins spécifiques.
+			</p>
+		</div>
+	</div>
+</section>
+
+<!-- Section Outils Pédagogiques -->
+<section class="section-alternated">
+	<div class="formation-section-row">
+		<div class="section-content">
+			<h2 class="section-title">Outils pédagogiques innovants de l'INFPF</h2>
 			
+			<h3 class="section-subtitle">Cours compréhensifs en formats papier et numérique</h3>
+			<p class="section-text">
+				À l'INFPF, nous vous fournissons des supports de cours à la pointe de la technologie, disponibles tant en formats papier qu'en numérique. Enrichis de contenus interactifs sur notre plateforme e-learning, ces supports sont spécialement conçus pour rendre votre expérience d'apprentissage à distance aussi efficace et engageante que possible.
+			</p>
+
+			<h3 class="section-subtitle">Encadrement personnalisé</h3>
+			<p class="section-text">
+				Choisir l'éducation à distance avec l'INFPF ne signifie jamais apprendre en solitaire. Notre équipe pédagogique dédiée est à votre disposition pour vous orienter, répondre à vos interrogations, et vous accompagner tout au long de votre parcours éducatif. Notre objectif principal est votre réussite.
+			</p>
+
+			<h3 class="section-subtitle">Tutoriels vidéos pratiques</h3>
+			<p class="section-text">
+				Pour vous assurer une maîtrise complète des compétences requises dans votre futur métier, l'INFPF met à votre disposition des tutoriels vidéo pratiques, élaborés par des experts du secteur. Ces ressources visuelles sont conçues pour vous offrir une compréhension approfondie et une application pratique des techniques professionnelles essentielles.
+			</p>
+		</div>
+		<div class="section-visual">
+			<img src="{{ asset('img/e-learning.png') }}" alt="Plateforme e-learning" class="section-image"/>
+		</div>
+</div>
+</section>
+
+<!-- Section Accompagnement -->
+<section class="section-alternated">
+	<div class="formation-section-row reverse">
+		<div class="section-content">
+			<h2 class="section-title">Un accompagnement personnalisé</h2>
+			
+			<h3 class="section-subtitle">Des enseignants accessibles</h3>
+			<p class="section-text">
+				Notre corps enseignant, composé de professionnels expérimentés, est à votre disposition pour toute question ou besoin d'assistance, que ce soit par téléphone ou par email. Leur disponibilité tout au long de votre formation garantit une réponse rapide à vos interrogations et un soutien efficace pour vos devoirs.
+			</p>
+
+			<h3 class="section-subtitle">Un coach personnel</h3>
+			<p class="section-text">
+				L'INFPF s'engage à offrir un suivi et des conseils personnalisés pour l'apprentissage de chaque étudiant. Notre service de coaching est spécialement conçu pour assister les étudiants sur une variété d'aspects, tels que les stages, les examens, l'utilisation de l'espace e-learning, l'organisation de l'agenda d'études, et les méthodes de travail optimales.
+			</p>
+		</div>
+		<div class="section-visual">
+			<img src="{{ asset('img/e-learning.png') }}" alt="Coaching personnalisé INFPF" class="section-image"/>
+		</div>
+	</div>
+</section>
+
+<!-- Section Highlight -->
+<section class="highlight-section">
+	<div class="highlight-content">
+		<h2 class="highlight-title">Une formation à distance dans une institution reconnue</h2>
+		<p class="highlight-text">
+			L'INFPF est un établissement leader en matière de formation à distance, reconnu pour la qualité supérieure de ses programmes, conformes aux standards nationaux et internationaux d'éducation. Notre institution est certifiée pour son engagement envers la qualité pédagogique et est soumise au contrôle rigoureux de l'État.
 		</p>
-
-		<p>Notre mission est d'offrir un apprentissage personnalisé et innovant, répondant aux besoins des individus souhaitant exceller dans leur domaine, tout en conciliant vie professionnelle et personnelle.</p>
-
-		<p>
-			<a href="https://www..fr/">
-				L'Institut national de la formation professionnelle française
-			</a>
-			se positionne comme votre allié privilégié pour des parcours d'apprentissage à distance dans divers domaines prometteurs. l'INFPF vous propose un éventail complet de programmes conçus pour répondre à vos aspirations professionnelles.</p>
-		<p>Que vous soyez employé, étudiant ou en quête d'emploi, notre établissement se distingue dans le domaine de l'éducation à distance en offrant une multitude de cursus adaptés à chaque besoin et objectif professionnel. Optez pour un parcours d'apprentissage souple et accessible qui saura propulser votre carrière vers de nouveaux horizons.</p>
-	</div>
-	<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:25%">
-		<div class="wp-block-image">
-			<img alt="formation à distance" class="entered-global-lazyloaded" src="{{ asset('img/meth-apprentis.png') }}"/>
-		</div>
-	</div>
 </div>
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;padding-top: 30px;">Les avantages de la formation à
-																		            distance</strong>
-</h2>
-<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-2 wp-block-columns-is-layout-flex">
-	<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:56%">
-		<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-			<strong style="text-decoration: underline; font-size:25px;padding-top:12px;">Diversité des programmes et accessibilité universelle</strong>
-		</h3>
-		<p>L'Institut National de la Formation Professionnelle Française propose une gamme étendue de formations en ligne couvrant une multitude de secteurs. De la finance, avec une attention spéciale sur le trading, à la technologie, le management, l'informatique.. nos programmes sont conçus pour doter nos étudiants des compétences nécessaires à une carrière réussie. Accessibles à tous, indépendamment de l'âge, du niveau d'études ou de la situation professionnelle, nous offrons une éducation démocratique permettant à chacun de progresser à son rythme.</p>
+</section>
 
-
-		<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>Flexibilité optimale :</summary>
-			<p>Opter pour une formation en ligne avec l'INFPF représente une option économique significative, éliminant les frais de déplacement et d'hébergement associés aux formations traditionnelles. Cette accessibilité financière s'inscrit dans notre mission de rendre l'éducation de qualité accessible à tous, sans contrainte financière.</p>
-		</details>
-
-		<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>Coût avantageux :</summary>
-			<p>Notre modèle d'éducation à distance supprime les barrières géographiques, permettant à quiconque dans le monde d'accéder à des formations de qualité. Peu importe votre emplacement, l'INFPF vous apporte l'éducation directement chez vous, transcendant les limitations physiques pour offrir une éducation professionnelle continue à une audience globale.</p>
-		</details>
-
-		<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>Aucune contrainte géographique :</summary>
-			<p>Opter pour une formation en ligne avec l'INFPF représente une option économique significative, éliminant les frais de déplacement et d'hébergement associés aux formations traditionnelles. Cette accessibilité financière s'inscrit dans notre mission de rendre l'éducation de qualité accessible à tous, sans contrainte financière.</p>
-		</details>
-
-		<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-			<strong style="text-decoration: underline"></strong>
-		</h3>
-
-	</div>
-
-	<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:42%">
-		<img alt="formation à distance" class="entered-lazyloaded" src="{{ asset('img/forma-distance.png') }}"/>
-
-		<div class="wp-block-videaa" src="{{ asset('img/e-learning.png') }}" width="375" height="250" margin="250"></div>
-	</div>
-
-
-</div>
-<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-	<strong style="text-decoration: underline"></strong>
-</h3>
-
-
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;">Pourquoi opter pour la formation à distance avec l'INFPF ?</strong>
-</h2>
-
-<p>Dans un marché du travail en perpétuelle évolution, se doter de nouvelles compétences et connaissances s'avère crucial pour les professionnels comme pour les entreprises. L'Institut National de la Formation Professionnelle Française (INFPF) reconnaît l'importance de la formation continue pour tous - que vous soyez en quête d'opportunités d'emploi, souhaitant effectuer une reconversion professionnelle, ou cherchant à progresser dans votre carrière actuelle.</p>
-<br>
-<p>La formation à distance proposée par l'INFPF vous permet de :</p>
-
-		<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>Consolider et réorienter votre carrière professionnelle</summary>
-<p>Que vous aspiriez à devenir un expert dans votre domaine ou que vous envisagiez une toute nouvelle trajectoire professionnelle, nos programmes variés et adaptatifs sont conçus pour renforcer votre parcours professionnel. Grâce à des formations spécialisées dans des secteurs clés tels que la finance et le trading, la technologie, le management, et bien plus, l'INFPF vous équipe pour réussir.</p>
-		</details>
-
-		<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>S'adapter aux évolutions du marché</summary>
-<p>Les marchés et les industries se transforment à un rythme accéléré. Notre offre de formation est constamment mise à jour pour refléter ces changements, vous assurant d'acquérir des compétences actuelles et demandées. Apprenez des techniques de trading avancées, des stratégies de gestion innovantes et bien plus encore, directement des professionnels du secteur.</p>
-</p>		</details>
-
-				<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>Élargir votre palette de compétences</summary>
-<p>La diversité de nos programmes en ligne vous permet d'élargir significativement votre éventail de compétences. Que vous cherchiez à maîtriser de nouveaux outils technologiques, à comprendre les subtilités de la finance mondiale, ou à développer des compétences en management, l'INFPF vous offre les ressources nécessaires pour évoluer.
-</p>		</details>
-
-				<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-			<summary>Améliorer vos performances</summary>
-<p>Avec des cours conçus par des experts du secteur et des traders professionnels, nos formations sont centrées sur l'application pratique des connaissances. Cela signifie non seulement une meilleure compréhension théorique mais aussi l'amélioration tangible de vos performances professionnelles, grâce à des stratégies éprouvées et des conseils pratiques.
-</p><p>Choisir l'apprentissage à distance avec l'INFPF, c'est choisir une voie d'excellence qui s'aligne sur les ambitions professionnelles et personnelles de chacun. C'est s'engager dans un parcours d'apprentissage flexible, accessible, et adapté aux défis du marché du travail actuel. Engagez-vous dans votre développement professionnel avec l'INFPF et ouvrez la porte à de nouvelles opportunités, équipé des compétences et connaissances essentielles pour exceller.
-</p>		</details>
-
-
-
-{# <h3 class="wp-block-heading has-text-color" style="color:#25517d">
-	<strong style="text-decoration: underline">Conclusion</strong>
-</h3> #}
-
-
-
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;">Public ciblé par l'Institut National de la Formation Professionnelle Française (INFPF)</strong>
-</h2>
-<p>L'Institut National de la Formation Professionnelle Française (INFPF) offre une large palette de formations professionnelles dans divers domaines essentiels. Ces programmes sont destinés à quiconque désire acquérir de nouvelles compétences ou approfondir ses connaissances existantes, que vous soyez débutant ou en quête de perfectionnement. Conçues pour s'intégrer harmonieusement à votre vie professionnelle et personnelle, nos formations en ligne offrent une flexibilité inégalée, avec des parcours d'apprentissage adaptés aux adultes. Elles sont disponibles en format temps plein ou partiel, répondant ainsi parfaitement à vos besoins spécifiques.</p>
-
-
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;">Outils pédagogiques innovants de l'INFPF</strong>
-</h2>
-<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-3 wp-block-columns-is-layout-flex">
-		<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow">
-		<div class="wp-block-videas">
-			<img class="image-education" src="{{ asset('img/e-learning.png') }}"/>
-		</div>
-	</div><div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
-
-		<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-			<strong style="text-decoration: underline">Cours compréhensifs en formats papier et numérique</strong>
-		</h3>
-		<p>À l'INFPF, nous vous fournissons des supports de cours à la pointe de la technologie, disponibles tant en formats papier qu'en numérique. Enrichis de contenus interactifs sur notre plateforme e-learning, ces supports sont spécialement conçus pour rendre votre expérience d'apprentissage à distance aussi efficace et engageante que possible. Grâce à des quiz, des devoirs en ligne, et des tutoriels vidéo, notre plateforme e-learning est une solution ludique et exhaustive pour votre formation.</p>
-
-		<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-			<strong style="text-decoration: underline">Encadrement personnalisé</strong>
-		</h3>
-		<p>Choisir l'éducation à distance avec l'INFPF ne signifie jamais apprendre en solitaire. Notre équipe pédagogique dédiée est à votre disposition pour vous orienter, répondre à vos interrogations, et vous accompagner tout au long de votre parcours éducatif. Notre objectif principal est votre réussite, et nous nous engageons à vous fournir un soutien sur mesure pour y parvenir.</p>
-
-		<p>L'INFPF est reconnu pour l'excellence de ses programmes de formation à distance, qui respectent les normes de l'Éducation Nationale et bénéficient de certifications par des labels de qualité. Nos cours sont accessibles via le Compte Personnel de Formation (CPF) et peuvent être éligibles à diverses aides financières, rendant ainsi l'éducation professionnelle continue accessible à une audience plus large.</p>
-
-		<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-			<strong style="text-decoration: underline">Tutoriels vidéos pratiques</strong>
-		</h3>
-		<p>Pour vous assurer une maîtrise complète des compétences requises dans votre futur métier, l'INFPF met à votre disposition des tutoriels vidéo pratiques, élaborés par des experts du secteur. Ces ressources visuelles sont conçues pour vous offrir une compréhension approfondie et une application pratique des techniques professionnelles essentielles.</p>
-		<p>En intégrant l'INFPF, vous choisissez une voie d'apprentissage reconnue pour sa qualité et son adaptation aux besoins contemporains du marché du travail, avec des outils pédagogiques novateurs et un encadrement personnalisé destiné à maximiser votre potentiel de réussite.</p>
-	</div>
-
-</div>
-
-
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;">La formation à distance avec l'INFPF: un accompagnement personnalisé</strong>
-</h2>
-
-
-<h3 class="wp-block-heading has-text-color" style="color:#25517d">
-	<strong style="text-decoration: underline">Des enseignants accessibles</strong>
-</h3>
-<p>Notre corps enseignant, composé de professionnels expérimentés, est à votre disposition pour toute question ou besoin d'assistance, que ce soit par téléphone ou par email. Leur disponibilité tout au long de votre formation garantit une réponse rapide à vos interrogations et un soutien efficace pour vos devoirs.</p>
-
-<h3 class="wp-block-heading">
-	<strong style="text-decoration: underline">Un coach personnel
-	</strong>
-</h3>
-<p>L'INFPF s'engage à offrir un suivi et des conseils personnalisés pour l'apprentissage de chaque étudiant. Notre service de coaching est spécialement conçu pour assister les étudiants sur une variété d'aspects, tels que les stages, les examens, l'utilisation de l'espace e-learning, l'organisation de l'agenda d'études, et les méthodes de travail optimales.</p>
-
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;">Une formation à distance dans une institution reconnue</strong>
-</h2>
-
-<p style="background:#1f6ebbb5;color:white;">L'INFPF est un établissement leader en matière de formation à distance, reconnu pour la qualité supérieure de ses programmes, conformes aux standards nationaux et internationaux d'éducation. Notre institution est certifiée pour son engagement envers la qualité pédagogique et est soumise au contrôle rigoureux de l'État.</p>
-
-<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-	<strong style="color: #0b3e6fd6;">Reconnaissance des formations à distance</strong>
-</h2>
-<p>L'INFPF propose des formations diversifiées, incluant :</p>
-
-<ul>
+<!-- Section Reconnaissance -->
+<section class="section-alternated">
+	<div class="main-container">
+		<div class="animate-on-scroll" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+			<h2 class="section-title" style="text-align: center;">Reconnaissance des formations à distance</h2>
+			<p class="section-text" style="text-align: center; margin-bottom: 50px;">L'INFPF propose des formations diversifiées, incluant :</p>
+			
+			<ul class="modern-list">
 	<li>Des formations menant à des Titres RNCP dans des secteurs clés.</li>
-
 	<li>Des préparations aux diplômes d'État : CAP dans divers domaines.</li>
-
 	<li>Des certifications professionnelles propres à l'INFPF dans des domaines spécialisés.</li>
-
 </ul>
 
-<p>Nos formations sont élaborées pour répondre aux exigences du référentiel de l’Éducation Nationale et sont dispensées par des formateurs de haut niveau, assurant une préparation optimale à vos objectifs professionnels.</p>
+			<p class="section-text" style="text-align: center;">
+				Nos formations sont élaborées pour répondre aux exigences du référentiel de l'Éducation Nationale et sont dispensées par des formateurs de haut niveau, assurant une préparation optimale à vos objectifs professionnels.
+			</p>
+		</div>
+	</div>
+</section>
 
-
-<div class="sections-container">
-    <div class="section">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">Financer votre formation à distance</strong>
-        </h2>
-		<img src="{{ asset('img/flexbox.png') }}" alt="financement formation à distance">
-        <p>Diverses options de financement sont disponibles pour soutenir votre formation à distance, adaptées à votre profil :</p>
-        <ul>
+<!-- Sections Finales -->
+<section class="main-container">
+	<div class="final-sections">
+		<div class="final-card">
+			<div>
+				<img src="{{ asset('img/flexbox.png') }}" alt="Financement formation" class="final-card-image"/>
+				<h3 class="final-card-title">Financer votre formation à distance</h3>
+				<p class="final-card-text">Diverses options de financement sont disponibles pour soutenir votre formation à distance, adaptées à votre profil :</p>
+			</div>
+			<ul class="modern-list">
             <li>Le compte personnel de formation (CPF)</li>
             <li>La formation en apprentissage</li>
             <li>Le soutien de Pôle Emploi</li>
@@ -226,17 +1009,46 @@
             <li>Les financements personnels</li>
         </ul>
     </div>
-    <div class="section">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">Uniformité et actualité de nos cours en ligne</strong>
-        </h2>
-				<img src="{{ asset('img/flixbox.png') }}" alt="financement formation à distance">
-
-        <p>Chez l'INFPF, les supports pédagogiques, qu'ils soient en version papier ou numérique, offrent une expérience d'apprentissage uniforme et actualisée. Nos cours en ligne sont régulièrement mis à jour pour refléter les dernières avancées et corrections, assurant ainsi que vous disposez toujours du contenu le plus pertinent et précis.</p>
+		
+		<div class="final-card">
+			<div>
+				<img src="{{ asset('img/flixbox.png') }}" alt="Cours en ligne" class="final-card-image"/>
+				<h3 class="final-card-title">Qualité et innovation pédagogique</h3>
+				<p class="final-card-text">
+					Chez l'INFPF, les supports pédagogiques, qu'ils soient en version papier ou numérique, offrent une expérience d'apprentissage uniforme et actualisée. Nos cours en ligne sont régulièrement mis à jour pour refléter les dernières avancées et corrections.
+				</p>
+			</div>
+			<div>
+				<h4 style="color: var(--primary-color); font-size: 1.3rem; margin: 30px 0 20px; font-weight: 600;">Notre engagement qualité :</h4>
+				<ul class="modern-list">
+					<li>Contenus actualisés en permanence</li>
+					<li>Plateforme e-learning intuitive et moderne</li>
+					<li>Supports interactifs et multimédia</li>
+					<li>Évaluations progressives et personnalisées</li>
+					<li>Suivi pédagogique individualisé</li>
+				</ul>
     </div>
 </div>
-
 </div>
+</section>
+
+<script>
+// Animations supprimées pour affichage direct
+
+// Smooth scroll pour les liens
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+	anchor.addEventListener('click', function (e) {
+		e.preventDefault();
+		const target = document.querySelector(this.getAttribute('href'));
+		if (target) {
+			target.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
+		}
+	});
+});
+</script>
 
 {% include 'footer.html.twig' %}
 {% endblock %}

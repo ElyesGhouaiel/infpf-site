@@ -29,8 +29,25 @@ class HomeController extends AbstractController
         $selectedCategoryId = $request->query->get('category_id', 'all');
         $categoryIdForQuery = $selectedCategoryId === 'all' ? null : $selectedCategoryId;
 
-        // Récupère les catégories pour le menu déroulant
-        $categories = $categoryRepository->findAll();
+        // Récupère les catégories pour le menu déroulant avec IA en premier
+        $allCategoriesForFormation = $categoryRepository->findAll();
+        $iaCategoryForFormation = null;
+        $otherCategoriesForFormation = [];
+        
+        foreach ($allCategoriesForFormation as $cat) {
+            if ($cat->getName() === 'IA') {
+                $iaCategoryForFormation = $cat;
+            } else {
+                $otherCategoriesForFormation[] = $cat;
+            }
+        }
+        
+        // Reorganiser avec IA en premier
+        $categories = [];
+        if ($iaCategoryForFormation) {
+            $categories[] = $iaCategoryForFormation;
+        }
+        $categories = array_merge($categories, $otherCategoriesForFormation);
 
         // Filtres
         $filterCriteria = [
@@ -41,6 +58,13 @@ class HomeController extends AbstractController
             'language' => $request->query->all('language'),
             'funding' => $request->query->get('funding'),
         ];
+        
+        // Ajouter le filtrage par catégorie si spécifié
+        if ($categoryIdForQuery !== null) {
+            // Convertir en integer pour s'assurer du type correct
+            $categoryIdForQuery = (int) $categoryIdForQuery;
+            $filterCriteria['thematique'] = [$categoryIdForQuery];
+        }
 
         // Applique les filtres additionnels
         $queryBuilder = $formationRepository->findFormationsByCriteria(array_filter($filterCriteria, function($value) { return !is_null($value) && $value !== ''; }));
@@ -51,14 +75,36 @@ class HomeController extends AbstractController
             $queryBuilder->andWhere('f.rncp IS NOT NULL')
                          ->andWhere('f.rncp != \'\'');
         }
-        // Appliquer l'ordre de tri
+        // Appliquer l'ordre de tri avec priorité IA
         if ($sortOrder === 'asc') {
-            $queryBuilder->orderBy('f.priceFormation', 'ASC');
+            $queryBuilder
+                ->addOrderBy('CASE WHEN c.name = \'IA\' THEN 0 ELSE 1 END', 'ASC')
+                ->addOrderBy('f.priceFormation', 'ASC');
         } else {
-            $queryBuilder->orderBy('f.priceFormation', 'DESC');
+            $queryBuilder
+                ->addOrderBy('CASE WHEN c.name = \'IA\' THEN 0 ELSE 1 END', 'ASC')
+                ->addOrderBy('f.priceFormation', 'DESC');
         }
 
         $formations = $queryBuilder->getQuery()->getResult();
+        
+        // Tri supplémentaire côté PHP pour s'assurer que IA est en premier
+        usort($formations, function($a, $b) use ($sortOrder) {
+            // Priorité IA en premier
+            $aIsIA = ($a->getCategory() && $a->getCategory()->getName() === 'IA') ? 0 : 1;
+            $bIsIA = ($b->getCategory() && $b->getCategory()->getName() === 'IA') ? 0 : 1;
+            
+            if ($aIsIA !== $bIsIA) {
+                return $aIsIA - $bIsIA; // IA en premier
+            }
+            
+            // Si même type (IA ou non-IA), trier par prix
+            if ($sortOrder === 'asc') {
+                return ($a->getPriceFormation() ?? 0) - ($b->getPriceFormation() ?? 0);
+            } else {
+                return ($b->getPriceFormation() ?? 0) - ($a->getPriceFormation() ?? 0);
+            }
+        });
 
         // Comptage des formations par catégorie
         $formationsCountByCategory = [];
@@ -128,8 +174,29 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home', methods: ['GET'])]
     public function home(FormationRepository $formationRepository,BlogRepository $blogRepository, CategoryRepository $categoryRepository): Response
     {
-        $blog = $blogRepository->findAll();
-        $category = $categoryRepository->findAll();
+        // Récupérer les 3 articles les plus récents pour la page d'accueil
+        $blog = $blogRepository->findRecentForHome(3);
+        
+        // Récupérer les catégories avec IA en premier
+        $allCategories = $categoryRepository->findAll();
+        $iaCategory = null;
+        $otherCategories = [];
+        
+        foreach ($allCategories as $cat) {
+            if ($cat->getName() === 'IA') {
+                $iaCategory = $cat;
+            } else {
+                $otherCategories[] = $cat;
+            }
+        }
+        
+        // Reorganiser avec IA en premier
+        $category = [];
+        if ($iaCategory) {
+            $category[] = $iaCategory;
+        }
+        $category = array_merge($category, $otherCategories);
+        
         $formations = $formationRepository->findAll();
 
         // Simule un tableau d'ID de catégories vers les chemins d'images
@@ -146,6 +213,11 @@ class HomeController extends AbstractController
         12 => 'AutresImage.jpeg',
         // Continue pour chaque catégorie que tu as
     ];
+    
+    // Ajouter dynamiquement l'image IA si la catégorie existe
+    if ($iaCategory) {
+        $categoryImages[$iaCategory->getId()] = 'IAImage.jpeg';
+    }
         
         return $this->render('home/home.html.twig', [
             'blog' => $blog,

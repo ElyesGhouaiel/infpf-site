@@ -1,4 +1,13 @@
 {
+    "doctrine/deprecations": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "87424683adc81d7dc305eefec1fced883084aab9"
+        }
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.11",
         "recipe": {
@@ -139,6 +148,15 @@
         "files": [
             "./config/packages/mailer.yaml"
         ]
+    },
+    "symfony/mailgun-mailer": {
+        "version": "6.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.4",
+            "ref": "addcb559b32d9dbb4843826b063565e1b15a2a57"
+        }
     },
     "symfony/maker-bundle": {
         "version": "1.55",

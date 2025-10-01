@@ -1,98 +1,763 @@
 {% extends 'base.html.twig' %}
 
-
-{% block title %}Formation
+{% block title %}Notre équipe pédagogique - INFPF
 {% endblock %}
+
 {% block stylesheets %}
-	<link href="../css/fichier.css" rel="stylesheet"/>
+	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
     <link href="../css/footer1.css" rel="stylesheet"/>
+	<style>
+		/* ===== VARIABLES CSS MODERNES ===== */
+		:root {
+			--primary-color: #0b3f89;
+			--primary-light: #1e5cb8;
+			--accent-color: #00b4d8;
+			--text-dark: #2d3748;
+			--text-light: #718096;
+			--white: #ffffff;
+			--bg-light: #f8fafc;
+			--bg-section: #fafbfc;
+			--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+			--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+			--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+			--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+			--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			--transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			--border-radius: 24px;
+		}
 
+		/* ===== RESET ET BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+			line-height: 1.6;
+			color: var(--text-dark);
+			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+		}
+
+		/* ===== HERO SECTION MODERNE ===== */
+		.equipe-hero-formation {
+			position: relative;
+			min-height: 45vh;
+			background: var(--primary-gradient);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 40px;
+		}
+
+		.equipe-hero-formation::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('{{ asset('img/8.png') }}') center center/cover;
+			background-repeat: no-repeat;
+			opacity: 0.08;
+			z-index: 1;
+		}
+
+		.equipe-hero-formation::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+			z-index: 2;
+		}
+
+		.equipe-hero-content {
+			position: relative;
+			z-index: 3;
+			color: white;
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.equipe-hero-title {
+			font-size: clamp(2.8rem, 6vw, 4.5rem);
+			font-weight: 800;
+			margin-bottom: 24px;
+			text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+			letter-spacing: -0.02em;
+		}
+
+		.equipe-hero-subtitle {
+			font-size: clamp(1.3rem, 3vw, 1.8rem);
+			font-weight: 400;
+			margin-bottom: 50px;
+			opacity: 0.95;
+			line-height: 1.4;
+		}
+
+		.equipe-hero-cta {
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: rgba(255, 255, 255, 0.15);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			backdrop-filter: blur(10px);
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			transition: var(--transition);
+			text-shadow: none;
+		}
+
+		.equipe-hero-cta:hover {
+			background: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			color: white;
+		}
+
+		/* ===== BREADCRUMBS MODERNES ===== */
+		.modern-breadcrumbs {
+			background: white;
+			padding: 20px 0;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		.breadcrumbs-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 40px;
+		}
+
+		.breadcrumbs-list {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 0.95rem;
+			color: var(--text-light);
+		}
+
+		.breadcrumbs-list a {
+			color: var(--primary-color);
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		.breadcrumbs-list a:hover {
+			color: var(--accent-color);
+		}
+
+		.breadcrumb-separator {
+			color: #cbd5e0;
+			font-weight: 600;
+		}
+
+		.breadcrumb-current {
+			color: var(--text-dark);
+			font-weight: 500;
+		}
+
+		/* ===== CONTAINER PRINCIPAL ===== */
+		.main-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 80px 40px;
+		}
+
+		/* ===== SECTIONS MODERNES ===== */
+		.equipe-modern-section {
+			margin-bottom: 80px;
+		}
+
+		.equipe-section-header {
+			text-align: center;
+			margin-bottom: 60px;
+		}
+
+		.equipe-section-title {
+			font-size: clamp(2.5rem, 4vw, 3.2rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 20px;
+			line-height: 1.2;
+		}
+
+		.equipe-section-subtitle {
+			font-size: 1.3rem;
+			color: var(--text-dark);
+			max-width: 900px;
+			margin: 0 auto;
+			line-height: 1.7;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+			padding: 36px 44px;
+			border-radius: 24px;
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			box-shadow: 0 6px 25px rgba(11, 63, 137, 0.08);
+		}
+
+
+		/* ===== ACCORDÉONS MODERNES ===== */
+		.equipe-team-section {
+			margin: 60px 0;
+		}
+
+		.equipe-team-item {
+			background: white;
+			border-radius: var(--border-radius);
+			margin-bottom: 24px;
+			overflow: hidden;
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.equipe-team-item:hover {
+			box-shadow: var(--shadow-medium);
+			transform: translateY(-4px);
+		}
+
+		.equipe-team-header {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.08) 0%, rgba(30, 92, 184, 0.06) 100%);
+			padding: 28px 36px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-weight: 700;
+			font-size: 1.35rem;
+			color: var(--primary-color);
+			transition: var(--transition);
+			border: none;
+			width: 100%;
+			text-align: left;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.equipe-team-header::before {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 3px;
+			background: var(--primary-gradient);
+			transform: scaleX(0);
+			transform-origin: left;
+			transition: transform 0.3s ease;
+		}
+
+		.equipe-team-header:hover {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.12) 0%, rgba(30, 92, 184, 0.08) 100%);
+			color: var(--primary-light);
+		}
+
+		.equipe-team-header:hover::before {
+			transform: scaleX(1);
+		}
+
+		.equipe-team-icon {
+			width: 28px;
+			height: 28px;
+			transition: var(--transition);
+			opacity: 0.8;
+		}
+
+		.equipe-team-item[open] .equipe-team-icon {
+			transform: rotate(180deg);
+			color: var(--accent-color);
+		}
+
+		.equipe-team-content {
+			padding: 40px;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.4) 0%, rgba(255, 255, 255, 0.9) 100%);
+		}
+
+		.equipe-team-content-flex {
+			display: grid;
+			grid-template-columns: 220px 1fr;
+			gap: 44px;
+			align-items: center;
+		}
+
+		.equipe-team-content-flex.reverse {
+			grid-template-columns: 1fr 220px;
+		}
+
+		.equipe-team-image {
+			width: 100%;
+			border-radius: 20px;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.15);
+			transition: var(--transition);
+		}
+
+		.equipe-team-image:hover {
+			transform: scale(1.05);
+			box-shadow: 0 12px 35px rgba(11, 63, 137, 0.2);
+		}
+
+		.equipe-team-description {
+			background: white;
+			padding: 28px;
+			border-radius: 16px;
+			box-shadow: 0 4px 15px rgba(11, 63, 137, 0.08);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+		}
+
+		.equipe-team-description p {
+			color: var(--text-dark);
+			line-height: 1.8;
+			margin-bottom: 18px;
+			font-size: 1.1rem;
+		}
+
+		.equipe-team-description p:last-child {
+			margin-bottom: 0;
+		}
+
+		/* ===== SERVICES GRID ===== */
+		.equipe-services-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+			gap: 44px;
+			margin: 70px 0;
+		}
+
+		.equipe-service-card {
+			background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+			padding: 44px;
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow-light);
+			border: 1px solid rgba(11, 63, 137, 0.1);
+			transition: var(--transition);
+		}
+
+		.equipe-service-card:hover {
+			transform: translateY(-8px);
+			box-shadow: var(--shadow-medium);
+		}
+
+		.equipe-service-icon {
+			width: 70px;
+			height: 70px;
+			background: var(--primary-gradient);
+			border-radius: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 28px;
+			color: white;
+			font-size: 28px;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+			transition: var(--transition);
+		}
+
+		.equipe-service-card:hover .equipe-service-icon {
+			transform: scale(1.1) rotate(5deg);
+			box-shadow: 0 12px 35px rgba(11, 63, 137, 0.3);
+		}
+
+		.equipe-service-card h3 {
+			font-size: 1.6rem;
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+			line-height: 1.3;
+		}
+
+		.equipe-service-card p {
+			color: var(--text-dark);
+			line-height: 1.7;
+			margin-bottom: 0;
+			font-size: 1.1rem;
+		}
+
+		/* ===== HIGHLIGHT SECTION ===== */
+		.equipe-highlight-section {
+			background: var(--primary-gradient);
+			padding: 80px 40px;
+			margin: 80px -40px;
+			border-radius: var(--border-radius);
+			color: white;
+			text-align: center;
+		}
+
+
+		.equipe-highlight-title {
+			font-size: clamp(2.2rem, 4vw, 3rem);
+			font-weight: 700;
+			margin-bottom: 28px;
+			color: white;
+			text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.equipe-highlight-content {
+			font-size: 1.3rem;
+			opacity: 0.95;
+			max-width: 900px;
+			margin: 0 auto;
+			line-height: 1.7;
+		}
+
+		.equipe-highlight-content p {
+			margin-bottom: 20px;
+		}
+
+		.equipe-highlight-content p:last-child {
+			margin-bottom: 0;
+		}
+
+		/* ===== BOUTONS MODERNES ===== */
+		.equipe-modern-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 14px;
+			background: var(--primary-gradient);
+			color: white;
+			padding: 18px 36px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			transition: var(--transition);
+			border: none;
+			cursor: pointer;
+			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.2);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.equipe-modern-button::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+			transition: left 0.6s ease;
+		}
+
+		.equipe-modern-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 12px 35px rgba(11, 63, 137, 0.3);
+			color: white;
+		}
+
+		.equipe-modern-button:hover::before {
+			left: 100%;
+		}
+
+		/* ===== BOUTON RETOUR HUB ===== */
+		.back-to-hub {
+			position: fixed;
+			top: 180px;
+			left: 30px;
+			z-index: 1000;
+		}
+
+		.back-hub-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+			color: white;
+			padding: 16px 24px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.95rem;
+			box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+			border: 1px solid rgba(255, 107, 53, 0.2);
+			transition: var(--transition);
+			backdrop-filter: blur(10px);
+		}
+
+		.back-hub-btn:hover {
+			background: linear-gradient(135deg, #e55a2b 0%, #e8841a 100%);
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+		}
+
+		.back-hub-btn svg {
+			width: 20px;
+			height: 20px;
+			transition: var(--transition);
+		}
+
+		.back-hub-btn:hover svg {
+			transform: translateX(-3px);
+		}
+
+		/* ===== RESPONSIVE DESIGN ===== */
+		@media (max-width: 1024px) {
+			.equipe-hero-formation {
+				min-height: 40vh;
+				padding: 30px 30px;
+			}
+
+			.main-container {
+				padding: 60px 30px;
+			}
+
+			.services-grid {
+				grid-template-columns: 1fr;
+				gap: 30px;
+			}
+
+			.equipe-team-content-flex {
+				grid-template-columns: 1fr;
+				gap: 30px;
+				text-align: center;
+			}
+
+			.equipe-team-content-flex.reverse {
+				grid-template-columns: 1fr;
+			}
+
+			.equipe-services-grid {
+				grid-template-columns: 1fr;
+				gap: 30px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.equipe-hero-formation {
+				min-height: 35vh;
+				padding: 25px 20px;
+			}
+
+			.equipe-hero-title {
+				font-size: clamp(2.2rem, 8vw, 3rem);
+				margin-bottom: 16px;
+			}
+
+			.equipe-hero-subtitle {
+				font-size: clamp(1.1rem, 4vw, 1.4rem);
+				margin-bottom: 30px;
+			}
+
+			.main-container,
+			.highlight-section {
+				padding: 0 20px;
+			}
+
+			.modern-section {
+				margin-bottom: 60px;
+			}
+
+			.equipe-section-header {
+				margin-bottom: 40px;
+			}
+
+			.equipe-service-card {
+				padding: 30px;
+			}
+
+			.equipe-team-content {
+				padding: 24px;
+			}
+
+			.equipe-team-header {
+				padding: 20px 24px;
+				font-size: 1.1rem;
+			}
+
+			.equipe-hero-cta {
+				padding: 16px 32px;
+				font-size: 1rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.equipe-hero-formation {
+				min-height: 30vh;
+				padding: 20px 16px;
+			}
+
+			.equipe-hero-title {
+				font-size: clamp(1.8rem, 8vw, 2.5rem);
+			}
+
+			.equipe-hero-subtitle {
+				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+
+			.main-container {
+				padding: 40px 16px;
+			}
+
+			.equipe-service-card {
+				padding: 24px;
+			}
+
+			.equipe-team-content {
+				padding: 20px;
+			}
+
+			.equipe-team-header {
+				padding: 18px 20px;
+				font-size: 1rem;
+			}
+
+			.equipe-hero-cta {
+				padding: 14px 28px;
+				font-size: 0.95rem;
+			}
+		}
+	</style>
 {% endblock %}
+
 {% block body %}
-	<img class="im" src="{{ asset('img/8.png') }}" alt="Nos formations à distance">
 
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut National de la Formation Professionnelle Française</a>
-				</span>
-				&gt;
-				<span>
-					<a href="https://www..fr/ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">Les équipes de l'Institut National de la Formation Professionnelle Française</span>
-			</span>
+<!-- Hero Section Moderne -->
+<section class="equipe-hero-formation">
+	<div class="equipe-hero-content">
+		<h1 class="equipe-hero-title">Notre Équipe Pédagogique</h1>
+		<p class="equipe-hero-subtitle">Des professionnels passionnés au service de votre réussite</p>
+		<a href="{{ path('redirectToCoachPersonnel') }}" class="equipe-hero-cta">
+			<span>Découvrir le coaching</span>
+		</a>
+	</div>
+</section>
+
+<!-- Breadcrumbs Modernes -->
+<!-- Bouton Retour vers le Hub -->
+<div class="back-to-hub">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		</svg>
+		<span>Retour à L'École</span>
+	</a>
+</div>
+
+<!-- Container Principal -->
+<main class="main-container">
+	
+	<!-- Introduction -->
+	<section class="equipe-modern-section">
+		<div class="equipe-section-header">
+			<p class="equipe-section-subtitle">À l'INFPF, nous comprenons que l'apprentissage à distance ne signifie pas apprendre seul. C'est pourquoi nous valorisons particulièrement l'accompagnement et le suivi pédagogique personnalisé pour chaque étudiant, afin de garantir non seulement leur réussite académique mais aussi leur épanouissement professionnel.</p>
 		</div>
-		<br>
-		<p>À l'INFPF, nous comprenons que l'apprentissage à distance ne signifie pas apprendre seul. C'est pourquoi nous valorisons particulièrement l'accompagnement et le suivi pédagogique personnalisé pour chaque étudiant, afin de garantir non seulement leur réussite académique mais aussi leur épanouissement professionnel.
-		</p>
-		<p>
-			<strong style="color: #0b3e6fd6;">Dès votre inscription, un premier rendez-vous est fixé avec votre coach personnel.</strong>
-			Ce dernier vous guide à travers les fonctionnalités de votre espace e-learning, vous aide à démarrer sur de bonnes bases et planifie des rencontres régulières pour suivre votre progression de manière personnalisée.</p>
-		<p>
-			<strong style="color: #0b3e6fd6;">Nos professeurs référents,</strong>
-			spécialistes dans leur domaine, sont à votre écoute pour répondre à toutes vos questions concernant les cours ou les corrections de vos devoirs. L’équipe dédiée au suivi des élèves veille à votre parcours administratif, s'occupant de tout, des conventions de stage à la livraison de votre matériel pédagogique.</p>
-		<p></p>
+	</section>
 
+	<!-- Section highlight -->
+	<section class="equipe-highlight-section">
+		<h2 class="equipe-highlight-title">Un accompagnement personnalisé dès le premier jour</h2>
+		<div class="equipe-highlight-content">
+			<p><strong>Dès votre inscription, un premier rendez-vous est fixé avec votre coach personnel.</strong> Ce dernier vous guide à travers les fonctionnalités de votre espace e-learning, vous aide à démarrer sur de bonnes bases et planifie des rencontres régulières pour suivre votre progression de manière personnalisée.</p>
+			<p><strong>Nos professeurs référents,</strong> spécialistes dans leur domaine, sont à votre écoute pour répondre à toutes vos questions concernant les cours ou les corrections de vos devoirs. L'équipe dédiée au suivi des élèves veille à votre parcours administratif, s'occupant de tout, des conventions de stage à la livraison de votre matériel pédagogique.</p>
+		</div>
+	</section>
 
-		<h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">L’équipe pédagogique</strong>
-		</h2>
-		<p>
-			<strong style="color: #0b3e6fd6;">L'équipe pédagogique de l'INFPF
-			</strong>se compose de professionnels passionnés, tous engagés dans la mission de vous aider à atteindre vos objectifs tout au long de votre formation.
-		</p>
-
-<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-    <summary>Les chefs de projets pédagogiques :</summary>
-    <div style="display: flex; align-items: center; justify-content: space-around;">
-        <img src="{{ asset('img/chef-pedago.png') }}" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
-        <div style="flex: 0 0 48%; max-width: 48%;">
+	<!-- L'équipe pédagogique -->
+	<section class="equipe-modern-section">
+		<div class="equipe-section-header">
+			<h2 class="equipe-section-title">L'équipe pédagogique</h2>
+			<p class="equipe-section-subtitle"><strong>L'équipe pédagogique de l'INFPF</strong> se compose de professionnels passionnés, tous engagés dans la mission de vous aider à atteindre vos objectifs tout au long de votre formation.</p>
+		</div>
+		
+		<div class="equipe-team-section">
+			<details class="equipe-team-item">
+				<summary class="equipe-team-header">
+					Les chefs de projets pédagogiques
+					<svg class="equipe-team-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</summary>
+				<div class="equipe-team-content">
+					<div class="equipe-team-content-flex">
+						<img src="{{ asset('img/chef-pedago.png') }}" alt="Chefs de projets pédagogiques" class="equipe-team-image" />
+						<div class="equipe-team-description">
             <p>Nos chefs de projets pédagogiques conçoivent des programmes d'apprentissage adaptés et innovants, en collaboration étroite avec des formateurs et des experts. Leur objectif est de vous fournir une formation efficace et pertinente, facilitant ainsi votre réussite professionnelle et personnelle.</p>
-            <p>Ces professionnels travaillent également en étroite collaboration avec nos professeurs et experts en e-learning pour élaborer des programmes pédagogiques de grande qualité et des méthodes d’apprentissages innovants.</p>
+							<p>Ces professionnels travaillent également en étroite collaboration avec nos professeurs et experts en e-learning pour élaborer des programmes pédagogiques de grande qualité et des méthodes d'apprentissages innovants.</p>
+						</div>
         </div>
     </div>
 </details>
 
-<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-    <summary>Les professeurs :</summary>
-    <div style="display: flex; align-items: center; justify-content: space-around;">
-        <div style="flex: 0 0 48%; max-width: 48%;">
+			<details class="equipe-team-item">
+				<summary class="equipe-team-header">
+					Les professeurs
+					<svg class="equipe-team-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</summary>
+				<div class="equipe-team-content">
+					<div class="equipe-team-content-flex reverse">
+						<div class="equipe-team-description">
             <p>Chaque professeur de l'INFPF détient une expertise unique et est dévoué à vous accompagner dans l'atteinte de vos objectifs éducatifs. Sélectionnés pour leur pédagogie et leur expérience professionnelle approfondie, ils sont à votre disposition pour toute question.</p>
         </div>
-        <img src="{{ asset('img/profess.png') }}" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
+						<img src="{{ asset('img/profess.png') }}" alt="Professeurs INFPF" class="equipe-team-image" />
+					</div>
     </div>
 </details>
 
-<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow">
-    <summary>Les coachs pédagogiques :</summary>
-    <div style="display: flex; align-items: center; justify-content: space-around;">
-        <img src="{{ asset('img/coach-pedagoo.png') }}" alt="Nos formations à distance" style="flex: 0 0 48%; max-width: 30%;">
-        <div style="flex: 0 0 48%; max-width: 48%;">
+			<details class="equipe-team-item">
+				<summary class="equipe-team-header">
+					Les coachs pédagogiques
+					<svg class="equipe-team-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+					</svg>
+				</summary>
+				<div class="equipe-team-content">
+					<div class="equipe-team-content-flex">
+						<img src="{{ asset('img/coach-pedagoo.png') }}" alt="Coachs pédagogiques" class="equipe-team-image" />
+						<div class="equipe-team-description">
             <p>Les coachs pédagogiques offrent un soutien sur mesure, s'adaptant aux besoins individuels de chaque étudiant. Ils sont là pour répondre à vos interrogations, vous conseiller et vous motiver tout au long de votre parcours.</p>
+						</div>
         </div>
     </div>
 </details>
+		</div>
+	</section>
 
-
-<div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap;    padding-top: 15px;">
-    <div style="flex: 0 0 48%; max-width: 48%;">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">Le service élèves</strong>
-        </h2>
+	<!-- Services -->
+	<div class="equipe-services-grid">
+		<div class="equipe-service-card">
+			<div class="equipe-service-icon">
+				<svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+				</svg>
+			</div>
+			<h3>Le service élèves</h3>
         <p>Le service élèves est spécialement conçu pour vous accompagner durant toute la durée de votre formation. Nos conseillers pédagogiques vous aident à choisir la formation adéquate, à élaborer votre projet professionnel et à répondre à vos questions concernant le déroulement de vos études.</p>
     </div>
 
-    <div style="flex: 0 0 48%; max-width: 48%;">
-        <h2 class="wp-block-heading has-text-color" style="color:#1e68b0">
-            <strong style="color: #0b3e6fd6;">L’équipe e-learning</strong>
-        </h2>
+		<div class="equipe-service-card">
+			<div class="equipe-service-icon">
+				<svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M20,18C20.5,18 21,17.5 21,17C21,16.5 20.5,16 20,16H4C3.5,16 3,16.5 3,17C3,17.5 3.5,18 4,18H20M21,5V7H3V5H21M21,11V13H3V11H21Z"/>
+				</svg>
+			</div>
+			<h3>L'équipe e-learning</h3>
         <p>L'équipe e-learning travaille sans relâche pour développer et améliorer nos outils de formation à distance, rendant l'apprentissage en ligne aussi efficace et interactif que possible. Grâce à leur expertise, l'espace élève INFPF Learning est en constante évolution pour mieux répondre à vos attentes.</p>
     </div>
 </div>
+
+	<!-- Call to action -->
+	<section class="equipe-modern-section">
+		<div class="equipe-section-header">
+			<a href="{{ path('app_home') }}" class="equipe-modern-button">
+				<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M3 13h8V3l10 9-10 9V11H3v2z"/>
+				</svg>
+				<span>Découvrir nos formations</span>
+			</a>
 	</div>
-	<!-- .entry-content -->
-</article>
-<!-- #post-35 --></main><!-- #main -->{% include 'footer.html.twig' %}</body></html>{% endblock %}
+	</section>
+
+</main>
+
+{% include 'footer.html.twig' %}
+{% endblock %}

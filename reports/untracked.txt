@@ -1,0 +1,69 @@
+-la
+-name .htaccess
+check_database.php
+composer.phar
+diagnostic_formulaire.sh
+docs/FORMATION_AUDIT_CORRECTIONS_SUMMARY.md
+docs/FORMATION_COMPLETE_REDESIGN.md
+docs/FORMATION_CONTENT_PIPELINE.md
+docs/FORMATION_CONTENT_PIPELINE_GUIDE.md
+docs/FORMATION_CORRECTIONS_CIBLEES_SUMMARY.md
+docs/FORMATION_CORRECTIONS_FINALES_SUMMARY.md
+docs/FORMATION_FIXES_MODERNIZATION.md
+docs/FORMATION_MODERNIZATION.md
+docs/FORMATION_TEMPLATE_CORRECTIONS_SUMMARY.md
+docs/FORMATION_TEMPLATE_V1_SUMMARY.md
+docs/FORMATION_TEXT_IMPROVEMENTS_SUMMARY.md
+docs/FORMATION_UI_UX_REDESIGN.md
+docs/STRIPE_DIAGNOSTIC_DETAILLE.md
+error_log
+formation.sql
+formation_query.sql
+h --force origin main
+h -u origin --all
+h -u origin main
+public/favicon.ico
+public/img/IAImage.jpeg
+public/img/Logo_infpf_bleu_site_onglet.png
+public/img/README_IA_Image.md
+public/img/logo_infpf blanc simple.png
+public/img/logo_infpf_blanc_simple.png
+public/img/notre-methode-apprentissage-bg.png
+public/test_form_simple.html
+public/uploads/images/Pourquoi-se-former-en-2025-68c937af6d6b7.jpg
+public/uploads/images/cybersecurite-68d15e6f52bc1.jpg
+public/uploads/images/finance-2-68ca834f26855.jpg
+public/uploads/images/images-68cd173d51245.jpg
+public/uploads/images/macroeconomie-68d1647911b00.jpg
+public/uploads/images/macroeconomie-68d16479cc634.jpg
+public/uploads/images/management-hybride-68da543a2df0e.jpg
+public/uploads/images/tendances-e-commerce-2021-68d157674ddf5.jpg
+public_html_git_full_2025-09-12_101858.bundle
+reports/diff.dirstat.txt
+reports/diff.name-status.txt
+reports/diff.numstat.tsv
+reports/diff.stat.txt
+reports/gh-auth-status.txt
+reports/git-remote.txt
+reports/git-user.email.txt
+reports/git-user.name.txt
+reports/last-commit.txt
+reports/status.porcelain.txt
+reports/untracked.txt
+s composer.json
+src/Command/CreateIACategoryCommand.php
+src/Command/MoveFormationsToIACommand.php
+src/Command/PublishScheduledBlogsCommand.php
+src/Controller/ContactController.php.backup
+src/Controller/EcoleController.php
+src/Entity/BlogSection.php
+src/Repository/BlogSectionRepository.php
+src/Service/NativeMailService.php
+src/Twig/TextFormatterExtension.php
+"t from main site - $(date)\" > ssh_test_main.txt"
+templates/content/blog/admin.html.twig
+templates/ecole/index.html.twig
+test_contact.php
+test_contact_form.php
+test_email_sending.php
+test_form.php

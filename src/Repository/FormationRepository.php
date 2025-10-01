@@ -26,10 +26,12 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findFormationsByCriteria(array $criteria): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('f');
+        $qb = $this->createQueryBuilder('f')
+            ->leftJoin('f.category', 'c')
+            ->addSelect('c');
 
         if (!empty($criteria['thematique'])) {
-            $qb->andWhere('f.category IN (:thematique)')
+            $qb->andWhere('IDENTITY(f.category) IN (:thematique)')
                ->setParameter('thematique', $criteria['thematique']);
         }
 
