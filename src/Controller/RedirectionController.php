@@ -10,15 +10,6 @@ use App\Repository\CategoryRepository;
 
 class RedirectionController extends AbstractController
 {
-    #[Route('/animaliers', name: 'redirectToAnimaliers')]
-    public function redirectToAnimaliers(FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
-    {
-        return $this->render('content/ecole/animaliers.html.twig', [
-            'category' => $categoryRepository->findAll(),
-            'formations' => $formationRepository->findAll(),
-        ]);
-    }
-
     #[Route('/INFPF-reference-datadock', name: 'redirectToINFPFReferenceDatadock')]
     public function redirectToINFPFReferenceDatadock(FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
     {

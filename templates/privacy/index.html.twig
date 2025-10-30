@@ -1,0 +1,332 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de Confidentialité et Cookies - INFPF{% endblock %}
+
+{% block body %}
+<style>
+.privacy-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    line-height: 1.8;
+}
+
+.privacy-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.privacy-header h1 {
+    font-size: 42px;
+    color: #0b3f89;
+    margin-bottom: 16px;
+}
+
+.privacy-header .last-update {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.privacy-section {
+    margin-bottom: 48px;
+}
+
+.privacy-section h2 {
+    font-size: 28px;
+    color: #0b3f89;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #e2e8f0;
+}
+
+.privacy-section h3 {
+    font-size: 22px;
+    color: #1e293b;
+    margin: 32px 0 16px 0;
+}
+
+.privacy-section p {
+    margin-bottom: 16px;
+    color: #475569;
+}
+
+.privacy-section ul, .privacy-section ol {
+    margin: 20px 0;
+    padding-left: 32px;
+    color: #475569;
+}
+
+.privacy-section li {
+    margin-bottom: 12px;
+}
+
+.highlight-box {
+    background: #f0f9ff;
+    border-left: 4px solid #0b3f89;
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 8px;
+}
+
+.highlight-box strong {
+    color: #0b3f89;
+}
+
+.cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+}
+
+.cookie-table th, .cookie-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.cookie-table th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.cookie-table tr:hover {
+    background: #f8fafc;
+}
+
+.contact-section {
+    background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.contact-section h2 {
+    color: white;
+    border: none;
+    margin-bottom: 16px;
+}
+
+.contact-section a {
+    color: white;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.btn-manage-cookies {
+    display: inline-block;
+    background: white;
+    color: #0b3f89;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 24px;
+    transition: all 0.3s ease;
+}
+
+.btn-manage-cookies:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+<div class="privacy-page">
+    <div class="privacy-header">
+        <h1>Politique de Confidentialité et Cookies</h1>
+        <p class="last-update">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
+    </div>
+
+    <div class="highlight-box">
+        <strong>Votre vie privée est importante pour nous.</strong>
+        <p>L'Institut National de la Formation Professionnelle Française (INFPF) s'engage à protéger vos données personnelles conformément au RGPD et à la loi Informatique et Libertés.</p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>1. Responsable du traitement</h2>
+        <p>
+            <strong>Institut National de la Formation Professionnelle Française (INFPF)</strong><br>
+            Siège social : [Votre adresse]<br>
+            Email : <a href="mailto:contact@infpf.fr">contact@infpf.fr</a><br>
+            Téléphone : [Votre téléphone]
+        </p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>2. Données collectées et finalités</h2>
+        
+        <h3>2.1. Données de navigation (avec consentement)</h3>
+        <p>Lorsque vous acceptez les cookies analytiques, nous collectons :</p>
+        <ul>
+            <li><strong>Pages visitées</strong> - Pour comprendre quels contenus vous intéressent</li>
+            <li><strong>Temps passé sur chaque page</strong> - Pour améliorer l'expérience utilisateur</li>
+            <li><strong>Profondeur de scroll</strong> - Pour identifier où les visiteurs arrêtent de lire</li>
+            <li><strong>Parcours de navigation</strong> - Pour optimiser l'architecture du site</li>
+            <li><strong>Type d'appareil et navigateur</strong> - Pour adapter le design</li>
+            <li><strong>Provenance du trafic</strong> - Pour mesurer l'efficacité de nos communications</li>
+            <li><strong>Adresse IP anonymisée</strong> - Seuls les 3 premiers octets sont conservés</li>
+        </ul>
+
+        <div class="highlight-box">
+            <strong>⚠️ Important :</strong> Nous N'enregistrons AUCUNE donnée de navigation sans votre consentement explicite. 
+            Les cookies nécessaires au fonctionnement du site (session, panier) ne nécessitent pas de consentement.
+        </div>
+
+        <h3>2.2. Données de contact (formulaires)</h3>
+        <p>Lorsque vous nous contactez ou demandez une documentation :</p>
+        <ul>
+            <li>Nom et prénom</li>
+            <li>Email</li>
+            <li>Numéro de téléphone</li>
+            <li>Formation(s) d'intérêt</li>
+        </ul>
+        <p><strong>Finalité :</strong> Répondre à vos demandes et vous fournir des informations sur nos formations.</p>
+
+        <h3>2.3. Données d'inscription</h3>
+        <p>Pour les inscriptions aux formations :</p>
+        <ul>
+            <li>Informations d'identité complètes</li>
+            <li>Données de paiement (traitées par Stripe, jamais stockées chez nous)</li>
+            <li>Historique de formation</li>
+        </ul>
+        <p><strong>Finalité :</strong> Gestion administrative et pédagogique de votre formation.</p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>3. Cookies utilisés</h2>
+        
+        <table class="cookie-table">
+            <thead>
+                <tr>
+                    <th>Cookie</th>
+                    <th>Type</th>
+                    <th>Durée</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>infpf_session</code></td>
+                    <td>Nécessaire</td>
+                    <td>Session</td>
+                    <td>Maintient votre session de navigation</td>
+                </tr>
+                <tr>
+                    <td><code>infpf_consent</code></td>
+                    <td>Nécessaire</td>
+                    <td>13 mois</td>
+                    <td>Mémorise vos préférences de cookies</td>
+                </tr>
+                <tr>
+                    <td><code>PHPSESSID</code></td>
+                    <td>Nécessaire</td>
+                    <td>Session</td>
+                    <td>Cookie de session Symfony</td>
+                </tr>
+                <tr>
+                    <td>Cookies analytiques</td>
+                    <td>Analytique</td>
+                    <td>13 mois</td>
+                    <td>Analyse de l'audience (avec consentement)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="privacy-section">
+        <h2>4. Base légale du traitement</h2>
+        <ul>
+            <li><strong>Consentement</strong> - Pour les cookies analytiques et marketing</li>
+            <li><strong>Exécution du contrat</strong> - Pour la gestion de votre formation</li>
+            <li><strong>Obligation légale</strong> - Pour la conservation des données comptables</li>
+            <li><strong>Intérêt légitime</strong> - Pour la sécurité du site et la lutte contre la fraude</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2>5. Durée de conservation</h2>
+        <ul>
+            <li><strong>Données de navigation :</strong> 25 mois maximum (conformité CNIL)</li>
+            <li><strong>Données de contact :</strong> 3 ans après le dernier contact</li>
+            <li><strong>Données de formation :</strong> Durée légale de conservation (comptabilité : 10 ans)</li>
+            <li><strong>Consentements cookies :</strong> 13 mois, puis redemande automatique</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2>6. Vos droits (RGPD)</h2>
+        <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+        <ul>
+            <li><strong>Droit d'accès</strong> - Obtenir une copie de vos données</li>
+            <li><strong>Droit de rectification</strong> - Corriger des données inexactes</li>
+            <li><strong>Droit à l'effacement</strong> - Supprimer vos données (sauf obligations légales)</li>
+            <li><strong>Droit à la limitation</strong> - Limiter le traitement de vos données</li>
+            <li><strong>Droit à la portabilité</strong> - Récupérer vos données dans un format structuré</li>
+            <li><strong>Droit d'opposition</strong> - Vous opposer au traitement de vos données</li>
+            <li><strong>Droit de retirer votre consentement</strong> - À tout moment pour les cookies</li>
+        </ul>
+        
+        <p>Pour exercer vos droits, contactez-nous à : <a href="mailto:dpo@infpf.fr">dpo@infpf.fr</a></p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>7. Sécurité des données</h2>
+        <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées :</p>
+        <ul>
+            <li>Chiffrement HTTPS pour toutes les communications</li>
+            <li>Anonymisation des adresses IP</li>
+            <li>Accès restreint aux données personnelles</li>
+            <li>Sauvegardes régulières et sécurisées</li>
+            <li>Formation de nos équipes à la protection des données</li>
+        </ul>
+    </div>
+
+    <div class="privacy-section">
+        <h2>8. Transferts de données</h2>
+        <p>Vos données peuvent être transmises à :</p>
+        <ul>
+            <li><strong>Stripe</strong> - Traitement des paiements (certifié PCI-DSS)</li>
+            <li><strong>Calendly</strong> - Prise de rendez-vous (conforme RGPD)</li>
+            <li><strong>Hébergeur</strong> - [Nom de votre hébergeur] (France/UE)</li>
+        </ul>
+        <p>Tous nos sous-traitants sont conformes au RGPD et situés dans l'Union Européenne ou disposent de garanties appropriées.</p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>9. Gestion des cookies</h2>
+        <p>Vous pouvez à tout moment modifier vos préférences de cookies :</p>
+        <button class="btn-manage-cookies" onclick="openCookieSettings()">
+            Gérer mes préférences de cookies
+        </button>
+        
+        <p style="margin-top: 24px;">Vous pouvez également configurer votre navigateur pour refuser tous les cookies, mais cela peut affecter certaines fonctionnalités du site.</p>
+    </div>
+
+    <div class="privacy-section">
+        <h2>10. Modifications de cette politique</h2>
+        <p>
+            Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. 
+            En cas de modification substantielle, nous vous en informerons par email ou par un bandeau sur le site.
+        </p>
+    </div>
+
+    <div class="contact-section">
+        <h2>Questions sur vos données ?</h2>
+        <p>
+            Pour toute question concernant vos données personnelles ou cette politique de confidentialité, 
+            n'hésitez pas à nous contacter :
+        </p>
+        <p>
+            <strong>Email :</strong> <a href="mailto:dpo@infpf.fr">dpo@infpf.fr</a><br>
+            <strong>Courrier :</strong> INFPF - Service Protection des Données, [Votre adresse]
+        </p>
+        <p style="margin-top: 24px; font-size: 14px; opacity: 0.9;">
+            Vous pouvez également introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank">www.cnil.fr</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+

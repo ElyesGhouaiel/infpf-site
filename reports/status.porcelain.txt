@@ -1,28 +1,32 @@
- M assets/bootstrap.js
+ M README.md
  M composer.json
  M composer.lock
- M config/metiers.yaml
- M config/packages/framework.yaml
- M config/packages/mailer.yaml
- M public/.htaccess
- M public/index.php
- M src/Controller/BlogController.php
+ M config/bundles.php
+ M config/services.yaml
+ M error_log
+ M public/css/fichier.css
+ M reports/status.porcelain.txt
  M src/Controller/ContactController.php
+ M src/Controller/EcoleController.php
+ M src/Controller/FormationController.php
  M src/Controller/HomeController.php
- M src/Controller/MetierController.php
- M src/Entity/Blog.php
- M src/Form/BlogType.php
- M src/Form/FormationType.php
- M src/Repository/BlogRepository.php
+ M src/Controller/RedirectionController.php
+ M src/Entity/Formation.php
+ M src/Entity/Message.php
+ M src/Form/CommentType.php
+ M src/Form/ContactFormType.php
+ M src/Form/RegistrationFormType.php
  M src/Repository/FormationRepository.php
- M src/Service/MailService.php
- M src/Service/MetierService.php
+ M src/Security/UserAuthenticator.php
  M symfony.lock
+ M templates/base.SAUVEGARDE_OK.twig
  M templates/base.html.twig
- M templates/content/blog/edit.html.twig
+ M templates/components/calendly_button.html.twig
+ M templates/components/modal.html.twig
  M templates/content/blog/index.html.twig
- M templates/content/blog/new.html.twig
  M templates/content/blog/show.html.twig
+ M templates/content/category/show.html.twig
+ M templates/content/contact/email.html.twig
  M templates/content/contact/index.html.twig
  M templates/content/ecole/certification-qaliopi-2.html.twig
  M templates/content/ecole/coach-personnel.html.twig
@@ -33,68 +37,66 @@
  M templates/content/ecole/notre-equipe-pedagogique.html.twig
  M templates/content/ecole/notre-methode-apprentissage.html.twig
  M templates/content/ecole/pourquoi-choisir-le-infpf.html.twig
+ M templates/content/footer/avis.html.twig
+ M templates/content/footer/guide.html.twig
+ M templates/content/formation/index.html.twig
  M templates/content/formation/show.html.twig
+ M templates/ecole/index.html.twig
  M templates/footer.html.twig
  M templates/home/formation.html.twig
  M templates/home/home.html.twig
  M templates/metiers/index.html.twig
  M templates/metiers/show.html.twig
-?? -la
-?? "-name .htaccess"
-?? check_database.php
-?? composer.phar
-?? diagnostic_formulaire.sh
-?? docs/FORMATION_AUDIT_CORRECTIONS_SUMMARY.md
-?? docs/FORMATION_COMPLETE_REDESIGN.md
-?? docs/FORMATION_CONTENT_PIPELINE.md
-?? docs/FORMATION_CONTENT_PIPELINE_GUIDE.md
-?? docs/FORMATION_CORRECTIONS_CIBLEES_SUMMARY.md
-?? docs/FORMATION_CORRECTIONS_FINALES_SUMMARY.md
-?? docs/FORMATION_FIXES_MODERNIZATION.md
-?? docs/FORMATION_MODERNIZATION.md
-?? docs/FORMATION_TEMPLATE_CORRECTIONS_SUMMARY.md
-?? docs/FORMATION_TEMPLATE_V1_SUMMARY.md
-?? docs/FORMATION_TEXT_IMPROVEMENTS_SUMMARY.md
-?? docs/FORMATION_UI_UX_REDESIGN.md
-?? docs/STRIPE_DIAGNOSTIC_DETAILLE.md
-?? error_log
-?? formation.sql
-?? formation_query.sql
-?? "h --force origin main"
-?? "h -u origin --all"
-?? "h -u origin main"
-?? public/favicon.ico
-?? public/img/IAImage.jpeg
-?? public/img/Logo_infpf_bleu_site_onglet.png
-?? public/img/README_IA_Image.md
-?? "public/img/logo_infpf blanc simple.png"
-?? public/img/logo_infpf_blanc_simple.png
-?? public/img/notre-methode-apprentissage-bg.png
-?? public/test_form_simple.html
-?? public/uploads/images/Pourquoi-se-former-en-2025-68c937af6d6b7.jpg
-?? public/uploads/images/cybersecurite-68d15e6f52bc1.jpg
-?? public/uploads/images/finance-2-68ca834f26855.jpg
-?? public/uploads/images/images-68cd173d51245.jpg
-?? public/uploads/images/macroeconomie-68d1647911b00.jpg
-?? public/uploads/images/macroeconomie-68d16479cc634.jpg
-?? public/uploads/images/management-hybride-68da543a2df0e.jpg
-?? public/uploads/images/tendances-e-commerce-2021-68d157674ddf5.jpg
+ M templates/registration/register.html.twig
+ M templates/security/login.html.twig
+?? ANALYTICS_PRO_UPGRADE.md
+?? IMPLEMENTATION_COMPLETE.md
+?? "Liens INFPF.docx"
+?? Semrush-Audit_de_site___Vue_d_ensemble-infpf_fr-7th_Oct_2025.pdf
+?? TEST_EXCLUSIONS.html
+?? config/ANALYTICS_SETUP.md
+?? config/analytics_config.php
+?? config/packages/karser_recaptcha3.yaml
+?? create_analytics_tables.sql
+?? fill_cpf_links.php
+?? public/ANALYTICS_SETUP.md
+?? public/TEST_EXCLUSIONS.html
+?? public/analytics-documentation.html
+?? public/css/bouton-scroll.css
+?? public/find-my-ip.php
+?? public/js/cookie-tracking.js
+?? public/uploads/images/1525467359689-68e8d465b94f2.jpg
+?? public/uploads/images/67c9df6daa2103711bbf29f2-future-webdesign-68e8c75eeb9e9.jpg
+?? public/uploads/images/7-dematUne-68e8c9782398e.jpg
+?? public/uploads/images/ChatGPT-Image-29-oct-2025-10-51-43-6901e3c50e230.png
+?? public/uploads/images/Productivite-68e381bfb0d95.jpg
+?? public/uploads/images/images-1-690106ec3830c.jpg
+?? public/uploads/images/images-2-69014528bb3db.jpg
+?? public/uploads/images/images-3-69014562339aa.jpg
+?? public/uploads/images/images-68e8c93a9d60f.jpg
+?? public/uploads/images/le-story-telling-sur-les-reseaux-sociaux-68e8cac83ad39.png
+?? public/uploads/images/telechargement-2-6900f0d0b190c.jpg
+?? public/uploads/images/telechargement-3-690144f6a0902.jpg
+?? public/uploads/images/telechargement-4-6901da39180f4.jpg
+?? public/uploads/images/telechargement-5-6901da60713a3.jpg
+?? public/uploads/images/telechargement-6-6901dba671653.jpg
+?? public/uploads/images/telechargement-6900f12fe2d2d.png
+?? public/uploads/images/telechargement-7-6901dbce39cde.jpg
+?? public/uploads/images/telechargement-8-6901e338351a4.jpg
 ?? public_html_git_full_2025-09-12_101858.bundle
-?? reports/
-?? "s composer.json"
-?? src/Command/CreateIACategoryCommand.php
-?? src/Command/MoveFormationsToIACommand.php
-?? src/Command/PublishScheduledBlogsCommand.php
-?? src/Controller/ContactController.php.backup
-?? src/Controller/EcoleController.php
-?? src/Entity/BlogSection.php
-?? src/Repository/BlogSectionRepository.php
-?? src/Service/NativeMailService.php
-?? src/Twig/TextFormatterExtension.php
-?? "t from main site - $(date)\" > ssh_test_main.txt"
-?? templates/content/blog/admin.html.twig
-?? templates/ecole/
-?? test_contact.php
-?? test_contact_form.php
-?? test_email_sending.php
-?? test_form.php
+?? src/Controller/AnalyticsCleanupController.php
+?? src/Controller/AnalyticsDashboardController.php
+?? src/Controller/CookieConsentController.php
+?? src/Controller/PrivacyPolicyController.php
+?? src/Controller/TestAnalyticsController.php
+?? src/Entity/Analytics.php
+?? src/Entity/AnalyticsEvent.php
+?? src/Entity/CookieConsent.php
+?? src/Repository/AnalyticsEventRepository.php
+?? src/Repository/AnalyticsRepository.php
+?? src/Repository/CookieConsentRepository.php
+?? src/Service/AnalyticsExclusionService.php
+?? templates/admin/
+?? templates/components/calendly_iframe.html.twig
+?? templates/components/cookie_banner.html.twig
+?? templates/privacy/

@@ -7,21 +7,25 @@
 			<link href="../css/fichier.css?v=59" rel="stylesheet"/>
 			<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
 			<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
+			<!-- CSS dédié bouton scroll - Force le positionnement correct -->
+			<link rel="stylesheet" href="{{ asset('css/bouton-scroll.css') }}?v={{ random() }}">
 
 		<!-- CSS de Bootstrap -->
 		
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta charset="utf-8"/>
 		{% block javascripts %}
+			{# Importmap désactivé pour éviter les erreurs 404 - Assets non compilés
 			{% block importmap %}
 				{{ importmap('app') }}
 			{% endblock %}
+			#}
 			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 			<script src="{{ asset('js/popup.js') }}"></script>
 		{% endblock %}
 
-		<!-- Calendly Integration -->
+	<!-- Calendly Integration - RÉACTIVÉ pour popup desktop -->
 		<link rel="preconnect" href="https://assets.calendly.com">
 		<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
 		
@@ -48,13 +52,13 @@
 			box-sizing: border-box !important;
 		}
 
-		/* ===== OVERRIDES SPÉCIFIQUES POUR ÉLIMINER CONFLITS ===== */
-		/* Neutralisation des styles de fichier.css pour le menu Formations */
+		/* ===== ANCIEN CSS SPÉCIFIQUE FORMATIONS - SUPPRIMÉ ===== */
+		/* Le menu Formations utilise maintenant le CSS standard des sous-menus */
+		/*
 		.header #menu .menu-item:nth-child(2) .sub-menu,
 		.header #menu .menu-item:nth-child(2) .sub-menu *,
 		.header #menu .menu-item:nth-child(2) .sub-menu li,
 		.header #menu .menu-item:nth-child(2) .sub-menu li a {
-			/* Reset complet des propriétés critiques */
 			float: none !important;
 			clear: none !important;
 			position: static !important;
@@ -64,14 +68,13 @@
 			bottom: auto !important;
 		}
 
-		/* Override pour le conteneur principal du menu Formations */
 		.header #menu .menu-item:nth-child(2) .sub-menu {
-			/* Force les propriétés critiques définies plus haut */
 			position: absolute !important;
 			left: 50% !important;
 			top: 100% !important;
 			transform: translateX(-50%) !important;
 		}
+		*/
 
 		/* ===== HEADER SIMPLE ===== */
 		.header {
@@ -83,8 +86,31 @@
 			padding-top: 0px;
 			background: #0b3f89;
 		}
+		
+		/* ===== VARIABLE CSS GLOBALE POUR HAUTEUR HEADER ===== */
+		:root {
+			--header-height: 80px; /* Valeur par défaut, sera mise à jour par JS */
+		}
+		
+		/* ===== SOLUTION UNIVERSELLE : TOUT LE CONTENU COMMENCE APRÈS LE HEADER ===== */
+		/* APPLIQUÉ SUR TOUS LES ÉCRANS (MOBILE ET DESKTOP) */
+		.site-main,
+		main,
+		.bandeau,
+		article,
+		.page-content {
+			padding-top: var(--header-height) !important;
+		}
+		
+		/* Reset sur body pour éviter double padding */
+		body {
+			padding-top: 0 !important;
+		}
 
-		/* ===== CATÉGORIE IA DANS LE MEGA MENU ===== */
+		/* ===== ANCIEN CSS DU MEGA-MENU FORMATIONS - SUPPRIMÉ ===== */
+		/* Le menu Formations utilise maintenant un sous-menu simple comme L'École et Métiers */
+		
+		/*
 		.formation-category-column.ia-category-menu .category-header {
 			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
 			color: #1a1a1a !important;
@@ -183,47 +209,33 @@
 			transform: translateX(4px) !important;
 		}
 
-		/* ===== MENU FORMATIONS - SOLUTION FINALE STABLE ===== */
-		
-		/* Conteneur parent stable */
+		/* ===== ANCIEN CSS MEGA-MENU - COMMENTÉ ===== */
+		/*
 		.header #menu .menu-item:nth-child(2) {
 			position: relative !important;
 		}
 
-		/* Menu principal - Positionnement et dimensions fixes */
 		.header #menu .menu-item:nth-child(2) .sub-menu {
-			/* État initial */
 			display: none !important;
-			
-			/* Positionnement robuste et centré */
 			position: absolute !important;
 			top: 100% !important;
 			left: 50% !important;
 			transform: translateX(-50%) !important;
-			
-			/* Dimensions calculées pour éviter tout débordement */
 			width: clamp(320px, 92vw, 1000px) !important;
 			max-width: calc(100vw - 40px) !important;
-			
-			/* Style visuel propre */
 			background: #ffffff !important;
 			border: 2px solid #0b3f89 !important;
 			border-radius: 6px !important;
 			box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
-			
-			/* Z-index et interactivité */
 			z-index: 9999 !important;
 			opacity: 1 !important;
 			visibility: visible !important;
 			pointer-events: all !important;
-			
-			/* Espacement interne optimal */
 			padding: 25px !important;
 			box-sizing: border-box !important;
 			overflow: visible !important;
 		}
 
-		/* Affichage au hover - Desktop uniquement */
 		@media (min-width: 769px) {
 			.header #menu .menu-item:nth-child(2):hover .sub-menu {
 				display: flex !important;
@@ -234,7 +246,6 @@
 			}
 		}
 
-		/* Responsive adaptatif */
 		@media (max-width: 1200px) {
 			.header #menu .menu-item:nth-child(2) .sub-menu {
 				width: clamp(300px, 94vw, 800px) !important;
@@ -250,7 +261,9 @@
 				gap: 10px !important;
 			}
 		}
-
+		*/
+		/* FIN DE L'ANCIEN CSS DU MEGA-MENU - CSS actif reprend ici */
+		
 		.header__container {
 			display: flex;
 			align-items: center;
@@ -322,9 +335,8 @@
 			background: rgba(255, 255, 255, 0.15);
 		}
 
-		/* ===== MENU FORMATIONS MEGA-MENU - VERSION FINALE ===== */
-		
-		/* Conteneur du menu formations */
+		/* ===== ANCIEN CSS DU MEGA-MENU FORMATIONS #2 - COMMENTÉ ===== */
+		/*
 		.header #menu .menu-formations-dropdown {
 			position: relative;
 		}
@@ -696,8 +708,9 @@
 			visibility: visible !important;
 		}
 		
-		/* Styles pour TOUS les menus simples (pas le menu formations) - Z-INDEX INFÉRIEUR */
-		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu {
+		/* ===== STYLES POUR TOUS LES SOUS-MENUS (L'École, Formations, Métiers, Blog, Admin) ===== */
+		/* Sous-menu Admin a son propre style défini plus bas */
+		.header #menu .menu-item .sub-menu {
 			position: absolute;
 			top: 100%;
 			left: 0;
@@ -710,18 +723,18 @@
 			z-index: 9000 !important;
 		}
 		
-		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li {
+		.header #menu .menu-item .sub-menu li {
 			border-bottom: 1px solid #c3c4c5;
 			width: 100%;
 			margin: 0;
 			padding: 0;
 		}
 		
-		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li:last-child {
+		.header #menu .menu-item .sub-menu li:last-child {
 			border-bottom: 0;
 		}
 		
-		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li a {
+		.header #menu .menu-item .sub-menu li a {
 			display: flex;
 			align-items: center;
 			text-transform: uppercase;
@@ -732,36 +745,220 @@
 			text-decoration: none;
 		}
 		
-		.header #menu .menu-item:not(.menu-formations-dropdown) .sub-menu li a:hover {
+		.header #menu .menu-item .sub-menu li a:hover {
 			color: #1e3e5d;
 		}
+		
+		/* ===== OVERRIDE SPÉCIFIQUE POUR MENU FORMATIONS (#menu-item-442808) ===== */
+		/* Force les mêmes couleurs que les autres sous-menus */
+		.header #menu #menu-item-442808 .sub-menu,
+		.header #menu li#menu-item-442808 .sub-menu,
+		body .header #menu #menu-item-442808 .sub-menu {
+			background: #eaeef0 !important;
+			color: #1e3e5d !important;
+		}
+		
+		.header #menu #menu-item-442808 .sub-menu li a,
+		.header #menu li#menu-item-442808 .sub-menu li a,
+		body .header #menu #menu-item-442808 .sub-menu li a {
+			color: #1e3e5d !important;
+			font-weight: 900 !important;
+			text-transform: uppercase !important;
+		}
+		
+		.header #menu #menu-item-442808 .sub-menu li a:hover,
+		.header #menu li#menu-item-442808 .sub-menu li a:hover,
+		body .header #menu #menu-item-442808 .sub-menu li a:hover {
+			color: #1e3e5d !important;
+		}
+		
+		/* ===== STYLE SPÉCIAL IA GOLD + BADGE NOUVEAU ===== */
+		.header #menu #menu-item-442808 .menu-item-ia-special {
+			background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 193, 7, 0.1) 100%) !important;
+			border-left: 4px solid #FFD700 !important;
+			border-radius: 4px !important;
+			margin: 0 0 4px 0 !important;
+			padding: 0 !important;
+		}
+		
+		.header #menu #menu-item-442808 .menu-item-ia-special a {
+			display: flex !important;
+			align-items: center !important;
+			justify-content: space-between !important;
+			gap: 10px !important;
+		}
+		
+		/* Texte IA en GOLD */
+		.header #menu .ia-gold-text {
+			background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important;
+			-webkit-background-clip: text !important;
+			-webkit-text-fill-color: transparent !important;
+			background-clip: text !important;
+			font-weight: 900 !important;
+			font-size: 16px !important;
+			letter-spacing: 0.5px !important;
+			text-transform: uppercase !important;
+			filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3)) !important;
+		}
+		
+		/* Badge NOUVEAU moderne et attractif */
+		.header #menu .badge-nouveau {
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			background: linear-gradient(135deg, #FF4757 0%, #FF6B6B 100%) !important;
+			color: white !important;
+			font-size: 9px !important;
+			font-weight: 800 !important;
+			padding: 4px 10px !important;
+			border-radius: 12px !important;
+			text-transform: uppercase !important;
+			letter-spacing: 0.8px !important;
+			box-shadow: 
+				0 4px 12px rgba(255, 71, 87, 0.4),
+				0 2px 6px rgba(255, 107, 107, 0.6),
+				inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+				inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+			border: 1px solid rgba(255, 255, 255, 0.4) !important;
+			animation: pulse-nouveau 2s ease-in-out infinite !important;
+			position: relative !important;
+			overflow: hidden !important;
+		}
+		
+		/* Animation pulse subtile pour NOUVEAU */
+		@keyframes pulse-nouveau {
+			0%, 100% {
+				box-shadow: 
+					0 4px 12px rgba(255, 71, 87, 0.4),
+					0 2px 6px rgba(255, 107, 107, 0.6),
+					inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+					inset 0 1px 2px rgba(255, 255, 255, 0.3);
+			}
+			50% {
+				box-shadow: 
+					0 6px 16px rgba(255, 71, 87, 0.6),
+					0 3px 8px rgba(255, 107, 107, 0.8),
+					inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+					inset 0 1px 2px rgba(255, 255, 255, 0.4);
+			}
+		}
+		
+		/* Effet brillant qui traverse le badge */
+		.header #menu .badge-nouveau::before {
+			content: '' !important;
+			position: absolute !important;
+			top: 0 !important;
+			left: -100% !important;
+			width: 50% !important;
+			height: 100% !important;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent) !important;
+			animation: shine-nouveau 3s ease-in-out infinite !important;
+		}
+		
+		@keyframes shine-nouveau {
+			0%, 100% {
+				left: -100%;
+			}
+			50% {
+				left: 150%;
+			}
+		}
+		
+		/* Hover sur la ligne IA complète */
+		.header #menu #menu-item-442808 .menu-item-ia-special:hover {
+			background: linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 193, 7, 0.2) 100%) !important;
+			transform: translateX(2px) !important;
+		}
+		
+		.header #menu #menu-item-442808 .menu-item-ia-special:hover .badge-nouveau {
+			transform: scale(1.05) !important;
+			box-shadow: 
+				0 6px 16px rgba(255, 71, 87, 0.5),
+				0 3px 8px rgba(255, 107, 107, 0.7),
+				inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+				inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
+		}
 
-		/* ===== FORMATIONS INDIVIDUELLES ÉLÉGANTES ===== */
+		/* ===== MENU ADMIN SPÉCIAL - STYLE MODERNE ET VISIBLE ===== */
+		.header #menu #menu-item-admin {
+			position: relative;
+		}
+		
+		.header #menu #menu-item-admin .sub-menu {
+			position: absolute !important;
+			top: 100% !important;
+			left: 0 !important;
+			right: auto !important;
+			background: linear-gradient(135deg, #0b3f89 0%, #1a5a9a 100%) !important;
+			padding: 16px 20px !important;
+			min-width: 280px !important;
+			border-radius: 12px !important;
+			border: none !important;
+			box-shadow: 0 12px 32px rgba(11, 63, 137, 0.35) !important;
+			z-index: 9500 !important;
+			margin-top: 0px !important;
+		}
+		
+		/* Zone invisible pour maintenir le hover actif */
+		.header #menu #menu-item-admin .sub-menu::before {
+			content: '' !important;
+			position: absolute !important;
+			top: -10px !important;
+			left: 0 !important;
+			right: 0 !important;
+			height: 10px !important;
+			background: transparent !important;
+		}
+		
+		.header #menu #menu-item-admin .sub-menu li {
+			border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+		
+		.header #menu #menu-item-admin .sub-menu li:last-child {
+			border-bottom: none !important;
+		}
+		
+		.header #menu #menu-item-admin .sub-menu li a {
+			display: flex !important;
+			align-items: center !important;
+			gap: 8px !important;
+			color: white !important;
+			font-weight: 600 !important;
+			font-size: 15px !important;
+			padding: 12px 8px !important;
+			text-decoration: none !important;
+			text-transform: none !important;
+			transition: all 0.3s ease !important;
+			border-radius: 6px !important;
+		}
+		
+		.header #menu #menu-item-admin .sub-menu li a:hover {
+			background: rgba(255, 255, 255, 0.15) !important;
+			color: white !important;
+			transform: translateX(4px) !important;
+		}
+
+		/* ===== ANCIEN CSS SOUS-SOUS-MENUS - COMMENTÉ (plus utilisé) ===== */
+		/*
 		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu {
-			/* Structure propre et lisible */
 			display: flex !important;
 			flex-direction: column !important;
 			position: static !important;
 			background: none !important;
-			
-			/* Espacement optimal */
 			padding: 6px 0 8px 0 !important;
 			margin-top: 6px !important;
 			gap: 2px !important;
-			
-			/* Containment naturel */
 			width: 100% !important;
 			box-sizing: border-box !important;
 			overflow: visible !important;
-			
-			/* Suppression effets inutiles */
 			border: none !important;
 			border-radius: 0 !important;
 			box-shadow: none !important;
 		}
 
 		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu li {
-			/* Éléments formation propres */
 			width: 100% !important;
 			margin: 0 0 2px 0 !important;
 			padding: 0 !important;
@@ -770,41 +967,27 @@
 		}
 
 		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu li a {
-			/* Affichage moderne et lisible */
 			display: block !important;
 			text-decoration: none !important;
-			
-			/* Style subtil et professionnel */
 			background: #f8f9fb !important;
 			border-radius: 4px !important;
 			border-left: 3px solid transparent !important;
-			
-			/* Typographie claire */
 			font-size: 12px !important;
 			font-weight: 500 !important;
 			color: #4a5568 !important;
 			line-height: 1.4 !important;
-			
-			/* Espacement équilibré */
 			padding: 7px 10px !important;
 			margin: 0 !important;
-			
-			/* Gestion texte avancée */
 			white-space: normal !important;
 			word-wrap: break-word !important;
 			overflow-wrap: break-word !important;
 			hyphens: auto !important;
-			
-			/* Contraintes flexibles */
 			width: 100% !important;
 			min-height: 30px !important;
 			box-sizing: border-box !important;
-			
-			/* Transition élégante */
 			transition: all 0.2s ease !important;
 		}
 
-		/* Hover élégant pour les formations */
 		.header #menu .menu-item:nth-child(2) .sub-menu .sub-menu li a:hover {
 			background: #e6f3ff !important;
 			color: #0b3f89 !important;
@@ -812,7 +995,6 @@
 			transform: translateX(3px) !important;
 		}
 
-		/* Bouton "Voir plus" moderne */
 		.header #menu .menu-item:nth-child(2) .sub-menu .see-more a {
 			background: #0b3f89 !important;
 			color: white !important;
@@ -834,6 +1016,7 @@
 			transform: translateY(-1px) !important;
 			box-shadow: 0 4px 8px rgba(11, 63, 137, 0.3) !important;
 		}
+		*/
 
 		/* ===== MENU MÉTIERS ULTRA-SPÉCIFIQUE - FORCE DROITE - PRIORITÉ ABSOLUE ===== */
 		.header #menu .menu-item:nth-child(3) .sub-menu,
@@ -1017,6 +1200,9 @@
 			background: #b5161c;
 		}
 
+		*/
+		/* FIN DE L'ANCIEN CSS DU MEGA-MENU #2 */
+		
 		/* ===== FIX PROBLÈME BOUTONS QUI DISPARAISSENT AU SCROLL ===== */
 		/* Override du CSS fichier.css qui cache les boutons INFPFlearning */
 		.header--scrolling .header__cta__INFPFlearning {
@@ -1026,8 +1212,7 @@
 		}
 
 		/* Assurer que les boutons restent visibles dans tous les états */
-		.header__cta__INFPFlearning,
-		.header__cta__doc {
+		.header__cta__INFPFlearning {
 			display: inline-block !important;
 		}
 
@@ -1713,20 +1898,22 @@
 		}
 
 		/* ===== CORRECTION PADDING MAIN POUR HEADER FIXE ===== */
+	/* DESKTOP : padding nécessaire pour le header fixe */
 		main.site-main {
 			padding-top: 120px !important; /* Augmenté pour compenser la hauteur du header */
 		}
 
 		/* Responsive padding */
-		@media (max-width: 1024px) {
+	@media (max-width: 1024px) and (min-width: 769px) {
 			main.site-main {
 				padding-top: 100px !important;
 			}
 		}
 
+	/* MOBILE : padding supprimé (géré par le bouton sommaire) */
 		@media (max-width: 768px) {
 			main.site-main {
-				padding-top: 80px !important;
+			padding-top: 0 !important;
 			}
 		}
 
@@ -2011,17 +2198,12 @@
 		
 		/* CORRECTION Z-INDEX: Quand le menu burger est ouvert, les filtres passent derrière */
 		body.menu-mobile-open .mobile-filter-toggle,
-		body.menu-mobile-open .mobile-filter-overlay,
 		body.menu-mobile-open .mobile-filter-panel {
 			z-index: 1 !important;
 			pointer-events: none !important;
 		}
 		
 		/* Mais quand les filtres sont ouverts normalement, ils passent au-dessus de la nav */
-		.mobile-filter-overlay.active {
-			z-index: 15000 !important;
-		}
-		
 		.mobile-filter-panel.active {
 			z-index: 15001 !important;
 		}
@@ -2188,10 +2370,6 @@
 			z-index: 900 !important;
 		}
 		
-		.mobile-filter-overlay {
-			z-index: 15000 !important;
-		}
-		
 		.mobile-filter-panel {
 			z-index: 15001 !important;
 		}
@@ -2331,16 +2509,6 @@
 				box-shadow: 0 2px 8px rgba(11, 63, 137, 0.15) !important;
 				color: #ffffff !important;
 			}
-			.menu-mobile-ctas .header__cta__doc {
-				background: linear-gradient(135deg, #d71a22 0%, #b5161c 100%) !important;
-				color: #fff !important;
-				border: 2px solid #d71a22 !important;
-			}
-			.menu-mobile-ctas .header__cta__doc:hover {
-				background: linear-gradient(135deg, #b5161c 0%, #9a1419 100%) !important;
-				transform: translateY(-2px) !important;
-				box-shadow: 0 6px 20px rgba(215, 26, 34, 0.4) !important;
-			}
 			.menu-mobile-ctas .header__cta__INFPFlearning {
 				background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%) !important;
 				color: #fff !important;
@@ -2437,6 +2605,20 @@
 			.header #menu .menu-item:nth-child(1) .sub-menu.sub-menu--active,
 			.header #menu .menu-item:nth-child(3) .sub-menu.sub-menu--active {
 				display: block !important;
+			}
+			
+			/* ===== FORCE ULTRA-SPÉCIFIQUE POUR MÉTIERS (PRIORITÉ MAXIMALE) ===== */
+			body .header #menu #menu-item-442839 .sub-menu.sub-menu--active,
+			html body .header #menu #menu-item-442839 .sub-menu.sub-menu--active,
+			.header #menu li#menu-item-442839 .sub-menu.sub-menu--active,
+			#menu-item-442839 .sub-menu.sub-menu--active {
+				display: block !important;
+				visibility: visible !important;
+				opacity: 1 !important;
+				height: auto !important;
+				max-height: none !important;
+				overflow: visible !important;
+				position: static !important;
 			}
 		}
 
@@ -2641,8 +2823,7 @@
 					<a href="{{ path('app_ecole_index') }}">L'École</a>
 					<ul class="sub-menu">
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442797" id="menu-item-442797">
-							<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">Nos formations à
-																																																																																																                    distance</a>
+							<a href="{{ path('redirectToFormationADistanceEtEnLigne') }}">Se former à distance</a>
 						</li>
 						<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442798" id="menu-item-442798">
 							<a href="{{ path('redirectToPourquoiChoisirLeInfpf') }}">Pourquoi choisir l'INFPF ?</a>
@@ -2682,10 +2863,10 @@
 																		</li> #}
 					</ul>
 				</li>
-				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-formations-dropdown" id="menu-item-442808">
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442808" id="menu-item-442808">
 					<a href="{{ path('app_home') }}">Formations</a>
-					<div class="formations-mega-menu">
-						{# IA en premier car "NOUVEAU" #}
+					<ul class="sub-menu">
+						{# IA en premier avec badge NOUVEAU #}
 						{% set iaCategory = null %}
 						{% set otherCategories = [] %}
 						{% for category in dataProvider.getCategories() %}
@@ -2696,114 +2877,29 @@
 							{% endif %}
 						{% endfor %}
 						
-						{# Afficher IA en premier #}
 						{% if iaCategory %}
-							<div class="formation-category-column ia-category-menu">
-								<h3 class="category-header">
-									<a href="{{ path('app_home', {'category_id': iaCategory.id}) }}">
-										<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-											<path d="M12 2L2 7l10 5 10-5-10-5z"/>
-											<path d="M2 17l10 5 10-5"/>
-											<path d="M2 12l10 5 10-5"/>
-										</svg>
-										{{ iaCategory.name }}
-									</a>
-									<span class="nouveau-badge">NOUVEAU</span>
-								</h3>
-							</div>
-										{% endif %}
+							<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-ia-special" id="menu-item-ia">
+								<a href="{{ path('app_home') }}?thematique%5B%5D={{ iaCategory.id }}">
+									<span class="ia-gold-text">{{ iaCategory.name }}</span>
+									<span class="badge-nouveau">NOUVEAU</span>
+								</a>
+							</li>
+						{% endif %}
 						
 						{# Afficher les autres catégories #}
 						{% for category in otherCategories %}
-							<div class="formation-category-column">
-								<h3 class="category-header">
-									<a href="{{ path('app_home', {'category_id': category.id}) }}">
-										{% if category.name|lower == 'finance' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<line x1="12" y1="1" x2="12" y2="23"/>
-												<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-											</svg>
-											{{ category.name }}
-										{% elseif category.name|lower == 'informatique' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<polyline points="16,18 22,12 16,6"/>
-												<polyline points="8,6 2,12 8,18"/>
-											</svg>
-											{{ category.name }}
-										{% elseif category.name|lower == 'management' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-												<circle cx="9" cy="7" r="4"/>
-												<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-												<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-											</svg>
-											{{ category.name }}
-										{% elseif category.name|lower == 'marketing' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<path d="M3 11l18-5v12L3 14v-3z"/>
-												<path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
-											</svg>
-											{{ category.name }}
-										{% elseif category.name|lower == 'design' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
-												<line x1="16" y1="8" x2="2" y2="22"/>
-												<line x1="17.5" y1="15" x2="9" y2="15"/>
-											</svg>
-											{{ category.name }}
-										{% elseif category.name|lower == 'administration' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-												<polyline points="14,2 14,8 20,8"/>
-												<line x1="16" y1="13" x2="8" y2="13"/>
-												<line x1="16" y1="17" x2="8" y2="17"/>
-												<polyline points="10,9 9,9 8,9"/>
-											</svg>
-											{{ category.name }}
-										{% elseif category.name|lower == 'vente' %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-												<line x1="3" y1="6" x2="21" y2="6"/>
-												<path d="M16 10a4 4 0 0 1-8 0"/>
-											</svg>
-											{{ category.name }}
-										{% else %}
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-												<circle cx="12" cy="12" r="3"/>
-												<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-											</svg>
-											{{ category.name }}
-									{% endif %}
-									</a>
-								</h3>
-							</div>
+							<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-{{ category.id }}">
+								<a href="{{ path('app_home') }}?thematique%5B%5D={{ category.id }}">{{ category.name }}</a>
+							</li>
 						{% endfor %}
-						<!-- Bouton "Voir toutes" en bas du menu -->
-						<div class="formation-category-column all-formations-link">
-							<h3 class="category-header">
-								<a href="{{ path('app_home') }}">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-										<path d="M3 6h18M3 12h18M3 18h18"/>
-									</svg>
-									Toutes les formations
-								</a>
-							</h3>
-						</div>
-					</div>
+						
+						<li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-all-formations">
+							<a href="{{ path('app_home') }}">Toutes les formations</a>
+						</li>
+					</ul>
 				</li>
 
-				{# <ul>
-																																																<li class="header-menu-asa menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442812" id="menu-item-442812">
-																																																
-																																																{% for category in categories %}<a href="./formations/metiers-animaliers/finance.html">{{ category.name }}</a>
-																																																           <ul class="sub-menu">
-																																																            {% for formation in formations %}
-																																																                {% if formation.category == category %}
-																																																                    <li>{{ formation.nameFormation }}</li>
-																																																                {% endif %}
-																																																            {% endfor %}
-																																																    {% endfor %}
-																																																</ul> #}
+{# Ancien code supprimé - lien cassé vers ./formations/metiers-animaliers/finance.html #}
 
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442839" id="menu-item-442839">
 					<a href="{{ path('app_metiers_index') }}">Métiers</a>
@@ -2846,11 +2942,30 @@
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-442851" id="menu-item-442851">
 					<a href="{{ path('app_contact')}}">Contact</a>
 				</li>
+				
+				{% if is_granted("ROLE_ADMIN") %}
+				<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children" id="menu-item-admin">
+					<a href="#">Admin</a>
+					<ul class="sub-menu">
+						<li class="menu-item">
+							<a href="{{ path('app_analytics_dashboard') }}">📊 Dashboard Analytics</a>
+						</li>
+						<li class="menu-item">
+							<a href="{{ path('app_analytics_diagnostic') }}">🔍 Diagnostic Analytics</a>
+						</li>
+						<li class="menu-item">
+							<a href="{{ path('app_analytics_diagnostic_bdd') }}">💾 Diagnostic Base de Données</a>
+						</li>
+						<li class="menu-item">
+							<a href="{{ path('app_blog_admin') }}">📝 Gestion Blog</a>
+						</li>
+					</ul>
+				</li>
+				{% endif %}
 
 		</ul>
 	</div>
 	<div class="menu-mobile-ctas" style="display:none">
-		<a class="header__cta header__cta__doc btn-documentation" href="#">Demande de documentation</a>
 		{% if app.user %}
 			<div class="mobile-user-info">
 				<span class="mobile-user-welcome">
@@ -2912,9 +3027,16 @@
 </main>
 
 <img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
+
+{# Banner de consentement cookies RGPD #}
+{% include 'components/cookie_banner.html.twig' %}
+
 </body>
 </html>
 <script src="{{ asset('js/popup.js') }}"></script>
+
+<!-- Système de tracking analytics conforme RGPD -->
+<script src="{{ asset('js/cookie-tracking.js') }}?v={{ 'now'|date('YmdHis') }}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -2951,8 +3073,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Fonction pour fermer le menu avec animation
   function closeMobileMenu() {
-    // Fermer tous les sous-menus ouverts (y compris le mega-menu)
-    document.querySelectorAll('.sub-menu--active, .formations-mega-menu.sub-menu--active').forEach(submenu => {
+    // Fermer tous les sous-menus ouverts
+    document.querySelectorAll('.sub-menu--active').forEach(submenu => {
       submenu.classList.remove('sub-menu--active');
       if (submenu.parentElement) {
         submenu.parentElement.classList.remove('clicked');
@@ -3043,14 +3165,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  // Scroll top button
+  // Scroll top button - Seuil réduit pour être visible plus tôt
   document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("btnScrollTop");
 
     if (!btn) return;
 
     window.addEventListener("scroll", function () {
-      btn.style.display = window.scrollY > 300 ? "block" : "none";
+      // Afficher dès 200px de scroll (au lieu de 300px)
+      btn.style.display = window.scrollY > 200 ? "block" : "none";
     });
 
     btn.addEventListener("click", function () {
@@ -3065,260 +3188,246 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.category-link').forEach(function (link) {
     link.addEventListener('click', function (e) {
       e.preventDefault();
-      const categoryId = this.getAttribute('href').split('category_id=')[1];
-      window.location.href = `{{ path('app_home') }}?category_id=${categoryId}`;
+      const categoryId = this.getAttribute('href').split('thematique%5B%5D=')[1];
+      window.location.href = `{{ path('app_home') }}?thematique%5B%5D=${categoryId}`;
     });
   });
 
-  // ===== SYSTÈME CALENDLY CENTRALISÉ ET OPTIMISÉ =====
-  window.CalendlyManager = {
-    config: {
-      defaultUrl: 'https://calendly.com/contact-infpf?locale=fr',
-      loadTimeout: 10000,
-      retryAttempts: 3
-    },
+  // ===== SOLUTION UNIVERSELLE : DÉFINIR LA VARIABLE CSS --header-height =====
+  // Cette variable est utilisée par TOUT le CSS pour positionner le contenu
+  function setHeaderHeightVariable() {
+    const header = document.querySelector('.header');
+    
+    if (!header) {
+      console.log('❌ Header non trouvé');
+      return;
+    }
+    
+    const headerHeight = header.offsetHeight;
+    
+    // Définir la variable CSS globale
+    document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
+    
+    console.log('✅ Variable CSS --header-height définie:', headerHeight + 'px');
+  }
+  
+  // Exécuter immédiatement si possible
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setHeaderHeightVariable);
+  } else {
+    setHeaderHeightVariable();
+  }
+  
+  // Réexécuter au chargement complet (au cas où le header change de taille)
+  window.addEventListener('load', setHeaderHeightVariable);
+  
+  // Réexécuter au redimensionnement (responsive)
+  let headerResizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(headerResizeTimeout);
+    headerResizeTimeout = setTimeout(setHeaderHeightVariable, 100);
+  });
 
-    // État du système
-    isLoaded: false,
-    isLoading: false,
-    loadPromise: null,
-    buttons: new Set(),
+  // ===== SCROLL TO TOP AUTOMATIQUE AU CHARGEMENT DE PAGE =====
+  // S'applique à TOUTES les pages du site pour une meilleure UX
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔝 Scroll to top au chargement de la page');
+    
+    // Défilement instantané vers le haut au chargement
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' // Instantané pour éviter l'animation au chargement
+    });
+    
+    // Alternative de secours pour les navigateurs qui ne supportent pas 'instant'
+    if (window.scrollY > 0) {
+      window.scrollTo(0, 0);
+    }
+  });
 
-    // Chargement optimisé de Calendly
-    async loadCalendly() {
-      if (this.isLoaded) return Promise.resolve();
-      if (this.loadPromise) return this.loadPromise;
+  // ===== SCROLL TO TOP LORS DES NAVIGATION (Turbo Drive / SPA) =====
+  // Détecte les changements de page via Turbo Drive (Symfony UX)
+  document.addEventListener('turbo:load', function() {
+    console.log('🔝 Scroll to top - Navigation Turbo');
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  });
 
-      this.isLoading = true;
-      this.loadPromise = new Promise((resolve, reject) => {
-        // Vérifier si déjà chargé
-        if (typeof window.Calendly !== 'undefined') {
-          this.isLoaded = true;
-          this.isLoading = false;
-          resolve();
-          return;
-        }
+  // ===== SCROLL TO TOP AVANT NAVIGATION =====
+  // S'assure que la page démarre en haut avant le chargement
+  document.addEventListener('turbo:before-visit', function() {
+    console.log('🔝 Scroll to top - Avant navigation');
+    window.scrollTo(0, 0);
+  });
 
-        // Timeout de sécurité
-        const timeout = setTimeout(() => {
-          this.isLoading = false;
-          reject(new Error('Timeout lors du chargement de Calendly'));
-        }, this.config.loadTimeout);
-
-        // Charger le script si pas déjà présent
-        let script = document.querySelector('script[src*="calendly.com"]');
-        if (!script) {
-          script = document.createElement('script');
+  // ===== CALENDLY POPUP WIDGET - RÉACTIVÉ pour desktop uniquement =====
+  // Charge le script Calendly si pas déjà chargé
+  if (!document.querySelector('script[src*="calendly.com/assets/external/widget.js"]')) {
+    const script = document.createElement('script');
           script.src = 'https://assets.calendly.com/assets/external/widget.js';
           script.async = true;
           document.head.appendChild(script);
-        }
-
-        // Attendre le chargement
-        const checkLoaded = () => {
-          if (typeof window.Calendly !== 'undefined') {
-            clearTimeout(timeout);
-            this.isLoaded = true;
-            this.isLoading = false;
-            resolve();
-          } else {
-            setTimeout(checkLoaded, 100);
-          }
-        };
-
-        script.onload = checkLoaded;
-        script.onerror = () => {
-          clearTimeout(timeout);
-          this.isLoading = false;
-          reject(new Error('Erreur lors du chargement de Calendly'));
-        };
-
-        // Si le script est déjà chargé
-        if (script.readyState === 'complete' || script.readyState === 'loaded') {
-          checkLoaded();
-        }
-      });
-
-      return this.loadPromise;
-    },
-
-    // Ouverture du popup avec gestion d'erreurs
-    async openPopup(url = null, button = null) {
-      const targetUrl = url || this.config.defaultUrl;
-      
-      // Animation de chargement
-      if (button) {
-        button.classList.add('loading');
-        button.setAttribute('aria-busy', 'true');
-      }
-
-      try {
-        await this.loadCalendly();
-        
-        if (typeof window.Calendly !== 'undefined' && window.Calendly.initPopupWidget) {
-          window.Calendly.initPopupWidget({ url: targetUrl });
-          
-          // Tracking (optionnel)
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'calendly_popup_opened', {
-              event_category: 'engagement',
-              event_label: targetUrl
-            });
-          }
-        } else {
-          throw new Error('Calendly non disponible');
-        }
-      } catch (error) {
-        console.error('Erreur Calendly:', error);
-        
-        // Fallback : redirection directe
-        const fallbackUrl = targetUrl.replace('?locale=fr', '') + (targetUrl.includes('?') ? '&' : '?') + 'embed_domain=' + encodeURIComponent(window.location.hostname);
-        window.open(fallbackUrl, '_blank', 'width=800,height=600');
-        
-        // Notification utilisateur (optionnel)
-        this.showNotification('Une nouvelle fenêtre s\'est ouverte pour la prise de rendez-vous.');
-      } finally {
-        // Retirer l'animation de chargement
-        if (button) {
-          button.classList.remove('loading');
-          button.setAttribute('aria-busy', 'false');
-        }
-      }
-    },
-
-    // Enregistrement des boutons
-    registerButton(button) {
-      if (this.buttons.has(button)) return;
-      
-      this.buttons.add(button);
-      
-      // Ajouter les attributs d'accessibilité
-      button.setAttribute('role', 'button');
-      button.setAttribute('aria-label', button.textContent + ' - Ouvre une nouvelle fenêtre');
-      button.setAttribute('aria-busy', 'false');
-      
-      button.addEventListener('click', async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const url = button.getAttribute('data-calendly-url') || button.dataset.calendlyUrl;
-        await this.openPopup(url, button);
-      });
-    },
-
-    // Auto-découverte des boutons
-    discoverButtons() {
-      const selectors = [
-        '.calendly-btn',
-        '[data-calendly-url]',
-        '.btn-calendly-contact',
-        '.btn-calendly-footer', 
-        '.btn-calendly-detail',
-        '.calendly-trigger',
-        '#cta-rdv'
-      ];
-      
-      selectors.forEach(selector => {
-        document.querySelectorAll(selector).forEach(button => {
-          this.registerButton(button);
-        });
-      });
-    },
-
-    // Notification simple
-    showNotification(message) {
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #0b3f89;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 6px;
-        z-index: 10000;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-
-      `;
-      notification.textContent = message;
-      
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
-    },
-
-    // Initialisation
-    init() {
-      // Précharger Calendly de manière asynchrone après le DOM
-      requestIdleCallback(() => {
-        this.loadCalendly().catch(console.warn);
-      });
-      
-      // Découverte initiale
-      this.discoverButtons();
-      
-      // Observer les nouveaux éléments (pour le contenu dynamique)
-      if (window.MutationObserver) {
-        const observer = new MutationObserver((mutations) => {
-          mutations.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-              if (node.nodeType === 1) { // Element node
-                // Vérifier si le nœud lui-même est un bouton Calendly
-                if (node.matches && node.matches('[data-calendly-url], .calendly-btn, .btn-calendly-contact, .btn-calendly-footer, .btn-calendly-detail, .calendly-trigger, #cta-rdv')) {
-                  this.registerButton(node);
-                }
-                // Chercher dans les enfants
-                node.querySelectorAll && node.querySelectorAll('[data-calendly-url], .calendly-btn, .btn-calendly-contact, .btn-calendly-footer, .btn-calendly-detail, .calendly-trigger, #cta-rdv').forEach(button => {
-                  this.registerButton(button);
-                });
-              }
-            });
-          });
-        });
-        
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
-      }
-    }
-  };
-
-
-
-  // Initialisation du système Calendly
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => CalendlyManager.init());
-  } else {
-    CalendlyManager.init();
+    console.log('✅ Script Calendly widget.js chargé pour popup desktop');
   }
 
-  // ===== FORCE MENU MÉTIERS POSITION DROITE =====
-  document.addEventListener('DOMContentLoaded', function() {
-    const menuMetiers = document.querySelector('#menu-item-442839 .sub-menu');
-    if (menuMetiers) {
-      // Force le positionnement côté droit du bouton (vers Blog)
-      menuMetiers.style.left = 'auto';
-      menuMetiers.style.right = '0';
-      console.log('✅ Menu Métiers forcé côté droit vers Blog');
-      
-      // Observer les changements de style
-      const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-            if (menuMetiers.style.right !== '0' || menuMetiers.style.left !== 'auto') {
-              menuMetiers.style.left = 'auto';
-              menuMetiers.style.right = '0';
-              console.log('🔧 Menu Métiers repositionné côté droit');
-            }
+  // ===== REDIRECTION + CHANGEMENT DE TEXTE MOBILE POUR TOUS LES BOUTONS CALENDLY =====
+  function redirectCalendlyMobile() {
+    const isMobile = window.innerWidth <= 768;
+    
+    // Cibler TOUS les boutons Calendly (plusieurs sélecteurs)
+    const calendlyLinks = document.querySelectorAll(
+      'a[href="#calendly-home"], ' +
+      'a[href*="calendly"], ' +
+      'a[data-calendly-url], ' +
+      'a.btn-calendly-mobile, ' +
+      'a.calendly-btn'
+    );
+    
+    console.log('🔍 Boutons Calendly trouvés:', calendlyLinks.length, 'Mobile:', isMobile);
+    
+    calendlyLinks.forEach(link => {
+      // CHANGER LE TEXTE sur mobile
+      if (isMobile) {
+        // Pour les boutons avec data-mobile-text
+        const mobileText = link.getAttribute('data-mobile-text');
+        if (mobileText) {
+          // Sauvegarder le texte original si pas déjà fait
+          if (!link.hasAttribute('data-original-text')) {
+            link.setAttribute('data-original-text', link.textContent.trim());
           }
-        });
+          link.textContent = mobileText;
+          console.log('✅ Texte changé:', mobileText);
+        }
+        
+        // Pour les contact-method (titre + description)
+        const title = link.querySelector('.contact-method-title');
+        const desc = link.querySelector('.contact-method-desc');
+        
+        if (title && title.hasAttribute('data-mobile-text')) {
+          if (!title.hasAttribute('data-original-text')) {
+            title.setAttribute('data-original-text', title.textContent.trim());
+          }
+          title.textContent = title.getAttribute('data-mobile-text');
+        }
+        if (desc && desc.hasAttribute('data-mobile-text')) {
+          if (!desc.hasAttribute('data-original-text')) {
+            desc.setAttribute('data-original-text', desc.textContent.trim());
+          }
+          desc.textContent = desc.getAttribute('data-mobile-text');
+        }
+      } else {
+        // RESTAURER le texte original sur desktop
+        const originalText = link.getAttribute('data-original-text');
+        if (originalText) {
+          link.textContent = originalText;
+        }
+        
+        const title = link.querySelector('.contact-method-title');
+        const desc = link.querySelector('.contact-method-desc');
+        
+        if (title && title.hasAttribute('data-original-text')) {
+          title.textContent = title.getAttribute('data-original-text');
+        }
+        if (desc && desc.hasAttribute('data-original-text')) {
+          desc.textContent = desc.getAttribute('data-original-text');
+        }
+      }
+      
+    });
+    
+    // AJOUTER event listeners pour redirection mobile / popup desktop
+    calendlyLinks.forEach(link => {
+      // Supprimer les anciens listeners (éviter les doublons)
+      const newLink = link.cloneNode(true);
+      link.parentNode.replaceChild(newLink, link);
+      
+      newLink.addEventListener('click', function(e) {
+        const isMobileClick = window.innerWidth <= 768;
+        
+        if (isMobileClick) {
+          // MOBILE : Redirection vers /contactez-nous
+        e.preventDefault();
+          e.stopPropagation();
+          console.log('🔄 Redirection mobile vers /contactez-nous');
+          window.location.href = '/contactez-nous';
+          return false;
+        } else {
+          // DESKTOP : Ouvrir popup Calendly avec accès direct au planning
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // URL Calendly avec accès direct au calendrier
+          const calendlyUrl = 'https://calendly.com/contact-infpf/contact-infpf?back=1&hide_event_type_details=1&hide_gdpr_banner=1&primary_color=0b3f89';
+        
+          console.log('📅 Ouverture popup Calendly desktop');
+          
+          // Attendre que le script soit chargé
+        if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
+            Calendly.initPopupWidget({ url: calendlyUrl });
+        } else {
+            // Fallback : attendre 500ms et réessayer
+            setTimeout(function() {
+              if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
+                Calendly.initPopupWidget({ url: calendlyUrl });
+              } else {
+                console.warn('⚠️ Calendly non chargé, ouverture dans nouvel onglet');
+                window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
+              }
+            }, 500);
+          }
+          
+          return false;
+        }
       });
-      observer.observe(menuMetiers, { attributes: true, attributeFilter: ['style'] });
+        });
+  }
+  
+  // Exécuter immédiatement et après chargement
+  redirectCalendlyMobile();
+  window.addEventListener('load', function() {
+    console.log('📄 Page chargée, re-exécution redirectCalendlyMobile');
+    redirectCalendlyMobile();
+  });
+  window.addEventListener('resize', redirectCalendlyMobile);
+
+  // ===== FORCE MENU MÉTIERS POSITION DROITE (DESKTOP UNIQUEMENT) =====
+  document.addEventListener('DOMContentLoaded', function() {
+    // UNIQUEMENT sur desktop (> 768px)
+    if (window.innerWidth > 768) {
+      const menuMetiers = document.querySelector('#menu-item-442839 .sub-menu');
+      if (menuMetiers) {
+        // Force le positionnement côté droit du bouton (vers Blog)
+        menuMetiers.style.left = 'auto';
+        menuMetiers.style.right = '0';
+        console.log('✅ Menu Métiers forcé côté droit vers Blog (DESKTOP)');
+        
+        // Observer les changements de style (DESKTOP UNIQUEMENT)
+        const observer = new MutationObserver(function(mutations) {
+          // Vérifier qu'on est toujours sur desktop
+          if (window.innerWidth <= 768) {
+            console.log('📱 Mobile détecté - Arrêt observer Métiers');
+            observer.disconnect();
+            return;
+          }
+          
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+              if (menuMetiers.style.right !== '0' || menuMetiers.style.left !== 'auto') {
+                menuMetiers.style.left = 'auto';
+                menuMetiers.style.right = '0';
+                console.log('🔧 Menu Métiers repositionné côté droit (DESKTOP)');
+              }
+            }
+          });
+        });
+        observer.observe(menuMetiers, { attributes: true, attributeFilter: ['style'] });
+      }
+    } else {
+      console.log('📱 Mobile détecté - Observer Métiers désactivé');
     }
   });
 
@@ -3484,80 +3593,225 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  // ===== SOUS-MENUS MOBILE SIMPLE ET FIABLE =====
-  if (window.innerWidth <= 768) {
-    
-    // Fonction simple pour toggle un sous-menu
-    function toggleSubmenu(parentLi, submenu) {
-      var isOpen = submenu.classList.contains('sub-menu--active');
-      
-      // Fermer TOUS les sous-menus d'abord
-      document.querySelectorAll('#menu .sub-menu, #menu .formations-mega-menu').forEach(function(s) {
-        s.classList.remove('sub-menu--active');
-        if (s.parentElement) {
-          s.parentElement.classList.remove('clicked');
-        }
-      });
-      
-      // Si ce sous-menu était fermé, l'ouvrir
-      if (!isOpen) {
-        submenu.classList.add('sub-menu--active');
-        parentLi.classList.add('clicked');
-      }
+// ===== SOUS-MENUS MOBILE ULTRA-ROBUSTE - CAPTURE PHASE =====
+
+// Fonction simple pour toggle un sous-menu
+function toggleSubmenu(parentLi, submenu) {
+  console.log('🔄 Toggle sous-menu:', parentLi.id);
+  var isOpen = submenu.classList.contains('sub-menu--active');
+  
+  // Fermer TOUS les sous-menus d'abord
+  document.querySelectorAll('#menu .sub-menu').forEach(function(s) {
+    s.classList.remove('sub-menu--active');
+    if (s.parentElement) {
+      s.parentElement.classList.remove('clicked');
     }
-    
-    // Gérer L'École
-    var ecoleLink = document.querySelector('#menu-item-442796 > a');
-    if (ecoleLink) {
-      ecoleLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        var parentLi = this.parentElement;
-        var submenu = parentLi.querySelector('.sub-menu');
-        if (submenu) {
-          toggleSubmenu(parentLi, submenu);
-        }
-      });
-    }
-    
-    // Gérer Formations (mega-menu)
-    var formationsLink = document.querySelector('#menu-item-442808 > a');
-    if (formationsLink) {
-      formationsLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        var parentLi = this.parentElement;
-        var submenu = parentLi.querySelector('.formations-mega-menu');
-        if (submenu) {
-          toggleSubmenu(parentLi, submenu);
-        }
-      });
-    }
-    
-    // Gérer Métiers
-    var metiersLink = document.querySelector('#menu-item-442839 > a');
-    if (metiersLink) {
-      metiersLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        var parentLi = this.parentElement;
-        var submenu = parentLi.querySelector('.sub-menu');
-        if (submenu) {
-          toggleSubmenu(parentLi, submenu);
-        }
-      });
-    }
-    
-    // Gérer Information
-    var infoLink = document.querySelector('#menu-item-461428 > a');
-    if (infoLink) {
-      infoLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        var parentLi = this.parentElement;
-        var submenu = parentLi.querySelector('.sub-menu');
-        if (submenu) {
-          toggleSubmenu(parentLi, submenu);
-        }
-      });
-    }
+  });
+  
+  // Si ce sous-menu était fermé, l'ouvrir
+  if (!isOpen) {
+    submenu.classList.add('sub-menu--active');
+    parentLi.classList.add('clicked');
+    console.log('✅ Sous-menu ouvert:', parentLi.id);
+  } else {
+    console.log('❌ Sous-menu fermé:', parentLi.id);
   }
-});
+}
+
+// Fonction ULTRA-ROBUSTE pour vérifier si on est sur mobile
+function isMobileDevice() {
+  // Méthode 1: Largeur d'écran
+  var widthCheck = window.innerWidth <= 768;
+  
+  // Méthode 2: Menu burger visible
+  var burgerCheck = false;
+  var burger = document.querySelector('.header__menu-burger');
+  if (burger) {
+    var burgerStyle = window.getComputedStyle(burger);
+    burgerCheck = burgerStyle.display !== 'none';
+  }
+  
+  // Méthode 3: Menu burger actif
+  var activeCheck = document.querySelector('.header__menu-burger--active') !== null || 
+                    document.querySelector('.header--active') !== null;
+  
+  // Méthode 4: User Agent (fallback)
+  var uaCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  var result = widthCheck || burgerCheck || activeCheck || (uaCheck && window.innerWidth <= 1024);
+  console.log('📱 isMobile?', result, {width: widthCheck, burger: burgerCheck, active: activeCheck, ua: uaCheck});
+  return result;
+}
+
+// INSTALLER LES EVENT LISTENERS IMMÉDIATEMENT (PHASE DE CAPTURE)
+function installMobileMenuHandlers() {
+  console.log('🔧 Installation des gestionnaires mobile...');
+  
+  // Fonction générique pour gérer un menu avec sous-menu
+  function handleMenuClick(e, menuId, submenuSelector) {
+    if (isMobileDevice()) {
+      console.log('📱 Click détecté sur menu mobile:', menuId);
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      
+      var link = e.currentTarget || e.target;
+      var parentLi = link.closest('li');
+      
+      if (!parentLi) {
+        console.error('❌ Parent LI non trouvé');
+        return false;
+      }
+      
+      var submenu = parentLi.querySelector(submenuSelector);
+      if (submenu) {
+        toggleSubmenu(parentLi, submenu);
+      } else {
+        console.error('❌ Sous-menu non trouvé:', submenuSelector);
+      }
+      
+      return false;
+    }
+    return true;
+  }
+  
+  // Gérer L'École - TRIPLE PROTECTION
+  var ecoleLink = document.querySelector('#menu-item-442796 > a');
+  if (ecoleLink) {
+    console.log('✅ Installation gestionnaire L\'École');
+    
+    // Protection 1: Capture phase (priorité maximale)
+    ecoleLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-442796', '.sub-menu');
+    }, true);
+    
+    // Protection 2: Bubble phase (standard)
+    ecoleLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-442796', '.sub-menu');
+    }, false);
+    
+    // Protection 3: TouchStart (mobile natif)
+    ecoleLink.addEventListener('touchstart', function(e) {
+      if (isMobileDevice()) {
+        console.log('👆 TouchStart sur L\'École');
+        // Marquer le lien comme "traité par touch"
+        ecoleLink.dataset.touched = 'true';
+      }
+    }, {passive: true});
+    
+  } else {
+    console.error('❌ Lien L\'École non trouvé');
+  }
+  
+  // Gérer Métiers - QUADRUPLE PROTECTION (+ SPÉCIFIQUE)
+  var metiersLink = document.querySelector('#menu-item-442839 > a');
+  if (metiersLink) {
+    console.log('✅ Installation gestionnaire Métiers (SPÉCIAL)');
+    
+    // Protection 1: Capture phase (ULTRA priorité)
+    metiersLink.addEventListener('click', function(e) {
+      if (isMobileDevice()) {
+        console.log('📱🔴 CLICK MÉTIERS INTERCEPTÉ (CAPTURE)');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        
+        var parentLi = document.getElementById('menu-item-442839');
+        var submenu = parentLi ? parentLi.querySelector('.sub-menu') : null;
+        
+        if (submenu) {
+          console.log('🔄 Toggle Métiers (submenu trouvé)');
+          toggleSubmenu(parentLi, submenu);
+        } else {
+          console.error('❌ Sous-menu Métiers introuvable');
+        }
+        return false;
+      }
+    }, true);
+    
+    // Protection 2: Bubble phase
+    metiersLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-442839', '.sub-menu');
+    }, false);
+    
+    // Protection 3: TouchStart
+    metiersLink.addEventListener('touchstart', function(e) {
+      if (isMobileDevice()) {
+        console.log('👆 TouchStart sur Métiers');
+        metiersLink.dataset.touched = 'true';
+      }
+    }, {passive: true});
+    
+    // Protection 4: MouseDown (si touch échoue)
+    metiersLink.addEventListener('mousedown', function(e) {
+      if (isMobileDevice()) {
+        console.log('🖱️ MouseDown sur Métiers (mobile)');
+      }
+    }, false);
+    
+  } else {
+    console.error('❌ Lien Métiers non trouvé');
+  }
+  
+  // Gérer Formations - TRIPLE PROTECTION
+  var formationsLink = document.querySelector('#menu-item-442808 > a');
+  if (formationsLink) {
+    console.log('✅ Installation gestionnaire Formations');
+    
+    formationsLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-442808', '.sub-menu');
+    }, true);
+    
+    formationsLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-442808', '.sub-menu');
+    }, false);
+    
+    formationsLink.addEventListener('touchstart', function(e) {
+      if (isMobileDevice()) {
+        console.log('👆 TouchStart sur Formations');
+        formationsLink.dataset.touched = 'true';
+      }
+    }, {passive: true});
+    
+  } else {
+    console.error('❌ Lien Formations non trouvé');
+  }
+  
+  // Gérer Information - TRIPLE PROTECTION
+  var infoLink = document.querySelector('#menu-item-461428 > a');
+  if (infoLink) {
+    console.log('✅ Installation gestionnaire Information');
+    
+    infoLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-461428', '.sub-menu');
+    }, true);
+    
+    infoLink.addEventListener('click', function(e) {
+      return handleMenuClick(e, 'menu-item-461428', '.sub-menu');
+    }, false);
+    
+    infoLink.addEventListener('touchstart', function(e) {
+      if (isMobileDevice()) {
+        console.log('👆 TouchStart sur Information');
+        infoLink.dataset.touched = 'true';
+      }
+    }, {passive: true});
+  }
+  
+  console.log('✅ Tous les gestionnaires mobiles installés');
+}
+
+// INSTALLATION IMMÉDIATE - Ne pas attendre DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', installMobileMenuHandlers);
+} else {
+  // DOM déjà chargé, installer immédiatement
+  installMobileMenuHandlers();
+}
+
+// Réinstaller après un délai (sécurité)
+setTimeout(function() {
+  console.log('🔄 Réinstallation des gestionnaires (sécurité)');
+  installMobileMenuHandlers();
+}, 500);
 </script>

@@ -38,6 +38,13 @@
 			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
 		}
 
+		/* ===== JUSTIFICATION GLOBALE DES PARAGRAPHES ===== */
+		p {
+			text-align: justify !important;
+			-webkit-hyphens: auto !important;
+			hyphens: auto !important;
+		}
+
 		/* ===== HERO SECTION MODERNE ===== */
 		.methode-hero-formation {
 			position: relative;
@@ -49,7 +56,15 @@
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			padding: 40px 40px;
+			padding: 100px 40px 40px 40px;
+			margin-top: 0;
+		}
+		
+		/* Sur mobile : compenser le header fixe avec la variable --header-height */
+		@media (max-width: 768px) {
+			.methode-hero-formation {
+				padding-top: calc(var(--header-height) + 20px) !important;
+			}
 		}
 
 		.methode-hero-formation::before {
@@ -95,7 +110,7 @@
 		.methode-hero-subtitle {
 			font-size: clamp(1.5rem, 3.5vw, 2.1rem);
 			font-weight: 400;
-			margin-bottom: 50px;
+			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
 		}
@@ -501,7 +516,7 @@
 		/* ===== BOUTON RETOUR HUB ===== */
 		.back-to-hub {
 			position: fixed;
-			top: 180px;
+			bottom: 30px;
 			left: 30px;
 			z-index: 1000;
 		}
@@ -537,14 +552,28 @@
 		}
 
 		.back-hub-btn:hover svg {
-			transform: translateX(-3px);
+			transform: scale(1.1);
 		}
 
 		/* ===== RESPONSIVE DESIGN ===== */
 		@media (max-width: 1024px) {
-			.hero-formation {
+			.back-to-hub {
+				bottom: 25px;
+				left: 20px;
+			}
+			
+			.back-hub-btn {
+				padding: 14px 20px;
+				font-size: 0.9rem;
+			}
+		
+			.hero-formation, .methode-hero-formation {
 				min-height: 40vh;
-				padding: 30px 30px;
+				padding: 80px 30px 30px 30px;
+			}
+			
+			.methode-hero-subtitle {
+				margin-bottom: 28px;
 			}
 
 			.methode-section-row {
@@ -577,9 +606,32 @@
 		}
 
 		@media (max-width: 768px) {
-			.hero-formation {
+			.back-to-hub {
+				bottom: 20px;
+				left: 15px;
+			}
+			
+			.back-hub-btn {
+				padding: 12px 16px;
+				font-size: 0.85rem;
+			}
+			
+			.back-hub-btn span {
+				display: none;
+			}
+			
+			.back-hub-btn svg {
+				width: 18px;
+				height: 18px;
+			}
+		
+			.hero-formation, .methode-hero-formation {
 				min-height: 35vh;
-				padding: 25px 20px;
+				padding: 70px 20px 25px 20px;
+			}
+			
+			.methode-hero-subtitle {
+				margin-bottom: 24px;
 			}
 
 			.methode-hero-title {
@@ -638,9 +690,13 @@
 		}
 
 		@media (max-width: 480px) {
-			.hero-formation {
+			.hero-formation, .methode-hero-formation {
 				min-height: 30vh;
-				padding: 20px 16px;
+				padding: 60px 16px 20px 16px;
+			}
+			
+			.methode-hero-subtitle {
+				margin-bottom: 20px;
 			}
 
 			.methode-hero-title {
@@ -704,8 +760,8 @@
 <!-- Bouton Retour vers le Hub -->
 <div class="back-to-hub">
 	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		<svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+			<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
 		</svg>
 		<span>Retour à L'École</span>
 	</a>

@@ -29,11 +29,21 @@
 
 {% block body %}
 <main class="site-main metier-page-ef">
-    <!-- Hero avec bouton retour intégré -->
+    <!-- Barre de navigation secondaire fixe (mobile uniquement) -->
+    <nav class="metier-nav-bar-ef" aria-label="Navigation métier">
+        <a href="{{ path('app_metiers_index') }}" class="metier-nav-back-ef">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Tous les métiers</span>
+        </a>
+    </nav>
+    
+    <!-- Hero avec bouton retour intégré (desktop uniquement) -->
     <section class="hero-metier-ef">
         <div class="hero-background-ef"></div>
         <div class="container">
-            <!-- Bouton retour - Position corrigée -->
+            <!-- Bouton retour - Desktop uniquement -->
             <div class="back-navigation-ef">
                 <a href="{{ path('app_metiers_index') }}" class="btn-back-ef">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -396,7 +406,7 @@
                 </p>
                 <div class="cta-actions-ef">
                     <a href="{{ path('app_contact') }}" class="btn-cta-primary-ef">
-                        <span>Conseil gratuit immediat</span>
+                        <span>📞 Je réserve mon appel gratuit</span>
                     </a>
                     <a href="{{ path('app_home') }}" class="btn-cta-secondary-ef">
                         <span>Voir toutes nos formations</span>
@@ -432,9 +442,9 @@
 
 /* Variables CSS personnalisées */
 :root {
-    --ef-primary: #1E40AF;         /* Bleu principal */
-    --ef-secondary: #3B82F6;       /* Bleu secondaire */
-    --ef-accent: #06B6D4;          /* Cyan accent */
+    --ef-primary: #0b3f89;         /* Bleu principal INFPF */
+    --ef-secondary: #1e5cb8;       /* Bleu secondaire INFPF */
+    --ef-accent: #00b4d8;          /* Cyan accent */
     --ef-dark: #1F2937;            /* Gris foncé texte */
     --ef-gray: #6B7280;            /* Gris moyen */
     --ef-light-gray: #9CA3AF;      /* Gris clair */
@@ -442,7 +452,7 @@
     --ef-bg-white: #FFFFFF;        /* Blanc pur */
     --ef-border: #E5E7EB;          /* Bordures */
     --ef-success: #10B981;         /* Vert succès */
-    --ef-gradient: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+    --ef-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
     --ef-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --ef-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
@@ -469,10 +479,8 @@ body {
     transform: translateZ(0); /* Force GPU rendering */
 }
 
-/* Base - suppression forcée des marges/paddings + optimisations */
+/* Base - optimisations */
 main.metier-page-ef {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
     overflow-x: hidden;
     font-family: 'Inter', sans-serif;
     /* Optimisations scroll */
@@ -481,10 +489,128 @@ main.metier-page-ef {
     transform: translateZ(0); /* Force GPU */
 }
 
+/* Sur desktop : pas de padding */
+@media (min-width: 769px) {
+    main.metier-page-ef {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* PADDING-TOP AJUSTÉ POUR LES PAGES MÉTIERS */
+/* Un petit padding-top pour éviter que ce soit trop collé (desktop ET mobile) */
+.site-main,
+main,
+.bandeau,
+article,
+.page-content {
+    padding-top: 20px !important; /* Petit padding pour tous les écrans */
+}
+
+main.metier-page-ef {
+    padding-top: 20px !important; /* Même padding petit */
+    margin-top: 0 !important;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
+}
+
+/* ===== BARRE DE NAVIGATION MOBILE MODERNE ===== */
+/* Design inspiré iOS/Android - Optimisé pour mobile */
+.metier-nav-bar-ef {
+    display: none; /* Masqué par défaut (desktop) */
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #ffffff; /* Fond blanc */
+    z-index: 9999; /* Au-dessus du contenu mais sous le header */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(11, 63, 137, 0.15); /* Bordure bleue subtile */
+}
+
+.metier-nav-back-ef {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    color: var(--ef-primary); /* Texte bleu */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.metier-nav-back-ef svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    stroke: var(--ef-primary); /* Icône bleue */
+    transition: transform 0.2s ease;
+}
+
+.metier-nav-back-ef span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Effet tactile au tap (style natif mobile) */
+.metier-nav-back-ef:active {
+    background: rgba(11, 63, 137, 0.08); /* Fond bleu très clair au tap */
+    transform: scale(0.98);
+}
+
+.metier-nav-back-ef:active svg {
+    transform: translateX(-2px);
+}
+
+/* Affichage uniquement sur mobile */
+@media (max-width: 768px) {
+    .metier-nav-bar-ef {
+        display: block !important;
+    }
+    
+    /* Masquer le bouton desktop sur mobile */
+    .back-navigation-ef {
+        display: none !important;
+    }
+    
+    /* Ajuster le padding-top du hero pour la nouvelle barre fixe */
+    /* Barre nav (50px) + header + espacement (10px) */
+    .hero-metier-ef {
+        padding-top: calc(var(--header-height) + 60px) !important;
+        margin-top: 0 !important;
+    }
+    
+    /* Le contenu hero commence directement après la barre */
+    .hero-content-ef {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    
+    /* Ajuster le padding-top global pour la barre fixe */
+    main.metier-page-ef {
+        padding-top: 0 !important;
+    }
+}
+
+/* Desktop : masquer la barre mobile */
+@media (min-width: 769px) {
+    .metier-nav-bar-ef {
+        display: none !important;
+    }
+    
+    .back-navigation-ef {
+        display: block !important;
+    }
 }
 
 /* ===== HERO SECTION ===== */
@@ -510,7 +636,7 @@ main.metier-page-ef {
 
 .back-navigation-ef {
     position: absolute;
-    top: 140px;  /* Position corrigée pour éviter la nav fixe */
+    top: 100px;  /* Position restaurée - desktop : après le header avec espacement */
     left: 24px;
     z-index: 15; /* Z-index plus élevé */
 }
@@ -529,7 +655,7 @@ main.metier-page-ef {
     transition: all 0.2s ease; /* Transition plus rapide */
     font-family: 'Inter', sans-serif;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(30, 64, 175, 0.1);
+    border: 1px solid rgba(11, 63, 137, 0.1);
 }
 
 .btn-back-ef:hover {
@@ -537,7 +663,7 @@ main.metier-page-ef {
     color: white;
     transform: translateX(-2px);
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
 }
 
 .hero-content-ef {
@@ -593,6 +719,7 @@ main.metier-page-ef {
     font-size: 1.25rem;
     line-height: 1.6;
     margin: 0;
+    font-weight: 400; /* Desktop : poids normal */
     opacity: 0.95;
     font-family: 'Inter', sans-serif;
 }
@@ -727,7 +854,7 @@ main.metier-page-ef {
     height: 56px;
     margin: 0 auto 20px auto;
     color: var(--ef-primary);
-    background: rgba(30, 64, 175, 0.1);
+    background: rgba(11, 63, 137, 0.1);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -771,7 +898,7 @@ main.metier-page-ef {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(30, 64, 175, 0.1);
+    background: rgba(11, 63, 137, 0.1);
     color: var(--ef-primary);
     padding: 8px 16px;
     border-radius: 20px;
@@ -808,7 +935,7 @@ main.metier-page-ef {
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(30, 64, 175, 0.1);
+    border: 1px solid rgba(11, 63, 137, 0.1);
 }
 
 .section-title {
@@ -864,12 +991,12 @@ main.metier-page-ef {
     font-size: 14px;
     font-weight: 500;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(30, 64, 175, 0.2); /* Shadow bleue */
+    box-shadow: 0 2px 8px rgba(11, 63, 137, 0.2); /* Shadow bleue */
 }
 
 .mission-tag:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3); /* Shadow bleue plus intense */
+    box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3); /* Shadow bleue plus intense */
 }
 
 /* Skills tags */
@@ -1010,7 +1137,7 @@ main.metier-page-ef {
 
 .missions-list-ef li:hover,
 .competences-list-ef li:hover {
-    background: rgba(30, 64, 175, 0.05);
+    background: rgba(11, 63, 137, 0.05);
     transform: translateX(4px);
 }
 
@@ -1023,6 +1150,23 @@ main.metier-page-ef {
 .formations-header-ef {
     text-align: center;
     margin-bottom: 60px;
+}
+
+@media (max-width: 768px) {
+    .formations-header-ef {
+        margin-bottom: 30px !important;
+        margin-top: 20px !important;
+    }
+    
+    .section-title-ef {
+        margin-top: 0 !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .section-subtitle-ef {
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+    }
 }
 
 /* Styles pour l'approche 1:1 */
@@ -1045,20 +1189,21 @@ main.metier-page-ef {
 }
 
 .formation-badge-ef {
-    position: absolute;
-    top: 8px;
-    right: 20px;
+    display: inline-block;
     background: var(--ef-primary);
     color: white;
-    padding: 8px 18px;
+    padding: 6px 16px;
     border-radius: 25px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
     z-index: 10;
     white-space: nowrap;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    vertical-align: middle;
 }
 
 .metier-alignment-ef {
@@ -1128,6 +1273,10 @@ main.metier-page-ef {
     overflow: hidden;
     box-shadow: var(--ef-shadow);
     width: 100%;
+    /* FLEXBOX POUR SYMÉTRIE PARFAITE : Prix et boutons alignés en bas */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Prendre toute la hauteur disponible dans le grid */
 }
 
 /* Card principale - largeur limitée */
@@ -1154,18 +1303,25 @@ main.metier-page-ef {
 .card-header-ef {
     position: relative;
     margin-bottom: 16px;
-    padding-top: 20px; /* Espace pour le badge */
+    padding-top: 8px; /* Espace réduit */
+}
+
+.card-header-ef .formation-badge-ef {
+    display: block;
+    margin-left: 0;
+    margin-bottom: 8px;
+    width: fit-content;
 }
 
 .formation-category-ef {
     display: inline-block;
-    background: rgba(30, 64, 175, 0.1);
+    background: rgba(11, 63, 137, 0.1);
     color: var(--ef-primary);
     padding: 4px 12px;
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     font-family: 'Inter', sans-serif;
 }
 
@@ -1189,6 +1345,9 @@ main.metier-page-ef {
 
 .card-content-ef {
     margin-bottom: 20px;
+    /* FLEX-GROW pour que le contenu occupe l'espace disponible */
+    flex-grow: 1;
+    min-height: 0; /* Permet au flex de fonctionner correctement */
 }
 
 .formation-excerpt-ef {
@@ -1226,10 +1385,12 @@ main.metier-page-ef {
 .card-price-ef {
     text-align: center;
     padding: 12px;
-    background: rgba(30, 64, 175, 0.05);
+    background: rgba(11, 63, 137, 0.05);
     border-radius: 8px;
     margin-bottom: 20px;
     border-left: 3px solid var(--ef-primary);
+    /* MARGIN-TOP AUTO : Pousse le prix et le bouton vers le bas pour symétrie */
+    margin-top: auto;
 }
 
 .price-amount-ef {
@@ -1271,7 +1432,7 @@ main.metier-page-ef {
 
 .btn-formation-ef:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+    box-shadow: 0 6px 20px rgba(11, 63, 137, 0.3);
     color: white;
     text-decoration: none;
 }
@@ -1337,7 +1498,7 @@ main.metier-page-ef {
 
 .btn-cta-primary-ef:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
+    box-shadow: 0 8px 25px rgba(11, 63, 137, 0.4);
     color: white;
     text-decoration: none;
 }
@@ -1464,6 +1625,8 @@ main.metier-page-ef {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    /* ALIGN-ITEMS STRETCH : Toutes les cards ont la même hauteur */
+    align-items: stretch;
 }
 
 /* Bouton secondaire pour les autres formations */
@@ -1488,7 +1651,7 @@ main.metier-page-ef {
     text-align: center;
     background: linear-gradient(135deg, #f8fafc 0%, #e6f3ff 100%);
     border-radius: 20px;
-    border: 2px solid rgba(30, 64, 175, 0.1);
+    border: 2px solid rgba(11, 63, 137, 0.1);
     position: relative;
     overflow: hidden;
     max-width: 800px;
@@ -1557,7 +1720,7 @@ main.metier-page-ef {
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(30, 64, 175, 0.15);
+    box-shadow: 0 8px 24px rgba(11, 63, 137, 0.15);
     min-width: 320px;
     margin: 0 auto;
 }
@@ -1579,7 +1742,7 @@ main.metier-page-ef {
 
 .btn-discover-formations-ef:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(30, 64, 175, 0.25);
+    box-shadow: 0 12px 32px rgba(11, 63, 137, 0.25);
     border-color: #1e40af;
 }
 
@@ -1657,7 +1820,7 @@ main.metier-page-ef {
 }
 
 .btn-discover-formations-ef:focus {
-    outline: 3px solid rgba(30, 64, 175, 0.3);
+    outline: 3px solid rgba(11, 63, 137, 0.3);
     outline-offset: 4px;
 }
 
@@ -1690,7 +1853,7 @@ main.metier-page-ef {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
     transition: all 0.3s ease;
     z-index: 1000;
     backdrop-filter: blur(10px);
@@ -1699,7 +1862,7 @@ main.metier-page-ef {
 .back-to-top-ef:hover {
     background: linear-gradient(135deg, #1a5a9a 0%, var(--ef-primary) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(30, 64, 175, 0.4);
+    box-shadow: 0 6px 16px rgba(11, 63, 137, 0.4);
 }
 
 .back-to-top-ef:active {
@@ -1761,13 +1924,8 @@ main.metier-page-ef {
 
 /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
 
-/* Position bouton mobile */
+/* Styles mobile ajustés pour la nouvelle barre de navigation */
 @media (max-width: 768px) {
-    .back-navigation-ef {
-        top: 100px; /* Position plus haute pour éviter l'icône */
-        left: 16px;
-        right: 16px; /* Empêcher le débordement */
-    }
 
     /* Responsive pour section découverte */
     .other-formations-discover-ef {
@@ -1832,15 +1990,7 @@ main.metier-page-ef {
         display: none;
     }
     
-    .btn-back-ef {
-        padding: 10px 16px;
-        font-size: 13px;
-        max-width: fit-content; /* Éviter l'étalement */
-    }
-    
-    .hero-content-ef {
-        margin-top: 40px; /* Espace supplémentaire pour éviter le bouton */
-    }
+    /* Le margin-top du contenu hero est déjà géré dans les styles de la barre mobile */
     
     .hero-icon-ef {
         margin-bottom: 16px; /* Réduction de l'espace sous l'icône */
@@ -1883,12 +2033,47 @@ main.metier-page-ef {
         gap: 20px;
     }
     
+    /* Réduction des espacements au-dessus des titres sur mobile */
+    .card-header-ef {
+        padding-top: 4px !important; /* Encore plus réduit sur mobile */
+        margin-bottom: 12px !important;
+    }
+    
+    .formation-category-ef {
+        margin-bottom: 6px !important;
+        margin-left: auto !important; /* Centrer la catégorie */
+        margin-right: auto !important; /* Centrer la catégorie */
+        display: block !important;
+        width: fit-content !important;
+    }
+    
+    .formation-badge-ef {
+        margin-bottom: 6px !important;
+        margin-left: auto !important; /* Centrer le badge */
+        margin-right: auto !important; /* Centrer le badge */
+        margin-top: 4px !important;
+        padding: 5px 12px !important;
+        font-size: 11px !important;
+        display: block !important;
+        width: fit-content !important;
+    }
+    
+    .formation-title-ef {
+        margin-top: 4px !important;
+    }
+    
+    .formation-title-ef a {
+        font-size: 1rem !important;
+    }
+    
     .hero-title-ef {
         font-size: 2.25rem;
     }
     
     .hero-description-ef {
-        font-size: 1rem;
+        font-size: 1.125rem !important; /* Augmenté de 1rem à 1.125rem (18px) */
+        font-weight: 600 !important; /* Texte en gras */
+        line-height: 1.5 !important;
     }
     
     .hero-stats-ef {
@@ -1933,18 +2118,20 @@ main.metier-page-ef {
 }
 
 @media (max-width: 480px) {
+    /* Ajustement pour très petits écrans */
     .hero-metier-ef {
-        padding: 90px 0 60px 0; /* Réduction du padding top */
+        padding-top: calc(var(--header-height) + 55px) !important;
+        padding-bottom: 60px;
     }
     
-    .back-navigation-ef {
-        top: 85px; /* Position plus haute pour éviter l'icône */
-        left: 12px;
-        right: 12px; /* Empêcher le débordement */
+    .metier-nav-back-ef {
+        padding: 12px 16px;
+        font-size: 14px;
     }
     
-    .hero-content-ef {
-        margin-top: 50px; /* Plus d'espace sur très petit écran */
+    .metier-nav-back-ef svg {
+        width: 18px;
+        height: 18px;
     }
     
     .hero-icon-ef {
@@ -1958,7 +2145,9 @@ main.metier-page-ef {
     }
     
     .hero-description-ef {
-        font-size: 0.875rem;
+        font-size: 1rem !important; /* Augmenté de 0.875rem à 1rem (16px) */
+        font-weight: 600 !important; /* Texte en gras */
+        line-height: 1.5 !important;
     }
     
     .section-title-ef {
@@ -1973,8 +2162,35 @@ main.metier-page-ef {
         padding: 24px 16px;
     }
     
+    /* Padding horizontal sur les cards pour mobile uniquement */
+    .formation-single-ef {
+        padding: 0 16px !important; /* Padding sur les côtés pour mobile */
+    }
+    
     .formation-card-ef {
         padding: 20px 16px;
+        margin: 0 auto; /* Centrer la card */
+    }
+    
+    /* Centrer le texte dans les cards pour la symétrie */
+    .card-header-ef {
+        text-align: center !important;
+    }
+    
+    .card-content-ef {
+        text-align: center !important;
+    }
+    
+    .card-meta-ef {
+        justify-content: center !important;
+    }
+    
+    .card-price-ef {
+        text-align: center !important;
+    }
+    
+    .metier-alignment-ef {
+        text-align: center !important;
     }
     
     .cta-title-ef {
@@ -2035,12 +2251,25 @@ main.metier-page-ef {
             button.classList.add('active');
             
             // Scroll vers la section avec un délai pour l'animation
+            // CORRECTION MOBILE : Calcul manuel avec offset pour header fixe
             setTimeout(() => {
-                section.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                // Calculer la hauteur du header (fixe ou variable CSS)
+                const header = document.querySelector('.header');
+                const headerHeight = header ? header.offsetHeight : 100;
+                
+                // Obtenir la position de la section
+                const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+                
+                // Calculer la position finale avec offset pour le header
+                const offset = headerHeight + 20; // 20px d'espace supplémentaire
+                const targetPosition = sectionTop - offset;
+                
+                // Scroll avec calcul manuel pour mobile et desktop
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
-            }, 200);
+            }, 500); // Délai augmenté pour laisser l'animation se terminer
         } else {
             // Masquer les formations
             section.style.animation = 'slideUp 0.3s ease-in';

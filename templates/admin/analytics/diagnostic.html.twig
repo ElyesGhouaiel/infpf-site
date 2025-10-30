@@ -1,0 +1,605 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Diagnostic Analytics - INFPF{% endblock %}
+
+{% block body %}
+<style>
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.diagnostic-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #0b3f89;
+    margin-bottom: 10px;
+    font-size: 36px;
+}
+
+.status-banner {
+    padding: 30px;
+    border-radius: 16px;
+    margin: 30px 0;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.status-banner.excluded {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+    border: 3px solid #10b981;
+}
+
+.status-banner.not-excluded {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+    border: 3px solid #ef4444;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.info-card {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #0b3f89;
+}
+
+.info-label {
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    font-size: 18px;
+    color: #1e293b;
+    font-weight: 700;
+    word-break: break-all;
+}
+
+.btn {
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.stats-card {
+    background: #f8fafc;
+    padding: 24px;
+    border-radius: 12px;
+    margin: 16px 0;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: #475569;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0b3f89;
+}
+
+.alert {
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.alert-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #f59e0b;
+}
+
+.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #ef4444;
+}
+
+.alert-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border-color: #3b82f6;
+}
+
+.code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    margin: 15px 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 4px;
+}
+
+.badge-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#loadingOverlay.show {
+    display: flex;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<div id="loadingOverlay">
+    <div class="spinner"></div>
+</div>
+
+<div class="diagnostic-container">
+    <div class="card">
+        <h1>🔍 Diagnostic du Tracking Analytics</h1>
+        <p style="color: #64748b; font-size: 18px;">Vérifiez si votre trafic est correctement exclu des statistiques</p>
+
+        <!-- Statut d'exclusion -->
+        {% if isExcluded %}
+        <div class="status-banner excluded">
+            ✅ VOTRE TRAFIC EST EXCLU DES STATISTIQUES
+            <br><small style="font-size: 16px; font-weight: 400;">Raison : {{ excludeReason }}</small>
+        </div>
+        {% else %}
+        <div class="status-banner not-excluded">
+            ⚠️ ATTENTION : VOTRE TRAFIC EST ACTUELLEMENT TRACKÉ !
+            <br><small style="font-size: 16px; font-weight: 400;">Vos données sont enregistrées dans les statistiques</small>
+        </div>
+        {% endif %}
+
+        <!-- Informations système -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">🌐 Votre IP Publique</div>
+                <div class="info-value">{{ clientIp }}</div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-label">🔒 IP Anonymisée (stockée)</div>
+                <div class="info-value">{{ anonymizedIp }}</div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-label">👤 Statut Admin</div>
+                <div class="info-value">
+                    {% if isAdmin %}
+                        <span class="badge badge-success">✓ ADMIN</span>
+                    {% else %}
+                        <span class="badge badge-danger">✗ Non admin</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-label">📍 Page actuelle</div>
+                <div class="info-value">{{ currentPath }}</div>
+            </div>
+        </div>
+
+        <!-- Raisons d'exclusion -->
+        {% if isExcluded %}
+        <div class="alert alert-success">
+            <strong>✅ Votre trafic est exclu pour la raison suivante :</strong><br><br>
+            
+            {% if excludeReason == 'admin_role' %}
+                <strong>🔐 Rôle Administrateur</strong><br>
+                Vous êtes connecté avec le rôle ROLE_ADMIN. Tout votre trafic est automatiquement exclu.
+            
+            {% elseif excludeReason == 'private_path' %}
+                <strong>🚫 Route Privée</strong><br>
+                Vous êtes sur une page privée ({{ currentPath }}). Ces pages ne sont jamais trackées.
+            
+            {% elseif excludeReason == 'dev_cookie' %}
+                <strong>🍪 Cookie Développeur</strong><br>
+                Le cookie <code>xeilos_dev=1</code> est actif. Tout le tracking est bloqué.
+            
+            {% elseif excludeReason == 'excluded_ip' %}
+                <strong>🌐 IP Exclue</strong><br>
+                Votre IP ({{ clientIp }}) est dans la liste des IPs exclues.
+            
+            {% elseif excludeReason == 'environment' %}
+                <strong>⚙️ Environnement de développement</strong><br>
+                L'environnement actuel est exclu du tracking.
+            
+            {% elseif excludeReason == 'subdomain' %}
+                <strong>🔗 Sous-domaine de test</strong><br>
+                Ce sous-domaine est exclu du tracking.
+            
+            {% else %}
+                <strong>{{ excludeReason }}</strong>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="alert alert-danger">
+            <strong>⚠️ Votre trafic n'est PAS exclu !</strong><br><br>
+            
+            Vos données sont actuellement enregistrées dans les statistiques. Pour exclure votre trafic :
+            
+            <ol style="margin-top: 15px;">
+                <li>Vérifiez que vous êtes bien connecté en ADMIN</li>
+                <li>Ou activez le cookie développeur (voir ci-dessous)</li>
+                <li>Ou ajoutez votre IP dans la configuration</li>
+            </ol>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Statistiques sur les données "admin" -->
+    <div class="card">
+        <h2 style="color: #0b3f89; margin-bottom: 20px;">📊 Vos Données dans la Base</h2>
+        <div class="stats-card" id="statsCard">
+            <div class="stat-item">
+                <span class="stat-label">Chargement...</span>
+                <span class="stat-value">-</span>
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="loadStats()">🔄 Actualiser les statistiques</button>
+    </div>
+
+    <!-- Actions de nettoyage -->
+    <div class="card">
+        <h2 style="color: #0b3f89; margin-bottom: 20px;">🧹 Nettoyage des Données</h2>
+        
+        <div class="alert alert-warning">
+            <strong>⚠️ Important :</strong> Si vous avez navigué sur le site AVANT d'activer les exclusions, 
+            vos anciennes sessions sont toujours dans la base de données et brouillent les statistiques.
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h3 style="color: #1e293b; margin-bottom: 15px;">Option 1 : Nettoyer mes données (IP)</h3>
+            <p style="color: #64748b; margin-bottom: 15px;">
+                Supprime toutes les entrées avec votre IP actuelle ({{ anonymizedIp }}) :<br>
+                ✓ <strong>Analytics</strong> (visites de pages)<br>
+                ✓ <strong>Consentements cookies</strong> (préférences RGPD)
+            </p>
+            <button class="btn btn-danger" onclick="cleanupMyData()">
+                🗑️ Supprimer mes données (par IP)
+            </button>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h3 style="color: #1e293b; margin-bottom: 15px;">Option 2 : Nettoyer les données récentes</h3>
+            <p style="color: #64748b; margin-bottom: 15px;">
+                Supprime TOUTES les données des <strong>7 derniers jours</strong> (période de test) :<br>
+                ✓ <strong>Analytics</strong> (toutes les visites)<br>
+                ✓ <strong>Consentements cookies</strong> (tous les consentements)<br>
+                <br><strong>⚠️ Cela inclut potentiellement des vraies visites de vrais utilisateurs !</strong>
+            </p>
+            <button class="btn btn-danger" onclick="cleanupAdminData()">
+                🗑️ Supprimer données des 7 derniers jours
+            </button>
+        </div>
+
+        <div id="cleanupResult" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Solutions -->
+    <div class="card">
+        <h2 style="color: #0b3f89; margin-bottom: 20px;">💡 Solutions pour Exclure Votre Trafic</h2>
+
+        <h3 style="color: #1e293b; margin-top: 30px;">1. Cookie Développeur (Recommandé) 🍪</h3>
+        <p style="color: #64748b;">Active un cookie permanent qui bloque TOUT le tracking sur TOUS les appareils/navigateurs où tu le configures.</p>
+        <div class="code-block">
+// Ouvrir la console (F12) et taper :
+window.INFPFAnalytics.setDevCookie();
+
+// Pour désactiver :
+window.INFPFAnalytics.removeDevCookie();
+        </div>
+
+        <h3 style="color: #1e293b; margin-top: 30px;">2. Rester Connecté en ADMIN 👤</h3>
+        <p style="color: #64748b;">Tant que tu es connecté avec ROLE_ADMIN, ton trafic est automatiquement exclu.</p>
+
+        <h3 style="color: #1e293b; margin-top: 30px;">3. Ajouter Ton IP dans la Configuration 🌐</h3>
+        <p style="color: #64748b;">Édite <code>config/analytics_config.php</code> :</p>
+        <div class="code-block">
+'excluded_public_ips' => [
+    '{{ clientIp }}',  // Ton IP actuelle
+],
+        </div>
+
+        <div class="alert alert-info" style="margin-top: 20px;">
+            <strong>ℹ️ Conseil :</strong> Utilise le <strong>cookie développeur</strong> pour un blocage permanent, 
+            peu importe ton IP ou ton état de connexion.
+        </div>
+    </div>
+
+    <!-- Liens utiles -->
+    <div class="card">
+        <h2 style="color: #0b3f89; margin-bottom: 20px;">🔗 Liens Utiles</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+            <a href="{{ path('app_analytics_dashboard') }}" class="btn btn-primary">
+                📊 Dashboard Analytics
+            </a>
+            <a href="{{ asset('TEST_EXCLUSIONS.html') }}" class="btn btn-primary">
+                🧪 Page de test
+            </a>
+            <a href="{{ asset('find-my-ip.php') }}" class="btn btn-primary">
+                🌐 Trouver mon IP
+            </a>
+            <a href="{{ asset('analytics-documentation.html') }}" target="_blank" class="btn btn-primary">
+                📖 Documentation
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+// Charger les statistiques
+async function loadStats() {
+    const card = document.getElementById('statsCard');
+    card.innerHTML = '<div style="text-align: center; padding: 20px;">Chargement...</div>';
+    
+    try {
+        const response = await fetch('/admin/analytics/admin-data-stats');
+        const data = await response.json();
+        
+        if (data.success) {
+            const stats = data.stats;
+            card.innerHTML = `
+                <div style="margin-bottom: 20px; padding: 15px; background: #e0f2fe; border-radius: 8px;">
+                    <strong style="color: #0369a1;">📍 Avec mon IP (${data.ip})</strong>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">📊 Analytics</span>
+                    <span class="stat-value">${stats.myIpAnalytics}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🍪 Consentements</span>
+                    <span class="stat-value">${stats.myIpConsents}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label"><strong>📌 Total mon IP</strong></span>
+                    <span class="stat-value" style="color: #dc2626;">${stats.myIpTotal}</span>
+                </div>
+                
+                <div style="margin: 20px 0; padding: 15px; background: #fef3c7; border-radius: 8px;">
+                    <strong style="color: #92400e;">📅 7 derniers jours</strong>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">📊 Analytics</span>
+                    <span class="stat-value">${stats.last7DaysAnalytics}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🍪 Consentements</span>
+                    <span class="stat-value">${stats.last7DaysConsents}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label"><strong>📌 Total 7 jours</strong></span>
+                    <span class="stat-value" style="color: #dc2626;">${stats.last7DaysTotal}</span>
+                </div>
+                
+                <div style="margin: 20px 0; padding: 15px; background: #f1f5f9; border-radius: 8px;">
+                    <strong style="color: #475569;">🌍 Total dans la base</strong>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">📊 Analytics</span>
+                    <span class="stat-value">${stats.totalAnalytics}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🍪 Consentements</span>
+                    <span class="stat-value">${stats.totalConsents}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🚫 Pages /admin/*</span>
+                    <span class="stat-value">${stats.adminPaths}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label"><strong>📌 TOTAL GLOBAL</strong></span>
+                    <span class="stat-value" style="color: #0b3f89;">${stats.totalAll}</span>
+                </div>
+            `;
+        }
+    } catch (error) {
+        card.innerHTML = '<div class="alert alert-danger">Erreur de chargement</div>';
+    }
+}
+
+// Nettoyer les données par IP
+async function cleanupMyData() {
+    if (!confirm('⚠️ Supprimer TOUTES les données avec votre IP ?\n\n✓ Analytics\n✓ Consentements cookies\n\nCette action est irréversible !')) {
+        return;
+    }
+    
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('show');
+    
+    try {
+        const response = await fetch('/admin/analytics/cleanup-my-data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showResult('success', 
+                `✅ Nettoyage effectué pour l'IP ${data.ip}<br><br>` +
+                `📊 Analytics supprimés : <strong>${data.deletedAnalytics}</strong><br>` +
+                `🍪 Consentements supprimés : <strong>${data.deletedConsents}</strong><br>` +
+                `📌 Total : <strong>${data.totalDeleted}</strong> entrées`
+            );
+            loadStats(); // Recharger les stats
+        } else {
+            showResult('danger', '❌ Erreur lors du nettoyage');
+        }
+    } catch (error) {
+        showResult('danger', '❌ Erreur : ' + error.message);
+    } finally {
+        overlay.classList.remove('show');
+    }
+}
+
+// Nettoyer les données des 7 derniers jours
+async function cleanupAdminData() {
+    if (!confirm('⚠️⚠️⚠️ ATTENTION !\n\nVous allez supprimer TOUTES les données des 7 DERNIERS JOURS :\n\n✓ Analytics\n✓ Consentements cookies\n\nCela peut inclure de VRAIES visites de vrais utilisateurs !\n\nÊtes-vous ABSOLUMENT SÛR ?')) {
+        return;
+    }
+    
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('show');
+    
+    try {
+        const response = await fetch('/admin/analytics/cleanup-admin-data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showResult('success', 
+                `✅ Nettoyage des 7 derniers jours effectué<br><br>` +
+                `📊 Analytics supprimés : <strong>${data.deletedAnalytics}</strong><br>` +
+                `🍪 Consentements supprimés : <strong>${data.deletedConsents}</strong><br>` +
+                `📌 Total : <strong>${data.totalDeleted}</strong> entrées<br><br>` +
+                `<small>${data.note}</small>`
+            );
+            loadStats(); // Recharger les stats
+        } else {
+            showResult('danger', '❌ Erreur lors du nettoyage');
+        }
+    } catch (error) {
+        showResult('danger', '❌ Erreur : ' + error.message);
+    } finally {
+        overlay.classList.remove('show');
+    }
+}
+
+// Afficher le résultat
+function showResult(type, message) {
+    const resultDiv = document.getElementById('cleanupResult');
+    resultDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+    
+    setTimeout(() => {
+        resultDiv.innerHTML = '';
+    }, 5000);
+}
+
+// Charger les stats au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    loadStats();
+});
+</script>
+{% endblock %}
+

@@ -2,8 +2,8 @@
   Composant Calendly Button réutilisable
   
   Paramètres:
-  - text: Texte du bouton (défaut: "Prendre rendez-vous")
-  - icon: Emoji/icône à afficher (défaut: "📅")
+  - text: Texte du bouton (défaut: "Je réserve mon appel gratuit")
+  - icon: Emoji/icône à afficher (défaut: "📞")
   - size: Taille du bouton ('small', 'normal', 'large') (défaut: 'normal')
   - variant: Style du bouton ('default', 'outline') (défaut: 'default')
   - url: URL Calendly personnalisée (défaut: URL par défaut)
@@ -12,8 +12,8 @@
   - subtitle: Sous-titre explicatif
 #}
 
-{% set button_text = text|default('Prendre rendez-vous') %}
-{% set button_icon = icon|default('📅') %}
+{% set button_text = text|default('Je réserve mon appel gratuit') %}
+{% set button_icon = icon|default('📞') %}
 {% set button_size = size|default('normal') %}
 {% set button_variant = variant|default('default') %}
 {% set button_url = url|default('https://calendly.com/contact-infpf?locale=fr') %}
@@ -30,18 +30,18 @@
     {% if subtitle %}
     <p style="color: #6c757d; margin: 0 0 20px 0; font-size: 16px;">{{ subtitle }}</p>
     {% endif %}
-    <a class="calendly-btn {{ size_class }} {{ variant_class }} {{ button_class }}" 
-       href="#" 
-       data-calendly-url="{{ button_url }}"
-       aria-label="{{ button_text }} - Ouvre une fenêtre de prise de rendez-vous">
+    <a class="calendly-btn btn-calendly-mobile {{ size_class }} {{ variant_class }} {{ button_class }}" 
+       href="#calendly-home" 
+       data-mobile-text="📞 Prise de contact"
+       aria-label="{{ button_text }} - Ouvre une fenêtre de réservation d'appel gratuit">
         {{ button_icon }} {{ button_text }}
     </a>
 </div>
 {% else %}
-<a class="calendly-btn {{ size_class }} {{ variant_class }} {{ button_class }}" 
-   href="#" 
-   data-calendly-url="{{ button_url }}"
-   aria-label="{{ button_text }} - Ouvre une fenêtre de prise de rendez-vous">
+<a class="calendly-btn btn-calendly-mobile {{ size_class }} {{ variant_class }} {{ button_class }}" 
+   href="#calendly-home" 
+   data-mobile-text="📞 Prise de contact"
+   aria-label="{{ button_text }} - Ouvre une fenêtre de réservation d'appel gratuit">
     {{ button_icon }} {{ button_text }}
 </a>
 {% endif %} 

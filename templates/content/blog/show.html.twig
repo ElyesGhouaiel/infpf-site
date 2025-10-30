@@ -600,7 +600,7 @@
         /* Responsive */
         @media (max-width: 768px) {
             .blog-hero {
-                padding: 100px 0 60px;
+                padding: calc(var(--header-height) + 20px) 0 60px;
                 min-height: 50vh;
             }
 
@@ -662,6 +662,10 @@
         }
 
         @media (max-width: 480px) {
+            .blog-hero {
+                padding: calc(var(--header-height) + 16px) 0 60px;
+            }
+            
             .hero-content {
                 padding: 0 0.5rem;
             }
@@ -787,13 +791,16 @@
                         {{ form_label(commentForm.text, 'Votre commentaire', {'attr': {'class': 'form-label'}}) }}
                         {{ form_widget(commentForm.text, {'attr': {'class': 'form-control comment-textarea', 'placeholder': 'Partagez votre avis sur cet article...'}}) }}
                     </div>
+                    {{ form_rest(commentForm) }}
                     <div class="form-group">
                         <button type="submit" class="btn-submit">
                             <span>Publier le commentaire</span>
                         </button>
                     </div>
-                    {{ form_rest(commentForm) }}
                 {{ form_end(commentForm) }}
+                
+                <!-- Script reCAPTCHA v3 pour les commentaires -->
+                <script src="https://www.google.com/recaptcha/api.js?render=6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq" async defer></script>
             {% else %}
                 <div class="login-notice">
                     <p class="login-notice-text">Vous devez être connecté pour laisser un commentaire</p>

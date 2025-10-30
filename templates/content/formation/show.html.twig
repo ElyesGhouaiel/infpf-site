@@ -5,7 +5,8 @@
 {% block stylesheets %}
     {{ parent() }}
 <style>
-/* ===== FORMATION TEMPLATE - CORRECTIONS MODERNES ===== */
+/* ===== FORMATION TEMPLATE - VERSION {{ "now"|date("YmdHis") }} ===== */
+/* ===== SI TU VOIS ENCORE L'ANCIEN DESIGN, NOTE CE TIMESTAMP ===== */
 
 :root {
     /* Couleurs avec contrastes optimaux */
@@ -39,7 +40,7 @@
     /* Layout responsive */
     --content-max-width: 70ch;
     --sidebar-width: 320px;
-    --header-height: 80px;
+    /* --header-height est définie dans base.html.twig et calculée dynamiquement */
     
     /* Espacement systématique */
     --space-xs: 0.25rem;
@@ -89,6 +90,41 @@
     background: url('../img/banner-formation.jpg') center/cover no-repeat;
     overflow: visible;
     z-index: 1;
+}
+
+/* UNIQUEMENT MOBILE : padding pour que le contenu commence SOUS le bouton sommaire */
+/* OPTIMISÉ : Bouton COLLÉ au header (0px) + hauteur 75px + mini espace après (8-14px) */
+
+/* Petits mobiles (< 390px) - Galaxy S21 360px */
+@media (max-width: 389px) {
+    .hero--formation {
+        /* header + 0px (collé) + 75px (bouton augmenté) + 8px (mini espace) = +83px */
+        padding-top: calc(var(--header-height) + 83px) !important;
+    }
+}
+
+/* iPhone 12 Pro et similaires (390px - 427px) */
+@media (min-width: 390px) and (max-width: 427px) {
+    .hero--formation {
+        /* header + 0px + 75px + 10px = +85px */
+        padding-top: calc(var(--header-height) + 85px) !important;
+    }
+}
+
+/* iPhone 13 Pro Max et similaires (428px - 767px) */
+@media (min-width: 428px) and (max-width: 767px) {
+    .hero--formation {
+        /* header + 0px + 75px + 12px = +87px */
+        padding-top: calc(var(--header-height) + 87px) !important;
+    }
+}
+
+/* Tablettes (768px - 1100px) */
+@media (min-width: 768px) and (max-width: 1100px) {
+    .hero--formation {
+        /* header + 0px + 75px + 14px = +89px */
+        padding-top: calc(var(--header-height) + 89px) !important;
+    }
 }
 
 .hero--formation::before {
@@ -170,8 +206,9 @@
     line-height: 1.65;
     margin: 0 0 24px;
     max-width: 80ch;
-    font-size: 1.125rem;
+    font-size: 1.5rem; /* Agrandi de 1.125rem (18px) à 1.5rem (24px) */
     opacity: 0.95;
+    font-weight: 400;
 }
 
 .hero__cta {
@@ -721,94 +758,39 @@
     }
 }
 
-#toc nav a {
+/* ===== STYLES DE BASE POUR LES LIENS TOC (DESKTOP + MOBILE) ===== */
+/* DESKTOP: old system restored - liens stylés classiquement */
+
+#toc nav {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#toc nav a {
+    display: block;
     padding: 12px 16px;
-    margin: 6px 0;
-    color: #1e293b;
+    color: #475569;
     text-decoration: none;
-    border-radius: 14px;
     font-size: 14px;
-    font-weight: 600;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.3), 
-        rgba(248, 250, 252, 0.2));
-    border: 1px solid rgba(59, 130, 246, 0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(12px);
-    position: relative;
-    overflow: hidden;
-    letter-spacing: 0.3px;
+    font-weight: 500;
+    line-height: 1.5;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
 }
 
 #toc nav a:hover {
-    background: linear-gradient(135deg, 
-        rgba(59, 130, 246, 0.08), 
-        rgba(99, 179, 237, 0.05));
-    border-color: rgba(59, 130, 246, 0.2);
-    color: #0f172a;
-    transform: translateX(8px) scale(1.02);
-    box-shadow: 
-        0 8px 20px rgba(59, 130, 246, 0.15),
-        0 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), transparent);
+    color: #1e293b;
 }
 
-/* État actif du lien - PROGRESSION UTILISATEUR */
+/* Lien actif - scroll-spy */
 #toc nav a.is-active {
-    background: linear-gradient(135deg, 
-        rgba(59, 130, 246, 0.2), 
-        rgba(99, 179, 237, 0.15));
-    border-color: rgba(59, 130, 246, 0.4);
-    color: #1e40af;
-    font-weight: 700;
-    box-shadow: 
-        0 8px 20px rgba(59, 130, 246, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    transform: translateX(6px) scale(1.05);
-    position: relative;
-    animation: activeGlow 2s ease-in-out infinite alternate;
-}
-
-/* Animation subtile pour l'état actif */
-@keyframes activeGlow {
-    0% { 
-        box-shadow: 
-            0 8px 20px rgba(59, 130, 246, 0.25),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    }
-    100% { 
-        box-shadow: 
-            0 12px 30px rgba(59, 130, 246, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    }
-}
-
-/* Icône avant chaque lien */
-#toc nav a::before {
-    content: '●';
-    margin-right: 12px;
-    color: rgba(59, 130, 246, 0.4);
-    font-size: 8px;
-    transition: all 0.3s ease;
-}
-
-#toc nav a:hover::before {
-    color: rgba(59, 130, 246, 0.8);
-    transform: scale(1.5);
-}
-
-#toc nav a.is-active::before {
-    content: '▶'; /* Flèche pour montrer la progression */
-    color: #1e40af;
-    transform: scale(1.4);
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-/* Animation pulse pour l'icône active */
-@keyframes pulse {
-    0%, 100% { transform: scale(1.4); }
-    50% { transform: scale(1.6); }
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+    border-left-color: #3b82f6;
+    color: #0b3f89;
+    font-weight: 600;
 }
 
 /* Quand il doit suivre : fixed, offset sous le header */
@@ -854,13 +836,273 @@
     border-radius: 1px;
 }
 
-/* Mobile : TOC redevient normal */
+/* MOBILE ONLY: Mirrored desktop logic - TOC adapté pour mobile */
 @media (max-width: 1100px) {
-    #toc, #toc.is-fixed { 
+    /* Ne pas afficher le TOC initialement */
+    aside#toc { 
+        display: none !important;
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+        transform: none !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+    
+    /* FORCER l'affichage quand .is-visible */
+    aside#toc.is-visible,
+    aside.toc-col #toc.is-visible,
+    #toc.is-visible.is-fixed { 
+        display: block !important;
+        opacity: 1 !important; 
+        visibility: visible !important;
+        transform: none !important;
+    }
+    
+    /* TOC fixed sur mobile, positionné sous le bouton sommaire */
+    aside#toc.is-fixed,
+    #toc.is-fixed { 
+        position: fixed !important;
+        /* Position ajustée par les media queries spécifiques ci-dessous */
+        top: calc(var(--header-height) + 75px) !important; /* Valeur par défaut: 0px + 75px bouton */
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        transform: none !important;
+        z-index: 1000 !important;
+        background: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        border-bottom: 1px solid #e5e7eb !important;
+    }
+    
+    aside.toc-col { 
         position: static; 
-        width: auto; 
-        left: auto; 
-        top: auto; 
+    }
+    
+    /* FORCER l'affichage du NAV et des liens sur mobile */
+    aside#toc.is-visible nav,
+    #toc.is-visible nav,
+    #toc.is-fixed nav {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    aside#toc.is-visible nav a,
+    #toc.is-visible nav a,
+    #toc.is-fixed nav a {
+        padding: 16px 20px !important;
+        font-size: 15px !important;
+        display: block !important;
+        height: auto !important;
+        min-height: 50px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* MOBILE ONLY: Bouton toggle sommaire fixe en haut */
+    .floating-toc-toggle {
+        display: flex !important;
+        position: fixed !important;
+        /* Position ajustée par les media queries spécifiques ci-dessous */
+        top: var(--header-height) !important; /* COLLÉ au header par défaut */
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 75px !important; /* Augmenté à 75px pour mieux remplir l'espace */
+        align-items: center !important;
+        justify-content: flex-start !important;
+        padding: 0 20px !important;
+        background: #ffffff !important;
+        border: none !important;
+        border-bottom: 1px solid #e5e7eb !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        color: #1e293b !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        z-index: 1001 !important;
+        transition: background-color 0.2s ease !important;
+    }
+    
+    .floating-toc-toggle:active {
+        background-color: #f8fafc !important;
+    }
+    
+    .floating-toc-toggle.active {
+        background-color: #f1f5f9 !important;
+    }
+}
+
+/* Desktop: cacher le bouton toggle */
+@media (min-width: 1101px) {
+    .floating-toc-toggle {
+        display: none !important;
+    }
+}
+
+/* ===== AJUSTEMENT TOP DU BOUTON SELON TAILLE D'ÉCRAN MOBILE ===== */
+/* Ordre : du plus LARGE au plus PETIT */
+/* Ajusté avec quelques pixels supplémentaires pour un meilleur espacement */
+
+/* Tablettes et grands mobiles (768px - 1100px) */
+@media (min-width: 768px) and (max-width: 1100px) {
+    .floating-toc-toggle {
+        top: var(--header-height) !important; /* COLLÉ au header - pas d'espace */
+    }
+    
+    #toc.is-fixed {
+        top: calc(var(--header-height) + 75px) !important; /* 0px + 75px bouton (augmenté) */
+    }
+}
+
+/* iPhone 13 Pro Max et similaires (428px - 767px) */
+@media (min-width: 428px) and (max-width: 767px) {
+    .floating-toc-toggle {
+        top: var(--header-height) !important; /* COLLÉ au header - pas d'espace */
+    }
+    
+    #toc.is-fixed {
+        top: calc(var(--header-height) + 75px) !important; /* 0px + 75px bouton (augmenté) */
+    }
+}
+
+/* iPhone 12 Pro et similaires (390px - 427px) */
+@media (min-width: 390px) and (max-width: 427px) {
+    .floating-toc-toggle {
+        top: var(--header-height) !important; /* COLLÉ au header - pas d'espace */
+    }
+    
+    #toc.is-fixed {
+        top: calc(var(--header-height) + 75px) !important; /* 0px + 75px bouton (augmenté) */
+    }
+}
+
+/* Petits mobiles (moins de 390px) - Galaxy S21 360px */
+@media (max-width: 389px) {
+    .floating-toc-toggle {
+        top: var(--header-height) !important; /* COLLÉ au header - pas d'espace */
+    }
+    
+    #toc.is-fixed {
+        top: calc(var(--header-height) + 75px) !important; /* 0px + 75px bouton (augmenté) */
+    }
+}
+
+/* ===== MOBILE: CENTRAGE ET JUSTIFICATION (360/390/428) ===== */
+@media (max-width: 430px) {
+    /* Centrer les icônes et titres des sections */
+    .section-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    .section-title {
+        display: flex;
+        flex-direction: column;
+        align-items: center !important;
+        gap: 12px !important;
+        text-align: center !important;
+    }
+    
+    .section-icon {
+        margin: 0 auto !important;
+    }
+    
+    /* Centrer tous les conteneurs principaux */
+    .formation-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* Centrer le hero */
+    .hero--formation,
+    .hero__grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    /* Centrer tous les boutons */
+    .cta-container,
+    .hero__cta {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100%;
+    }
+    
+    .calendly-btn,
+    .btn-calendly-detail,
+    button[class*="btn"],
+    a[class*="btn"] {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    
+    /* Centrer les cartes et blocs */
+    .info-cards,
+    .feature-grid,
+    .stats-grid,
+    .card-container,
+    [class*="grid"],
+    [class*="cards"] {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100%;
+    }
+    
+    /* Centrer les images et visuels */
+    img,
+    picture,
+    figure {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block !important;
+    }
+    
+    /* Justifier TOUS les paragraphes et textes */
+    p,
+    .formation-page p,
+    .hero__grid p,
+    .section-content p,
+    li,
+    .description,
+    [class*="text"],
+    [class*="content"] p {
+        text-align: justify !important;
+        hyphens: auto !important;
+        -webkit-hyphens: auto !important;
+        -moz-hyphens: auto !important;
+        word-wrap: break-word !important;
+    }
+    
+    /* Centrer les sections */
+    section,
+    .formation-section,
+    [class*="section"] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    /* Harmoniser les espacements */
+    .formation-page > * {
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
@@ -910,19 +1152,12 @@
     overflow: visible !important; /* éviter overflow qui casse sticky */
 }
 
+
 /* ===== RESPONSIVE FIXED POSITIONING ===== */
 @media (max-width: 1200px) {
-    /* Mobile : TOC redevient normal (déjà géré par le JS) */
-    .details-card {
-        position: static !important;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: var(--space-lg) 0;
-        opacity: 1 !important;
-        transform: none !important;
+    /* Mobile : Masquer complètement la colonne Détails */
+    .details-col {
+        display: none !important; /* Complètement masqué sur mobile */
     }
     
     .layout-formation {
@@ -930,14 +1165,14 @@
         gap: var(--space-lg);
     }
     
-    .toc-col, .details-col {
+    .toc-col {
         grid-column: 1;
-        order: 2; /* Après le contenu */
+        order: 2;
     }
     
     .content-col {
         grid-column: 1;
-        order: 1; /* Avant les éléments latéraux */
+        order: 1;
     }
 }
 
@@ -1136,32 +1371,37 @@
     }
 }
 
-/* Toggle button pour mobile */
+/* ===== BOUTON SOMMAIRE INTELLIGENT - FIXED EN HAUT SUR MOBILE ===== */
 .floating-toc-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1001;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: rgba(11, 63, 137, 0.9);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: var(--text-white);
+    /* Masqué par défaut sur desktop */
     display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 24px rgba(11, 63, 137, 0.4);
 }
 
-.floating-toc-toggle:hover {
-    transform: scale(1.1);
-    background: rgba(11, 63, 137, 1);
-    box-shadow: 0 12px 32px rgba(11, 63, 137, 0.6);
+.floating-toc-toggle:active {
+    background: linear-gradient(135deg, 
+        rgba(0, 64, 128, 0.98) 0%, 
+        rgba(0, 86, 179, 0.98) 100%);
+    transform: scale(0.98);
+}
+
+/* Icône et texte */
+.floating-toc-toggle::before {
+    content: '≡';
+    font-size: 28px;
+    font-weight: 700;
+    margin-right: 12px;
+    line-height: 1;
+}
+
+.floating-toc-toggle::after {
+    content: '▼';
+    font-size: 14px;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.floating-toc-toggle.active::after {
+    transform: rotate(180deg);
 }
 
 /* ===== CONTENU PRINCIPAL ===== */
@@ -1386,6 +1626,252 @@
     z-index: 1;
 }
 
+/* ===== CTA SECTION MEGA ULTRA-VISIBLE ===== */
+.cta-section-mega {
+    background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+    border-radius: 24px;
+    padding: 60px 40px;
+    margin: 80px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 20px 60px rgba(11, 63, 137, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 
+            0 20px 60px rgba(11, 63, 137, 0.4),
+            0 0 0 0 rgba(11, 63, 137, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 20px 80px rgba(11, 63, 137, 0.6),
+            0 0 60px 10px rgba(0, 180, 216, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+.cta-section-mega::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 180, 216, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.cta-mega-container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cta-mega-content {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.cta-mega-title {
+    color: white;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    margin: 0 0 16px 0;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.5px;
+}
+
+.cta-mega-subtitle {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: clamp(16px, 3vw, 20px);
+    font-weight: 500;
+    margin: 0;
+}
+
+.cta-mega-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* BOUTON MEGA CPF - ULTRA VISIBLE */
+.btn-mega {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 32px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+}
+
+.btn-mega::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-mega:hover::before {
+    left: 100%;
+}
+
+/* Bouton CPF - Vert éclatant */
+.btn-mega-cpf {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 
+        0 10px 30px rgba(16, 185, 129, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-mega-cpf:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 15px 40px rgba(16, 185, 129, 0.5),
+        0 0 50px rgba(16, 185, 129, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Bouton Devis - Orange éclatant */
+.btn-mega-devis {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    box-shadow: 
+        0 10px 30px rgba(245, 158, 11, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-mega-devis:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 15px 40px rgba(245, 158, 11, 0.5),
+        0 0 50px rgba(245, 158, 11, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-mega-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.cta-mega-icon-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.icon-target {
+    color: white;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.btn-mega-text {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.btn-mega-text strong {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.btn-mega-text small {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.btn-mega-arrow {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.btn-mega:hover .btn-mega-arrow {
+    transform: translateX(8px);
+}
+
+/* Bouton secondaire */
+.btn-secondary-mega {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-mega:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Trust badges */
+.cta-mega-trust {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.trust-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Tablette */
@@ -1427,6 +1913,11 @@
         font-size: clamp(1.5rem, 6vw, 2.5rem);
     }
 
+    /* Paragraphe descriptif mobile plus grand */
+    .hero__lead {
+        font-size: 1.25rem; /* 20px sur mobile au lieu de 24px desktop */
+    }
+
     .hero-cta {
         flex-direction: column;
         align-items: center;
@@ -1466,18 +1957,151 @@
         flex-direction: column;
         align-items: center;
     }
-
-    /* TOC mobile */
-    .floating-toc {
-        position: static;
-        margin: var(--space-xl) auto;
-        max-width: 100%;
+    
+    /* CTA Mega responsive */
+    .cta-section-mega {
+        padding: 40px 20px;
+        margin: 60px 0;
         border-radius: 16px;
     }
-
-    .floating-toc-toggle {
-        display: flex;
+    
+    .cta-mega-title {
+        font-size: 24px;
     }
+    
+    .cta-mega-subtitle {
+        font-size: 16px;
+    }
+    
+    .btn-mega {
+        flex-direction: row;
+        padding: 20px 24px;
+    }
+    
+    .btn-mega-text strong {
+        font-size: 18px;
+    }
+    
+    .btn-mega-text small {
+        font-size: 13px;
+    }
+    
+    .cta-mega-trust {
+        gap: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .trust-item {
+        font-size: 13px;
+    }
+
+    /* ===== TOC MOBILE SIMPLE ET INTELLIGENT ===== */
+    
+    /* Sur mobile : utiliser la variable --header-height du base.html.twig */
+    .hero--formation {
+        margin-top: 0 !important; /* Pas de margin, le padding est géré par main */
+        transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    /* NE PLUS masquer .toc-col car on l'utilise maintenant pour le menu mobile ! */
+    .toc-col {
+        display: block !important;
+        position: static !important; /* Pas fixed sur le parent */
+        pointer-events: auto !important; /* PERMETTRE les clics */
+    }
+    
+    /* Container du sommaire - Dropdown sous le bouton */
+    #toc {
+        /* NE PAS utiliser display: none - sinon conflit avec styles inline JS */
+        /* Utiliser seulement height + visibility + opacity pour cacher */
+        
+        /* Position */
+        position: fixed !important;
+        top: 161px !important; /* 105px + 56px - Position initiale restaurée */
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        
+        /* Design iOS épuré */
+        background: #ffffff !important;
+        border: none !important;
+        border-radius: 0 !important; /* PAS d'arrondis */
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) !important;
+        
+        /* Z-index */
+        z-index: 999 !important;
+        overflow: hidden !important;
+        
+        /* Padding */
+        padding: 0 !important;
+        
+        /* Animation de slide vertical avec HEIGHT - FERMÉ PAR DÉFAUT */
+        height: 0 !important; /* ZÉRO pour éviter l'espace blanc */
+        min-height: 0 !important; /* IMPORTANT : pas de min-height */
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: 
+            height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.3s ease,
+            visibility 0.3s ease,
+            pointer-events 0s linear 0.3s !important;
+    }
+
+    /* TOC ouvert */
+    #toc.is-open {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        overflow-y: hidden !important; /* Pas de scroll, hauteur exacte du contenu */
+        overflow-x: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        /* max-height défini dynamiquement en JS = hauteur exacte du contenu */
+        
+        /* Hauteur exacte = contenu sans espace supplémentaire */
+        box-sizing: border-box !important;
+        
+        /* Bordure iOS style */
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* Masquer scrollbar - style iOS */
+    #toc.is-open::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+    }
+    
+    /* Cacher le header avec le titre */
+    #toc > div:first-child {
+        display: none !important;
+    }
+    
+    /* FORCER l'affichage du nav */
+    #toc nav {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    
+    #toc.is-open nav {
+        display: flex !important;
+    }
+    
+    /* Navigation simple et propre */
+    #toc nav {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        /* Hauteur exacte = somme des liens, pas d'espace supplémentaire */
+        box-sizing: border-box !important;
+    }
+    
+    /* DESKTOP: TOC mobile button styles removed - old system restored */
 }
 
 /* ===== ANIMATIONS SUBTILES ===== */
@@ -1557,6 +2181,11 @@ html {
 
 <div class="formation-page">
     
+    <!-- MOBILE ONLY: Bouton toggle sommaire -->
+    <button class="floating-toc-toggle" id="toc-toggle-mobile" aria-label="Afficher/masquer le sommaire" aria-expanded="false">
+        Sommaire
+    </button>
+    
     <!-- ===== HERO AVEC TEXTE CENTRÉ VERTICALEMENT ===== -->
     <section class="hero--formation">
         <div class="hero__grid">
@@ -1566,11 +2195,11 @@ html {
                 <p class="hero__lead">{{ formations.descriptionFormation }}</p>
                 
                 <div class="hero__cta">
-                    <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="btn btn-primary-hero">
-                        S'inscrire maintenant
+                    <a href="#cta-section-mega" class="btn btn-primary-hero">
+                        Rejoindre la formation
                     </a>
-                    <a href="#" class="btn btn-secondary-hero btn-calendly-detail" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
-                        Parler à un conseiller
+                    <a href="{{ path('app_contact') }}" class="btn btn-secondary-hero">
+                        💬 Poser mes questions
                     </a>
 				</div>
 			</div>
@@ -1580,9 +2209,7 @@ html {
                 <div class="details-card details-card--hero">
                     <h3 class="details-title">
                         <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l11 11z"/>
-                            <path d="M12 5L8 21l4-7 4 7-4-16"/>
-                            <polyline points="10,9 9,9 8,9"/>
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                         </svg>
                         Détails de la formation
                     </h3>
@@ -1611,8 +2238,8 @@ html {
 					{% endif %}
                         <div class="details-item">
                             <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3"/>
-                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                             </svg>
                             <div class="details-meta">
                                 <span class="details-label">Langue</span>
@@ -1633,8 +2260,8 @@ html {
 					{% endif %}
                         <div class="details-item">
                             <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                                <circle cx="12" cy="8" r="7"/>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
                             </svg>
                             <div class="details-meta">
                                 <span class="details-label">Certification</span>
@@ -1643,8 +2270,8 @@ html {
                         </div>
                         <div class="details-item">
                             <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                                <path d="M10 16l6-6-6-6"/>
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                             </svg>
                             <div class="details-meta">
                                 <span class="details-label">Modalité</span>
@@ -1660,7 +2287,8 @@ html {
     <!-- ===== GRILLE 3 COLONNES : TOC | CONTENU | DÉTAILS ===== -->
     <div class="layout-formation">
         <!-- ===== TOC SIMPLE AVEC ANCRE ===== -->
-        <aside class="toc-col">
+        <aside class="toc-col" style="display: block !important; position: static;">
+            <!-- STYLE INLINE FORCÉ : Sur mobile, le JS va overrider position à fixed -->
             <!-- repère invisible qui sert de référence -->
             <div id="toc-anchor" aria-hidden="true"></div>
             
@@ -1760,19 +2388,6 @@ html {
 </div>
             </section>
 
-            <!-- CTA Intermédiaire -->
-            <section class="cta-section">
-                <h3>Prêt à commencer votre formation ?</h3>
-                <p>Échangez avec un conseiller pédagogique ou téléchargez le programme détaillé</p>
-                <div class="cta-buttons">
-                    <a href="#" class="btn-hero btn-primary-hero btn-calendly-detail" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
-                        Conseiller pédagogique
-                    </a>
-                    <a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="btn-hero btn-secondary-hero">
-                        Télécharger le programme
-			</a>
-		</div>
-            </section>
 
             <!-- Section Modalités & Évaluation -->
             <section id="methods-evaluation" class="content-section">
@@ -1832,24 +2447,105 @@ html {
             </section>
             {% endif %}
 
-            <!-- CTA Final avec Correction Stripe -->
-            <section class="cta-section">
-                <h3>Inscrivez-vous dès maintenant</h3>
-                <p>Démarrez votre parcours de formation professionnelle avec l'INFPF</p>
-                <div class="cta-buttons">
-            {% if formations.id == 89 %}
-                        <a href="https://www.moncompteformation.gouv.fr/espace-prive/html/#/formation/recherche/92791645200018_infpf15/92791645200018_infpf2" target="_blank" class="btn-hero btn-primary-hero">
-                            Inscription CPF
-                        </a>
-            {% elseif formations.id != 90 %}
-                        <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="btn-hero btn-secondary-hero">
-                            Finançable CPF
+            <!-- CTA Final ULTRA-VISIBLE avec Inscription selon éligibilité CPF -->
+            <section class="cta-section-mega" id="cta-section-mega">
+                <div class="cta-mega-container">
+                    <div class="cta-mega-content">
+                        <div class="cta-mega-icon-title">
+                            <svg class="icon-target" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="6"></circle>
+                                <circle cx="12" cy="12" r="2"></circle>
+                            </svg>
+                            <h2 class="cta-mega-title">Prêt à transformer votre carrière ?</h2>
+                        </div>
+                        <p class="cta-mega-subtitle">Inscription rapide et simple en quelques clics</p>
+                    </div>
+                    
+                    <div class="cta-mega-buttons">
+                        {% if formations.cpfUrl %}
+                            {# Formation avec lien CPF spécifique → Bouton INSCRIPTION CPF #}
+                            <a href="{{ formations.cpfUrl }}" target="_blank" class="btn-mega btn-mega-cpf" rel="noopener noreferrer">
+                                <svg class="btn-mega-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                <span class="btn-mega-text">
+                                    <strong>INSCRIPTION CPF</strong>
+                                    <small>Formation 100% éligible</small>
+                                </span>
+                                <svg class="btn-mega-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        {% else %}
+                            {# Formation SANS lien CPF → Bouton DEMANDER UN DEVIS #}
+                            <a href="{{ path('app_contact') }}#formulaire-contact" class="btn-mega btn-mega-devis">
+                                <svg class="btn-mega-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                <span class="btn-mega-text">
+                                    <strong>DEMANDER UN DEVIS</strong>
+                                    <small>Réponse sous 24h garantie</small>
+                                </span>
+                                <svg class="btn-mega-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
                         </a>
                     {% endif %}
         
-                    <a href="{{ path('create_checkout_session', {'productId': formations.id}) }}" class="btn-hero btn-primary-hero">
-                        Inscription directe
-                    </a>
+                        {# Bouton Télécharger le programme (déplacé depuis section supprimée) #}
+                        <a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="btn-mega btn-mega-download" style="background: white !important; color: #0b3f89 !important; border: 2px solid #0b3f89 !important;">
+                            <svg class="btn-mega-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span class="btn-mega-text">
+                                <strong>TÉLÉCHARGER LE PROGRAMME</strong>
+                                <small>Détails complets de la formation</small>
+                            </span>
+                            <svg class="btn-mega-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+        
+                        <a href="{{ path('app_contact') }}" class="btn-secondary-mega">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            Besoin de conseils ? Contactez-nous
+                        </a>
+                    </div>
+                    
+                    <div class="cta-mega-trust">
+                        <div class="trust-item">
+                            <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                            <span class="trust-text">Inscription rapide</span>
+                        </div>
+                        <div class="trust-item">
+                            <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span class="trust-text">Certification Qualiopi</span>
+                        </div>
+                        <div class="trust-item">
+                            <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                            <span class="trust-text">Accompagnement personnalisé</span>
+                        </div>
+                    </div>
 </div>
             </section>
 
@@ -1870,17 +2566,21 @@ html {
         <!-- ===== DÉTAILS STICKY ET COLLÉS À DROITE ===== -->
         <aside class="details-col">
             <!-- ===== DÉTAILS FLOATING (système scroll indépendant) ===== -->
-            <div class="details-card">
-            <h3 class="details-title">
+            <div class="details-card" id="details-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 class="details-title" style="margin: 0;">
                 <svg class="details-title-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14,2 14,8 20,8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10,9 9,9 8,9"/>
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
                 Détails de la formation
             </h3>
+                <button class="details-close-btn" id="details-close-btn" aria-label="Fermer les détails" style="display: none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
             <div class="details-list">
                 <div class="details-item">
                     <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1909,8 +2609,7 @@ html {
                 <div class="details-item">
                     <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/>
-                        <line x1="2" y1="12" x2="22" y2="12"/>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                     </svg>
                     <div class="details-meta">
                         <span class="details-label">Langue</span>
@@ -1933,16 +2632,8 @@ html {
                 
                 <div class="details-item">
                     <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="16" y1="2" x2="16" y2="6"/>
-                        <line x1="8" y1="2" x2="8" y2="6"/>
-                        <line x1="3" y1="10" x2="21" y2="10"/>
-                        <path d="M8 14h.01"/>
-                        <path d="M12 14h.01"/>
-                        <path d="M16 14h.01"/>
-                        <path d="M8 18h.01"/>
-                        <path d="M12 18h.01"/>
-                        <path d="M16 18h.01"/>
+                        <circle cx="12" cy="8" r="7"/>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
                     </svg>
                     <div class="details-meta">
                         <span class="details-label">Certification</span>
@@ -1952,8 +2643,8 @@ html {
 
                 <div class="details-item">
                     <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                        <circle cx="12" cy="10" r="3"/>
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                     </svg>
                     <div class="details-meta">
                         <span class="details-label">Modalité</span>
@@ -1964,11 +2655,6 @@ html {
             </div>
         </aside>
     </div> <!-- fin layout-formation -->
-
-    <!-- Toggle TOC mobile -->
-    <button class="floating-toc-toggle" id="toc-toggle" aria-label="Afficher/masquer le sommaire">
-        ≡
-    </button>
     
     </div> <!-- fin formation-page -->
 
@@ -1988,7 +2674,9 @@ const formationData = {
 };
 
 // ===== INITIALISATION STRIPE AVEC CLÉ PUBLIQUE =====
-const stripe = Stripe('pk_test_TL5c_VF_9X5rS_A_r_K4QJf8_Qd_W_eN_5_E_l_A_r_D_E');
+// IMPORTANT : Cette clé publique doit correspondre au compte qui a la clé secrète sk_test_51PGd7RP7ZQZW88VW...
+// Vous devez la récupérer depuis votre dashboard Stripe : https://dashboard.stripe.com/test/apikeys
+const stripe = Stripe('pk_test_51PGd7RP7ZQZW88VWYourPublicKeyHere');
 
 // Diagnostic Stripe amélioré
 console.log('=== STRIPE DIAGNOSTIC ===');
@@ -1998,10 +2686,11 @@ console.log('Prix formation:', formationData.prix);
 </script>
 
 <script>
-// ===== TOC FLOTTANT SIMPLE ===== 
+// ===== TOC FLOTTANT SIMPLE (DESKTOP + MOBILE) ===== 
+// MOBILE ONLY: Mirrored desktop logic - same behavior, adapted UI via CSS
 console.log('🚀 SCRIPT TOC: Démarrage');
 (function(){
-    console.log('🚀 SCRIPT TOC: Fonction anonyme exécutée');
+    console.log('💻 SCRIPT TOC: Fonction anonyme exécutée (desktop + mobile)');
 
     // calcule la hauteur du header pour l'offset (ajuste selon ta classe)
     function headerOffset(){
@@ -2189,6 +2878,12 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         console.log('✅ TOC System: Prêt avec scroll-spy dynamique');
     }
 
+    // ===== DÉSACTIVER SUR MOBILE - Conflit avec le toggle mobile =====
+    if (window.innerWidth <= 1100) {
+        console.log('📱 TOC Desktop désactivé sur mobile (largeur:', window.innerWidth, 'px)');
+        return;
+    }
+
     console.log('🔧 TOC: Ajout des event listeners');
     console.log('🔧 TOC: readyState =', document.readyState);
     
@@ -2264,6 +2959,158 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- Calendly Integration -->
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- MOBILE ONLY: Script pour toggle du sommaire mobile -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Actif uniquement sur mobile
+    if (window.innerWidth > 1100) {
+        console.log('📱 Toggle mobile désactivé sur desktop');
+        return;
+    }
+    
+    console.log('📱 Toggle mobile: Initialisation...');
+    
+    const toggleBtn = document.getElementById('toc-toggle-mobile');
+    const toc = document.getElementById('toc');
+    
+    console.log('🔍 Bouton trouvé:', !!toggleBtn, toggleBtn);
+    console.log('🔍 TOC trouvé:', !!toc, toc);
+    
+    if (!toggleBtn || !toc) {
+        console.error('❌ Bouton ou TOC introuvable');
+        return;
+    }
+    
+    // État initial: TOC caché
+    let isOpen = false;
+    
+    toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        isOpen = !isOpen;
+        
+        console.log('🖱️ Clic sur bouton sommaire, isOpen =', isOpen);
+        
+        if (isOpen) {
+            // Ouvrir: forcer l'affichage
+            toc.classList.add('is-visible', 'is-fixed');
+            toggleBtn.classList.add('active');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            
+            // FORCER EN JAVASCRIPT (ultime recours) + ACTIVER LES CLICS
+            toc.style.setProperty('display', 'block', 'important');
+            toc.style.setProperty('height', 'auto', 'important');
+            toc.style.setProperty('max-height', 'none', 'important');
+            toc.style.setProperty('overflow', 'visible', 'important');
+            toc.style.setProperty('pointer-events', 'auto', 'important');
+            toc.style.setProperty('z-index', '1000', 'important');
+            toc.style.setProperty('pointer-events', 'auto', 'important');
+            
+            // Ajuster le top selon la taille d'écran
+            const btnRect = toggleBtn.getBoundingClientRect();
+            const topPosition = btnRect.bottom; // Juste sous le bouton
+            toc.style.setProperty('top', topPosition + 'px', 'important');
+            
+            const nav = toc.querySelector('nav');
+            if (nav) {
+                nav.style.setProperty('display', 'flex', 'important');
+                nav.style.setProperty('flex-direction', 'column', 'important');
+                nav.style.setProperty('height', 'auto', 'important');
+                nav.style.setProperty('max-height', 'none', 'important');
+                
+                const links = nav.querySelectorAll('a');
+                links.forEach(link => {
+                    link.style.setProperty('display', 'block', 'important');
+                    link.style.setProperty('height', 'auto', 'important');
+                    link.style.setProperty('min-height', '50px', 'important');
+                    link.style.setProperty('padding', '16px 20px', 'important');
+                    link.style.setProperty('opacity', '1', 'important');
+                    link.style.setProperty('visibility', 'visible', 'important');
+                    link.style.setProperty('pointer-events', 'auto', 'important');
+                    link.style.setProperty('cursor', 'pointer', 'important');
+                    link.style.setProperty('z-index', '1001', 'important');
+                    
+                    // NAVIGATION: Smooth scroll vers la section
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            // Fermer le menu
+                            isOpen = false;
+                            toc.classList.remove('is-visible', 'is-fixed');
+                            toggleBtn.classList.remove('active');
+                            toggleBtn.setAttribute('aria-expanded', 'false');
+                            
+                            // Scroller vers la section
+                            const headerOffset = 180; // Offset pour le header fixe
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            console.log('📍 Navigation vers:', targetId);
+                        }
+                    });
+                });
+                
+                console.log('✅ Styles + Navigation forcés sur', links.length, 'liens');
+            }
+            
+            // LOGS DE DEBUG
+            console.log('📖 Sommaire mobile ouvert');
+            console.log('🔍 Classes TOC:', toc.classList.toString());
+            console.log('🔍 Style display:', window.getComputedStyle(toc).display);
+            console.log('🔍 Style opacity:', window.getComputedStyle(toc).opacity);
+            console.log('🔍 Style visibility:', window.getComputedStyle(toc).visibility);
+            console.log('🔍 Position TOC:', toc.getBoundingClientRect());
+            
+            // Forcer un reflow
+            setTimeout(() => {
+                console.log('🔍 Position TOC après 100ms:', toc.getBoundingClientRect());
+            }, 100);
+        } else {
+            // Fermer: retirer les classes ET désactiver les clics
+            toc.classList.remove('is-visible', 'is-fixed');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // DÉSACTIVER LES CLICS quand fermé
+            toc.style.setProperty('pointer-events', 'none', 'important');
+            toc.style.setProperty('display', 'none', 'important');
+            toc.style.setProperty('height', '0', 'important');
+            toc.style.setProperty('overflow', 'hidden', 'important');
+            
+            console.log('📕 Sommaire mobile fermé et désactivé');
+        }
+    });
+    
+    // Fermer le sommaire quand on clique sur un lien
+    toc.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function() {
+            isOpen = false;
+            toc.classList.remove('is-visible', 'is-fixed');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // DÉSACTIVER LES CLICS quand fermé
+            toc.style.setProperty('pointer-events', 'none', 'important');
+            toc.style.setProperty('display', 'none', 'important');
+            toc.style.setProperty('height', '0', 'important');
+            
+            console.log('🔗 Lien cliqué, sommaire fermé et désactivé');
+        });
+    });
+    
+    console.log('✅ Toggle mobile initialisé avec succès');
+});
+</script>
+
+<!-- Calendly Integration - DÉSACTIVÉ pour éviter conflit avec redirection mobile -->
+{# <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> #}
 {% endblock %}

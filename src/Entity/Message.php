@@ -26,6 +26,26 @@ class Message
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $formationId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $formationName = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $requestType = null; // 'renseignement' ou 'devis'
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $preferredMode = null; // 'presentiel', 'distance', 'indifferent'
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +96,61 @@ class Message
     {
         $this->content = $content;
 
+        return $this;
+    }
+
+    public function getFormationId(): ?int
+    {
+        return $this->formationId;
+    }
+
+    public function setFormationId(?int $formationId): static
+    {
+        $this->formationId = $formationId;
+        return $this;
+    }
+
+    public function getFormationName(): ?string
+    {
+        return $this->formationName;
+    }
+
+    public function setFormationName(?string $formationName): static
+    {
+        $this->formationName = $formationName;
+        return $this;
+    }
+
+    public function getRequestType(): ?string
+    {
+        return $this->requestType;
+    }
+
+    public function setRequestType(?string $requestType): static
+    {
+        $this->requestType = $requestType;
+        return $this;
+    }
+
+    public function getPreferredMode(): ?string
+    {
+        return $this->preferredMode;
+    }
+
+    public function setPreferredMode(?string $preferredMode): static
+    {
+        $this->preferredMode = $preferredMode;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    {
+        $this->createdAt = $createdAt;
         return $this;
     }
 }

@@ -22,13 +22,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class HomeController extends AbstractController
 {
     #[Route('/formation', name: 'app_home')]
-    public function index(FormationRepository $formationRepository, BlogRepository $blogRepository, CategoryRepository $categoryRepository, DataProviderService $dataProviderService, Request $request): Response
+    public function index(FormationRepository $formationRepository, CategoryRepository $categoryRepository, DataProviderService $dataProviderService, Request $request): Response
     {
         $searchTerm = $request->query->get('search', '');
         $sortOrder = $request->query->get('sort', 'asc');
-        $selectedCategoryId = $request->query->get('category_id', 'all');
-        $categoryIdForQuery = $selectedCategoryId === 'all' ? null : $selectedCategoryId;
-
+        
         // Récupère les catégories pour le menu déroulant avec IA en premier
         $allCategoriesForFormation = $categoryRepository->findAll();
         $iaCategoryForFormation = null;
@@ -59,21 +57,23 @@ class HomeController extends AbstractController
             'funding' => $request->query->get('funding'),
         ];
         
-        // Ajouter le filtrage par catégorie si spécifié
-        if ($categoryIdForQuery !== null) {
-            // Convertir en integer pour s'assurer du type correct
-            $categoryIdForQuery = (int) $categoryIdForQuery;
-            $filterCriteria['thematique'] = [$categoryIdForQuery];
+        // Déterminer la catégorie sélectionnée pour l'affichage des compteurs
+        // Si une seule thématique est sélectionnée, on l'utilise, sinon "all"
+        $selectedThematiques = $request->query->all('thematique');
+        if (!empty($selectedThematiques) && count($selectedThematiques) === 1) {
+            $selectedCategoryId = (int) $selectedThematiques[0];
+        } else {
+            $selectedCategoryId = 'all';
         }
 
         // Applique les filtres additionnels
         $queryBuilder = $formationRepository->findFormationsByCriteria(array_filter($filterCriteria, function($value) { return !is_null($value) && $value !== ''; }));
         
-        // Ajout du filtre RNCP (formations éligibles si elles ont un RNCP rempli)
-        $hasRncp = $request->query->get('has_rncp');
-        if ($hasRncp) {
-            $queryBuilder->andWhere('f.rncp IS NOT NULL')
-                         ->andWhere('f.rncp != \'\'');
+        // Ajout du filtre CPF (formations éligibles si elles ont un cpfUrl)
+        $hasCpf = $request->query->get('has_rncp');
+        if ($hasCpf) {
+            $queryBuilder->andWhere('f.cpfUrl IS NOT NULL')
+                         ->andWhere('f.cpfUrl != \'\'');
         }
         // Appliquer l'ordre de tri avec priorité IA
         if ($sortOrder === 'asc') {
@@ -87,6 +87,12 @@ class HomeController extends AbstractController
         }
 
         $formations = $queryBuilder->getQuery()->getResult();
+        
+        // Filtrage par durée côté PHP (car les formats sont trop variés pour SQL)
+        $durationFilter = $request->query->all('duration');
+        if (!empty($durationFilter)) {
+            $formations = $formationRepository->filterByDuration($formations, $durationFilter);
+        }
         
         // Tri supplémentaire côté PHP pour s'assurer que IA est en premier
         usort($formations, function($a, $b) use ($sortOrder) {
@@ -112,7 +118,11 @@ class HomeController extends AbstractController
             $formationsCountByCategory[$category->getId()] = $dataProviderService->getTotalFormationsInCategory($category->getId());
         }
 
-        $totalGlobal = array_sum($formationsCountByCategory);
+        // Le nombre total à afficher dépend du filtrage
+        // Si des filtres sont appliqués (thématique OU durée), on affiche le nombre de formations FILTRÉES
+        // Sinon, on affiche le total global
+        $hasFilters = !empty($selectedThematiques) || !empty($durationFilter);
+        $totalGlobal = $hasFilters ? count($formations) : array_sum($formationsCountByCategory);
 
         // Formations regroupées par catégorie, si nécessaire pour l'affichage
         $formationsByCategory = [];
@@ -123,11 +133,8 @@ class HomeController extends AbstractController
             ];
         }
 
-        $blogs = $blogRepository->findAll();
-
         return $this->render('home/formation.html.twig', [
             'formations' => $formations,
-            'blogs' => $blogs,
             'formationsByCategory' => $formationsByCategory,
             'formationsCountByCategory' => $formationsCountByCategory,
             'categories' => $categories,

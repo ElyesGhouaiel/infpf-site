@@ -38,6 +38,13 @@
 			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
 		}
 
+		/* ===== JUSTIFICATION GLOBALE DES PARAGRAPHES ===== */
+		p {
+			text-align: justify !important;
+			-webkit-hyphens: auto !important;
+			hyphens: auto !important;
+		}
+
 		/* ===== HERO SECTION MODERNE ===== */
 		.cpf-hero-formation {
 			position: relative;
@@ -49,7 +56,8 @@
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			padding: 40px 40px;
+			padding: 100px 40px 40px 40px;
+			margin-top: 0;
 		}
 
 		.cpf-hero-formation::before {
@@ -95,7 +103,7 @@
 		.cpf-hero-subtitle {
 			font-size: clamp(1.3rem, 3vw, 1.8rem);
 			font-weight: 400;
-			margin-bottom: 50px;
+			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
 		}
@@ -417,6 +425,10 @@
 			margin: 0 auto;
 			text-align: center;
 		}
+		
+		.video-youtube-link {
+			display: none;
+		}
 
 		.video-title {
 			font-size: clamp(2.6rem, 5vw, 3.6rem);
@@ -435,23 +447,21 @@
 			line-height: 1.6;
 		}
 
+		/* SOLUTION OPTIMALE - L'IFRAME DICTE LA TAILLE */
 		.video-wrapper {
-			position: relative;
 			width: 100%;
-			height: 0;
-			padding-bottom: 56.25%; /* Ratio 16:9 */
 			border-radius: var(--border-radius);
 			overflow: hidden;
 			box-shadow: var(--shadow-medium);
+			container-type: inline-size;
 		}
 
 		.video-wrapper iframe {
-			position: absolute;
-			top: 0;
-			left: 0;
 			width: 100%;
-			height: 100%;
-			border: none;
+			aspect-ratio: 16 / 9;
+			border: 0;
+			display: block;
+			max-width: 100%;
 		}
 
 		/* ===== BOUTONS MODERNES ===== */
@@ -491,7 +501,7 @@
 		/* ===== BOUTON RETOUR HUB ===== */
 		.back-to-hub {
 			position: fixed;
-			top: 180px;
+			bottom: 30px;
 			left: 30px;
 			z-index: 1000;
 		}
@@ -527,13 +537,13 @@
 		}
 
 		.back-hub-btn:hover svg {
-			transform: translateX(-3px);
+			transform: scale(1.1);
 		}
 
 		/* ===== RESPONSIVE DESIGN ===== */
 		@media (max-width: 1024px) {
 			.back-to-hub {
-				top: 80px;
+				bottom: 25px;
 				left: 20px;
 			}
 			
@@ -544,7 +554,12 @@
 			
 			.cpf-hero-formation {
 				min-height: 40vh;
-				padding: 30px 30px;
+				/* Utilise calc() pour un padding dynamique comme /formation */
+				padding: calc(var(--header-height) + 20px) 30px 30px 30px;
+			}
+			
+			.cpf-hero-subtitle {
+				margin-bottom: 28px;
 			}
 
 			.cpf-section-row {
@@ -560,6 +575,16 @@
 			.main-container {
 				padding: 60px 30px;
 			}
+			
+			.video-section {
+				padding: 60px 30px;
+				margin: 60px 0;
+				border-radius: 20px;
+			}
+			
+			.video-wrapper {
+				border-radius: 20px;
+			}
 
 			.info-cards {
 				grid-template-columns: 1fr;
@@ -569,7 +594,7 @@
 
 		@media (max-width: 768px) {
 			.back-to-hub {
-				top: 70px;
+				bottom: 20px;
 				left: 15px;
 			}
 			
@@ -589,7 +614,8 @@
 			
 			.cpf-hero-formation {
 				min-height: 35vh;
-				padding: 25px 20px;
+				/* Utilise calc() pour un padding dynamique */
+				padding: calc(var(--header-height) + 16px) 20px 25px 20px;
 			}
 
 			.cpf-hero-title {
@@ -599,13 +625,60 @@
 
 			.cpf-hero-subtitle {
 				font-size: clamp(1.1rem, 4vw, 1.4rem);
-				margin-bottom: 30px;
+				margin-bottom: 24px;
 			}
 
 			.main-container,
-			.cpf-section-row,
-			.video-section {
+			.cpf-section-row {
 				padding: 0 20px;
+			}
+			
+			.video-section {
+				padding: 40px 20px;
+				margin: 50px 0;
+				border-radius: 16px;
+			}
+			
+			.video-title {
+				font-size: clamp(2rem, 5vw, 2.8rem);
+				margin-bottom: 16px;
+			}
+			
+			.video-description {
+				font-size: 1.2rem;
+				margin-bottom: 24px;
+			}
+			
+			.video-wrapper {
+				border-radius: 16px;
+			}
+			
+			.video-youtube-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+				background: #FF0000;
+				color: white;
+				padding: 14px 24px;
+				border-radius: 50px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 0.95rem;
+				margin-top: 20px;
+				transition: var(--transition);
+				box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+			}
+			
+			.video-youtube-link:hover {
+				background: #cc0000;
+				color: white;
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+			}
+			
+			.video-youtube-link svg {
+				width: 20px;
+				height: 20px;
 			}
 
 			.modern-section {
@@ -649,7 +722,12 @@
 		@media (max-width: 480px) {
 			.cpf-hero-formation {
 				min-height: 30vh;
-				padding: 20px 16px;
+				/* Utilise calc() pour un padding dynamique */
+				padding: calc(var(--header-height) + 16px) 16px 20px 16px;
+			}
+			
+			.cpf-hero-subtitle {
+				margin-bottom: 20px;
 			}
 
 			.cpf-hero-title {
@@ -658,6 +736,38 @@
 
 			.cpf-hero-subtitle {
 				font-size: clamp(1rem, 4vw, 1.2rem);
+			}
+			
+			.video-section {
+				padding: 30px 16px;
+				margin: 40px 0;
+				border-radius: 12px;
+			}
+			
+			.video-title {
+				font-size: clamp(1.8rem, 6vw, 2.4rem);
+				margin-bottom: 12px;
+			}
+			
+			.video-description {
+				font-size: 1.1rem;
+				margin-bottom: 20px;
+			}
+			
+			.video-wrapper {
+				border-radius: 12px;
+			}
+			
+			.video-youtube-link {
+				display: inline-flex;
+				padding: 12px 20px;
+				font-size: 0.9rem;
+				margin-top: 16px;
+			}
+			
+			.video-youtube-link svg {
+				width: 18px;
+				height: 18px;
 			}
 
 			.feature-header {
@@ -722,8 +832,8 @@
 <!-- Bouton Retour vers le Hub -->
 <div class="back-to-hub">
 	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		<svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+			<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
 		</svg>
 		<span>Retour à L'École</span>
 	</a>
@@ -778,6 +888,12 @@
 					allowfullscreen>
 				</iframe>
 			</div>
+			<a href="https://www.youtube.com/watch?v=7TSFCp66Jb0" target="_blank" rel="noopener noreferrer" class="video-youtube-link">
+				<svg viewBox="0 0 24 24" fill="currentColor">
+					<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+				</svg>
+				<span>Voir sur YouTube</span>
+			</a>
 		</div>
 	</section>
 

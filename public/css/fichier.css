@@ -3747,7 +3747,9 @@
       order: 4;
       flex-direction: column;
       justify-content: center;
-      margin-bottom: 30px
+      align-items: center;
+      margin-bottom: 0;
+      margin-top: 0
     }
 
     .header__menu-burger__trait {
@@ -3763,7 +3765,7 @@
 
   .header__menu-burger--active {
     position: relative;
-    top: -10px
+    top: 0
   }
 
   .header__menu-burger--active .header__menu-burger__trait {
@@ -4947,16 +4949,86 @@
 }
 
 .bouton-retour-haut {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  z-index: 1000;
-  display:none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: fixed !important;
+  bottom: 30px !important; /* Même hauteur que le badge reCAPTCHA */
+  right: 150px !important; /* Bien séparé du badge reCAPTCHA (qui est à ~14px) */
+  width: 50px !important;
+  height: 50px !important;
+  cursor: pointer !important;
+  z-index: 2147483647 !important; /* Z-index maximum pour être au-dessus de tout */
+  display: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  /* Assurer qu'il ne soit jamais caché */
+  pointer-events: auto !important;
 }
+
+/* État visible du bouton - Force l'affichage */
+.bouton-retour-haut.visible,
+#btnScrollTop[style*="display: block"] {
+  display: block !important;
+}
+
+/* Hover avec priorité absolue */
 .bouton-retour-haut:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) !important;
+}
+
+/* Responsive : Sur mobile, déplacer plus à gauche */
+@media (max-width: 768px) {
+  .bouton-retour-haut {
+    right: 100px !important; /* Plus proche du bord sur mobile */
+    bottom: 30px !important;
+  }
+
+/* ===== CORRECTION ALIGNEMENT VERTICAL MENU BURGER MOBILE (SOLUTION ROBUSTE) ===== */
+@media (max-width: 1199px) {
+  /* Le header devient un conteneur flex pour aligner ses enfants */
+  .header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 15px 20px !important;
+    min-height: 70px !important;
+  }
+  
+  /* Le container prend toute la largeur disponible */
+  .header__container {
+    display: flex !important;
+    flex: 1 !important;
+    align-items: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-bottom: none !important;
+  }
+  
+  /* Le logo doit être centré verticalement */
+  .header__container a[href="/"] {
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .logo-infpf {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Le burger doit être centré verticalement et à droite */
+  .header__menu-burger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+  
+  .header__menu-burger__trait {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 3px 0;
+  }
 }

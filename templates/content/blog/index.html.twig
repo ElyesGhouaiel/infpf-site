@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog de l'INFPF - Actualités et Nouveautés{% endblock %}
+{% block title %}Blog de l'Institut National de Formation Professionnelle{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -327,6 +327,10 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .blog-header {
+                padding-top: calc(var(--header-height) + 20px) !important;
+            }
+            
             .blog-index-container {
                 margin: 1rem auto;
                 padding: 0 0.5rem;
@@ -485,4 +489,6 @@
         </div>
         {% endif %}
     </div>
+
+{% include 'footer.html.twig' %}
 {% endblock %}

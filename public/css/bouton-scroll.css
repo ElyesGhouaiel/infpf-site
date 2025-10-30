@@ -1,0 +1,58 @@
+/* CSS dédié au bouton de retour en haut - Version définitive */
+/* Ce fichier force le positionnement correct du bouton flèche */
+
+#btnScrollTop,
+.bouton-retour-haut {
+  position: fixed !important;
+  bottom: 100px !important; /* Monté bien au-dessus du badge reCAPTCHA */
+  right: 30px !important; /* Même alignement horizontal que le badge */
+  width: 50px !important;
+  height: 50px !important;
+  cursor: pointer !important;
+  z-index: 2147483646 !important; /* Juste en dessous du badge reCAPTCHA */
+  display: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  /* Positionné AU-DESSUS du badge reCAPTCHA pour éviter la superposition */
+}
+
+/* Badge reCAPTCHA : replié en mode compact (icône seulement) */
+.grecaptcha-badge {
+  right: 14px !important;
+  bottom: 14px !important;
+  z-index: 2147483647 !important; /* Au-dessus de tout */
+  width: 70px !important; /* Largeur minimale pour le replier */
+  height: 60px !important; /* Hauteur compacte */
+  overflow: hidden !important; /* Cache le texte déplié */
+  transition: all 0.3s ease !important;
+}
+
+/* Au survol, on peut le déplier */
+.grecaptcha-badge:hover {
+  width: 256px !important; /* Largeur normale au hover */
+  height: 60px !important;
+}
+
+/* Force l'affichage quand visible */
+#btnScrollTop[style*="display: block"],
+.bouton-retour-haut[style*="display: block"] {
+  display: block !important;
+}
+
+/* Hover */
+#btnScrollTop:hover,
+.bouton-retour-haut:hover {
+  transform: scale(1.1) !important;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+  #btnScrollTop,
+  .bouton-retour-haut {
+    right: 20px !important;
+    bottom: 90px !important;
+  }
+}
+
