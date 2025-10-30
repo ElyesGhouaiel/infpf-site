@@ -244,8 +244,9 @@
             </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="captcha_token" id="captcha_token">
 
-            <button class="btn-auth" type="submit">
+            <button class="btn-auth" type="submit" id="login-submit-btn">
                 Se connecter
             </button>
         </form>
@@ -255,5 +256,37 @@
         </div>
     </div>
 </div>
+
+<!-- Script reCAPTCHA v3 -->
+<script src="https://www.google.com/recaptcha/api.js?render=6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq" async defer></script>
+<script>
+function waitForRecaptcha(callback) {
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
+        callback();
+    } else {
+        setTimeout(function() { waitForRecaptcha(callback); }, 100);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitBtn = document.getElementById('login-submit-btn');
+    
+    waitForRecaptcha(function() {
+        form.addEventListener('submit', function(e) {
+            const captchaInput = document.getElementById('captcha_token');
+            if (!captchaInput.value) {
+                e.preventDefault();
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq', {action: 'login'}).then(function(token) {
+                        captchaInput.value = token;
+                        form.submit();
+                    });
+                });
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
 

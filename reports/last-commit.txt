@@ -1,7 +1,30 @@
-commit f32adc8cd7458ca1107b3056e333d9787bfce17e
+commit c48fe94b646d7df3955c9072d6235f2aab292e21
 Author:     Elyes Ghouaiel <elyes.ghouaiel@infpf.fr>
-AuthorDate: 2025-09-12 12:45:35 +0000
+AuthorDate: 2025-10-01 10:54:48 +0000
 Commit:     Elyes Ghouaiel <elyes.ghouaiel@infpf.fr>
-CommitDate: 2025-09-12 12:45:35 +0000
+CommitDate: 2025-10-01 10:57:53 +0000
 
-    SSH authentication working on main site
+    feat: retours Marc (16/09/2025) - refonte UX desktop + blog + formations
+    
+    Amélioration et Mise en place des retours de Marc depuis le 16/09/2025
+    (version desktop pas encore réalisée sur mobile ! + suivi sur Trello)
+    et résolution des différents problèmes.
+    
+    Changements principaux :
+    - 🎨 Refonte complète templates (base.html.twig, home, formations, école)
+    - 📝 Système blog complet avec publication programmée et sections
+    - 🏠 Page d'accueil modernisée avec hero banner et animations AOS
+    - 📚 Pages formations redesignées avec UX améliorée
+    - 🎓 Pages école refondues (certification, coaching, financement, etc.)
+    - 📱 Menu mobile optimisé avec gestion z-index et responsive
+    - ⚙️ Contrôleurs et services mis à jour (Blog, Contact, Home, Métiers)
+    - 🔧 Configuration métiers enrichie avec descriptions détaillées
+    - 📦 Dépendances mises à jour (composer.json/lock)
+    - 🛠️ Correction configuration bundles et optimisation build
+    - 📄 Documentation complète avec README professionnel
+    - 🗂️ Fichiers volumineux exclus (bundle 197MB)
+    
+    Impact : +45,709 lignes, -3,004 lignes, 112 fichiers (bundle exclu)
+    Fichiers critiques : templates/ (21.9% école, 9.7% blog), src/Controller/ (9.7%)
+    
+    Refs: Retours utilisateur Marc depuis 16/09/2025clear

@@ -68,6 +68,9 @@ class Formation
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $rncp = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $cpfUrl = null;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $lieu = null;
 
@@ -250,6 +253,19 @@ class Formation
      public function setRncp(?string $rncp): self
      {
          $this->rncp = $rncp;
+         return $this;
+     }
+
+     // Getter pour cpfUrl
+     public function getCpfUrl(): ?string
+     {
+         return $this->cpfUrl;
+     }
+ 
+     // Setter pour cpfUrl
+     public function setCpfUrl(?string $cpfUrl): self
+     {
+         $this->cpfUrl = $cpfUrl;
          return $this;
      }
  

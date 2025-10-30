@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Analytics RGPD - INFPF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: #f8fafc;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav h3 {
+            color: #0b3f89;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .nav ul {
+            list-style: none;
+        }
+
+        .nav li {
+            margin: 8px 0;
+        }
+
+        .nav a {
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .nav a:hover {
+            color: #0b3f89;
+            background: #f1f5f9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: #0b3f89;
+            font-size: 32px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        .section h3 {
+            color: #1e293b;
+            font-size: 24px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        .section h4 {
+            color: #475569;
+            font-size: 18px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .section p {
+            margin-bottom: 16px;
+            color: #475569;
+            font-size: 16px;
+        }
+
+        .section ul, .section ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .section li {
+            margin: 8px 0;
+            color: #475569;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 24px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+
+        .code-inline {
+            background: #f1f5f9;
+            color: #0b3f89;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .alert {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #10b981;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #f59e0b;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #3b82f6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid #0b3f89;
+        }
+
+        .feature-card h4 {
+            color: #0b3f89;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .feature-card ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .feature-card li {
+            font-size: 14px;
+            margin: 6px 0;
+        }
+
+        .checklist {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            list-style: none;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 12px;
+            font-size: 20px;
+            color: #94a3b8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 8px 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+        }
+
+        .footer {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .section {
+                padding: 24px;
+            }
+
+            .section h2 {
+                font-size: 24px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Documentation Analytics RGPD</h1>
+        <p>Configuration et gestion du système d'analytics conforme aux réglementations européennes</p>
+    </div>
+
+    <div class="container">
+        <div class="nav">
+            <h3>Table des matières</h3>
+            <ul>
+                <li><a href="#exclusion">Exclusion du trafic administrateur</a></li>
+                <li><a href="#rgpd">Comportement RGPD</a></li>
+                <li><a href="#verification">Vérification des exclusions</a></li>
+                <li><a href="#configuration">Configuration avancée</a></li>
+                <li><a href="#commandes">Commandes utiles</a></li>
+                <li><a href="#checklist">Checklist de vérification</a></li>
+                <li><a href="#support">Support technique</a></li>
+            </ul>
+        </div>
+
+        <section id="exclusion" class="section">
+            <h2>Exclusion du trafic administrateur</h2>
+            <p>Votre trafic peut être exclu des statistiques de plusieurs manières, par ordre de priorité :</p>
+
+            <h3>1. Exclusion automatique par rôle</h3>
+            <div class="alert alert-success">
+                <strong>Déjà actif :</strong> Si vous êtes connecté avec le rôle <span class="code-inline">ROLE_ADMIN</span>, votre trafic est automatiquement exclu. Aucune configuration n'est nécessaire.
+            </div>
+
+            <h3>2. Exclusion des routes privées</h3>
+            <div class="alert alert-success">
+                <strong>Déjà actif :</strong> Toutes les pages administratives sont automatiquement exclues.
+            </div>
+            <p>Routes exclues par défaut :</p>
+            <ul>
+                <li><span class="code-inline">/admin/*</span></li>
+                <li><span class="code-inline">/backoffice/*</span></li>
+                <li><span class="code-inline">/dashboard/*</span></li>
+                <li><span class="code-inline">/api/*</span></li>
+                <li><span class="code-inline">/_profiler/*</span></li>
+                <li><span class="code-inline">/_wdt/*</span></li>
+            </ul>
+
+            <h3>3. Cookie développeur (opt-out permanent)</h3>
+            <p>Pour bloquer complètement le tracking sur votre navigateur, utilisez les commandes suivantes dans la console JavaScript :</p>
+            
+            <h4>Activer le blocage permanent</h4>
+            <div class="code-block">// Ouvrez la console du navigateur (F12)
+window.INFPFAnalytics.setDevCookie();
+
+// Le cookie xeilos_dev=1 sera créé
+// Il bloquera tout tracking de manière permanente</div>
+
+            <h4>Désactiver le blocage</h4>
+            <div class="code-block">// Pour réactiver le tracking
+window.INFPFAnalytics.removeDevCookie();</div>
+
+            <h3>4. Exclusion par adresse IP publique</h3>
+            
+            <h4>Étape 1 : Trouver votre IP publique</h4>
+            <ol>
+                <li>Accédez à <a href="https://www.whatismyip.com/" target="_blank" style="color: #0b3f89; font-weight: 600;">whatismyip.com</a></li>
+                <li>Copiez votre adresse IP publique (exemple : <span class="code-inline">203.0.113.45</span>)</li>
+            </ol>
+
+            <div class="alert alert-warning">
+                <strong>Important :</strong> L'adresse <span class="code-inline">192.168.1.119</span> est une IP privée/locale et n'est PAS visible côté serveur. Utilisez uniquement votre IP publique.
+            </div>
+
+            <h4>Étape 2 : Configuration</h4>
+            <p>Éditez le fichier <span class="code-inline">config/analytics_config.php</span> :</p>
+            <div class="code-block">'excluded_public_ips' => [
+    '203.0.113.45',  // Remplacez par VOTRE IP publique
+    // Ajoutez d'autres IPs si nécessaire
+],</div>
+        </section>
+
+        <section id="rgpd" class="section">
+            <h2>Comportement RGPD</h2>
+            <p>Le système respecte strictement les réglementations RGPD et CNIL avec deux modes de fonctionnement distincts.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Mode "Tout refuser" (Anonyme strict)</h4>
+                    <p>Conformité maximale - Aucune donnée personnelle collectée :</p>
+                    <ul>
+                        <li>Aucun cookie non essentiel</li>
+                        <li>Aucun identifiant de session</li>
+                        <li>Aucune adresse IP stockée</li>
+                        <li>Aucun fingerprinting</li>
+                        <li>Pas de tracking individuel</li>
+                        <li>Agrégation locale uniquement</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>Mode "Tout accepter" (Conformité RGPD)</h4>
+                    <p>Tracking conforme avec données anonymisées :</p>
+                    <ul>
+                        <li>ID de session aléatoire (pas de PII)</li>
+                        <li>IP anonymisée (dernier octet masqué)</li>
+                        <li>Pays uniquement (géolocalisation serveur)</li>
+                        <li>Type d'appareil, OS et navigateur</li>
+                        <li>Langue du navigateur</li>
+                        <li>Source de trafic (referrer)</li>
+                        <li>Paramètres de campagne (UTM)</li>
+                        <li>Pages visitées et durée</li>
+                        <li>Profondeur de défilement</li>
+                        <li>Interactions avec éléments clés</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Données jamais collectées :</strong> Email, nom, téléphone, adresse IP complète, ville précise, ou toute autre information personnellement identifiable (PII).
+            </div>
+        </section>
+
+        <section id="verification" class="section">
+            <h2>Vérification des exclusions</h2>
+
+            <h3>Méthode 1 : Console du navigateur</h3>
+            <p>Ouvrez la console JavaScript (touche F12) et exécutez :</p>
+            <div class="code-block">window.INFPFAnalytics.getState();</div>
+
+            <p>Résultat attendu si vous êtes exclu :</p>
+            <div class="code-block">{
+  isExcluded: true,
+  excludeReason: "admin_role"  // ou "private_path", "dev_cookie"
+}</div>
+
+            <h3>Méthode 2 : Dashboard analytics</h3>
+            <ol>
+                <li>Accédez au dashboard : <span class="code-inline">/admin/analytics</span></li>
+                <li>Vérifiez que votre navigation n'apparaît PAS dans les statistiques</li>
+                <li>Si vos pages sont visibles, l'exclusion n'est pas active</li>
+            </ol>
+
+            <h3>Méthode 3 : Page de diagnostic complète</h3>
+            <p>Pour une vérification exhaustive de tous les critères d'exclusion (admin, IP, environnement) :</p>
+            <a href="/admin/analytics/diagnostic" class="btn">Accéder à la page de diagnostic</a>
+        </section>
+
+        <section id="configuration" class="section">
+            <h2>Configuration avancée</h2>
+            <p>Personnalisez le comportement du système en éditant <span class="code-inline">config/analytics_config.php</span> :</p>
+
+            <h3>Ajouter des routes privées personnalisées</h3>
+            <div class="code-block">'private_paths' => [
+    '/^\/admin/',
+    '/^\/backoffice/',
+    '/^\/mon-espace-prive/',  // Votre route personnalisée
+],</div>
+
+            <h3>Exclure des sous-domaines de test</h3>
+            <div class="code-block">'excluded_subdomains' => [
+    'dev',
+    'staging',
+    'preprod',
+    'test-monsite',  // Votre sous-domaine de test
+],</div>
+
+            <h3>Créer une liste blanche de pages publiques</h3>
+            <div class="code-block">'allowed_public_paths' => [
+    '/^\/formation/',
+    '/^\/metiers/',
+    '/^\/blog/',
+    '/^\/$/',  // Page d'accueil uniquement
+],</div>
+        </section>
+
+        <section id="commandes" class="section">
+            <h2>Commandes utiles</h2>
+
+            <h3>Console JavaScript (navigateur)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Commande</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.getState()</span></td>
+                        <td>Afficher l'état complet du système de tracking</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.setDevCookie()</span></td>
+                        <td>Activer le mode développeur (bloque tout)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.removeDevCookie()</span></td>
+                        <td>Désactiver le mode développeur</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.revoke()</span></td>
+                        <td>Révoquer le consentement utilisateur</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Serveur PHP (développement)</h3>
+            <div class="code-block"># Afficher les logs de tracking en temps réel
+tail -f var/log/dev.log | grep Analytics</div>
+        </section>
+
+        <section id="checklist" class="section">
+            <h2>Checklist de vérification</h2>
+            <p>Assurez-vous que tous les points suivants sont validés :</p>
+
+            <div class="checklist">
+                <ul>
+                    <li>Connecté en administrateur → pas de tracking</li>
+                    <li>Accès aux routes <span class="code-inline">/admin/*</span> → pas de tracking</li>
+                    <li>Cookie <span class="code-inline">xeilos_dev=1</span> actif → pas de tracking</li>
+                    <li>Mode "Tout refuser" → aucun cookie, aucune donnée individuelle</li>
+                    <li>Mode "Tout accepter" → données collectées avec IP anonymisée</li>
+                    <li>Dashboard analytics → le trafic administrateur n'apparaît pas</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="support" class="section">
+            <h2>Support technique</h2>
+
+            <h3>Si votre trafic apparaît dans les statistiques</h3>
+            <p>Suivez ces étapes de diagnostic :</p>
+            <ol>
+                <li>Vérifiez que vous êtes bien connecté avec le rôle <span class="code-inline">ROLE_ADMIN</span></li>
+                <li>Videz le cache du navigateur (Ctrl+Shift+Delete)</li>
+                <li>Ouvrez la console et exécutez : <span class="code-inline">window.INFPFAnalytics.getState()</span></li>
+                <li>Si <span class="code-inline">isExcluded: false</span>, activez le cookie : <span class="code-inline">window.INFPFAnalytics.setDevCookie()</span></li>
+                <li>Rechargez la page et vérifiez à nouveau</li>
+            </ol>
+
+            <h3>Diagnostic approfondi</h3>
+            <p>Si le problème persiste, vérifiez les points suivants :</p>
+            <ul>
+                <li>Le fichier <span class="code-inline">config/analytics_config.php</span> est bien chargé</li>
+                <li>Le service <span class="code-inline">AnalyticsExclusionService</span> est correctement injecté</li>
+                <li>Consultez les logs serveur pour voir si les exclusions sont appliquées</li>
+                <li>Vérifiez la configuration Symfony dans <span class="code-inline">config/services.yaml</span></li>
+            </ul>
+
+            <div class="alert alert-info">
+                <strong>Liens utiles :</strong>
+                <div style="margin-top: 12px;">
+                    <a href="/admin/analytics" class="btn">Dashboard Analytics</a>
+                    <a href="/admin/analytics/diagnostic" class="btn">Page de diagnostic</a>
+                    <a href="/TEST_EXCLUSIONS.html" class="btn">Test des exclusions</a>
+                    <a href="/find-my-ip.php" class="btn">Trouver mon IP</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 INFPF - Institut National de la Formation Professionnelle Française</p>
+        <p>Système d'analytics conforme RGPD et CNIL</p>
+        <p><a href="/admin/analytics">Retour au dashboard</a> | <a href="/">Retour à l'accueil</a></p>
+    </div>
+</body>
+</html>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Analytics RGPD - INFPF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: #f8fafc;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav h3 {
+            color: #0b3f89;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .nav ul {
+            list-style: none;
+        }
+
+        .nav li {
+            margin: 8px 0;
+        }
+
+        .nav a {
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .nav a:hover {
+            color: #0b3f89;
+            background: #f1f5f9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: #0b3f89;
+            font-size: 32px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        .section h3 {
+            color: #1e293b;
+            font-size: 24px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        .section h4 {
+            color: #475569;
+            font-size: 18px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .section p {
+            margin-bottom: 16px;
+            color: #475569;
+            font-size: 16px;
+        }
+
+        .section ul, .section ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .section li {
+            margin: 8px 0;
+            color: #475569;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 24px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 16px 0;
+        }
+
+        .code-inline {
+            background: #f1f5f9;
+            color: #0b3f89;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .alert {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #10b981;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #f59e0b;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #3b82f6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid #0b3f89;
+        }
+
+        .feature-card h4 {
+            color: #0b3f89;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .feature-card ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .feature-card li {
+            font-size: 14px;
+            margin: 6px 0;
+        }
+
+        .checklist {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            list-style: none;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 12px;
+            font-size: 20px;
+            color: #94a3b8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 8px 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
+        }
+
+        .footer {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .section {
+                padding: 24px;
+            }
+
+            .section h2 {
+                font-size: 24px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Documentation Analytics RGPD</h1>
+        <p>Configuration et gestion du système d'analytics conforme aux réglementations européennes</p>
+    </div>
+
+    <div class="container">
+        <div class="nav">
+            <h3>Table des matières</h3>
+            <ul>
+                <li><a href="#exclusion">Exclusion du trafic administrateur</a></li>
+                <li><a href="#rgpd">Comportement RGPD</a></li>
+                <li><a href="#verification">Vérification des exclusions</a></li>
+                <li><a href="#configuration">Configuration avancée</a></li>
+                <li><a href="#commandes">Commandes utiles</a></li>
+                <li><a href="#checklist">Checklist de vérification</a></li>
+                <li><a href="#support">Support technique</a></li>
+            </ul>
+        </div>
+
+        <section id="exclusion" class="section">
+            <h2>Exclusion du trafic administrateur</h2>
+            <p>Votre trafic peut être exclu des statistiques de plusieurs manières, par ordre de priorité :</p>
+
+            <h3>1. Exclusion automatique par rôle</h3>
+            <div class="alert alert-success">
+                <strong>Déjà actif :</strong> Si vous êtes connecté avec le rôle <span class="code-inline">ROLE_ADMIN</span>, votre trafic est automatiquement exclu. Aucune configuration n'est nécessaire.
+            </div>
+
+            <h3>2. Exclusion des routes privées</h3>
+            <div class="alert alert-success">
+                <strong>Déjà actif :</strong> Toutes les pages administratives sont automatiquement exclues.
+            </div>
+            <p>Routes exclues par défaut :</p>
+            <ul>
+                <li><span class="code-inline">/admin/*</span></li>
+                <li><span class="code-inline">/backoffice/*</span></li>
+                <li><span class="code-inline">/dashboard/*</span></li>
+                <li><span class="code-inline">/api/*</span></li>
+                <li><span class="code-inline">/_profiler/*</span></li>
+                <li><span class="code-inline">/_wdt/*</span></li>
+            </ul>
+
+            <h3>3. Cookie développeur (opt-out permanent)</h3>
+            <p>Pour bloquer complètement le tracking sur votre navigateur, utilisez les commandes suivantes dans la console JavaScript :</p>
+            
+            <h4>Activer le blocage permanent</h4>
+            <div class="code-block">// Ouvrez la console du navigateur (F12)
+window.INFPFAnalytics.setDevCookie();
+
+// Le cookie xeilos_dev=1 sera créé
+// Il bloquera tout tracking de manière permanente</div>
+
+            <h4>Désactiver le blocage</h4>
+            <div class="code-block">// Pour réactiver le tracking
+window.INFPFAnalytics.removeDevCookie();</div>
+
+            <h3>4. Exclusion par adresse IP publique</h3>
+            
+            <h4>Étape 1 : Trouver votre IP publique</h4>
+            <ol>
+                <li>Accédez à <a href="https://www.whatismyip.com/" target="_blank" style="color: #0b3f89; font-weight: 600;">whatismyip.com</a></li>
+                <li>Copiez votre adresse IP publique (exemple : <span class="code-inline">203.0.113.45</span>)</li>
+            </ol>
+
+            <div class="alert alert-warning">
+                <strong>Important :</strong> L'adresse <span class="code-inline">192.168.1.119</span> est une IP privée/locale et n'est PAS visible côté serveur. Utilisez uniquement votre IP publique.
+            </div>
+
+            <h4>Étape 2 : Configuration</h4>
+            <p>Éditez le fichier <span class="code-inline">config/analytics_config.php</span> :</p>
+            <div class="code-block">'excluded_public_ips' => [
+    '203.0.113.45',  // Remplacez par VOTRE IP publique
+    // Ajoutez d'autres IPs si nécessaire
+],</div>
+        </section>
+
+        <section id="rgpd" class="section">
+            <h2>Comportement RGPD</h2>
+            <p>Le système respecte strictement les réglementations RGPD et CNIL avec deux modes de fonctionnement distincts.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Mode "Tout refuser" (Anonyme strict)</h4>
+                    <p>Conformité maximale - Aucune donnée personnelle collectée :</p>
+                    <ul>
+                        <li>Aucun cookie non essentiel</li>
+                        <li>Aucun identifiant de session</li>
+                        <li>Aucune adresse IP stockée</li>
+                        <li>Aucun fingerprinting</li>
+                        <li>Pas de tracking individuel</li>
+                        <li>Agrégation locale uniquement</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>Mode "Tout accepter" (Conformité RGPD)</h4>
+                    <p>Tracking conforme avec données anonymisées :</p>
+                    <ul>
+                        <li>ID de session aléatoire (pas de PII)</li>
+                        <li>IP anonymisée (dernier octet masqué)</li>
+                        <li>Pays uniquement (géolocalisation serveur)</li>
+                        <li>Type d'appareil, OS et navigateur</li>
+                        <li>Langue du navigateur</li>
+                        <li>Source de trafic (referrer)</li>
+                        <li>Paramètres de campagne (UTM)</li>
+                        <li>Pages visitées et durée</li>
+                        <li>Profondeur de défilement</li>
+                        <li>Interactions avec éléments clés</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Données jamais collectées :</strong> Email, nom, téléphone, adresse IP complète, ville précise, ou toute autre information personnellement identifiable (PII).
+            </div>
+        </section>
+
+        <section id="verification" class="section">
+            <h2>Vérification des exclusions</h2>
+
+            <h3>Méthode 1 : Console du navigateur</h3>
+            <p>Ouvrez la console JavaScript (touche F12) et exécutez :</p>
+            <div class="code-block">window.INFPFAnalytics.getState();</div>
+
+            <p>Résultat attendu si vous êtes exclu :</p>
+            <div class="code-block">{
+  isExcluded: true,
+  excludeReason: "admin_role"  // ou "private_path", "dev_cookie"
+}</div>
+
+            <h3>Méthode 2 : Dashboard analytics</h3>
+            <ol>
+                <li>Accédez au dashboard : <span class="code-inline">/admin/analytics</span></li>
+                <li>Vérifiez que votre navigation n'apparaît PAS dans les statistiques</li>
+                <li>Si vos pages sont visibles, l'exclusion n'est pas active</li>
+            </ol>
+
+            <h3>Méthode 3 : Page de diagnostic complète</h3>
+            <p>Pour une vérification exhaustive de tous les critères d'exclusion (admin, IP, environnement) :</p>
+            <a href="/admin/analytics/diagnostic" class="btn">Accéder à la page de diagnostic</a>
+        </section>
+
+        <section id="configuration" class="section">
+            <h2>Configuration avancée</h2>
+            <p>Personnalisez le comportement du système en éditant <span class="code-inline">config/analytics_config.php</span> :</p>
+
+            <h3>Ajouter des routes privées personnalisées</h3>
+            <div class="code-block">'private_paths' => [
+    '/^\/admin/',
+    '/^\/backoffice/',
+    '/^\/mon-espace-prive/',  // Votre route personnalisée
+],</div>
+
+            <h3>Exclure des sous-domaines de test</h3>
+            <div class="code-block">'excluded_subdomains' => [
+    'dev',
+    'staging',
+    'preprod',
+    'test-monsite',  // Votre sous-domaine de test
+],</div>
+
+            <h3>Créer une liste blanche de pages publiques</h3>
+            <div class="code-block">'allowed_public_paths' => [
+    '/^\/formation/',
+    '/^\/metiers/',
+    '/^\/blog/',
+    '/^\/$/',  // Page d'accueil uniquement
+],</div>
+        </section>
+
+        <section id="commandes" class="section">
+            <h2>Commandes utiles</h2>
+
+            <h3>Console JavaScript (navigateur)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Commande</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.getState()</span></td>
+                        <td>Afficher l'état complet du système de tracking</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.setDevCookie()</span></td>
+                        <td>Activer le mode développeur (bloque tout)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.removeDevCookie()</span></td>
+                        <td>Désactiver le mode développeur</td>
+                    </tr>
+                    <tr>
+                        <td><span class="code-inline">window.INFPFAnalytics.revoke()</span></td>
+                        <td>Révoquer le consentement utilisateur</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Serveur PHP (développement)</h3>
+            <div class="code-block"># Afficher les logs de tracking en temps réel
+tail -f var/log/dev.log | grep Analytics</div>
+        </section>
+
+        <section id="checklist" class="section">
+            <h2>Checklist de vérification</h2>
+            <p>Assurez-vous que tous les points suivants sont validés :</p>
+
+            <div class="checklist">
+                <ul>
+                    <li>Connecté en administrateur → pas de tracking</li>
+                    <li>Accès aux routes <span class="code-inline">/admin/*</span> → pas de tracking</li>
+                    <li>Cookie <span class="code-inline">xeilos_dev=1</span> actif → pas de tracking</li>
+                    <li>Mode "Tout refuser" → aucun cookie, aucune donnée individuelle</li>
+                    <li>Mode "Tout accepter" → données collectées avec IP anonymisée</li>
+                    <li>Dashboard analytics → le trafic administrateur n'apparaît pas</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="support" class="section">
+            <h2>Support technique</h2>
+
+            <h3>Si votre trafic apparaît dans les statistiques</h3>
+            <p>Suivez ces étapes de diagnostic :</p>
+            <ol>
+                <li>Vérifiez que vous êtes bien connecté avec le rôle <span class="code-inline">ROLE_ADMIN</span></li>
+                <li>Videz le cache du navigateur (Ctrl+Shift+Delete)</li>
+                <li>Ouvrez la console et exécutez : <span class="code-inline">window.INFPFAnalytics.getState()</span></li>
+                <li>Si <span class="code-inline">isExcluded: false</span>, activez le cookie : <span class="code-inline">window.INFPFAnalytics.setDevCookie()</span></li>
+                <li>Rechargez la page et vérifiez à nouveau</li>
+            </ol>
+
+            <h3>Diagnostic approfondi</h3>
+            <p>Si le problème persiste, vérifiez les points suivants :</p>
+            <ul>
+                <li>Le fichier <span class="code-inline">config/analytics_config.php</span> est bien chargé</li>
+                <li>Le service <span class="code-inline">AnalyticsExclusionService</span> est correctement injecté</li>
+                <li>Consultez les logs serveur pour voir si les exclusions sont appliquées</li>
+                <li>Vérifiez la configuration Symfony dans <span class="code-inline">config/services.yaml</span></li>
+            </ul>
+
+            <div class="alert alert-info">
+                <strong>Liens utiles :</strong>
+                <div style="margin-top: 12px;">
+                    <a href="/admin/analytics" class="btn">Dashboard Analytics</a>
+                    <a href="/admin/analytics/diagnostic" class="btn">Page de diagnostic</a>
+                    <a href="/TEST_EXCLUSIONS.html" class="btn">Test des exclusions</a>
+                    <a href="/find-my-ip.php" class="btn">Trouver mon IP</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 INFPF - Institut National de la Formation Professionnelle Française</p>
+        <p>Système d'analytics conforme RGPD et CNIL</p>
+        <p><a href="/admin/analytics">Retour au dashboard</a> | <a href="/">Retour à l'accueil</a></p>
+    </div>
+</body>
+</html>
+
+
+

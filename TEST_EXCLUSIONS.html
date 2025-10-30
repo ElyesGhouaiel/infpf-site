@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Exclusions Analytics - INFPF</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 {
+            color: #0b3f89;
+            margin-bottom: 10px;
+        }
+        .status {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .status.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        button {
+            background: #0b3f89;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0a3370;
+        }
+        button.danger {
+            background: #dc2626;
+        }
+        button.danger:hover {
+            background: #b91c1c;
+        }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 2px;
+        }
+        .badge.excluded {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .badge.tracking {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .badge.anonymous {
+            background: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <h1>🔒 Test des Exclusions Analytics</h1>
+        <p>Cette page vous permet de vérifier que le système d'exclusion fonctionne correctement.</p>
+    </div>
+
+    <div class="test-card">
+        <h2>📊 État actuel</h2>
+        <div id="currentState"></div>
+        <button onclick="checkState()">🔄 Rafraîchir l'état</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🧪 Tests d'exclusion</h2>
+        
+        <h3>1. Cookie développeur (xeilos_dev)</h3>
+        <p>Bloquez TOUT le tracking avec un cookie permanent :</p>
+        <button onclick="enableDevMode()">🔒 Activer le mode développeur</button>
+        <button class="danger" onclick="disableDevMode()">✅ Désactiver le mode développeur</button>
+        <div id="devCookieStatus" class="status info" style="margin-top: 10px;"></div>
+
+        <h3>2. Consentement</h3>
+        <button onclick="window.INFPFAnalytics.acceptAll()">✓ Tout accepter</button>
+        <button onclick="window.INFPFAnalytics.rejectAll()">✗ Tout refuser</button>
+        <button class="danger" onclick="window.INFPFAnalytics.revoke()">🔴 Révoquer</button>
+
+        <h3>3. Routes privées (automatique)</h3>
+        <p>Les pages suivantes sont automatiquement exclues :</p>
+        <ul>
+            <li><a href="/admin">/admin/*</a> (exclu)</li>
+            <li><a href="/backoffice">/backoffice/*</a> (exclu)</li>
+            <li><a href="/dashboard">/dashboard/*</a> (exclu)</li>
+            <li><a href="/api/test">/api/*</a> (exclu)</li>
+        </ul>
+
+        <h3>4. Rôle Admin (automatique)</h3>
+        <p>Si vous êtes connecté avec ROLE_ADMIN, votre trafic est exclu automatiquement.</p>
+        <div id="adminStatus"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>📝 Détails techniques</h2>
+        <pre id="technicalDetails"></pre>
+    </div>
+
+    <div class="test-card">
+        <h2>✅ Checklist de vérification</h2>
+        <div id="checklist"></div>
+    </div>
+
+    <script>
+        // Vérifier l'état du tracking
+        function checkState() {
+            if (typeof window.INFPFAnalytics === 'undefined') {
+                document.getElementById('currentState').innerHTML = 
+                    '<div class="status error">❌ Le système analytics n\'est pas chargé</div>';
+                return;
+            }
+
+            const state = window.INFPFAnalytics.getState();
+            
+            let statusHTML = '';
+            let badges = '';
+
+            // Badges
+            if (state.isExcluded) {
+                badges += '<span class="badge excluded">🚫 EXCLU</span>';
+            }
+            if (state.trackingEnabled) {
+                badges += '<span class="badge tracking">✅ TRACKING ACTIF</span>';
+            }
+            if (state.anonymousMode) {
+                badges += '<span class="badge anonymous">👤 MODE ANONYME</span>';
+            }
+
+            statusHTML += '<div style="margin-bottom: 15px;">' + badges + '</div>';
+
+            // État détaillé
+            if (state.isExcluded) {
+                statusHTML += `<div class="status success">✅ Votre trafic est EXCLU du tracking<br><small>Raison: ${state.excludeReason}</small></div>`;
+            } else if (state.anonymousMode) {
+                statusHTML += '<div class="status warning">👤 Mode anonyme actif - Pas de tracking individuel</div>';
+            } else if (state.trackingEnabled) {
+                statusHTML += '<div class="status error">⚠️ Tracking ACTIF - Vos données sont collectées</div>';
+            } else {
+                statusHTML += '<div class="status info">⏸️ En attente du consentement</div>';
+            }
+
+            document.getElementById('currentState').innerHTML = statusHTML;
+
+            // Détails techniques
+            document.getElementById('technicalDetails').textContent = JSON.stringify(state, null, 2);
+
+            // Admin status
+            const adminHTML = state.isExcluded && state.excludeReason === 'admin_role' 
+                ? '<div class="status success">✅ Vous êtes connecté en ADMIN - Trafic exclu</div>'
+                : '<div class="status info">ℹ️ Vous n\'êtes pas connecté en ADMIN</div>';
+            document.getElementById('adminStatus').innerHTML = adminHTML;
+
+            // Cookie dev status
+            const hasDevCookie = getCookie('xeilos_dev') === '1';
+            const devHTML = hasDevCookie
+                ? '<div class="status success">✅ Cookie développeur actif - Tracking complètement bloqué</div>'
+                : '<div class="status info">ℹ️ Cookie développeur non actif</div>';
+            document.getElementById('devCookieStatus').innerHTML = devHTML;
+
+            // Checklist
+            updateChecklist(state);
+        }
+
+        function updateChecklist(state) {
+            const checks = [
+                { label: 'Cookie développeur (xeilos_dev)', check: getCookie('xeilos_dev') === '1' },
+                { label: 'Exclusion active', check: state.isExcluded },
+                { label: 'Page privée (/admin, /api, etc.)', check: state.excludeReason === 'private_path' },
+                { label: 'Utilisateur admin connecté', check: state.excludeReason === 'admin_role' },
+                { label: 'Mode anonyme (tout refuser)', check: state.anonymousMode },
+                { label: 'Tracking désactivé', check: !state.trackingEnabled }
+            ];
+
+            let html = '<ul style="list-style: none; padding: 0;">';
+            checks.forEach(item => {
+                const icon = item.check ? '✅' : '❌';
+                const style = item.check ? 'color: #065f46;' : 'color: #991b1b;';
+                html += `<li style="${style}"><strong>${icon} ${item.label}</strong></li>`;
+            });
+            html += '</ul>';
+
+            document.getElementById('checklist').innerHTML = html;
+        }
+
+        function enableDevMode() {
+            window.INFPFAnalytics.setDevCookie();
+        }
+
+        function disableDevMode() {
+            window.INFPFAnalytics.removeDevCookie();
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Vérifier l'état au chargement
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(checkState, 500);
+            });
+        } else {
+            setTimeout(checkState, 500);
+        }
+    </script>
+</body>
+</html>
+

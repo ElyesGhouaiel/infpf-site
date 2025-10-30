@@ -38,6 +38,13 @@
 			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
 		}
 
+		/* ===== JUSTIFICATION GLOBALE DES PARAGRAPHES ===== */
+		p {
+			text-align: justify !important;
+			-webkit-hyphens: auto !important;
+			hyphens: auto !important;
+		}
+
 		/* ===== HERO SECTION MODERNE ===== */
 		.hero-formation {
 			position: relative;
@@ -49,7 +56,15 @@
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			padding: 40px 40px;
+			padding: 100px 40px 40px 40px;
+			margin-top: 0;
+		}
+		
+		/* Sur mobile : compenser le header fixe avec la variable --header-height */
+		@media (max-width: 768px) {
+			.hero-formation {
+				padding-top: calc(var(--header-height) + 20px) !important;
+			}
 		}
 
 		.hero-formation::before {
@@ -95,7 +110,7 @@
 		.hero-subtitle {
 			font-size: clamp(1.3rem, 3vw, 1.8rem);
 			font-weight: 400;
-			margin-bottom: 50px;
+			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
 		}
@@ -318,10 +333,21 @@
 			background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
 			aspect-ratio: 16/9;
 			width: 100%;
+			height: auto;
+			min-height: 300px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+		
+		.section-image img {
+			width: 100% !important;
+			height: 100% !important;
+			min-height: 300px !important;
+			object-fit: cover !important;
+			object-position: center !important;
+			display: block !important;
 		}
 
 		.section-image::before {
@@ -376,6 +402,51 @@
 		.section-image:hover img {
 			transform: scale(1.02);
 			filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+		}
+
+		/* ===== SECTION PARTENAIRES (DISPOSITION VERTICALE) ===== */
+		.partners-section {
+			display: flex;
+			flex-direction: column;
+			gap: 40px;
+			margin: 80px 0;
+			padding: 60px 40px;
+			border-radius: 20px;
+			background: linear-gradient(135deg, rgba(248, 250, 252, 0.4) 0%, rgba(241, 245, 249, 0.6) 100%);
+			position: relative;
+		}
+		
+		.partners-section::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 4px;
+			background: var(--primary-gradient);
+			border-radius: 24px 24px 0 0;
+		}
+		
+		.partners-section .section-content {
+			text-align: center;
+			max-width: 900px;
+			margin: 0 auto;
+		}
+		
+		.partners-section .section-content h2 {
+			font-size: clamp(2rem, 4vw, 2.8rem);
+			font-weight: 700;
+			color: var(--primary-color);
+			margin-bottom: 24px;
+			line-height: 1.3;
+		}
+		
+		.partners-section .section-content p {
+			font-size: clamp(1.2rem, 2vw, 1.5rem);
+			line-height: 1.7;
+			color: var(--text-dark);
+			margin-bottom: 16px;
+			font-weight: 400;
 		}
 
 		/* ===== RÉSEAU DE PARTENAIRES ===== */
@@ -578,8 +649,8 @@
 			top: 0;
 			left: 0;
 			right: 0;
-			height: 6px;
-			background: var(--primary-gradient);
+			height: 0;
+			background: transparent;
 		}
 
 		.stats-grid {
@@ -627,7 +698,6 @@
 			margin: 80px -40px;
 			border-radius: var(--border-radius);
 			color: #ffffff;
-			text-align: center;
 			position: relative;
 			overflow: hidden;
 		}
@@ -655,19 +725,20 @@
 			line-height: 1.3;
 			color: #ffffff !important;
 			text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+			text-align: left !important;
 		}
 
 		.highlight-content {
 			font-size: clamp(1.3rem, 2.5vw, 1.7rem);
-			max-width: 900px;
-			margin: 0 auto;
-			line-height: 1.6;
+			max-width: 100%;
+			line-height: 1.7;
 		}
 
 		.highlight-content p {
 			margin-bottom: 24px;
 			color: #ffffff !important;
 			text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+			text-align: justify !important;
 		}
 
 		.highlight-content strong {
@@ -701,7 +772,7 @@
 		/* ===== BOUTON RETOUR HUB ===== */
 		.back-to-hub {
 			position: fixed;
-			top: 180px;
+			bottom: 30px;
 			left: 30px;
 			z-index: 1000;
 		}
@@ -737,7 +808,7 @@
 		}
 
 		.back-hub-btn:hover svg {
-			transform: translateX(-3px);
+			transform: scale(1.1);
 		}
 
 		/* ===== RESPONSIVE DESIGN ===== */
@@ -755,7 +826,7 @@
 
 		@media (max-width: 1024px) {
 			.back-to-hub {
-				top: 160px;
+				bottom: 25px;
 				left: 20px;
 			}
 			
@@ -766,7 +837,11 @@
 			
 			.hero-formation {
 				min-height: 40vh;
-				padding: 30px 30px;
+				padding: 80px 30px 30px 30px;
+			}
+			
+			.hero-subtitle {
+				margin-bottom: 28px;
 			}
 
 			.pourquoi-section-row {
@@ -804,6 +879,11 @@
 				grid-template-columns: repeat(3, 1fr);
 				gap: 30px;
 			}
+			
+			.partners-section {
+				padding: 50px 30px;
+				margin: 60px 0;
+			}
 
 			.network-grid {
 				grid-template-columns: repeat(2, 1fr);
@@ -834,7 +914,7 @@
 				font-size: clamp(1.2rem, 3vw, 1.4rem);
 			}
 			.back-to-hub {
-				top: 140px;
+				bottom: 20px;
 				left: 15px;
 			}
 			
@@ -854,7 +934,7 @@
 			
 			.hero-formation {
 				min-height: 35vh;
-				padding: 25px 20px;
+				padding: 70px 20px 25px 20px;
 			}
 
 			.hero-title {
@@ -864,14 +944,25 @@
 
 			.hero-subtitle {
 				font-size: clamp(1.1rem, 4vw, 1.4rem);
-				margin-bottom: 30px;
+				margin-bottom: 24px;
 			}
 
 			.main-container,
 			.pourquoi-section-row,
 			.stats-section,
 			.highlight-section {
-				padding: 0 20px;
+				padding: 40px 20px !important;
+				margin: 40px 0 !important;
+				border-radius: 16px !important;
+			}
+			
+			.highlight-title {
+				font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+				margin-bottom: 20px !important;
+			}
+			
+			.highlight-content {
+				font-size: clamp(1.1rem, 4vw, 1.4rem) !important;
 			}
 
 			.pourquoi-section-row {
@@ -905,6 +996,12 @@
 
 			.advantage-card {
 				padding: 30px;
+			}
+
+			.partners-section {
+				padding: 40px 20px;
+				margin: 40px 0;
+				gap: 30px;
 			}
 
 			.network-grid {
@@ -948,6 +1045,20 @@
 			.intro-highlight p {
 				font-size: clamp(1.1rem, 4vw, 1.3rem);
 			}
+			
+			.partners-section {
+				padding: 30px 16px;
+				margin: 30px 0;
+				gap: 24px;
+			}
+			
+			.partners-section .section-content h2 {
+				font-size: clamp(1.6rem, 5vw, 2rem);
+			}
+			
+			.partners-section .section-content p {
+				font-size: clamp(1rem, 3vw, 1.2rem);
+			}
 
 			.stats-grid {
 				grid-template-columns: 1fr;
@@ -956,7 +1067,7 @@
 
 			.hero-formation {
 				min-height: 30vh;
-				padding: 20px 16px;
+				padding: 60px 16px 20px 16px;
 			}
 
 			.hero-title {
@@ -965,6 +1076,7 @@
 
 			.hero-subtitle {
 				font-size: clamp(1rem, 4vw, 1.2rem);
+				margin-bottom: 20px;
 			}
 
 			.main-container {
@@ -999,8 +1111,8 @@
 <!-- Bouton Retour vers le Hub -->
 <div class="back-to-hub">
 	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		<svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+			<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
 		</svg>
 		<span>Retour à L'École</span>
 	</a>
@@ -1134,14 +1246,11 @@
 	</section>
 
 	<!-- Réseau de partenaires -->
-	<section class="pourquoi-section-row reverse">
+	<section class="partners-section">
 		<div class="section-content">
 			<h2>Un réseau de partenaires professionnels</h2>
 			<p>Avec plus d'une décennie d'expérience en formation à distance, l'INFPF élargit chaque année son réseau de partenaires, offrant à nos étudiants des opportunités d'emploi et d'accès à des produits spécifiques dans divers secteurs professionnels.</p>
 			<p>Notre réseau s'étend constamment pour vous offrir les meilleures opportunités de carrière et d'évolution professionnelle.</p>
-			<a href="{{ path('app_home') }}" class="modern-button">
-				<span>Découvrir nos formations</span>
-			</a>
 																	</div>
 		<div class="partners-network">
 			<div class="network-grid">

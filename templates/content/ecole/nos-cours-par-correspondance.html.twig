@@ -38,6 +38,13 @@
 			background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
 		}
 
+		/* ===== JUSTIFICATION GLOBALE DES PARAGRAPHES ===== */
+		p {
+			text-align: justify !important;
+			-webkit-hyphens: auto !important;
+			hyphens: auto !important;
+		}
+
 		/* ===== HERO SECTION MODERNE ===== */
 		.cours-hero-formation {
 			position: relative;
@@ -49,7 +56,8 @@
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			padding: 40px 40px;
+			padding: 100px 40px 40px 40px;
+			margin-top: 0;
 		}
 
 		.cours-hero-formation::before {
@@ -95,7 +103,7 @@
 		.cours-hero-subtitle {
 			font-size: clamp(1.5rem, 3.5vw, 2.1rem);
 			font-weight: 400;
-			margin-bottom: 50px;
+			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
 		}
@@ -169,7 +177,7 @@
 		.cours-main-container {
 			max-width: 1200px;
 			margin: 0 auto;
-			padding: 80px 40px;
+			padding: 80px 60px;
 		}
 
 		/* ===== SECTIONS MODERNES ===== */
@@ -191,14 +199,14 @@
 		}
 
 		.cours-section-subtitle {
-			font-size: 1.25rem;
+			font-size: clamp(1.3rem, 2.5vw, 1.6rem);
 			color: var(--text-dark);
-			max-width: 900px;
+			max-width: 1000px;
 			margin: 24px auto 0;
-			line-height: 1.7;
+			line-height: 1.8;
 			text-align: center;
 			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
-			padding: 32px 40px;
+			padding: 40px 50px;
 			border-radius: 20px;
 			border: 1px solid rgba(11, 63, 137, 0.1);
 			box-shadow: 0 4px 20px rgba(11, 63, 137, 0.05);
@@ -218,14 +226,14 @@
 
 		/* Style spécial pour le paragraphe de conclusion */
 		.cours-conclusion-text {
-			font-size: 1.3rem;
+			font-size: clamp(1.4rem, 2.5vw, 1.7rem);
 			color: var(--text-dark);
-			max-width: 1000px;
+			max-width: 1100px;
 			margin: 0 auto 40px;
-			line-height: 1.7;
+			line-height: 1.8;
 			text-align: center;
 			background: linear-gradient(135deg, rgba(0, 180, 216, 0.05) 0%, rgba(11, 63, 137, 0.08) 100%);
-			padding: 40px 48px;
+			padding: 50px 60px;
 			border-radius: 24px;
 			border: 2px solid rgba(0, 180, 216, 0.15);
 			box-shadow: 0 8px 30px rgba(0, 180, 216, 0.1);
@@ -623,7 +631,7 @@
 		/* ===== BOUTON RETOUR HUB ===== */
 		.back-to-hub {
 			position: fixed;
-			top: 180px;
+			bottom: 30px;
 			left: 30px;
 			z-index: 1000;
 		}
@@ -659,14 +667,29 @@
 		}
 
 		.back-hub-btn:hover svg {
-			transform: translateX(-3px);
+			transform: scale(1.1);
 		}
 
 		/* ===== RESPONSIVE DESIGN ===== */
 		@media (max-width: 1024px) {
+			.back-to-hub {
+				bottom: 25px;
+				left: 20px;
+			}
+			
+			.back-hub-btn {
+				padding: 14px 20px;
+				font-size: 0.9rem;
+			}
+			
 			.cours-hero-formation {
 				min-height: 40vh;
-				padding: 30px 30px;
+				/* Utilise calc() pour un padding dynamique comme /formation */
+				padding: calc(var(--header-height) + 20px) 30px 30px 30px;
+			}
+			
+			.cours-hero-subtitle {
+				margin-bottom: 28px;
 			}
 
 			.cours-section-row {
@@ -680,7 +703,17 @@
 			}
 
 			.cours-main-container {
-				padding: 60px 30px;
+				padding: 60px 40px;
+			}
+			
+			.cours-section-subtitle {
+				padding: 35px 40px;
+				font-size: clamp(1.25rem, 2.3vw, 1.5rem);
+			}
+			
+			.cours-conclusion-text {
+				padding: 45px 50px;
+				font-size: clamp(1.3rem, 2.3vw, 1.6rem);
 			}
 
 			.cours-features-grid {
@@ -742,9 +775,29 @@
 		}
 
 		@media (max-width: 768px) {
+			.back-to-hub {
+				bottom: 20px;
+				left: 15px;
+			}
+			
+			.back-hub-btn {
+				padding: 12px 16px;
+				font-size: 0.85rem;
+			}
+			
+			.back-hub-btn span {
+				display: none;
+			}
+			
+			.back-hub-btn svg {
+				width: 18px;
+				height: 18px;
+			}
+			
 			.cours-hero-formation {
 				min-height: 35vh;
-				padding: 25px 20px;
+				/* Utilise calc() pour un padding dynamique */
+				padding: calc(var(--header-height) + 16px) 20px 25px 20px;
 			}
 
 			.cours-hero-title {
@@ -754,14 +807,24 @@
 
 			.cours-hero-subtitle {
 				font-size: clamp(1.1rem, 4vw, 1.4rem);
-				margin-bottom: 30px;
+				margin-bottom: 24px;
 			}
 
 			.cours-main-container,
 			.cours-section-row,
 			.cours-features-section,
 			.cours-highlight-section {
-				padding: 0 20px;
+				padding: 40px 25px !important;
+			}
+			
+			.cours-section-subtitle {
+				padding: 30px 25px;
+				font-size: clamp(1.15rem, 3.5vw, 1.35rem);
+			}
+			
+			.cours-conclusion-text {
+				padding: 35px 30px;
+				font-size: clamp(1.2rem, 3.5vw, 1.4rem);
 			}
 
 			.cours-modern-section {
@@ -838,7 +901,8 @@
 		@media (max-width: 480px) {
 			.cours-hero-formation {
 				min-height: 30vh;
-				padding: 20px 16px;
+				/* Utilise calc() pour un padding dynamique */
+				padding: calc(var(--header-height) + 16px) 16px 20px 16px;
 			}
 
 			.cours-hero-title {
@@ -847,10 +911,21 @@
 
 			.cours-hero-subtitle {
 				font-size: clamp(1rem, 4vw, 1.2rem);
+				margin-bottom: 20px;
 			}
 
 			.cours-main-container {
-				padding: 40px 16px;
+				padding: 40px 20px;
+			}
+			
+			.cours-section-subtitle {
+				padding: 24px 20px;
+				font-size: clamp(1.05rem, 4vw, 1.25rem);
+			}
+			
+			.cours-conclusion-text {
+				padding: 28px 24px;
+				font-size: clamp(1.1rem, 4vw, 1.3rem);
 			}
 
 			.cours-feature-card {
@@ -943,8 +1018,8 @@
 <!-- Bouton Retour vers le Hub -->
 <div class="back-to-hub">
 	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<path d="M19 12H5M12 19l-7-7 7-7"/>
+		<svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+			<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
 		</svg>
 		<span>Retour à L'École</span>
 	</a>

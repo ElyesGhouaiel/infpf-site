@@ -1,0 +1,175 @@
+{# 
+  Composant Calendly Iframe réutilisable
+  
+  Paramètres:
+  - url: URL Calendly (défaut: URL par défaut INFPF)
+  - height: Hauteur iframe (défaut: '700px')
+  - title: Titre descriptif (défaut: "Je réserve mon appel gratuit avec INFPF")
+  - class: Classes CSS supplémentaires
+  - hide_event_details: Masquer détails événement (défaut: 1)
+  - hide_gdpr_banner: Masquer bannière RGPD (défaut: 1)
+  - primary_color: Couleur primaire (défaut: '0b3f89')
+#}
+
+{% set calendly_url = url|default('https://calendly.com/contact-infpf/contact-infpf') %}
+{% set iframe_height = height|default('700px') %}
+{% set iframe_title = title|default('Je réserve mon appel gratuit avec INFPF') %}
+{% set iframe_class = class|default('') %}
+{% set hide_details = hide_event_details|default(1) %}
+{% set hide_gdpr = hide_gdpr_banner|default(1) %}
+{% set color = primary_color|default('0b3f89') %}
+
+{# Construction de l'URL avec paramètres - AFFICHAGE DIRECT #}
+{% set embed_params = [
+    'back=1',
+    'embed_domain=' ~ app.request.host,
+    'embed_type=Inline',
+    'hide_event_type_details=' ~ hide_details,
+    'hide_gdpr_banner=' ~ hide_gdpr,
+    'primary_color=' ~ color,
+    'background_color=ffffff',
+    'text_color=1e293b'
+] %}
+{% set full_url = calendly_url ~ (calendly_url matches '/\\?/' ? '&' : '?') ~ embed_params|join('&') %}
+
+<div class="calendly-iframe-container {{ iframe_class }}" style="position: relative; min-height: 700px; overflow: visible; margin-bottom: 0 !important; padding-bottom: 0 !important;">
+    <iframe 
+        src="{{ full_url }}"
+        width="100%" 
+        height="700"
+        frameborder="0"
+        scrolling="yes"
+        title="{{ iframe_title }}"
+        loading="lazy"
+        allow="payment"
+        data-calendly-iframe
+        style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(11, 63, 137, 0.1); pointer-events: auto; height: 700px !important; margin-bottom: 0 !important;"
+        aria-label="{{ iframe_title }}"
+    ></iframe>
+    
+    {# Fallback si iframe ne charge pas #}
+    <noscript>
+        <div style="text-align: center; padding: 40px 20px; background: #f8fafc; border-radius: 12px;">
+            <p style="margin-bottom: 20px; color: #475569;">
+                Pour réserver votre appel gratuit, veuillez <a href="{{ calendly_url }}" target="_blank" rel="noopener noreferrer" style="color: #0b3f89; font-weight: 600;">cliquer ici</a>
+            </p>
+        </div>
+    </noscript>
+</div>
+
+{# Script désactivé - Hauteur fixe pour éviter l'animation de scroll #}
+<script>
+(function() {
+    // Script désactivé pour éviter les animations de hauteur
+    // La hauteur est maintenant fixe à 900px
+    console.log('Calendly iframe: hauteur fixe activée (900px)');
+})();
+</script>
+
+<style>
+/* Styles responsive pour iframe Calendly - HAUTEUR FIXE RÉDUITE */
+.calendly-iframe-container {
+    margin: 0 auto;
+    max-width: 100%;
+    scroll-margin-top: calc(var(--header-height) + 20px); /* AJUSTÉ POUR MOBILE */
+    overflow: visible !important;
+    min-height: 700px !important;
+    height: 700px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.calendly-iframe-container iframe {
+    display: block;
+    width: 100%;
+    pointer-events: auto !important;
+    min-height: 700px !important;
+    height: 700px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Responsive : hauteur FIXE adaptative (pas d'animation) */
+@media (max-width: 1024px) {
+    .calendly-iframe-container {
+        min-height: 700px !important;
+        height: 700px !important;
+    }
+    .calendly-iframe-container iframe {
+        min-height: 700px !important;
+        height: 700px !important;
+    }
+}
+
+/* MOBILE : Hauteurs RÉDUITES et responsive pour coller au contenu */
+
+/* Tous les mobiles : Container flexible et responsive - HAUTEURS OPTIMALES SANS SCROLL + SANS VIDE */
+@media (max-width: 768px) {
+    .calendly-iframe-container {
+        min-height: 630px !important;
+        height: 630px !important;
+        max-height: 630px !important;
+        overflow: hidden !important;
+        padding: 0 10px !important;
+        margin: 0 auto !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        scroll-margin-top: calc(var(--header-height) + 25px) !important;
+    }
+    .calendly-iframe-container iframe {
+        border-radius: 8px;
+        width: 100% !important;
+        min-height: 630px !important;
+        height: 630px !important;
+        max-height: 630px !important;
+        overflow: hidden !important;
+        display: block !important;
+        margin: 0 auto !important;
+        margin-bottom: 0 !important;
+    }
+}
+
+/* iPhone 12 Pro, mobiles moyens (390-428px de largeur) */
+@media (max-width: 428px) and (min-width: 391px) {
+    .calendly-iframe-container {
+        min-height: 650px !important;
+        height: 650px !important;
+        max-height: 650px !important;
+    }
+    .calendly-iframe-container iframe {
+        min-height: 650px !important;
+        height: 650px !important;
+        max-height: 650px !important;
+    }
+}
+
+/* iPhone 13 Pro Max, grands mobiles (429px+ de largeur) */
+@media (max-width: 768px) and (min-width: 429px) {
+    .calendly-iframe-container {
+        min-height: 670px !important;
+        height: 670px !important;
+        max-height: 670px !important;
+    }
+    .calendly-iframe-container iframe {
+        min-height: 670px !important;
+        height: 670px !important;
+        max-height: 670px !important;
+    }
+}
+
+/* Galaxy S21, très petits écrans (≤360px de largeur) */
+@media (max-width: 360px) {
+.calendly-iframe-container {
+        min-height: 610px !important;
+        height: 610px !important;
+        max-height: 610px !important;
+        padding: 0 5px !important;
+        scroll-margin-top: calc(var(--header-height) + 30px) !important;
+    }
+    .calendly-iframe-container iframe {
+        min-height: 610px !important;
+        height: 610px !important;
+        max-height: 610px !important;
+    }
+}
+</style>
+

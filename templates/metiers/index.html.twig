@@ -184,7 +184,7 @@
                 </p>
                 <div class="cta-actions">
                     <a href="{{ path('app_contact') }}" class="btn-primary">
-                        <span>Parler à un conseiller</span>
+                        <span>📞 Je réserve mon appel gratuit</span>
                     </a>
                     <a href="{{ path('app_home') }}" class="btn-secondary">
                         <span>Voir toutes les formations</span>
@@ -198,10 +198,10 @@
 <style>
 /* ===== VARIABLES ÉCOLE FRANÇAISE ===== */
 :root {
-    --ef-primary: #1a56db;
-    --ef-primary-dark: #1e40af;
-    --ef-secondary: #3b82f6;
-    --ef-accent: #06b6d4;
+    --ef-primary: #0b3f89;
+    --ef-primary-dark: #004080;
+    --ef-secondary: #1e5cb8;
+    --ef-accent: #00b4d8;
     --ef-dark: #1f2937;
     --ef-gray: #6b7280;
     --ef-gray-light: #9ca3af;
@@ -218,9 +218,23 @@
 
 /* ===== BASE OPTIMISÉE ===== */
 .site-main.metiers-hub {
-    padding-top: 0 !important;
-    margin-top: -120px !important;
     overflow-x: hidden;
+}
+
+/* Sur desktop : effet de chevauchement */
+@media (min-width: 769px) {
+    .site-main.metiers-hub {
+        padding-top: 0 !important;
+        margin-top: -120px !important;
+    }
+}
+
+/* Sur mobile : respecter la variable --header-height du base.html.twig */
+@media (max-width: 768px) {
+    .site-main.metiers-hub {
+        padding-top: var(--header-height) !important;
+        margin-top: 0 !important;
+    }
 }
 
 .container {
@@ -232,10 +246,18 @@
 /* ===== HERO SECTION MINIMALISTE ===== */
 .hero-ef {
     background: linear-gradient(135deg, var(--ef-primary) 0%, var(--ef-primary-dark) 100%);
-    padding: 180px 0 100px 0;
+    padding: 180px 0 100px 0; /* Desktop */
     color: white;
     position: relative;
     overflow: hidden;
+}
+
+/* Sur mobile : padding réduit car le .site-main a déjà le padding-top avec var(--header-height) */
+@media (max-width: 768px) {
+    .hero-ef {
+        /* Pas de padding-top élevé car .site-main a déjà var(--header-height) */
+        padding: 80px 0 60px 0 !important;
+    }
 }
 
 .hero-ef::before {
@@ -590,9 +612,7 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .hero-ef {
-        padding: 150px 0 90px 0; /* Ajustement pour tablettes */
-    }
+    /* Le padding du .hero-ef est déjà géré plus haut */
     
     .hero-title {
         font-size: 2.5rem;
@@ -641,9 +661,7 @@
 }
 
 @media (max-width: 480px) {
-    .hero-ef {
-        padding: 160px 0 80px 0; /* Augmentation pour éviter la nav fixe */
-    }
+    /* Le padding du .hero-ef est déjà géré plus haut avec la variable --header-height */
     
     .hero-title {
         font-size: 2rem;
@@ -662,4 +680,6 @@
     }
 }
 </style>
+
+{% include 'footer.html.twig' %}
 {% endblock %}

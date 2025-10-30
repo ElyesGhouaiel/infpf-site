@@ -36,4 +36,6 @@ node_modules
 migrations
 
 ecolee/
-csss/public_html_git_full_2025-09-12_101858.bundle
+# Fichiers bundle Git volumineux (dépassent limite GitHub 100MB)
+public_html_git_full_2025-09-12_101858.bundle
+*.bundle

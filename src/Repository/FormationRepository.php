@@ -40,10 +40,8 @@ class FormationRepository extends ServiceEntityRepository
                ->setParameter('lieu', $criteria['lieu']);
         }
 
-        if (!empty($criteria['duration'])) {
-            $qb->andWhere('f.dureeFormation IN (:duration)')
-               ->setParameter('duration', $criteria['duration']);
-        }
+        // Le filtrage par durée sera fait côté PHP dans le Controller
+        // car les formats de durée sont trop variés pour SQL
 
         if (!empty($criteria['level'])) {
             $qb->andWhere('f.niveau IN (:level)')
@@ -61,5 +59,84 @@ class FormationRepository extends ServiceEntityRepository
         }
 
         return $qb->orderBy('f.id', 'DESC');
+    }
+    
+    /**
+     * Extrait le premier nombre d'une chaîne de durée.
+     * Ex: "20 à 30 heures" → 20, "136 heures + 136 heures" → 136, "2 ans" → 0
+     *
+     * @param string|null $duration
+     * @return int
+     */
+    public function extractHoursFromDuration(?string $duration): int
+    {
+        if (empty($duration)) {
+            return 0;
+        }
+        
+        // Extraire le premier nombre de la chaîne
+        preg_match('/(\d+)/', $duration, $matches);
+        
+        if (!empty($matches[1])) {
+            $hours = (int)$matches[1];
+            
+            // Si c'est en "ans", convertir en heures approximatives (1 an ≈ 400h)
+            if (stripos($duration, 'an') !== false) {
+                return $hours * 400;
+            }
+            
+            return $hours;
+        }
+        
+        return 0;
+    }
+    
+    /**
+     * Filtre les formations par durée (logique PHP).
+     *
+     * @param array $formations
+     * @param array $durationRanges
+     * @return array
+     */
+    public function filterByDuration(array $formations, array $durationRanges): array
+    {
+        if (empty($durationRanges)) {
+            return $formations;
+        }
+        
+        $filtered = [];
+        
+        foreach ($formations as $formation) {
+            $hours = $this->extractHoursFromDuration($formation->getDureeFormation());
+            
+            foreach ($durationRanges as $range) {
+                $match = false;
+                
+                switch ($range) {
+                    case 'less_than_24':
+                        $match = ($hours > 0 && $hours < 24);
+                        break;
+                    
+                    case '24_to_100':
+                        $match = ($hours >= 24 && $hours <= 100);
+                        break;
+                    
+                    case '100_to_200':
+                        $match = ($hours > 100 && $hours <= 200);
+                        break;
+                    
+                    case 'more_than_200':
+                        $match = ($hours > 200);
+                        break;
+                }
+                
+                if ($match) {
+                    $filtered[] = $formation;
+                    break; // Une formation ne doit être ajoutée qu'une seule fois
+                }
+            }
+        }
+        
+        return $filtered;
     }
 }

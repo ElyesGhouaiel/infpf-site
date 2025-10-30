@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
-{% block stylesheets %}
 <style>
     /* ===== VARIABLES MODERNES FOOTER ===== */
     :root {
@@ -401,14 +399,42 @@
     /* Copyright footer */
     .footer__copyright {
         text-align: center;
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 14px;
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 15px;
         padding: 30px 20px;
         margin-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.2);
         position: relative;
         z-index: 2;
+        font-weight: 500;
+        line-height: 1.6;
+        word-wrap: break-word;
+    }
+    
+    /* Copyright responsive */
+    @media (max-width: 768px) {
+        .footer__copyright {
+            font-size: 14px;
+            padding: 25px 15px;
+            line-height: 1.5;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .footer__copyright {
+            font-size: 13px;
+            padding: 20px 15px;
+            white-space: normal;
+            word-break: break-word;
+        }
+    }
+    
+    @media (max-width: 360px) {
+        .footer__copyright {
+            font-size: 12px;
+            padding: 18px 10px;
+        }
     }
 
     /* Responsive */
@@ -480,7 +506,7 @@
         }
     }
 </style>
-{% endblock %}
+
 <footer class="footer">
     <div class="footer__social">
         <div class="footer__container footer__social__container">
@@ -493,7 +519,7 @@
                     <img alt="Youtube" data-lazy-src="../img/youtube.svg" height="10" src="{{ asset('img/free-youtube-logo-icon-2431-thumb.png') }}" width="15"/>
                 </div>
                 <div class="gtm-cta-btn-instagram" onclick="window.open('https://www.instagram.com/infpf_fr/');" title="Instagram">
-                    <img alt="Instagram" data-lazy-src="public/img/Instagram_icon.png" height="15" src="public/img/Instagram_icon.png" width="15"/>
+                    <img alt="Instagram" data-lazy-src="{{ asset('img/Instagram_icon.png') }}" height="15" src="{{ asset('img/Instagram_icon.png') }}" width="15"/>
                 </div>
             </div>
             <div class="footer__social__tel gtm-cta-btn-telephone" onclick="location.href='tel:0489050355'" title="Contactez nous !">Tél. 04 89 05 03 55</div>
@@ -581,8 +607,8 @@
     </div>
 
 <div style="text-align: center; margin: 40px 0;">
-    <a class="calendly-btn calendly-btn--large" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
-        📅 Prendre rendez-vous avec un conseiller
+    <a class="calendly-btn calendly-btn--large btn-calendly-mobile" href="#calendly-home" data-mobile-text="📞 Prise de contact">
+         Je réserve mon appel gratuit
     </a>
 </div>
 
@@ -613,11 +639,30 @@
 
     <br>
 
-    <p style="text-align: center; color: white; font-size: 15px; line-height: 1.6; max-width: 1000px; margin: 0 auto 20px;">
+    <p style="text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 15px; line-height: 1.7; max-width: 1000px; margin: 0 auto 20px; padding: 0 20px; word-wrap: break-word;">
         Ecole certifiée QUALIOPI et référencée sur DataDock sous le numéro 0150654. La certification nationale a été attribuée au titre des actions de formation.<br>
         Établissement privé d'enseignement à distance soumis au contrôle pédagogique de l'Etat, immatriculé sous le numéro 24FOR01596.1<br>
         Centre de formation professionnelle continue, déclarée sous le numéro 93 06 11166 06.
     </p>
+    
+    <style>
+    /* Texte légal responsive */
+    @media (max-width: 768px) {
+        .footer__container > p {
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+            padding: 0 15px !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .footer__container > p {
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+            padding: 0 10px !important;
+        }
+    }
+    </style>
     
     	<div class="footer__copyright">
 		© Institut National De La Formation Professionnelle Française - 2025
@@ -626,7 +671,6 @@
 
 
 </div>
-{% block javascripts %}
 <!-- Le JavaScript Calendly est désormais géré de manière centralisée dans base.html.twig -->
 <script>
 // Gestion du popup cookies uniquement
@@ -679,5 +723,4 @@ function acceptAllCookies() {
     console.log('Tous les cookies acceptés');
 }
 </script>
-{% endblock %}
 </footer>

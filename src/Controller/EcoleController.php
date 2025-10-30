@@ -17,8 +17,8 @@ class EcoleController extends AbstractController
         // Définition des pages de l'école avec leurs informations
         $pagesEcole = [
             'formations-distance' => [
-                'title' => 'Nos formations à distance',
-                'description' => 'Découvrez l\'excellence de l\'INFPF accessible partout, à tout moment avec nos formations 100% en ligne.',
+                'title' => 'Se former à distance',
+                'description' => 'Découvrez notre dispositif de formation à distance : modalités, outils, rythmes, accompagnement et supports pédagogiques.',
                 'route' => 'redirectToFormationADistanceEtEnLigne',
                 'icon' => 'monitor',
                 'highlight' => true

@@ -3,3 +3,6 @@
 [16-Sep-2025 13:49:27 UTC] 2025-09-16T13:49:27+00:00 [critical] Uncaught Error: syntax error, unexpected identifier "image", expecting "function" or "const"
 [01-Oct-2025 10:43:19 UTC] 2025-10-01T10:43:19+00:00 [critical] Uncaught Error: Class "Symfony\Bundle\DebugBundle\DebugBundle" not found
 [01-Oct-2025 10:44:03 UTC] 2025-10-01T10:44:03+00:00 [critical] Uncaught Error: Class "Symfony\Bundle\DebugBundle\DebugBundle" not found
+[06-Oct-2025 12:58:15 UTC] 2025-10-06T12:58:15+00:00 [critical] Uncaught Error: syntax error, unexpected token "=>"
+[06-Oct-2025 13:00:05 UTC] 2025-10-06T13:00:05+00:00 [critical] Uncaught Error: Unmatched '}'
+[06-Oct-2025 13:01:36 UTC] 2025-10-06T13:01:36+00:00 [critical] Uncaught Error: syntax error, unexpected token "public", expecting end of file

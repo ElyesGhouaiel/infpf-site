@@ -48,6 +48,13 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - FORMULAIRE VALIDE - DÉBUT TRAITEMENT\n", FILE_APPEND);
             
+            // Récupérer la formation sélectionnée
+            $formation = $form->get('formationId')->getData();
+            if ($formation) {
+                $message->setFormationId($formation->getId());
+                $message->setFormationName($formation->getNameFormation());
+            }
+            
             // Enregistrer le message dans la base de données
             try {
                 $entityManager->persist($message);
@@ -61,13 +68,20 @@ class ContactController extends AbstractController
             $contactData = $form->getData();
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Données: " . $contactData->getName() . " - " . $contactData->getEmail() . "\n", FILE_APPEND);
 
+            // Définir le sujet selon le type de demande
+            $requestTypeLabel = $contactData->getRequestType() === 'devis' ? 'Demande de devis' : 'Demande de renseignements';
+            $subject = 'INFPF - ' . $requestTypeLabel . ($formation ? ' - ' . $formation->getNameFormation() : '');
+            
             // Envoyer l'email
-            $subject = 'Nouveau message de contact';
             $content = $this->renderView('content/contact/email.html.twig', [
                 'name' => $contactData->getName(),
                 'email' => $contactData->getEmail(),
                 'phone' => $contactData->getNumero(),
                 'content' => $contactData->getContent(),
+                'requestType' => $contactData->getRequestType(),
+                'requestTypeLabel' => $requestTypeLabel,
+                'formation' => $formation,
+                'preferredMode' => $contactData->getPreferredMode(),
             ]);
 
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Préparation envoi email...\n", FILE_APPEND);

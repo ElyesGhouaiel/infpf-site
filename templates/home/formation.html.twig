@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Formations
+{% block title %}Toutes nos Formations Professionnelles - INFPF
 
 {% endblock %}
 {% block stylesheets %}
@@ -14,6 +14,8 @@
 	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 	<!-- CSS jQuery UI -->
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+	<!-- AOS Animation Library -->
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Les styles Calendly sont désormais gérés de manière centralisée dans base.html.twig -->
 
@@ -39,6 +41,9 @@
             --box-shadow: 0 4px 20px rgba(11, 63, 137, 0.1);
             --box-shadow-hover: 0 8px 30px rgba(11, 63, 137, 0.15);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary-gradient: linear-gradient(135deg, #0b3f89, #1e5cb8);
+            --shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+            --shadow-heavy: 0 8px 30px rgba(11, 63, 137, 0.15);
         }
 
         /* Corps de page moderne */
@@ -55,6 +60,8 @@
             padding: 20px 0;
             background: linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%);
             border-bottom: 1px solid var(--medium-gray);
+            position: relative;
+            z-index: 1;
         }
 
         /* ===== STYLES SPÉCIAUX POUR CATÉGORIE IA DANS LES FILTRES ===== */
@@ -181,7 +188,7 @@
             align-items: center;
             gap: 8px;
             position: relative;
-            z-index: 1000;
+            z-index: 10;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
@@ -206,85 +213,79 @@
             transform: translateY(0);
         }
 
-        /* Overlay sombre */
-        .mobile-filter-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1001;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .mobile-filter-overlay.active {
-            opacity: 1;
-        }
-
         /* Panneau off-canvas coulissant */
         .mobile-filter-panel {
             display: none;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 320px;
-            max-width: 85vw;
-            height: 100%;
-            background: white;
-            z-index: 1002;
-            transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            overflow-y: auto;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            width: 320px !important;
+            max-width: 85vw !important;
+            height: 100vh !important;
+            background: white !important;
+            z-index: 99999 !important; /* AU DESSUS DE TOUT */
+            transform: translateX(100%) !important;
+            pointer-events: none !important; /* CRUCIAL : Empêche de bloquer les clics quand hors écran */
+            visibility: hidden !important; /* Sécurité supplémentaire */
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.3s ease !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3) !important;
         }
 
         .mobile-filter-panel.active {
-            transform: translateX(0);
+            display: block !important; /* FORCE l'affichage */
+            transform: translateX(0) !important; /* Glisse vers la gauche */
+            visibility: visible !important;
+            pointer-events: auto !important; /* Réactive les clics seulement quand visible */
         }
 
         /* En-tête du panneau */
         .mobile-filter-header {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e9ecef;
+            background: linear-gradient(135deg, #007bff, #0056b3) !important;
+            color: white !important;
+            padding: 20px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            border-bottom: 1px solid #e9ecef !important;
+            min-height: 60px !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
 
         .mobile-filter-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0;
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            margin: 0 !important;
+            color: white !important;
         }
 
         .mobile-filter-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
+            background: none !important;
+            border: none !important;
+            color: white !important;
+            font-size: 24px !important;
+            cursor: pointer !important;
+            padding: 0 !important;
+            width: 30px !important;
+            height: 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 50% !important;
+            transition: background-color 0.2s ease !important;
         }
 
         .mobile-filter-close:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.2) !important;
         }
 
         /* Contenu des filtres dans le panneau */
         .mobile-filter-content {
-            padding: 20px;
+            padding: 20px !important;
+            background: white !important;
+            min-height: 200px !important;
         }
 
         .mobile-filter-content .filters {
@@ -398,9 +399,16 @@
                 display: block;
             }
             
-            .mobile-filter-overlay,
             .mobile-filter-panel {
                 display: block;
+                pointer-events: none !important; /* SÉCURITÉ : Par défaut, ne bloque pas les clics */
+                visibility: hidden !important; /* Double sécurité */
+            }
+            
+            /* Réactiver les clics SEULEMENT quand le filtre est ouvert */
+            .mobile-filter-panel.active {
+                pointer-events: auto !important;
+                visibility: visible !important;
             }
 
             /* Masquer les filtres desktop sur les petits écrans */
@@ -431,7 +439,6 @@
         /* Garantir que sur desktop (> 1024px), rien n'est affiché */
         @media (min-width: 1025px) {
             .mobile-filter-container,
-            .mobile-filter-overlay,
             .mobile-filter-panel {
                 display: none !important;
             }
@@ -471,11 +478,13 @@
         /* ===== BARRE DE RECHERCHE PROPRE ===== */
         .modern-search-toolbar {
             background: transparent;
-            padding: 80px 0 30px 0; /* Beaucoup plus d'espace en haut */
+            padding: 80px 0 30px 0; /* Desktop : padding normal */
             position: relative;
             overflow: visible;
-            margin-top: 20px; /* Espace supplémentaire au-dessus */
+            margin-top: 20px; /* Espace supplémentaire au-dessus sur desktop */
         }
+        
+        /* Sur mobile : le padding sera géré par les media queries avec var(--header-height) */
 
 
 
@@ -503,7 +512,7 @@
         /* Section de recherche moderne */
         .modern-search-section {
             position: relative;
-            z-index: 9999;
+            z-index: 10001 !important;
             overflow: visible;
         }
 
@@ -515,9 +524,9 @@
             right: 0;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid #e2e8f0;
-            z-index: 1000;
+            z-index: 10000 !important;
             max-height: 300px;
             overflow-y: auto;
             display: none;
@@ -535,7 +544,7 @@
 
 
         /* Forcer TOUS les éléments de filtre à rester derrière */
-        .mobile-filter-panel, .mobile-filter-overlay {
+        .mobile-filter-panel {
             z-index: 100 !important;
         }
 
@@ -666,6 +675,8 @@
             transition: var(--transition);
             white-space: nowrap;
             box-shadow: 0 2px 8px rgba(11, 63, 137, 0.1);
+            cursor: pointer; /* Pour les boutons */
+            font-family: inherit; /* Pour les boutons */
         }
 
         .sort-btn:hover {
@@ -706,6 +717,8 @@
             border: 1px solid rgba(11, 63, 137, 0.2);
             box-shadow: 0 2px 8px rgba(11, 63, 137, 0.05);
             transition: var(--transition);
+            white-space: nowrap;
+            min-width: fit-content;
         }
 
         .result-count:hover {
@@ -719,6 +732,7 @@
             font-weight: 800;
             color: var(--primary-color);
             text-shadow: 0 1px 2px rgba(11, 63, 137, 0.1);
+            flex-shrink: 0;
         }
 
         .count-text {
@@ -726,6 +740,7 @@
             color: var(--dark-gray);
             font-weight: 600;
             letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
         /* ===== RESPONSIVE DESIGN MODERNE ===== */
@@ -755,31 +770,83 @@
             }
 
             .modern-search-toolbar {
-                padding: 60px 0 20px 0; /* Plus d'espace sur mobile aussi */
-                margin-top: 15px;
+                /* Utiliser la variable --header-height définie dans base.html.twig */
+                padding: calc(var(--header-height) + 20px) 0 20px 0 !important;
+                margin-top: 0 !important;
+                display: block !important;
+                visibility: visible !important;
+                background: linear-gradient(to bottom, #f8fafc 0%, white 100%);
             }
 
             .search-toolbar-container {
                 padding: 0 16px;
+                display: block !important;
             }
 
+            /* RÉORGANISATION MOBILE : Tri d'abord, puis Recherche */
             .search-and-sort-area {
-                grid-template-columns: 1fr;
-                gap: 24px;
+                display: flex !important;
+                flex-direction: column;
+                gap: 20px;
                 text-align: center;
             }
 
-            .modern-search-input {
-                min-width: 100%;
-                padding: 16px 20px 16px 50px;
-                font-size: 16px;
+            /* ORDRE 1 : TRI EN PREMIER */
+            .modern-sort-section {
+                order: 1;
+                display: flex !important;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                padding: 16px;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+            
+            .sort-label {
+                font-weight: 700;
+                color: #0b3f89;
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            /* ORDRE 2 : RECHERCHE EN SECOND */
+            .modern-search-section {
+                order: 2;
+                display: block !important;
+                visibility: visible !important;
+                width: 100%;
+                margin-top: 8px;
+            }
+            
+            .search-input-wrapper {
+                display: flex !important;
+                visibility: visible !important;
+                width: 100%;
+                background: white;
+                border: 2px solid rgba(11, 63, 137, 0.2);
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             }
 
-            .modern-sort-section {
-                flex-direction: column;
-                gap: 16px;
-                width: 100%;
-                padding: 20px;
+            .modern-search-input {
+                width: 100% !important;
+                padding: 18px 20px !important;
+                font-size: 16px !important;
+                display: block !important;
+                visibility: visible !important;
+                background: transparent;
+                border: none;
+            }
+            
+            /* ORDRE 3 : COMPTEUR EN TROISIÈME */
+            .modern-results-section {
+                order: 3;
+                margin-top: 12px;
+                text-align: center;
+                justify-content: center;
             }
 
             .sort-buttons {
@@ -792,11 +859,8 @@
                 justify-content: center;
                 width: 100%;
                 padding: 14px 20px;
-            }
-
-            .modern-results-section {
-                text-align: center;
-                justify-content: center;
+                font-size: 15px;
+                font-weight: 600;
             }
 
             /* Container mobile */
@@ -865,8 +929,9 @@
         /* Très petits mobiles */
         @media (max-width: 480px) {
             .modern-search-toolbar {
-                padding: 50px 0 20px 0; /* Espace adapté aux très petits écrans */
-                margin-top: 10px;
+                /* Utiliser la variable --header-height + marge */
+                padding: calc(var(--header-height) + 16px) 0 16px 0 !important;
+                margin-top: 0 !important;
             }
 
             .search-toolbar-container {
@@ -874,16 +939,16 @@
             }
 
             .search-and-sort-area {
-                gap: 20px;
+                gap: 16px;
             }
 
             .modern-search-input {
-                padding: 14px 16px 14px 45px;
-                font-size: 16px;
+                padding: 16px 18px !important;
+                font-size: 16px !important;
             }
 
             .modern-sort-section {
-                padding: 16px;
+                padding: 14px;
             }
 
             .sort-btn {
@@ -950,10 +1015,11 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 430px) {
             .modern-search-toolbar {
-                padding: 45px 0 16px 0; /* Espace cohérent */
-                margin-top: 8px;
+                /* Utiliser la variable --header-height + marge */
+                padding: calc(var(--header-height) + 16px) 0 16px 0 !important;
+                margin-top: 0 !important;
             }
 
             .search-toolbar-container {
@@ -965,8 +1031,8 @@
             }
 
             .modern-search-input {
-                padding: 14px 16px;
-                font-size: 16px;
+                padding: 16px 18px !important;
+                font-size: 16px !important;
             }
 
 
@@ -1161,6 +1227,56 @@
             font-weight: 500;
             cursor: pointer;
             line-height: 1.4;
+        }
+
+        /* ===== BOUTON RÉINITIALISER LES FILTRES ===== */
+        .filter-reset-section {
+            text-align: center;
+        }
+
+        .btn-reset-filters {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            border: 2px solid #dc3545;
+            padding: 14px 24px;
+            border-radius: var(--border-radius-small);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-reset-filters:hover {
+            background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-reset-filters:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+        }
+
+        .btn-reset-filters svg {
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-reset-filters:hover svg {
+            transform: rotate(-180deg);
+        }
+
+        .reset-hint {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #6c757d;
+            font-style: italic;
         }
 
         /* ===== PAGINATION MODERNE ===== */
@@ -1425,9 +1541,6 @@
 
 	<div class="bodyclass">
 
-        <!-- Overlay sombre -->
-        <div class="mobile-filter-overlay" id="mobile-filter-overlay"></div>
-
         <!-- Panneau off-canvas des filtres -->
         <div class="mobile-filter-panel" id="mobile-filter-panel">
             <div class="mobile-filter-header">
@@ -1464,20 +1577,20 @@
                         <div class="modern-sort-section">
                         	<span class="sort-label">Trier par :</span>
                         	<div class="sort-buttons">
-	                        	<a href="#" class="sort-btn" data-sort="ASC" data-type="prix">
+	                        	<button type="button" class="sort-btn" data-sort="ASC" data-type="prix">
 	                        		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 	                        			<path d="m3 16 4 4 4-4"></path>
 	                        			<path d="M7 20V4"></path>
 	                        		</svg>
 	                        		Prix croissant
-	                        	</a>
-	                        	<a href="#" class="sort-btn" data-sort="DESC" data-type="prix">
+	                        	</button>
+	                        	<button type="button" class="sort-btn" data-sort="DESC" data-type="prix">
 	                        		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 	                        			<path d="m3 8 4-4 4 4"></path>
 	                        			<path d="M7 4v16"></path>
 	                        		</svg>
 	                        		Prix décroissant
-	                        	</a>
+	                        	</button>
                         	</div>
                         </div>
                         
@@ -1642,7 +1755,7 @@
         {% set thematiques = app.request.query.all('thematique') %}
         {% for theme in categories %}
         <div class="checkbox-item {% if theme.name == 'IA' %}ia-theme{% endif %}">
-            <input type="checkbox" id="theme_{{ theme.id }}" onchange="applyFilter()" name="thematique[]" value="{{ theme.id }}" {{ theme.id in thematiques ? 'checked' : '' }}>
+            <input type="checkbox" id="theme_{{ theme.id }}" name="thematique[]" value="{{ theme.id }}" {{ theme.id in thematiques ? 'checked' : '' }}>
             <label for="theme_{{ theme.id }}">{{ theme.name }}</label>
         </div>
         {% endfor %}
@@ -1654,7 +1767,7 @@
         {% set lieux = app.request.query.all('lieu') %}
         {% for format in ['Distanciel', 'Présentiel'] %}
         <div class="checkbox-item">
-            <input type="checkbox" id="lieu_{{ format }}" onchange="applyFilter()" name="lieu[]" value="{{ format }}" {{ format in lieux ? 'checked' : '' }}>
+            <input type="checkbox" id="lieu_{{ format }}" name="lieu[]" value="{{ format }}" {{ format in lieux ? 'checked' : '' }}>
             <label for="lieu_{{ format }}">{{ format }}</label>
         </div>
         {% endfor %}
@@ -1664,10 +1777,16 @@
     <h4>Durée</h4>
     <div class="filter-section">
         {% set durations = app.request.query.all('duration') %}
-        {% for duration in ['24 heures', '100 heures', '400 heures'] %}
+        {% set durationRanges = {
+            'less_than_24': 'Moins de 24h',
+            '24_to_100': '24h à 100h',
+            '100_to_200': '100h à 200h',
+            'more_than_200': 'Plus de 200h'
+        } %}
+        {% for value, label in durationRanges %}
         <div class="checkbox-item">
-            <input type="checkbox" id="duration_{{ loop.index }}" onchange="applyFilter()" name="duration[]" value="{{ duration }}" {{ duration in durations ? 'checked' : '' }}>
-            <label for="duration_{{ loop.index }}">{{ duration }}</label>
+            <input type="checkbox" id="duration_{{ loop.index }}" name="duration[]" value="{{ value }}" {{ value in durations ? 'checked' : '' }}>
+            <label for="duration_{{ loop.index }}">{{ label }}</label>
         </div>
         {% endfor %}
     </div>
@@ -1678,7 +1797,7 @@
         {% set levels = app.request.query.all('level') %}
         {% for level in ['Débutant', 'Intermédiaire', 'Avancé'] %}
         <div class="checkbox-item">
-            <input type="checkbox" id="level_{{ loop.index }}" onchange="applyFilter()" name="level[]" value="{{ level }}" {{ level in levels ? 'checked' : '' }}>
+            <input type="checkbox" id="level_{{ loop.index }}" name="level[]" value="{{ level }}" {{ level in levels ? 'checked' : '' }}>
             <label for="level_{{ loop.index }}">{{ level }}</label>
         </div>
         {% endfor %}
@@ -1690,7 +1809,7 @@
         {% set languages = app.request.query.all('language') %}
         {% for language in ['Français', 'Anglais'] %}
         <div class="checkbox-item">
-            <input type="checkbox" id="lang_{{ loop.index }}" onchange="applyFilter()" name="language[]" value="{{ language }}" {{ language in languages ? 'checked' : '' }}>
+            <input type="checkbox" id="lang_{{ loop.index }}" name="language[]" value="{{ language }}" {{ language in languages ? 'checked' : '' }}>
             <label for="lang_{{ loop.index }}">{{ language }}</label>
         </div>
         {% endfor %}
@@ -1700,9 +1819,22 @@
     <h4>Financement</h4>
     <div class="filter-section">
         <div class="checkbox-item">
-            <input type="checkbox" id="eligible-cpf" onchange="applyFilter()" name="has_rncp" value="1" {{ app.request.query.get('has_rncp') ? 'checked' : '' }}>
+            <input type="checkbox" id="eligible-cpf" name="has_rncp" value="1" {{ app.request.query.get('has_rncp') ? 'checked' : '' }}>
             <label for="eligible-cpf">Éligible CPF</label>
         </div>
+    </div>
+
+    <!-- Bouton Réinitialiser les filtres -->
+    <div class="filter-reset-section" style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e2e8f0;">
+        <button type="button" class="btn-reset-filters" onclick="resetAllFilters()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <polyline points="23 20 23 14 17 14"></polyline>
+                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+            </svg>
+            Réinitialiser les filtres
+        </button>
+        <p class="reset-hint">Effacer tous les filtres et voir toutes les formations</p>
     </div>
 </div>
 
@@ -1804,8 +1936,8 @@
             <p class="calendly-description">
                 Échangez gratuitement avec nos experts et trouvez la formation qui correspond parfaitement à vos objectifs professionnels
             </p>
-            <a class="modern-calendly-btn" href="#" data-calendly-url="https://calendly.com/contact-infpf?locale=fr">
-                <span class="btn-text">Prendre rendez-vous avec un conseiller</span>
+            <a class="modern-calendly-btn btn-calendly-mobile" href="#calendly-home" data-mobile-text="📞 Prise de contact">
+                <span class="btn-text">Je réserve mon appel gratuit</span>
                 <span class="btn-arrow">→</span>
             </a>
         </div>
@@ -1977,27 +2109,7 @@
         </style>
     </div>
 
-  <div class="blog-sectionactualite">
-    <h2 class="blog-heading">Actualités de l'INFPF</h2>
-    <div class="blog-container">
-      {% for blog in blogs %}
-        <div class="blog-postactualite">
-          <figure class="blog-post-image">
-            {% if blog.image %}
-              <img src="{{ asset('uploads/images/' ~ blog.image) }}" alt="{{ blog.titleOne }}">
-            {% else %}
-              <img src="{{ asset('path/to/default/image.jpeg') }}" alt="Image par défaut">
-            {% endif %}
-          </figure>
-          <div class="blog-post-content">
-            <h3>{{ blog.titleOne }}</h3>
-            <p>{{ blog.shortDesc}}</p>
-            <a href="{{ path('blog_show', {'id': blog.id}) }}" class="read-more">Voir la suite</a>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
+
 </div>
 {% include 'footer.html.twig' %}
 {% endblock %}
@@ -2012,10 +2124,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========================================
 
     const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
-    const mobileFilterOverlay = document.getElementById('mobile-filter-overlay');
     const mobileFilterPanel = document.getElementById('mobile-filter-panel');
     const mobileFilterClose = document.getElementById('mobile-filter-close');
     const mobileFilterContent = document.querySelector('.mobile-filter-content');
+    
+    console.log('📱 INITIALISATION FILTRES MOBILE');
+    console.log('Bouton toggle:', mobileFilterToggle ? '✅ Trouvé' : '❌ Introuvable');
+    console.log('Panneau:', mobileFilterPanel ? '✅ Trouvé' : '❌ Introuvable');
+    console.log('Bouton fermeture:', mobileFilterClose ? '✅ Trouvé' : '❌ Introuvable');
+    
+    // ===== SÉCURITÉ : S'assurer que les filtres sont fermés au chargement =====
+    if (mobileFilterPanel) {
+        mobileFilterPanel.classList.remove('active');
+        mobileFilterPanel.style.display = 'none';
+        mobileFilterPanel.style.pointerEvents = 'none';
+        mobileFilterPanel.style.visibility = 'hidden';
+        mobileFilterPanel.style.transform = 'translateX(100%)';
+    }
+    // Garantir que body est scrollable
+    document.body.style.overflow = '';
+    // ===== FIN SÉCURITÉ =====
 
     // Dupliquer les filtres desktop dans le panneau mobile
     function initializeMobileFilters() {
@@ -2138,57 +2266,88 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ouvrir le panneau mobile
     function openMobilePanel() {
+        console.log('🔵 Ouverture du panneau de filtres mobile');
+        
         // Empêcher le scroll du body
         document.body.style.overflow = 'hidden';
         
-        // Afficher et animer les éléments
-        mobileFilterOverlay.style.display = 'block';
-        mobileFilterPanel.style.display = 'block';
+        // Afficher le panneau avec tous les styles forcés
+        mobileFilterPanel.style.setProperty('display', 'block', 'important');
+        mobileFilterPanel.style.setProperty('visibility', 'visible', 'important');
+        mobileFilterPanel.style.setProperty('pointer-events', 'auto', 'important');
+        mobileFilterPanel.style.setProperty('z-index', '99999', 'important');
+        mobileFilterPanel.style.setProperty('position', 'fixed', 'important');
+        mobileFilterPanel.style.setProperty('right', '0', 'important');
+        mobileFilterPanel.style.setProperty('top', '0', 'important');
+        mobileFilterPanel.style.setProperty('width', '320px', 'important');
+        mobileFilterPanel.style.setProperty('height', '100vh', 'important');
+        mobileFilterPanel.style.setProperty('background', 'white', 'important');
         
         // Force reflow pour l'animation
-        mobileFilterOverlay.offsetHeight;
         mobileFilterPanel.offsetHeight;
         
-        // Activer les animations
-        mobileFilterOverlay.classList.add('active');
+        // Activer l'animation
         mobileFilterPanel.classList.add('active');
+        
+        console.log('✅ Panneau ouvert, classes:', mobileFilterPanel.className);
+        console.log('📐 Position panneau:', mobileFilterPanel.getBoundingClientRect());
+        console.log('🎨 Computed styles:', {
+            display: window.getComputedStyle(mobileFilterPanel).display,
+            visibility: window.getComputedStyle(mobileFilterPanel).visibility,
+            zIndex: window.getComputedStyle(mobileFilterPanel).zIndex,
+            transform: window.getComputedStyle(mobileFilterPanel).transform,
+            right: window.getComputedStyle(mobileFilterPanel).right
+        });
         
         // Focus management pour l'accessibilité
         setTimeout(() => {
+            if (mobileFilterClose) {
             mobileFilterClose.focus();
+            }
         }, 300);
     }
 
     // Fermer le panneau mobile
     function closeMobilePanel() {
-        // Désactiver les animations
-        mobileFilterOverlay.classList.remove('active');
+        console.log('🔴 Fermeture du panneau de filtres mobile');
+        
+        // Désactiver l'animation
         mobileFilterPanel.classList.remove('active');
         
         // Permettre le scroll du body
         document.body.style.overflow = '';
         
-        // Masquer les éléments après l'animation
+        // Masquer le panneau après l'animation
         setTimeout(() => {
-            mobileFilterOverlay.style.display = 'none';
             mobileFilterPanel.style.display = 'none';
+            mobileFilterPanel.style.visibility = 'hidden';
+            mobileFilterPanel.style.pointerEvents = 'none';
         }, 300);
         
         // Remettre le focus sur le bouton d'ouverture
+        if (mobileFilterToggle) {
         mobileFilterToggle.focus();
+        }
     }
 
     // Event listeners
     if (mobileFilterToggle) {
-        mobileFilterToggle.addEventListener('click', openMobilePanel);
+        console.log('✅ Bouton Filtres trouvé, ajout du listener');
+        mobileFilterToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🖱️ Clic sur le bouton Filtres détecté');
+            openMobilePanel();
+        });
+    } else {
+        console.error('❌ Bouton Filtres (mobile-filter-toggle) introuvable !');
     }
 
     if (mobileFilterClose) {
+        console.log('✅ Bouton Fermeture trouvé, ajout du listener');
         mobileFilterClose.addEventListener('click', closeMobilePanel);
-    }
-
-    if (mobileFilterOverlay) {
-        mobileFilterOverlay.addEventListener('click', closeMobilePanel);
+    } else {
+        console.error('❌ Bouton Fermeture (mobile-filter-close) introuvable !');
     }
 
     // Gérer la fermeture avec la touche Escape
@@ -2279,6 +2438,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (isMobile) e.stopPropagation();
                 console.log(`⬅️ Page précédente: ${currentPage} → ${currentPage - 1}`);
                 currentPage--;
+                // Scroll vers le haut de la page
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 renderCards();
                 renderPagination();
             };
@@ -2302,6 +2463,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (isMobile) e.stopPropagation();
                     console.log(`🔢 Clic page: ${currentPage} → ${i}`);
                     currentPage = i;
+                    // Scroll vers le haut de la page
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                     renderCards();
                     renderPagination();
                 };
@@ -2324,6 +2487,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (isMobile) e.stopPropagation();
                 console.log(`➡️ Page suivante: ${currentPage} → ${currentPage + 1}`);
                 currentPage++;
+                // Scroll vers le haut de la page
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 renderCards();
                 renderPagination();
             };
@@ -2382,7 +2547,7 @@ if (selectElement) {
 selectElement.addEventListener('change', function () {
 const categoryId = this.value;
 
-window.location.href = {{ path('app_home') }}?category_id=${categoryId};
+window.location.href = `{{ path('app_home') }}?thematique%5B%5D=${categoryId}`;
 });
 } else {
 console.error('Element #category_select not found');
@@ -2396,7 +2561,7 @@ const resultsSpan = document.querySelector('.results_area .result');
 if (selectElement) {
 selectElement.addEventListener('change', function () {
 const categoryId = this.value;
-console.log (Catégorie sélectionnée: ${categoryId});
+console.log(`Catégorie sélectionnée: ${categoryId}`);
 
 // Simulez la récupération des résultats basés sur categoryId
 // Cela devrait normalement être remplacé par une requête AJAX ou une méthode similaire
@@ -2405,7 +2570,7 @@ const numberOfResults = simulateFetchResults(categoryId);
 
 // Mettre à jour l'affichage des résultats
 resultsSpan.textContent = numberOfResults;
-window.location.href = {{ path('app_home') }}?category_id=${categoryId};
+window.location.href = `{{ path('app_home') }}?thematique%5B%5D=${categoryId}`;
 });
 } else {
 console.error('Element #category_select not found');
@@ -2521,54 +2686,132 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
+// ===== SYSTÈME DE FILTRAGE AMÉLIORÉ - ÉVITE LES DOUBLES CLICS =====
+let filterTimeout = null;
+let isFiltering = false;
+
 function applyFilter() {
+    // Empêcher les multiples appels simultanés
+    if (isFiltering) {
+        console.log('⏳ Filtrage déjà en cours, action ignorée');
+        return;
+    }
+    
+    // Débounce pour éviter les appels multiples rapides
+    clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(() => {
+        isFiltering = true;
+        console.log('🔄 Application des filtres...');
+        
+        let url = new URL(window.location.href);
+        let params = new URLSearchParams();
+        
+        // Conserver les autres paramètres (search, sort)
+        if (url.searchParams.get('search')) {
+            params.set('search', url.searchParams.get('search'));
+        }
+        if (url.searchParams.get('sort')) {
+            params.set('sort', url.searchParams.get('sort'));
+        }
+        
+        // Gérer les filtres à cases à cocher - on parcourt TOUTES les cases
+        document.querySelectorAll('.checkbox-item input[type=checkbox]').forEach(function(checkbox) {
+            if (checkbox.checked) {
+                params.append(checkbox.name, checkbox.value);
+            }
+        });
+
+        // Rediriger avec les nouveaux paramètres
+        console.log('✅ Redirection avec filtres:', params.toString());
+        
+        // Scroll to top AVANT la redirection pour une meilleure UX
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+        
+        // Petite pause pour laisser le scroll s'effectuer
+        setTimeout(() => {
+            window.location.href = url.pathname + '?' + params.toString();
+        }, 200);
+    }, 300); // Délai de 300ms pour éviter les clics multiples
+}
+
+// Fonction pour réinitialiser tous les filtres
+function resetAllFilters() {
+    console.log('🔄 Réinitialisation de tous les filtres...');
+    
+    // Désélectionner toutes les checkboxes
+    document.querySelectorAll('.checkbox-item input[type=checkbox]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Scroll to top AVANT la redirection
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+    
+    // Rediriger vers la page sans paramètres de filtre
     let url = new URL(window.location.href);
     let params = new URLSearchParams();
     
-    // Conserver les autres paramètres (search, sort, category_id)
-    if (url.searchParams.get('search')) {
-        params.set('search', url.searchParams.get('search'));
-    }
-    if (url.searchParams.get('sort')) {
-        params.set('sort', url.searchParams.get('sort'));
-    }
-    if (url.searchParams.get('category_id')) {
-        params.set('category_id', url.searchParams.get('category_id'));
-    }
+    // Conserver uniquement les paramètres essentiels si nécessaires
+    // (Tous les filtres sont supprimés)
     
-    // Gérer les filtres à cases à cocher - on parcourt TOUTES les cases
-    document.querySelectorAll('.checkbox-item input[type=checkbox]').forEach(function(checkbox) {
-        if (checkbox.checked) {
-            params.append(checkbox.name, checkbox.value);
-        }
-        // Si la case n'est pas cochée, on ne l'ajoute pas (suppression automatique du filtre)
-    });
-
-    // Rediriger avec les nouveaux paramètres
-    window.location.href = url.pathname + '?' + params.toString();
+    console.log('✅ Redirection sans filtres');
+    
+    // Petite pause pour laisser le scroll s'effectuer
+    setTimeout(() => {
+        window.location.href = url.pathname;
+    }, 200);
 }
 
-// Initialisation simple
+// Initialisation optimisée
 document.addEventListener('DOMContentLoaded', function() {
-    // Améliorer l'interaction avec les checkboxes - cliquer sur le label coche/décoche
-    document.querySelectorAll('.checkbox-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            if (e.target.type !== 'checkbox') {
-                const checkbox = this.querySelector('input[type="checkbox"]');
-                checkbox.checked = !checkbox.checked;
-                applyFilter();
-            }
-        });
-    });
+    console.log('🎯 Initialisation du système de filtres amélioré');
     
-    // Appliquer le filtre automatiquement quand on coche/décoche directement les cases
+    // IMPORTANT : Supprimer les anciens event listeners pour éviter les doublons
+    // On utilise le système de délégation d'événements pour plus d'efficacité
+    
+    // Gérer les clics sur les checkboxes de manière optimisée
     document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
+        // Retirer l'attribut onchange inline pour éviter les doubles appels
+        checkbox.removeAttribute('onchange');
+        
+        // Ajouter un seul event listener avec debounce
+        checkbox.addEventListener('change', function(e) {
+            console.log(`☑️ Changement filtre: ${this.name} = ${this.value} (${this.checked})`);
             applyFilter();
         });
     });
+    
+    // Gérer les clics sur les labels pour une meilleure UX
+    document.querySelectorAll('.checkbox-item label').forEach(label => {
+        label.addEventListener('click', function(e) {
+            // Le comportement par défaut du label coche déjà la checkbox
+            // On laisse juste l'événement 'change' de la checkbox se déclencher
+            console.log('🖱️ Clic sur label');
+        });
+    });
+    
+    console.log('✅ Système de filtres configuré');
 });
 </script>
 <!-- Le JavaScript Calendly est désormais géré de manière centralisée dans base.html.twig -->
+
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+	// Initialize AOS
+	AOS.init({
+		duration: 800,
+		easing: 'ease-in-out',
+		once: true,
+		offset: 50
+	});
+</script>
 
 {% endblock %}

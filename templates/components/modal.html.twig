@@ -43,9 +43,50 @@
                 <textarea id="commentaire" name="commentaire" rows="4" required></textarea>
             </div>
             
+            <input type="hidden" name="modal_captcha_token" id="modal_captcha_token">
+            
             <div>
-                <button type="submit">Envoyer</button>
+                <button type="submit" id="modal-submit-btn">Envoyer</button>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Script reCAPTCHA v3 pour la modal (si pas déjà chargé) -->
+<script>
+if (!document.querySelector('script[src*="recaptcha"]')) {
+    const recaptchaScript = document.createElement('script');
+    recaptchaScript.src = 'https://www.google.com/recaptcha/api.js?render=6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq';
+    recaptchaScript.async = true;
+    recaptchaScript.defer = true;
+    document.head.appendChild(recaptchaScript);
+}
+
+function waitForRecaptchaModal(callback) {
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.ready) {
+        callback();
+    } else {
+        setTimeout(function() { waitForRecaptchaModal(callback); }, 100);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modalForm = document.querySelector('#popupForm form');
+    if (modalForm) {
+        waitForRecaptchaModal(function() {
+            modalForm.addEventListener('submit', function(e) {
+                const captchaInput = document.getElementById('modal_captcha_token');
+                if (!captchaInput.value) {
+                    e.preventDefault();
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq', {action: 'documentation_request'}).then(function(token) {
+                            captchaInput.value = token;
+                            modalForm.submit();
+                        });
+                    });
+                }
+            });
+        });
+    }
+});
+</script>

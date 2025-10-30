@@ -1,22 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formez-vous facilement à votre futur métier
+{% block title %}Formation Professionnelle à Distance - Institut National INFPF
 {% endblock %}
 
 {% block stylesheets %}
 	<link href="../css/fichier.css?=v16" rel="stylesheet"/>
 	<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-	<link rel="preconnect" href="https://assets.calendly.com">
-	<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+	{# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
+	{# <link rel="preconnect" href="https://assets.calendly.com"> #}
+	{# <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css"> #}
 	<!-- AOS Animation Library -->
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<style>
 		/* ===== CORRECTION PADDING TOP HOME ===== */
+		/* Sur desktop : pas de padding sur main, le hero gère son propre padding */
+		@media (min-width: 769px) {
 		main.site-main {
-			padding-top: 80px !important; /* Juste assez pour le header fixe */
+				padding-top: 0 !important;
 		}
 		.hero-banner {
-			padding-top: 60px !important;
+				padding-top: 120px !important; /* Padding normal desktop */
+			}
+		}
+		
+		/* Sur mobile : MÊME MÉTHODE QUE /FORMATION - padding dynamique sur le hero directement */
+		@media (max-width: 768px) {
+			main.site-main {
+				padding-top: 0 !important; /* Pas de padding sur main pour cette page */
+			}
 		}
 		/* Variables CSS héritées de base.html.twig */
 
@@ -72,94 +83,8 @@
 			z-index: 3;
 		}
 
-		/* ===== INDICATEUR DE SCROLL SIMPLIFIÉ ===== */
-		.scroll-indicator {
-			position: absolute;
-			bottom: 30px;
-			left: 50%;
-			transform: translateX(-50%);
-			z-index: 5;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 10px;
-			animation: scrollBounce 2s ease-in-out infinite;
-			cursor: pointer;
-			transition: all 0.3s ease;
-		}
-
-		.scroll-indicator:hover {
-			transform: translateX(-50%) scale(1.1);
-		}
-
-		.scroll-text {
-			color: rgba(255, 255, 255, 0.9);
-			font-size: 14px;
-			font-weight: 500;
-			text-align: center;
-			line-height: 1.4;
-			background: rgba(11, 63, 137, 0.2);
-			backdrop-filter: blur(10px);
-			padding: 8px 16px;
-			border-radius: 20px;
-			border: 1px solid rgba(255, 255, 255, 0.2);
-		}
-
-		.scroll-arrow-simple {
-			font-size: 24px;
-			color: white;
-			animation: arrowBounce 1.5s ease-in-out infinite;
-			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-		}
-
-		@keyframes scrollBounce {
-			0%, 100% { 
-				transform: translateX(-50%) translateY(0px); 
-			}
-			50% { 
-				transform: translateX(-50%) translateY(-5px); 
-			}
-		}
-
-		@keyframes arrowBounce {
-			0%, 100% { 
-				transform: translateY(0px);
-			}
-			50% { 
-				transform: translateY(8px);
-			}
-		}
-
-		/* ===== WAVE SEPARATOR ===== */
-		.wave-separator {
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			height: 60px;
-			z-index: 4;
-			overflow: hidden;
-		}
-
-		.wave-separator svg {
-			position: relative;
-			display: block;
-			width: calc(100% + 1.3px);
-			height: 60px;
-		}
-
-		.wave-separator .shape-fill {
-			fill: #f8fafc; /* Couleur de la section suivante */
-		}
-
 		/* ===== HERO RESPONSIVE COMPACT ===== */
 		@media (max-width: 768px) {
-			.hero-banner {
-				min-height: 85vh; /* Légèrement plus haut sur mobile */
-				max-height: 700px;
-				padding: 100px 16px 20px;
-			}
-
 			.hero-content {
 				margin: 0 auto;
 				display: flex;
@@ -212,39 +137,39 @@
 			.select-arrow {
 				right: 16px;
 			}
-
-			.scroll-indicator {
-				display: none; /* Masquer complètement sur mobile */
-			}
-
-			.scroll-text {
-				font-size: 13px;
-				padding: 6px 12px;
-			}
-
-			.scroll-arrow-simple {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 20px;
-			height: 20px;
 		}
-
-		.scroll-arrow-simple svg {
-			width: 100%;
-			height: 100%;
-			color: inherit;
-			}
-
-			.wave-separator {
-				display: none; /* Masquer le séparateur en vague sur mobile */
+		
+		/* ===== AUGMENTATION PROGRESSIVE DE L'ESPACE SELON LA TAILLE D'ÉCRAN ===== */
+		/* Galaxy S21 et similaires (360x800) - Bien aéré avec beaucoup d'espace */
+		@media (min-width: 360px) and (max-width: 389px) {
+			.hero-banner {
+				/* Padding VRAIMENT AUGMENTÉ : +85px en haut, +80px en bas pour NE PAS ÊTRE COUPÉ */
+				padding: calc(var(--header-height) + 85px) 16px 80px !important;
 			}
 		}
+		
+		/* iPhone 12 Pro et similaires (390x844) - Très aéré avec énormément d'espace */
+		@media (min-width: 390px) and (max-width: 427px) {
+			.hero-banner {
+				/* Padding VRAIMENT AUGMENTÉ : +105px en haut, +105px en bas pour NE PAS ÊTRE COUPÉ */
+				padding: calc(var(--header-height) + 105px) 18px 105px !important;
+			}
+		}
+		
+		/* iPhone 13 Pro Max et similaires (428x926) - Maximum aéré avec ÉNORMÉMENT d'espace */
+		@media (min-width: 428px) and (max-width: 768px) {
+			.hero-banner {
+				/* Padding VRAIMENT AUGMENTÉ : +125px en haut, +125px en bas pour NE PAS ÊTRE COUPÉ */
+				padding: calc(var(--header-height) + 125px) 20px 125px !important;
+			}
+		}
 
-		@media (max-width: 480px) {
+		/* Très petits écrans uniquement (< 360px) */
+		@media (max-width: 359px) {
 			.hero-banner {
 				min-height: 90vh;
-				padding: 80px 12px 15px;
+				/* Padding pour très petits écrans */
+				padding: calc(var(--header-height) + 70px) 12px 60px !important;
 			}
 
 			.hero-content {
@@ -293,19 +218,6 @@
 					0 10px 35px rgba(11, 63, 137, 0.35), 
 					inset 0 2px 6px rgba(11, 63, 137, 0.1),
 					0 0 0 2px rgba(255, 255, 255, 1);
-			}
-
-			.scroll-indicator {
-				bottom: 15px;
-			}
-
-			.scroll-text {
-				font-size: 12px;
-				padding: 5px 10px;
-			}
-
-			.scroll-arrow-simple {
-				font-size: 18px;
 			}
 		}
 
@@ -482,7 +394,7 @@
 .category-card {
 			position: relative;
 			border-radius: var(--border-radius);
-  overflow: hidden;
+  overflow: hidden !important; /* MASQUER DÉPASSEMENTS */
 			background: rgba(255, 255, 255, 0.25);
 			backdrop-filter: blur(20px);
 			border: 1px solid rgba(255, 255, 255, 0.3);
@@ -501,7 +413,12 @@
   width: 100%;
 			height: 220px;
   object-fit: cover;
+			object-position: center;
+			display: block; /* ÉVITER ESPACES BLANCS */
+			margin: 0;
+			padding: 0;
 			transition: var(--transition);
+			border-radius: 0; /* PAS d'arrondi sur l'image elle-même, le container s'en charge */
 		}
 
 		.category:not(.expanded) .category-card:hover .category-image {
@@ -517,7 +434,9 @@
   font-weight: bold;
   text-align: center;
 			position: relative;
-			overflow: hidden;
+			overflow: visible;
+			word-wrap: break-word;
+			line-height: 1.3;
 		}
 
 		/* ===== CATÉGORIE IA EN OR ===== */
@@ -604,8 +523,47 @@
 
 		/* ===== AJUSTEMENT BADGE QUAND MODAL OUVERTE ===== */
 		.category.ia-category.expanded .category-card::after {
-			right: 70px; /* Déplace vers la gauche pour éviter la croix */
-			top: 20px;
+			display: none; /* Masquer le badge quand modal ouverte - plus propre */
+		}
+		
+		/* Badge NOUVEAU responsive mobile - Optimisé pour disposition colonne */
+		@media (max-width: 768px) {
+			.category.ia-category .category-card::after {
+				top: 12px !important;
+				right: 12px !important;
+				font-size: 10px !important;
+				padding: 6px 12px !important;
+			}
+		}
+		
+		@media (max-width: 480px) {
+			.category.ia-category .category-card::after {
+				top: 10px !important;
+				right: 10px !important;
+				font-size: 10px !important;
+				padding: 6px 14px !important;
+				border-radius: 20px !important;
+				z-index: 10 !important;
+				box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4) !important;
+			}
+		}
+		
+		@media (max-width: 390px) {
+			.category.ia-category .category-card::after {
+				top: 8px !important;
+				right: 8px !important;
+				font-size: 9px !important;
+				padding: 5px 12px !important;
+			}
+		}
+		
+		@media (max-width: 360px) {
+			.category.ia-category .category-card::after {
+				top: 8px !important;
+				right: 8px !important;
+				font-size: 8px !important;
+				padding: 4px 10px !important;
+			}
 		}
 
 		.category-title::before {
@@ -615,7 +573,7 @@
 			left: -100%;
 			width: 100%;
 			height: 100%;
-			background: rgba(255, 255, 255, 0.1);
+			background: transparent;
 			transition: left 0.3s;
 		}
 
@@ -669,12 +627,13 @@
 			z-index: 1000;
 			width: 90vw;
 			max-width: 1000px;
-			max-height: 90vh;
+			max-height: 90vh; /* Limite pour ne pas déborder de l'écran */
 			margin: 0 !important;
 			padding: 0 !important;
 			grid-column: auto !important;
 			animation: smoothExpandToCenter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 			box-shadow: 0 25px 80px rgba(11, 63, 137, 0.6);
+			overflow-y: auto; /* Scroll si contenu trop haut */
 		}
 
 		.category.expanded .category-card {
@@ -684,9 +643,8 @@
 			grid-template-columns: 400px 1fr;
 			gap: 0;
 			margin: 0 !important;
-			overflow: hidden;
-			overflow-y: auto;
-			max-height: 90vh;
+			overflow: hidden !important; /* MASQUER LES DÉPASSEMENTS */
+			max-height: none; /* S'adapte au contenu */
 			box-shadow: 0 30px 100px rgba(11, 63, 137, 0.5);
 			border: 3px solid rgba(11, 63, 137, 0.3);
 			border-radius: 20px;
@@ -698,8 +656,12 @@
 		.category.expanded .category-image {
 			height: 100%;
 			min-height: 500px;
-			border-radius: 18px 0 0 18px;
+			border-radius: 0 !important; /* AUCUN ARRONDI - IMAGE REMPLIT TOUT LE CADRE */
 			object-fit: cover;
+			object-position: center;
+			display: block; /* ÉVITER LES ESPACES BLANCS */
+			margin: 0;
+			padding: 0;
 		}
 
 		.category.expanded .category-title {
@@ -708,7 +670,9 @@
 			font-size: 22px;
 			padding: 25px;
 			position: relative;
-			border-radius: 18px 18px 0 0;
+			border-radius: 17px 17px 0 0; /* ARRONDI EXACT POUR CORRESPONDRE */
+			margin: 0;
+			overflow: hidden;
 		}
 
 		/* ===== OVERLAY ARRIÈRE-PLAN RÉACTIVÉ ===== */
@@ -929,7 +893,7 @@
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 		}
 
-		/* ===== RESPONSIVE MODAL ===== */
+		/* ===== RESPONSIVE MODAL - UX OPTIMALE MOBILE ===== */
 @media (max-width: 768px) {
 			.categories {
 				grid-template-columns: 1fr;
@@ -937,31 +901,101 @@
 			}
 
 			.category.expanded {
-				width: 95vw !important;
-				max-height: 95vh !important;
+				width: 92vw !important;
+				max-height: none !important; /* Pas de limite - s'adapte au contenu */
+				height: auto !important;
 			}
 
 			.category.expanded .category-card {
-				grid-template-columns: 1fr;
-				min-height: auto;
+				grid-template-columns: 1fr !important;
+				min-height: auto !important;
+				max-height: none !important;
+				overflow: hidden !important; /* MASQUER LES DÉPASSEMENTS */
+				overflow-y: visible !important;
 			}
 
 			.category.expanded .category-image {
-				height: 250px;
-				min-height: 250px;
-				border-radius: 18px 18px 0 0;
+				height: 180px !important; /* Plus compact */
+				min-height: 180px !important;
+				max-height: 180px !important;
+				width: 100% !important;
+				border-radius: 0 !important; /* AUCUN ARRONDI - IMAGE REMPLIT TOUT LE CADRE */
+				object-fit: cover !important;
+				object-position: center !important;
+				display: block !important;
+				margin: 0 !important;
+				padding: 0 !important;
 			}
 
 			.formations-preview {
-  padding: 20px;
+				padding: 20px !important;
+				overflow: visible !important;
+				max-height: none !important;
+			}
+			
+			/* Limiter les formations visibles sur mobile */
+			.formations-preview .formation-item:nth-child(n+4) {
+				display: none !important; /* Afficher max 3 formations sur tablette */
 			}
 
 			.close-button {
-				top: 10px;
-				right: 10px;
-				width: 35px;
-				height: 35px;
-				font-size: 18px;
+				top: 10px !important;
+				right: 10px !important;
+				width: 35px !important;
+				height: 35px !important;
+				font-size: 18px !important;
+			}
+		}
+
+		/* Mobile strict - 2 formations max */
+		@media (max-width: 480px) {
+			.category.expanded {
+				width: 95vw !important;
+			}
+			
+			.category.expanded .category-card {
+				overflow: hidden !important;
+				border-radius: 18px !important;
+			}
+			
+			.category.expanded .category-image {
+				height: 150px !important;
+				min-height: 150px !important;
+				max-height: 150px !important;
+				width: 100% !important;
+				border-radius: 0 !important; /* AUCUN ARRONDI - IMAGE REMPLIT TOUT LE CADRE */
+				object-fit: cover !important;
+				object-position: center !important;
+				display: block !important;
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+			
+			.category.expanded .category-title {
+				font-size: 18px !important;
+				padding: 20px 15px !important;
+				border-radius: 0 !important;
+			}
+			
+			.formations-preview {
+				padding: 16px !important;
+			}
+			
+			/* Limiter à 2 formations sur mobile */
+			.formations-preview .formation-item:nth-child(n+3) {
+				display: none !important;
+			}
+			
+			.formation-item {
+				padding: 12px 14px !important;
+				font-size: 14px !important;
+			}
+			
+			/* Bouton "Voir plus" plus visible */
+			.voir-plus-button {
+				margin-top: 12px !important;
+				padding: 12px 20px !important;
+				font-size: 14px !important;
 			}
 		}
 
@@ -1090,6 +1124,110 @@
 		.blog-sectionactualite {
 			background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
 			padding: 80px 20px;
+		}
+
+		/* ===== SECTION CALENDLY - IDENTIQUE À /CONTACT ===== */
+		/* Container avec max-width comme /contact */
+		.calendly-container-wrapper {
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 clamp(1rem, 4vw, 2rem);
+		}
+
+		/* Section Calendly Moderne - LAYOUT 2 COLONNES DESKTOP */
+		.calendly-section {
+			background: linear-gradient(135deg, rgba(11, 63, 137, 0.05), rgba(59, 130, 246, 0.05));
+			border-radius: var(--border-radius-xl);
+			padding: clamp(2.5rem, 5vw, 4rem);
+			text-align: center;
+			margin: clamp(3rem, 6vw, 5rem) 0;
+			border: 2px solid rgba(59, 130, 246, 0.1);
+			position: relative;
+			overflow: hidden;
+			scroll-margin-top: calc(var(--header-height) + 20px);
+		}
+
+		.calendly-section::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="1" fill="rgba(59,130,246,0.1)"/></svg>');
+			z-index: 1;
+		}
+
+		.calendly-content {
+			position: relative;
+			z-index: 2;
+		}
+
+		.calendly-section h3 {
+			font-size: clamp(2.5rem, 5vw, 3.5rem);
+			font-weight: 800;
+			color: var(--primary-color);
+			margin-bottom: 1.5rem;
+			line-height: 1.2;
+		}
+
+		.calendly-section p {
+			font-size: clamp(1.3rem, 3vw, 1.6rem);
+			color: #64748b;
+			font-weight: 500;
+			margin-bottom: 2.5rem;
+			max-width: 600px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		/* DESKTOP : Layout 2 colonnes (texte gauche + calendly droite) */
+		@media (min-width: 1024px) {
+			.calendly-content {
+				display: grid;
+				grid-template-columns: 400px 1fr;
+				gap: 3rem;
+				align-items: start;
+				text-align: left;
+			}
+
+			.calendly-text-wrapper {
+				position: sticky;
+				top: 120px;
+			}
+
+			.calendly-section h3 {
+				text-align: left;
+				margin-bottom: 1.5rem;
+			}
+
+			.calendly-section p {
+				text-align: left;
+				margin-left: 0;
+				margin-right: 0;
+				margin-bottom: 0;
+			}
+		}
+
+		/* Mobile responsive */
+		@media (max-width: 480px) {
+			.calendly-section {
+				padding: 1.5rem;
+				border-radius: 20px;
+			}
+		}
+
+		/* ⚠️ SUR MOBILE : CACHER COMPLÈTEMENT LA SECTION CALENDLY (redirection vers /contact) */
+		@media (max-width: 768px) {
+			.calendly-container-wrapper,
+			.calendly-section,
+			#calendly-home {
+				display: none !important;
+				visibility: hidden !important;
+				opacity: 0 !important;
+				height: 0 !important;
+				overflow: hidden !important;
+				pointer-events: none !important;
+			}
+
+			/* ⚠️ Le texte des boutons est changé via JavaScript (plus fiable) */
 		}
 
 		.blog-heading {
@@ -1226,7 +1364,7 @@
 		/* ===== VIDEO SECTION MODERNISÉE (COULEURS COHÉRENTES AVEC LE SITE) ===== */
 		.video-section {
 			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
-			padding: 80px 20px;
+			padding: 10px 20px;
 			color: white;
 			position: relative;
 			overflow: hidden;
@@ -2160,9 +2298,7 @@
 
 		/* Réduire le z-index de tous les autres éléments potentiellement gênants */
 		.featured-formation-banner,
-		.featured-formation-banner *,
-		.scroll-indicator,
-		.wave-separator {
+		.featured-formation-banner * {
 			z-index: 1 !important;
 		}
 
@@ -2371,10 +2507,13 @@
 		.category-title {
 			flex: 1;
 			margin: 0;
-			font-size: 18px;
+			font-size: clamp(14px, 4vw, 18px);
 			font-weight: 800;
 			text-transform: uppercase;
-			letter-spacing: 0.5px;
+			letter-spacing: 0.3px;
+			word-wrap: break-word;
+			line-height: 1.3;
+			white-space: normal;
 		}
 
 		.category-count {
@@ -2764,10 +2903,18 @@
 			.category-header {
 				padding: 12px 16px;
 				gap: 12px;
+				flex-wrap: wrap;
+				justify-content: center;
 			}
 
 			.category-title {
-				font-size: 16px;
+				font-size: 16px !important;
+				letter-spacing: 0.5px !important;
+				padding: 0 !important;
+				line-height: 1.3 !important;
+				white-space: normal !important;
+				word-break: break-word !important;
+				text-align: center !important;
 			}
 
 			/* Optimisations mobile pour modal centré */
@@ -2823,17 +2970,12 @@
 			}
 		}
 
-		/* Ajout de margin sous le texte 'plus de contenu ci-dessous' */
-		.scroll-indicator {
-			margin-bottom: 20px;
-		}
-
 		/* Padding à droite pour le menu burger sur mobile */
 		@media (max-width: 768px) {
 			.header__menu-burger {
 				right: 16px;
-				position: absolute;
-				top: 24px;
+				/* Suppression de "position: absolute" et "top: 24px" qui causaient le désalignement */
+				/* Le burger utilise maintenant l'alignement de base.html.twig (flexbox centré) */
 			}
 			.header__container {
 				position: relative;
@@ -2884,7 +3026,7 @@
 				display: block;
 				text-align: center;
 			}
-			.header__cta__doc, .header__cta__INFPFlearning {
+			.header__cta__INFPFlearning {
 				margin-bottom: 10px;
 			}
 		}
@@ -3319,11 +3461,6 @@
 
 		/* Responsive optimisé pour design compact */
 		@media (max-width: 768px) {
-			.hero-banner {
-				min-height: 65vh; /* Ajustement mobile pour le bandeau */
-				max-height: 600px;
-			}
-
 			.featured-formation-banner {
 				padding: 25px 16px 20px;
 				border-width: 1px;
@@ -3496,6 +3633,837 @@
 			.formation-cpf-badge {
 				font-size: 12px;
 				padding: 6px 12px;
+			}
+    }
+
+		/* ===== OPTIMISATION HERO BANNER - TRÈS PETITS ÉCRANS (Mobile-only) ===== */
+		/* Ces règles corrigent l'affichage du hero banner sur iPhone et Galaxy S20 */
+		
+		/* iPhone 13 Pro Max et similaires (≤ 428px) */
+		@media (max-width: 428px) {
+			.hero-title {
+				font-size: clamp(20px, 5vw, 28px) !important;
+				line-height: 1.3 !important;
+				margin-bottom: 12px !important;
+			}
+			
+			.hero-subtitle {
+				font-size: clamp(14px, 3.5vw, 17px) !important;
+				line-height: 1.4 !important;
+			}
+			
+			.placeholder-title {
+				font-size: 17px !important;
+				letter-spacing: 0.3px !important;
+			}
+			
+			.placeholder-subtitle {
+				font-size: 12px !important;
+			}
+			
+			.placeholder-content {
+				padding: 18px 20px !important;
+			}
+			
+			.hero-card {
+				padding: 18px !important;
+			}
+			
+			.question-title {
+				font-size: clamp(22px, 5.5vw, 28px) !important;
+			}
+		}
+
+		/* iPhone 12 Mini et similaires (≤ 390px) */
+		@media (max-width: 390px) {
+			.hero-title {
+				font-size: clamp(18px, 5.5vw, 26px) !important;
+				line-height: 1.3 !important;
+				margin-bottom: 10px !important;
+			}
+			
+			.hero-subtitle {
+				font-size: clamp(13px, 3.8vw, 16px) !important;
+			}
+			
+			.placeholder-title {
+				font-size: 16px !important;
+			}
+			
+			.placeholder-subtitle {
+				font-size: 11px !important;
+			}
+			
+			.placeholder-content {
+				padding: 16px 18px !important;
+			}
+			
+			.placeholder-arrow {
+				margin-left: 15px !important;
+			}
+			
+			.question-title {
+				font-size: clamp(20px, 5.5vw, 26px) !important;
+			}
+			
+			.question-subtitle {
+				font-size: clamp(15px, 4vw, 17px) !important;
+			}
+		}
+
+		/* Galaxy S20 et très petits écrans (≤ 375px) */
+		@media (max-width: 375px) {
+			.hero-title {
+				font-size: clamp(17px, 6vw, 24px) !important;
+				line-height: 1.25 !important;
+				margin-bottom: 8px !important;
+				word-break: break-word !important;
+			}
+			
+			.hero-subtitle {
+				font-size: clamp(12px, 4vw, 15px) !important;
+				line-height: 1.35 !important;
+			}
+			
+			.placeholder-title {
+				font-size: 15px !important;
+				line-height: 1.3 !important;
+			}
+			
+			.placeholder-subtitle {
+				font-size: 10px !important;
+				line-height: 1.3 !important;
+			}
+			
+			.placeholder-content {
+				padding: 14px 16px !important;
+			}
+			
+			.placeholder-arrow {
+				margin-left: 10px !important;
+			}
+			
+			.placeholder-arrow svg {
+				width: 14px !important;
+				height: 9px !important;
+			}
+			
+			.hero-card {
+				padding: 16px 14px !important;
+			}
+			
+			.question-title {
+				font-size: clamp(18px, 6vw, 24px) !important;
+				margin-bottom: 12px !important;
+			}
+			
+			.question-subtitle {
+				font-size: clamp(14px, 4vw, 16px) !important;
+				margin-bottom: 20px !important;
+			}
+			
+			.formation-placeholder {
+				min-height: 70px !important;
+				border-width: 4px !important;
+			}
+		}
+
+		/* ===== OPTIMISATION BADGES FORMATIONS IA - MOBILE ONLY ===== */
+		/* Badges plus GROS pour un impact visuel maximal - Design moderne */
+		
+		/* iPhone 13 Pro Max et similaires (≤ 428px) */
+		@media (max-width: 428px) {
+			/* Badges circulaires PLUS GROS pour impact visuel */
+			.special-offer-badge .badge-circle {
+				width: 60px !important;
+				height: 60px !important;
+			}
+			
+			.special-offer-badge .badge-text {
+				font-size: 9px !important;
+				line-height: 1.2 !important;
+				font-weight: 800 !important;
+			}
+			
+			.best-seller-badge .badge-circle {
+				width: 70px !important;
+				height: 70px !important;
+			}
+			
+			.best-seller-badge .badge-text {
+				font-size: 10px !important;
+				line-height: 1.2 !important;
+				font-weight: 800 !important;
+			}
+			
+			/* Repositionnement optimal */
+			.special-offer-badge {
+				top: 10px !important;
+				right: 10px !important;
+			}
+			
+			.best-seller-badge {
+				top: 8px !important;
+				right: 8px !important;
+			}
+			
+			/* Padding-top augmenté pour les badges plus gros */
+			.featured-formation-card {
+				padding-top: 75px !important; /* Plus d'espace pour badges plus gros */
+			}
+			
+			/* Badges inline PLUS VISIBLES */
+			.formation-badges {
+				gap: 10px !important;
+				flex-wrap: wrap !important;
+				justify-content: center !important;
+				margin-bottom: 18px !important;
+			}
+			
+			.formation-cpf-badge {
+				font-size: 13px !important;
+				padding: 8px 18px !important;
+				font-weight: 700 !important;
+			}
+			
+			.featured-formation-badge {
+				font-size: 13px !important;
+				padding: 8px 18px !important;
+				font-weight: 700 !important;
+			}
+			
+			/* Titre niveau plus visible */
+			.formation-level-title {
+				font-size: clamp(1.7rem, 6vw, 2.3rem) !important;
+			}
+		}
+
+		/* iPhone 12 Mini et similaires (≤ 390px) */
+		@media (max-width: 390px) {
+			/* Badges circulaires visibles et impactants */
+			.special-offer-badge .badge-circle {
+				width: 56px !important;
+				height: 56px !important;
+			}
+			
+			.special-offer-badge .badge-text {
+				font-size: 8.5px !important;
+				font-weight: 800 !important;
+			}
+			
+			.special-offer-badge .badge-circle::before {
+				top: -8px !important;
+				left: -8px !important;
+				right: -8px !important;
+				bottom: -8px !important;
+				opacity: 0.6 !important; /* Rayons bien visibles */
+			}
+			
+			.best-seller-badge .badge-circle {
+				width: 64px !important;
+				height: 64px !important;
+			}
+			
+			.best-seller-badge .badge-text {
+				font-size: 9.5px !important;
+				font-weight: 800 !important;
+			}
+			
+			.best-seller-badge .badge-circle::before {
+				top: -10px !important;
+				left: -10px !important;
+				right: -10px !important;
+				bottom: -10px !important;
+				opacity: 0.7 !important; /* Rayons dorés visibles */
+			}
+			
+			/* Padding-top ajusté */
+			.featured-formation-card {
+				padding-top: 70px !important;
+			}
+			
+			/* Stack vertical des badges inline - PLUS GROS */
+			.formation-badges {
+				flex-direction: column !important;
+				gap: 8px !important;
+				align-items: center !important;
+				margin-bottom: 16px !important;
+			}
+			
+			.formation-cpf-badge {
+				width: auto !important;
+				max-width: 85% !important;
+				text-align: center !important;
+				font-size: 12px !important;
+				padding: 7px 16px !important;
+				font-weight: 700 !important;
+			}
+			
+			.featured-formation-badge {
+				width: auto !important;
+				max-width: 85% !important;
+				text-align: center !important;
+				font-size: 12px !important;
+				padding: 7px 16px !important;
+				font-weight: 700 !important;
+			}
+			
+			/* Titre niveau visible */
+			.formation-level-title {
+				font-size: clamp(1.6rem, 6vw, 2rem) !important;
+			}
+		}
+
+		/* Galaxy S20 et très petits écrans (≤ 375px) */
+		@media (max-width: 375px) {
+			/* Badges circulaires visibles même sur petits écrans */
+			.special-offer-badge .badge-circle {
+				width: 52px !important;
+				height: 52px !important;
+				border-width: 2px !important;
+			}
+			
+			.special-offer-badge .badge-text {
+				font-size: 8px !important;
+				font-weight: 800 !important;
+				line-height: 1.1 !important;
+			}
+			
+			.special-offer-badge .badge-circle::before {
+				top: -7px !important;
+				left: -7px !important;
+				right: -7px !important;
+				bottom: -7px !important;
+				opacity: 0.55 !important; /* Rayons visibles */
+			}
+			
+			.best-seller-badge .badge-circle {
+				width: 60px !important;
+				height: 60px !important;
+				border-width: 3px !important;
+			}
+			
+			.best-seller-badge .badge-text {
+				font-size: 9px !important;
+				font-weight: 800 !important;
+				line-height: 1.1 !important;
+			}
+			
+			.best-seller-badge .badge-circle::before {
+				top: -9px !important;
+				left: -9px !important;
+				right: -9px !important;
+				bottom: -9px !important;
+				opacity: 0.65 !important; /* Rayons dorés bien visibles */
+			}
+			
+			/* Repositionnement optimal */
+			.special-offer-badge {
+				top: 8px !important;
+				right: 8px !important;
+			}
+			
+			.best-seller-badge {
+				top: 7px !important;
+				right: 7px !important;
+			}
+			
+			/* Padding-top adapté aux badges plus gros */
+			.featured-formation-card {
+				padding-top: 68px !important;
+				padding-left: 14px !important;
+				padding-right: 14px !important;
+			}
+			
+			/* Badges inline bien visibles en colonne */
+			.formation-badges {
+				margin-bottom: 14px !important;
+				gap: 7px !important;
+			}
+			
+			.formation-cpf-badge {
+				font-size: 11.5px !important;
+				padding: 6px 15px !important;
+				font-weight: 700 !important;
+			}
+			
+			.featured-formation-badge {
+				font-size: 11.5px !important;
+				padding: 6px 15px !important;
+				font-weight: 700 !important;
+			}
+			
+			/* Titre bien lisible */
+			.formation-level-title {
+				font-size: clamp(1.5rem, 6.5vw, 1.9rem) !important;
+				margin-bottom: 12px !important;
+			}
+			
+			/* Titre formation plus visible */
+			.formation-title {
+				font-size: clamp(1.25rem, 5.5vw, 1.65rem) !important;
+			}
+		}
+
+		/* ===== FIX SECTION "Votre développement est notre mission" - MOBILE ONLY ===== */
+		/* Titre sur 2 lignes + paragraphes centrés et justifiés */
+		
+		@media (max-width: 768px) {
+			/* Titre bien formaté sur 2 lignes EXACTEMENT - ALIGNÉ À GAUCHE */
+			.wp-block-coaching-personnalise-titre {
+				font-size: clamp(1.4rem, 4.5vw, 2rem) !important;
+				line-height: 1.3 !important;
+				text-align: left !important;
+				margin-bottom: 24px !important;
+				display: block !important;
+				word-spacing: 0.1em !important;
+			}
+			
+			/* Forcer "mission" à rester seul sur la 2e ligne AVEC barre à la suite */
+			.wp-block-coaching-personnalise-titre strong {
+				display: inline !important;
+				white-space: nowrap !important;
+				position: relative !important;
+			}
+			
+			/* Ligne BLANCHE/CYAN décorative À LA SUITE de "mission" (inline) */
+			.wp-block-coaching-personnalise-titre strong::after {
+				content: '' !important;
+				display: inline-block !important;
+				width: 60px !important;
+				height: 3px !important;
+				background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%) !important;
+				margin-left: 12px !important;
+				vertical-align: middle !important;
+				border-radius: 2px !important;
+			}
+			
+			/* Sous-titre aligné à gauche */
+			.wp-block-coaching-personnalise-ss-titre {
+				text-align: left !important;
+				font-size: clamp(1rem, 4vw, 1.2rem) !important;
+				line-height: 1.5 !important;
+				margin-bottom: 20px !important;
+			}
+			
+			/* TOUS les paragraphes de cette section - justifiés ET VRAIMENT GRANDS */
+			.wp-block-coaching-personnalise-content p,
+			.wp-block-coaching-personnalise-content p.r {
+				text-align: justify !important;
+				-webkit-hyphens: auto !important;
+				hyphens: auto !important;
+				font-size: clamp(1.15rem, 5vw, 1.4rem) !important;
+				line-height: 1.8 !important;
+				padding: 0 16px !important;
+				margin-bottom: 20px !important;
+			}
+			
+			/* Section responsive */
+			.wp-block-coaching-personnalise {
+				padding: 40px 16px !important;
+				grid-template-columns: 1fr !important;
+				gap: 30px !important;
+			}
+			
+			.wp-block-coaching-personnalise-content {
+				padding: 0 !important;
+			}
+			
+			/* Vidéo responsive */
+			.wp-block-videos {
+				width: 100% !important;
+			}
+			
+			.wp-block-videos video {
+				width: 100% !important;
+				height: auto !important;
+				max-height: 250px !important;
+				object-fit: cover !important;
+				border-radius: 12px !important;
+			}
+			
+			/* Bouton responsive - ESPACEMENT MINIMAL */
+			.wp-block-buttons {
+				display: flex !important;
+				justify-content: center !important;
+				width: 100% !important;
+				margin-bottom: 8px !important;
+				margin-top: 24px !important;
+			}
+			
+			.wp-block-button {
+				width: 100% !important;
+				max-width: 320px !important;
+			}
+			
+			.wp-block-button__link {
+				display: block !important;
+				width: 100% !important;
+				text-align: center !important;
+				padding: 14px 24px !important;
+				font-size: 15px !important;
+			}
+			
+			/* Réduire VRAIMENT espacement après la section complète */
+			.wp-block-coaching-personnalise {
+				margin-bottom: 20px !important;
+				padding-bottom: 20px !important;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.wp-block-coaching-personnalise-titre {
+				font-size: clamp(1.15rem, 4.5vw, 1.7rem) !important;
+				margin-bottom: 16px !important;
+				line-height: 1.2 !important;
+			}
+			
+			.wp-block-coaching-personnalise-ss-titre {
+				font-size: clamp(0.95rem, 4.2vw, 1.1rem) !important;
+				margin-bottom: 16px !important;
+			}
+			
+			/* Paragraphes VRAIMENT GRANDS sur petits écrans */
+			.wp-block-coaching-personnalise-content p,
+			.wp-block-coaching-personnalise-content p.r {
+				font-size: clamp(1.1rem, 5vw, 1.35rem) !important;
+				line-height: 1.75 !important;
+				padding: 0 12px !important;
+			}
+			
+			.wp-block-coaching-personnalise {
+				padding: 30px 12px !important;
+			}
+			
+			.wp-block-button__link {
+				padding: 12px 20px !important;
+				font-size: 14px !important;
+			}
+		}
+
+		/* Très petits écrans (Galaxy S21, Galaxy S20, etc.) */
+		@media (max-width: 390px) {
+			.wp-block-coaching-personnalise-titre {
+				font-size: clamp(1.15rem, 4.8vw, 1.6rem) !important;
+				line-height: 1.3 !important;
+				word-spacing: normal !important;
+				margin-bottom: 20px !important;
+			}
+			
+			/* Permettre au texte de se disposer naturellement sur 3 lignes si nécessaire */
+			.wp-block-coaching-personnalise-titre br {
+				display: none !important;
+			}
+			
+			/* Ligne blanche plus petite sur petits écrans */
+			.wp-block-coaching-personnalise-titre strong::after {
+				width: 50px !important;
+				height: 2px !important;
+				margin-left: 8px !important;
+			}
+		}
+		
+		/* Galaxy S21 et similaires (360px) */
+		@media (max-width: 365px) {
+			.wp-block-coaching-personnalise-titre {
+				font-size: clamp(1.05rem, 4.2vw, 1.4rem) !important;
+				line-height: 1.35 !important;
+				word-break: break-word !important;
+			}
+		}
+		
+		@media (max-width: 375px) {
+			.wp-block-coaching-personnalise-titre {
+				font-size: clamp(1.1rem, 4.5vw, 1.5rem) !important;
+				line-height: 1.3 !important;
+			}
+			
+			.wp-block-coaching-personnalise-ss-titre {
+				font-size: clamp(0.9rem, 4.5vw, 1rem) !important;
+			}
+			
+			/* Paragraphes GRANDS même sur très petits écrans */
+			.wp-block-coaching-personnalise-content p,
+			.wp-block-coaching-personnalise-content p.r {
+				font-size: clamp(1.05rem, 5vw, 1.3rem) !important;
+				line-height: 1.75 !important;
+				padding: 0 10px !important;
+			}
+			
+			/* Ligne blanche encore plus petite */
+			.wp-block-coaching-personnalise-titre strong::after {
+				width: 45px !important;
+				height: 2px !important;
+			}
+		}
+
+		/* ===== PARAGRAPHES JUSTIFIÉS GLOBALEMENT - MOBILE ===== */
+		@media (max-width: 768px) {
+			/* Section CPF */
+			.wp-block-formation-financable-cpf-texte p,
+			.wp-block-formation-financable-cpf-texte .has-text-color {
+				text-align: justify !important;
+				-webkit-hyphens: auto !important;
+				hyphens: auto !important;
+				line-height: 1.6 !important;
+				padding: 0 16px !important;
+				font-size: clamp(1rem, 4.5vw, 1.125rem) !important; /* Augmenté de 0.9rem-1.05rem à 1rem-1.125rem (16px-18px) */
+				font-weight: 600 !important; /* Texte en gras pour meilleure lisibilité */
+			}
+			
+			.wp-block-formation-financable-cpf-texte h2,
+			.wp-block-formation-financable-cpf-texte .cpf-title-mobile {
+				text-align: center !important;
+				font-size: clamp(2.5rem, 8vw, 3.5rem) !important; /* Taille de titre agrandie pour mobile - PLUS GRAND QUE LES PARAGRAPHES */
+				font-weight: 700 !important; /* Gras pour titre */
+				line-height: 1.2 !important;
+				margin-bottom: 25px !important;
+				color: #ffffff !important;
+			}
+			
+			.wp-block-formation-financable-cpf-texte h2 span,
+			.wp-block-formation-financable-cpf-texte .cpf-title-mobile span {
+				font-size: inherit !important; /* Conserver la même taille pour "100% FINANÇABLES" */
+				font-weight: 700 !important;
+				color: #d71a22 !important;
+			}
+			
+			/* Blog articles */
+			.blog-section p,
+			.article-content p {
+				text-align: justify !important;
+				-webkit-hyphens: auto !important;
+				hyphens: auto !important;
+				line-height: 1.6 !important;
+			}
+		}
+		
+		@media (max-width: 480px) {
+			.wp-block-formation-financable-cpf-texte h2,
+			.wp-block-formation-financable-cpf-texte .cpf-title-mobile {
+				font-size: clamp(2.2rem, 9vw, 3.2rem) !important; /* Taille encore plus grande sur petits écrans */
+				font-weight: 700 !important;
+				line-height: 1.2 !important;
+				margin-bottom: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.wp-block-formation-financable-cpf-texte p {
+				font-size: clamp(1rem, 4.5vw, 1.125rem) !important; /* Augmenté de 0.9rem-1.05rem à 1rem-1.125rem (16px-18px) */
+				font-weight: 600 !important; /* Texte en gras */
+				padding: 0 12px !important;
+				line-height: 1.6 !important;
+			}
+		}
+		
+		@media (max-width: 375px) {
+			.wp-block-formation-financable-cpf-texte h2,
+			.wp-block-formation-financable-cpf-texte .cpf-title-mobile {
+				font-size: clamp(2rem, 10vw, 3rem) !important; /* Taille de titre pour très petits écrans */
+				font-weight: 700 !important;
+				line-height: 1.2 !important;
+				margin-bottom: 18px !important;
+				color: #ffffff !important;
+			}
+			
+			.wp-block-formation-financable-cpf-texte p {
+				font-size: clamp(0.95rem, 4.5vw, 1.05rem) !important; /* Augmenté de 0.85rem-1rem à 0.95rem-1.05rem (15.2px-16.8px) */
+				font-weight: 600 !important; /* Texte en gras */
+				padding: 0 10px !important;
+				line-height: 1.6 !important;
+			}
+		}
+
+		/* ===== DISPOSITION EN COLONNE ÉLÉGANTE - MOBILE ===== */
+		/* Design moderne avec disposition verticale pour une meilleure lisibilité */
+		
+		@media (max-width: 480px) {
+			.category-header {
+				flex-direction: column !important;
+				align-items: center !important;
+				justify-content: center !important;
+				padding: 20px 16px !important;
+				gap: 12px !important;
+				text-align: center !important;
+			}
+			
+			.category-icon {
+				width: 40px !important;
+				height: 40px !important;
+				margin-bottom: 8px !important;
+				background: rgba(255, 255, 255, 0.1) !important;
+				border-radius: 50% !important;
+				padding: 8px !important;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				transition: all 0.3s ease !important;
+			}
+			
+			/* Icône dorée pour catégorie IA */
+			.formation-category-section[data-category="ia"] .category-icon {
+				background: rgba(255, 215, 0, 0.2) !important;
+				box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3) !important;
+			}
+			
+			.category-title {
+				font-size: 16px !important;
+				font-weight: 800 !important;
+				letter-spacing: 0.5px !important;
+				line-height: 1.3 !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				width: 100% !important;
+				white-space: normal !important;
+				word-wrap: break-word !important;
+				text-align: center !important;
+				display: block !important;
+			}
+			
+			.category-count {
+				font-size: 14px !important;
+				padding: 8px 18px !important;
+				font-weight: 800 !important;
+				border-radius: 25px !important;
+				margin-top: 4px !important;
+				box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3) !important;
+			}
+		}
+		
+		@media (max-width: 390px) {
+			.category-header {
+				padding: 18px 14px !important;
+				gap: 10px !important;
+			}
+			
+			.category-icon {
+				width: 38px !important;
+				height: 38px !important;
+			}
+			
+			.category-title {
+				font-size: 15px !important;
+				letter-spacing: 0.4px !important;
+				text-align: center !important;
+				display: block !important;
+			}
+			
+			.category-count {
+				font-size: 13px !important;
+				padding: 7px 16px !important;
+			}
+		}
+		
+		@media (max-width: 360px) {
+			.category-header {
+				padding: 16px 12px !important;
+				gap: 8px !important;
+			}
+			
+			.category-icon {
+				width: 36px !important;
+				height: 36px !important;
+			}
+			
+			.category-title {
+				font-size: 14px !important;
+				letter-spacing: 0.3px !important;
+				text-align: center !important;
+				display: block !important;
+			}
+			
+			.category-count {
+				font-size: 12px !important;
+				padding: 6px 14px !important;
+			}
+		}
+		
+		/* Animation élégante au survol sur mobile */
+		@media (max-width: 480px) {
+			.category-header:active {
+				transform: scale(0.98) !important;
+				transition: transform 0.2s ease !important;
+			}
+			
+			.category-header:active .category-icon {
+				transform: scale(1.1) !important;
+			}
+		}
+		
+		/* ===== FIX SECTION "TOUTES NOS AUTRES FORMATIONS" - MOBILE ONLY ===== */
+		/* Scroll naturel sans overflow, titres toujours visibles */
+		
+		@media (max-width: 768px) {
+			/* S'assurer qu'il n'y a pas d'overflow scroll sur la section */
+			.categories-section {
+				overflow: visible !important;
+				max-height: none !important;
+				height: auto !important;
+			}
+			
+			.categories-section .container {
+				overflow: visible !important;
+				max-height: none !important;
+				height: auto !important;
+			}
+			
+			/* Titre responsive et bien visible */
+			.categories-section .section-title {
+				font-size: clamp(1.9rem, 5.5vw, 2.8rem) !important;
+				padding: 20px 16px 16px !important;
+				margin-bottom: 16px !important;
+				line-height: 1.2 !important;
+			}
+			
+			/* Sous-titre bien visible et lisible */
+			.categories-section .section-subtitle {
+				font-size: clamp(0.95rem, 3.8vw, 1.15rem) !important;
+				padding: 0 16px !important;
+				margin-bottom: 40px !important;
+				line-height: 1.5 !important;
+				opacity: 1 !important;
+				display: block !important;
+			}
+			
+			/* Grid des catégories bien espacé */
+			.categories {
+				overflow: visible !important;
+				max-height: none !important;
+				padding: 0 16px !important;
+			}
+		}
+
+		@media (max-width: 428px) {
+			.categories-section .section-title {
+				font-size: clamp(1.7rem, 6vw, 2.4rem) !important;
+				padding: 18px 12px 14px !important;
+			}
+			
+			.categories-section .section-subtitle {
+				font-size: clamp(0.9rem, 4vw, 1.08rem) !important;
+				padding: 0 12px !important;
+				margin-bottom: 35px !important;
+			}
+			
+			.categories {
+				padding: 0 12px !important;
+			}
+		}
+
+		@media (max-width: 375px) {
+			.categories-section .section-title {
+				font-size: clamp(1.5rem, 6.5vw, 2.1rem) !important;
+				padding: 16px 10px 12px !important;
+			}
+			
+			.categories-section .section-subtitle {
+				font-size: clamp(0.85rem, 4.2vw, 1rem) !important;
+				padding: 0 10px !important;
+				margin-bottom: 30px !important;
+			}
+			
+			.categories {
+				padding: 0 10px !important;
 			}
     }
 	</style>
@@ -3689,23 +4657,6 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- Indicateur de scroll simplifié -->
-		<div class="scroll-indicator" onclick="document.querySelector('.featured-formation-banner').scrollIntoView({behavior: 'smooth'})">
-			<div class="scroll-text">Découvrez nos nouvelles formations IA</div>
-			<div class="scroll-arrow-simple">
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-					<path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
-			</div>
-		</div>
-
-		<!-- Séparateur en vague -->
-		<div class="wave-separator">
-			<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-				<path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-			</svg>
-		</div>
 	</div>
 
 	<!-- BANDEAU NOUVELLES FORMATIONS IA -->
@@ -3801,7 +4752,7 @@
 				{% endfor %}
 									
 									{% if categoryFormations|length > maxFormations %}
-										<a href="{{ path('app_home') }}?category_id={{ category.id }}" class="voir-plus-button">
+										<a href="{{ path('app_home') }}?thematique%5B%5D={{ category.id }}" class="voir-plus-button">
 											Voir toutes les formations ({{ categoryFormations|length }} au total)
 										</a>
 									{% endif %}
@@ -3821,9 +4772,9 @@
 				<img src="{{ asset('img/CPF.png') }}" class="wp-image-cpf_lady" alt="formation_financable_cpf">
 			</div>
 			<div class="wp-block-formation-financable-cpf-texte" data-aos="fade-left">
-				<h2 class="wp-block-heading has-text-color" style="color:#ffffff;font-size:clamp(2rem, 4vw, 4.1rem);margin-bottom:20px;">
+				<h2 class="wp-block-heading has-text-color cpf-title-mobile">
 					FORMATIONS à distance<br>
-					<span style="color: #d71a22">100% FINANÇABLES</span> VIA VOTRE CPF
+					<span>100% FINANÇABLES</span> VIA VOTRE CPF
 				</h2>
 						<div>
 					<p class="has-text-color" style="color:#e2e8f0;margin-bottom:20px;">
@@ -3835,7 +4786,7 @@
 						</div>
 				<div class="cpf-buttons">
 					<a class="wp-block-button__link" href="{{ path('redirectToFormationsEligiblesCPF')}}">Utiliser mon CPF</a>
-					<a class="wp-block-button__link calendly-trigger" href="#">Conseil gratuit</a>
+					<a class="wp-block-button__link btn-calendly-mobile" href="#calendly-home" data-mobile-text="📞 Prise de contact">📞 Je réserve mon appel gratuit</a>
 					</div>
 					</div>
 		</div>
@@ -3880,10 +4831,8 @@
 </div>
 			<div class="wp-block-coaching-personnalise-content" data-aos="fade-left">
 				<h2 class="wp-block-heading wp-block-coaching-personnalise-titre" style="color:#ffffff;font-style:normal;font-weight:300;font-size:clamp(1.8rem, 3vw, 2.5rem);">
-					Votre développement est notre
-					<span style="color: #ffffff">
-						<strong style="color: #e3f2fd;">mission</strong>
-				</span>
+					Votre développement est<br>
+					<span style="color: #ffffff">notre <strong style="color: #e3f2fd;">mission</strong></span>
 			</h2>
 				<p class="wp-block-coaching-personnalise-ss-titre" style="color:#e2e8f0;margin-bottom:20px;">À l'INFPF, nous nous engageons à vous préparer aux défis de demain.</p>
 				<p class="r" style="color:#e2e8f0;margin-bottom:30px;">
@@ -3947,17 +4896,36 @@
 						</div>
 					</div>
 					
-					<div class="contact-method calendly-trigger" data-aos="fade-up" data-aos-delay="300" style="cursor: pointer;">
-						<div class="contact-method-icon">C</div>
+				<a href="#calendly-home" class="contact-method btn-calendly-mobile" data-aos="fade-up" data-aos-delay="300">
+						<div class="contact-method-icon">📞</div>
 						<div class="contact-method-content">
-							<h4>Conseil personnalisé</h4>
-							<p>Bilan de compétences gratuit</p>
+						<h4 class="contact-method-title" data-mobile-text="Prise de contact">Appel gratuit</h4>
+						<p class="contact-method-desc" data-mobile-text="Je contacte l'équipe">Je réserve mon créneau</p>
 						</div>
-					</div>
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
+
+	<!-- Section Calendly intégrée - LAYOUT 2 COLONNES DESKTOP -->
+	<div class="calendly-container-wrapper">
+		<section id="calendly-home" class="calendly-section">
+			<div class="calendly-content">
+				<!-- Texte à gauche sur desktop -->
+				<div class="calendly-text-wrapper">
+					<h3>Je réserve mon appel gratuit</h3>
+					<p>Échangez avec nos conseillers pédagogiques et construisez ensemble votre parcours de formation</p>
+				</div>
+				<!-- Calendly à droite sur desktop -->
+				<div class="calendly-iframe-wrapper">
+			{% include 'components/calendly_iframe.html.twig' with {
+				'title': 'Je réserve mon appel gratuit avec INFPF'
+			} %}
+				</div>
+		</div>
+	</section>
+	</div>
 
 	{% include 'footer.html.twig' %}
 
@@ -3967,7 +4935,8 @@
 
 	<!-- AOS Animation Library -->
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script defer src="https://assets.calendly.com/assets/external/widget.js"></script>
+  {# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
+  {# <script defer src="https://assets.calendly.com/assets/external/widget.js"></script> #}
   <script>
 		// Initialize AOS
 		AOS.init({
@@ -4022,6 +4991,17 @@
 
           const category = card.closest('.category');
 					const isExpanded = category.classList.contains('expanded');
+					
+					// Si modal déjà ouverte, empêcher clic sur image/titre de fermer
+					if (isExpanded) {
+						// Autoriser fermeture UNIQUEMENT si clic sur zone blanche (pas image/titre)
+						if (e.target.classList.contains('category-image') ||
+						    e.target.classList.contains('category-title') ||
+						    e.target.closest('.category-image') ||
+						    e.target.closest('.category-title')) {
+							return; // Ne rien faire si clic sur image ou titre
+						}
+					}
 					
 					// Fermer toutes les autres catégories
           document.querySelectorAll('.category').forEach(c => {
@@ -4083,25 +5063,7 @@
 				}
 			});
 
-			// Enhanced CTA buttons
-			const buttons = document.querySelectorAll('#cta-rdv, #cta-rdv-2, .calendly-trigger');
-			buttons.forEach(btn => {
-				btn.addEventListener('click', function(e) {
-          e.preventDefault();
-					
-					// Add click animation
-					this.style.transform = 'scale(0.95)';
-					setTimeout(() => {
-						this.style.transform = '';
-					}, 150);
-
-					if (typeof Calendly !== 'undefined') {
-						Calendly.initPopupWidget({ url: 'https://calendly.com/contact-infpf?locale=fr' });
-					} else {
-						console.error("Calendly non chargé");
-					}
-          });
-        });
+			// Note: Calendly maintenant intégré via iframe - Plus besoin de popup
 
 			// Gestion du bouton téléphone adaptatif
 			const phoneContact = document.getElementById('phone-contact');
@@ -4196,11 +5158,21 @@
 				setTimeout(() => document.addEventListener('click', closeOnClickOutside), 100);
 			}
 
-			// Smooth scroll for internal links
+		// ⚠️ REDIRECTION + CHANGEMENT DE TEXTE CALENDLY DÉSORMAIS GÉRÉ DANS base.html.twig
+		// (Supprimé pour éviter conflit avec le code global qui gère popup desktop + redirection mobile)
+
+			// Smooth scroll for internal links (autres que calendly)
 			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 				anchor.addEventListener('click', function (e) {
+					const href = this.getAttribute('href');
+					
+					// Ignorer si c'est un lien calendly (déjà géré ci-dessus)
+					if (href === '#calendly-home' || href.includes('calendly')) {
+						return;
+					}
+					
 					e.preventDefault();
-					const target = document.querySelector(this.getAttribute('href'));
+					const target = document.querySelector(href);
 					if (target) {
 						target.scrollIntoView({
 							behavior: 'smooth',
@@ -4236,7 +5208,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const btn = document.getElementById("btnScrollTop");
   if (!btn) return;
   window.addEventListener("scroll", function () {
-    btn.style.display = window.scrollY > 300 ? "block" : "none";
+    btn.style.display = window.scrollY > 200 ? "block" : "none";
   });
   btn.addEventListener("click", function () {
     window.scrollTo({
