@@ -1,0 +1,71 @@
+═══════════════════════════════════════════════════════════════════════════════
+🎯 PROMPT À COPIER-COLLER POUR NOUVELLE SESSION D'OPTIMISATION
+═══════════════════════════════════════════════════════════════════════════════
+
+INSTRUCTIONS :
+1. Sélectionner TOUT le texte entre les lignes ═══ ci-dessous
+2. Copier (Ctrl+C)
+3. Ouvrir une NOUVELLE conversation avec votre assistant AI
+4. Coller (Ctrl+V)
+5. Envoyer
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Je travaille sur l'optimisation complète du site INFPF (Performance, Sécurité, SEO, Accessibilité).
+
+CONTEXTE :
+- Projet Symfony 6.4 hébergé sur Hostinger
+- Repository : https://github.com/ElyesGhouaiel/infpf-site
+- Branche : feature/performance-security-seo-optimization
+- Dev : https://dev.infpf.fr/
+- Prod : https://infpf.fr/
+
+MISSION :
+1. 🚀 PERFORMANCE : Lighthouse ≥ 90, Core Web Vitals optimaux
+2. ♿ ACCESSIBILITÉ : WCAG 2.1 AA, score ≥ 95
+3. 🔒 SÉCURITÉ : Headers A+, audit composer, protections XSS/CSRF/SQL
+4. 🔍 SEO : Score 100, sitemap, schema.org
+5. ⚙️ CI/CD : Pipeline GitHub Actions
+
+PREMIÈRE ACTION :
+Lis le fichier /home/u665392393/domains/infpf.fr/public_html/PROMPT_PERFORMANCE_SECURITY.md pour avoir tout le contexte détaillé, puis réalise un audit complet et propose-moi les 5 premières optimisations à impact maximal (quick wins en priorité).
+
+Je veux que tu sois un expert en performance web et sécurité ! Commence par analyser l'état actuel du site.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📚 DOCUMENTS DISPONIBLES :
+- PROMPT_PERFORMANCE_SECURITY.md  (~600 lignes, contexte COMPLET)
+- START_NEW_SESSION.md            (Guide de démarrage)
+- BRANCH_README.md                (Plan d'action)
+
+🎯 OBJECTIFS CHIFFRÉS :
+- Lighthouse Performance : ≥ 90/100
+- Lighthouse Accessibility : ≥ 95/100
+- Lighthouse Best Practices : 100/100
+- Lighthouse SEO : 100/100
+- Mozilla Observatory : A+
+- SecurityHeaders.com : A+
+- LCP : < 2.5s
+- FID : < 100ms
+- CLS : < 0.1
+
+📊 QUICK WINS (À faire en priorité) :
+✅ Headers de sécurité (CSP, HSTS, X-Frame-Options)
+✅ Compression Gzip/Brotli
+✅ Cache HTTP optimal
+✅ Optimisation images (WebP, lazy loading)
+✅ Defer JavaScript non critique
+✅ Composer audit + mise à jour sécurité
+✅ Meta tags SEO
+✅ Sitemap.xml
+✅ Contraste des couleurs
+✅ Attributs alt manquants
+
+🚀 ENVIRONNEMENT DE TRAVAIL :
+- Branche active : feature/performance-security-seo-optimization
+- Tests sur : https://dev.infpf.fr/
+- Workflow Git : feature → dev → main
+
+BON COURAGE ! 🎉
+
