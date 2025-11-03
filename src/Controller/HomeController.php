@@ -17,6 +17,7 @@ use App\Service\DataProviderService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\BlogRepository;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 
 class HomeController extends AbstractController
@@ -26,6 +27,11 @@ class HomeController extends AbstractController
     {
         $searchTerm = $request->query->get('search', '');
         $sortOrder = $request->query->get('sort', 'asc');
+        
+        // ===== PAGINATION =====
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = 5; // 5 formations par page (pagination déjà en place côté front)
+        $offset = ($page - 1) * $limit;
         
         // Récupère les catégories pour le menu déroulant avec IA en premier
         $allCategoriesForFormation = $categoryRepository->findAll();
@@ -75,7 +81,8 @@ class HomeController extends AbstractController
             $queryBuilder->andWhere('f.cpfUrl IS NOT NULL')
                          ->andWhere('f.cpfUrl != \'\'');
         }
-        // Appliquer l'ordre de tri avec priorité IA
+        
+        // Appliquer l'ordre de tri avec priorité IA (EN SQL, PAS EN PHP)
         if ($sortOrder === 'asc') {
             $queryBuilder
                 ->addOrderBy('CASE WHEN c.name = \'IA\' THEN 0 ELSE 1 END', 'ASC')
@@ -86,47 +93,27 @@ class HomeController extends AbstractController
                 ->addOrderBy('f.priceFormation', 'DESC');
         }
 
-        // ===== PAGINATION POUR PERFORMANCE =====
-        // Limiter à 12 formations par page au lieu de tout charger
-        $page = max(1, $request->query->getInt('page', 1));
-        $limit = 12; // 12 formations par page
-        $offset = ($page - 1) * $limit;
+        // ===== OPTIMISATION : Ne charger que la page actuelle =====
+        // Au lieu de charger toutes les formations puis filtrer en PHP
+        $query = $queryBuilder
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery();
         
-        // Compter le total AVANT la pagination
-        $totalFormations = count($queryBuilder->getQuery()->getResult());
+        $paginator = new Paginator($query);
+        $totalFormations = count($paginator); // Total de formations (toutes pages confondues)
+        $formations = iterator_to_array($paginator->getIterator()); // Seulement les 5 de la page actuelle
         
-        // Appliquer la pagination
-        $queryBuilder->setFirstResult($offset)->setMaxResults($limit);
-        $formations = $queryBuilder->getQuery()->getResult();
-        
-        // Filtrage par durée côté PHP (car les formats sont trop variés pour SQL)
+        // ⚠️ Note : Le filtre de durée reste côté PHP car les formats sont trop variés
+        // Si filtrage par durée, on charge plus et on filtre (moins optimal mais nécessaire)
         $durationFilter = $request->query->all('duration');
         if (!empty($durationFilter)) {
-            $formations = $formationRepository->filterByDuration($formations, $durationFilter);
-            // Recalculer le total après filtrage durée
-            $totalFormations = count($formations);
+            // Dans ce cas, on doit charger toutes les formations pour filtrer
+            $allFormations = $queryBuilder->getQuery()->getResult();
+            $allFormations = $formationRepository->filterByDuration($allFormations, $durationFilter);
+            $totalFormations = count($allFormations);
+            $formations = array_slice($allFormations, $offset, $limit);
         }
-        
-        // Calculer le nombre de pages
-        $totalPages = max(1, ceil($totalFormations / $limit));
-        
-        // Tri supplémentaire côté PHP pour s'assurer que IA est en premier
-        usort($formations, function($a, $b) use ($sortOrder) {
-            // Priorité IA en premier
-            $aIsIA = ($a->getCategory() && $a->getCategory()->getName() === 'IA') ? 0 : 1;
-            $bIsIA = ($b->getCategory() && $b->getCategory()->getName() === 'IA') ? 0 : 1;
-            
-            if ($aIsIA !== $bIsIA) {
-                return $aIsIA - $bIsIA; // IA en premier
-            }
-            
-            // Si même type (IA ou non-IA), trier par prix
-            if ($sortOrder === 'asc') {
-                return ($a->getPriceFormation() ?? 0) - ($b->getPriceFormation() ?? 0);
-            } else {
-                return ($b->getPriceFormation() ?? 0) - ($a->getPriceFormation() ?? 0);
-            }
-        });
 
         // Comptage des formations par catégorie
         $formationsCountByCategory = [];
@@ -138,7 +125,7 @@ class HomeController extends AbstractController
         // Si des filtres sont appliqués (thématique OU durée), on affiche le nombre de formations FILTRÉES
         // Sinon, on affiche le total global
         $hasFilters = !empty($selectedThematiques) || !empty($durationFilter);
-        $totalGlobal = $hasFilters ? count($formations) : array_sum($formationsCountByCategory);
+        $totalGlobal = $hasFilters ? $totalFormations : array_sum($formationsCountByCategory);
 
         // Formations regroupées par catégorie, si nécessaire pour l'affichage
         $formationsByCategory = [];
@@ -195,6 +182,9 @@ class HomeController extends AbstractController
             $pageTitle .= ' (' . implode(' - ', $additionalFilters) . ')';
         }
 
+        // Calcul pagination
+        $totalPages = ceil($totalFormations / $limit);
+
         return $this->render('home/formation.html.twig', [
             'formations' => $formations,
             'formationsByCategory' => $formationsByCategory,
@@ -208,7 +198,6 @@ class HomeController extends AbstractController
             'currentPage' => $page,
             'totalPages' => $totalPages,
             'totalFormations' => $totalFormations,
-            'formationsPerPage' => $limit
         ]);
     }
     

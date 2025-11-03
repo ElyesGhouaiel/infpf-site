@@ -18,14 +18,7 @@
 
 	<link
 	href="../css/forma.css?v=85" rel="stylesheet"/>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<!-- jQuery UI -->
-	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-	<!-- CSS jQuery UI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-	<!-- AOS Animation Library -->
-	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<!-- jQuery, jQuery UI et AOS supprimés car inutilisés - économie de ~200 Kio -->
 
     <!-- Les styles Calendly sont désormais gérés de manière centralisée dans base.html.twig -->
 
@@ -1922,78 +1915,7 @@
         </div>
     {% endfor %}
         </div>
-    
-    {# ===== PAGINATION ===== #}
-    <div id="pagination_container">
-        {% if totalPages > 1 %}
-        <div class="pagination-wrapper" style="display: flex; justify-content: center; align-items: center; margin: 2rem 0; gap: 0.5rem;">
-            {# Bouton Première page #}
-            {% if currentPage > 1 %}
-            <a href="{{ path('app_home', app.request.query.all|merge({'page': 1})) }}" 
-               class="pagination-btn" 
-               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                « Première
-            </a>
-            {% endif %}
-            
-            {# Bouton Précédent #}
-            {% if currentPage > 1 %}
-            <a href="{{ path('app_home', app.request.query.all|merge({'page': currentPage - 1})) }}" 
-               class="pagination-btn" 
-               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                ‹ Précédent
-            </a>
-            {% endif %}
-            
-            {# Numéros de pages #}
-            {% for page in 1..totalPages %}
-                {% if page == currentPage %}
-                    <span class="pagination-current" 
-                          style="padding: 0.5rem 1rem; border: 2px solid #007bff; background: #007bff; color: white; border-radius: 4px; font-weight: bold;">
-                        {{ page }}
-                    </span>
-                {% elseif page >= currentPage - 2 and page <= currentPage + 2 %}
-                    <a href="{{ path('app_home', app.request.query.all|merge({'page': page})) }}" 
-                       class="pagination-btn" 
-                       style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                        {{ page }}
-                    </a>
-                {% elseif page == 1 or page == totalPages %}
-                    <a href="{{ path('app_home', app.request.query.all|merge({'page': page})) }}" 
-                       class="pagination-btn" 
-                       style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                        {{ page }}
-                    </a>
-                {% elseif (page == currentPage - 3 or page == currentPage + 3) %}
-                    <span style="padding: 0.5rem;">...</span>
-                {% endif %}
-            {% endfor %}
-            
-            {# Bouton Suivant #}
-            {% if currentPage < totalPages %}
-            <a href="{{ path('app_home', app.request.query.all|merge({'page': currentPage + 1})) }}" 
-               class="pagination-btn" 
-               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                Suivant ›
-            </a>
-            {% endif %}
-            
-            {# Bouton Dernière page #}
-            {% if currentPage < totalPages %}
-            <a href="{{ path('app_home', app.request.query.all|merge({'page': totalPages})) }}" 
-               class="pagination-btn" 
-               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                Dernière »
-            </a>
-            {% endif %}
-        </div>
-        
-        {# Informations de pagination #}
-        <div style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">
-            Affichage de {{ (currentPage - 1) * formationsPerPage + 1 }} à {{ min(currentPage * formationsPerPage, totalFormations) }} sur {{ totalFormations }} formations
-        </div>
-        {% endif %}
-    </div>
+    <div id="pagination_container"></div>
 </div>
 
 
