@@ -86,13 +86,29 @@ class HomeController extends AbstractController
                 ->addOrderBy('f.priceFormation', 'DESC');
         }
 
+        // ===== PAGINATION POUR PERFORMANCE =====
+        // Limiter à 12 formations par page au lieu de tout charger
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = 12; // 12 formations par page
+        $offset = ($page - 1) * $limit;
+        
+        // Compter le total AVANT la pagination
+        $totalFormations = count($queryBuilder->getQuery()->getResult());
+        
+        // Appliquer la pagination
+        $queryBuilder->setFirstResult($offset)->setMaxResults($limit);
         $formations = $queryBuilder->getQuery()->getResult();
         
         // Filtrage par durée côté PHP (car les formats sont trop variés pour SQL)
         $durationFilter = $request->query->all('duration');
         if (!empty($durationFilter)) {
             $formations = $formationRepository->filterByDuration($formations, $durationFilter);
+            // Recalculer le total après filtrage durée
+            $totalFormations = count($formations);
         }
+        
+        // Calculer le nombre de pages
+        $totalPages = max(1, ceil($totalFormations / $limit));
         
         // Tri supplémentaire côté PHP pour s'assurer que IA est en premier
         usort($formations, function($a, $b) use ($sortOrder) {
@@ -133,13 +149,66 @@ class HomeController extends AbstractController
             ];
         }
 
+        // Génération de titre dynamique selon les filtres appliqués
+        $pageTitle = 'Toutes nos Formations Professionnelles';
+        $metaDescription = 'Découvrez notre catalogue complet de formations professionnelles à distance. Formations certifiantes dans la petite enfance, la beauté, la cuisine, la finance et le social.';
+        
+        if (!empty($selectedThematiques) && count($selectedThematiques) === 1) {
+            // Une seule thématique sélectionnée
+            $selectedCategory = $categoryRepository->find($selectedThematiques[0]);
+            if ($selectedCategory) {
+                $pageTitle = 'Formations ' . $selectedCategory->getName() . ' - INFPF';
+                $metaDescription = 'Découvrez nos formations professionnelles en ' . $selectedCategory->getName() . '. Formations certifiantes à distance avec accompagnement personnalisé.';
+            }
+        } elseif (!empty($selectedThematiques) && count($selectedThematiques) > 1) {
+            // Plusieurs thématiques sélectionnées
+            $categoryNames = [];
+            foreach ($selectedThematiques as $catId) {
+                $cat = $categoryRepository->find($catId);
+                if ($cat) {
+                    $categoryNames[] = $cat->getName();
+                }
+            }
+            if (!empty($categoryNames)) {
+                $pageTitle = 'Formations ' . implode(', ', array_slice($categoryNames, 0, 2));
+                if (count($categoryNames) > 2) {
+                    $pageTitle .= ' et plus';
+                }
+                $pageTitle .= ' - INFPF';
+                $metaDescription = 'Découvrez nos formations professionnelles dans plusieurs domaines : ' . implode(', ', $categoryNames) . '. Formations certifiantes à distance.';
+            }
+        }
+        
+        // Ajouter des informations de filtre au titre si d'autres filtres sont appliqués
+        $additionalFilters = [];
+        if (!empty($filterCriteria['lieu'])) {
+            $additionalFilters[] = implode(', ', $filterCriteria['lieu']);
+        }
+        if (!empty($filterCriteria['duration'])) {
+            $additionalFilters[] = 'Durée: ' . implode(', ', $filterCriteria['duration']);
+        }
+        if ($hasCpf) {
+            $additionalFilters[] = 'Éligible CPF';
+        }
+        
+        if (!empty($additionalFilters)) {
+            $pageTitle .= ' (' . implode(' - ', $additionalFilters) . ')';
+        }
+
         return $this->render('home/formation.html.twig', [
             'formations' => $formations,
             'formationsByCategory' => $formationsByCategory,
             'formationsCountByCategory' => $formationsCountByCategory,
             'categories' => $categories,
             'selectedCategoryId' => $selectedCategoryId,
-            'totalGlobal' => $totalGlobal
+            'totalGlobal' => $totalGlobal,
+            'page_title' => $pageTitle,
+            'meta_description' => $metaDescription,
+            // Pagination
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'totalFormations' => $totalFormations,
+            'formationsPerPage' => $limit
         ]);
     }
     
@@ -231,6 +300,8 @@ class HomeController extends AbstractController
             'category' => $category,
             'formations' => $formations,
             'categoryImages' => $categoryImages, // Passe le tableau au template
+            'page_title' => 'Formation Professionnelle à Distance - Institut National INFPF',
+            'meta_description' => 'Institut National de la Formation Professionnelle Française - Spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la finance et le social. Formations certifiantes avec accompagnement personnalisé.'
         ]);
     }
 
