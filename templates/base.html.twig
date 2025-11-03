@@ -21,14 +21,18 @@
 				{{ importmap('app') }}
 			{% endblock %}
 			#}
-			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
-			<!-- Preconnect pour améliorer les performances -->
-			<link rel="preconnect" href="https://ajax.googleapis.com" crossorigin>
-			<link rel="dns-prefetch" href="https://ajax.googleapis.com">
-			<!-- jQuery avec defer pour ne pas bloquer le rendu -->
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
-			<!-- Scripts locaux avec defer -->
-			<script src="{{ asset('js/popup.js') }}" defer></script>
+		<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
+		<!-- Scripts locaux avec defer (jQuery supprimé car inutilisé - économie de 85 Kio) -->
+		<script src="{{ asset('js/popup.js') }}" defer></script>
+		{% endblock %}
+
+
+
+
+
+
+
+
 		{% endblock %}
 
 	<!-- Calendly Integration - RÉACTIVÉ pour popup desktop -->
