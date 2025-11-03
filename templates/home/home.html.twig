@@ -1,6 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formation Professionnelle à Distance - Institut National INFPF
+{% block title %}{{ page_title|default('Formation Professionnelle à Distance - Institut National INFPF') }}{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Institut National de la Formation Professionnelle Française - Spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la finance et le social. Formations certifiantes avec accompagnement personnalisé.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default('Formation Professionnelle à Distance - Institut National INFPF') }}">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Institut National de la Formation Professionnelle Française - Spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la finance et le social. Formations certifiantes avec accompagnement personnalisé.') }}">
 {% endblock %}
 
 {% block stylesheets %}

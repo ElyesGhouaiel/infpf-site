@@ -12,8 +12,9 @@
 
 		<!-- CSS de Bootstrap -->
 		
-		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
+		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		{% block javascripts %}
 			{# Importmap désactivé pour éviter les erreurs 404 - Assets non compilés
 			{% block importmap %}
@@ -21,8 +22,13 @@
 			{% endblock %}
 			#}
 			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-			<script src="{{ asset('js/popup.js') }}"></script>
+			<!-- Preconnect pour améliorer les performances -->
+			<link rel="preconnect" href="https://ajax.googleapis.com" crossorigin>
+			<link rel="dns-prefetch" href="https://ajax.googleapis.com">
+			<!-- jQuery avec defer pour ne pas bloquer le rendu -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+			<!-- Scripts locaux avec defer -->
+			<script src="{{ asset('js/popup.js') }}" defer></script>
 		{% endblock %}
 
 	<!-- Calendly Integration - RÉACTIVÉ pour popup desktop -->
@@ -2795,12 +2801,18 @@
 																								<link as="script" href="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" rel="preload"/> #}
 		<meta
 		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/> <!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->
-		<title>Formation à distance avec l'Institut national de la formation professionnelle française</title>
+		<title>{% block title %}Formation à distance avec l'Institut national de la formation professionnelle française{% endblock %}</title>
+		{% block meta_description %}
 		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." name="description"/>
+		{% endblock %}
 		<meta content="fr_FR" property="og:locale"/>
 		<meta content="website" property="og:type"/>
+		{% block og_title %}
 		<meta content="Formation à distance avec l'Institut national de la formation professionnelle française" property="og:title"/>
+		{% endblock %}
+		{% block og_description %}
 		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
+		{% endblock %}
 		<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
 	</head>
 </html>

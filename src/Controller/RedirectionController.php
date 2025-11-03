@@ -43,6 +43,8 @@ class RedirectionController extends AbstractController
         return $this->render('content/ecole/financer-ma-formation.html.twig', [
             'category' => $categoryRepository->findAll(),
             'formations' => $formationRepository->findAll(),
+            'page_title' => 'Financements et Prise en Charge de Formation - INFPF',
+            'meta_description' => 'Découvrez toutes les solutions pour financer votre formation professionnelle : CPF, Pôle Emploi, OPCO, financement personnel. Accompagnement personnalisé pour trouver le financement adapté.'
         ]);
     }
 
@@ -61,6 +63,8 @@ class RedirectionController extends AbstractController
         return $this->render('content/ecole/formations-eligibles-cpf.html.twig', [
             'category' => $categoryRepository->findAll(),
             'formations' => $formationRepository->findAll(),
+            'page_title' => 'Formations Éligibles au CPF - Compte Personnel de Formation - INFPF',
+            'meta_description' => 'Découvrez toutes nos formations éligibles au Compte Personnel de Formation (CPF). Formations certifiantes financées jusqu\'à 100% par votre CPF. Catalogue complet avec RNCP.'
         ]);
     }
 
@@ -79,6 +83,8 @@ class RedirectionController extends AbstractController
         return $this->render('content/ecole/notre-equipe-pedagogique.html.twig', [
             'category' => $categoryRepository->findAll(),
             'formations' => $formationRepository->findAll(),
+            'page_title' => 'Notre Équipe Pédagogique - Formateurs Experts - INFPF',
+            'meta_description' => 'Rencontrez notre équipe pédagogique de formateurs experts et professionnels passionnés. Plus de 25 coachs dédiés à votre réussite et accompagnement personnalisé tout au long de votre formation.'
         ]);
     }
 

@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ formations.nameFormation }} - Formation INFPF{% endblock %}
+{% block title %}{{ page_title|default(formations.nameFormation ~ ' - Formation INFPF') }}{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez notre formation professionnelle certifiante à distance avec accompagnement personnalisé.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default(formations.nameFormation ~ ' - Formation INFPF') }}">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Découvrez notre formation professionnelle certifiante à distance avec accompagnement personnalisé.') }}">
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}

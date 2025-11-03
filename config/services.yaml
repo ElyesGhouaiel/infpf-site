@@ -47,3 +47,10 @@ services:
         arguments:
             $security: '@Symfony\Component\Security\Core\Security'
             $environment: '%kernel.environment%'
+    
+    # EventListener pour headers de sécurité
+    App\EventListener\SecurityHeadersListener:
+        arguments:
+            $environment: '%kernel.environment%'
+        tags:
+            - { name: 'kernel.event_subscriber' }

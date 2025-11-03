@@ -1,7 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toutes nos Formations Professionnelles - INFPF
+{% block title %}{{ page_title|default('Toutes nos Formations Professionnelles') }} - INFPF{% endblock %}
 
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez notre catalogue complet de formations professionnelles à distance. Formations certifiantes dans la petite enfance, la beauté, la cuisine, la finance et le social.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default('Toutes nos Formations Professionnelles') }} - INFPF">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Découvrez notre catalogue complet de formations professionnelles à distance. Formations certifiantes dans la petite enfance, la beauté, la cuisine, la finance et le social.') }}">
 {% endblock %}
 {% block stylesheets %}
 	<link href="../css/fichier.css?v=68" rel="stylesheet"/>

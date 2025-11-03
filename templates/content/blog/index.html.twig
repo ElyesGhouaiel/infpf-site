@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog de l'Institut National de Formation Professionnelle{% endblock %}
+{% block title %}Blog et Actualités - Formations Professionnelles - INFPF{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Découvrez nos actualités, conseils et témoignages sur les formations professionnelles. Conseils carrière, métiers qui recrutent, astuces formation et réussite professionnelle.">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="Blog et Actualités - Formations Professionnelles - INFPF">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="Découvrez nos actualités, conseils et témoignages sur les formations professionnelles. Conseils carrière, métiers qui recrutent, astuces formation et réussite professionnelle.">
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
