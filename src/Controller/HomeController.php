@@ -86,13 +86,29 @@ class HomeController extends AbstractController
                 ->addOrderBy('f.priceFormation', 'DESC');
         }
 
+        // ===== PAGINATION POUR PERFORMANCE =====
+        // Limiter à 12 formations par page au lieu de tout charger
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = 12; // 12 formations par page
+        $offset = ($page - 1) * $limit;
+        
+        // Compter le total AVANT la pagination
+        $totalFormations = count($queryBuilder->getQuery()->getResult());
+        
+        // Appliquer la pagination
+        $queryBuilder->setFirstResult($offset)->setMaxResults($limit);
         $formations = $queryBuilder->getQuery()->getResult();
         
         // Filtrage par durée côté PHP (car les formats sont trop variés pour SQL)
         $durationFilter = $request->query->all('duration');
         if (!empty($durationFilter)) {
             $formations = $formationRepository->filterByDuration($formations, $durationFilter);
+            // Recalculer le total après filtrage durée
+            $totalFormations = count($formations);
         }
+        
+        // Calculer le nombre de pages
+        $totalPages = max(1, ceil($totalFormations / $limit));
         
         // Tri supplémentaire côté PHP pour s'assurer que IA est en premier
         usort($formations, function($a, $b) use ($sortOrder) {
@@ -187,7 +203,12 @@ class HomeController extends AbstractController
             'selectedCategoryId' => $selectedCategoryId,
             'totalGlobal' => $totalGlobal,
             'page_title' => $pageTitle,
-            'meta_description' => $metaDescription
+            'meta_description' => $metaDescription,
+            // Pagination
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'totalFormations' => $totalFormations,
+            'formationsPerPage' => $limit
         ]);
     }
     
