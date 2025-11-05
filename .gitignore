@@ -14,8 +14,8 @@
 compose.override.yaml
 compose.yaml
 importmap.php
-phpunit.xml.dist
-phpunit.xml.dist
+# phpunit.xml.dist  # ✅ On autorise phpunit.xml.dist pour le CI/CD et la config partagée
+# phpunit.xml.dist
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
