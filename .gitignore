@@ -2,7 +2,7 @@
 ###> symfony/framework-bundle ###
 .env
 /.env
-/.env.test
+# /.env.test  # ✅ On autorise .env.test pour le CI/CD
 /.env.local
 /.env.local.php
 /.env.*.local

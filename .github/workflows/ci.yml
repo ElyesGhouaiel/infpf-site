@@ -32,9 +32,10 @@ jobs:
           extensions: mbstring, xml, curl, intl, pdo, pdo_mysql
           coverage: none
 
-      - name: Copy .env
+      - name: Copy .env BEFORE composer install
         run: |
-          cp .env.test .env || cp .env .env.test || echo "APP_ENV=test" > .env.test
+          cp .env.test .env
+          echo "✅ .env créé depuis .env.test"
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
@@ -58,6 +59,11 @@ jobs:
         with:
           php-version: '8.1'
 
+      - name: Copy .env BEFORE composer install
+        run: |
+          cp .env.test .env || echo "APP_ENV=test" > .env
+          echo "✅ .env créé"
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
@@ -77,6 +83,10 @@ jobs:
         with:
           php-version: '8.1'
           tools: php-cs-fixer
+
+      - name: Copy .env (optionnel pour code-quality)
+        run: |
+          cp .env.test .env || echo "APP_ENV=test" > .env || true
 
       - name: Check PHP syntax
         run: |
