@@ -149,13 +149,16 @@ export SENTRY_RELEASE="v1.0.1"
 
 ## ✅ Checklist finale
 
-- [ ] Compte Sentry créé
-- [ ] DSN configuré dans `.env.local`
+- [x] Compte Sentry créé ✅
+- [x] DSN configuré dans `.env` ✅
 - [ ] Test d'erreur volontaire effectué
 - [ ] Erreur visible dans Sentry
 - [ ] Logs visibles dans `var/log/prod.log`
 - [ ] Alertes par email configurées
 - [ ] Intégration Slack (optionnel)
+
+**DSN Sentry configuré** : `https://b094d6d36a70d04dff26b577b8dc475f@o4510312920252416.ingest.de.sentry.io/4510312924512336`
+**Région** : Europe (DE) - Conformité RGPD ✅
 
 ---
 
