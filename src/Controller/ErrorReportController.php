@@ -2,22 +2,28 @@
 
 namespace App\Controller;
 
+use App\Service\NativeMailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
 
 class ErrorReportController extends AbstractController
 {
-    #[Route('/report-error', name: 'app_report_error', methods: ['POST'])]
-    public function reportError(
-        Request $request,
-        MailerInterface $mailer,
+    private $nativeMailService;
+    private $logger;
+
+    public function __construct(
+        NativeMailService $nativeMailService,
         LoggerInterface $logger
-    ): Response {
+    ) {
+        $this->nativeMailService = $nativeMailService;
+        $this->logger = $logger;
+    }
+
+    #[Route('/report-error', name: 'app_report_error', methods: ['POST'])]
+    public function reportError(Request $request): Response {
         $name = $request->request->get('name');
         $email = $request->request->get('email');
         $message = $request->request->get('message');
@@ -40,17 +46,21 @@ class ErrorReportController extends AbstractController
         }
 
         try {
-            // Créer et envoyer l'email
-            $emailMessage = (new Email())
-                ->from('noreply@infpf.fr')
-                ->to('elyes@xeilos.fr')
-                ->replyTo($email)
-                ->subject("🔴 Erreur {$errorCode} signalée sur INFPF")
-                ->html($this->renderEmailContent($name, $email, $message, $errorCode, $errorUrl));
+            // Générer le contenu HTML de l'email
+            $emailContent = $this->renderEmailContent($name, $email, $message, $errorCode, $errorUrl);
+            $subject = "🔴 Erreur {$errorCode} signalée sur INFPF";
 
-            $mailer->send($emailMessage);
+            // Envoyer l'email avec le service natif (comme le formulaire de contact)
+            // Le Reply-To est configuré sur l'email du visiteur pour répondre directement
+            $this->nativeMailService->sendContactEmail(
+                'noreply@infpf.fr',
+                'elyes@xeilos.fr',
+                $subject,
+                $emailContent,
+                $email  // Reply-To: email du visiteur
+            );
 
-            $logger->info('Erreur signalée', [
+            $this->logger->info('Erreur signalée', [
                 'error_code' => $errorCode,
                 'reporter_email' => $email,
                 'reporter_name' => $name,
@@ -62,7 +72,7 @@ class ErrorReportController extends AbstractController
             ]);
 
         } catch (\Exception $e) {
-            $logger->error('Échec envoi email erreur', [
+            $this->logger->error('Échec envoi email erreur', [
                 'error' => $e->getMessage(),
                 'reporter_email' => $email,
             ]);
