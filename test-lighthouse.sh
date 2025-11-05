@@ -66,3 +66,4 @@ echo "   lighthouse https://dev.infpf.fr/formation --only-categories=performance
 
 
 
+

@@ -20,3 +20,4 @@ echo "Headers envoyés. Vérifiez avec: curl -I https://dev.infpf.fr/test-header
 
 
 
+

@@ -66,3 +66,4 @@ if (!empty($_ENV['SENTRY_DSN'])) {
     echo "<p>SENTRY_DSN n'est pas configuré dans le fichier .env</p>";
 }
 
+

@@ -255,3 +255,4 @@ mysqldump -u root infpf_db | head -20
 **Date de création** : 2025-11-05  
 **Dernière mise à jour** : 2025-11-05
 
+
