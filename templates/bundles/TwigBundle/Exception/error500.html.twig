@@ -334,7 +334,8 @@
 
             <div class="contact-section">
                 <h2 class="contact-title">🚨 Signaler cette erreur</h2>
-                <form class="contact-form" action="mailto:elyes@xeilos.fr" method="post" enctype="text/plain">
+                <div id="formMessage" style="display: none; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; text-align: center; font-weight: 500;"></div>
+                <form id="errorReportForm" class="contact-form">
                     <div class="form-group">
                         <label class="form-label" for="name">Votre nom</label>
                         <input type="text" id="name" name="name" class="form-input" placeholder="Jean Dupont" required>
@@ -347,8 +348,9 @@
                         <label class="form-label" for="message">Que faisiez-vous avant cette erreur ?</label>
                         <textarea id="message" name="message" class="form-textarea" placeholder="Décrivez ce que vous avez fait juste avant l'erreur..." required></textarea>
                     </div>
-                    <button type="submit" class="form-submit">
-                        Envoyer le rapport d'erreur
+                    <button type="submit" id="submitBtn" class="form-submit">
+                        <span id="btnText">Envoyer le rapport d'erreur</span>
+                        <span id="btnLoader" style="display: none;">Envoi en cours...</span>
                     </button>
                 </form>
                 <p style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: #991b1b;">
@@ -363,6 +365,73 @@
             <a href="/contactez-nous">Contact</a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('errorReportForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Désactiver le bouton
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline';
+            
+            // Masquer les messages précédents
+            formMessage.style.display = 'none';
+            
+            try {
+                const formData = new FormData();
+                formData.append('name', document.getElementById('name').value);
+                formData.append('email', document.getElementById('email').value);
+                formData.append('message', document.getElementById('message').value);
+                formData.append('error_code', '500');
+                formData.append('error_url', window.location.href);
+                
+                const response = await fetch('/report-error', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Succès
+                    formMessage.textContent = '✅ ' + data.message;
+                    formMessage.style.background = '#d1fae5';
+                    formMessage.style.color = '#065f46';
+                    formMessage.style.display = 'block';
+                    
+                    // Réinitialiser le formulaire
+                    form.reset();
+                    
+                    // Faire défiler vers le message
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    // Erreur
+                    formMessage.textContent = '❌ ' + data.message;
+                    formMessage.style.background = '#fee2e2';
+                    formMessage.style.color = '#991b1b';
+                    formMessage.style.display = 'block';
+                }
+            } catch (error) {
+                // Erreur réseau
+                formMessage.textContent = '❌ Erreur de connexion. Veuillez réessayer ou nous contacter directement à elyes@xeilos.fr';
+                formMessage.style.background = '#fee2e2';
+                formMessage.style.color = '#991b1b';
+                formMessage.style.display = 'block';
+            } finally {
+                // Réactiver le bouton
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
 

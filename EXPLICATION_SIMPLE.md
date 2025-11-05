@@ -234,3 +234,4 @@ Toute la documentation est dans ces fichiers :
 
 **Dernière mise à jour** : 5 novembre 2025, 17h15
 
+
