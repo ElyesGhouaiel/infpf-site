@@ -513,13 +513,22 @@
             <div class="footer__social__svg">
                 <span class="footer__social__label">Rejoignez-nous sur</span>
                 <div class="gtm-cta-btn-facebook" onclick="window.open('https://www.facebook.com/people/INFPF/61559944644248/?locale=fr_FR');" title="Facebook">
-                    <img alt="Facebook" data-lazy-src="{{ asset('img/facebook.png') }}" height="15" src="{{ asset('img/Facebook_Logo_2023.png') }}" width="20"/>
+                    <picture>
+                        <source srcset="{{ asset('img/Facebook_Logo_2023_32.webp') }}" type="image/webp">
+                        <img alt="Facebook" src="{{ asset('img/Facebook_Logo_2023_32.png') }}" width="32" height="32" loading="lazy"/>
+                    </picture>
                 </div>
                 <div class="gtm-cta-btn-youtube" onclick="window.open('https://www.youtube.com/@INFPF');" title="Youtube">
-                    <img alt="Youtube" data-lazy-src="../img/youtube.svg" height="10" src="{{ asset('img/free-youtube-logo-icon-2431-thumb.png') }}" width="15"/>
+                    <picture>
+                        <source srcset="{{ asset('img/free-youtube-logo-icon-2431-thumb_32.webp') }}" type="image/webp">
+                        <img alt="Youtube" src="{{ asset('img/free-youtube-logo-icon-2431-thumb_32.png') }}" width="32" height="32" loading="lazy"/>
+                    </picture>
                 </div>
                 <div class="gtm-cta-btn-instagram" onclick="window.open('https://www.instagram.com/infpf_fr/');" title="Instagram">
-                    <img alt="Instagram" data-lazy-src="{{ asset('img/Instagram_icon.png') }}" height="15" src="{{ asset('img/Instagram_icon.png') }}" width="15"/>
+                    <picture>
+                        <source srcset="{{ asset('img/Instagram_icon_32.webp') }}" type="image/webp">
+                        <img alt="Instagram" src="{{ asset('img/Instagram_icon_32.png') }}" width="32" height="32" loading="lazy"/>
+                    </picture>
                 </div>
             </div>
             <div class="footer__social__tel gtm-cta-btn-telephone" onclick="location.href='tel:0489050355'" title="Contactez nous !">Tél. 04 89 05 03 55</div>
@@ -631,9 +640,9 @@
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             ">
                 <a href="{{ asset('pdf/Qualiopi.pdf') }}" target="_blank">
-                    <img src="{{ asset('img/logo-qualiopi-avec-textes.png') }}" alt="Logo Qualiopi" style="height: 130px;">
+                    <img src="{{ asset('img/logo-qualiopi-avec-textes.png') }}" alt="Logo Qualiopi" width="182" height="130" loading="lazy">
                 </a>
-                    <img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo Datadocké" style="height: 130px;">
+                    <img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo Datadocké" width="110" height="130" loading="lazy">
             </div>
         </div>
 

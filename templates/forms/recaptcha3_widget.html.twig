@@ -1,0 +1,9 @@
+{# Custom widget for Recaptcha3Type - Ne charge PAS le script (lazy load manuel) #}
+{% block karser_recaptcha3_widget %}
+    <input type="hidden" id="{{ id }}" name="{{ full_name }}" />
+    {# PAS de script, géré manuellement dans le template #}
+{% endblock %}
+
+
+
+

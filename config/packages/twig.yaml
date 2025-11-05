@@ -3,6 +3,8 @@ twig:
     globals:
         dataProvider: '@App\Service\DataProviderService'
         # category: '@app.repository.category'
+    form_themes:
+        - 'forms/recaptcha3_widget.html.twig'
 when@test:
     twig:
         strict_variables: true

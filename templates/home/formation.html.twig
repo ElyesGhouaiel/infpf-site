@@ -14,10 +14,10 @@
 <meta property="og:description" content="{{ meta_description|default('Découvrez notre catalogue complet de formations professionnelles à distance. Formations certifiantes dans la petite enfance, la beauté, la cuisine, la finance et le social.') }}">
 {% endblock %}
 {% block stylesheets %}
-	<link href="../css/fichier.css?v=68" rel="stylesheet"/>
+	<link href="../css/fichier.min.css?v=68" rel="stylesheet"/>
 
 	<link
-	href="../css/forma.css?v=85" rel="stylesheet"/>
+	href="../css/forma.min.css?v=85" rel="stylesheet"/>
 <!-- jQuery, jQuery UI et AOS supprimés car inutilisés - économie de ~200 Kio -->
 
     <!-- Les styles Calendly sont désormais gérés de manière centralisée dans base.html.twig -->
@@ -2357,20 +2357,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileFilterPanel.style.setProperty('height', '100vh', 'important');
         mobileFilterPanel.style.setProperty('background', 'white', 'important');
         
-        // Force reflow pour l'animation
-        mobileFilterPanel.offsetHeight;
-        
-        // Activer l'animation
-        mobileFilterPanel.classList.add('active');
-        
-        console.log('✅ Panneau ouvert, classes:', mobileFilterPanel.className);
-        console.log('📐 Position panneau:', mobileFilterPanel.getBoundingClientRect());
-        console.log('🎨 Computed styles:', {
-            display: window.getComputedStyle(mobileFilterPanel).display,
-            visibility: window.getComputedStyle(mobileFilterPanel).visibility,
-            zIndex: window.getComputedStyle(mobileFilterPanel).zIndex,
-            transform: window.getComputedStyle(mobileFilterPanel).transform,
-            right: window.getComputedStyle(mobileFilterPanel).right
+        // Utiliser requestAnimationFrame pour éviter les reflows forcés
+        requestAnimationFrame(() => {
+            mobileFilterPanel.classList.add('active');
         });
         
         // Focus management pour l'accessibilité

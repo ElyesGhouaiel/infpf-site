@@ -19,7 +19,11 @@ class ContactController extends AbstractController
     private $nativeMailService;
     private $logger;
 
-    public function __construct(MailService $mailService, NativeMailService $nativeMailService, LoggerInterface $logger)
+    public function __construct(
+        MailService $mailService, 
+        NativeMailService $nativeMailService, 
+        LoggerInterface $logger
+    )
     {
         $this->mailService = $mailService;
         $this->nativeMailService = $nativeMailService;
@@ -43,6 +47,18 @@ class ContactController extends AbstractController
         
         if ($form->isSubmitted()) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Form valid: " . ($form->isValid() ? 'YES' : 'NO') . "\n", FILE_APPEND);
+            
+            // ✅ Validation manuelle reCAPTCHA (lazy load)
+            $recaptchaToken = $request->request->get('contact_form')['captcha'] ?? '';
+            file_put_contents($logFile, date('Y-m-d H:i:s') . " - reCAPTCHA token: " . ($recaptchaToken ? 'PRESENT' : 'MISSING') . "\n", FILE_APPEND);
+            
+            if (!$recaptchaToken) {
+                $this->addFlash('error', 'Validation reCAPTCHA manquante.');
+                file_put_contents($logFile, date('Y-m-d H:i:s') . " - reCAPTCHA: TOKEN MISSING\n", FILE_APPEND);
+                return $this->render('content/contact/index.html.twig', [
+                    'contactForm' => $form->createView(),
+                ]);
+            }
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
