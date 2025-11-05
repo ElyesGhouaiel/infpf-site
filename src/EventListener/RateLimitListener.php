@@ -5,11 +5,15 @@ namespace App\EventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 class RateLimitListener
 {
+    private array $rateLimitInfo = [];
+
     public function __construct(
         private RateLimiterFactory $contactFormLimiter,
         private RateLimiterFactory $strictLimiter
@@ -40,19 +44,12 @@ class RateLimitListener
                 );
             }
 
-            // Ajouter les headers rate limit
-            $headers = [
+            // Stocker les infos pour les ajouter dans la réponse plus tard
+            $this->rateLimitInfo = [
                 'X-RateLimit-Limit' => $limit->getLimit(),
                 'X-RateLimit-Remaining' => $limit->getRemainingTokens(),
                 'X-RateLimit-Reset' => $limit->getRetryAfter()->getTimestamp(),
             ];
-
-            $response = $event->getResponse();
-            if ($response) {
-                foreach ($headers as $key => $value) {
-                    $response->headers->set($key, (string) $value);
-                }
-            }
         }
 
         // Rate limiting strict pour toutes les requêtes POST
@@ -65,6 +62,22 @@ class RateLimitListener
                     $limit->getRetryAfter()->getTimestamp() - time(),
                     'Trop de requêtes. Veuillez patienter.'
                 );
+            }
+        }
+    }
+
+    public function onKernelResponse(ResponseEvent $event): void
+    {
+        // Ne traiter que les requêtes principales
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
+        // Ajouter les headers rate limit à la réponse
+        if (!empty($this->rateLimitInfo)) {
+            $response = $event->getResponse();
+            foreach ($this->rateLimitInfo as $key => $value) {
+                $response->headers->set($key, (string) $value);
             }
         }
     }
