@@ -77,14 +77,20 @@ DirectoryIndex index.php
         Header set Expires "Thu, 31 Dec 2026 23:59:59 GMT"
     </FilesMatch>
     
-    # CSS et JS : cache 1 mois (sont versionnés)
+    # CSS et JS : cache 1 an (sont versionnés)
     <FilesMatch "\.(css|js)$">
-        Header set Cache-Control "public, max-age=2592000"
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header set Expires "Thu, 31 Dec 2026 23:59:59 GMT"
     </FilesMatch>
     
     # Fonts : cache 1 an
     <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # PDF et documents : cache 1 mois
+    <FilesMatch "\.(pdf|doc|docx|xls|xlsx|ppt|pptx)$">
+        Header set Cache-Control "public, max-age=2592000"
     </FilesMatch>
     
     # HTML : pas de cache (contenu dynamique)
@@ -93,6 +99,29 @@ DirectoryIndex index.php
         Header set Pragma "no-cache"
         Header set Expires 0
     </FilesMatch>
+    
+    # ===== SECURITY HEADERS =====
+    # Protection XSS (Cross-Site Scripting)
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Empêche le MIME-sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Protection Clickjacking - Autorise iframe depuis même origine + Google/Calendly
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Référence sécurisée (ne pas envoyer l'origine complète vers autres domaines)
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy (anciennement Feature-Policy)
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+    
+    # Content Security Policy (CSP) - Permissif pour Google/Calendly/Stripe
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://assets.calendly.com https://js.stripe.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; frame-src 'self' https://www.google.com https://calendly.com https://www.youtube.com; connect-src 'self' https://www.google.com https://www.gstatic.com https://api.stripe.com;"
+    
+    # HSTS (HTTP Strict Transport Security) - Force HTTPS pour 1 an
+    # ⚠️ À activer UNIQUEMENT si HTTPS est configuré sur tout le site
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
 # ===== COMPRESSION GZIP/BROTLI =====
