@@ -24,8 +24,7 @@ class Analytics
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $consentToken = null;
 
-    // ✅ VARCHAR(2048) au lieu de TEXT pour permettre l'index
-    #[ORM\Column(length: 2048)]
+    #[ORM\Column(length: 512)]
     private ?string $pageUrl = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
