@@ -1,6 +1,5 @@
 sentry:
     # DSN Sentry - À configurer avec votre clé Sentry
-    # Obtenir votre DSN sur : https://sentry.io/
     dsn: '%env(SENTRY_DSN)%'
     
     # Options de configuration
@@ -12,43 +11,25 @@ sentry:
         release: '1.0.0'
         
         # Taux d'échantillonnage des traces (0.0 à 1.0)
-        # 1.0 = 100% des requêtes sont tracées
         traces_sample_rate: 1.0
         
         # Taux d'échantillonnage des profils
         profiles_sample_rate: 1.0
         
-        # Avant l'envoi, nettoyer les données sensibles
-        before_send: '@Sentry\beforeSendCallback'
-        
-        # Filtrer les erreurs par niveau minimum
-        error_types: E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
-        
-        # Capturer les erreurs non gérées
-        capture_exceptions: true
-        
-        # Capturer les erreurs fatales
-        capture_errors: true
-        
-        # Capturer les messages de log
-        capture_silenced_errors: false
-        
-        # Contexte utilisateur (si authentifié)
+        # Contexte utilisateur (false = ne pas envoyer de données personnelles)
         send_default_pii: false
         
         # Breadcrumbs (journalisation des événements menant à l'erreur)
         default_integrations: true
         max_breadcrumbs: 50
         
-        # Performance monitoring
-        # enable_tracing: true
+        # Capture des erreurs silencieuses
+        capture_silenced_errors: false
+        
+        # Types d'erreurs à capturer
+        error_types: E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
         
     # Intégrations
     register_error_listener: true
     register_error_handler: true
-    
-    # Messenger integration (si vous utilisez Symfony Messenger)
-    messenger:
-        enabled: true
-        capture_soft_fails: true
 
