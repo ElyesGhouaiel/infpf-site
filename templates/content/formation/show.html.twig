@@ -149,7 +149,7 @@
 .hero__grid {
     position: relative;
     display: grid;
-    grid-template-columns: var(--toc-w) var(--gap) 1fr;
+    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) var(--det-w);
     align-items: center; /* texte centré VERTICALEMENT */
     padding-block: clamp(48px, 6vh, 80px);
     width: 100%;
@@ -659,11 +659,12 @@
 :root {
     --gap: 32px;
     --toc-w: 260px;            /* largeur TOC réduite pour meilleure UX */
+    --det-w: 340px;            /* largeur Détails */
     --stickytop: clamp(88px, 10vh, 120px);  /* hauteur header + marge */
     --content-min: 68ch;       /* largeur confortable minimale */
 }
 
-/* ===== LAYOUT : UNE SEULE COLONNE ÉLARGIE ===== */
+/* ===== LAYOUT : TOC + CONTENU ÉLARGI (SIDEBAR SUPPRIMÉE) ===== */
 .layout-formation {
     display: grid;
     grid-template-columns: var(--toc-w) var(--gap) 1fr;
@@ -682,14 +683,13 @@
 }
 
 .content-col { 
-    grid-column: 3; /* Prend toute la largeur restante */
+    grid-column: 3; /* Prend TOUTE la largeur restante */
     width: 100%;
-    max-width: 1200px; /* Limite pour lisibilité optimale */
-    /* pas de max-width serré - prend tout l'espace */
+    max-width: 1400px; /* Limite pour lisibilité optimale */
 }
 
 .details-col { 
-    display: none !important; 
+    display: none !important; /* Sidebar supprimée */
 }
 
 @media (max-width: 1200px) {
@@ -698,7 +698,7 @@
         padding: 0 var(--space-md);
     }
     
-    .content-col { 
+    .content-col {
         justify-self: stretch;
         max-width: unset;
     }
@@ -1161,7 +1161,7 @@
 }
 
 /* ===== CORRECTION BUGS OVERFLOW ET Z-INDEX ===== */
-.wrapper, .main, .section, .layout-formation, .toc-col, .details-col, .content-col { 
+.wrapper, .main, .section, .layout-formation, .toc-col, .details-col, .content-col {
     overflow: visible !important; /* éviter overflow qui casse sticky */
 }
 
@@ -1183,7 +1183,7 @@
         order: 2;
     }
     
-    .content-col { 
+    .content-col {
         grid-column: 1;
         order: 1;
     }
@@ -2574,6 +2574,97 @@ html {
     
         </main>
 
+        <!-- ===== DÉTAILS STICKY ET COLLÉS À DROITE ===== -->
+        <aside class="details-col">
+            <!-- ===== DÉTAILS FLOATING (système scroll indépendant) ===== -->
+            <div class="details-card" id="details-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 class="details-title" style="margin: 0;">
+                <svg class="details-title-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                Détails de la formation
+            </h3>
+                <button class="details-close-btn" id="details-close-btn" aria-label="Fermer les détails" style="display: none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="details-list">
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Niveau</span>
+                        <span class="details-value">Tous niveaux</span>
+            </div>
+        </div>
+                
+                {% if formations.dureeFormation %}
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Durée</span>
+                        <span class="details-value">{{ formations.dureeFormation }}</span>
+            </div>
+            </div>
+            {% endif %}
+    
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Langue</span>
+                        <span class="details-value">Français</span>
+            </div>
+        </div>
+    
+                {% if formations.priceFormation %}
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Prix</span>
+                        <span class="details-value">{{ formations.priceFormation }}€</span>
+    </div>
+        </div>
+                {% endif %}
+                
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="7"/>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Certification</span>
+                        <span class="details-value">Attestation de formation</span>
+    </div>
+	</div>
+
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Modalité</span>
+                        <span class="details-value">À distance</span>
+	</div>
+                </div>
+            </div>
+            </div>
+        </aside>
     </div> <!-- fin layout-formation -->
     
     </div> <!-- fin formation-page -->
@@ -2653,51 +2744,51 @@ console.log('🚀 SCRIPT TOC: Démarrage');
     }
 
     // Position à droite pour les détails
-// DÉSACTIVÉ - sidebar supprimée:     function positionRight(){
-// DÉSACTIVÉ - sidebar supprimée:         // Cibler SEULEMENT le bloc détails du côté (pas celui du hero)
-// DÉSACTIVÉ - sidebar supprimée:         const details = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
-// DÉSACTIVÉ - sidebar supprimée:         if (!details) return;
-// DÉSACTIVÉ - sidebar supprimée:         
-// DÉSACTIVÉ - sidebar supprimée:         // Calculer la position à droite de l'écran
-// DÉSACTIVÉ - sidebar supprimée:         const rightOffset = 24; // marge depuis le bord droit
-// DÉSACTIVÉ - sidebar supprimée:         details.style.setProperty('--details-right', `${rightOffset}px`);
-// DÉSACTIVÉ - sidebar supprimée:         details.style.setProperty('--details-width', '320px');
-// DÉSACTIVÉ - sidebar supprimée:         console.log('📍 Details position: right =', rightOffset + 'px');
-// DÉSACTIVÉ - sidebar supprimée:     }
-// DÉSACTIVÉ - sidebar supprimée: 
-// DÉSACTIVÉ - sidebar supprimée:     // Gestion scroll pour les détails
-// DÉSACTIVÉ - sidebar supprimée:     function onScrollDetails(){
-// DÉSACTIVÉ - sidebar supprimée:         const anchor = document.getElementById('toc-anchor');
-// DÉSACTIVÉ - sidebar supprimée:         // Cibler SEULEMENT le bloc détails du côté (pas celui du hero)
-// DÉSACTIVÉ - sidebar supprimée:         const details = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
-// DÉSACTIVÉ - sidebar supprimée:         if (!anchor || !details) return;
-// DÉSACTIVÉ - sidebar supprimée:         
-// DÉSACTIVÉ - sidebar supprimée:         // Détection footer pour disparition
-// DÉSACTIVÉ - sidebar supprimée:         const footer = document.querySelector('footer, .footer, .site-footer');
-// DÉSACTIVÉ - sidebar supprimée:         const footerTop = footer ? footer.getBoundingClientRect().top + window.scrollY : Infinity;
-// DÉSACTIVÉ - sidebar supprimée:         const isNearFooter = window.scrollY >= footerTop - window.innerHeight;
-// DÉSACTIVÉ - sidebar supprimée:         
-// DÉSACTIVÉ - sidebar supprimée:         const start = anchor.getBoundingClientRect().top + window.scrollY;
-// DÉSACTIVÉ - sidebar supprimée:         const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
-// DÉSACTIVÉ - sidebar supprimée:         // Ne pas montrer avant d'avoir dépassé la bannière + marge
-// DÉSACTIVÉ - sidebar supprimée:         const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
-// DÉSACTIVÉ - sidebar supprimée:         
-// DÉSACTIVÉ - sidebar supprimée:         // Gestion apparition/disparition
-// DÉSACTIVÉ - sidebar supprimée:         if(shouldShow && !details.classList.contains('is-visible')) {
-// DÉSACTIVÉ - sidebar supprimée:             details.classList.add('is-visible');
-// DÉSACTIVÉ - sidebar supprimée:             console.log('✨ Details: Apparition');
-// DÉSACTIVÉ - sidebar supprimée:         } else if(!shouldShow && details.classList.contains('is-visible')) {
-// DÉSACTIVÉ - sidebar supprimée:             details.classList.remove('is-visible');
-// DÉSACTIVÉ - sidebar supprimée:             console.log('👻 Details: Disparition');
-// DÉSACTIVÉ - sidebar supprimée:         }
-// DÉSACTIVÉ - sidebar supprimée:         
-// DÉSACTIVÉ - sidebar supprimée:         // Gestion mode fixed (seulement si visible)
-// DÉSACTIVÉ - sidebar supprimée:         if(shouldShow && !details.classList.contains('is-fixed')) {
-// DÉSACTIVÉ - sidebar supprimée:             details.classList.add('is-fixed');
-// DÉSACTIVÉ - sidebar supprimée:             console.log('🔧 Details: Mode FIXED activé');
-// DÉSACTIVÉ - sidebar supprimée:         } else if(!shouldShow && details.classList.contains('is-fixed')) {
-// DÉSACTIVÉ - sidebar supprimée:             details.classList.remove('is-fixed');
-// DÉSACTIVÉ - sidebar supprimée:             console.log('🔧 Details: Mode STATIC restauré');
+    function positionRight(){
+        // Cibler SEULEMENT le bloc détails du côté (pas celui du hero)
+        const details = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
+        if (!details) return;
+        
+        // Calculer la position à droite de l'écran
+        const rightOffset = 24; // marge depuis le bord droit
+        details.style.setProperty('--details-right', `${rightOffset}px`);
+        details.style.setProperty('--details-width', '320px');
+        console.log('📍 Details position: right =', rightOffset + 'px');
+    }
+
+    // Gestion scroll pour les détails
+    function onScrollDetails(){
+        const anchor = document.getElementById('toc-anchor');
+        // Cibler SEULEMENT le bloc détails du côté (pas celui du hero)
+        const details = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
+        if (!anchor || !details) return;
+        
+        // Détection footer pour disparition
+        const footer = document.querySelector('footer, .footer, .site-footer');
+        const footerTop = footer ? footer.getBoundingClientRect().top + window.scrollY : Infinity;
+        const isNearFooter = window.scrollY >= footerTop - window.innerHeight;
+        
+        const start = anchor.getBoundingClientRect().top + window.scrollY;
+        const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
+        // Ne pas montrer avant d'avoir dépassé la bannière + marge
+        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        
+        // Gestion apparition/disparition
+        if(shouldShow && !details.classList.contains('is-visible')) {
+            details.classList.add('is-visible');
+            console.log('✨ Details: Apparition');
+        } else if(!shouldShow && details.classList.contains('is-visible')) {
+            details.classList.remove('is-visible');
+            console.log('👻 Details: Disparition');
+        }
+        
+        // Gestion mode fixed (seulement si visible)
+        if(shouldShow && !details.classList.contains('is-fixed')) {
+            details.classList.add('is-fixed');
+            console.log('🔧 Details: Mode FIXED activé');
+        } else if(!shouldShow && details.classList.contains('is-fixed')) {
+            details.classList.remove('is-fixed');
+            console.log('🔧 Details: Mode STATIC restauré');
         }
     }
 
@@ -2774,9 +2865,9 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         console.log('📜 Détails CÔTÉ (floating):', !!sideDetails);
         
         positionLeft();
-        // positionRight(); // Désactivé - sidebar supprimée
+        positionRight();
         onScroll();
-        // onScrollDetails(); // Désactivé - sidebar supprimée
+        onScrollDetails();
         wireLinks();
         initScrollSpy(); // Ajout du scroll-spy dynamique
         console.log('✅ TOC System: Prêt avec scroll-spy dynamique');
@@ -2811,19 +2902,19 @@ console.log('🚀 SCRIPT TOC: Démarrage');
             init();
             window.addEventListener('scroll', () => {
                 onScroll();
-                // onScrollDetails(); // Désactivé - sidebar supprimée
+                onScrollDetails();
             }, {passive:true});
             window.addEventListener('resize', ()=>{ 
                 positionLeft(); 
-                // positionRight(); // Désactivé - sidebar supprimée
+                positionRight();
                 onScroll(); 
-                // onScrollDetails(); // Désactivé - sidebar supprimée
+                onScrollDetails();
             });
             window.addEventListener('orientationchange', ()=>{ 
                 positionLeft(); 
-                // positionRight(); // Désactivé - sidebar supprimée
+                positionRight();
                 onScroll(); 
-                // onScrollDetails(); // Désactivé - sidebar supprimée
+                onScrollDetails();
             });
         } else if (attempt < 50) { // max 5 secondes
             console.log(`⏳ Attente des éléments... (tentative ${attempt}/50)`);
