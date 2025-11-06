@@ -31,12 +31,25 @@ class BlogController extends AbstractController
         // Récupérer l'ordre de tri depuis les paramètres de requête (par défaut: récent)
         $sortOrder = $request->query->get('sort', 'recent');
         
+        // ===== PAGINATION =====
+        $page = max(1, $request->query->getInt('page', 1));
+        $articlesPerPage = 3; // 3 articles par page
+        
         // Récupérer seulement les articles publiés
-        $blogs = $blogRepository->findPublishedBlogs($sortOrder);
+        $allBlogs = $blogRepository->findPublishedBlogs($sortOrder);
+        $totalBlogs = count($allBlogs);
+        $totalPages = ceil($totalBlogs / $articlesPerPage);
+        
+        // Pagination manuelle
+        $offset = ($page - 1) * $articlesPerPage;
+        $blogs = array_slice($allBlogs, $offset, $articlesPerPage);
         
         return $this->render('content/blog/index.html.twig', [
             'blogs' => $blogs,
             'currentSort' => $sortOrder,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'totalBlogs' => $totalBlogs,
         ]);
     }
 

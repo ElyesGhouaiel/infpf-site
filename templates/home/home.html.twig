@@ -1,16 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formation Professionnelle à Distance - Institut National INFPF
+{% block title %}{{ page_title|default('Formation Professionnelle à Distance - Institut National INFPF') }}{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Institut National de la Formation Professionnelle Française - Spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la finance et le social. Formations certifiantes avec accompagnement personnalisé.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default('Formation Professionnelle à Distance - Institut National INFPF') }}">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Institut National de la Formation Professionnelle Française - Spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la finance et le social. Formations certifiantes avec accompagnement personnalisé.') }}">
 {% endblock %}
 
 {% block stylesheets %}
-	<link href="../css/fichier.css?=v16" rel="stylesheet"/>
+	<link href="../css/fichier.min.css?=v16" rel="stylesheet"/>
 	<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 	{# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
 	{# <link rel="preconnect" href="https://assets.calendly.com"> #}
 	{# <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css"> #}
-	<!-- AOS Animation Library -->
-	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<!-- AOS Animation Library - Preload pour éviter le blocage -->
+	<link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
 	<style>
 		/* ===== CORRECTION PADDING TOP HOME ===== */
 		/* Sur desktop : pas de padding sur main, le hero gère son propre padding */
@@ -4725,6 +4737,9 @@
 								src="{{ asset('img/' ~ categoryImages[category.id] ?? 'default-image.jpg') }}" 
 								alt="{{ category.name }}"
 								class="category-image"
+								width="300"
+								height="200"
+								loading="lazy"
 							>
 				<div class="category-title">{{ category.name }}</div>
 							
@@ -4769,7 +4784,7 @@
 	<div class="cpf-section">
 		<div class="wp-block-formation-financable-cpf" data-aos="fade-up">
 			<div class="wp-block-column_cpf_lady" data-aos="fade-right">
-				<img src="{{ asset('img/CPF.png') }}" class="wp-image-cpf_lady" alt="formation_financable_cpf">
+				<img src="{{ asset('img/CPF.png') }}" class="wp-image-cpf_lady" alt="formation_financable_cpf" width="940" height="788" loading="lazy">
 			</div>
 			<div class="wp-block-formation-financable-cpf-texte" data-aos="fade-left">
 				<h2 class="wp-block-heading has-text-color cpf-title-mobile">
@@ -4800,7 +4815,7 @@
 				<a href="{{ path('blog_show', {'id': blog.id}) }}" class="blog-postactualite-link">
 					<div class="blog-postactualite" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
 				{% if blog.image %}
-					<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description">
+					<img src="/uploads/images/{{ blog.image }}" class="card-img-top" alt="Image description" width="400" height="250" loading="lazy">
 				{% endif %}
 				<div class="blog-post-content">
 					<h3>{{ blog.titleOne }}</h3>
@@ -4930,20 +4945,22 @@
 	{% include 'footer.html.twig' %}
 
 {% block javascripts %}
-<!-- CHARGEMENT JQUERY EN PREMIER -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-	<!-- AOS Animation Library -->
-	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- AOS Animation Library - Defer pour éviter le blocage du rendu -->
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+  {# jQuery supprimé - non utilisé sur cette page (économie de 30.8 Kio) #}
   {# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
   {# <script defer src="https://assets.calendly.com/assets/external/widget.js"></script> #}
-  <script>
+  <script defer>
 		// Initialize AOS
-		AOS.init({
-			duration: 800,
-			easing: 'ease-in-out',
-			once: true,
-			offset: 50
+		document.addEventListener('DOMContentLoaded', function() {
+			if (typeof AOS !== 'undefined') {
+				AOS.init({
+					duration: 800,
+					easing: 'ease-in-out',
+					once: true,
+					offset: 50
+				});
+			}
 		});
 
 		// Particle effect

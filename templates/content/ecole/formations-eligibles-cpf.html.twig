@@ -1,11 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formations éligibles CPF - INFPF
+{% block title %}{{ page_title|default('Formations éligibles CPF') }} - INFPF{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez toutes nos formations éligibles au Compte Personnel de Formation (CPF). Formations certifiantes financées jusqu\'à 100% par votre CPF.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default('Formations éligibles CPF') }} - INFPF">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Découvrez toutes nos formations éligibles au Compte Personnel de Formation (CPF). Formations certifiantes financées jusqu\'à 100% par votre CPF.') }}">
 {% endblock %}
 
 {% block stylesheets %}
-	<link href="../css/fichier.css?v=58" rel="stylesheet"/>
-    <link href="../css/footer1.css" rel="stylesheet"/>
+	<link href="../css/fichier.min.css?v=58" rel="stylesheet"/>
+    <link href="../css/footer1.min.css" rel="stylesheet"/>
 	<style>
 		/* ===== VARIABLES CSS MODERNES ===== */
 		:root {

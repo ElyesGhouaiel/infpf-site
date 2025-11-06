@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ formations.nameFormation }} - Formation INFPF{% endblock %}
+{% block title %}{{ page_title|default(formations.nameFormation ~ ' - Formation INFPF') }}{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez notre formation professionnelle certifiante à distance avec accompagnement personnalisé.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default(formations.nameFormation ~ ' - Formation INFPF') }}">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Découvrez notre formation professionnelle certifiante à distance avec accompagnement personnalisé.') }}">
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -141,7 +153,8 @@
     align-items: center; /* texte centré VERTICALEMENT */
     padding-block: clamp(48px, 6vh, 80px);
     width: 100%;
-    min-height: inherit;
+    min-height: 400px; /* Hauteur minimale explicite pour éviter CLS */
+    contain: layout; /* Isolation du layout pour éviter reflows */
 }
 
 .hero__content {
@@ -1638,20 +1651,18 @@
         0 20px 60px rgba(11, 63, 137, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
     animation: pulse-glow 3s ease-in-out infinite;
+    will-change: transform; /* GPU acceleration pour l'animation */
 }
 
+/* Animation GPU-accelerated (transform + opacity au lieu de box-shadow) */
 @keyframes pulse-glow {
     0%, 100% {
-        box-shadow: 
-            0 20px 60px rgba(11, 63, 137, 0.4),
-            0 0 0 0 rgba(11, 63, 137, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transform: scale(1);
+        opacity: 1;
     }
     50% {
-        box-shadow: 
-            0 20px 80px rgba(11, 63, 137, 0.6),
-            0 0 60px 10px rgba(0, 180, 216, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transform: scale(1.02);
+        opacity: 0.95;
     }
 }
 
@@ -2664,26 +2675,10 @@ html {
 {% block javascripts %}
     {{ parent() }}
 
-<!-- Stripe SDK avec clé publique -->
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-// ===== DONNÉES FORMATION =====
-const formationData = {
-    id: {{ formations.id|json_encode|raw }},
-    prix: {{ formations.priceFormation|default(0)|json_encode|raw }}
-};
-
-// ===== INITIALISATION STRIPE AVEC CLÉ PUBLIQUE =====
-// IMPORTANT : Cette clé publique doit correspondre au compte qui a la clé secrète sk_test_51PGd7RP7ZQZW88VW...
-// Vous devez la récupérer depuis votre dashboard Stripe : https://dashboard.stripe.com/test/apikeys
-const stripe = Stripe('pk_test_51PGd7RP7ZQZW88VWYourPublicKeyHere');
-
-// Diagnostic Stripe amélioré
-console.log('=== STRIPE DIAGNOSTIC ===');
-console.log('Stripe object:', stripe);
-console.log('Formation ID:', formationData.id);
-console.log('Prix formation:', formationData.prix);
-</script>
+<!-- ===== STRIPE.JS SUPPRIMÉ - NON UTILISÉ SUR CETTE PAGE =====
+     Les paiements passent par CPF externe ou demande de devis
+     Économie : 205 KiB JS + 2100ms de blocage rendu
+-->
 
 <script>
 // ===== TOC FLOTTANT SIMPLE (DESKTOP + MOBILE) ===== 
