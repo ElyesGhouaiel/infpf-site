@@ -710,28 +710,30 @@
     }
 }
 
-/* ===== TOC SIMPLE MINIMAL ===== */
+/* ===== TOC ULTRA-MODERNE 2025 ===== */
 /* TOC en flux par défaut */
 #toc { 
     position: static; 
     width: 260px; 
-    /* Design liquid glass ultra moderne et compact */
-    background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.95), 
-        rgba(248, 250, 252, 0.9));
-    backdrop-filter: blur(25px) saturate(200%);
-    -webkit-backdrop-filter: blur(25px) saturate(200%);
-    border: 2px solid rgba(59, 130, 246, 0.15);
-    border-radius: 20px;
-    padding: 20px;
+    /* Design premium avec gradient et glassmorphism */
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(249, 250, 251, 0.95) 50%,
+        rgba(243, 244, 246, 0.92) 100%);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 24px;
+    padding: 24px 20px;
     box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.12),
-        0 8px 24px rgba(59, 130, 246, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        0 20px 60px -15px rgba(0, 0, 0, 0.15),
+        0 10px 30px -10px rgba(59, 130, 246, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+        0 2px 4px rgba(0, 0, 0, 0.02) inset;
     /* Transition pour l'apparition - CACHÉ PAR DÉFAUT */
     opacity: 0;
     transform: translateX(-30px) translateY(20px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
     visibility: hidden; /* Complètement caché au début */
@@ -744,30 +746,34 @@
     visibility: visible; /* Visible quand activé */
 }
 
-/* Effet de brillance subtil */
+/* Effet de brillance premium */
 #toc::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, 
-        transparent, 
-        rgba(59, 130, 246, 0.03), 
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 120px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(59, 130, 246, 0.05) 30%,
+        rgba(96, 165, 250, 0.08) 50%,
+        rgba(59, 130, 246, 0.05) 70%,
         transparent);
-    transform: rotate(45deg);
-    animation: shine 3s ease-in-out infinite;
+    filter: blur(8px);
+    opacity: 0;
+    animation: shimmer 4s ease-in-out infinite;
+    pointer-events: none;
 }
 
-@keyframes shine {
+@keyframes shimmer {
     0%, 100% { 
-        transform: translateX(-100%) translateY(-100%) rotate(45deg); 
         opacity: 0;
+        transform: translateY(-100%);
     }
     50% { 
-        transform: translateX(0) translateY(0) rotate(45deg); 
         opacity: 1;
+        transform: translateY(200%);
     }
 }
 
@@ -777,33 +783,88 @@
 #toc nav {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 #toc nav a {
-    display: block;
-    padding: 12px 16px;
-    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    color: #64748b;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 500;
-    line-height: 1.5;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    line-height: 1.4;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet hover moderne */
+#toc nav a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+        rgba(59, 130, 246, 0.08) 0%,
+        rgba(59, 130, 246, 0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 #toc nav a:hover {
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), transparent);
-    color: #1e293b;
+    background: linear-gradient(90deg, 
+        rgba(59, 130, 246, 0.06) 0%,
+        rgba(59, 130, 246, 0.01) 100%);
+    color: #334155;
+    transform: translateX(4px);
+    border-left-color: rgba(59, 130, 246, 0.3);
 }
 
-/* Lien actif - scroll-spy */
+#toc nav a:hover::before {
+    opacity: 1;
+}
+
+/* Lien actif - scroll-spy premium */
 #toc nav a.is-active {
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.12) 0%,
+        rgba(96, 165, 250, 0.08) 100%);
     border-left-color: #3b82f6;
-    color: #0b3f89;
+    color: #1e40af;
     font-weight: 600;
+    box-shadow: 
+        0 2px 8px rgba(59, 130, 246, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    transform: translateX(4px);
+}
+
+#toc nav a.is-active::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { 
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+    50% { 
+        opacity: 0.6;
+        transform: translateY(-50%) scale(1.2);
+    }
 }
 
 /* Quand il doit suivre : fixed, offset sous le header */
@@ -819,34 +880,40 @@
         0 12px 30px rgba(59, 130, 246, 0.1);
 }
 
-/* Titre du TOC moderne et compact */
+/* Titre du TOC ultra-moderne */
 #toc h3 {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 0 0 16px 0;
-    padding: 0 0 12px 0;
-    color: #1e293b;
-    font-size: 16px;
+    gap: 12px;
+    margin: 0 0 20px 0;
+    padding: 0 0 16px 0;
+    color: #64748b;
+    font-size: 13px;
     font-weight: 700;
-    border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     position: relative;
+    border-bottom: none;
 }
 
 #toc h3::before {
     content: '📋';
-    font-size: 20px;
+    font-size: 18px;
+    filter: grayscale(20%);
 }
 
 #toc h3::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     left: 0;
-    width: 40px;
+    right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #3b82f6, #60a5fa);
-    border-radius: 1px;
+    background: linear-gradient(90deg, 
+        #3b82f6 0%, 
+        rgba(59, 130, 246, 0.3) 50%,
+        transparent 100%);
+    border-radius: 2px;
 }
 
 /* MOBILE ONLY: Mirrored desktop logic - TOC adapté pour mobile */
