@@ -1,0 +1,20 @@
+framework:
+    cache:
+        # Utilise le cache filesystem optimisé (tire parti d'OPcache si disponible)
+        app: cache.adapter.filesystem
+        
+        # Le cache système utilise le meilleur adaptateur disponible
+        system: cache.adapter.system
+        
+        # Pools de cache optimisés pour la production
+        pools:
+            # Cache pour les métadonnées Doctrine (entités, mappings)
+            doctrine.result_cache_pool:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 3600 # 1 heure
+                
+            # Cache pour les queries Doctrine (requêtes SQL)
+            doctrine.system_cache_pool:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 3600 # 1 heure
+
