@@ -149,7 +149,8 @@
 .hero__grid {
     position: relative;
     display: grid;
-    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) var(--det-w);
+    /* HERO garde l'ancien grid 5 colonnes pour rester large comme avant */
+    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) 340px;
     align-items: center; /* texte centré VERTICALEMENT */
     padding-block: clamp(48px, 6vh, 80px);
     width: 100%;
@@ -162,7 +163,7 @@
 }
 
 .hero__details {
-    grid-column: 5; /* Colonne de droite */
+    grid-column: 5; /* Colonne de droite (card Détails) */
 }
 
 /* Détails de la formation dans le hero - FIXE ET INDÉPENDANT */
