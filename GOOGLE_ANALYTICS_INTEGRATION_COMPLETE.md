@@ -331,3 +331,6 @@ Votre Google Analytics est **partiellement conforme RGPD** :
 - `templates/analytics/google-analytics.html.twig` (déjà créé)
 
 
+
+
+

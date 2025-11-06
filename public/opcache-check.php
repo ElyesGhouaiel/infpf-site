@@ -112,3 +112,6 @@ if (!$result['extensions']['redis'] && !$result['extensions']['memcached']) {
 // Affichage
 echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
+
+
+

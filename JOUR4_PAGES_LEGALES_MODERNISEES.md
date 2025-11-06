@@ -343,3 +343,6 @@ php bin/console cache:clear --env=prod
 **Branche** : `feature/performance-security-seo-optimization`  
 **Status** : ✅ **PRÊT À TESTER**
 
+
+
+

@@ -125,3 +125,6 @@ echo "  2. Active le mod_rewrite dans .htaccess (déjà fait)"
 echo "  3. Teste avec : curl -H \"Accept: image/webp\" -I https://dev.infpf.fr/img/logo.png"
 echo ""
 
+
+
+

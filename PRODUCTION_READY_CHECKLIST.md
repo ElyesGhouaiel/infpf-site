@@ -340,3 +340,6 @@ Le site INFPF est maintenant **100% prêt pour la production** avec :
 **Version** : 2.0 - Production Ready  
 **Deadline** : Fin Novembre 2025 ✅ **Atteinte avec 3 semaines d'avance !**
 
+
+
+
