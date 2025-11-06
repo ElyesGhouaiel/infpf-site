@@ -360,3 +360,4 @@ Je vous aiderai à débugger ! 🚀
 - `config/packages/analytics.yaml` : Configuration (à créer)
 - Ce guide : `GOOGLE_ANALYTICS_INTEGRATION.md`
 
+

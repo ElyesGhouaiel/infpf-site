@@ -231,3 +231,4 @@ Si vous êtes rapide : 1h30 minimum
 - `JOUR3_GUIDE_IMPLEMENTATION.md` : Guide complet
 - `GOOGLE_ANALYTICS_INTEGRATION.md` : Guide intégration GA4
 
+

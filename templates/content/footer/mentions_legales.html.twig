@@ -1,142 +1,436 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Règlement intérieur{% endblock %}
+{% block title %}Règlement Intérieur - INFPF{% endblock %}
+
 {% block stylesheet %}
 <style>
-/* Style général */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
+/* ===== DESIGN MODERNE RÈGLEMENT INTÉRIEUR ===== */
+.rules-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    line-height: 1.8;
+    background: #f8f9fa;
 }
 
-article {
-    background-color: #fff;
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 800px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
-    color: #333;
-}
-
-h2 {
-    margin-top: 20px;
-}
-
-p {
-    line-height: 1.5;
-}
-
-ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-
-section {
-    margin-bottom: 30px;
-}
-
-footer {
-    margin-top: 20px;
+.rules-header {
     text-align: center;
-    color: #666;
+    margin-bottom: 60px;
+    background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+    color: white;
+    padding: 60px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(11, 63, 137, 0.2);
 }
 
-/* Liens */
-a {
-    color: #007bff;
-    text-decoration: none;
+.rules-header h1 {
+    font-size: 48px;
+    margin: 0 0 16px 0;
+    font-weight: 700;
 }
 
-a:hover {
-    text-decoration: underline;
+.rules-header .subtitle {
+    font-size: 18px;
+    opacity: 0.95;
+    margin: 0;
 }
 
+.rules-section {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.rules-section:hover {
+    box-shadow: 0 6px 24px rgba(11, 63, 137, 0.12);
+}
+
+.rules-section h2 {
+    font-size: 28px;
+    color: #0b3f89;
+    margin: 0 0 24px 0;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #e2e8f0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rules-section h2 .article-number {
+    background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.rules-section p {
+    color: #475569;
+    margin: 16px 0;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.rules-section ul {
+    margin: 20px 0;
+    padding-left: 24px;
+}
+
+.rules-section li {
+    color: #475569;
+    margin: 12px 0;
+    line-height: 1.7;
+    position: relative;
+    padding-left: 8px;
+}
+
+.rules-section li::marker {
+    color: #0b3f89;
+    font-weight: bold;
+}
+
+.highlight-box {
+    background: #f0f9ff;
+    border-left: 4px solid #0b3f89;
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 8px;
+}
+
+.highlight-box strong {
+    color: #0b3f89;
+}
+
+.warning-box {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 8px;
+}
+
+.warning-box strong {
+    color: #856404;
+}
+
+.danger-box {
+    background: #f8d7da;
+    border-left: 4px solid #dc3545;
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 8px;
+}
+
+.danger-box strong {
+    color: #721c24;
+}
+
+.success-box {
+    background: #d4edda;
+    border-left: 4px solid #28a745;
+    padding: 24px;
+    margin: 24px 0;
+    border-radius: 8px;
+}
+
+.success-box strong {
+    color: #155724;
+}
+
+.rules-footer {
+    background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 48px;
+}
+
+.rules-footer p {
+    color: white;
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .rules-page {
+        padding: 40px 16px;
+    }
+    
+    .rules-header h1 {
+        font-size: 36px;
+    }
+    
+    .rules-section {
+        padding: 24px;
+    }
+    
+    .rules-section h2 {
+        font-size: 22px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 </style>
 {% endblock %}
 
 {% block body %}
-<article>
-        <h1>Règlement intérieur</h1>
+<div class="rules-page">
+    <div class="rules-header">
+        <h1>📖 Règlement Intérieur</h1>
+        <p class="subtitle">Conditions Générales d'Utilisation et Règlement Intérieur de l'INFPF</p>
+    </div>
 
-<section>
-        <h2>Article 1 : Objet</h2>
-        <p>Les présentes (« CGU ») ont pour objet de fixer et préciser les modalités dans lesquelles le Site est mis à disposition de tout Utilisateur. Elles s’appliquent et sont pleinement opposables à tout Utilisateur lors de sa visite et utilisation des fonctionnalités du Site.</p>
-        <p>Tout Utilisateur déclare avoir lu et doit accepter sans la moindre réserve les CGU pour pouvoir utiliser le Site Internet et ses services/fonctionnalités. Les CGU sont opposables à tous Utilisateurs à compter de leur acceptation et ont valeur contractuelle entre eux et l'INSTITUT NATIONAL DE FORMATION FRANÇAISE (« INFPF »).</p>
-        <p>La mise à jour/modification des CGU pourra intervenir à l’initiative de l'INFPF à tout moment sans avoir à en référer préalablement aux Utilisateurs. Les CGU opposables à l’Utilisateur sont celles en vigueur et éditée sur le Site. Tout manquement aux CGU pourra justifier le blocage de l’accès de l’Utilisateur fautif aux services/fonctionnalités sur le Site.</p>
-    </section>
+    <!-- Article 1 : Objet -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 1</span> Objet et Champ d'Application</h2>
+        
+        <div class="highlight-box">
+            <strong>📋 Présentation des CGU</strong>
+            <p>Les présentes Conditions Générales d'Utilisation (« CGU ») ont pour objet de fixer et préciser les modalités dans lesquelles le Site est mis à disposition de tout Utilisateur.</p>
+        </div>
 
-    <section>
-        <h2>Article 2 : Mentions légales</h2>
-        <p>L’édition du site infpf.fr est assurée par le chef de projet IT, SAS au capital de 1000 euros dont le siège social est situé au 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR. Numéro de SIRET : 927 916 452 000 18 - Numéro de déclaration d'activité : 93061116606.</p>
-        <p>Le Directeur de la publication est Monsieur Bernard Canetti.</p>
-        <p>Le site infpf.fr est hébergé par la société Hostinger.</p>
-    </section>
+        <p>Elles s'appliquent et sont pleinement opposables à tout Utilisateur lors de sa visite et utilisation des fonctionnalités du Site.</p>
+        
+        <p>Tout Utilisateur déclare avoir lu et doit accepter sans la moindre réserve les CGU pour pouvoir utiliser le Site Internet et ses services/fonctionnalités. Les CGU sont opposables à tous Utilisateurs à compter de leur acceptation et ont valeur contractuelle entre eux et l'<strong>Institut National de la Formation Professionnelle Française (« INFPF »)</strong>.</p>
+        
+        <div class="warning-box">
+            <strong>⚠️ Important</strong>
+            <p>La mise à jour/modification des CGU pourra intervenir à l'initiative de l'INFPF à tout moment sans avoir à en référer préalablement aux Utilisateurs. Les CGU opposables à l'Utilisateur sont celles en vigueur et éditées sur le Site. Tout manquement aux CGU pourra justifier le blocage de l'accès de l'Utilisateur fautif aux services/fonctionnalités sur le Site.</p>
+        </div>
+    </div>
 
-    <section>
-        <h2>Article 3 : Définitions</h2>
+    <!-- Article 2 : Mentions légales -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 2</span> Mentions Légales</h2>
+        
+        <p>L'édition du site <strong>infpf.fr</strong> est assurée par :</p>
+        
+        <div class="highlight-box">
+            <p><strong>Institut National de la Formation Professionnelle Française (INFPF)</strong></p>
+            <p><strong>Forme juridique :</strong> SASU au capital de 1 000 euros</p>
+            <p><strong>Siège social :</strong> 257 AVENUE SAINT EXUPERY, 06700 SAINT-LAURENT-DU-VAR</p>
+            <p><strong>Numéro de SIRET :</strong> 927 916 452 000 18</p>
+            <p><strong>Numéro de déclaration d'activité :</strong> 93061116606</p>
+        </div>
+
+        <p><strong>Le Directeur de la publication</strong> est Monsieur <strong>Bernard Canetti</strong>.</p>
+        <p><strong>Le site infpf.fr</strong> est hébergé par la société <strong>Hostinger</strong>.</p>
+        
+        <p style="margin-top: 24px;">Pour plus d'informations légales détaillées, consultez nos <a href="{{ path('disclaimer') }}" style="color: #0b3f89; font-weight: 600;">Mentions Légales complètes</a>.</p>
+    </div>
+
+    <!-- Article 3 : Définitions -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 3</span> Définitions</h2>
+        
         <p>La présente clause a pour objet de définir les différents termes essentiels du contrat :</p>
+        
         <ul>
-            <li>Utilisateur : ce terme désigne toute personne qui utilise le site ou l’un des services proposés par le site.</li>
-            <li>Contenu utilisateur : ce sont les données transmises par l’Utilisateur au sein du site.</li>
-            <li>Membre : l’Utilisateur devient membre lorsqu’il est identifié sur le site.</li>
-            <li>Identifiant et mot de passe : c’est l’ensemble des informations nécessaires à l’identification d’un Utilisateur sur le Site. L’identifiant et le mot de passe permettent à l’Utilisateur d’accéder à des services réservés aux membres du site. Le mot de passe est confidentiel.</li>
-            <li>Site ou Site Internet : désigne le site internet accessible à l’adresse URL : www.infpf.fr</li>
+            <li><strong>Utilisateur :</strong> Ce terme désigne toute personne qui utilise le site ou l'un des services proposés par le site.</li>
+            
+            <li><strong>Contenu utilisateur :</strong> Ce sont les données transmises par l'Utilisateur au sein du site.</li>
+            
+            <li><strong>Membre :</strong> L'Utilisateur devient membre lorsqu'il est identifié sur le site.</li>
+            
+            <li><strong>Identifiant et mot de passe :</strong> C'est l'ensemble des informations nécessaires à l'identification d'un Utilisateur sur le Site. L'identifiant et le mot de passe permettent à l'Utilisateur d'accéder à des services réservés aux membres du site. Le mot de passe est confidentiel.</li>
+            
+            <li><strong>Site ou Site Internet :</strong> Désigne le site internet accessible à l'adresse URL : <a href="https://www.infpf.fr" style="color: #0b3f89;">www.infpf.fr</a></li>
         </ul>
-    </section>
+    </div>
 
-    <section>
-        <h2>Article 4 : Accès au service</h2>
-        <p>Le site permet à l’Utilisateur un accès aux services suivants :</p>
+    <!-- Article 4 : Accès au service -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 4</span> Accès au Service</h2>
+        
+        <div class="success-box">
+            <strong>✅ Services Disponibles</strong>
+            <p>Le site permet à l'Utilisateur un accès aux services suivants :</p>
+        </div>
+
         <ul>
-            <li>Formation en ligne.</li>
-            <li>Accès à du contenu vidéo éducatif.</li>
-            <li>Mise en relation de personnes (élèves ou administration) ; chat et discussion.</li>
-            <li>Publication de contenus.</li>
+            <li><strong>Formation en ligne</strong> - Accès à nos programmes de formation professionnelle</li>
+            <li><strong>Accès à du contenu vidéo éducatif</strong> - Bibliothèque de ressources pédagogiques</li>
+            <li><strong>Mise en relation de personnes</strong> (élèves ou administration) - Chat et discussion</li>
+            <li><strong>Publication de contenus</strong> - Partage de documents et travaux</li>
         </ul>
-        <p>Le site est accessible en tout lieu à tout Utilisateur ayant souscrit à un contrat de formation auprès de la société INFPF. Pour se connecter au site, l’Utilisateur a besoin d’un accès à Internet. Tous les frais supportés par l’Utilisateur pour accéder au service (matériel informatique, logiciels, connexion Internet, etc.) sont à sa charge.</p>
-    </section>
 
-    <section>
-        <h2>Article 5 : Hygiène et sécurité</h2>
-        <p>La prévention des risques d'accidents et de maladies est impérative et exige de chacun le respect total de toutes les prescriptions applicables en matière d'hygiène et de sécurité.</p>
-        <p>A cet effet, les consignes générales et particulières de sécurité en vigueur dans l'organisme, lorsqu'elles existent, doivent être strictement respectées sous peine de sanctions disciplinaires.</p>
-        <p>Lorsque la formation a lieu sur le site de l'entreprise, les consignes générales et particulières de sécurité applicable sont celles de l'organisme de formation.</p>
-    </section>
+        <h3 style="margin-top: 32px; color: #1e293b; font-size: 20px;">Conditions d'Accès</h3>
+        
+        <p>Le site est accessible en tout lieu à tout Utilisateur ayant souscrit à un contrat de formation auprès de la société INFPF.</p>
+        
+        <p>Pour se connecter au site, l'Utilisateur a besoin d'un accès à Internet. <strong>Tous les frais supportés par l'Utilisateur pour accéder au service</strong> (matériel informatique, logiciels, connexion Internet, etc.) <strong>sont à sa charge</strong>.</p>
 
-    <section>
-        <h2>Article 6 : Discipline</h2>
-        <p>Il est formellement interdit aux stagiaires :</p>
+        <div class="highlight-box">
+            <strong>🔒 Sécurité des Accès</strong>
+            <p>L'Utilisateur s'engage à conserver son identifiant et son mot de passe confidentiels et à ne pas les divulguer à des tiers. En cas de perte ou de vol de ces informations, l'Utilisateur doit immédiatement en informer INFPF à l'adresse <a href="mailto:contact@infpf.fr" style="color: #0b3f89;">contact@infpf.fr</a>.</p>
+        </div>
+    </div>
+
+    <!-- Article 5 : Hygiène et sécurité -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 5</span> Hygiène et Sécurité</h2>
+        
+        <div class="warning-box">
+            <strong>⚠️ Prévention des Risques</strong>
+            <p>La prévention des risques d'accidents et de maladies est impérative et exige de chacun le respect total de toutes les prescriptions applicables en matière d'hygiène et de sécurité.</p>
+        </div>
+
+        <p>À cet effet, les consignes générales et particulières de sécurité en vigueur dans l'organisme, lorsqu'elles existent, doivent être strictement respectées sous peine de sanctions disciplinaires.</p>
+        
+        <p>Lorsque la formation a lieu sur le site de l'entreprise, les consignes générales et particulières de sécurité applicables sont celles de l'organisme de formation.</p>
+
+        <h3 style="margin-top: 32px; color: #1e293b; font-size: 20px;">Responsabilités</h3>
+        
         <ul>
-            <li>D'introduire des boissons alcoolisées dans les locaux de l'organisme.</li>
-            <li>De se présenter aux formations en état d'ébriété.</li>
-            <li>D'emporter ou modifier les supports de formation.</li>
-            <li>De modifier les réglages des paramètres de l'ordinateur.</li>
-            <li>De manger dans les salles de cours.</li>
-            <li>D'utiliser leurs téléphones portables durant les sessions.</li>
+            <li>Chaque stagiaire est responsable du respect des consignes de sécurité</li>
+            <li>Tout incident ou accident doit être immédiatement signalé à l'administration</li>
+            <li>Les équipements de sécurité fournis doivent être utilisés conformément aux instructions</li>
+            <li>Il est interdit de manipuler ou modifier tout équipement sans autorisation</li>
         </ul>
-    </section>
+    </div>
 
-    <section>
-        <h2>Article 7 : Sanctions</h2>
-        <p>Tout agissement considéré comme fautif par la direction de l'organisme de formation pourra, en fonction de sa nature et de sa gravité, faire l'objet de l'une ou l'autre des sanctions ci-après par ordre croissant d'importance :</p>
+    <!-- Article 6 : Discipline -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 6</span> Discipline Générale</h2>
+        
+        <div class="danger-box">
+            <strong>🚫 Interdictions Formelles</strong>
+            <p>Il est formellement interdit aux stagiaires :</p>
+        </div>
+
         <ul>
-            <li>Avertissement écrit par le Directeur de l'organisme de formation.</li>
-            <li>Blâme.</li>
-            <li>Exclusion définitive de la formation.</li>
+            <li><strong>D'introduire des boissons alcoolisées</strong> dans les locaux de l'organisme</li>
+            <li><strong>De se présenter aux formations en état d'ébriété</strong></li>
+            <li><strong>D'emporter ou modifier les supports de formation</strong> sans autorisation écrite</li>
+            <li><strong>De modifier les réglages des paramètres de l'ordinateur</strong></li>
+            <li><strong>De manger dans les salles de cours</strong></li>
+            <li><strong>D'utiliser leurs téléphones portables</strong> durant les sessions (sauf autorisation expresse du formateur)</li>
+            <li><strong>De fumer dans les locaux</strong> de l'organisme (conformément à la législation en vigueur)</li>
+            <li><strong>D'adopter un comportement</strong> susceptible de perturber le bon déroulement des formations</li>
         </ul>
-    </section>
 
-    <!-- Ajoutez les autres articles avec leurs dispositions respectives -->
+        <h3 style="margin-top: 32px; color: #1e293b; font-size: 20px;">Attitude et Comportement Attendus</h3>
+        
+        <div class="success-box">
+            <strong>✅ Bon Comportement</strong>
+            <p>Les stagiaires doivent :</p>
+            <ul style="margin-top: 12px;">
+                <li>Respecter les horaires de formation</li>
+                <li>Faire preuve de ponctualité et d'assiduité</li>
+                <li>Adopter une tenue correcte et appropriée</li>
+                <li>Respecter les formateurs, le personnel administratif et les autres stagiaires</li>
+                <li>Maintenir les locaux et le matériel en bon état</li>
+            </ul>
+        </div>
+    </div>
 
-</article>
-<footer>
-    <p>INFPF - 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR / Numéro de SIRET : 927 916 452 000 18 - Numéro de déclaration d'activité : 93061116606</p>
-</footer>
+    <!-- Article 7 : Sanctions -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 7</span> Sanctions Disciplinaires</h2>
+        
+        <p>Tout agissement considéré comme fautif par la direction de l'organisme de formation pourra, en fonction de sa nature et de sa gravité, faire l'objet de l'une ou l'autre des sanctions ci-après par <strong>ordre croissant d'importance</strong> :</p>
+
+        <div class="warning-box">
+            <strong>⚖️ Échelle des Sanctions</strong>
+            <ol style="margin-top: 16px; padding-left: 24px;">
+                <li style="margin: 12px 0;"><strong>Avertissement oral</strong> - Rappel à l'ordre verbal par le formateur</li>
+                <li style="margin: 12px 0;"><strong>Avertissement écrit</strong> par le Directeur de l'organisme de formation</li>
+                <li style="margin: 12px 0;"><strong>Blâme</strong> - Sanction écrite avec inscription au dossier</li>
+                <li style="margin: 12px 0;"><strong>Exclusion temporaire</strong> de la formation (de 1 à 5 jours)</li>
+                <li style="margin: 12px 0;"><strong>Exclusion définitive</strong> de la formation sans remboursement</li>
+            </ol>
+        </div>
+
+        <h3 style="margin-top: 32px; color: #1e293b; font-size: 20px;">Procédure Disciplinaire</h3>
+        
+        <p>Aucune sanction ne peut être infligée au stagiaire sans que celui-ci ait été informé au préalable des griefs retenus contre lui.</p>
+        
+        <p>Lorsque le directeur de l'organisme de formation ou son représentant envisage de prendre une sanction, il convoque le stagiaire par lettre recommandée avec accusé de réception ou remise à l'intéressé contre décharge en lui indiquant l'objet de la convocation.</p>
+
+        <div class="highlight-box">
+            <strong>📝 Droit de Défense</strong>
+            <p>Le stagiaire peut se faire assister par une personne de son choix lors de l'entretien. La sanction ne peut intervenir moins d'un jour franc ni plus de quinze jours après l'entretien.</p>
+        </div>
+    </div>
+
+    <!-- Article 8 : Propriété Intellectuelle -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 8</span> Propriété Intellectuelle</h2>
+        
+        <div class="danger-box">
+            <strong>©️ Protection des Contenus</strong>
+            <p>Tous les contenus présents sur le site INFPF (textes, supports de formation, vidéos, images, logos, marques) sont la propriété exclusive de l'INFPF et sont protégés par le droit d'auteur.</p>
+        </div>
+
+        <p><strong>Toute reproduction, représentation, modification, publication, transmission, dénaturation, totale ou partielle du site ou de son contenu, par quelque procédé que ce soit, et sur quelque support que ce soit est interdite</strong>, sauf autorisation écrite préalable de l'INFPF.</p>
+
+        <h3 style="margin-top: 32px; color: #1e293b; font-size: 20px;">Utilisation Autorisée</h3>
+        
+        <p>L'Utilisateur peut :</p>
+        <ul>
+            <li>Consulter les contenus pour un usage personnel et non commercial</li>
+            <li>Télécharger les supports de formation fournis dans le cadre de sa formation</li>
+            <li>Imprimer une copie des supports pour son usage personnel</li>
+        </ul>
+
+        <p style="margin-top: 20px;"><strong>Toute autre utilisation est strictement interdite sans autorisation écrite préalable.</strong></p>
+    </div>
+
+    <!-- Article 9 : Responsabilité -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 9</span> Responsabilité</h2>
+        
+        <p>L'INFPF s'efforce d'assurer la continuité de service du site, mais ne peut être tenue responsable :</p>
+        
+        <ul>
+            <li>Des interruptions de service pour maintenance technique</li>
+            <li>Des défaillances techniques indépendantes de sa volonté</li>
+            <li>Des dommages causés par une mauvaise utilisation du site</li>
+            <li>De l'utilisation frauduleuse des identifiants par des tiers</li>
+            <li>Des pertes de données résultant d'une défaillance technique</li>
+        </ul>
+
+        <div class="highlight-box">
+            <strong>💼 Assurance Formation</strong>
+            <p>L'INFPF a souscrit une assurance responsabilité civile professionnelle couvrant les dommages corporels, matériels et immatériels susceptibles de survenir dans le cadre de ses activités de formation.</p>
+        </div>
+    </div>
+
+    <!-- Article 10 : Modification du Règlement -->
+    <div class="rules-section">
+        <h2><span class="article-number">Article 10</span> Modification du Règlement</h2>
+        
+        <p>L'INFPF se réserve le droit de modifier à tout moment le présent règlement intérieur, en fonction des évolutions législatives et réglementaires ou de ses propres besoins.</p>
+        
+        <p>Les modifications entreront en vigueur dès leur mise en ligne sur le site. Il appartient à l'Utilisateur de consulter régulièrement la dernière version en vigueur.</p>
+
+        <div class="warning-box">
+            <strong>⚠️ Notification</strong>
+            <p>En cas de modification substantielle, les utilisateurs enregistrés seront informés par email à l'adresse communiquée lors de leur inscription.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="rules-footer">
+        <p><strong>INFPF - Institut National de la Formation Professionnelle Française</strong></p>
+        <p>257 AVENUE SAINT EXUPERY, 06700 SAINT-LAURENT-DU-VAR</p>
+        <p>SIRET : 927 916 452 000 18 - Numéro de déclaration d'activité : 93061116606</p>
+        <p style="margin-top: 24px;">
+            📧 <a href="mailto:contact@infpf.fr" style="color: white; text-decoration: underline;">contact@infpf.fr</a> | 
+            📞 <a href="tel:0489050355" style="color: white; text-decoration: underline;">04 89 05 03 55</a>
+        </p>
+        <p style="margin-top: 32px; font-size: 14px; opacity: 0.9;">
+            Dernière mise à jour : {{ "now"|date("d/m/Y") }}
+        </p>
+    </div>
+</div>
+
 {% include 'footer.html.twig' %}
 {% endblock %}
