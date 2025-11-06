@@ -2820,10 +2820,13 @@
 		{% block og_title %}
 		<meta content="Formation à distance avec l'Institut national de la formation professionnelle française" property="og:title"/>
 		{% endblock %}
-		{% block og_description %}
-		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
-		{% endblock %}
-		<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+	{% block og_description %}
+	<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
+	{% endblock %}
+	<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+	
+	{# Google Analytics 4 - Tracking et événements personnalisés #}
+	{% include 'analytics/google-analytics.html.twig' %}
 	</head>
 </html>
 <header class="header" style="  position: fixed;

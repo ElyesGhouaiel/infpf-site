@@ -3,6 +3,9 @@ twig:
     globals:
         dataProvider: '@App\Service\DataProviderService'
         # category: '@app.repository.category'
+        # Google Analytics 4
+        analytics_enabled: '%analytics.enabled%'
+        ga_measurement_id: '%analytics.google.measurement_id%'
     form_themes:
         - 'forms/recaptcha3_widget.html.twig'
 when@test:
