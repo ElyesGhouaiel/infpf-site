@@ -158,3 +158,30 @@ DirectoryIndex index.php
     # Désactive expose_php (sécurité)
     php_flag expose_php off
 </IfModule>
+
+# ===== SERVIR AUTOMATIQUEMENT WebP SI DISPONIBLE =====
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Si le navigateur supporte WebP
+    RewriteCond %{HTTP_ACCEPT} image/webp
+    
+    # Et si l'image WebP existe
+    RewriteCond %{REQUEST_FILENAME} (.*)\.(jpe?g|png)$
+    RewriteCond %1.webp -f
+    
+    # Servir le WebP à la place
+    RewriteRule ^(.+)\.(jpe?g|png)$ $1.webp [T=image/webp,E=REQUEST_image,L]
+</IfModule>
+
+# Header pour indiquer que le contenu varie selon Accept
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpe?g|png)$">
+        Header append Vary Accept
+    </FilesMatch>
+</IfModule>
+
+# MIME type pour WebP (si pas déjà défini)
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+</IfModule>
