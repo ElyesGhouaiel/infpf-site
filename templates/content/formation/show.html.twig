@@ -1534,27 +1534,35 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Tuile icône - Style élégant et subtil */
+/* Tuile icône - Design élégant et minimaliste */
 .section-icon {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
     display: grid !important;
     place-items: center !important;
-    background: #1552D6;
+    background: linear-gradient(135deg, #1552D6 0%, #0d419a 100%);
     color: #fff !important;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(21, 82, 214, 0.12);
+    box-shadow: 0 2px 8px rgba(21, 82, 214, 0.12),
+                0 1px 2px rgba(0, 0, 0, 0.06);
     position: relative;
     isolation: isolate;
     line-height: 0 !important;
     flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Icône centrée avec lignes blanches - taille réduite pour plus d'élégance */
+.section-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(21, 82, 214, 0.16),
+                0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Icône centrée - proportions harmonieuses */
 .section-icon > svg {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -1564,7 +1572,7 @@ article,
     position: static !important;
     fill: none !important;
     stroke: #fff !important;
-    stroke-width: 2;
+    stroke-width: 2.2;
 }
 
 /* Éliminer TOUT décor (sources d'arcs) */
@@ -1731,18 +1739,26 @@ article,
     line-height: 1.3;
 }
 
-/* Icônes des cartes - Style élégant et subtil */
+/* Icônes des cartes - Design élégant et minimaliste */
 .column-title .icon {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1552D6;
-    border-radius: 11px;
-    box-shadow: 0 2px 6px rgba(21, 82, 214, 0.12);
+    background: linear-gradient(135deg, #1552D6 0%, #0d419a 100%);
+    border-radius: 9px;
+    box-shadow: 0 2px 6px rgba(21, 82, 214, 0.12),
+                0 1px 2px rgba(0, 0, 0, 0.06);
     align-self: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.column-content:hover .column-title .icon {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(21, 82, 214, 0.16),
+                0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .column-title .icon svg {
@@ -1750,7 +1766,7 @@ article,
     height: 22px;
     stroke: #fff;
     fill: none;
-    stroke-width: 2;
+    stroke-width: 2.2;
 }
 
 /* ===== SECTION PROGRAMME ===== */
@@ -2371,16 +2387,16 @@ article,
         font-size: 22px;
     }
     
-    /* Icônes légèrement plus petites sur mobile */
+    /* Icônes adaptées sur mobile */
     .section-icon {
         width: 46px;
         height: 46px;
-        border-radius: 11px;
+        border-radius: 9px;
     }
     
     .section-icon > svg {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
     }
     
     /* Texte optimisé pour mobile */
@@ -2418,7 +2434,7 @@ article,
     .column-title .icon {
         width: 42px;
         height: 42px;
-        border-radius: 10px;
+        border-radius: 8px;
     }
     
     .column-title .icon svg {
@@ -2459,7 +2475,7 @@ article,
     .section-icon {
         width: 42px;
         height: 42px;
-        border-radius: 10px;
+        border-radius: 8px;
     }
     
     .section-icon > svg {
@@ -2477,6 +2493,17 @@ article,
     
     .column-title {
         font-size: 18px;
+    }
+    
+    .column-title .icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 7px;
+    }
+    
+    .column-title .icon svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
