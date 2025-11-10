@@ -1534,17 +1534,19 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Tuile icône - Design élégant et minimaliste */
+/* Tuile icône - IDENTIQUE aux cartes Pré-requis */
 .section-icon {
-    width: 50px;
-    height: 50px;
-    display: grid !important;
-    place-items: center !important;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     background: linear-gradient(135deg, #1552D6 0%, #0d419a 100%);
     color: #fff !important;
-    border-radius: 10px;
+    border-radius: 9px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(21, 82, 214, 0.12),
+    box-shadow: 0 2px 6px rgba(21, 82, 214, 0.12),
                 0 1px 2px rgba(0, 0, 0, 0.06);
     position: relative;
     isolation: isolate;
@@ -1553,16 +1555,16 @@ article,
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.section-icon:hover {
+.section-header:hover .section-icon {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(21, 82, 214, 0.16),
+    box-shadow: 0 4px 10px rgba(21, 82, 214, 0.16),
                 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* Icône centrée - proportions harmonieuses */
+/* Icône centrée - IDENTIQUE aux cartes */
 .section-icon > svg {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -2387,16 +2389,16 @@ article,
         font-size: 22px;
     }
     
-    /* Icônes adaptées sur mobile */
+    /* Icônes IDENTIQUES aux cartes sur mobile */
     .section-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 9px;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
     }
     
     .section-icon > svg {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
     }
     
     /* Texte optimisé pour mobile */
@@ -2472,15 +2474,16 @@ article,
         font-size: 20px;
     }
     
+    /* Icônes IDENTIQUES aux cartes sur petits mobiles */
     .section-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 8px;
+        width: 38px;
+        height: 38px;
+        border-radius: 7px;
     }
     
     .section-icon > svg {
-        width: 22px;
-        height: 22px;
+        width: 18px;
+        height: 18px;
     }
     
     .text-content {
