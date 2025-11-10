@@ -1534,49 +1534,64 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Tuile icône : centrage infaillible + nettoyage */
+/* Sanctuariser l'existant : l'alignement du header ne bouge pas */
+.section-header {
+    display: flex;
+    align-items: center;
+}
+
+/* 1) Carré bleu pour l'icône */
 .section-icon {
+    position: relative;
     width: 48px;
     height: 48px;
-    display: grid !important;
-    place-items: center !important;
-    background: #1552D6;
-    color: #fff;
     border-radius: 12px;
+    background: #1552D6;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    position: relative;
-    z-index: 2;
-    isolation: isolate;
     line-height: 0 !important;
-    vertical-align: middle;
+    isolation: isolate;
+    z-index: 2;
     flex-shrink: 0;
 }
 
-/* SVG strictement recentré, sans héritages parasites */
+/* 1bis) Couche bleue qui recouvre tout (écrase tout anneau externe) */
+.section-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #1552D6;
+    border-radius: inherit;
+    z-index: 1;
+}
+
+/* 2) Centrage absolu du SVG (ne peut plus glisser en bas/gauche) */
 .section-icon > svg,
 .section-icon > img {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
     width: 28px;
     height: 28px;
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
-    justify-self: center !important;
-    align-self: center !important;
+    z-index: 2;
     background: transparent !important;
-    transform: none !important;
     -webkit-mask: none !important;
     mask: none !important;
     filter: none !important;
+    fill: currentColor;
     stroke: currentColor;
     stroke-width: 2;
-    fill: none;
 }
 
-/* Supprimer TOUT décor générant l'arc blanc (sauf ::after de .section-header = ligne dégradée) */
+/* 3) Supprimer toute source possible d'anneau blanc autour de la tuile */
 .section-icon::before,
-.section-icon::after,
 .section-header::before,
+.section-title::before,
+.section-title::after,
 .block-title::before,
 .block-title::after {
     content: none !important;
@@ -1588,13 +1603,19 @@ article,
     filter: none !important;
 }
 
-/* Si le cercle est DANS le SVG, neutraliser les couleurs forcées */
-.section-icon svg *[fill="#ffffff"],
-.section-icon svg *[fill="#FFF"],
-.section-icon svg *[stroke="#ffffff"],
-.section-icon svg *[stroke="#FFF"] {
+/* 4) Neutraliser les couleurs blanches imposées DANS le SVG (anneau interne) */
+.section-icon svg [fill="#fff"],
+.section-icon svg [fill="#ffffff"],
+.section-icon svg [stroke="#fff"],
+.section-icon svg [stroke="#ffffff"] {
     fill: currentColor !important;
-    stroke: none !important;
+    stroke: currentColor !important;
+}
+
+/* 5) Pas d'images/gradients parasites sur l'icône et ses enfants */
+.section-icon,
+.section-icon * {
+    background-image: none !important;
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
