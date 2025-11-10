@@ -1534,16 +1534,15 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Tuile icône : 56×56 pour icône plus visible */
+/* Tuile bleue – plus grande */
 .section-icon {
-    width: 56px;
-    height: 56px;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #1552D6 !important;
+    width: 60px;
+    height: 60px;
+    display: grid !important;
+    place-items: center !important;
+    background: #1552D6;
     color: #fff !important;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     position: relative;
@@ -1552,55 +1551,34 @@ article,
     flex-shrink: 0;
 }
 
-/* Icône plus grande et centrée : 32px */
+/* Icône centrée, blanche, sans effets parasites */
 .section-icon > svg {
-    width: 32px !important;
-    height: 32px !important;
+    width: 34px;
+    height: 34px;
     display: block !important;
-    margin: auto !important;
+    margin: 0 !important;
     padding: 0 !important;
     background: transparent !important;
+    filter: none !important;
     transform: none !important;
     position: static !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
-    fill: none !important;
-    filter: none !important;
-    -webkit-mask: none !important;
-    mask: none !important;
+    fill: #fff !important;
+    stroke: #fff !important;
+    stroke-width: 2;
 }
 
-/* ÉLIMINER TOUT CERCLE/ANNEAU BLANC dans le SVG */
-.section-icon svg * {
-    fill: none !important;
-    stroke: currentColor !important;
-}
-
-/* Si un élément SVG a un fill de fond (cercle de fond), le rendre invisible */
-.section-icon svg circle[fill],
-.section-icon svg rect[fill],
-.section-icon svg path[fill] {
-    fill: none !important;
-    stroke: currentColor !important;
-}
-
-/* SUPPRIMER TOUS LES PSEUDO-ÉLÉMENTS PARASITES */
+/* Éliminer TOUT décor (sources d'arcs) */
 .section-icon::before,
 .section-icon::after,
-.section-header::before,
-.section-title::before,
-.section-title::after,
-h2.section-title::before,
-h2.section-title::after {
+.section-header::before {
     content: none !important;
-    display: none !important;
     background: none !important;
     border: none !important;
     outline: 0 !important;
-    box-shadow: none !important;
     -webkit-mask: none !important;
     mask: none !important;
     filter: none !important;
+    box-shadow: none !important;
 }
 
 /* Ligne dégradée à droite du titre (à conserver) */
@@ -1614,15 +1592,27 @@ h2.section-title::after {
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Si le SVG force des couleurs blanches/bleues en interne, neutraliser */
+/* Éteindre toute image/gradient résiduel */
+.section-icon,
+.section-icon * {
+    background-image: none !important;
+}
+
+/* Si l'anneau est DANS le SVG : supprimer cercles/ellipses internes */
+.section-icon svg circle,
+.section-icon svg ellipse {
+    display: none !important;
+}
+
+/* …et neutraliser des couleurs codées en dur */
 .section-icon svg [fill="#ffffff"],
 .section-icon svg [fill="#FFF"],
 .section-icon svg [stroke="#ffffff"],
 .section-icon svg [stroke="#FFF"],
 .section-icon svg [fill="#1552D6"],
 .section-icon svg [stroke="#1552D6"] {
-    fill: currentColor !important;
-    stroke: currentColor !important;
+    fill: #fff !important;
+    stroke: #fff !important;
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
