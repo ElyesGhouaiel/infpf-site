@@ -1524,52 +1524,29 @@ article,
     height: 56px;
     min-width: 56px;
     min-height: 56px;
-    background: linear-gradient(135deg, 
-        var(--primary-color) 0%, 
-        var(--primary-light) 100%) !important;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white !important;
-    font-size: 1.5rem;
+    background: #1e5cb8 !important;
+    border-radius: 12px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     flex-shrink: 0;
-    box-shadow: 
-        0 8px 24px rgba(11, 63, 137, 0.15),
-        0 4px 12px rgba(11, 63, 137, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(30, 92, 184, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     align-self: center;
 }
 
-/* Effet de brillance sur les icônes */
-.section-icon::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.15), 
-        transparent);
-    transition: left 0.5s ease;
-}
-
-.section-header:hover .section-icon::before {
-    left: 100%;
+.section-header:hover .section-icon {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 92, 184, 0.35);
 }
 
 .section-icon svg {
-    width: 28px;
-    height: 28px;
-    stroke: white !important;
-    stroke-width: 2.5;
+    width: 28px !important;
+    height: 28px !important;
+    stroke: #ffffff !important;
+    stroke-width: 2.5 !important;
     fill: none !important;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    display: block !important;
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
@@ -1676,39 +1653,28 @@ article,
     height: 48px;
     min-width: 48px;
     min-height: 48px;
-    background: linear-gradient(135deg, 
-        var(--primary-color) 0%, 
-        var(--primary-light) 100%);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-white);
+    background: #1e5cb8 !important;
+    border-radius: 12px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     flex-shrink: 0;
-    box-shadow: 
-        0 6px 20px rgba(11, 63, 137, 0.15),
-        0 3px 10px rgba(11, 63, 137, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(30, 92, 184, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .column-title .icon svg {
-    width: 24px;
-    height: 24px;
-    stroke: white !important;
-    stroke-width: 2.5;
+    width: 24px !important;
+    height: 24px !important;
+    stroke: #ffffff !important;
+    stroke-width: 2.5 !important;
     fill: none !important;
+    display: block !important;
 }
 
 .column-content:hover .column-title .icon {
-    transform: scale(1.05) rotate(-2deg);
-    box-shadow: 
-        0 8px 24px rgba(11, 63, 137, 0.2),
-        0 4px 12px rgba(11, 63, 137, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    display: flex;
-    align-items: center;
-    gap: var(--space-lg);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 92, 184, 0.35);
 }
 
 /* ===== PROGRAMME SANS ACCORDÉON - FLUX SIMPLE ===== */
