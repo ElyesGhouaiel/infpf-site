@@ -1518,9 +1518,9 @@ article,
     color: var(--text-primary);
     margin: 0;
     display: flex;
-    align-items: center;
+    align-items: center; /* Centre verticalement l'icône avec le texte */
     gap: var(--space-xl);
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
 .section-icon {
@@ -1545,6 +1545,8 @@ article,
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    /* Alignement vertical parfait */
+    align-self: center;
 }
 
 /* Effet de brillance sur les icônes */
