@@ -470,6 +470,10 @@ article,
     line-height: 1.7;
 }
 
+.section-icon {
+    color: var(--primary-color);
+}
+
 /* Responsive pour la grille */
 @media (max-width: 1200px) {
     .floating-toc {
@@ -1516,46 +1520,20 @@ article,
     display: flex;
     align-items: center;
     gap: var(--space-xl);
-    line-height: 1.2;
 }
 
 .section-icon {
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
-    min-height: 56px;
-    background: #1e5cb8 !important;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
     border-radius: 12px;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-white);
+    font-size: 1.5rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(30, 92, 184, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    align-self: center;
-}
-
-.section-header:hover .section-icon {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(30, 92, 184, 0.35);
-}
-
-.section-icon svg {
-    width: 28px !important;
-    height: 28px !important;
-    display: block !important;
-}
-
-.section-icon svg,
-.section-icon svg *,
-.section-icon svg path,
-.section-icon svg line,
-.section-icon svg rect,
-.section-icon svg circle,
-.section-icon svg polyline {
-    stroke: #ffffff !important;
-    stroke-width: 2.5 !important;
-    fill: none !important;
+    box-shadow: var(--shadow-md);
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
@@ -1629,70 +1607,27 @@ article,
 
 .column-content {
     background: var(--text-white);
-    border-radius: 20px;
+    border-radius: 16px;
     padding: var(--space-3xl);
-    border: 2px solid var(--gray-200);
+    border: 2px solid var(--gray-300);
     transition: var(--transition-normal);
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.06),
-        0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-md);
 }
 
 .column-content:hover {
     border-color: var(--primary-light);
-    box-shadow: 
-        0 12px 32px rgba(11, 63, 137, 0.12),
-        0 6px 16px rgba(11, 63, 137, 0.08);
-    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
 }
 
 .column-title {
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--primary-color);
     margin: 0 0 var(--space-2xl) 0;
     display: flex;
     align-items: center;
-    gap: 16px;
-    line-height: 1.2;
-}
-
-.column-title .icon {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    background: #1e5cb8 !important;
-    border-radius: 12px;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(30, 92, 184, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.column-title .icon svg {
-    width: 24px !important;
-    height: 24px !important;
-    display: block !important;
-}
-
-.column-title .icon svg,
-.column-title .icon svg *,
-.column-title .icon svg path,
-.column-title .icon svg line,
-.column-title .icon svg rect,
-.column-title .icon svg circle,
-.column-title .icon svg polyline {
-    stroke: #ffffff !important;
-    stroke-width: 2.5 !important;
-    fill: none !important;
-}
-
-.column-content:hover .column-title .icon {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(30, 92, 184, 0.35);
+    gap: var(--space-lg);
 }
 
 /* ===== PROGRAMME SANS ACCORDÉON - FLUX SIMPLE ===== */
@@ -2467,14 +2402,12 @@ html {
                 <div id="presentation-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <span class="section-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                        </span>
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
                         Présentation
                     </h2>
 				</div>
@@ -2490,7 +2423,7 @@ html {
                 <div class="two-column-section">
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M9 12l2 2 4-4"/>
                                 <circle cx="12" cy="12" r="10"/>
                             </svg>
@@ -2503,7 +2436,7 @@ html {
 
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                             </svg>
                             Atouts
@@ -2520,12 +2453,10 @@ html {
                 <div id="programme-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <span class="section-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                            </svg>
-                        </span>
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        </svg>
                         Programme détaillé
                     </h2>
 			</div>
@@ -2552,7 +2483,7 @@ html {
                 <div class="two-column-section">
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                 <circle cx="9" cy="7" r="4"/>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -2567,7 +2498,7 @@ html {
                     
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                 <polyline points="14,2 14,8 20,8"/>
                                 <line x1="16" y1="13" x2="8" y2="13"/>
@@ -2589,12 +2520,10 @@ html {
                 <div id="duree-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <span class="section-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10"/>
-                                <polyline points="12,6 12,12 16,14"/>
-                            </svg>
-                        </span>
+                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
                         Durée de formation
                     </h2>
 			</div>
