@@ -1517,22 +1517,23 @@ article,
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: var(--space-xl);
-    line-height: 1.2;
+    line-height: 1.3;
+    vertical-align: middle;
 }
 
 .section-icon {
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
-    min-height: 56px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
     background: linear-gradient(135deg, 
         var(--primary-color) 0%, 
         var(--primary-light) 100%);
-    border-radius: 16px;
-    display: flex;
+    border-radius: 14px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     color: var(--text-white);
@@ -1545,6 +1546,7 @@ article,
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    margin: -2px 0;
 }
 
 /* Effet de brillance sur les icônes */
