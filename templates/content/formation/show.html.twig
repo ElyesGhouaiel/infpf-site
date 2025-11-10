@@ -1534,16 +1534,7 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Supprimer tout arc/pseudo-élément décoratif résiduel */
-.section-header::before,
-.section-icon::before,
-.section-icon::after,
-.block-title::before,
-.block-title::after {
-    content: none !important;
-}
-
-/* Tuile icône : plus compacte et propre (48×48) */
+/* Tuile icône (garde l'alignement existant) */
 .section-icon {
     width: 48px;
     height: 48px;
@@ -1560,21 +1551,36 @@ article,
     flex-shrink: 0;
 }
 
-/* Icône centrée, sans fond parasite */
-.section-icon > svg,
-.section-icon > img {
-    display: block;
+/* 1) Icône centrée, sans fond/effet parasite */
+.section-icon > svg {
     width: 28px;
     height: 28px;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: none !important;
-    position: static !important;
-    inset: auto !important;
-    transform: none !important;
+    display: block;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
+    background: transparent !important;
+    filter: none !important;
+    -webkit-mask: none !important;
+    mask: none !important;
+}
+
+/* 2) Éliminer tout anneau/croissant ajouté par des décorations */
+.section-icon::before,
+.section-icon::after,
+.section-header::before,
+.block-title::before,
+.block-title::after {
+    content: none !important;
+}
+
+/* 3) Si l'anneau est dessiné DANS le SVG (attributs de couleur fixes) */
+.section-icon svg *[fill="#ffffff"],
+.section-icon svg *[fill="#FFF"],
+.section-icon svg *[stroke="#ffffff"],
+.section-icon svg *[stroke="#FFF"] {
+    fill: currentColor !important;
+    stroke: none !important;
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
