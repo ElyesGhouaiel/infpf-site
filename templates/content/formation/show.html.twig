@@ -1521,7 +1521,7 @@ article,
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
-    line-height: 1.1;
+    line-height: 1.15;
 }
 
 /* Règle fine et discrète après le titre */
@@ -1531,7 +1531,7 @@ article,
     height: 2px;
     border-radius: 2px;
     margin-left: 12px;
-    background: linear-gradient(90deg, rgba(11, 18, 32, 0.35), rgba(11, 18, 32, 0));
+    background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
 /* Supprimer tout arc/pseudo-élément décoratif résiduel */
@@ -1599,27 +1599,21 @@ article,
 
 /* Listes propres sans débordement */
 .text-content ul {
-    margin: 0 0 var(--space-xl) 0;
-    padding-left: 0;
-    list-style: none;
+    margin: 12px 0 0 1.1rem;
+    padding: 0;
+    list-style-type: disc;
+    list-style-position: outside;
 }
 
 .text-content li {
-    margin: 0 0 var(--space-lg) 0;
+    margin: 6px 0;
     line-height: 1.6;
-    position: relative;
-    padding-left: var(--space-2xl);
+    padding-left: 4px;
     font-size: inherit;
 }
 
-.text-content li::before {
-    content: '●';
+.text-content li::marker {
     color: var(--primary-color);
-    font-weight: bold;
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 1.2em;
 }
 
 .text-content h4 {
