@@ -1486,7 +1486,7 @@
 
 /* ===== CONTENU PRINCIPAL ===== */
 .formation-content {
-    padding: var(--space-3xl) var(--space-4xl) var(--space-5xl);
+    padding: var(--space-xl) var(--space-4xl) var(--space-5xl);
     background: var(--text-white);
 }
 
@@ -2859,7 +2859,7 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         }
     }
 
-    // scroll doux vers le DÉBUT du contenu (pas sur le titre)
+    // scroll instantané pour permettre des clics rapides successifs
     function wireLinks(){
         document.querySelectorAll('#toc a[href^="#"]').forEach(a=>{
             a.addEventListener('click', (e)=>{
@@ -2868,7 +2868,7 @@ console.log('🚀 SCRIPT TOC: Démarrage');
                 if(!target) return;
             e.preventDefault();
                 const y = target.getBoundingClientRect().top + window.scrollY - headerOffset();
-                window.scrollTo({ top: y, behavior: 'smooth' });
+                window.scrollTo({ top: y, behavior: 'auto' });
             });
         });
     }
