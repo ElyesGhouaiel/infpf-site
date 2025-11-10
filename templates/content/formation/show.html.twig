@@ -77,6 +77,16 @@
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* ===== OVERRIDE GLOBAL PADDING-TOP DU BASE.HTML.TWIG ===== */
+/* Annuler le padding-top: var(--header-height) appliqué globalement */
+main,
+.site-main,
+.formation-content,
+article,
+.page-content {
+    padding-top: 0 !important;
+}
+
 /* ===== RESET ET BASE ===== */
 .formation-page {
     min-height: 100vh;
