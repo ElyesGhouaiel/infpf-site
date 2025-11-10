@@ -470,10 +470,6 @@ article,
     line-height: 1.7;
 }
 
-.section-icon {
-    color: var(--primary-color);
-}
-
 /* Responsive pour la grille */
 @media (max-width: 1200px) {
     .floating-toc {
@@ -1530,12 +1526,12 @@ article,
     min-height: 56px;
     background: linear-gradient(135deg, 
         var(--primary-color) 0%, 
-        var(--primary-light) 100%);
+        var(--primary-light) 100%) !important;
     border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-white);
+    color: white !important;
     font-size: 1.5rem;
     flex-shrink: 0;
     box-shadow: 
@@ -1545,6 +1541,7 @@ article,
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    align-self: center;
 }
 
 /* Effet de brillance sur les icônes */
@@ -1569,7 +1566,10 @@ article,
 .section-icon svg {
     width: 28px;
     height: 28px;
+    stroke: currentColor;
     stroke-width: 2.5;
+    fill: none;
+    color: inherit;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
