@@ -1551,7 +1551,7 @@ article,
     flex-shrink: 0;
 }
 
-/* Icône centrée, blanche, sans effets parasites */
+/* Icône centrée avec lignes blanches */
 .section-icon > svg {
     width: 34px;
     height: 34px;
@@ -1562,7 +1562,7 @@ article,
     filter: none !important;
     transform: none !important;
     position: static !important;
-    fill: #fff !important;
+    fill: none !important;
     stroke: #fff !important;
     stroke-width: 2;
 }
@@ -1590,29 +1590,6 @@ article,
     border-radius: 2px;
     margin-left: 12px;
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
-}
-
-/* Éteindre toute image/gradient résiduel */
-.section-icon,
-.section-icon * {
-    background-image: none !important;
-}
-
-/* Si l'anneau est DANS le SVG : supprimer cercles/ellipses internes */
-.section-icon svg circle,
-.section-icon svg ellipse {
-    display: none !important;
-}
-
-/* …et neutraliser des couleurs codées en dur */
-.section-icon svg [fill="#ffffff"],
-.section-icon svg [fill="#FFF"],
-.section-icon svg [stroke="#ffffff"],
-.section-icon svg [stroke="#FFF"],
-.section-icon svg [fill="#1552D6"],
-.section-icon svg [stroke="#1552D6"] {
-    fill: #fff !important;
-    stroke: #fff !important;
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
