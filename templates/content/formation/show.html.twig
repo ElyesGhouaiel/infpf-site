@@ -1524,25 +1524,32 @@ article,
     line-height: 1.2;
 }
 
+/* Supprimer tout pseudo-élément qui crée un rond blanc */
+.section-title::before {
+    content: none !important;
+}
+
 .section-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-    border-radius: 12px;
-    display: flex;
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-white);
-    font-size: 1.5rem;
+    background: #0A56B8;
+    color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(10, 86, 184, 0.25);
     flex-shrink: 0;
-    box-shadow: var(--shadow-md);
     align-self: center;
 }
 
 .section-icon svg {
-    width: 24px;
-    height: 24px;
-    stroke: white;
+    width: 28px;
+    height: 28px;
+    background: none;
+    stroke: currentColor;
+    stroke-width: 2;
     fill: none;
 }
 
