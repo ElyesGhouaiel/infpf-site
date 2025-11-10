@@ -1537,12 +1537,12 @@ article,
 /* ==== Design tokens des icônes ==== */
 :root {
     --xe-blue: #1552D6;
-    --icon-radius: 12px;
-    --icon-lg: 52px;      /* entête */
-    --icon-md: 36px;      /* cartes */
-    --glyph-lg: 28px;
-    --glyph-md: 20px;
-    --icon-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --icon-radius: 9px;       /* Comme avant */
+    --icon-lg: 45px;          /* Taille harmonieuse d'avant */
+    --icon-md: 45px;          /* Même taille pour uniformité */
+    --glyph-lg: 22px;         /* Taille SVG d'avant */
+    --glyph-md: 22px;         /* Même taille SVG */
+    --icon-shadow: 0 2px 6px rgba(21, 82, 214, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 /* ==== Base commune à TOUTES les icônes ==== */
@@ -1553,7 +1553,7 @@ article,
     place-items: center !important;
     width: var(--icon-md);
     height: var(--icon-md);
-    background: var(--xe-blue);
+    background: linear-gradient(135deg, #1552D6 0%, #0d419a 100%);  /* Gradient d'avant */
     color: #fff !important;             /* => SVG blanc via currentColor */
     border-radius: var(--icon-radius);
     box-shadow: var(--icon-shadow);
@@ -1562,6 +1562,7 @@ article,
     isolation: isolate;
     line-height: 0 !important;
     flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);  /* Transition hover d'avant */
 }
 
 .ui-icon > svg,
@@ -2406,10 +2407,11 @@ article,
     
     /* Ajustement des icônes sur tablette */
     :root {
-        --icon-lg: 48px;
-        --icon-md: 34px;
-        --glyph-lg: 26px;
-        --glyph-md: 18px;
+        --icon-lg: 42px;
+        --icon-md: 42px;
+        --glyph-lg: 20px;
+        --glyph-md: 20px;
+        --icon-radius: 8px;
     }
     
     /* Texte optimisé pour mobile */
@@ -2476,11 +2478,11 @@ article,
     
     /* Ajustement des icônes sur petits mobiles */
     :root {
-        --icon-lg: 44px;
-        --icon-md: 32px;
-        --glyph-lg: 24px;
-        --glyph-md: 16px;
-        --icon-radius: 10px;
+        --icon-lg: 38px;
+        --icon-md: 38px;
+        --glyph-lg: 18px;
+        --glyph-md: 18px;
+        --icon-radius: 7px;
     }
     
     .text-content {
