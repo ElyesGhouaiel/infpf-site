@@ -1534,10 +1534,10 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Tuile icône */
+/* Tuile icône : 56×56 pour icône plus visible */
 .section-icon {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1552,10 +1552,10 @@ article,
     flex-shrink: 0;
 }
 
-/* Icône centrée et propre */
+/* Icône plus grande et centrée : 32px */
 .section-icon > svg {
-    width: 24px !important;
-    height: 24px !important;
+    width: 32px !important;
+    height: 32px !important;
     display: block !important;
     margin: auto !important;
     padding: 0 !important;
@@ -1584,14 +1584,20 @@ article,
     stroke: currentColor !important;
 }
 
-/* Supprimer tout anneau/croissant ajouté autour (sauf ligne dégradée) */
+/* SUPPRIMER TOUS LES PSEUDO-ÉLÉMENTS PARASITES */
 .section-icon::before,
 .section-icon::after,
-.section-header::before {
+.section-header::before,
+.section-title::before,
+.section-title::after,
+h2.section-title::before,
+h2.section-title::after {
     content: none !important;
+    display: none !important;
     background: none !important;
     border: none !important;
     outline: 0 !important;
+    box-shadow: none !important;
     -webkit-mask: none !important;
     mask: none !important;
     filter: none !important;
@@ -1599,7 +1605,8 @@ article,
 
 /* Ligne dégradée à droite du titre (à conserver) */
 .section-header::after {
-    content: '';
+    content: '' !important;
+    display: block !important;
     flex: 1;
     height: 2px;
     border-radius: 2px;
