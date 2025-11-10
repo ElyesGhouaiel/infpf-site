@@ -2798,8 +2798,8 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         
         const start = anchor.getBoundingClientRect().top + window.scrollY;
         const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
-        // Ne pas montrer avant d'avoir dépassé la bannière + marge
-        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        // Apparaître dès qu'on commence à voir le contenu (200px avant la fin du hero)
+        const shouldShow = window.scrollY >= (heroHeight - 200) && !isNearFooter;
         
         // Gestion apparition/disparition
         if(shouldShow && !toc.classList.contains('is-visible')) {
@@ -2847,8 +2847,8 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         
         const start = anchor.getBoundingClientRect().top + window.scrollY;
         const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
-        // Ne pas montrer avant d'avoir dépassé la bannière + marge
-        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        // Apparaître dès qu'on commence à voir le contenu (200px avant la fin du hero)
+        const shouldShow = window.scrollY >= (heroHeight - 200) && !isNearFooter;
         
         // Gestion apparition/disparition
         if(shouldShow && !details.classList.contains('is-visible')) {
