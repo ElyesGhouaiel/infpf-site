@@ -1538,9 +1538,10 @@ article,
 .section-icon {
     width: 48px;
     height: 48px;
-    display: grid !important;
-    place-items: center !important;
-    background: #1552D6;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #1552D6 !important;
     color: #fff !important;
     border-radius: 12px;
     overflow: hidden;
@@ -1553,20 +1554,34 @@ article,
 
 /* Icône centrée et propre */
 .section-icon > svg {
-    width: 28px;
-    height: 28px;
+    width: 24px !important;
+    height: 24px !important;
     display: block !important;
-    margin: 0 !important;
+    margin: auto !important;
     padding: 0 !important;
     background: transparent !important;
     transform: none !important;
     position: static !important;
-    fill: currentColor !important;
     stroke: currentColor !important;
-    stroke-width: 2;
+    stroke-width: 2 !important;
+    fill: none !important;
     filter: none !important;
     -webkit-mask: none !important;
     mask: none !important;
+}
+
+/* ÉLIMINER TOUT CERCLE/ANNEAU BLANC dans le SVG */
+.section-icon svg * {
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+/* Si un élément SVG a un fill de fond (cercle de fond), le rendre invisible */
+.section-icon svg circle[fill],
+.section-icon svg rect[fill],
+.section-icon svg path[fill] {
+    fill: none !important;
+    stroke: currentColor !important;
 }
 
 /* Supprimer tout anneau/croissant ajouté autour (sauf ligne dégradée) */
