@@ -1524,11 +1524,15 @@ article,
     line-height: 1.2;
 }
 
-/* Supprimer tout pseudo-élément qui crée un rond blanc */
-.section-title::before {
+/* Supprimer/repousser l'arc blanc (pseudo-élément décoratif) */
+.section-title::before,
+.section-title::after,
+.block-title::before,
+.block-title::after {
     content: none !important;
 }
 
+/* Tuile bleue autour de l'icône */
 .section-icon {
     width: 56px;
     height: 56px;
@@ -1539,15 +1543,29 @@ article,
     color: #fff;
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
+    z-index: 2;
+    line-height: 0;
+    isolation: isolate;
     box-shadow: 0 6px 14px rgba(10, 86, 184, 0.25);
     flex-shrink: 0;
     align-self: center;
 }
 
-.section-icon svg {
+/* Remettre le SVG au centre et neutraliser les styles hérités */
+.section-icon > svg,
+.section-icon > img {
+    display: block;
     width: 28px;
     height: 28px;
-    background: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    vertical-align: middle;
+    flex-shrink: 0;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
