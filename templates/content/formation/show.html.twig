@@ -1534,66 +1534,45 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Sanctuariser l'existant : l'alignement du header ne bouge pas */
-.section-header {
-    display: flex;
-    align-items: center;
-}
-
-/* 1) Carré bleu pour l'icône */
+/* Tuile icône */
 .section-icon {
-    position: relative;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    display: grid !important;
+    place-items: center !important;
     background: #1552D6;
+    color: #fff !important;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    line-height: 0 !important;
+    position: relative;
     isolation: isolate;
-    z-index: 2;
+    line-height: 0 !important;
     flex-shrink: 0;
 }
 
-/* 1bis) Couche bleue qui recouvre tout (écrase tout anneau externe) */
-.section-icon::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #1552D6;
-    border-radius: inherit;
-    z-index: 1;
-}
-
-/* 2) Centrage absolu du SVG (ne peut plus glisser en bas/gauche) */
-.section-icon > svg,
-.section-icon > img {
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
+/* Icône centrée et propre */
+.section-icon > svg {
     width: 28px;
     height: 28px;
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
-    z-index: 2;
     background: transparent !important;
+    transform: none !important;
+    position: static !important;
+    fill: currentColor !important;
+    stroke: currentColor !important;
+    stroke-width: 2;
+    filter: none !important;
     -webkit-mask: none !important;
     mask: none !important;
-    filter: none !important;
-    fill: currentColor;
-    stroke: currentColor;
-    stroke-width: 2;
 }
 
-/* 3) Supprimer toute source possible d'anneau blanc autour de la tuile */
+/* Supprimer tout anneau/croissant ajouté autour (sauf ligne dégradée) */
 .section-icon::before,
-.section-header::before,
-.section-title::before,
-.section-title::after,
-.block-title::before,
-.block-title::after {
+.section-icon::after,
+.section-header::before {
     content: none !important;
     background: none !important;
     border: none !important;
@@ -1603,19 +1582,25 @@ article,
     filter: none !important;
 }
 
-/* 4) Neutraliser les couleurs blanches imposées DANS le SVG (anneau interne) */
-.section-icon svg [fill="#fff"],
-.section-icon svg [fill="#ffffff"],
-.section-icon svg [stroke="#fff"],
-.section-icon svg [stroke="#ffffff"] {
-    fill: currentColor !important;
-    stroke: currentColor !important;
+/* Ligne dégradée à droite du titre (à conserver) */
+.section-header::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    margin-left: 12px;
+    background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* 5) Pas d'images/gradients parasites sur l'icône et ses enfants */
-.section-icon,
-.section-icon * {
-    background-image: none !important;
+/* Si le SVG force des couleurs blanches/bleues en interne, neutraliser */
+.section-icon svg [fill="#ffffff"],
+.section-icon svg [fill="#FFF"],
+.section-icon svg [stroke="#ffffff"],
+.section-icon svg [stroke="#FFF"],
+.section-icon svg [fill="#1552D6"],
+.section-icon svg [stroke="#1552D6"] {
+    fill: currentColor !important;
+    stroke: currentColor !important;
 }
 
 /* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
