@@ -1524,22 +1524,51 @@ article,
     height: 56px;
     min-width: 56px;
     min-height: 56px;
-    padding: 14px;
     background: linear-gradient(135deg, 
         var(--primary-color) 0%, 
-        var(--primary-light) 100%);
+        var(--primary-light) 100%) !important;
     border-radius: 16px;
-    color: white;
-    stroke: white;
-    stroke-width: 2.5;
-    fill: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    font-size: 1.5rem;
     flex-shrink: 0;
     box-shadow: 
         0 8px 24px rgba(11, 63, 137, 0.15),
         0 4px 12px rgba(11, 63, 137, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
     align-self: center;
+}
+
+/* Effet de brillance sur les icônes */
+.section-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.15), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.section-header:hover .section-icon::before {
+    left: 100%;
+}
+
+.section-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: white !important;
+    stroke-width: 2.5;
+    fill: none !important;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
@@ -2454,12 +2483,14 @@ html {
                 <div id="presentation-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8" y1="2" x2="8" y2="6"/>
-                            <line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
+                        <span class="section-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </span>
                         Présentation
                     </h2>
 				</div>
@@ -2475,7 +2506,7 @@ html {
                 <div class="two-column-section">
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M9 12l2 2 4-4"/>
                                 <circle cx="12" cy="12" r="10"/>
                             </svg>
@@ -2488,7 +2519,7 @@ html {
 
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                             </svg>
                             Atouts
@@ -2505,10 +2536,12 @@ html {
                 <div id="programme-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                        </svg>
+                        <span class="section-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                        </span>
                         Programme détaillé
                     </h2>
 			</div>
@@ -2535,7 +2568,7 @@ html {
                 <div class="two-column-section">
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                                 <circle cx="9" cy="7" r="4"/>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -2550,7 +2583,7 @@ html {
                     
                     <div class="column-content">
                         <h3 class="column-title">
-                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg class="icon" width="24" height="24" viewBox="0 0 24 24">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                 <polyline points="14,2 14,8 20,8"/>
                                 <line x1="16" y1="13" x2="8" y2="13"/>
@@ -2572,10 +2605,12 @@ html {
                 <div id="duree-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polyline points="12,6 12,12 16,14"/>
-                        </svg>
+                        <span class="section-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                        </span>
                         Durée de formation
                     </h2>
 			</div>
