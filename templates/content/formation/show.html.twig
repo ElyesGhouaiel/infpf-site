@@ -1534,47 +1534,61 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* Tuile icône (garde l'alignement existant) */
+/* Tuile icône : centrage infaillible + nettoyage */
 .section-icon {
     width: 48px;
     height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: grid !important;
+    place-items: center !important;
     background: #1552D6;
     color: #fff;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     position: relative;
+    z-index: 2;
     isolation: isolate;
+    line-height: 0 !important;
+    vertical-align: middle;
     flex-shrink: 0;
 }
 
-/* 1) Icône centrée, sans fond/effet parasite */
-.section-icon > svg {
+/* SVG strictement recentré, sans héritages parasites */
+.section-icon > svg,
+.section-icon > img {
     width: 28px;
     height: 28px;
-    display: block;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    justify-self: center !important;
+    align-self: center !important;
+    background: transparent !important;
+    transform: none !important;
+    -webkit-mask: none !important;
+    mask: none !important;
+    filter: none !important;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
-    background: transparent !important;
-    filter: none !important;
-    -webkit-mask: none !important;
-    mask: none !important;
 }
 
-/* 2) Éliminer tout anneau/croissant ajouté par des décorations */
+/* Supprimer TOUT décor générant l'arc blanc (sauf ::after de .section-header = ligne dégradée) */
 .section-icon::before,
 .section-icon::after,
 .section-header::before,
 .block-title::before,
 .block-title::after {
     content: none !important;
+    background: none !important;
+    border: none !important;
+    outline: 0 !important;
+    -webkit-mask: none !important;
+    mask: none !important;
+    filter: none !important;
 }
 
-/* 3) Si l'anneau est dessiné DANS le SVG (attributs de couleur fixes) */
+/* Si le cercle est DANS le SVG, neutraliser les couleurs forcées */
 .section-icon svg *[fill="#ffffff"],
 .section-icon svg *[fill="#FFF"],
 .section-icon svg *[stroke="#ffffff"],
