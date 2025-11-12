@@ -1591,31 +1591,19 @@ article,
     height: var(--glyph-lg);
 }
 
-/* Style icônes : respecter les attributs HTML du SVG */
-.ui-icon > svg,
-.section-icon > svg,
-.icon > svg {
-    /* Forcer couleur blanche via currentColor */
-    color: #fff !important;
-}
-
-/* Pour les SVG en stroke (icônes linéaires) - la majorité */
-.ui-icon > svg[fill="none"] *,
-.section-icon > svg[fill="none"] *,
-.icon > svg[fill="none"] * {
-    fill: none !important;
+/* Style icônes : ULTRA-SIMPLE - forcer blanc partout */
+.ui-icon svg,
+.ui-icon svg *,
+.section-icon svg,
+.section-icon svg *,
+.icon svg,
+.icon svg * {
     stroke: #fff !important;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-/* Pour les SVG avec fill (icônes pleines) - cas rare */
-.ui-icon > svg:not([fill="none"]) *,
-.section-icon > svg:not([fill="none"]) *,
-.icon > svg:not([fill="none"]) * {
-    fill: #fff !important;
-    stroke: none !important;
+    fill: none !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    color: #fff !important;
 }
 
 /* Tuer définitivement tout arc/croissant autour */
