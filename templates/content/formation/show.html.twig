@@ -1534,46 +1534,123 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* ===== Design tokens + responsive (desktop → mobile) ===== */
+/* ===== CSS — composant d'icône unifié (entête = grand, cartes = moyen) ===== */
 :root {
-    /* dégradé bleu identique aux cartes */
-    --xe-blue-1: #1E5AE6;
-    --xe-blue-2: #0E44BF;
-
-    /* tailles responsive via clamp() */
-    --icon-lg:  clamp(44px, 4.6vw, 56px);   /* tuile entête */
-    --glyph-lg: clamp(24px, 2.5vw, 32px);   /* pictogramme entête */
-    --icon-md:  clamp(30px, 3.2vw, 36px);   /* tuile cartes (pré-requis) */
-    --glyph-md: clamp(16px, 1.8vw, 20px);   /* pictogramme cartes */
-    --gap-lg:   clamp(8px,  1.2vw, 14px);   /* espace icône ↔ titre */
-
-    --icon-radius: 12px;
-    --icon-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --xe-blue-1: #1E5AE6;         /* haut */
+    --xe-blue-2: #0E44BF;         /* bas */
+    --icon-radius: 10px;
+    --icon-lg: 42px;              /* taille entête (réduite) */
+    --glyph-lg: 22px;             /* taille pictogramme entête (réduit) */
+    --icon-md: 36px;              /* taille cartes (Pré-requis) */
+    --glyph-md: 20px;             /* taille pictogramme cartes */
+    --icon-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Header : on garde votre alignement en flex ===== */
+/* Responsive: tablette */
+@media (max-width: 768px) {
+    :root {
+        --icon-lg: 36px;
+        --glyph-lg: 20px;
+        --icon-md: 32px;
+        --glyph-md: 18px;
+        --icon-radius: 8px;
+    }
+}
+
+/* Responsive: mobile */
+@media (max-width: 480px) {
+    :root {
+        --icon-lg: 32px;
+        --glyph-lg: 18px;
+        --icon-md: 28px;
+        --glyph-md: 16px;
+        --icon-radius: 8px;
+    }
+}
+
+/* Le header reste en flex: align-items:center (ne pas modifier) */
 .section-header {
     display: flex;
     align-items: center;
-    gap: var(--gap-lg);
+    gap: 12px;
+    flex-wrap: wrap; /* Évite le débordement sur mobile */
 }
 
-.section-title {
-    margin: 0;
-    line-height: 1.1;
+@media (max-width: 768px) {
+    .section-header {
+        gap: 10px;
+    }
 }
 
-/* ===== Icône unifiée (même style que "Pré-requis") ===== */
+@media (max-width: 480px) {
+    .section-header {
+        gap: 8px;
+    }
+    
+    .section-title {
+        font-size: clamp(20px, 5vw, 24px) !important;
+        line-height: 1.2;
+    }
+}
+
+/* ===== BOUCLIER : Entête - neutralise TOUT style global sur le SVG ===== */
+.section-header .section-icon > svg {
+    all: unset;                                /* reset complet de l'héritage */
+    width: var(--glyph-lg, 32px);
+    height: var(--glyph-lg, 32px);
+    display: block;
+    box-sizing: content-box;
+
+    /* Élimine les causes de l'anneau/décalage */
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+
+    /* Style "Pré-requis" : pictogramme blanc en stroke */
+    fill: none !important;
+    stroke: #fff !important;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+/* Tuile bleue d'entête (identique à Pré-requis, juste plus grande) */
+.section-header .section-icon {
+    width: var(--icon-lg, 56px);
+    height: var(--icon-lg, 56px);
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, #1E5AE6, #0E44BF);
+    color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    isolation: isolate;
+}
+
+/* Coupe toute déco (arc/cercle) éventuelle du thème */
+.section-header .section-icon::before,
+.section-header .section-icon::after,
+.section-header::before {
+    content: none !important;
+}
+
+/* ===== Icônes de cartes (Pré-requis, Atouts, etc.) ===== */
 .ui-icon,
-.section-icon,
 .icon,
 .column-title .icon {
-    display: grid !important;                /* centrage béton */
+    display: grid !important;
     place-items: center !important;
     width: var(--icon-md);
     height: var(--icon-md);
     background: linear-gradient(180deg, var(--xe-blue-1), var(--xe-blue-2)) !important;
-    color: #fff !important;                  /* stroke/blanc */
+    color: #fff !important;
     border-radius: var(--icon-radius);
     box-shadow: var(--icon-shadow);
     overflow: hidden;
@@ -1582,15 +1659,7 @@ article,
     line-height: 0 !important;
 }
 
-.ui-icon.is-lg,
-.section-icon {
-    width: var(--icon-lg);
-    height: var(--icon-lg);
-}
-
-/* Cartes : glyph par défaut (md) */
 .ui-icon > svg,
-.section-icon > svg,
 .icon > svg,
 .column-title .icon > svg {
     width: var(--glyph-md);
@@ -1603,54 +1672,40 @@ article,
     position: static !important;
     fill: none !important;
     stroke: currentColor !important;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;      /* pas d'épaississement en zoom */
-}
-
-/* Entête : on fixe le glyph en taille LG ET on neutralise toute règle globale type "h2 svg" */
-.section-title .section-icon > svg {
-    all: unset;                              /* tue padding/border/position hérités */
-    width: var(--glyph-lg);
-    height: var(--glyph-lg);
-    display: block;
-    fill: none;
-    stroke: #fff;
-    stroke-width: 2;
+    stroke-width: 2 !important;
     stroke-linecap: round;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
 }
 
-/* Tuer définitivement les arcs/croissants décoratifs éventuels */
+/* Tuer définitivement tout "anneau/croissant" ajouté par le thème */
 .ui-icon::before, .ui-icon::after,
-.section-title::before, .section-title::after,
 .section-header::before, .section-header::after,
 .section-icon::before, .section-icon::after,
 .icon::before, .icon::after {
     content: none !important;
     background: none !important;
     border: none !important;
+    outline: 0 !important;
     -webkit-mask: none !important;
     mask: none !important;
     filter: none !important;
     box-shadow: none !important;
 }
 
-/* Si d'anciens SVG ajoutent un cercle décoratif, on le coupe */
+/* Couper d'éventuels cercles internes des anciens SVG */
 .ui-icon svg circle, .ui-icon svg ellipse,
 .section-icon svg circle, .section-icon svg ellipse,
 .icon svg circle, .icon svg ellipse {
     display: none !important;
 }
 
-/* Option : tailles un peu plus sages sur très petits écrans */
-@media (max-width: 480px) {
-    :root {
-        --icon-lg: 48px;
-        --glyph-lg: 28px;
-    }
+/* Neutraliser couleurs codées en dur (bleu/blanc) à l'intérieur du SVG */
+.ui-icon svg [fill], .ui-icon svg [stroke="#1552D6"], .ui-icon svg [stroke="#1E5AE6"],
+.section-icon svg [fill], .section-icon svg [stroke="#1552D6"], .section-icon svg [stroke="#1E5AE6"],
+.icon svg [fill], .icon svg [stroke="#1552D6"], .icon svg [stroke="#1E5AE6"] {
+    fill: none !important;
+    stroke: currentColor !important;
 }
 
 /* ==== Ligne dégradée à droite du titre (à conserver) ==== */
@@ -3440,6 +3495,50 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('🔍 Position TOC:', toc.getBoundingClientRect());
             
             // Forcer un reflow
+            setTimeout(() => {
+                console.log('🔍 Position TOC après 100ms:', toc.getBoundingClientRect());
+            }, 100);
+        } else {
+            // Fermer: retirer les classes ET désactiver les clics
+            toc.classList.remove('is-visible', 'is-fixed');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // DÉSACTIVER LES CLICS quand fermé
+            toc.style.setProperty('pointer-events', 'none', 'important');
+            toc.style.setProperty('display', 'none', 'important');
+            toc.style.setProperty('height', '0', 'important');
+            toc.style.setProperty('overflow', 'hidden', 'important');
+            
+            console.log('📕 Sommaire mobile fermé et désactivé');
+        }
+    });
+    
+    // Fermer le sommaire quand on clique sur un lien
+    toc.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function() {
+            isOpen = false;
+            toc.classList.remove('is-visible', 'is-fixed');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            
+            // DÉSACTIVER LES CLICS quand fermé
+            toc.style.setProperty('pointer-events', 'none', 'important');
+            toc.style.setProperty('display', 'none', 'important');
+            toc.style.setProperty('height', '0', 'important');
+            
+            console.log('🔗 Lien cliqué, sommaire fermé et désactivé');
+        });
+    });
+    
+    console.log('✅ Toggle mobile initialisé avec succès');
+});
+</script>
+
+<!-- Calendly Integration - DÉSACTIVÉ pour éviter conflit avec redirection mobile -->
+{# <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> #}
+{% endblock %}
+
             setTimeout(() => {
                 console.log('🔍 Position TOC après 100ms:', toc.getBoundingClientRect());
             }, 100);
