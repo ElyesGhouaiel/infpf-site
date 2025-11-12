@@ -1591,15 +1591,37 @@ article,
     height: var(--glyph-lg);
 }
 
-/* Forcer style "Pré-requis" (stroke blanc, pas de fill) */
+/* Style flexible : accepte fill OU stroke (selon le SVG) */
 .ui-icon > svg *,
 .section-icon > svg *,
 .icon > svg * {
-    fill: none !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
+    /* Permettre fill ET stroke - le SVG choisit */
+    fill: currentColor !important;       /* Blanc pour les formes pleines */
+    stroke: currentColor !important;     /* Blanc pour les contours */
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+/* Pour les SVG qui utilisent uniquement stroke (comme icônes linéaires) */
+.ui-icon > svg[fill="none"],
+.section-icon > svg[fill="none"],
+.icon > svg[fill="none"] {
+    fill: none !important;
+}
+
+/* Pour les enfants qui ne doivent pas avoir de stroke */
+.ui-icon > svg rect,
+.ui-icon > svg circle,
+.ui-icon > svg path[fill]:not([stroke]),
+.section-icon > svg rect,
+.section-icon > svg circle,
+.section-icon > svg path[fill]:not([stroke]),
+.icon > svg rect,
+.icon > svg circle,
+.icon > svg path[fill]:not([stroke]) {
+    stroke: none !important;
+    fill: currentColor !important;
 }
 
 /* Tuer définitivement tout arc/croissant autour */
