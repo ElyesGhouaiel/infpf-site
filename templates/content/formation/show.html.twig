@@ -1591,37 +1591,31 @@ article,
     height: var(--glyph-lg);
 }
 
-/* Style flexible : accepte fill OU stroke (selon le SVG) */
-.ui-icon > svg *,
-.section-icon > svg *,
-.icon > svg * {
-    /* Permettre fill ET stroke - le SVG choisit */
-    fill: currentColor !important;       /* Blanc pour les formes pleines */
-    stroke: currentColor !important;     /* Blanc pour les contours */
+/* Style icônes : respecter les attributs HTML du SVG */
+.ui-icon > svg,
+.section-icon > svg,
+.icon > svg {
+    /* Forcer couleur blanche via currentColor */
+    color: #fff !important;
+}
+
+/* Pour les SVG en stroke (icônes linéaires) - la majorité */
+.ui-icon > svg[fill="none"] *,
+.section-icon > svg[fill="none"] *,
+.icon > svg[fill="none"] * {
+    fill: none !important;
+    stroke: #fff !important;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
-/* Pour les SVG qui utilisent uniquement stroke (comme icônes linéaires) */
-.ui-icon > svg[fill="none"],
-.section-icon > svg[fill="none"],
-.icon > svg[fill="none"] {
-    fill: none !important;
-}
-
-/* Pour les enfants qui ne doivent pas avoir de stroke */
-.ui-icon > svg rect,
-.ui-icon > svg circle,
-.ui-icon > svg path[fill]:not([stroke]),
-.section-icon > svg rect,
-.section-icon > svg circle,
-.section-icon > svg path[fill]:not([stroke]),
-.icon > svg rect,
-.icon > svg circle,
-.icon > svg path[fill]:not([stroke]) {
+/* Pour les SVG avec fill (icônes pleines) - cas rare */
+.ui-icon > svg:not([fill="none"]) *,
+.section-icon > svg:not([fill="none"]) *,
+.icon > svg:not([fill="none"]) * {
+    fill: #fff !important;
     stroke: none !important;
-    fill: currentColor !important;
 }
 
 /* Tuer définitivement tout arc/croissant autour */
