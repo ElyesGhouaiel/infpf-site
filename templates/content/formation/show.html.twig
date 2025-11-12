@@ -1534,27 +1534,28 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* ==== Design tokens des icônes ==== */
+/* ===== Tokens (mêmes proportions que "Pré-requis") ===== */
 :root {
-    --xe-blue: #1552D6;
-    --icon-radius: 9px;       /* Comme avant */
-    --icon-lg: 45px;          /* Taille harmonieuse d'avant */
-    --icon-md: 45px;          /* Même taille pour uniformité */
-    --glyph-lg: 22px;         /* Taille SVG d'avant */
-    --glyph-md: 22px;         /* Même taille SVG */
-    --icon-shadow: 0 2px 6px rgba(21, 82, 214, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --xe-blue-1: #1E5AE6;      /* haut */
+    --xe-blue-2: #0E44BF;      /* bas */
+    --icon-radius: 12px;
+    --icon-lg: 52px;           /* en-tête (mêmes proportions que Pré-requis mais + grand) */
+    --icon-md: 36px;           /* cartes (taille Pré-requis) */
+    --glyph-lg: 28px;
+    --glyph-md: 20px;
+    --icon-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* ==== Base commune à TOUTES les icônes ==== */
+/* ===== Icône standardisée ===== */
 .ui-icon,
 .section-icon,
 .icon {
-    display: grid !important;           /* centrage fiable */
+    display: grid !important;                 /* centrage fiable */
     place-items: center !important;
     width: var(--icon-md);
     height: var(--icon-md);
-    background: linear-gradient(135deg, #1552D6 0%, #0d419a 100%);  /* Gradient d'avant */
-    color: #fff !important;             /* => SVG blanc via currentColor */
+    background: linear-gradient(180deg, var(--xe-blue-1), var(--xe-blue-2));
+    color: #fff !important;                   /* stroke blanc via currentColor */
     border-radius: var(--icon-radius);
     box-shadow: var(--icon-shadow);
     overflow: hidden;
@@ -1562,9 +1563,15 @@ article,
     isolation: isolate;
     line-height: 0 !important;
     flex-shrink: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);  /* Transition hover d'avant */
 }
 
+.ui-icon.is-lg,
+.section-icon {
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+}
+
+/* Pictogramme : blanc, en stroke, sans remplissage parasite */
 .ui-icon > svg,
 .section-icon > svg,
 .icon > svg {
@@ -1576,18 +1583,6 @@ article,
     background: transparent !important;
     transform: none !important;
     position: static !important;
-    fill: currentColor !important;
-    stroke: currentColor !important;    /* pour les pictos en stroke */
-    filter: none !important;
-    -webkit-mask: none !important;
-    mask: none !important;
-}
-
-/* ==== Taille large pour les entêtes ==== */
-.ui-icon.is-lg,
-.section-icon {
-    width: var(--icon-lg);
-    height: var(--icon-lg);
 }
 
 .ui-icon.is-lg > svg,
@@ -1596,7 +1591,18 @@ article,
     height: var(--glyph-lg);
 }
 
-/* ==== Élimination DÉFINITIVE des arcs/croissants ==== */
+/* Forcer style "Pré-requis" (stroke blanc, pas de fill) */
+.ui-icon > svg *,
+.section-icon > svg *,
+.icon > svg * {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Tuer définitivement tout arc/croissant autour */
 .ui-icon::before, .ui-icon::after,
 .section-icon::before, .section-icon::after,
 .icon::before, .icon::after,
@@ -1611,25 +1617,11 @@ article,
     outline: 0 !important;
 }
 
-/* Si un anneau est DANS le SVG (ex. <circle/ellipse>) */
-.ui-icon svg circle, .ui-icon svg ellipse,
-.section-icon svg circle, .section-icon svg ellipse,
-.icon svg circle, .icon svg ellipse {
-    display: none !important;
-}
-
-/* Neutralise les couleurs codées en dur dans le SVG */
-.ui-icon svg [fill="#fff"], .ui-icon svg [fill="#ffffff"],
-.ui-icon svg [stroke="#fff"], .ui-icon svg [stroke="#ffffff"],
-.ui-icon svg [fill="#1552D6"], .ui-icon svg [stroke="#1552D6"],
-.section-icon svg [fill="#fff"], .section-icon svg [fill="#ffffff"],
-.section-icon svg [stroke="#fff"], .section-icon svg [stroke="#ffffff"],
-.section-icon svg [fill="#1552D6"], .section-icon svg [stroke="#1552D6"],
-.icon svg [fill="#fff"], .icon svg [fill="#ffffff"],
-.icon svg [stroke="#fff"], .icon svg [stroke="#ffffff"],
-.icon svg [fill="#1552D6"], .icon svg [stroke="#1552D6"] {
-    fill: currentColor !important;
-    stroke: currentColor !important;
+/* Et aucune image/gradient parasite injecté dans l'icône */
+.ui-icon, .ui-icon *,
+.section-icon, .section-icon *,
+.icon, .icon * {
+    background-image: none !important;
 }
 
 /* ==== Ligne dégradée à droite du titre (à conserver) ==== */
@@ -2407,11 +2399,11 @@ article,
     
     /* Ajustement des icônes sur tablette */
     :root {
-        --icon-lg: 42px;
-        --icon-md: 42px;
-        --glyph-lg: 20px;
-        --glyph-md: 20px;
-        --icon-radius: 8px;
+        --icon-lg: 48px;
+        --icon-md: 34px;
+        --glyph-lg: 26px;
+        --glyph-md: 18px;
+        --icon-radius: 11px;
     }
     
     /* Texte optimisé pour mobile */
@@ -2478,11 +2470,11 @@ article,
     
     /* Ajustement des icônes sur petits mobiles */
     :root {
-        --icon-lg: 38px;
-        --icon-md: 38px;
-        --glyph-lg: 18px;
-        --glyph-md: 18px;
-        --icon-radius: 7px;
+        --icon-lg: 44px;
+        --icon-md: 32px;
+        --glyph-lg: 24px;
+        --glyph-md: 16px;
+        --icon-radius: 10px;
     }
     
     .text-content {
