@@ -1555,12 +1555,16 @@ article,
   :root{ --icon-lg: 44px; --glyph-lg: 24px; }
 }
 
-/* ==== NEUTRALISATION des styles globaux h2 svg (width:55px !important) ==== */
+/* ==== NEUTRALISATION COMPLETE du style global h2 svg {width:55px !important} ==== */
+h2.section-title svg,
 .section-title svg,
 .section-header svg,
-h2.section-title svg {
-    width: auto !important;
-    height: auto !important;
+.section-header .section-icon svg,
+.section-title .section-icon svg,
+h2 .section-icon svg,
+h2 .ui-icon svg {
+    width: var(--glyph-lg) !important;
+    height: var(--glyph-lg) !important;
 }
 
 /* En-tête : ne change pas l'alignement */
@@ -1608,27 +1612,11 @@ h2.section-title svg {
   vector-effect:non-scaling-stroke;  /* évite l'effet "ultra-zoomé" */
 }
 
-/* Entête : forcé en taille LG + reset COMPLET pour éviter h2 svg {width:55px} */
-.section-title .ui-icon.is-lg > svg,
-.section-header .ui-icon.is-lg > svg,
-h2.section-title .ui-icon.is-lg > svg {
-  all: unset !important;
-  width: var(--glyph-lg) !important;
-  height: var(--glyph-lg) !important;
-  display: block !important;
-  fill: none !important;
-  stroke: #fff !important;
-  stroke-width: 2 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
-  vector-effect: non-scaling-stroke !important;
-  box-sizing: content-box !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  position: static !important;
-  transform: none !important;
+/* Entête : forcé en taille LG + reset pour éviter les styles globaux (ex: h2 svg {...}) */
+.section-title .section-icon > svg{
+  all:unset; width:var(--glyph-lg); height:var(--glyph-lg);
+  display:block; fill:none; stroke:#fff; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
 }
 
 /* Compatibilité anciens sélecteurs */
