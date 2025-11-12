@@ -1534,40 +1534,34 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* ——— Tokens (vous pouvez ajuster les tailles) ——— */
+/* ===== CSS — composant d'icône unifié (entête = grand, cartes = moyen) ===== */
 :root {
-    --xe-blue-1: #1E5AE6;   /* haut */
-    --xe-blue-2: #0E44BF;   /* bas */
+    --xe-blue-1: #1E5AE6;         /* haut */
+    --xe-blue-2: #0E44BF;         /* bas */
     --icon-radius: 12px;
-    --icon-lg: 56px;        /* taille entête */
-    --icon-md: 36px;        /* cartes (taille Pré-requis) */
-    --glyph-lg: 32px;       /* taille du pictogramme */
-    --glyph-md: 20px;
+    --icon-lg: 56px;              /* taille entête */
+    --glyph-lg: 32px;             /* taille pictogramme entête */
+    --icon-md: 36px;              /* taille cartes (Pré-requis) */
+    --glyph-md: 20px;             /* taille pictogramme cartes */
     --icon-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* ——— Conteneurs : on garde l'alignement ——— */
+/* Le header reste en flex: align-items:center (ne pas modifier) */
 .section-header {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.section-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0;
-}
-
-/* ——— Tuile bleue identique à "Pré-requis" ——— */
-.section-title .section-icon {
-    width: var(--icon-lg);
-    height: var(--icon-lg);
+.ui-icon,
+.section-icon,
+.icon {
     display: grid !important;
-    place-items: center !important; /* centrage fiable */
+    place-items: center !important; /* centrage parfait */
+    width: var(--icon-md);
+    height: var(--icon-md);
     background: linear-gradient(180deg, var(--xe-blue-1), var(--xe-blue-2)) !important;
-    color: #fff !important;                                      /* stroke blanc */
+    color: #fff !important;                           /* pictogramme blanc */
     border-radius: var(--icon-radius);
     box-shadow: var(--icon-shadow);
     overflow: hidden;
@@ -1576,27 +1570,48 @@ article,
     line-height: 0 !important;
 }
 
-/* ——— Pictogramme : blanc, en stroke, sans remplissage ——— */
-.section-title .section-icon > svg {
-    width: var(--glyph-lg);
-    height: var(--glyph-lg);
+.ui-icon.is-lg,
+.section-icon {
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+}
+
+/* Pictogramme SVG : blanc, stroke only, pas d'aplats, pas de scaling de trait */
+.ui-icon > svg,
+.section-icon > svg,
+.icon > svg {
+    width: var(--glyph-md);
+    height: var(--glyph-md);
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
     background: transparent !important;
     transform: none !important;
     position: static !important;
-    fill: none !important;                    /* pas d'aplats */
-    stroke: currentColor !important;          /* blanc */
+}
+
+.ui-icon.is-lg > svg,
+.section-icon > svg {
+    width: var(--glyph-lg);
+    height: var(--glyph-lg);
+}
+
+.ui-icon > svg *,
+.section-icon > svg *,
+.icon > svg * {
+    fill: none !important;
+    stroke: currentColor !important;        /* blanc */
     stroke-width: 2 !important;
     stroke-linecap: round;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;      /* évite l'épaississement du cercle */
 }
 
-/* ——— Tuer définitivement l'arc/cercle blanc (thème/pseudos) ——— */
-.section-title::before, .section-title::after,
+/* Tuer définitivement tout "anneau/croissant" ajouté par le thème */
+.ui-icon::before, .ui-icon::after,
+.section-header::before, .section-header::after,
 .section-icon::before, .section-icon::after,
-.section-header::before, .section-header::after {
+.icon::before, .icon::after {
     content: none !important;
     background: none !important;
     border: none !important;
@@ -1607,52 +1622,19 @@ article,
     box-shadow: none !important;
 }
 
-/* ——— Si le SVG contient des <circle>/<ellipse> décoratifs : on les coupe ——— */
-.section-title .section-icon svg circle,
-.section-title .section-icon svg ellipse {
+/* Couper d'éventuels cercles internes des anciens SVG */
+.ui-icon svg circle, .ui-icon svg ellipse,
+.section-icon svg circle, .section-icon svg ellipse,
+.icon svg circle, .icon svg ellipse {
     display: none !important;
 }
 
-/* ——— Neutraliser d'éventuelles couleurs codées en dur ——— */
-.section-title .section-icon svg [fill],
-.section-title .section-icon svg [stroke="#1552D6"] {
+/* Neutraliser couleurs codées en dur (bleu/blanc) à l'intérieur du SVG */
+.ui-icon svg [fill], .ui-icon svg [stroke="#1552D6"], .ui-icon svg [stroke="#1E5AE6"],
+.section-icon svg [fill], .section-icon svg [stroke="#1552D6"], .section-icon svg [stroke="#1E5AE6"],
+.icon svg [fill], .icon svg [stroke="#1552D6"], .icon svg [stroke="#1E5AE6"] {
     fill: none !important;
     stroke: currentColor !important;
-}
-
-/* ——— Style pour les icônes de cartes (Pré-requis, Atouts, etc.) ——— */
-.ui-icon,
-.column-title .icon {
-    display: grid !important;
-    place-items: center !important;
-    width: var(--icon-md);
-    height: var(--icon-md);
-    background: linear-gradient(180deg, var(--xe-blue-1), var(--xe-blue-2));
-    color: #fff !important;
-    border-radius: var(--icon-radius);
-    box-shadow: var(--icon-shadow);
-    overflow: hidden;
-    position: relative;
-    isolation: isolate;
-    line-height: 0 !important;
-    flex-shrink: 0;
-}
-
-.ui-icon > svg,
-.column-title .icon > svg {
-    width: var(--glyph-md);
-    height: var(--glyph-md);
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
-    transform: none !important;
-    position: static !important;
-    fill: none !important;
-    stroke: currentColor !important;
-    stroke-width: 2 !important;
-    stroke-linecap: round;
-    stroke-linejoin: round;
 }
 
 /* ==== Ligne dégradée à droite du titre (à conserver) ==== */
