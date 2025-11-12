@@ -1591,19 +1591,44 @@ article,
     height: var(--glyph-lg);
 }
 
-/* Style icônes : ULTRA-SIMPLE - forcer blanc partout */
+/* Style icônes : FORCE DIRECTE sur les éléments SVG */
+.ui-icon,
+.section-icon,
+.icon {
+    color: #fff !important;
+}
+
 .ui-icon svg,
-.ui-icon svg *,
 .section-icon svg,
-.section-icon svg *,
-.icon svg,
-.icon svg * {
+.icon svg {
+    stroke: #fff !important;
+    fill: none !important;
+}
+
+/* Forcer sur CHAQUE type d'élément SVG */
+.ui-icon svg rect,
+.ui-icon svg line,
+.ui-icon svg circle,
+.ui-icon svg path,
+.ui-icon svg polygon,
+.ui-icon svg polyline,
+.section-icon svg rect,
+.section-icon svg line,
+.section-icon svg circle,
+.section-icon svg path,
+.section-icon svg polygon,
+.section-icon svg polyline,
+.icon svg rect,
+.icon svg line,
+.icon svg circle,
+.icon svg path,
+.icon svg polygon,
+.icon svg polyline {
     stroke: #fff !important;
     fill: none !important;
     stroke-width: 2 !important;
     stroke-linecap: round !important;
     stroke-linejoin: round !important;
-    color: #fff !important;
 }
 
 /* Tuer définitivement tout arc/croissant autour */
