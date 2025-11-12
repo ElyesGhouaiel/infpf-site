@@ -1555,16 +1555,25 @@ article,
   :root{ --icon-lg: 44px; --glyph-lg: 24px; }
 }
 
-/* ==== NEUTRALISATION COMPLETE du style global h2 svg {width:55px !important} ==== */
+/* ==== NEUTRALISATION ULTRA-AGGRESSIVE du style global h2 svg {width:55px !important} ==== */
+/* Cible TOUS les SVG dans les en-têtes avec la plus haute spécificité */
+.section-header h2 svg,
 h2.section-title svg,
 .section-title svg,
 .section-header svg,
-.section-header .section-icon svg,
-.section-title .section-icon svg,
-h2 .section-icon svg,
-h2 .ui-icon svg {
+.section-header .section-icon > svg,
+.section-title .section-icon > svg,
+.section-header .ui-icon > svg,
+.section-title .ui-icon > svg,
+h2 .section-icon > svg,
+h2 .ui-icon > svg,
+h2 .ui-icon.is-lg > svg {
     width: var(--glyph-lg) !important;
     height: var(--glyph-lg) !important;
+    max-width: var(--glyph-lg) !important;
+    max-height: var(--glyph-lg) !important;
+    min-width: var(--glyph-lg) !important;
+    min-height: var(--glyph-lg) !important;
 }
 
 /* En-tête : ne change pas l'alignement */
@@ -1612,11 +1621,25 @@ h2 .ui-icon svg {
   vector-effect:non-scaling-stroke;  /* évite l'effet "ultra-zoomé" */
 }
 
-/* Entête : forcé en taille LG + reset pour éviter les styles globaux (ex: h2 svg {...}) */
-.section-title .section-icon > svg{
-  all:unset; width:var(--glyph-lg); height:var(--glyph-lg);
-  display:block; fill:none; stroke:#fff; stroke-width:2;
-  stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
+/* Entête : forcé en taille LG + reset ULTRA-AGRESSIF pour contrer h2 svg global */
+.section-title .section-icon > svg,
+.section-header .ui-icon.is-lg > svg,
+h2.section-title .ui-icon.is-lg > svg {
+  all: unset !important;
+  width: var(--glyph-lg) !important;
+  height: var(--glyph-lg) !important;
+  max-width: var(--glyph-lg) !important;
+  max-height: var(--glyph-lg) !important;
+  min-width: var(--glyph-lg) !important;
+  min-height: var(--glyph-lg) !important;
+  display: block !important;
+  fill: none !important;
+  stroke: #fff !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  vector-effect: non-scaling-stroke !important;
+  box-sizing: content-box !important;
 }
 
 /* Compatibilité anciens sélecteurs */
