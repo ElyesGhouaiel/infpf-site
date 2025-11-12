@@ -1534,122 +1534,46 @@ article,
     background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* ===== CSS — composant d'icône unifié (entête = grand, cartes = moyen) ===== */
-:root {
-    --xe-blue-1: #1E5AE6;         /* haut */
-    --xe-blue-2: #0E44BF;         /* bas */
-    --icon-radius: 10px;
-    --icon-lg: 42px;              /* taille entête (réduite) */
-    --glyph-lg: 22px;             /* taille pictogramme entête (réduit) */
-    --icon-md: 36px;              /* taille cartes (Pré-requis) */
-    --glyph-md: 20px;             /* taille pictogramme cartes */
-    --icon-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+/* ==== CSS — composant d'icône unifié avec responsive clamp() ==== */
+:root{
+  --xe-blue-1:#1E5AE6;
+  --xe-blue-2:#0E44BF;
+
+  /* tailles responsives (desktop → mobile) */
+  --icon-lg:  clamp(40px, 4.0vw, 50px);   /* tuile entête (plus petit) */
+  --glyph-lg: clamp(22px, 2.4vw, 28px);   /* pictogramme entête */
+  --icon-md:  clamp(30px, 3.2vw, 36px);   /* tuile cartes (pré-requis) */
+  --glyph-md: clamp(16px, 1.8vw, 20px);   /* pictogramme cartes */
+  --gap-lg:   clamp(8px,  1.2vw, 14px);   /* espace icône ↔ titre */
+
+  --icon-radius:12px;
+  --icon-shadow:0 4px 12px rgba(0,0,0,.12);
 }
 
-/* Responsive: tablette */
-@media (max-width: 768px) {
-    :root {
-        --icon-lg: 36px;
-        --glyph-lg: 20px;
-        --icon-md: 32px;
-        --glyph-md: 18px;
-        --icon-radius: 8px;
-    }
+/* Sécurité mobile : si l'écran est très étroit, raccourcir encore un peu */
+@media (max-width: 390px){
+  :root{ --icon-lg: 44px; --glyph-lg: 24px; }
 }
 
-/* Responsive: mobile */
-@media (max-width: 480px) {
-    :root {
-        --icon-lg: 32px;
-        --glyph-lg: 18px;
-        --icon-md: 28px;
-        --glyph-md: 16px;
-        --icon-radius: 8px;
-    }
+/* En-tête : ne change pas l'alignement */
+.section-header{ display:flex; align-items:center; gap:var(--gap-lg); }
+.section-title{ margin:0; }
+
+/* Icône standard (même design que "Pré-requis") */
+.ui-icon{
+  flex:0 0 auto;
+  display:grid !important; place-items:center !important; /* centrage béton */
+  width:var(--icon-md); height:var(--icon-md);
+  background:linear-gradient(180deg,var(--xe-blue-1),var(--xe-blue-2)) !important;
+  color:#fff !important;
+  border-radius:var(--icon-radius);
+  box-shadow:var(--icon-shadow);
+  overflow:hidden; position:relative; isolation:isolate;
+  line-height:0 !important;
 }
+.ui-icon.is-lg{ width:var(--icon-lg); height:var(--icon-lg); }
 
-/* Le header reste en flex: align-items:center (ne pas modifier) */
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap; /* Évite le débordement sur mobile */
-}
-
-@media (max-width: 768px) {
-    .section-header {
-        gap: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .section-header {
-        gap: 8px;
-    }
-    
-    .section-title {
-        font-size: clamp(20px, 5vw, 24px) !important;
-        line-height: 1.2;
-    }
-}
-
-/* ===== BOUCLIER : Entête - neutralise TOUT style global sur le SVG ===== */
-.section-header .section-icon > svg {
-    all: unset;                                /* reset complet de l'héritage */
-    width: var(--glyph-lg, 32px);
-    height: var(--glyph-lg, 32px);
-    display: block;
-    box-sizing: content-box;
-
-    /* Élimine les causes de l'anneau/décalage */
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    position: static !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-
-    /* Style "Pré-requis" : pictogramme blanc en stroke */
-    fill: none !important;
-    stroke: #fff !important;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-}
-
-/* Tuile bleue d'entête (identique à Pré-requis, juste plus grande) */
-.section-header .section-icon {
-    width: var(--icon-lg, 44px);
-    height: var(--icon-lg, 44px);
-    display: grid !important;
-    place-items: center !important;
-    background: linear-gradient(180deg, var(--xe-blue-1), var(--xe-blue-2)) !important;
-    color: #fff !important;
-    border-radius: var(--icon-radius);
-    overflow: hidden;
-    box-shadow: var(--icon-shadow);
-    isolation: isolate;
-    flex-shrink: 0; /* Empêche la compression sur mobile */
-    
-    /* Centrage absolu */
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    align-items: center;
-}
-
-/* Coupe toute déco (arc/cercle) éventuelle du thème */
-.section-header .section-icon::before,
-.section-header .section-icon::after,
-.section-header::before {
-    content: none !important;
-}
-
-/* ===== Icônes de cartes (Pré-requis, Atouts, etc.) ===== */
-.ui-icon,
+/* Compatibilité avec anciens sélecteurs */
 .icon,
 .column-title .icon {
     display: grid !important;
@@ -1666,7 +1590,24 @@ article,
     line-height: 0 !important;
 }
 
-.ui-icon > svg,
+/* Pictogrammes : blanc, stroke only (pas d'aplats) */
+.ui-icon > svg{
+  width:var(--glyph-md); height:var(--glyph-md);
+  display:block !important; margin:0 !important; padding:0 !important;
+  background:transparent !important; transform:none !important; position:static !important;
+  fill:none !important; stroke:currentColor !important;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;  /* évite l'effet "ultra-zoomé" */
+}
+
+/* Entête : forcé en taille LG + reset pour éviter les styles globaux (ex: h2 svg {...}) */
+.section-title .section-icon > svg{
+  all:unset; width:var(--glyph-lg); height:var(--glyph-lg);
+  display:block; fill:none; stroke:#fff; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
+}
+
+/* Compatibilité anciens sélecteurs */
 .icon > svg,
 .column-title .icon > svg {
     width: var(--glyph-md);
@@ -1685,34 +1626,21 @@ article,
     vector-effect: non-scaling-stroke;
 }
 
-/* Tuer définitivement tout "anneau/croissant" ajouté par le thème */
+/* Supprime TOUT arc/croissant décoratif éventuel */
 .ui-icon::before, .ui-icon::after,
-.section-header::before, .section-header::after,
-.section-icon::before, .section-icon::after,
-.icon::before, .icon::after {
-    content: none !important;
-    background: none !important;
-    border: none !important;
-    outline: 0 !important;
-    -webkit-mask: none !important;
-    mask: none !important;
-    filter: none !important;
-    box-shadow: none !important;
+.section-title::before, .section-title::after,
+.section-header::before, .section-header::after{
+  content:none !important; background:none !important; border:none !important;
+  -webkit-mask:none !important; mask:none !important; filter:none !important;
+  box-shadow:none !important;
 }
 
-/* Couper d'éventuels cercles internes des anciens SVG */
-.ui-icon svg circle, .ui-icon svg ellipse,
-.section-icon svg circle, .section-icon svg ellipse,
-.icon svg circle, .icon svg ellipse {
-    display: none !important;
-}
-
-/* Neutraliser couleurs codées en dur (bleu/blanc) à l'intérieur du SVG */
-.ui-icon svg [fill], .ui-icon svg [stroke="#1552D6"], .ui-icon svg [stroke="#1E5AE6"],
-.section-icon svg [fill], .section-icon svg [stroke="#1552D6"], .section-icon svg [stroke="#1E5AE6"],
-.icon svg [fill], .icon svg [stroke="#1552D6"], .icon svg [stroke="#1E5AE6"] {
-    fill: none !important;
-    stroke: currentColor !important;
+/* ==== Spécifique : section "Durée de formation" ==== */
+/* Ajouter une bordure blanche autour de la tuile (et SEULEMENT là) */
+.section--duree .ui-icon.is-lg::after{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  box-shadow: inset 0 0 0 2px #fff;    /* bordure interne blanche */
+  pointer-events:none;
 }
 
 /* ==== Ligne dégradée à droite du titre (à conserver) ==== */
@@ -2755,17 +2683,17 @@ html {
                 <div id="presentation-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <span class="section-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
+                        <span class="section-icon ui-icon is-lg">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
                             </svg>
                         </span>
                         Présentation
                     </h2>
-				</div>
+                </div>
                 <div id="presentation-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
                 <div class="text-content">
                     {{ formations.presentation|format_formation_text|raw }}
@@ -2808,15 +2736,15 @@ html {
                 <div id="programme-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <span class="section-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        <span class="section-icon ui-icon is-lg">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
                         </span>
                         Programme détaillé
                     </h2>
-			</div>
+                </div>
                 <div id="program-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
 
                 <div class="program-section">
@@ -2876,11 +2804,11 @@ html {
             <section id="duration" class="content-section">
                 <div id="duree-start" aria-hidden="true"></div>
                 <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="section-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <polyline points="12,6 12,12 16,14"/>
+                    <h2 class="section-title section--duree">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 7v6l4 2"></path>
                             </svg>
                         </span>
                         Durée de formation
