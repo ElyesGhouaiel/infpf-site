@@ -855,6 +855,7 @@
     }
   }
 
+  /* h2 svg - DÉSACTIVÉ car tailles fixes non-responsive écrasent le CSS des pages formation
   h2 svg {
     position: relative;
     top: 10px;
@@ -867,6 +868,7 @@
     margin-right: 0;
     background: #fff
   }
+  */
 
   h2 a {
     text-decoration: none
