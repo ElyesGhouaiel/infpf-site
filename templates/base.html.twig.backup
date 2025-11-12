@@ -3,13 +3,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		{% block stylesheets %}
-			<link href="{{ asset('css/fichier-v2.min.css') }}?v=1" rel="stylesheet"/>
+		{% block stylesheets %}{% endblock %}
+			<link href="../css/fichier-v2.min.css?v=1" rel="stylesheet"/>
 			<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
 			<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
 			<!-- CSS dédié bouton scroll - Force le positionnement correct -->
 			<link rel="stylesheet" href="{{ asset('css/bouton-scroll.css') }}?v={{ random() }}">
-		{% endblock %}
 
 		<!-- CSS de Bootstrap -->
 		
