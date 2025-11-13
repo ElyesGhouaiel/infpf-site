@@ -83,47 +83,14 @@
             }
         }
 
-        /* ===== PROTECTION DES MENUS DÉROULANTS ===== */
-        /* Force le positionnement correct des parents de menus */
-        .header #menu .menu-item,
-        .header #menu > ul > li {
-            position: relative !important;
-        }
-
-        /* Force le positionnement correct des sous-menus */
-        .header #menu .menu-item .sub-menu,
-        .header #menu .sub-menu {
-            position: absolute !important;
-            top: 100% !important;
-            left: 0 !important;
-            z-index: 999999 !important;
-            transform: none !important;
-            margin-top: 0 !important;
-        }
-
-        /* Enlever les puces/points des listes dans les sous-menus */
+        /* ===== MENUS DÉROULANTS : LAISSER LE CSS PAR DÉFAUT ===== */
+        /* On n'override RIEN, on laisse fichier.css faire son travail */
+        /* Seule exception : enlever les puces dans les listes */
         .header #menu .sub-menu,
         .header #menu .sub-menu ul,
         .header #menu .sub-menu li {
             list-style: none !important;
             list-style-type: none !important;
-        }
-
-        /* Sous-menu "Métiers" - ALIGNÉ SOUS LE BOUTON MÉTIERS */
-        /* Le parent doit avoir position: relative pour que le sous-menu se positionne correctement */
-        .header #menu #menu-item-442839,
-        .header #menu li#menu-item-442839 {
-            position: relative !important;
-        }
-        
-        /* Le sous-menu s'aligne avec le bord GAUCHE du bouton Métiers */
-        .header #menu #menu-item-442839 .sub-menu,
-        .header #menu li#menu-item-442839 .sub-menu,
-        body .header #menu #menu-item-442839 > .sub-menu {
-            left: 0 !important;
-            right: auto !important;
-            transform: translateX(0) !important;
-            margin-left: 0 !important;
         }
 
         /* ===== NEUTRALISATION DES CONFLITS D'AUTRES PAGES ===== */
