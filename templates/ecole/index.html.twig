@@ -95,34 +95,16 @@
             padding: 0;
         }
 
+        /* Supprimer tous les espaces en haut */
+        .site-main:first-child {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 40px;
-        }
-
-        /* ===== ESPACES EN HAUT - DESKTOP vs MOBILE ===== */
-        /* Sur desktop : pas de padding */
-        @media (min-width: 769px) {
-            .site-main:first-child,
-            .ecole-hub {
-                margin-top: 0 !important;
-                padding-top: 0 !important;
-            }
-        }
-        
-        /* Sur mobile : MÊME MÉTHODE QUE /FORMATION - padding dynamique sur le hero */
-        @media (max-width: 768px) {
-            .site-main:first-child,
-            .ecole-hub {
-                margin-top: 0 !important;
-                padding-top: 0 !important; /* Pas de padding, le hero gère tout */
-            }
-            
-            /* Méthode identique à /formation : calc(var(--header-height) + espace) */
-            .ecole-hub-hero {
-                padding: calc(var(--header-height) + 20px) 0 40px !important;
-            }
         }
 
         /* ===== HERO SECTION UNIQUE POUR LA PAGE HUB ===== */
@@ -133,6 +115,12 @@
             overflow: hidden;
             margin-top: 0 !important;
             margin-bottom: 0;
+        }
+
+        /* Supprimer tout espace au-dessus du hero */
+        .ecole-hub {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
         }
 
         .ecole-hub > *:first-child {
