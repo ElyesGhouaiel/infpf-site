@@ -59,10 +59,9 @@
             }
         }
 
-        /* Bouton Scroll-to-Top - Forcer l'affichage et la position */
+        /* Bouton Scroll-to-Top - Ne PAS masquer, laisser le JS gérer */
         .bouton-retour-haut,
         #btnScrollTop {
-            display: none !important; /* Caché par défaut */
             position: fixed !important;
             right: 30px !important;
             bottom: 100px !important;
@@ -70,15 +69,7 @@
             height: 50px !important;
             z-index: 2147483646 !important;
             cursor: pointer !important;
-            opacity: 0 !important;
             transition: opacity 0.3s ease, transform 0.3s ease !important;
-        }
-
-        /* Visible quand scroll actif */
-        .bouton-retour-haut.visible,
-        #btnScrollTop.visible {
-            display: block !important;
-            opacity: 1 !important;
         }
 
         /* Mobile : position ajustée */
@@ -183,10 +174,11 @@
         .ecole-hub-hero {
             position: relative;
             background: var(--primary-gradient);
-            padding: 120px 0 80px;
+            padding: 80px 0 60px !important; /* Réduit pour voir le contenu en dessous */
             overflow: hidden;
             margin-top: 0 !important;
             margin-bottom: 0;
+            min-height: auto !important; /* Pas de hauteur minimale imposée */
         }
 
         .ecole-hub > *:first-child {
@@ -220,11 +212,11 @@
         .ecole-hub-hero-badge {
             display: inline-block;
             background: rgba(255, 255, 255, 0.15);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 50px;
-            margin-bottom: 32px;
+            margin-bottom: 20px !important; /* Réduit */
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             align-self: center;
@@ -233,9 +225,9 @@
         }
 
         .ecole-hub-hero-title {
-            font-size: clamp(3rem, 5vw, 5rem);
+            font-size: clamp(2.5rem, 4vw, 3.5rem) !important; /* Réduit de 5rem à 3.5rem */
             font-weight: 800;
-            margin-bottom: 24px;
+            margin-bottom: 16px !important; /* Réduit */
             letter-spacing: -0.02em;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
@@ -244,8 +236,8 @@
         }
 
         .ecole-hub-hero-description {
-            font-size: clamp(1.2rem, 2vw, 1.5rem);
-            margin-bottom: 50px;
+            font-size: clamp(1.1rem, 1.8vw, 1.3rem) !important; /* Réduit */
+            margin-bottom: 30px !important; /* Réduit de 50px à 30px */
             opacity: 0.95;
             max-width: 800px;
             margin-left: auto;
