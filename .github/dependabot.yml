@@ -1,0 +1,66 @@
+# Configuration Dependabot pour scan automatique des vulnérabilités
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Scan des dépendances Composer (PHP)
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "ElyesGhouaiel"
+    assignees:
+      - "ElyesGhouaiel"
+    commit-message:
+      prefix: "🔒 [Security]"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "security"
+    # Grouper les mises à jour par type
+    groups:
+      symfony:
+        patterns:
+          - "symfony/*"
+      development:
+        dependency-type: "development"
+
+  # Scan des dépendances NPM (JavaScript) - si vous en avez
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:30"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "ElyesGhouaiel"
+    commit-message:
+      prefix: "🔒 [Security]"
+    labels:
+      - "dependencies"
+      - "javascript"
+    # Ignorer les mises à jour majeures qui pourraient casser
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # Scan des GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "🔧 [CI/CD]"
+    labels:
+      - "ci/cd"
+      - "github-actions"
+
+

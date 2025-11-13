@@ -13,14 +13,14 @@ class NativeMailService
         $this->logger = $logger;
     }
 
-    public function sendContactEmail(string $from, string $to, string $subject, string $content): void
+    public function sendContactEmail(string $from, string $to, string $subject, string $content, string $replyTo = null): void
     {
         // Configuration des en-têtes
         $headers = [
             'MIME-Version: 1.0',
             'Content-type: text/html; charset=utf-8',
             'From: ' . $from,
-            'Reply-To: ' . $from,
+            'Reply-To: ' . ($replyTo ?? $from),
             'X-Mailer: PHP/' . phpversion(),
             'X-Priority: 1',
             'Importance: High'

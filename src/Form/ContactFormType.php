@@ -84,12 +84,8 @@ class ContactFormType extends AbstractType
                     'placeholder' => 'Parlez-nous de votre projet professionnel, vos objectifs, vos questions...',
                     'rows' => 5
                 ]
-            ])
-            ->add('captcha', Recaptcha3Type::class, [
-                'constraints' => new Recaptcha3(),
-                'action_name' => 'contact_form',
-                'locale' => 'fr',
             ]);
+            // ✅ CAPTCHA SUPPRIMÉ - Géré manuellement en JavaScript (lazy load)
     }
 
     public function configureOptions(OptionsResolver $resolver)

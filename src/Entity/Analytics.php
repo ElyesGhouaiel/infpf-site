@@ -24,7 +24,7 @@ class Analytics
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $consentToken = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(length: 512)]
     private ?string $pageUrl = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

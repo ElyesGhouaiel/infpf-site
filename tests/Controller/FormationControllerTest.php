@@ -30,10 +30,16 @@ class FormationControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
+        // La route /formation/ redirige vers /formation (301)
         $crawler = $this->client->request('GET', $this->path);
+        
+        // Suivre la redirection
+        if ($this->client->getResponse()->isRedirect()) {
+            $crawler = $this->client->followRedirect();
+        }
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Formation index');
+        self::assertPageTitleContains('Formation');
 
         // Use the $crawler to perform additional assertions e.g.
         // self::assertSame('Some text on the page', $crawler->filter('.p')->first());

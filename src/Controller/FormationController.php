@@ -42,11 +42,38 @@ class FormationController extends AbstractController
     #[Route('/{id}', name: 'app_formation_show', methods: ['GET'])]
     public function show(Request $request, $id, FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
     {
+        $formation = $formationRepository->find($id);
+        
+        if (!$formation) {
+            throw $this->createNotFoundException('Formation non trouvée');
+        }
+        
         $category = $categoryRepository->findAll();
+        
+        // Génération de titre unique avec catégorie et ID
+        $pageTitle = $formation->getNameFormation();
+        if ($formation->getCategory()) {
+            $pageTitle .= ' - Formation ' . $formation->getCategory()->getName();
+        }
+        $pageTitle .= ' - INFPF';
+        
+        // Génération de meta description unique
+        $metaDescription = 'Découvrez la formation ' . $formation->getNameFormation();
+        if ($formation->getCategory()) {
+            $metaDescription .= ' en ' . $formation->getCategory()->getName();
+        }
+        if ($formation->getDescriptionFormation()) {
+            $description = strip_tags($formation->getDescriptionFormation());
+            $description = substr($description, 0, 120);
+            $metaDescription .= '. ' . $description;
+        }
+        $metaDescription .= ' Formation certifiante à distance avec accompagnement personnalisé.';
 
         return $this->render('content/formation/show.html.twig', [
-            'formations' => $formationRepository->find($id),
+            'formations' => $formation,
             'category' => $categoryRepository,
+            'page_title' => $pageTitle,
+            'meta_description' => $metaDescription
         ]);
     }
 

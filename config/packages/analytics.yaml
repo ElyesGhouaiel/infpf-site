@@ -1,0 +1,8 @@
+parameters:
+    # Google Analytics 4
+    analytics.enabled: '%env(bool:default:analytics_enabled_default:GOOGLE_ANALYTICS_ENABLED)%'
+    analytics_enabled_default: 'false'
+    analytics.google.measurement_id: '%env(default:analytics_id_default:GOOGLE_ANALYTICS_ID)%'
+    analytics_id_default: 'G-MBJWH1R61S'
+
+

@@ -32,20 +32,17 @@
 ] %}
 {% set full_url = calendly_url ~ (calendly_url matches '/\\?/' ? '&' : '?') ~ embed_params|join('&') %}
 
-<div class="calendly-iframe-container {{ iframe_class }}" style="position: relative; min-height: 700px; overflow: visible; margin-bottom: 0 !important; padding-bottom: 0 !important;">
-    <iframe 
-        src="{{ full_url }}"
-        width="100%" 
-        height="700"
-        frameborder="0"
-        scrolling="yes"
-        title="{{ iframe_title }}"
-        loading="lazy"
-        allow="payment"
-        data-calendly-iframe
-        style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(11, 63, 137, 0.1); pointer-events: auto; height: 700px !important; margin-bottom: 0 !important;"
-        aria-label="{{ iframe_title }}"
-    ></iframe>
+<div class="calendly-iframe-container {{ iframe_class }}" 
+     style="position: relative; min-height: 700px; overflow: visible; margin-bottom: 0 !important; padding-bottom: 0 !important;"
+     data-calendly-lazy
+     data-calendly-url="{{ full_url }}">
+    {# Placeholder avant chargement #}
+    <div class="calendly-placeholder" style="display: flex; align-items: center; justify-content: center; height: 700px; background: linear-gradient(135deg, #f8fafc, #e2e8f0); border-radius: 12px;">
+        <div style="text-align: center; padding: 2rem;">
+            <div style="width: 60px; height: 60px; border: 4px solid #0b3f89; border-top-color: transparent; border-radius: 50%; margin: 0 auto 1rem; animation: spin 1s linear infinite;"></div>
+            <p style="color: #64748b; font-size: 1.1rem; font-weight: 600;">Chargement du calendrier...</p>
+        </div>
+    </div>
     
     {# Fallback si iframe ne charge pas #}
     <noscript>
@@ -57,14 +54,59 @@
     </noscript>
 </div>
 
-{# Script désactivé - Hauteur fixe pour éviter l'animation de scroll #}
+{# Script LAZY LOADING avec Intersection Observer #}
 <script>
 (function() {
-    // Script désactivé pour éviter les animations de hauteur
-    // La hauteur est maintenant fixe à 900px
-    console.log('Calendly iframe: hauteur fixe activée (900px)');
+    const container = document.querySelector('[data-calendly-lazy]');
+    if (!container) return;
+    
+    const loadCalendly = () => {
+        const url = container.dataset.calendlyUrl;
+        const placeholder = container.querySelector('.calendly-placeholder');
+        
+        // Créer l'iframe
+        const iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.width = '100%';
+        iframe.height = '700';
+        iframe.frameBorder = '0';
+        iframe.scrolling = 'yes';
+        iframe.title = '{{ iframe_title|escape('js') }}';
+        iframe.allow = 'payment';
+        iframe.setAttribute('data-calendly-iframe', '');
+        iframe.style.cssText = 'border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(11, 63, 137, 0.1); pointer-events: auto; height: 700px !important; margin-bottom: 0 !important;';
+        iframe.setAttribute('aria-label', '{{ iframe_title|escape('js') }}');
+        
+        // Remplacer le placeholder par l'iframe
+        if (placeholder) {
+            placeholder.style.display = 'none';
+        }
+        container.appendChild(iframe);
+        
+        console.log('✅ Calendly iframe loaded lazily');
+    };
+    
+    // Intersection Observer pour lazy loading
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                loadCalendly();
+                observer.disconnect();
+            }
+        });
+    }, {
+        rootMargin: '200px' // Charger 200px avant d'être visible
+    });
+    
+    observer.observe(container);
 })();
 </script>
+
+<style>
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
 
 <style>
 /* Styles responsive pour iframe Calendly - HAUTEUR FIXE RÉDUITE */

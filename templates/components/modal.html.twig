@@ -52,14 +52,52 @@
     </div>
 </div>
 
-<!-- Script reCAPTCHA v3 pour la modal (si pas déjà chargé) -->
+<!-- ===== RECAPTCHA LAZY LOAD - Ne charge que lorsque la modal s'ouvre ===== -->
 <script>
-if (!document.querySelector('script[src*="recaptcha"]')) {
-    const recaptchaScript = document.createElement('script');
-    recaptchaScript.src = 'https://www.google.com/recaptcha/api.js?render=6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq';
-    recaptchaScript.async = true;
-    recaptchaScript.defer = true;
-    document.head.appendChild(recaptchaScript);
+// Variable globale pour tracker le chargement de reCAPTCHA
+let recaptchaLoadedForModal = false;
+let recaptchaLoadingForModal = false;
+
+// Fonction pour charger reCAPTCHA de manière asynchrone
+function loadRecaptchaForModal() {
+    return new Promise((resolve) => {
+        if (recaptchaLoadedForModal) {
+            resolve();
+            return;
+        }
+        
+        if (recaptchaLoadingForModal) {
+            // Attendre que le chargement en cours se termine
+            const checkInterval = setInterval(() => {
+                if (recaptchaLoadedForModal) {
+                    clearInterval(checkInterval);
+                    resolve();
+                }
+            }, 100);
+            return;
+        }
+        
+        // Ne charger que si pas déjà présent
+        if (document.querySelector('script[src*="recaptcha"]')) {
+            recaptchaLoadedForModal = true;
+            resolve();
+            return;
+        }
+        
+        recaptchaLoadingForModal = true;
+        console.log('🔐 Lazy load reCAPTCHA pour modal...');
+        
+        const recaptchaScript = document.createElement('script');
+        recaptchaScript.src = 'https://www.google.com/recaptcha/api.js?render=6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq';
+        recaptchaScript.async = true;
+        recaptchaScript.onload = () => {
+            recaptchaLoadedForModal = true;
+            recaptchaLoadingForModal = false;
+            console.log('✅ reCAPTCHA chargé pour modal');
+            resolve();
+        };
+        document.head.appendChild(recaptchaScript);
+    });
 }
 
 function waitForRecaptchaModal(callback) {
@@ -71,21 +109,56 @@ function waitForRecaptchaModal(callback) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const popupForm = document.getElementById('popupForm');
     const modalForm = document.querySelector('#popupForm form');
-    if (modalForm) {
-        waitForRecaptchaModal(function() {
-            modalForm.addEventListener('submit', function(e) {
-                const captchaInput = document.getElementById('modal_captcha_token');
-                if (!captchaInput.value) {
-                    e.preventDefault();
-                    grecaptcha.ready(function() {
-                        grecaptcha.execute('6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq', {action: 'documentation_request'}).then(function(token) {
-                            captchaInput.value = token;
-                            modalForm.submit();
-                        });
-                    });
+    const openModalButtons = document.querySelectorAll('.open-modal-btn, [data-open-modal]');
+    
+    if (popupForm && modalForm) {
+        // Charger reCAPTCHA seulement quand la modal s'ouvre
+        openModalButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log('📋 Ouverture modal - Chargement reCAPTCHA...');
+                loadRecaptchaForModal();
+            });
+        });
+        
+        // Observer l'ouverture de la modal (au cas où elle s'ouvre autrement)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'style' || mutation.attributeName === 'class') {
+                    const isVisible = popupForm.style.display !== 'none' && 
+                                     window.getComputedStyle(popupForm).display !== 'none';
+                    if (isVisible && !recaptchaLoadedForModal && !recaptchaLoadingForModal) {
+                        console.log('📋 Modal visible - Chargement reCAPTCHA...');
+                        loadRecaptchaForModal();
+                    }
                 }
             });
+        });
+        
+        observer.observe(popupForm, {
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+        
+        // Gérer la soumission du formulaire
+        modalForm.addEventListener('submit', function(e) {
+            const captchaInput = document.getElementById('modal_captcha_token');
+            if (!captchaInput.value) {
+                e.preventDefault();
+                
+                // S'assurer que reCAPTCHA est chargé avant d'exécuter
+                loadRecaptchaForModal().then(() => {
+                    waitForRecaptchaModal(function() {
+                        grecaptcha.ready(function() {
+                            grecaptcha.execute('6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq', {action: 'documentation_request'}).then(function(token) {
+                                captchaInput.value = token;
+                                modalForm.submit();
+                            });
+                        });
+                    });
+                });
+            }
         });
     }
 });
