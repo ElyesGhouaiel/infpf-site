@@ -109,15 +109,21 @@
             list-style-type: none !important;
         }
 
-        /* Sous-menu "Métiers" - ALIGNÉ À DROITE pour ne pas dépasser l'écran */
-        /* Le bord DROIT du sous-menu est aligné avec le bord DROIT du bouton Métiers */
-        /* Résultat: le menu s'étend vers la GAUCHE (vers Formations) */
+        /* Sous-menu "Métiers" - ALIGNÉ SOUS LE BOUTON MÉTIERS */
+        /* Le parent doit avoir position: relative pour que le sous-menu se positionne correctement */
+        .header #menu #menu-item-442839,
+        .header #menu li#menu-item-442839 {
+            position: relative !important;
+        }
+        
+        /* Le sous-menu s'aligne avec le bord GAUCHE du bouton Métiers */
         .header #menu #menu-item-442839 .sub-menu,
-        .header #menu .menu-item:nth-child(3) .sub-menu,
-        body .header #menu #menu-item-442839 .sub-menu {
-            left: auto !important;
-            right: 0 !important;
+        .header #menu li#menu-item-442839 .sub-menu,
+        body .header #menu #menu-item-442839 > .sub-menu {
+            left: 0 !important;
+            right: auto !important;
             transform: translateX(0) !important;
+            margin-left: 0 !important;
         }
 
         /* ===== NEUTRALISATION DES CONFLITS D'AUTRES PAGES ===== */
