@@ -4952,17 +4952,16 @@
 
 .bouton-retour-haut {
   position: fixed !important;
-  bottom: 30px !important; /* Même hauteur que le badge reCAPTCHA */
-  right: 150px !important; /* Bien séparé du badge reCAPTCHA (qui est à ~14px) */
+  bottom: 100px !important; /* Au-dessus du badge reCAPTCHA */
+  right: 30px !important; /* Aligné à droite comme avant */
   width: 50px !important;
   height: 50px !important;
   cursor: pointer !important;
-  z-index: 2147483647 !important; /* Z-index maximum pour être au-dessus de tout */
+  z-index: 2147483646 !important; /* Juste en dessous du reCAPTCHA */
   display: none !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;
   opacity: 1 !important;
   visibility: visible !important;
-  /* Assurer qu'il ne soit jamais caché */
   pointer-events: auto !important;
 }
 
@@ -4977,11 +4976,11 @@
   transform: scale(1.1) !important;
 }
 
-/* Responsive : Sur mobile, déplacer plus à gauche */
+/* Responsive : Sur mobile */
 @media (max-width: 768px) {
   .bouton-retour-haut {
-    right: 100px !important; /* Plus proche du bord sur mobile */
-    bottom: 30px !important;
+    right: 20px !important; /* Proche du bord sur mobile */
+    bottom: 90px !important;
   }
 
 /* ===== CORRECTION ALIGNEMENT VERTICAL MENU BURGER MOBILE (SOLUTION ROBUSTE) ===== */
