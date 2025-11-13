@@ -38,6 +38,60 @@
 
 {% block stylesheets %}
     <style>
+        /* ===== FIX LOGO & BOUTON SCROLL - BYPASS CDN ===== */
+        /* Logo INFPF - Forcer les dimensions correctes */
+        #branding .logo-infpf,
+        .logo-infpf {
+            width: 100px !important;
+            height: auto !important;
+            max-width: 100px !important;
+            display: inline-block !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Mobile : logo plus petit */
+        @media (max-width: 767px) {
+            #branding .logo-infpf,
+            .logo-infpf {
+                width: 80px !important;
+                max-width: 80px !important;
+            }
+        }
+
+        /* Bouton Scroll-to-Top - Forcer l'affichage et la position */
+        .bouton-retour-haut,
+        #btnScrollTop {
+            display: none !important; /* Caché par défaut */
+            position: fixed !important;
+            right: 30px !important;
+            bottom: 100px !important;
+            width: 50px !important;
+            height: 50px !important;
+            z-index: 2147483646 !important;
+            cursor: pointer !important;
+            opacity: 0 !important;
+            transition: opacity 0.3s ease, transform 0.3s ease !important;
+        }
+
+        /* Visible quand scroll actif */
+        .bouton-retour-haut.visible,
+        #btnScrollTop.visible {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        /* Mobile : position ajustée */
+        @media (max-width: 768px) {
+            .bouton-retour-haut,
+            #btnScrollTop {
+                right: 20px !important;
+                bottom: 90px !important;
+                width: 45px !important;
+                height: 45px !important;
+            }
+        }
+
         /* ===== NEUTRALISATION DES CONFLITS D'AUTRES PAGES ===== */
         /* Masquer tous les styles des sous-pages qui pourraient interférer */
         .formation-section-row,
