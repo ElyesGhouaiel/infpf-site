@@ -101,8 +101,17 @@
             margin-top: 0 !important;
         }
 
-        /* Sous-menu "Métiers" aligné à droite si nécessaire */
-        .header #menu .menu-item:last-child .sub-menu {
+        /* Enlever les puces/points des listes dans les sous-menus */
+        .header #menu .sub-menu,
+        .header #menu .sub-menu ul,
+        .header #menu .sub-menu li {
+            list-style: none !important;
+            list-style-type: none !important;
+        }
+
+        /* Sous-menu "Métiers" (3ème élément de menu) - aligné à droite */
+        .header #menu > ul > li:nth-child(3) .sub-menu,
+        .header #menu .menu-item:nth-child(3) .sub-menu {
             left: auto !important;
             right: 0 !important;
         }
