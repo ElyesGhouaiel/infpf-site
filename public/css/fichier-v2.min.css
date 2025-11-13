@@ -4683,15 +4683,16 @@
 }
 
 #branding .logo-infpf {
-  /* Réinitialisez les propriétés spécifiques si 'all: unset;' ne fonctionne pas */
+  /* Styles du logo - all:unset SUPPRIMÉ car il annulait les dimensions */
   margin: 0;
   padding: 0;
-  all: unset; 
   border: none;
   background: none;
-  width: 100px; /* ou toute autre valeur que vous souhaitez appliquer */
+  display: inline-block;
+  width: 100px; /* Taille par défaut desktop */
+  height: auto;
   filter: brightness(8.5);
-  /* Appliquez ici les autres styles spécifiques que vous souhaitez pour le logo */
+  max-width: 100%;
 }
 
 .imgcpfcpf {
