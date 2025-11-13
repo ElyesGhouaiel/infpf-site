@@ -2578,6 +2578,143 @@ html {
         scroll-behavior: auto;
     }
 }
+
+/* ===== BOUTON RETOUR AUX FORMATIONS - STRATÉGIQUE UX ===== */
+.back-to-formations {
+    position: fixed;
+    top: calc(var(--header-height) + 20px); /* Juste sous le header */
+    left: 20px;
+    z-index: 900; /* Sous le header mais au-dessus du contenu */
+    
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(14, 68, 191, 0.15);
+    border-radius: 50px;
+    
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                0 2px 4px rgba(0, 0, 0, 0.04);
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.back-to-formations:hover {
+    transform: translateX(-4px);
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 20px rgba(14, 68, 191, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.back-to-formations:active {
+    transform: translateX(-2px) scale(0.98);
+}
+
+.back-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-to-formations:hover .back-icon {
+    transform: translateX(-3px);
+}
+
+.back-text {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* ===== RESPONSIVE : MOBILE FIRST ===== */
+@media (max-width: 768px) {
+    .back-to-formations {
+        /* Mobile : Position en bas à gauche, plus compact */
+        top: auto;
+        bottom: 80px; /* Au-dessus du bouton sommaire */
+        left: 16px;
+        
+        padding: 10px 16px;
+        font-size: 13px;
+        gap: 6px;
+        
+        /* Plus petit sur mobile pour ne pas gêner */
+        border-radius: 40px;
+    }
+    
+    .back-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Texte plus court sur très petit écran */
+    @media (max-width: 390px) {
+        .back-text {
+            display: none; /* Masquer le texte, garder juste l'icône */
+        }
+        
+        .back-to-formations {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    }
+}
+
+/* ===== DESKTOP : LARGE SCREEN ===== */
+@media (min-width: 1400px) {
+    .back-to-formations {
+        left: 40px; /* Plus d'espace sur grand écran */
+    }
+}
+
+/* ===== ANIMATION D'ENTRÉE ===== */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.back-to-formations {
+    animation: slideInFromLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s backwards;
+}
+
+/* ===== ACCESSIBILITÉ ===== */
+.back-to-formations:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+/* Réduire les animations si demandé */
+@media (prefers-reduced-motion: reduce) {
+    .back-to-formations {
+        animation: none;
+        transition: none;
+    }
+    
+    .back-to-formations:hover {
+        transform: none;
+    }
+    
+    .back-to-formations:hover .back-icon {
+        transform: none;
+    }
+}
 </style>
 {% endblock %}
 
@@ -2585,6 +2722,14 @@ html {
 <a href="#main-content" class="skip-to-content">Passer au contenu principal</a>
 
 <div class="formation-page">
+    
+    <!-- ===== BOUTON RETOUR AUX FORMATIONS ===== -->
+    <a href="{{ path('app_home') }}#formations" class="back-to-formations" aria-label="Retour à la liste des formations">
+        <svg class="back-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span class="back-text">Formations</span>
+    </a>
     
     <!-- MOBILE ONLY: Bouton toggle sommaire -->
     <button class="floating-toc-toggle" id="toc-toggle-mobile" aria-label="Afficher/masquer le sommaire" aria-expanded="false">
@@ -2962,14 +3107,11 @@ html {
 
             <!-- Navigation Admin -->
 	{% if is_granted("ROLE_ADMIN") %}
-            <div style="margin-top: var(--space-5xl); padding-top: var(--space-xl); border-top: 2px solid var(--gray-200); display: flex; gap: var(--space-lg);">
+            <div style="margin-top: var(--space-5xl); padding-top: var(--space-xl); border-top: 2px solid var(--gray-200);">
                 <a href="{{ path('app_formation_edit', {'id': formations.id}) }}" class="btn-hero btn-secondary-hero" style="padding: var(--space-sm) var(--space-lg); font-size: 0.9rem;">
-                    Modifier cette formation
+                    ✏️ Modifier cette formation
                 </a>
-                <a href="{{ path('app_home') }}" style="color: var(--text-secondary); text-decoration: none; padding: var(--space-sm) var(--space-lg); display: flex; align-items: center; gap: var(--space-sm);">
-                    ← Retour aux formations
-			</a>
-		</div>
+	</div>
             {% endif %}
     
         </main>
