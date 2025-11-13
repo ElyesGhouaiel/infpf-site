@@ -2637,9 +2637,9 @@ html {
 /* ===== RESPONSIVE : MOBILE FIRST ===== */
 @media (max-width: 768px) {
     .back-to-formations {
-        /* Mobile : Position en bas à gauche, plus compact */
+        /* Mobile : Position fixe en bas à gauche (coin) */
         top: auto;
-        bottom: 80px; /* Au-dessus du bouton sommaire */
+        bottom: 20px; /* Bloqué en bas */
         left: 16px;
         
         padding: 10px 16px;
@@ -3105,14 +3105,6 @@ html {
 </div>
             </section>
 
-            <!-- Navigation Admin -->
-	{% if is_granted("ROLE_ADMIN") %}
-            <div style="margin-top: var(--space-5xl); padding-top: var(--space-xl); border-top: 2px solid var(--gray-200);">
-                <a href="{{ path('app_formation_edit', {'id': formations.id}) }}" class="btn-hero btn-secondary-hero" style="padding: var(--space-sm) var(--space-lg); font-size: 0.9rem;">
-                    ✏️ Modifier cette formation
-                </a>
-	</div>
-            {% endif %}
     
         </main>
 
