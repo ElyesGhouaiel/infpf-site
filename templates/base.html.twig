@@ -13,21 +13,78 @@
 		<style>
 			#popupForm, .popup-form { display: none !important; }
 			
-			/* FIX BOUTON SCROLL-TO-TOP: Un seul bouton, bien positionné */
+			/* FIX BOUTON SCROLL-TO-TOP: Design moderne bleu foncé */
 			#btnScrollTop,
 			.bouton-retour-haut {
+				/* Reset styles par défaut du bouton */
+				margin: 0 !important;
+				padding: 0 !important;
+				outline: none !important;
+				
+				/* Position et dimensions */
 				position: fixed !important;
 				bottom: 100px !important;
 				right: 30px !important;
-				width: 50px !important;
-				height: 50px !important;
+				width: 60px !important;
+				height: 60px !important;
 				cursor: pointer !important;
 				z-index: 2147483646 !important;
 				display: none !important;
-				transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 				opacity: 1 !important;
 				visibility: visible !important;
 				pointer-events: auto !important;
+				
+				/* Design bleu foncé moderne */
+				background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%) !important;
+				border-radius: 50% !important;
+				box-shadow: 0 4px 20px rgba(30, 58, 138, 0.4), 0 2px 10px rgba(37, 99, 235, 0.3) !important;
+				border: 3px solid rgba(255, 255, 255, 0.2) !important;
+				
+				/* Flèche blanche centrée */
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				font-size: 0 !important;
+				color: white !important;
+				font-weight: bold !important;
+				
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+			}
+			
+			/* Contenu de la flèche (↑) */
+			#btnScrollTop::before,
+			.bouton-retour-haut::before {
+				content: "↑" !important;
+				font-size: 28px !important;
+				line-height: 1 !important;
+				color: white !important;
+			}
+			
+			/* Animation au hover */
+			#btnScrollTop:hover,
+			.bouton-retour-haut:hover {
+				transform: translateY(-5px) scale(1.1) !important;
+				box-shadow: 0 8px 30px rgba(30, 58, 138, 0.6), 0 4px 15px rgba(37, 99, 235, 0.5) !important;
+				background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%) !important;
+				border-color: rgba(255, 255, 255, 0.4) !important;
+			}
+			
+			/* Animation de pulsation subtile */
+			@keyframes pulse-scroll {
+				0%, 100% {
+					box-shadow: 0 4px 20px rgba(30, 58, 138, 0.4), 0 2px 10px rgba(37, 99, 235, 0.3);
+				}
+				50% {
+					box-shadow: 0 6px 25px rgba(30, 58, 138, 0.5), 0 3px 12px rgba(37, 99, 235, 0.4);
+				}
+			}
+			
+			#btnScrollTop[style*="display: flex"],
+			#btnScrollTop[style*="display: block"],
+			.bouton-retour-haut[style*="display: flex"],
+			.bouton-retour-haut[style*="display: block"] {
+				display: flex !important;
+				animation: pulse-scroll 3s ease-in-out infinite !important;
 			}
 			
 			@media (max-width: 768px) {
@@ -35,6 +92,13 @@
 				.bouton-retour-haut {
 					right: 20px !important;
 					bottom: 90px !important;
+					width: 50px !important;
+					height: 50px !important;
+				}
+				
+				#btnScrollTop::before,
+				.bouton-retour-haut::before {
+					font-size: 24px !important;
 				}
 			}
 		</style>
@@ -3087,7 +3151,7 @@
 
 {% include 'footer.html.twig' %}
 
-<img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
+<button id="btnScrollTop" class="bouton-retour-haut" aria-label="Retour en haut" title="Retour en haut"></button>
 
 {# Banner de consentement cookies RGPD #}
 {% include 'components/cookie_banner.html.twig' %}
