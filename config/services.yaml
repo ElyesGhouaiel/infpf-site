@@ -1,0 +1,31 @@
+parameters:
+
+services:
+    # Configuration par défaut
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $environment: '%kernel.environment%'
+
+    # Auto-enregistrement des services dans src/
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Controller resolver
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # Event Listener pour Rate Limiting
+    App\EventListener\RateLimitListener:
+        arguments:
+            $contactFormLimiter: '@limiter.contact_form'
+            $strictLimiter: '@limiter.strict'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 100 }
+            - { name: kernel.event_listener, event: kernel.response, priority: -100 }
