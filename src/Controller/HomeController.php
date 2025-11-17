@@ -309,19 +309,37 @@ class HomeController extends AbstractController
 #[Route('/download-document/{id}', name: 'download_document')]
 public function downloadDocument($id, FormationRepository $formationRepository)
 {
-    $formation = $formationRepository->find($id);
-    if (!$formation) {
-        throw $this->createNotFoundException('La formation demandée n\'existe pas.');
+    try {
+        $formation = $formationRepository->find($id);
+        if (!$formation) {
+            throw $this->createNotFoundException('La formation demandée n\'existe pas.');
+        }
+
+        // Vérifier que la formation a un nom
+        $formationName = $formation->getNameFormation();
+        if (!$formationName) {
+            throw $this->createNotFoundException('Le nom de la formation est invalide.');
+        }
+
+        $fileName = preg_replace('/[\s\/\\:*?"<>|]/', '_', $formationName) . '.pdf';
+        
+        // Vérifier que le paramètre pdf_directory existe
+        if (!$this->getParameter('pdf_directory')) {
+            throw $this->createNotFoundException('Le répertoire de documents n\'est pas configuré.');
+        }
+        
+        $filePath = $this->getParameter('pdf_directory') . '/' . $fileName;
+
+        if (!file_exists($filePath)) {
+            throw $this->createNotFoundException('Le document n\'existe pas : ' . $fileName);
+        }
+
+        return $this->file($filePath, $fileName, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+        
+    } catch (\Exception $e) {
+        // Logger l'erreur pour debug
+        throw $this->createNotFoundException('Erreur lors du téléchargement : ' . $e->getMessage());
     }
-
-    $fileName = preg_replace('/[\s\/\\:*?"<>|]/', '_', $formation->getNameFormation()) . '.pdf';
-    $filePath = $this->getParameter('pdf_directory') . '/' . $fileName;
-
-    if (!file_exists($filePath)) {
-        throw $this->createNotFoundException('Le document n\'existe pas.');
-    }
-
-    return $this->file($filePath, $fileName, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
 }
 
 //     #[Route('/get-formations-by-category', name: 'get_formations_by_category')]

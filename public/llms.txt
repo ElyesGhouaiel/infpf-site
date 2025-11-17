@@ -1,0 +1,29 @@
+# INFPF - Institut National de la Formation Professionnelle Française
+
+## Description
+L'INFPF est un organisme de formation à distance spécialisé dans plusieurs domaines :
+- Petite enfance
+- Beauté et esthétique
+- Cuisine et pâtisserie
+- Finance et comptabilité
+- Social et médico-social
+
+## Formations disponibles
+Nous proposons des formations certifiantes avec accompagnement personnalisé.
+
+## Contact
+Site web : https://infpf.fr
+Email : contact@infpf.fr
+
+## Pages principales
+- Accueil : https://infpf.fr/
+- Formations : https://infpf.fr/formation
+- École : https://infpf.fr/ecole
+- Blog : https://infpf.fr/blog
+- Contact : https://infpf.fr/contact
+- Métiers : https://infpf.fr/metiers
+
+## Technologies
+Framework : Symfony 6
+Base de données : MySQL/MariaDB
+

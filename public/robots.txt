@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Fichiers autorisés
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Allow: /uploads/
+
+# Fichiers interdits
+Disallow: /admin/
+Disallow: /blog/*/edit
+Disallow: /blog/new
+Disallow: /_profiler/
+Disallow: /var/
+
+# Sitemap
+Sitemap: https://infpf.fr/sitemap.xml
+
