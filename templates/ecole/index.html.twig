@@ -37,6 +37,7 @@
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
     <style>
         /* ===== NEUTRALISATION DES CONFLITS D'AUTRES PAGES ===== */
         /* Masquer tous les styles des sous-pages qui pourraient interférer */
@@ -77,25 +78,24 @@
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
+        /* Scoper TOUS les styles pour ne pas affecter header/footer */
+        .ecole-hub * {
             box-sizing: border-box;
         }
 
-        body {
+        .ecole-hub {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
             line-height: 1.6;
             color: var(--text-dark);
+        }
+
+        .ecole-hub.site-main {
             margin: 0;
             padding: 0;
         }
 
-        .site-main {
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
+        .ecole-hub .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 40px;
@@ -104,7 +104,7 @@
         /* ===== ESPACES EN HAUT - DESKTOP vs MOBILE ===== */
         /* Sur desktop : pas de padding */
         @media (min-width: 769px) {
-            .site-main:first-child,
+            .ecole-hub.site-main:first-child,
             .ecole-hub {
                 margin-top: 0 !important;
                 padding-top: 0 !important;
@@ -113,7 +113,7 @@
         
         /* Sur mobile : MÊME MÉTHODE QUE /FORMATION - padding dynamique sur le hero */
         @media (max-width: 768px) {
-            .site-main:first-child,
+            .ecole-hub.site-main:first-child,
             .ecole-hub {
                 margin-top: 0 !important;
                 padding-top: 0 !important; /* Pas de padding, le hero gère tout */
@@ -388,7 +388,7 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .container {
+            .ecole-hub .container {
                 padding: 0 30px;
             }
 
@@ -416,7 +416,7 @@
         }
 
         @media (max-width: 768px) {
-            .container {
+            .ecole-hub .container {
                 padding: 0 20px;
             }
 
