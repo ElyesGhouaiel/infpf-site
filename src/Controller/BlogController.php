@@ -294,11 +294,16 @@ class BlogController extends AbstractController
     public function delete(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $blog->getId(), $request->request->get('_token'))) {
+            $blogTitle = $blog->getTitleOne();
             $entityManager->remove($blog);
             $entityManager->flush();
+            
+            $this->addFlash('success', 'L\'article "' . $blogTitle . '" a été supprimé avec succès.');
+            return $this->redirectToRoute('app_blog_admin', [], Response::HTTP_SEE_OTHER);
         }
-    
-        return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
+        
+        $this->addFlash('error', 'Token de sécurité invalide. Veuillez réessayer.');
+        return $this->redirectToRoute('app_blog_admin', [], Response::HTTP_SEE_OTHER);
     }
 
 
