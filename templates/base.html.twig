@@ -12,6 +12,31 @@
 		<!-- FIX MODAL: Force le cache du modal à être caché -->
 		<style>
 			#popupForm, .popup-form { display: none !important; }
+			
+			/* FIX BOUTON SCROLL-TO-TOP: Un seul bouton, bien positionné */
+			#btnScrollTop,
+			.bouton-retour-haut {
+				position: fixed !important;
+				bottom: 100px !important;
+				right: 30px !important;
+				width: 50px !important;
+				height: 50px !important;
+				cursor: pointer !important;
+				z-index: 2147483646 !important;
+				display: none !important;
+				transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+				opacity: 1 !important;
+				visibility: visible !important;
+				pointer-events: auto !important;
+			}
+			
+			@media (max-width: 768px) {
+				#btnScrollTop,
+				.bouton-retour-haut {
+					right: 20px !important;
+					bottom: 90px !important;
+				}
+			}
 		</style>
 
 		<!-- CSS de Bootstrap -->
@@ -3059,6 +3084,8 @@
 <main class="site-main" id="main">
 {% block body %}{% endblock %}
 </main>
+
+{% include 'footer.html.twig' %}
 
 <img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
 
