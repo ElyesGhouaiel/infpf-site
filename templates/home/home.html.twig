@@ -4824,7 +4824,7 @@
 	<div class="video-section">
 		<div class="wp-block-coaching-personnalise" data-aos="fade-up">
 			<div class="wp-block-videos" data-aos="fade-right">
-				<video controls autoplay loop>
+				<video controls muted loop>
         <source src="{{ asset('img/video-infpf.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -4927,6 +4927,7 @@
 	</section>
 	</div>
 
+	{% include 'footer.html.twig' %}
 
 {% block javascripts %}
 <!-- CHARGEMENT JQUERY EN PREMIER -->
