@@ -4824,7 +4824,7 @@
 	<div class="video-section">
 		<div class="wp-block-coaching-personnalise" data-aos="fade-up">
 			<div class="wp-block-videos" data-aos="fade-right">
-				<video controls muted loop>
+				<video id="video-infpf" controls muted loop>
         <source src="{{ asset('img/video-infpf.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -4846,6 +4846,40 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+			// Auto-lecture vidéo avec volume à 50% quand elle entre dans le viewport
+			document.addEventListener('DOMContentLoaded', function() {
+				const video = document.getElementById('video-infpf');
+				let hasPlayed = false;
+
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting && !hasPlayed) {
+							// Vidéo est visible dans le viewport
+							video.muted = false; // Activer le son
+							video.volume = 0.5;  // Volume à 50%
+							
+							// Lancer la vidéo
+							video.play().catch(err => {
+								// Si le navigateur bloque l'autoplay avec son, garder muted
+								console.log('Autoplay avec son bloqué, lecture en mode muet');
+								video.muted = true;
+								video.play();
+							});
+							
+							hasPlayed = true;
+						}
+					});
+				}, {
+					threshold: 0.5 // Déclencher quand 50% de la vidéo est visible
+				});
+
+				if (video) {
+					observer.observe(video);
+				}
+			});
+		</script>
 
 		<!-- Contact Section Moderne et Cohérente -->
 	<section class="contact-section">
