@@ -33,11 +33,11 @@
 				/* CACHÉ PAR DÉFAUT - Le JavaScript le montre après scroll */
 				display: none !important;
 				
-				/* Design bleu foncé moderne */
-				background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%) !important;
+				/* Design bleu clair/cyan lumineux */
+				background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%) !important;
 				border-radius: 50% !important;
-				box-shadow: 0 4px 20px rgba(30, 58, 138, 0.4), 0 2px 10px rgba(37, 99, 235, 0.3) !important;
-				border: 3px solid rgba(255, 255, 255, 0.2) !important;
+				box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 2px 10px rgba(96, 165, 250, 0.4), inset 0 -2px 8px rgba(0, 0, 0, 0.1) !important;
+				border: 3px solid rgba(255, 255, 255, 0.4) !important;
 				
 				/* Préparation pour flexbox (appliqué quand visible) */
 				align-items: center !important;
@@ -62,18 +62,18 @@
 			#btnScrollTop:hover,
 			.bouton-retour-haut:hover {
 				transform: translateY(-5px) scale(1.1) !important;
-				box-shadow: 0 8px 30px rgba(30, 58, 138, 0.6), 0 4px 15px rgba(37, 99, 235, 0.5) !important;
-				background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%) !important;
-				border-color: rgba(255, 255, 255, 0.4) !important;
+				box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7), 0 4px 15px rgba(96, 165, 250, 0.6), inset 0 -2px 8px rgba(0, 0, 0, 0.15) !important;
+				background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 50%, #bfdbfe 100%) !important;
+				border-color: rgba(255, 255, 255, 0.6) !important;
 			}
 			
 			/* Animation de pulsation subtile */
 			@keyframes pulse-scroll {
 				0%, 100% {
-					box-shadow: 0 4px 20px rgba(30, 58, 138, 0.4), 0 2px 10px rgba(37, 99, 235, 0.3);
+					box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 2px 10px rgba(96, 165, 250, 0.4), inset 0 -2px 8px rgba(0, 0, 0, 0.1);
 				}
 				50% {
-					box-shadow: 0 6px 25px rgba(30, 58, 138, 0.5), 0 3px 12px rgba(37, 99, 235, 0.4);
+					box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6), 0 3px 12px rgba(96, 165, 250, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.12);
 				}
 			}
 			
