@@ -29,10 +29,9 @@
 				height: 60px !important;
 				cursor: pointer !important;
 				z-index: 2147483646 !important;
+				
+				/* CACHÉ PAR DÉFAUT - Le JavaScript le montre après scroll */
 				display: none !important;
-				opacity: 1 !important;
-				visibility: visible !important;
-				pointer-events: auto !important;
 				
 				/* Design bleu foncé moderne */
 				background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%) !important;
@@ -40,8 +39,7 @@
 				box-shadow: 0 4px 20px rgba(30, 58, 138, 0.4), 0 2px 10px rgba(37, 99, 235, 0.3) !important;
 				border: 3px solid rgba(255, 255, 255, 0.2) !important;
 				
-				/* Flèche blanche centrée */
-				display: flex !important;
+				/* Préparation pour flexbox (appliqué quand visible) */
 				align-items: center !important;
 				justify-content: center !important;
 				font-size: 0 !important;
@@ -79,11 +77,10 @@
 				}
 			}
 			
+			/* Quand le JavaScript rend le bouton visible */
 			#btnScrollTop[style*="display: flex"],
-			#btnScrollTop[style*="display: block"],
-			.bouton-retour-haut[style*="display: flex"],
-			.bouton-retour-haut[style*="display: block"] {
-				display: flex !important;
+			#btnScrollTop[style*="display: block"] {
+				display: flex !important; /* Force flexbox pour centrer la flèche */
 				animation: pulse-scroll 3s ease-in-out infinite !important;
 			}
 			
@@ -3290,15 +3287,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  // Scroll top button - Seuil réduit pour être visible plus tôt
+  // Scroll top button - Apparaît après 300px de scroll
   document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("btnScrollTop");
 
     if (!btn) return;
 
     window.addEventListener("scroll", function () {
-      // Afficher dès 200px de scroll (au lieu de 300px)
-      btn.style.display = window.scrollY > 200 ? "block" : "none";
+      // Afficher après 300px de scroll (besoin de descendre dans la page)
+      btn.style.display = window.scrollY > 300 ? "flex" : "none";
     });
 
     btn.addEventListener("click", function () {
