@@ -1838,61 +1838,7 @@ main.metier-page-ef {
     transform: rotate(180deg);
 }
 
-/* Bouton retour en haut */
-.back-to-top-ef {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--ef-primary) 0%, #1a5a9a 100%);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
-
-.back-to-top-ef:hover {
-    background: linear-gradient(135deg, #1a5a9a 0%, var(--ef-primary) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(11, 63, 137, 0.4);
-}
-
-.back-to-top-ef:active {
-    transform: translateY(0);
-}
-
-.back-to-top-ef svg {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease;
-}
-
-.back-to-top-ef:hover svg {
-    transform: translateY(-1px);
-}
-
-/* Responsive pour bouton retour en haut */
-@media (max-width: 768px) {
-    .back-to-top-ef {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-    }
-    
-    .back-to-top-ef svg {
-        width: 20px;
-        height: 20px;
-    }
-}
+/* Styles pour bouton retour en haut global (défini dans base.html.twig) */
 
 /* Animations pour le toggle des formations */
 @keyframes slideDown {
@@ -2283,30 +2229,6 @@ main.metier-page-ef {
         }
     }
 
-    // Fonction scroll vers le haut
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-
-    // Afficher/masquer le bouton selon la position de scroll
-    window.addEventListener('scroll', function() {
-        const backToTopBtn = document.getElementById('back-to-top-btn');
-        if (window.pageYOffset > 300) {
-            backToTopBtn.style.display = 'flex';
-        } else {
-            backToTopBtn.style.display = 'none';
-        }
-    });
 </script>
-
-<!-- Bouton retour en haut -->
-<button id="back-to-top-btn" class="back-to-top-ef" onclick="scrollToTop()" title="Retour en haut" style="display: none;">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/>
-    </svg>
-</button>
 
 {% endblock %}
