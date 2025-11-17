@@ -90,12 +90,12 @@
             padding: 0;
         }
 
-        .ecole-hub.site-main {
+        .site-main {
             margin: 0;
             padding: 0;
         }
 
-        .ecole-hub .container {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 40px;
@@ -272,19 +272,19 @@
         }
 
         /* ===== SECTION PAGES ===== */
-        .ecole-hub .pages-section {
+        .pages-section {
             padding: 100px 0;
             background: white;
         }
 
 
-        .ecole-hub .pages-grid {
+        .pages-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
 
-        .ecole-hub .page-card {
+        .page-card {
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-light);
@@ -298,18 +298,18 @@
             min-height: 200px;
         }
 
-        .ecole-hub .page-card:hover {
+        .page-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-heavy);
             color: inherit;
         }
 
-        .ecole-hub .page-card.highlight {
+        .page-card.highlight {
             border: 2px solid var(--accent);
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         }
 
-        .ecole-hub .page-card.highlight::before {
+        .page-card.highlight::before {
             content: '';
             position: absolute;
             top: 0;
@@ -320,7 +320,7 @@
             border-top: 20px solid var(--accent);
         }
 
-        .ecole-hub .page-card.highlight::after {
+        .page-card.highlight::after {
             content: '★';
             position: absolute;
             top: 2px;
@@ -330,14 +330,14 @@
             font-weight: bold;
         }
 
-        .ecole-hub .card-header {
+        .card-header {
             display: flex;
             align-items: center;
             gap: 20px;
             margin-bottom: 24px;
         }
 
-        .ecole-hub .card-icon {
+        .card-icon {
             width: 60px;
             height: 60px;
             background: var(--primary-gradient);
@@ -349,12 +349,12 @@
             flex-shrink: 0;
         }
 
-        .ecole-hub .card-icon svg {
+        .card-icon svg {
             width: 28px;
             height: 28px;
         }
 
-        .ecole-hub .card-title {
+        .card-title {
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary);
@@ -362,14 +362,14 @@
             line-height: 1.3;
         }
 
-        .ecole-hub .card-description {
+        .card-description {
             color: var(--text-dark);
             line-height: 1.7;
             margin: 0;
             font-size: 1.05rem;
         }
 
-        .ecole-hub .card-arrow {
+        .card-arrow {
             position: absolute;
             bottom: 20px;
             right: 20px;
@@ -381,14 +381,14 @@
             transition: var(--transition);
         }
 
-        .ecole-hub .page-card:hover .ecole-hub .card-arrow {
+        .page-card:hover .card-arrow {
             opacity: 1;
             transform: translateX(0);
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .ecole-hub .container {
+            .container {
                 padding: 0 30px;
             }
 
@@ -396,16 +396,16 @@
                 padding: 80px 0 60px;
             }
 
-            .ecole-hub .pages-section {
+            .pages-section {
                 padding: 80px 0;
             }
 
-            .ecole-hub .pages-grid {
+            .pages-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 25px;
             }
 
-            .ecole-hub .page-card {
+            .page-card {
                 padding: 35px;
                 min-height: 180px;
             }
@@ -416,7 +416,7 @@
         }
 
         @media (max-width: 768px) {
-            .ecole-hub .container {
+            .container {
                 padding: 0 20px;
             }
 
@@ -424,35 +424,35 @@
                 padding: 60px 0 50px;
             }
 
-            .ecole-hub .pages-section {
+            .pages-section {
                 padding: 60px 0;
             }
 
-            .ecole-hub .pages-grid {
+            .pages-grid {
                 grid-template-columns: 1fr;
                 gap: 25px;
             }
 
-            .ecole-hub .page-card {
+            .page-card {
                 padding: 30px;
                 min-height: 160px;
             }
 
-            .ecole-hub .card-header {
+            .card-header {
                 gap: 20px;
             }
 
-            .ecole-hub .card-icon {
+            .card-icon {
                 width: 60px;
                 height: 60px;
             }
 
-            .ecole-hub .card-icon svg {
+            .card-icon svg {
                 width: 28px;
                 height: 28px;
             }
 
-            .ecole-hub .card-title {
+            .card-title {
                 font-size: 1.4rem;
             }
 
@@ -475,21 +475,21 @@
                 font-size: 2rem;
             }
 
-            .ecole-hub .page-card {
+            .page-card {
                 padding: 25px;
                 min-height: 140px;
             }
 
-            .ecole-hub .card-title {
+            .card-title {
                 font-size: 1.3rem;
             }
 
-            .ecole-hub .card-icon {
+            .card-icon {
                 width: 55px;
                 height: 55px;
             }
 
-            .ecole-hub .card-icon svg {
+            .card-icon svg {
                 width: 26px;
                 height: 26px;
             }

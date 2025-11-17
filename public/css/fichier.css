@@ -855,7 +855,6 @@
     }
   }
 
-  /* h2 svg - DÉSACTIVÉ car tailles fixes non-responsive écrasent le CSS des pages formation
   h2 svg {
     position: relative;
     top: 10px;
@@ -868,7 +867,6 @@
     margin-right: 0;
     background: #fff
   }
-  */
 
   h2 a {
     text-decoration: none
@@ -4683,16 +4681,15 @@
 }
 
 #branding .logo-infpf {
-  /* Styles du logo - all:unset SUPPRIMÉ car il annulait les dimensions */
+  /* Réinitialisez les propriétés spécifiques si 'all: unset;' ne fonctionne pas */
   margin: 0;
   padding: 0;
+  all: unset; 
   border: none;
   background: none;
-  display: inline-block;
-  width: 100px; /* Taille par défaut desktop */
-  height: auto;
+  width: 100px; /* ou toute autre valeur que vous souhaitez appliquer */
   filter: brightness(8.5);
-  max-width: 100%;
+  /* Appliquez ici les autres styles spécifiques que vous souhaitez pour le logo */
 }
 
 .imgcpfcpf {
@@ -4953,16 +4950,17 @@
 
 .bouton-retour-haut {
   position: fixed !important;
-  bottom: 100px !important; /* Au-dessus du badge reCAPTCHA */
-  right: 30px !important; /* Aligné à droite comme avant */
+  bottom: 30px !important; /* Même hauteur que le badge reCAPTCHA */
+  right: 150px !important; /* Bien séparé du badge reCAPTCHA (qui est à ~14px) */
   width: 50px !important;
   height: 50px !important;
   cursor: pointer !important;
-  z-index: 2147483646 !important; /* Juste en dessous du reCAPTCHA */
+  z-index: 2147483647 !important; /* Z-index maximum pour être au-dessus de tout */
   display: none !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;
   opacity: 1 !important;
   visibility: visible !important;
+  /* Assurer qu'il ne soit jamais caché */
   pointer-events: auto !important;
 }
 
@@ -4977,11 +4975,11 @@
   transform: scale(1.1) !important;
 }
 
-/* Responsive : Sur mobile */
+/* Responsive : Sur mobile, déplacer plus à gauche */
 @media (max-width: 768px) {
   .bouton-retour-haut {
-    right: 20px !important; /* Proche du bord sur mobile */
-    bottom: 90px !important;
+    right: 100px !important; /* Plus proche du bord sur mobile */
+    bottom: 30px !important;
   }
 
 /* ===== CORRECTION ALIGNEMENT VERTICAL MENU BURGER MOBILE (SOLUTION ROBUSTE) ===== */
