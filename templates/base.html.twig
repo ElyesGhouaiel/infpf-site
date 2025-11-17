@@ -33,11 +33,11 @@
 				/* CACHÉ PAR DÉFAUT - Le JavaScript le montre après scroll */
 				display: none !important;
 				
-				/* Design bleu clair/cyan lumineux */
-				background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%) !important;
+				/* Design bleu foncé élégant avec ombre moderne */
+				background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%) !important;
 				border-radius: 50% !important;
-				box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 2px 10px rgba(96, 165, 250, 0.4), inset 0 -2px 8px rgba(0, 0, 0, 0.1) !important;
-				border: 3px solid rgba(255, 255, 255, 0.4) !important;
+				box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4), 0 4px 12px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+				border: 2px solid rgba(255, 255, 255, 0.15) !important;
 				
 				/* Préparation pour flexbox (appliqué quand visible) */
 				align-items: center !important;
@@ -49,31 +49,49 @@
 				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 			}
 			
-			/* Contenu de la flèche (↑) */
-			#btnScrollTop::before,
-			.bouton-retour-haut::before {
-				content: "↑" !important;
-				font-size: 28px !important;
-				line-height: 1 !important;
-				color: white !important;
+			/* Flèche élégante - Ligne verticale */
+			#btnScrollTop::before {
+				content: "" !important;
+				position: absolute !important;
+				width: 2px !important;
+				height: 20px !important;
+				background: white !important;
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%) translateY(2px) !important;
+				border-radius: 2px !important;
+			}
+			
+			/* Flèche élégante - Pointe (triangle) */
+			#btnScrollTop::after {
+				content: "" !important;
+				position: absolute !important;
+				width: 0 !important;
+				height: 0 !important;
+				border-left: 6px solid transparent !important;
+				border-right: 6px solid transparent !important;
+				border-bottom: 8px solid white !important;
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%) translateY(-10px) !important;
 			}
 			
 			/* Animation au hover */
 			#btnScrollTop:hover,
 			.bouton-retour-haut:hover {
 				transform: translateY(-5px) scale(1.1) !important;
-				box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7), 0 4px 15px rgba(96, 165, 250, 0.6), inset 0 -2px 8px rgba(0, 0, 0, 0.15) !important;
-				background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 50%, #bfdbfe 100%) !important;
-				border-color: rgba(255, 255, 255, 0.6) !important;
+				box-shadow: 0 12px 35px rgba(30, 58, 138, 0.6), 0 6px 18px rgba(37, 99, 235, 0.5), inset 0 2px 6px rgba(255, 255, 255, 0.15) !important;
+				background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%) !important;
+				border-color: rgba(255, 255, 255, 0.25) !important;
 			}
 			
 			/* Animation de pulsation subtile */
 			@keyframes pulse-scroll {
 				0%, 100% {
-					box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 2px 10px rgba(96, 165, 250, 0.4), inset 0 -2px 8px rgba(0, 0, 0, 0.1);
+					box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4), 0 4px 12px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1);
 				}
 				50% {
-					box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6), 0 3px 12px rgba(96, 165, 250, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.12);
+					box-shadow: 0 10px 30px rgba(30, 58, 138, 0.5), 0 5px 15px rgba(37, 99, 235, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.12);
 				}
 			}
 			
@@ -93,9 +111,17 @@
 					height: 50px !important;
 				}
 				
-				#btnScrollTop::before,
-				.bouton-retour-haut::before {
-					font-size: 24px !important;
+				/* Flèche plus petite sur mobile */
+				#btnScrollTop::before {
+					width: 2px !important;
+					height: 16px !important;
+				}
+				
+				#btnScrollTop::after {
+					border-left: 5px solid transparent !important;
+					border-right: 5px solid transparent !important;
+					border-bottom: 7px solid white !important;
+					transform: translate(-50%, -50%) translateY(-8px) !important;
 				}
 			}
 		</style>
