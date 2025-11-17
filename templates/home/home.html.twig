@@ -5200,25 +5200,6 @@
 		});
   </script>
 
-<!-- Bandeau service client (juste avant la fin du hero ou avant le main) -->
-<img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const btn = document.getElementById("btnScrollTop");
-  if (!btn) return;
-  window.addEventListener("scroll", function () {
-    btn.style.display = window.scrollY > 200 ? "block" : "none";
-  });
-  btn.addEventListener("click", function () {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-});
-</script>
-
 <!-- --- MENU BURGER (copié de base.html.twig) --- -->
 
 
