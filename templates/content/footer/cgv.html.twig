@@ -4,137 +4,527 @@
 
 {% block stylesheet %}
     <style>
-        /* Style général */
+        /* Reset et variables */
+        :root {
+            --primary-blue: #0b3f89;
+            --secondary-blue: #1e5cb8;
+            --light-blue: #00b4d8;
+            --accent-cyan: #06d6a0;
+            --text-dark: #1a202c;
+            --text-gray: #4a5568;
+            --bg-light: #f7fafc;
+            --card-shadow: 0 10px 40px rgba(11, 63, 137, 0.08);
+            --card-shadow-hover: 0 15px 50px rgba(11, 63, 137, 0.15);
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: var(--text-dark);
+            line-height: 1.7;
         }
 
-        article {
-            background-color: #fff;
-            margin: 20px auto;
-            padding: 20px;
-            max-width: 800px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
-            color: #333;
-        }
-
-        h1 {
+        /* Hero Section */
+        .cgv-hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 50%, var(--light-blue) 100%);
+            padding: 4rem 2rem 3rem;
             text-align: center;
-            text-transform: uppercase;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
         }
 
-        h2 {
-            margin-top: 20px;
-            border-bottom: 2px solid #d71a22;
-            padding-bottom: 5px;
+        .cgv-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
         }
 
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
+        .cgv-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite reverse;
         }
 
-        section {
-            margin-bottom: 30px;
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
         }
 
+        .cgv-hero h1 {
+            color: white;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin: 0 0 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cgv-hero p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+        }
+
+        /* Conteneur principal */
+        .cgv-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Carte de section */
+        .cgv-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cgv-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-blue), var(--accent-cyan));
+            transform: scaleY(0);
+            transition: transform 0.4s ease;
+            transform-origin: top;
+        }
+
+        .cgv-section:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .cgv-section:hover::before {
+            transform: scaleY(1);
+        }
+
+        /* En-tête de section */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #edf2f7;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(11, 63, 137, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .cgv-section:hover .section-icon {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(11, 63, 137, 0.35);
+        }
+
+        .section-icon svg {
+            width: 26px;
+            height: 26px;
+            color: white;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .cgv-section h2 {
+            color: var(--primary-blue);
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Contenu de section */
+        .section-content {
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin: 0 0 1rem;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Texte important */
         .important {
-            color: #d71a22;
-            font-weight: bold;
+            color: var(--primary-blue);
+            font-weight: 700;
+            background: linear-gradient(135deg, rgba(11, 63, 137, 0.08), rgba(6, 214, 160, 0.08));
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            white-space: nowrap;
         }
 
-        footer {
-            margin-top: 20px;
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(11, 63, 137, 0.05), rgba(6, 214, 160, 0.05));
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(6, 214, 160, 0.08);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Footer de page */
+        .cgv-footer {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
             text-align: center;
-            color: #666;
+            box-shadow: var(--card-shadow);
+            margin-top: 3rem;
         }
 
-        /* Liens */
-        a {
-            color: #007bff;
+        .cgv-footer p {
+            color: var(--text-gray);
+            margin: 0 0 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
             text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 6px 20px rgba(11, 63, 137, 0.25);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
 
-        /* Listes */
-        ul {
-            margin-left: 20px;
-            list-style-type: disc;
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(11, 63, 137, 0.35);
         }
 
-        /* Mises en évidence */
-        .highlight {
-            background-color: #ffefef;
-            border-left: 5px solid #d71a22;
-            padding: 10px;
-            margin-bottom: 15px;
+        .contact-btn:hover::before {
+            left: 100%;
         }
 
+        .contact-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Email link */
+        .email-link {
+            color: var(--secondary-blue);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-link:hover {
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cgv-hero {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .cgv-container {
+                padding: 0 1rem 3rem;
+            }
+
+            .cgv-section {
+                padding: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section-header {
+                gap: 0.8rem;
+            }
+
+            .section-icon {
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+            }
+
+            .section-icon svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .cgv-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .section-content {
+                font-size: 1rem;
+            }
+
+            .highlight-box {
+                padding: 1.2rem;
+            }
+
+            .cgv-footer {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Animation d'entrée */
+        .cgv-section {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .cgv-section:nth-child(1) { animation-delay: 0.1s; }
+        .cgv-section:nth-child(2) { animation-delay: 0.2s; }
+        .cgv-section:nth-child(3) { animation-delay: 0.3s; }
+        .cgv-section:nth-child(4) { animation-delay: 0.4s; }
+        .cgv-section:nth-child(5) { animation-delay: 0.5s; }
+        .cgv-section:nth-child(6) { animation-delay: 0.6s; }
+        .cgv-section:nth-child(7) { animation-delay: 0.7s; }
+        .cgv-section:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 {% endblock %}
 
 {% block body %}
-    <article>
+    <!-- Hero Section -->
+    <div class="cgv-hero">
         <h1>Conditions Générales de Vente</h1>
+        <p>Découvrez les conditions applicables à nos prestations de formation professionnelle</p>
+    </div>
 
-        <section>
-            <h2>Informations générales :</h2>
-            <p>INFPF est un Organisme de formation professionnelle enregistré sous le n° 93061116606 dont le siège social est situé au 257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR (SIRET - 92791645200018, Numéro de déclaration d'activité - 93061116606) mettant en place et dispensant des formations intra-entreprises, inter-entreprises, individuelles et collectives en présentiel mais également à distance par le biais d'une plateforme de E-Learning et ceux-ci sur l'ensemble du territoire national.</p>
-        </section>
+    <!-- Container principal -->
+    <div class="cgv-container">
+        
+        <!-- Section 1: Informations générales -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                </div>
+                <h2>Informations générales</h2>
+            </div>
+            <div class="section-content">
+                <p>INFPF est un Organisme de formation professionnelle enregistré sous le n° <span class="important">93061116606</span> dont le siège social est situé au <strong>257 AVENUE SAINT EXUPERY 06700 ST LAURENT DU VAR</strong> (SIRET - 92791645200018, Numéro de déclaration d'activité - 93061116606) mettant en place et dispensant des formations intra-entreprises, inter-entreprises, individuelles et collectives en présentiel mais également à distance par le biais d'une plateforme de E-Learning et ceux-ci sur l'ensemble du territoire national.</p>
+            </div>
+        </div>
 
-        <section>
-            <h2>Objet et champ d'application :</h2>
-            <p>Les présentes Conditions Générales de Vente déterminent les conditions applicables aux prestations de formation effectuées par la société INFPF pour le compte d'un client. Toute commande de formation implique l'acceptation sans réserve par le client des présentes Conditions Générales de Vente.</p>
-            <p>Ces conditions prévalent sur tout autre document du client, notamment sur toutes conditions générales d'achat.</p>
-        </section>
+        <!-- Section 2: Objet et champ d'application -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h2>Objet et champ d'application</h2>
+            </div>
+            <div class="section-content">
+                <p>Les présentes Conditions Générales de Vente déterminent les conditions applicables aux prestations de formation effectuées par la société INFPF pour le compte d'un client. Toute commande de formation implique l'acceptation sans réserve par le client des présentes Conditions Générales de Vente.</p>
+                <div class="highlight-box">
+                    <p>Ces conditions prévalent sur tout autre document du client, notamment sur toutes conditions générales d'achat.</p>
+                </div>
+            </div>
+        </div>
 
-        <section>
-            <h2>Devis ou convention, contrat et attestation :</h2>
-            <p>Pour chaque formation, la société INFPF s'engage à fournir un devis, une convention ou un contrat au client. Ce dernier est tenu de retourner à la société INFPF un exemplaire renseigné, daté, signé et tamponné, avec la mention « Bon pour accord ».</p>
-            <p>Une attestation de présence ou de fin de formation sera fournie au client.</p>
-        </section>
+        <!-- Section 3: Devis ou convention -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h2>Devis ou convention, contrat et attestation</h2>
+            </div>
+            <div class="section-content">
+                <p>Pour chaque formation, la société INFPF s'engage à fournir un devis, une convention ou un contrat au client. Ce dernier est tenu de retourner à la société INFPF un exemplaire renseigné, daté, signé et tamponné, avec la mention <span class="important">« Bon pour accord »</span>.</p>
+                <p>Une attestation de présence ou de fin de formation sera fournie au client.</p>
+            </div>
+        </div>
 
-        <section>
-            <h2>Prix et modalités de paiement :</h2>
-            <p>Les prix des formations sont indiqués en euros hors taxes et sont à majorer de la TVA au taux en vigueur. Le paiement est à effectuer après exécution de la prestation, à la réception de facture, au comptant. Le règlement des factures peut être effectué par virement bancaire ou par chèque.</p>
-        </section>
+        <!-- Section 4: Prix et modalités -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h2>Prix et modalités de paiement</h2>
+            </div>
+            <div class="section-content">
+                <p>Les prix des formations sont indiqués en euros hors taxes et sont à majorer de la TVA au taux en vigueur. Le paiement est à effectuer après exécution de la prestation, à la réception de facture, au comptant. Le règlement des factures peut être effectué par <span class="important">virement bancaire</span> ou par <span class="important">chèque</span>.</p>
+            </div>
+        </div>
 
-        <section>
-            <h2>Prise en charge :</h2>
-            <p>Si le client bénéficie d'un financement par un Opérateur de Compétences agréé (OPCO), il doit faire une demande de prise en charge avant le début de la prestation et fournir l'accord de financement lors de l'inscription. En l'absence de prise en charge de l'OPCO au premier jour de la formation, l'intégralité des coûts de formation sera facturée au client.</p>
-        </section>
+        <!-- Section 5: Prise en charge -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h2>Prise en charge</h2>
+            </div>
+            <div class="section-content">
+                <p>Si le client bénéficie d'un financement par un Opérateur de Compétences agréé <span class="important">(OPCO)</span>, il doit faire une demande de prise en charge avant le début de la prestation et fournir l'accord de financement lors de l'inscription.</p>
+                <div class="highlight-box">
+                    <p>En l'absence de prise en charge de l'OPCO au premier jour de la formation, l'intégralité des coûts de formation sera facturée au client.</p>
+                </div>
+            </div>
+        </div>
 
-        <section>
-            <h2>Conditions de report et d'annulation d'une séance de formation :</h2>
-            <p>L'annulation d'une séance de formation est possible à condition de le faire au moins <span class="important">10 jours calendaires</span> avant le jour et l'heure prévus. Toute annulation doit faire l'objet d'une notification par e-mail à contact@infpf.fr.</p>
-            <p>En cas d'annulation entre <span class="important">4 et 10 jours ouvrables</span> avant la date de la formation, le client est tenu de payer une pénalité d'annulation à hauteur de <span class="important">50% du coût total initial</span> de la formation. En cas d'annulation moins de <span class="important">3 jours ouvrables</span> avant le début de la formation, une pénalité d'annulation correspondant à <span class="important">100% du coût total initial</span> sera facturée au client.</p>
-        </section>
+        <!-- Section 6: Conditions d'annulation -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h2>Conditions de report et d'annulation</h2>
+            </div>
+            <div class="section-content">
+                <p>L'annulation d'une séance de formation est possible à condition de le faire au moins <span class="important">10 jours calendaires</span> avant le jour et l'heure prévus. Toute annulation doit faire l'objet d'une notification par e-mail à <a href="mailto:contact@infpf.fr" class="email-link">contact@infpf.fr</a>.</p>
+                <div class="highlight-box">
+                    <p><strong>Pénalités d'annulation :</strong></p>
+                    <p style="margin-top: 0.8rem;">• Entre <span class="important">4 et 10 jours ouvrables</span> : pénalité de <span class="important">50%</span> du coût total initial</p>
+                    <p style="margin-top: 0.5rem;">• Moins de <span class="important">3 jours ouvrables</span> : pénalité de <span class="important">100%</span> du coût total initial</p>
+                </div>
+            </div>
+        </div>
 
-        <section>
-            <h2>Propriété intellectuelle et droit d'auteur :</h2>
-            <p>Les supports de formation, quelle qu'en soit la forme (papier, numérique, électronique...), sont protégés par la propriété intellectuelle et le droit d'auteur. Leur reproduction, partielle ou totale, ne peut être effectuée sans l'accord exprès de la société INFPF.</p>
-            <p>Le client s'engage à ne pas utiliser, transmettre, ou reproduire tout ou partie de ces documents en vue de l'organisation ou de l'animation de formations sans l'accord préalable de la société INFPF.</p>
-        </section>
+        <!-- Section 7: Propriété intellectuelle -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                </div>
+                <h2>Propriété intellectuelle et droit d'auteur</h2>
+            </div>
+            <div class="section-content">
+                <p>Les supports de formation, quelle qu'en soit la forme (papier, numérique, électronique...), sont protégés par la propriété intellectuelle et le droit d'auteur. Leur reproduction, partielle ou totale, ne peut être effectuée sans l'accord exprès de la société INFPF.</p>
+                <p>Le client s'engage à ne pas utiliser, transmettre, ou reproduire tout ou partie de ces documents en vue de l'organisation ou de l'animation de formations sans l'accord préalable de la société INFPF.</p>
+            </div>
+        </div>
 
-        <section>
-            <h2>Informatique et libertés :</h2>
-            <p>Les informations à caractère personnel communiquées par le client à la société INFPF sont utilisées pour le traitement de l'inscription ainsi que pour la constitution d'un fichier clientèle à des fins de prospections commerciales. Conformément à la loi « informatique et libertés » du 6 janvier 1978, le client dispose d'un droit d'accès, de rectification et d'opposition des données personnelles le concernant.</p>
-        </section>
+        <!-- Section 8: Informatique et libertés -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <h2>Informatique et libertés</h2>
+            </div>
+            <div class="section-content">
+                <p>Les informations à caractère personnel communiquées par le client à la société INFPF sont utilisées pour le traitement de l'inscription ainsi que pour la constitution d'un fichier clientèle à des fins de prospections commerciales.</p>
+                <p>Conformément à la loi <span class="important">« informatique et libertés »</span> du 6 janvier 1978, le client dispose d'un droit d'accès, de rectification et d'opposition des données personnelles le concernant.</p>
+            </div>
+        </div>
 
-        <section>
-            <h2>Loi applicable et attribution de compétence :</h2>
-            <p>Les présentes Conditions Générales de Vente sont encadrées par la loi française. En cas de litige, la recherche d'une solution à l'amiable sera privilégiée. À défaut, l'affaire sera portée devant les Tribunaux compétents du siège social de l'INFPF.</p>
-        </section>
-    </article>
+        <!-- Section 9: Loi applicable -->
+        <div class="cgv-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+                    </svg>
+                </div>
+                <h2>Loi applicable et attribution de compétence</h2>
+            </div>
+            <div class="section-content">
+                <p>Les présentes Conditions Générales de Vente sont encadrées par la <span class="important">loi française</span>. En cas de litige, la recherche d'une solution à l'amiable sera privilégiée.</p>
+                <p>À défaut, l'affaire sera portée devant les Tribunaux compétents du siège social de l'INFPF.</p>
+            </div>
+        </div>
+
+        <!-- Footer de la page -->
+        <div class="cgv-footer">
+            <p>Une question concernant nos conditions générales de vente ?</p>
+            <a href="{{ path('app_contact') }}" class="contact-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                Contactez-nous
+            </a>
+        </div>
+    </div>
 {% endblock %}
