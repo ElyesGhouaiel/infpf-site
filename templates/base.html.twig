@@ -13,40 +13,64 @@
 		<style>
 			#popupForm, .popup-form { display: none !important; }
 			
-			/* ===== INDICATEUR DE PROGRESSION DE LECTURE ===== */
-			#scroll-progress-bar {
+			/* ===== INDICATEUR DE PROGRESSION CIRCULAIRE ===== */
+			#scroll-progress-wrapper {
 				position: fixed;
-				top: 0;
-				left: 0;
-				height: 3px;
-				background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
-				width: 0%;
-				z-index: 2147483647;
-				transition: width 0.1s ease-out;
-				box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+				bottom: 100px;
+				right: 30px;
+				width: 68px;
+				height: 68px;
+				z-index: 2147483645;
+				pointer-events: none;
+				display: none; /* Caché par défaut, affiché par JS après 300px */
 			}
 			
-			/* Animation de pulsation subtile au début/fin */
-			#scroll-progress-bar::after {
-				content: '';
-				position: absolute;
-				right: 0;
-				top: 0;
-				width: 20px;
+			#scroll-progress-circle {
+				width: 100%;
 				height: 100%;
-				background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
-				animation: shimmer 2s infinite;
+				transform: rotate(-90deg);
 			}
 			
-			@keyframes shimmer {
-				0%, 100% { opacity: 0.5; }
-				50% { opacity: 1; }
+			#scroll-progress-ring {
+				fill: none;
+				stroke: rgba(255, 255, 255, 0.9);
+				stroke-width: 3;
+				stroke-linecap: round;
+				stroke-dasharray: 201.06; /* 2 * PI * 32 = circonférence */
+				stroke-dashoffset: 201.06; /* Commence vide */
+				transition: stroke-dashoffset 0.1s ease-out;
+				filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
 			}
 			
-			/* Responsive : barre plus épaisse sur mobile */
+			/* Animation subtile de pulsation */
+			@keyframes pulse-ring {
+				0%, 100% {
+					stroke-width: 3;
+					opacity: 0.9;
+				}
+				50% {
+					stroke-width: 3.5;
+					opacity: 1;
+				}
+			}
+			
+			#scroll-progress-ring.animating {
+				animation: pulse-ring 2s ease-in-out infinite;
+			}
+			
+			/* Responsive : ajustement mobile */
 			@media (max-width: 768px) {
-				#scroll-progress-bar {
-					height: 4px;
+				#scroll-progress-wrapper {
+					bottom: 90px;
+					right: 20px;
+					width: 58px;
+					height: 58px;
+				}
+				
+				#scroll-progress-ring {
+					stroke-width: 2.5;
+					stroke-dasharray: 157.08; /* Circonférence ajustée */
+					stroke-dashoffset: 157.08;
 				}
 			}
 			
@@ -2983,8 +3007,12 @@
 	</head>
 </html>
 
-<!-- Indicateur de progression de lecture -->
-<div id="scroll-progress-bar"></div>
+<!-- Indicateur de progression circulaire autour du bouton scroll -->
+<div id="scroll-progress-wrapper">
+	<svg id="scroll-progress-circle" width="68" height="68" viewBox="0 0 68 68">
+		<circle id="scroll-progress-ring" cx="34" cy="34" r="32"/>
+	</svg>
+</div>
 
 <header class="header" style="  position: fixed;
   left: 0;
@@ -3373,13 +3401,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ===== INDICATEUR DE PROGRESSION DE LECTURE =====
+  // ===== INDICATEUR DE PROGRESSION CIRCULAIRE =====
   document.addEventListener("DOMContentLoaded", function () {
-    const progressBar = document.getElementById("scroll-progress-bar");
-    if (!progressBar) return;
+    const progressRing = document.getElementById("scroll-progress-ring");
+    const progressWrapper = document.getElementById("scroll-progress-wrapper");
+    if (!progressRing || !progressWrapper) return;
 
-    // Fonction pour mettre à jour la barre de progression
-    function updateProgressBar() {
+    // Calcul de la circonférence du cercle (2 * PI * rayon)
+    const radius = progressRing.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
+    
+    // Initialisation
+    progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+    progressRing.style.strokeDashoffset = circumference;
+
+    // Fonction pour mettre à jour le cercle de progression
+    function updateProgressRing() {
       // Calcul de la hauteur totale scrollable
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
@@ -3387,10 +3424,24 @@ document.addEventListener('DOMContentLoaded', function () {
       
       // Calcul du pourcentage de scroll
       const scrolled = window.scrollY;
-      const progress = (scrolled / scrollableHeight) * 100;
+      const progress = scrollableHeight > 0 ? (scrolled / scrollableHeight) : 0;
       
-      // Mise à jour de la largeur de la barre
-      progressBar.style.width = Math.min(progress, 100) + "%";
+      // Calcul du stroke-dashoffset (cercle se remplit dans le sens horaire)
+      const offset = circumference - (progress * circumference);
+      progressRing.style.strokeDashoffset = offset;
+      
+      // Afficher/masquer le cercle comme le bouton (après 300px)
+      if (scrolled > 300) {
+        progressWrapper.style.display = 'block';
+        // Ajouter animation si proche de la fin (>90%)
+        if (progress > 0.9) {
+          progressRing.classList.add('animating');
+        } else {
+          progressRing.classList.remove('animating');
+        }
+      } else {
+        progressWrapper.style.display = 'none';
+      }
     }
 
     // Mise à jour au scroll (avec throttle pour performance)
@@ -3398,7 +3449,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener("scroll", function () {
       if (!ticking) {
         window.requestAnimationFrame(function () {
-          updateProgressBar();
+          updateProgressRing();
           ticking = false;
         });
         ticking = true;
@@ -3406,7 +3457,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Mise à jour initiale
-    updateProgressBar();
+    updateProgressRing();
   });
 
   // Redirection par catégorie
