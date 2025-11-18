@@ -4691,7 +4691,7 @@
 													{% endfor %}
 														
 														{% if categoryFormations|length > maxFormations %}
-															<div class="voir-plus-formations" onclick="window.location.href='/formation?category={{ category.name|url_encode }}'">
+															<div class="voir-plus-formations" onclick="window.location.href='/formation?thematique%5B%5D={{ category.id }}'">
 																<div class="voir-plus-content">
 																	<div class="voir-plus-icon">
 																		<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
