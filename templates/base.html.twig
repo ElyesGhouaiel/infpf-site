@@ -3508,11 +3508,11 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Cibler TOUS les boutons Calendly (plusieurs sélecteurs)
     const calendlyLinks = document.querySelectorAll(
-      'a[href="#calendly-home"], ' +
-      'a[href*="calendly"], ' +
-      'a[data-calendly-url], ' +
-      'a.btn-calendly-mobile, ' +
-      'a.calendly-btn'
+      'a[href="#calendly-home"]:not(.calendly-external-btn), ' +
+      'a[href*="calendly"]:not(.calendly-external-btn), ' +
+      'a[data-calendly-url]:not(.calendly-external-btn), ' +
+      'a.btn-calendly-mobile:not(.calendly-external-btn), ' +
+      'a.calendly-btn:not(.calendly-external-btn)'
     );
     
     console.log('🔍 Boutons Calendly trouvés:', calendlyLinks.length, 'Mobile:', isMobile);

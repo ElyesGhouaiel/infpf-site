@@ -1295,25 +1295,4 @@
 
 <!-- Calendly maintenant intégré via iframe - Plus besoin de JavaScript popup -->
 
-<script>
-// ===== EMPÊCHER CALENDLY D'INTERCEPTER LE BOUTON EXTERNE =====
-document.addEventListener('DOMContentLoaded', function() {
-    const externalBtn = document.querySelector('.calendly-external-btn');
-    if (externalBtn) {
-        externalBtn.addEventListener('click', function(e) {
-            // Empêcher Calendly d'intercepter ce clic
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            
-            // Ouvrir manuellement dans un nouvel onglet
-            const url = this.getAttribute('href');
-            window.open(url, '_blank', 'noopener,noreferrer');
-            
-            console.log('✅ Ouverture Calendly dans nouvel onglet:', url);
-            return false;
-        }, true); // Mode capture pour intercepter AVANT Calendly
-    }
-});
-</script>
-
 {% endblock %}
