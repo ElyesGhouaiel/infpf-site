@@ -598,72 +598,110 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ---
 
-### 5.3 Bouton de Secours Calendly
+### 5.3 Bouton Alternatif Calendly (Toujours Visible)
 
-**Nouvelle demande** : Ajouter un bouton de secours au cas ou l'iframe Calendly ne fonctionne pas.
+**Nouvelle demande** : Ajouter un bouton alternatif toujours visible comme second choix pour ouvrir Calendly dans un nouvel onglet.
 
-**Solution** : Ajout d'un bouton elegant sous le texte d'introduction qui ouvre Calendly dans un nouvel onglet.
+**Solution** : Ajout d'un bouton bleu prominent avec separateur "Ou" sous le texte d'introduction.
 
-**Fichier** : `templates/home/home.html.twig`
+**Fichiers** :
+- `templates/home/home.html.twig`
+- `templates/content/contact/index.html.twig`
 
-**Bouton ajoute** :
+**Structure HTML** :
 ```html
-<a href="https://calendly.com/contact-infpf/contact-infpf" 
-   target="_blank" 
-   rel="noopener noreferrer" 
-   class="calendly-fallback-btn"
-   aria-label="Ouvrir Calendly dans un nouvel onglet">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-        <polyline points="15 3 21 3 21 9"></polyline>
-        <line x1="10" y1="14" x2="21" y2="3"></line>
-    </svg>
-    Ouvrir dans un nouvel onglet
-</a>
+<div class="calendly-alternative">
+    <span class="calendly-alternative-label">Ou</span>
+    <a href="https://calendly.com/contact-infpf/contact-infpf" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="calendly-external-btn"
+       aria-label="Ouvrir Calendly dans un nouvel onglet">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        Ouvrir dans un nouvel onglet
+    </a>
+</div>
 ```
 
 **CSS ajoute** :
 ```css
-.calendly-fallback-btn {
+.calendly-alternative {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(100, 116, 139, 0.15);
+}
+
+.calendly-alternative-label {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.calendly-external-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.8rem 1.5rem;
-    margin-top: 1.5rem;
+    gap: 0.5rem;
+    padding: 0.75rem 1.3rem;
     font-size: 0.95rem;
     font-weight: 600;
-    color: #0b3f89;
-    background: linear-gradient(135deg, rgba(11, 63, 137, 0.08), rgba(59, 130, 246, 0.08));
-    border: 2px solid rgba(11, 63, 137, 0.2);
-    border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(11, 63, 137, 0.08);
+    color: white;
+    background: linear-gradient(135deg, #0b3f89, #1e5bb8);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(11, 63, 137, 0.25);
+    position: relative;
+    overflow: hidden;
 }
 
-.calendly-fallback-btn:hover {
-    background: linear-gradient(135deg, rgba(11, 63, 137, 0.12), rgba(59, 130, 246, 0.12));
-    border-color: rgba(11, 63, 137, 0.35);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(11, 63, 137, 0.15);
+/* Animation glissement lumineux */
+.calendly-external-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
 }
 
-.calendly-fallback-btn svg {
-    transition: transform 0.3s ease;
+.calendly-external-btn:hover {
+    background: linear-gradient(135deg, #1e5bb8, #0b3f89);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(11, 63, 137, 0.35);
 }
 
-.calendly-fallback-btn:hover svg {
-    transform: translateX(2px) translateY(-2px);
+.calendly-external-btn:hover::before {
+    left: 100%;
+}
+
+.calendly-external-btn:hover svg {
+    transform: translateX(3px) translateY(-3px);
 }
 ```
 
 **Caracteristiques** :
-- Icone SVG "external link" elegante
-- Animation au survol (translateY + scale de l'icone)
-- Design coherent avec le theme du site (bleu INFPF)
+- **Toujours visible** : Pas un fallback cache, mais un vrai second choix
+- Separateur elegant avec label "Ou" en italique
+- Design bleu prominent avec gradient
+- Animation de glissement lumineux au survol (effet premium)
+- Icone SVG "external link" avec animation diagonale
+- Ombre portee importante pour visibilite
+- Present sur **page home ET page contact**
 - Accessible (aria-label, target="_blank", rel="noopener noreferrer")
-- Responsive (alignement centre sur mobile, gauche sur desktop)
+- Responsive (centre sur mobile, gauche sur desktop)
 
-**Commit** : `82d1171`
+**Commits** :
+- `82d1171` : Version initiale (moins visible)
+- `3274a28` : Version finale (toujours visible, design premium)
 
 ---
 
@@ -1431,14 +1469,15 @@ Resultat : Force le CDN a traiter comme de nouveaux fichiers.
 
 ## 14. Statistiques
 
-### Nombre de Commits : 201+
+### Nombre de Commits : 202+
 
 **Repartition par categorie** :
 - Page Formation (icones, TOC, sidebar) : 80+ commits
 - Page Ecole (CSS, menus, logo) : 35+ commits
 - Bouton scroll-to-top et progression : 15+ commits
 - Footer duplique : 5 commits
-- Video homepage : 3 commits (dont bouton secours Calendly)
+- Video homepage : 3 commits
+- Bouton alternatif Calendly : 2 commits
 - Erreurs Google Search Console : 3 commits
 - Telechargements PDF : 2 commits
 - Blog admin : 3 commits
