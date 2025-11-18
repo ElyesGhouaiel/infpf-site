@@ -1168,17 +1168,57 @@
 			line-height: 1.2;
 		}
 
-		.calendly-section p {
-			font-size: clamp(1.3rem, 3vw, 1.6rem);
-			color: #64748b;
-			font-weight: 500;
-			margin-bottom: 2.5rem;
-			max-width: 600px;
-			margin-left: auto;
-			margin-right: auto;
-		}
+	.calendly-section p {
+		font-size: clamp(1.3rem, 3vw, 1.6rem);
+		color: #64748b;
+		font-weight: 500;
+		margin-bottom: 2.5rem;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-		/* DESKTOP : Layout 2 colonnes (texte gauche + calendly droite) */
+	/* Bouton de secours Calendly */
+	.calendly-fallback-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.8rem 1.5rem;
+		margin-top: 1.5rem;
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: #0b3f89;
+		background: linear-gradient(135deg, rgba(11, 63, 137, 0.08), rgba(59, 130, 246, 0.08));
+		border: 2px solid rgba(11, 63, 137, 0.2);
+		border-radius: 12px;
+		text-decoration: none;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		box-shadow: 0 2px 8px rgba(11, 63, 137, 0.08);
+	}
+
+	.calendly-fallback-btn:hover {
+		background: linear-gradient(135deg, rgba(11, 63, 137, 0.12), rgba(59, 130, 246, 0.12));
+		border-color: rgba(11, 63, 137, 0.35);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 16px rgba(11, 63, 137, 0.15);
+		color: #0b3f89;
+	}
+
+	.calendly-fallback-btn:active {
+		transform: translateY(0);
+		box-shadow: 0 2px 8px rgba(11, 63, 137, 0.1);
+	}
+
+	.calendly-fallback-btn svg {
+		flex-shrink: 0;
+		transition: transform 0.3s ease;
+	}
+
+	.calendly-fallback-btn:hover svg {
+		transform: translateX(2px) translateY(-2px);
+	}
+
+	/* DESKTOP : Layout 2 colonnes (texte gauche + calendly droite) */
 		@media (min-width: 1024px) {
 			.calendly-content {
 				display: grid;
@@ -1198,15 +1238,19 @@
 				margin-bottom: 1.5rem;
 			}
 
-			.calendly-section p {
-				text-align: left;
-				margin-left: 0;
-				margin-right: 0;
-				margin-bottom: 0;
-			}
+		.calendly-section p {
+			text-align: left;
+			margin-left: 0;
+			margin-right: 0;
+			margin-bottom: 0;
 		}
 
-		/* Mobile responsive */
+		.calendly-fallback-btn {
+			margin-left: 0;
+		}
+	}
+
+	/* Mobile responsive */
 		@media (max-width: 480px) {
 			.calendly-section {
 				padding: 1.5rem;
@@ -4947,10 +4991,24 @@
 		<section id="calendly-home" class="calendly-section">
 			<div class="calendly-content">
 				<!-- Texte à gauche sur desktop -->
-				<div class="calendly-text-wrapper">
-					<h3>Je réserve mon appel gratuit</h3>
-					<p>Échangez avec nos conseillers pédagogiques et construisez ensemble votre parcours de formation</p>
-				</div>
+			<div class="calendly-text-wrapper">
+				<h3>Je réserve mon appel gratuit</h3>
+				<p>Échangez avec nos conseillers pédagogiques et construisez ensemble votre parcours de formation</p>
+				
+				<!-- Bouton de secours si iframe ne fonctionne pas -->
+				<a href="https://calendly.com/contact-infpf/contact-infpf" 
+				   target="_blank" 
+				   rel="noopener noreferrer" 
+				   class="calendly-fallback-btn"
+				   aria-label="Ouvrir Calendly dans un nouvel onglet">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+						<polyline points="15 3 21 3 21 9"></polyline>
+						<line x1="10" y1="14" x2="21" y2="3"></line>
+					</svg>
+					Ouvrir dans un nouvel onglet
+				</a>
+			</div>
 				<!-- Calendly à droite sur desktop -->
 				<div class="calendly-iframe-wrapper">
 			{% include 'components/calendly_iframe.html.twig' with {
