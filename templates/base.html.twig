@@ -16,19 +16,21 @@
 			/* ===== INDICATEUR DE PROGRESSION CIRCULAIRE ===== */
 			#scroll-progress-wrapper {
 				position: fixed;
-				bottom: 100px;
-				right: 30px;
+				bottom: 96px; /* 100px - 4px pour centrer parfaitement */
+				right: 26px;  /* 30px - 4px pour centrer parfaitement */
 				width: 68px;
 				height: 68px;
 				z-index: 2147483645;
 				pointer-events: none;
 				display: none; /* Caché par défaut, affiché par JS après 300px */
+				background: transparent !important; /* Fond complètement transparent */
 			}
 			
 			#scroll-progress-circle {
 				width: 100%;
 				height: 100%;
 				transform: rotate(-90deg);
+				background: transparent !important; /* SVG transparent */
 			}
 			
 			#scroll-progress-ring {
@@ -59,10 +61,11 @@
 			/* Responsive : ajustement mobile */
 			@media (max-width: 768px) {
 				#scroll-progress-wrapper {
-					bottom: 90px;
-					right: 20px;
+					bottom: 86px; /* 90px - 4px pour centrer */
+					right: 16px;  /* 20px - 4px pour centrer */
 					width: 58px;
 					height: 58px;
+					background: transparent !important;
 				}
 				
 				#scroll-progress-ring {
@@ -3006,8 +3009,8 @@
 
 <!-- Indicateur de progression circulaire autour du bouton scroll -->
 <div id="scroll-progress-wrapper">
-	<svg id="scroll-progress-circle" width="68" height="68" viewBox="0 0 68 68">
-		<circle id="scroll-progress-ring" cx="34" cy="34" r="32"/>
+	<svg id="scroll-progress-circle" width="68" height="68" viewBox="0 0 68 68" style="background: transparent;">
+		<circle id="scroll-progress-ring" cx="34" cy="34" r="32" fill="none"/>
 	</svg>
 </div>
 
