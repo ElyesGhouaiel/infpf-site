@@ -87,9 +87,9 @@ class HomeController extends AbstractController
         }
 
         // ===== PAGINATION POUR PERFORMANCE =====
-        // Limiter à 12 formations par page au lieu de tout charger
+        // Afficher toutes les formations (48 max)
         $page = max(1, $request->query->getInt('page', 1));
-        $limit = 12; // 12 formations par page
+        $limit = 48; // Afficher toutes les formations
         $offset = ($page - 1) * $limit;
         
         // Compter le total AVANT la pagination
