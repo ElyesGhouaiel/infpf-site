@@ -3569,6 +3569,13 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // AJOUTER event listeners pour redirection mobile / popup desktop
     calendlyLinks.forEach(link => {
+      // Ne pas intercepter les liens qui pointent déjà vers /contactez-nous
+      const href = link.getAttribute('href');
+      if (href && (href.includes('/contactez-nous') || href.includes('app_contact'))) {
+        console.log('⏭️ Lien vers contact ignoré, laisser comportement natif');
+        return; // Laisser le comportement natif
+      }
+      
       // Supprimer les anciens listeners (éviter les doublons)
       const newLink = link.cloneNode(true);
       link.parentNode.replaceChild(newLink, link);
