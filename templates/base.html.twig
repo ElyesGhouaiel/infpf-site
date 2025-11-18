@@ -33,24 +33,22 @@
 			
 			#scroll-progress-ring {
 				fill: none;
-				stroke: rgba(255, 255, 255, 0.9);
-				stroke-width: 3;
+				stroke: #00d4ff; /* Cyan lumineux très voyant */
+				stroke-width: 4;
 				stroke-linecap: round;
-				stroke-dasharray: 201.06; /* 2 * PI * 32 = circonférence */
-				stroke-dashoffset: 201.06; /* Commence vide */
 				transition: stroke-dashoffset 0.1s ease-out;
-				filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+				filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.8));
 			}
 			
 			/* Animation subtile de pulsation */
 			@keyframes pulse-ring {
 				0%, 100% {
-					stroke-width: 3;
-					opacity: 0.9;
+					stroke-width: 4;
+					filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.8));
 				}
 				50% {
-					stroke-width: 3.5;
-					opacity: 1;
+					stroke-width: 5;
+					filter: drop-shadow(0 0 20px rgba(0, 212, 255, 1));
 				}
 			}
 			
@@ -68,9 +66,8 @@
 				}
 				
 				#scroll-progress-ring {
-					stroke-width: 2.5;
-					stroke-dasharray: 157.08; /* Circonférence ajustée */
-					stroke-dashoffset: 157.08;
+					stroke-width: 3.5;
+					filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.8));
 				}
 			}
 			
