@@ -3576,6 +3576,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return; // Laisser le comportement natif
       }
       
+      // Ne pas intercepter #calendly-home si la section existe sur la page (scroll natif)
+      if (href === '#calendly-home' && document.getElementById('calendly-home')) {
+        console.log('⏭️ Section #calendly-home existe, laisser scroll natif');
+        return; // Laisser le scroll natif vers la section
+      }
+      
       // Supprimer les anciens listeners (éviter les doublons)
       const newLink = link.cloneNode(true);
       link.parentNode.replaceChild(newLink, link);
