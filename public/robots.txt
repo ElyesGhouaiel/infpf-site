@@ -17,3 +17,7 @@ Disallow: /var/
 # Sitemap
 Sitemap: https://infpf.fr/sitemap.xml
 
+
+
+
+
