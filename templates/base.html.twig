@@ -13,6 +13,43 @@
 		<style>
 			#popupForm, .popup-form { display: none !important; }
 			
+			/* ===== INDICATEUR DE PROGRESSION DE LECTURE ===== */
+			#scroll-progress-bar {
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 3px;
+				background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+				width: 0%;
+				z-index: 2147483647;
+				transition: width 0.1s ease-out;
+				box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+			}
+			
+			/* Animation de pulsation subtile au début/fin */
+			#scroll-progress-bar::after {
+				content: '';
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 20px;
+				height: 100%;
+				background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+				animation: shimmer 2s infinite;
+			}
+			
+			@keyframes shimmer {
+				0%, 100% { opacity: 0.5; }
+				50% { opacity: 1; }
+			}
+			
+			/* Responsive : barre plus épaisse sur mobile */
+			@media (max-width: 768px) {
+				#scroll-progress-bar {
+					height: 4px;
+				}
+			}
+			
 			/* FIX BOUTON SCROLL-TO-TOP: Design moderne bleu foncé */
 			#btnScrollTop,
 			.bouton-retour-haut {
@@ -2945,6 +2982,10 @@
 	{% include 'analytics/google-analytics.html.twig' %}
 	</head>
 </html>
+
+<!-- Indicateur de progression de lecture -->
+<div id="scroll-progress-bar"></div>
+
 <header class="header" style="  position: fixed;
   left: 0;
   width: 100%;
@@ -3330,6 +3371,42 @@ document.addEventListener('DOMContentLoaded', function () {
         behavior: "smooth"
       });
     });
+  });
+
+  // ===== INDICATEUR DE PROGRESSION DE LECTURE =====
+  document.addEventListener("DOMContentLoaded", function () {
+    const progressBar = document.getElementById("scroll-progress-bar");
+    if (!progressBar) return;
+
+    // Fonction pour mettre à jour la barre de progression
+    function updateProgressBar() {
+      // Calcul de la hauteur totale scrollable
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollableHeight = documentHeight - windowHeight;
+      
+      // Calcul du pourcentage de scroll
+      const scrolled = window.scrollY;
+      const progress = (scrolled / scrollableHeight) * 100;
+      
+      // Mise à jour de la largeur de la barre
+      progressBar.style.width = Math.min(progress, 100) + "%";
+    }
+
+    // Mise à jour au scroll (avec throttle pour performance)
+    let ticking = false;
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateProgressBar();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Mise à jour initiale
+    updateProgressBar();
   });
 
   // Redirection par catégorie
