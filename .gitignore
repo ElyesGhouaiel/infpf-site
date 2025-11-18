@@ -39,3 +39,29 @@ ecolee/
 # Fichiers bundle Git volumineux (dépassent limite GitHub 100MB)
 public_html_git_full_2025-09-12_101858.bundle
 *.bundle
+
+###> Fichiers temporaires et de backup ###
+*.backup
+*.backup[0-9]
+*.backup[0-9][0-9]
+*.old
+*.old.php
+*.SAUVEGARDE*
+*_backup
+*_backup_*
+*.bak
+*.tmp
+*.temp
+
+# Fichiers de test
+public/test-*.php
+public/info*.php
+public/_test/
+public/clear-*.php
+public/force-clear-*.php
+public/purge-*.php
+public/opcache-*.php
+
+# Fichiers de lock mal placés
+public/%kernel.project_dir%/
+###< Fichiers temporaires et de backup ###

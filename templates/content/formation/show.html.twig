@@ -3216,9 +3216,7 @@ html {
 <script>
 // ===== TOC FLOTTANT SIMPLE (DESKTOP + MOBILE) ===== 
 // MOBILE ONLY: Mirrored desktop logic - same behavior, adapted UI via CSS
-console.log('🚀 SCRIPT TOC: Démarrage');
 (function(){
-    console.log('💻 SCRIPT TOC: Fonction anonyme exécutée (desktop + mobile)');
 
     // calcule la hauteur du header pour l'offset (ajuste selon ta classe)
     function headerOffset(){
@@ -3260,19 +3258,15 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         // Gestion apparition/disparition
         if(shouldShow && !toc.classList.contains('is-visible')) {
             toc.classList.add('is-visible');
-            console.log('✨ TOC: Apparition');
         } else if(!shouldShow && toc.classList.contains('is-visible')) {
             toc.classList.remove('is-visible');
-            console.log('👻 TOC: Disparition');
         }
         
         // Gestion mode fixed (seulement si visible)
         if(shouldShow && !toc.classList.contains('is-fixed')) {
             toc.classList.add('is-fixed');
-            console.log('🔧 TOC: Mode FIXED activé');
         } else if(!shouldShow && toc.classList.contains('is-fixed')) {
             toc.classList.remove('is-fixed');
-            console.log('🔧 TOC: Mode STATIC restauré');
         }
     }
 
@@ -3286,7 +3280,6 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         const rightOffset = 24; // marge depuis le bord droit
         details.style.setProperty('--details-right', `${rightOffset}px`);
         details.style.setProperty('--details-width', '320px');
-        console.log('📍 Details position: right =', rightOffset + 'px');
     }
 
     // Gestion scroll pour les détails
@@ -3309,19 +3302,15 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         // Gestion apparition/disparition
         if(shouldShow && !details.classList.contains('is-visible')) {
             details.classList.add('is-visible');
-            console.log('✨ Details: Apparition');
         } else if(!shouldShow && details.classList.contains('is-visible')) {
             details.classList.remove('is-visible');
-            console.log('👻 Details: Disparition');
         }
         
         // Gestion mode fixed (seulement si visible)
         if(shouldShow && !details.classList.contains('is-fixed')) {
             details.classList.add('is-fixed');
-            console.log('🔧 Details: Mode FIXED activé');
         } else if(!shouldShow && details.classList.contains('is-fixed')) {
             details.classList.remove('is-fixed');
-            console.log('🔧 Details: Mode STATIC restauré');
         }
     }
 
@@ -3341,14 +3330,12 @@ console.log('🚀 SCRIPT TOC: Démarrage');
 
     // ===== SCROLL-SPY DYNAMIQUE POUR PROGRESSION UTILISATEUR =====
     function initScrollSpy(){
-        console.log('🎯 Initialisation du scroll-spy dynamique');
         
         // Toutes les sections avec ancres *-start
         const sections = document.querySelectorAll('[id$="-start"]');
         const tocLinks = document.querySelectorAll('#toc a[href^="#"]');
         
         if(sections.length === 0 || tocLinks.length === 0) {
-            console.log('❌ Sections ou liens TOC non trouvés');
             return;
         }
 
@@ -3371,7 +3358,6 @@ console.log('🚀 SCRIPT TOC: Démarrage');
                     const activeLink = linkMap.get(href);
                     if(activeLink) {
                         activeLink.classList.add('is-active');
-                        console.log('📍 Section active:', entry.target.id, '-> Lien mis en bleu');
                     }
                 }
             });
@@ -3384,18 +3370,14 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         // Observer toutes les sections
         sections.forEach(section => observer.observe(section));
         
-        console.log('✅ Scroll-spy actif sur', sections.length, 'sections');
     }
 
     // init + évènements
     function init(){
-        console.log('🎯 TOC System: Initialisation');
         
         // Vérifier les éléments gérés
         const heroDetails = document.querySelector('.details-card--hero');
         const sideDetails = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
-        console.log('🏠 Détails HERO (fixe):', !!heroDetails);
-        console.log('📜 Détails CÔTÉ (floating):', !!sideDetails);
         
         positionLeft();
         positionRight();
@@ -3403,35 +3385,25 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         onScrollDetails();
         wireLinks();
         initScrollSpy(); // Ajout du scroll-spy dynamique
-        console.log('✅ TOC System: Prêt avec scroll-spy dynamique');
     }
 
     // ===== DÉSACTIVER SUR MOBILE - Conflit avec le toggle mobile =====
     if (window.innerWidth <= 1100) {
-        console.log('📱 TOC Desktop désactivé sur mobile (largeur:', window.innerWidth, 'px)');
         return;
     }
 
-    console.log('🔧 TOC: Ajout des event listeners');
-    console.log('🔧 TOC: readyState =', document.readyState);
     
     // Debug: lister tous les éléments avec id
-    console.log('🔧 TOC: Éléments avec ID:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
     
     // Attendre que le DOM soit prêt
     function waitForElements(attempt = 1) {
-        console.log(`🔧 TOC: Tentative ${attempt} de recherche des éléments`);
         
         const toc = document.getElementById('toc');
         const anchor = document.getElementById('toc-anchor');
         const details = document.querySelector('.details-card');
         
-        console.log('🔍 TOC trouvé:', !!toc, toc);
-        console.log('🔍 Anchor trouvé:', !!anchor, anchor);
-        console.log('🔍 Details trouvé:', !!details, details);
         
         if (toc && anchor) {
-            console.log('✅ TOC et Anchor trouvés, initialisation...');
             init();
             window.addEventListener('scroll', () => {
                 onScroll();
@@ -3450,22 +3422,17 @@ console.log('🚀 SCRIPT TOC: Démarrage');
                 onScrollDetails();
             });
         } else if (attempt < 50) { // max 5 secondes
-            console.log(`⏳ Attente des éléments... (tentative ${attempt}/50)`);
             setTimeout(() => waitForElements(attempt + 1), 100);
             } else {
-            console.error('❌ TOC: Timeout - éléments introuvables après 5 secondes');
         }
     }
     
     // Démarrer l'attente seulement après que le DOM soit prêt
     if (document.readyState === 'loading') {
-        console.log('🔧 TOC: DOM en cours de chargement, attente DOMContentLoaded');
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('🔧 TOC: DOMContentLoaded déclenché');
             waitForElements();
         });
     } else {
-        console.log('🔧 TOC: DOM déjà prêt, démarrage immédiat');
         waitForElements();
     }
 })();
@@ -3492,20 +3459,15 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Actif uniquement sur mobile
     if (window.innerWidth > 1100) {
-        console.log('📱 Toggle mobile désactivé sur desktop');
         return;
     }
     
-    console.log('📱 Toggle mobile: Initialisation...');
     
     const toggleBtn = document.getElementById('toc-toggle-mobile');
     const toc = document.getElementById('toc');
     
-    console.log('🔍 Bouton trouvé:', !!toggleBtn, toggleBtn);
-    console.log('🔍 TOC trouvé:', !!toc, toc);
     
     if (!toggleBtn || !toc) {
-        console.error('❌ Bouton ou TOC introuvable');
         return;
     }
     
@@ -3518,7 +3480,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         isOpen = !isOpen;
         
-        console.log('🖱️ Clic sur bouton sommaire, isOpen =', isOpen);
         
         if (isOpen) {
             // Ouvrir: forcer l'affichage
@@ -3582,25 +3543,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 behavior: 'smooth'
                             });
                             
-                            console.log('📍 Navigation vers:', targetId);
                         }
                     });
                 });
                 
-                console.log('✅ Styles + Navigation forcés sur', links.length, 'liens');
             }
             
             // LOGS DE DEBUG
-            console.log('📖 Sommaire mobile ouvert');
-            console.log('🔍 Classes TOC:', toc.classList.toString());
-            console.log('🔍 Style display:', window.getComputedStyle(toc).display);
-            console.log('🔍 Style opacity:', window.getComputedStyle(toc).opacity);
-            console.log('🔍 Style visibility:', window.getComputedStyle(toc).visibility);
-            console.log('🔍 Position TOC:', toc.getBoundingClientRect());
             
             // Forcer un reflow
             setTimeout(() => {
-                console.log('🔍 Position TOC après 100ms:', toc.getBoundingClientRect());
             }, 100);
         } else {
             // Fermer: retirer les classes ET désactiver les clics
@@ -3614,7 +3566,6 @@ document.addEventListener('DOMContentLoaded', function() {
             toc.style.setProperty('height', '0', 'important');
             toc.style.setProperty('overflow', 'hidden', 'important');
             
-            console.log('📕 Sommaire mobile fermé et désactivé');
         }
     });
     
@@ -3631,11 +3582,9 @@ document.addEventListener('DOMContentLoaded', function() {
             toc.style.setProperty('display', 'none', 'important');
             toc.style.setProperty('height', '0', 'important');
             
-            console.log('🔗 Lien cliqué, sommaire fermé et désactivé');
         });
     });
     
-    console.log('✅ Toggle mobile initialisé avec succès');
 });
 </script>
 

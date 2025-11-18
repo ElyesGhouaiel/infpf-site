@@ -2201,10 +2201,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileFilterClose = document.getElementById('mobile-filter-close');
     const mobileFilterContent = document.querySelector('.mobile-filter-content');
     
-    console.log('📱 INITIALISATION FILTRES MOBILE');
-    console.log('Bouton toggle:', mobileFilterToggle ? '✅ Trouvé' : '❌ Introuvable');
-    console.log('Panneau:', mobileFilterPanel ? '✅ Trouvé' : '❌ Introuvable');
-    console.log('Bouton fermeture:', mobileFilterClose ? '✅ Trouvé' : '❌ Introuvable');
     
     // ===== SÉCURITÉ : S'assurer que les filtres sont fermés au chargement =====
     if (mobileFilterPanel) {
@@ -2339,7 +2335,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ouvrir le panneau mobile
     function openMobilePanel() {
-        console.log('🔵 Ouverture du panneau de filtres mobile');
         
         // Empêcher le scroll du body
         document.body.style.overflow = 'hidden';
@@ -2371,7 +2366,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fermer le panneau mobile
     function closeMobilePanel() {
-        console.log('🔴 Fermeture du panneau de filtres mobile');
         
         // Désactiver l'animation
         mobileFilterPanel.classList.remove('active');
@@ -2394,22 +2388,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listeners
     if (mobileFilterToggle) {
-        console.log('✅ Bouton Filtres trouvé, ajout du listener');
         mobileFilterToggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clic sur le bouton Filtres détecté');
             openMobilePanel();
         });
     } else {
-        console.error('❌ Bouton Filtres (mobile-filter-toggle) introuvable !');
     }
 
     if (mobileFilterClose) {
-        console.log('✅ Bouton Fermeture trouvé, ajout du listener');
         mobileFilterClose.addEventListener('click', closeMobilePanel);
     } else {
-        console.error('❌ Bouton Fermeture (mobile-filter-close) introuvable !');
     }
 
     // Gérer la fermeture avec la touche Escape
@@ -2453,7 +2442,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPage = 1;
 
     function renderCards() {
-        console.log(`🎯 Affichage page ${currentPage}`);
         const cards = Array.from(cardsWrapper.children);
         const total = cards.length;
         const start = (currentPage - 1) * formationsPerPage;
@@ -2462,7 +2450,6 @@ document.addEventListener('DOMContentLoaded', function () {
         cards.forEach((card, i) => {
             const shouldShow = (i >= start && i < end);
             card.style.setProperty('display', shouldShow ? 'flex' : 'none', 'important');
-            console.log(`Carte ${i + 1}: ${shouldShow ? 'VISIBLE' : 'masquée'}`);
         });
 
         // Mise à jour du compteur
@@ -2480,7 +2467,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalPages = Math.ceil(total / formationsPerPage);
         const isMobile = window.innerWidth <= 768;
         
-        console.log(`📄 Génération pagination: ${totalPages} pages, page actuelle: ${currentPage}, mobile: ${isMobile}`);
         
         paginationContainer.innerHTML = '';
         if (totalPages <= 1) return;
@@ -2498,7 +2484,6 @@ document.addEventListener('DOMContentLoaded', function () {
             prev.onclick = (e) => {
                 e.preventDefault();
                 if (isMobile) e.stopPropagation();
-                console.log(`⬅️ Page précédente: ${currentPage} → ${currentPage - 1}`);
                 currentPage--;
                 // Scroll vers le haut de la page
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2523,7 +2508,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 pageBtn.onclick = (e) => {
                     e.preventDefault();
                     if (isMobile) e.stopPropagation();
-                    console.log(`🔢 Clic page: ${currentPage} → ${i}`);
                     currentPage = i;
                     // Scroll vers le haut de la page
                     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2547,7 +2531,6 @@ document.addEventListener('DOMContentLoaded', function () {
             next.onclick = (e) => {
                 e.preventDefault();
                 if (isMobile) e.stopPropagation();
-                console.log(`➡️ Page suivante: ${currentPage} → ${currentPage + 1}`);
                 currentPage++;
                 // Scroll vers le haut de la page
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2559,7 +2542,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     function updatePagination() {
-        console.log(`🔄 Mise à jour pagination - Page: ${currentPage}`);
         renderCards();
         renderPagination();
     }
@@ -2569,7 +2551,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Recalculer la pagination lors du redimensionnement
     window.addEventListener('resize', function() {
-        console.log('🔄 Redimensionnement écran - Recalcul pagination');
         renderPagination(); // Seulement la pagination, pas les cartes
     });
 
@@ -2612,7 +2593,6 @@ const categoryId = this.value;
 window.location.href = `{{ path('app_home') }}?thematique%5B%5D=${categoryId}`;
 });
 } else {
-console.error('Element #category_select not found');
 }
 });</script>
 
@@ -2623,7 +2603,6 @@ const resultsSpan = document.querySelector('.results_area .result');
 if (selectElement) {
 selectElement.addEventListener('change', function () {
 const categoryId = this.value;
-console.log(`Catégorie sélectionnée: ${categoryId}`);
 
 // Simulez la récupération des résultats basés sur categoryId
 // Cela devrait normalement être remplacé par une requête AJAX ou une méthode similaire
@@ -2635,7 +2614,6 @@ resultsSpan.textContent = numberOfResults;
 window.location.href = `{{ path('app_home') }}?thematique%5B%5D=${categoryId}`;
 });
 } else {
-console.error('Element #category_select not found');
 }
 });
 
@@ -2649,13 +2627,11 @@ return categoryId === 'all' ? 'Tous les résultats' : 'Nombre pour catégorie ' 
 <script>
 // Gestion de la recherche de formations
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('🔍 Initialisation de la recherche...');
   
   const searchInput = document.getElementById('searchInput');
   const formationItems = document.querySelectorAll('.formation-item');
   const searchResults = document.getElementById('searchResults');
 
-  console.log('📊 Éléments trouvés:', {
     searchInput: !!searchInput,
     formationItemsCount: formationItems.length,
     searchResults: !!searchResults
@@ -2665,7 +2641,6 @@ document.addEventListener('DOMContentLoaded', function () {
   formationItems.forEach((item, index) => {
     const nameElement = item.querySelector('h4');
     if (nameElement) {
-      console.log(`📝 Formation ${index + 1}:`, nameElement.textContent);
     }
   });
 
@@ -2674,7 +2649,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const searchQuery = this.value.toLowerCase().trim();
       let visibleCount = 0;
 
-      console.log('🔎 Recherche pour:', searchQuery);
 
       // Réinitialiser tous les éléments
       formationItems.forEach(item => {
@@ -2691,7 +2665,6 @@ document.addEventListener('DOMContentLoaded', function () {
               item.classList.add('visible');
               item.style.display = 'block';
               visibleCount++;
-              console.log(`✅ Trouvé ${index + 1}:`, nameElement.textContent);
           }
         }
       });
@@ -2700,17 +2673,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (visibleCount > 0) {
           searchResults.classList.add('show');
          searchResults.style.display = 'block';
-          console.log(`🎯 ${visibleCount} résultat(s) trouvé(s) - dropdown affiché`);
        } else {
           searchResults.classList.remove('show');
          searchResults.style.display = 'none';
-          console.log('❌ Aucun résultat - dropdown masqué');
         }
       } else {
         // Pas de recherche - masquer le dropdown
         searchResults.classList.remove('show');
         searchResults.style.display = 'none';
-        console.log('🚫 Recherche vide - dropdown masqué');
       }
     });
 
@@ -2732,9 +2702,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    console.log('✅ Recherche configurée avec succès');
   } else {
-    console.error('❌ Éléments de recherche manquants:', {
       searchInput: !!searchInput,
       formationItemsCount: formationItems.length,
       searchResults: !!searchResults
@@ -2755,7 +2723,6 @@ let isFiltering = false;
 function applyFilter() {
     // Empêcher les multiples appels simultanés
     if (isFiltering) {
-        console.log('⏳ Filtrage déjà en cours, action ignorée');
         return;
     }
     
@@ -2763,7 +2730,6 @@ function applyFilter() {
     clearTimeout(filterTimeout);
     filterTimeout = setTimeout(() => {
         isFiltering = true;
-        console.log('🔄 Application des filtres...');
         
         let url = new URL(window.location.href);
         let params = new URLSearchParams();
@@ -2784,7 +2750,6 @@ function applyFilter() {
         });
 
         // Rediriger avec les nouveaux paramètres
-        console.log('✅ Redirection avec filtres:', params.toString());
         
         // Scroll to top AVANT la redirection pour une meilleure UX
         window.scrollTo({
@@ -2802,7 +2767,6 @@ function applyFilter() {
 
 // Fonction pour réinitialiser tous les filtres
 function resetAllFilters() {
-    console.log('🔄 Réinitialisation de tous les filtres...');
     
     // Désélectionner toutes les checkboxes
     document.querySelectorAll('.checkbox-item input[type=checkbox]').forEach(checkbox => {
@@ -2823,7 +2787,6 @@ function resetAllFilters() {
     // Conserver uniquement les paramètres essentiels si nécessaires
     // (Tous les filtres sont supprimés)
     
-    console.log('✅ Redirection sans filtres');
     
     // Petite pause pour laisser le scroll s'effectuer
     setTimeout(() => {
@@ -2833,7 +2796,6 @@ function resetAllFilters() {
 
 // Initialisation optimisée
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎯 Initialisation du système de filtres amélioré');
     
     // IMPORTANT : Supprimer les anciens event listeners pour éviter les doublons
     // On utilise le système de délégation d'événements pour plus d'efficacité
@@ -2845,7 +2807,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Ajouter un seul event listener avec debounce
         checkbox.addEventListener('change', function(e) {
-            console.log(`☑️ Changement filtre: ${this.name} = ${this.value} (${this.checked})`);
             applyFilter();
         });
     });
@@ -2855,11 +2816,9 @@ document.addEventListener('DOMContentLoaded', function() {
         label.addEventListener('click', function(e) {
             // Le comportement par défaut du label coche déjà la checkbox
             // On laisse juste l'événement 'change' de la checkbox se déclencher
-            console.log('🖱️ Clic sur label');
         });
     });
     
-    console.log('✅ Système de filtres configuré');
 });
 </script>
 <!-- Le JavaScript Calendly est désormais géré de manière centralisée dans base.html.twig -->

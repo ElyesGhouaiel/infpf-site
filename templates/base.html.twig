@@ -3401,7 +3401,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const header = document.querySelector('.header');
     
     if (!header) {
-      console.log('❌ Header non trouvé');
       return;
     }
     
@@ -3410,7 +3409,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Définir la variable CSS globale
     document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
     
-    console.log('✅ Variable CSS --header-height définie:', headerHeight + 'px');
   }
   
   // Exécuter immédiatement si possible
@@ -3433,7 +3431,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // ===== SCROLL TO TOP AUTOMATIQUE AU CHARGEMENT DE PAGE =====
   // S'applique à TOUTES les pages du site pour une meilleure UX
   document.addEventListener('DOMContentLoaded', function() {
-    console.log('🔝 Scroll to top au chargement de la page');
     
     // Défilement instantané vers le haut au chargement
     window.scrollTo({
@@ -3451,7 +3448,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // ===== SCROLL TO TOP LORS DES NAVIGATION (Turbo Drive / SPA) =====
   // Détecte les changements de page via Turbo Drive (Symfony UX)
   document.addEventListener('turbo:load', function() {
-    console.log('🔝 Scroll to top - Navigation Turbo');
     window.scrollTo({
       top: 0,
       left: 0,
@@ -3462,7 +3458,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // ===== SCROLL TO TOP AVANT NAVIGATION =====
   // S'assure que la page démarre en haut avant le chargement
   document.addEventListener('turbo:before-visit', function() {
-    console.log('🔝 Scroll to top - Avant navigation');
     window.scrollTo(0, 0);
   });
 
@@ -3495,7 +3490,6 @@ document.addEventListener('DOMContentLoaded', function () {
       script.onload = () => {
         calendlyLoaded = true;
         calendlyLoading = false;
-        console.log('✅ Calendly widget.js chargé au clic (lazy load)');
         resolve();
       };
       document.head.appendChild(script);
@@ -3515,7 +3509,6 @@ document.addEventListener('DOMContentLoaded', function () {
       'a.calendly-btn:not(.calendly-external-btn)'
     );
     
-    console.log('🔍 Boutons Calendly trouvés:', calendlyLinks.length, 'Mobile:', isMobile);
     
     calendlyLinks.forEach(link => {
       // CHANGER LE TEXTE sur mobile
@@ -3528,7 +3521,6 @@ document.addEventListener('DOMContentLoaded', function () {
             link.setAttribute('data-original-text', link.textContent.trim());
           }
           link.textContent = mobileText;
-          console.log('✅ Texte changé:', mobileText);
         }
         
         // Pour les contact-method (titre + description)
@@ -3572,13 +3564,11 @@ document.addEventListener('DOMContentLoaded', function () {
       // Ne pas intercepter les liens qui pointent déjà vers /contactez-nous
       const href = link.getAttribute('href');
       if (href && (href.includes('/contactez-nous') || href.includes('app_contact'))) {
-        console.log('⏭️ Lien vers contact ignoré, laisser comportement natif');
         return; // Laisser le comportement natif
       }
       
       // Ne pas intercepter #calendly-home si la section existe sur la page (scroll natif)
       if (href === '#calendly-home' && document.getElementById('calendly-home')) {
-        console.log('⏭️ Section #calendly-home existe, laisser scroll natif');
         return; // Laisser le scroll natif vers la section
       }
       
@@ -3593,7 +3583,6 @@ document.addEventListener('DOMContentLoaded', function () {
           // MOBILE : Redirection vers /contactez-nous
         e.preventDefault();
           e.stopPropagation();
-          console.log('🔄 Redirection mobile vers /contactez-nous');
           window.location.href = '/contactez-nous';
           return false;
         } else {
@@ -3604,15 +3593,12 @@ document.addEventListener('DOMContentLoaded', function () {
           // URL Calendly avec accès direct au calendrier
           const calendlyUrl = 'https://calendly.com/contact-infpf/contact-infpf?back=1&hide_event_type_details=1&hide_gdpr_banner=1&primary_color=0b3f89';
         
-          console.log('📅 Lazy load Calendly desktop...');
           
           // Charger Calendly si pas encore chargé
           loadCalendlyScript().then(() => {
             if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
-              console.log('✅ Ouverture popup Calendly');
               Calendly.initPopupWidget({ url: calendlyUrl });
             } else {
-              console.warn('⚠️ Calendly non disponible, ouverture dans nouvel onglet');
               window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
             }
           });
@@ -3626,7 +3612,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Exécuter immédiatement et après chargement
   redirectCalendlyMobile();
   window.addEventListener('load', function() {
-    console.log('📄 Page chargée, re-exécution redirectCalendlyMobile');
     redirectCalendlyMobile();
   });
   window.addEventListener('resize', redirectCalendlyMobile);
@@ -3640,13 +3625,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Force le positionnement côté droit du bouton (vers Blog)
         menuMetiers.style.left = 'auto';
         menuMetiers.style.right = '0';
-        console.log('✅ Menu Métiers forcé côté droit vers Blog (DESKTOP)');
         
         // Observer les changements de style (DESKTOP UNIQUEMENT)
         const observer = new MutationObserver(function(mutations) {
           // Vérifier qu'on est toujours sur desktop
           if (window.innerWidth <= 768) {
-            console.log('📱 Mobile détecté - Arrêt observer Métiers');
             observer.disconnect();
             return;
           }
@@ -3656,7 +3639,6 @@ document.addEventListener('DOMContentLoaded', function () {
               if (menuMetiers.style.right !== '0' || menuMetiers.style.left !== 'auto') {
                 menuMetiers.style.left = 'auto';
                 menuMetiers.style.right = '0';
-                console.log('🔧 Menu Métiers repositionné côté droit (DESKTOP)');
               }
             }
           });
@@ -3664,7 +3646,6 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(menuMetiers, { attributes: true, attributeFilter: ['style'] });
       }
     } else {
-      console.log('📱 Mobile détecté - Observer Métiers désactivé');
     }
   });
 
@@ -3675,7 +3656,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const allOtherMenus = document.querySelectorAll('.header #menu .menu-item:not(.menu-formations-dropdown)');
     
     if (menuFormations && megaMenu) {
-      console.log('✅ Menu Formations ANTI-CONFLIT initialisé');
       
       let hoverTimeout;
       let isMouseInside = false;
@@ -3743,7 +3723,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       
     } else {
-      console.error('❌ Menu Formations ANTI-CONFLIT non trouvé');
     }
   });
 
@@ -3753,7 +3732,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (!formationSelect) return;
     
-    console.log('✅ Select Formations natif initialisé');
     
     // Styles appliqués aux optgroups (couleurs de fond via CSS)
     const categoryColors = {
@@ -3814,7 +3792,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }, 10);
     });
     
-    console.log('✅ Select Formations: ' + formationSelect.querySelectorAll('option').length + ' formations disponibles avec catégories colorées');
   });
 </script>
 
@@ -3834,7 +3811,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Fonction simple pour toggle un sous-menu
 function toggleSubmenu(parentLi, submenu) {
-  console.log('🔄 Toggle sous-menu:', parentLi.id);
   var isOpen = submenu.classList.contains('sub-menu--active');
   
   // Fermer TOUS les sous-menus d'abord
@@ -3849,9 +3825,7 @@ function toggleSubmenu(parentLi, submenu) {
   if (!isOpen) {
     submenu.classList.add('sub-menu--active');
     parentLi.classList.add('clicked');
-    console.log('✅ Sous-menu ouvert:', parentLi.id);
   } else {
-    console.log('❌ Sous-menu fermé:', parentLi.id);
   }
 }
 
@@ -3876,18 +3850,15 @@ function isMobileDevice() {
   var uaCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   var result = widthCheck || burgerCheck || activeCheck || (uaCheck && window.innerWidth <= 1024);
-  console.log('📱 isMobile?', result, {width: widthCheck, burger: burgerCheck, active: activeCheck, ua: uaCheck});
   return result;
 }
 
 // INSTALLER LES EVENT LISTENERS IMMÉDIATEMENT (PHASE DE CAPTURE)
 function installMobileMenuHandlers() {
-  console.log('🔧 Installation des gestionnaires mobile...');
   
   // Fonction générique pour gérer un menu avec sous-menu
   function handleMenuClick(e, menuId, submenuSelector) {
     if (isMobileDevice()) {
-      console.log('📱 Click détecté sur menu mobile:', menuId);
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -3896,7 +3867,6 @@ function installMobileMenuHandlers() {
       var parentLi = link.closest('li');
       
       if (!parentLi) {
-        console.error('❌ Parent LI non trouvé');
         return false;
       }
       
@@ -3904,7 +3874,6 @@ function installMobileMenuHandlers() {
       if (submenu) {
         toggleSubmenu(parentLi, submenu);
       } else {
-        console.error('❌ Sous-menu non trouvé:', submenuSelector);
       }
       
       return false;
@@ -3915,7 +3884,6 @@ function installMobileMenuHandlers() {
   // Gérer L'École - TRIPLE PROTECTION
   var ecoleLink = document.querySelector('#menu-item-442796 > a');
   if (ecoleLink) {
-    console.log('✅ Installation gestionnaire L\'École');
     
     // Protection 1: Capture phase (priorité maximale)
     ecoleLink.addEventListener('click', function(e) {
@@ -3930,25 +3898,21 @@ function installMobileMenuHandlers() {
     // Protection 3: TouchStart (mobile natif)
     ecoleLink.addEventListener('touchstart', function(e) {
       if (isMobileDevice()) {
-        console.log('👆 TouchStart sur L\'École');
         // Marquer le lien comme "traité par touch"
         ecoleLink.dataset.touched = 'true';
       }
     }, {passive: true});
     
   } else {
-    console.error('❌ Lien L\'École non trouvé');
   }
   
   // Gérer Métiers - QUADRUPLE PROTECTION (+ SPÉCIFIQUE)
   var metiersLink = document.querySelector('#menu-item-442839 > a');
   if (metiersLink) {
-    console.log('✅ Installation gestionnaire Métiers (SPÉCIAL)');
     
     // Protection 1: Capture phase (ULTRA priorité)
     metiersLink.addEventListener('click', function(e) {
       if (isMobileDevice()) {
-        console.log('📱🔴 CLICK MÉTIERS INTERCEPTÉ (CAPTURE)');
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -3957,10 +3921,8 @@ function installMobileMenuHandlers() {
         var submenu = parentLi ? parentLi.querySelector('.sub-menu') : null;
         
         if (submenu) {
-          console.log('🔄 Toggle Métiers (submenu trouvé)');
           toggleSubmenu(parentLi, submenu);
         } else {
-          console.error('❌ Sous-menu Métiers introuvable');
         }
         return false;
       }
@@ -3974,7 +3936,6 @@ function installMobileMenuHandlers() {
     // Protection 3: TouchStart
     metiersLink.addEventListener('touchstart', function(e) {
       if (isMobileDevice()) {
-        console.log('👆 TouchStart sur Métiers');
         metiersLink.dataset.touched = 'true';
       }
     }, {passive: true});
@@ -3982,18 +3943,15 @@ function installMobileMenuHandlers() {
     // Protection 4: MouseDown (si touch échoue)
     metiersLink.addEventListener('mousedown', function(e) {
       if (isMobileDevice()) {
-        console.log('🖱️ MouseDown sur Métiers (mobile)');
       }
     }, false);
     
   } else {
-    console.error('❌ Lien Métiers non trouvé');
   }
   
   // Gérer Formations - TRIPLE PROTECTION
   var formationsLink = document.querySelector('#menu-item-442808 > a');
   if (formationsLink) {
-    console.log('✅ Installation gestionnaire Formations');
     
     formationsLink.addEventListener('click', function(e) {
       return handleMenuClick(e, 'menu-item-442808', '.sub-menu');
@@ -4005,19 +3963,16 @@ function installMobileMenuHandlers() {
     
     formationsLink.addEventListener('touchstart', function(e) {
       if (isMobileDevice()) {
-        console.log('👆 TouchStart sur Formations');
         formationsLink.dataset.touched = 'true';
       }
     }, {passive: true});
     
   } else {
-    console.error('❌ Lien Formations non trouvé');
   }
   
   // Gérer Information - TRIPLE PROTECTION
   var infoLink = document.querySelector('#menu-item-461428 > a');
   if (infoLink) {
-    console.log('✅ Installation gestionnaire Information');
     
     infoLink.addEventListener('click', function(e) {
       return handleMenuClick(e, 'menu-item-461428', '.sub-menu');
@@ -4029,13 +3984,11 @@ function installMobileMenuHandlers() {
     
     infoLink.addEventListener('touchstart', function(e) {
       if (isMobileDevice()) {
-        console.log('👆 TouchStart sur Information');
         infoLink.dataset.touched = 'true';
       }
     }, {passive: true});
   }
   
-  console.log('✅ Tous les gestionnaires mobiles installés');
 }
 
 // INSTALLATION IMMÉDIATE - Ne pas attendre DOMContentLoaded
@@ -4048,7 +4001,6 @@ if (document.readyState === 'loading') {
 
 // Réinstaller après un délai (sécurité)
 setTimeout(function() {
-  console.log('🔄 Réinstallation des gestionnaires (sécurité)');
   installMobileMenuHandlers();
 }, 500);
 </script>

@@ -85,7 +85,6 @@ function loadRecaptchaForModal() {
         }
         
         recaptchaLoadingForModal = true;
-        console.log('🔐 Lazy load reCAPTCHA pour modal...');
         
         const recaptchaScript = document.createElement('script');
         recaptchaScript.src = 'https://www.google.com/recaptcha/api.js?render=6Led29srAAAAALOQ_LxAbPMeSlkbl4NdhdFkWnzq';
@@ -93,7 +92,6 @@ function loadRecaptchaForModal() {
         recaptchaScript.onload = () => {
             recaptchaLoadedForModal = true;
             recaptchaLoadingForModal = false;
-            console.log('✅ reCAPTCHA chargé pour modal');
             resolve();
         };
         document.head.appendChild(recaptchaScript);
@@ -117,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Charger reCAPTCHA seulement quand la modal s'ouvre
         openModalButtons.forEach(btn => {
             btn.addEventListener('click', function() {
-                console.log('📋 Ouverture modal - Chargement reCAPTCHA...');
                 loadRecaptchaForModal();
             });
         });
@@ -129,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     const isVisible = popupForm.style.display !== 'none' && 
                                      window.getComputedStyle(popupForm).display !== 'none';
                     if (isVisible && !recaptchaLoadedForModal && !recaptchaLoadingForModal) {
-                        console.log('📋 Modal visible - Chargement reCAPTCHA...');
                         loadRecaptchaForModal();
                     }
                 }

@@ -445,7 +445,6 @@ function setCookie(name, value, days) {
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
-    console.log('🍪 Cookie créé:', name + '=' + value);
 }
 
 // Helper pour lire un cookie
@@ -480,10 +479,8 @@ function saveConsentPreferences(analytics, marketing, type = 'all') {
         localStorage.setItem('infpf_consent_timestamp', timestamp);
         localStorage.setItem('infpf_consent_type', type);
     } catch (e) {
-        console.warn('localStorage non disponible:', e);
     }
     
-    console.log('✅ Préférences sauvegardées:', {
         analytics: analytics,
         marketing: marketing,
         type: type
@@ -511,10 +508,8 @@ function saveConsentRejected() {
         localStorage.setItem('infpf_consent_timestamp', timestamp);
         localStorage.setItem('infpf_consent_type', 'rejected');
     } catch (e) {
-        console.warn('localStorage non disponible:', e);
     }
     
-    console.log('❌ Refus sauvegardé');
     
     return true;
 }
@@ -539,19 +534,16 @@ function checkAndShowCookieBanner() {
     
     // Si aucun consentement n'a été donné, afficher le bandeau
     if (!consent) {
-        console.log('🍪 Aucun consentement trouvé - Affichage du bandeau');
         const banner = document.getElementById('cookieBanner');
         if (banner) {
             banner.classList.add('show');
         }
     } else {
-        console.log('✅ Consentement existant:', consent, '- Bandeau masqué');
     }
 }
 
 // Fonctions pour la bannière de cookies
 function acceptAllCookies() {
-    console.log('👍 Utilisateur accepte tous les cookies');
     
     // 1. SAUVEGARDER LES PRÉFÉRENCES (système autonome)
     saveConsentPreferences(true, true, 'accept_all');
@@ -568,12 +560,10 @@ function acceptAllCookies() {
             window.INFPFAnalytics.acceptAll();
         }
     } catch (error) {
-        console.warn('INFPFAnalytics non disponible:', error);
     }
 }
 
 function rejectAllCookies() {
-    console.log('👎 Utilisateur refuse tous les cookies');
     
     // 1. SAUVEGARDER LE REFUS (système autonome)
     saveConsentRejected();
@@ -590,7 +580,6 @@ function rejectAllCookies() {
             window.INFPFAnalytics.rejectAll();
         }
     } catch (error) {
-        console.warn('INFPFAnalytics non disponible:', error);
     }
 }
 
@@ -620,7 +609,6 @@ function saveCustomPreferences() {
     const analytics = document.getElementById('analyticsCookies').checked;
     const marketing = document.getElementById('marketingCookies').checked;
     
-    console.log('⚙️ Utilisateur personnalise les cookies:', {
         analytics: analytics,
         marketing: marketing
     });
@@ -638,7 +626,6 @@ function saveCustomPreferences() {
             window.INFPFAnalytics.saveCustom(analytics, marketing);
         }
     } catch (error) {
-        console.warn('INFPFAnalytics non disponible:', error);
     }
 }
 

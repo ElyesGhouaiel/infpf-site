@@ -4938,7 +4938,6 @@
 							// Lancer la vidéo
 							video.play().catch(err => {
 								// Si le navigateur bloque l'autoplay avec son, garder muted
-								console.log('Autoplay avec son bloqué, lecture en mode muet');
 								video.muted = true;
 								video.play();
 							});
@@ -5360,22 +5359,18 @@ let isDropdownOpen = false;
 
 // S'assurer que les fonctions sont globales
 window.toggleFormationDropdown = function() {
-    console.log('Toggle clicked! Function called successfully');
     const dropdown = document.getElementById('formationDropdown');
     const arrow = document.getElementById('placeholderArrow');
     const selector = document.getElementById('formationSelector');
     const placeholder = document.getElementById('formationPlaceholder');
     
-    console.log('Elements found:', {dropdown, arrow, selector, placeholder});
     
     if (!dropdown || !arrow || !selector || !placeholder) {
-        console.error('Some elements not found!');
         return;
     }
     
     if (isDropdownOpen) {
         // Fermer
-        console.log('Closing dropdown and overlay');
         
         // 1. Masquer l'overlay
         const overlay = document.getElementById('formation-dropdown-overlay');
@@ -5397,7 +5392,6 @@ window.toggleFormationDropdown = function() {
         isDropdownOpen = false;
     } else {
         // SOLUTION NUCLÉAIRE - Créer un overlay modal
-        console.log('Opening dropdown with overlay');
         
         // 1. Créer l'overlay si il n'existe pas
         let overlay = document.getElementById('formation-dropdown-overlay');
@@ -5449,7 +5443,6 @@ window.toggleFormationDropdown = function() {
             opacity: 1 !important;
             padding-top: 60px !important;
         `;
-        console.log('Modal centré avec overlay');
         
         arrow.style.transform = 'rotate(180deg)';
         selector.setAttribute('data-open', 'true');
@@ -5464,64 +5457,39 @@ function toggleFormationDropdown() {
 
 // ===== DIAGNOSTIC ULTRA DÉTAILLÉ DROPDOWN IA =====
 function diagnosticDropdownIA() {
-    console.log('🔍 === DÉBUT DIAGNOSTIC DROPDOWN IA ===');
     
     // 1. Vérifier que le dropdown existe
     const dropdown = document.getElementById('formationDropdown');
-    console.log('🎯 Dropdown trouvé:', dropdown ? 'OUI' : 'NON');
     
     if (!dropdown) {
-        console.log('❌ DROPDOWN INTROUVABLE !');
         return;
     }
     
     // 2. Chercher la section IA
     const iaSection = dropdown.querySelector('[data-category="ia"]');
-    console.log('🎯 Section IA trouvée:', iaSection ? 'OUI' : 'NON');
-    console.log('📊 Data-category de la section IA:', iaSection ? iaSection.getAttribute('data-category') : 'N/A');
     
     if (!iaSection) {
-        console.log('❌ SECTION IA INTROUVABLE !');
-        console.log('🔍 Toutes les sections trouvées:');
         const allSections = dropdown.querySelectorAll('[data-category]');
         allSections.forEach((section, i) => {
-            console.log(`   ${i+1}. data-category="${section.getAttribute('data-category')}"`);
         });
         return;
     }
     
     // 3. Chercher le header de la section IA
     const iaHeader = iaSection.querySelector('.category-header');
-    console.log('🎯 Header IA trouvé:', iaHeader ? 'OUI' : 'NON');
     
     if (!iaHeader) {
-        console.log('❌ HEADER IA INTROUVABLE !');
         return;
     }
     
     // 4. DIAGNOSTIC COMPLET DU HEADER IA
-    console.log('📊 === DIAGNOSTIC HEADER IA ===');
-    console.log('  📍 Tag name:', iaHeader.tagName);
-    console.log('  📍 Class list:', iaHeader.className);
-    console.log('  📍 ID:', iaHeader.id || 'AUCUN');
     
     // 5. STYLES APPLIQUÉS
     const computedStyle = window.getComputedStyle(iaHeader);
-    console.log('📊 === STYLES COMPUTED ===');
-    console.log('  🎨 Background:', computedStyle.background);
-    console.log('  🎨 Background-color:', computedStyle.backgroundColor);
-    console.log('  🎨 Background-image:', computedStyle.backgroundImage);
-    console.log('  🎨 Color:', computedStyle.color);
-    console.log('  🎨 Border:', computedStyle.border);
     
     // 6. STYLES INLINE
-    console.log('📊 === STYLES INLINE ===');
-    console.log('  🎨 Style attribute:', iaHeader.getAttribute('style') || 'AUCUN');
-    console.log('  🎨 Inline background:', iaHeader.style.background || 'AUCUN');
-    console.log('  🎨 Inline backgroundColor:', iaHeader.style.backgroundColor || 'AUCUN');
     
     // 7. CHERCHER LES RÈGLES CSS QUI S'APPLIQUENT
-    console.log('📊 === RÈGLES CSS MATCHÉES ===');
     try {
         const matchedRules = [];
         for (let sheet of document.styleSheets) {
@@ -5536,33 +5504,21 @@ function diagnosticDropdownIA() {
                     }
                 }
             } catch (e) {
-                console.log('  ⚠️ Impossible de lire la feuille de style:', sheet.href);
             }
         }
-        console.log('  🎯 Règles matchées:', matchedRules);
     } catch (e) {
-        console.log('  ❌ Erreur lors de l\'analyse des CSS:', e);
     }
     
     // 8. HIÉRARCHIE DES PARENTS
-    console.log('📊 === HIÉRARCHIE PARENTS ===');
     let parent = iaHeader.parentElement;
     let level = 1;
     while (parent && level <= 5) {
         const parentStyle = window.getComputedStyle(parent);
-        console.log(`  📍 Niveau ${level} - ${parent.tagName}:`);
-        console.log(`    Class: ${parent.className}`);
-        console.log(`    Background: ${parentStyle.background || parentStyle.backgroundColor}`);
-        console.log(`    Z-index: ${parentStyle.zIndex}`);
-        console.log(`    Position: ${parentStyle.position}`);
         parent = parent.parentElement;
         level++;
     }
     
     // 9. FORCE LE STYLE DORÉ
-    console.log('🔥 === FORCE STYLE DORÉ ===');
-    console.log('  📝 Avant forçage:');
-    console.log('    Background computed:', window.getComputedStyle(iaHeader).background);
     
     // FORÇAGE MULTIPLE MÉTHODES
     iaHeader.style.setProperty('background', 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)', 'important');
@@ -5574,12 +5530,8 @@ function diagnosticDropdownIA() {
     const currentStyle = iaHeader.getAttribute('style') || '';
     iaHeader.setAttribute('style', currentStyle + '; background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; background-color: #FFD700 !important; color: #1a1a1a !important;');
     
-    console.log('  📝 Après forçage:');
-    console.log('    Background computed:', window.getComputedStyle(iaHeader).background);
-    console.log('    Style attribute:', iaHeader.getAttribute('style'));
     
     // 10. CHERCHER LES ÉLÉMENTS QUI POURRAIENT CACHER LE HEADER (SEULEMENT DANS LE DROPDOWN)
-    console.log('🕵️ === RECHERCHE ÉLÉMENTS BLEUS SUSPECTS (DROPDOWN UNIQUEMENT) ===');
     const dropdownElements = dropdown.querySelectorAll('*');
     const suspiciousElements = [];
     
@@ -5609,7 +5561,6 @@ function diagnosticDropdownIA() {
         }
     });
     
-    console.log('🚨 ÉLÉMENTS BLEUS SUSPECTS qui chevauchent:', suspiciousElements);
     
     // 11. SUPPRESSION DES ÉLÉMENTS BLEUS SUSPECTS (SÉLECTIF)
     suspiciousElements.forEach((suspect, i) => {
@@ -5623,27 +5574,22 @@ function diagnosticDropdownIA() {
                                   suspect.element.tagName === 'HTML';
         
         if (!isHeroOrMainSection) {
-            console.log(`🗑️ Neutralisation élément suspect ${i+1}:`, suspect.element);
             suspect.element.style.setProperty('background', 'transparent', 'important');
             suspect.element.style.setProperty('background-color', 'transparent', 'important');
             suspect.element.style.setProperty('background-image', 'none', 'important');
         } else {
-            console.log(`🛡️ Protection élément important ${i+1} (non neutralisé):`, suspect.element);
         }
     });
     
-    console.log('✅ === FIN DIAGNOSTIC DROPDOWN IA ===');
 }
 
 // FONCTION POUR RESTAURER LE HERO BANNER ORIGINAL
 function restoreHeroBackground() {
-    console.log('🔄 Restauration du background hero original...');
     
     // Chercher les éléments hero
     const heroElements = document.querySelectorAll('.hero-section, .hero, .bandeau, section[class*="hero"]');
     
     heroElements.forEach((hero, i) => {
-        console.log(`🏠 Restauration hero ${i+1}:`, hero);
         
         // Supprimer les styles forcés précédemment
         hero.style.removeProperty('background');
@@ -5655,7 +5601,6 @@ function restoreHeroBackground() {
             hero.style.setProperty('background', 'linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%)', 'important');
         }
         
-        console.log(`✅ Hero ${i+1} restauré`);
     });
 }
 
@@ -5663,7 +5608,6 @@ function restoreHeroBackground() {
 document.addEventListener('DOMContentLoaded', function() {
     // Diagnostic immédiat
     setTimeout(() => {
-        console.log('🚀 Lancement diagnostic immédiat...');
         diagnosticDropdownIA();
     }, 1000);
     
@@ -5675,10 +5619,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
                     const target = mutation.target;
                     if (target.style.display !== 'none' && target.style.visibility !== 'hidden') {
-                        console.log('👁️ Dropdown ouvert, lancement diagnostic...');
                         setTimeout(() => diagnosticDropdownIA(), 100);
                     } else if (target.style.display === 'none' || target.style.visibility === 'hidden') {
-                        console.log('👁️ Dropdown fermé, restauration hero...');
                         setTimeout(() => restoreHeroBackground(), 50);
                     }
                 }
@@ -5691,14 +5633,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const selector = document.getElementById('formationSelector');
     if (selector) {
         selector.addEventListener('click', function() {
-            console.log('🖱️ Clic sur sélecteur, diagnostic dans 500ms...');
             setTimeout(() => diagnosticDropdownIA(), 500);
         });
     }
 });
 
 window.selectFormation = function(formationId) {
-    console.log('Formation selected:', formationId);
     
     // Animation de sélection
     if (event && event.target) {
@@ -5711,7 +5651,6 @@ window.selectFormation = function(formationId) {
     
     setTimeout(() => {
         // Redirection vers la formation
-        console.log('Redirecting to:', `/formation/${formationId}`);
         window.location.href = '/formation/' + formationId;
     }, 100);
 };
@@ -5733,7 +5672,6 @@ document.addEventListener('click', function(event) {
         const isClickInSelector = selector.contains(event.target);
         const isClickInDropdown = dropdown.contains(event.target);
         
-        console.log('Click detected:', {
             isClickInSelector,
             isClickInDropdown,
             target: event.target,
@@ -5742,7 +5680,6 @@ document.addEventListener('click', function(event) {
         
         // Ne fermer que si vraiment en dehors
         if (!isClickInSelector && !isClickInDropdown) {
-            console.log('Closing dropdown due to outside click');
             window.toggleFormationDropdown();
         }
   }

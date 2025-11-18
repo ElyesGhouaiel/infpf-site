@@ -852,8 +852,6 @@
         function submitReply(event, parentId, blogId) {
             event.preventDefault();
             
-            console.log('Submitting reply to parent:', parentId, 'blog:', blogId);
-            console.log('URL:', BLOG_REPLY_URL);
             
             const form = event.target;
             const textarea = form.querySelector('textarea[name="text"]');
@@ -875,7 +873,6 @@
             formData.append('text', textarea.value.trim());
             formData.append('parent_id', parentId);
             
-            console.log('FormData:', {
                 text: textarea.value.trim(),
                 parent_id: parentId
             });
@@ -885,15 +882,12 @@
                 body: formData
             })
             .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Response data:', data);
                 if (data.success) {
                     // Créer le nouveau commentaire HTML
                     const newCommentHtml = createCommentHtml(data.comment, 1, BLOG_ID);
@@ -913,7 +907,6 @@
                 }
             })
             .catch(error => {
-                console.error('Erreur:', error);
                 showMessage('Erreur de connexion.', 'error');
             })
             .finally(() => {

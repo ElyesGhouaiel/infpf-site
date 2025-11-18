@@ -528,7 +528,6 @@
     <script>
         // Fonction de secours pour ajouter une section manuellement
         function addSectionManual() {
-            console.log('🎯 Admin Debug - Fonction manuelle appelée !');
             
             // Récupérer le compteur actuel et les éléments
             let currentSections = document.querySelectorAll('.dynamic-section').length;
@@ -563,7 +562,6 @@
             `;
             
             container.insertAdjacentHTML('beforeend', sectionHtml);
-            console.log('✅ Admin Debug - Nouvelle section ajoutée avec succès !');
         }
     </script>
     <script>
@@ -599,7 +597,6 @@
                     if (file) {
                         const fileName = file.name;
                         const fileSize = (file.size / 1024 / 1024).toFixed(2);
-                        console.log(`Nouveau fichier sélectionné: ${fileName} (${fileSize} MB)`);
                     }
                 });
             }
@@ -633,16 +630,12 @@
             const addSectionBtn = document.getElementById('add-section-btn');
             
             // Debug logs
-            console.log('🔧 Admin Debug - Section counter:', sectionCounter);
-            console.log('🔧 Admin Debug - Dynamic sections container:', dynamicSectionsContainer);
-            console.log('🔧 Admin Debug - Add section button:', addSectionBtn);
 
             // Attacher les event listeners aux boutons de suppression existants
             document.querySelectorAll('.btn-remove-section').forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
                     const sectionElement = this.closest('.dynamic-section');
-                    console.log('Suppression de section existante:', sectionElement?.dataset.section);
                     if (sectionElement) {
                         sectionElement.remove();
                     }
@@ -651,10 +644,8 @@
 
             // Vérifier si le bouton existe avant d'ajouter l'event listener
             if (addSectionBtn && dynamicSectionsContainer) {
-                console.log('✅ Admin Debug - Bouton et container trouvés, ajout de l\'event listener');
                 
                 addSectionBtn.addEventListener('click', function() {
-                    console.log('🎯 Admin Debug - Bouton "Ajouter section" cliqué !');
                     sectionCounter++;
                     const sectionHtml = `
                     <div class="dynamic-section" data-section="new_${sectionCounter}">
@@ -684,30 +675,24 @@
                 const removeBtn = newSection.querySelector('.btn-remove-section');
                 removeBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Suppression de nouvelle section:', sectionCounter);
                     newSection.remove();
                 });
                 });
             } else {
-                console.error('❌ Admin Debug - Éléments manquants:', {
                     addSectionBtn: !!addSectionBtn,
                     dynamicSectionsContainer: !!dynamicSectionsContainer
                 });
                 
                 // Tentative de fallback après un délai
                 setTimeout(function() {
-                    console.log('🔄 Admin Debug - Tentative de fallback...');
                     const fallbackBtn = document.getElementById('add-section-btn');
                     const fallbackContainer = document.getElementById('dynamic-sections');
                     
                     if (fallbackBtn && fallbackContainer) {
-                        console.log('✅ Admin Debug - Fallback réussi, ajout de l\'event listener');
                         fallbackBtn.addEventListener('click', function() {
-                            console.log('🎯 Admin Debug - Bouton cliqué via fallback !');
                             location.reload(); // Rechargement temporaire pour test
                         });
                     } else {
-                        console.error('❌ Admin Debug - Fallback échoué, éléments toujours manquants');
                     }
                 }, 1000);
             }
@@ -840,7 +825,6 @@
             const statusHelp = document.querySelector('.publication-status-help');
             
             if (!dateContainer || !dateField || !statusHelp) {
-                console.warn('Éléments du formulaire non trouvés pour togglePublicationDate');
                 return;
             }
             

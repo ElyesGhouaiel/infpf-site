@@ -652,7 +652,6 @@ let chartInstance = null;
 
 // Au chargement de la page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Dashboard Analytics chargé');
     
     // Initialiser les contrôles
     initPeriodButtons();
@@ -696,14 +695,12 @@ function initAutoRefresh() {
 }
 
 function startAutoRefresh() {
-    console.log('✅ Auto-refresh activé (2 secondes - temps réel)');
     autoRefreshInterval = setInterval(() => {
         loadData(true); // true = silent refresh
     }, 2000); // 2 secondes - temps réel
 }
 
 function stopAutoRefresh() {
-    console.log('⏹️ Auto-refresh désactivé');
     if (autoRefreshInterval) {
         clearInterval(autoRefreshInterval);
         autoRefreshInterval = null;
@@ -725,7 +722,6 @@ async function loadData(silent = false) {
             updateLastUpdate();
         }
     } catch (error) {
-        console.error('❌ Erreur chargement données:', error);
     } finally {
         if (!silent) {
             document.getElementById('loadingOverlay').classList.remove('show');

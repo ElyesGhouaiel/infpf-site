@@ -429,7 +429,6 @@
                     if (file) {
                         const fileName = file.name;
                         const fileSize = (file.size / 1024 / 1024).toFixed(2);
-                        console.log(`Fichier sélectionné: ${fileName} (${fileSize} MB)`);
                     }
                 });
             }
@@ -492,7 +491,6 @@
                 const removeBtn = newSection.querySelector('.btn-remove-section');
                 removeBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Suppression de la section:', sectionCounter);
                     newSection.remove();
                 });
             });
