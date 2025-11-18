@@ -582,6 +582,77 @@
         margin-right: auto;
     }
 
+    /* Alternative Calendly - Second choix toujours visible */
+    .calendly-alternative {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(100, 116, 139, 0.15);
+    }
+
+    .calendly-alternative-label {
+        font-size: 0.95rem;
+        color: #64748b;
+        font-weight: 600;
+        font-style: italic;
+    }
+
+    .calendly-external-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.3rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: white;
+        background: linear-gradient(135deg, #0b3f89, #1e5bb8);
+        border: none;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 12px rgba(11, 63, 137, 0.25);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .calendly-external-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .calendly-external-btn:hover {
+        background: linear-gradient(135deg, #1e5bb8, #0b3f89);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(11, 63, 137, 0.35);
+        color: white;
+    }
+
+    .calendly-external-btn:hover::before {
+        left: 100%;
+    }
+
+    .calendly-external-btn:active {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(11, 63, 137, 0.3);
+    }
+
+    .calendly-external-btn svg {
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
+
+    .calendly-external-btn:hover svg {
+        transform: translateX(3px) translateY(-3px);
+    }
+
     /* DESKTOP : Layout 2 colonnes (texte gauche + calendly droite) */
     @media (min-width: 1024px) {
         .calendly-content {
@@ -607,6 +678,10 @@
             margin-left: 0;
             margin-right: 0;
             margin-bottom: 0;
+        }
+
+        .calendly-alternative {
+            justify-content: flex-start;
         }
     }
 
@@ -1137,6 +1212,23 @@
             <div class="calendly-text-wrapper">
             <h3>Ou prenez rendez-vous directement</h3>
             <p>Choisissez votre créneau et échangez gratuitement avec nos conseillers pédagogiques</p>
+            
+            <!-- Bouton alternatif pour ouvrir Calendly dans un nouvel onglet -->
+            <div class="calendly-alternative">
+                <span class="calendly-alternative-label">Ou</span>
+                <a href="https://calendly.com/contact-infpf/contact-infpf" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="calendly-external-btn"
+                   aria-label="Ouvrir Calendly dans un nouvel onglet">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Ouvrir dans un nouvel onglet
+                </a>
+            </div>
             </div>
             <!-- Calendly à droite sur desktop -->
             <div class="calendly-iframe-wrapper">
