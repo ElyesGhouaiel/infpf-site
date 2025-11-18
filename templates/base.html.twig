@@ -13,178 +13,102 @@
 		<style>
 			#popupForm, .popup-form { display: none !important; }
 			
-			/* ===== INDICATEUR DE PROGRESSION CIRCULAIRE ===== */
-			#scroll-progress-wrapper {
-				position: fixed;
-				bottom: 96px; /* 100px - 4px pour centrer parfaitement */
-				right: 26px;  /* 30px - 4px pour centrer parfaitement */
-				width: 68px;
-				height: 68px;
-				z-index: 2147483645;
-				pointer-events: none;
-				display: none; /* Caché par défaut, affiché par JS après 300px */
-				background: transparent !important; /* Fond complètement transparent */
+		/* ===== BOUTON SCROLL-TO-TOP ULTRA-PROPRE (SVG 100% transparent) ===== */
+		.fab {
+			/* Reset total */
+			appearance: none;
+			border: 0;
+			padding: 0;
+			margin: 0;
+			background: transparent !important;
+			box-shadow: none !important;
+			outline: none !important;
+			-webkit-tap-highlight-color: transparent;
+			cursor: pointer;
+			
+			/* Position */
+			position: fixed !important;
+			bottom: 100px !important;
+			right: 30px !important;
+			z-index: 2147483646 !important;
+			
+			/* Caché par défaut */
+			display: none !important;
+			
+			/* Transitions */
+			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+		
+		/* Taille responsive SVG */
+		.fab-svg {
+			display: block;
+			width: clamp(50px, 12vw, 64px);
+			height: clamp(50px, 12vw, 64px);
+		}
+		
+		/* Rail gris léger */
+		.fab-track {
+			fill: none;
+			stroke: rgba(255, 255, 255, 0.28);
+			stroke-width: 3;
+		}
+		
+		/* Cercle de progression cyan */
+		.fab-progress {
+			fill: none;
+			stroke: #36D9FF;
+			stroke-width: 3;
+			stroke-linecap: round;
+			/* Périmètre = 2πr = 2 * 3.14159 * 18 = ~113.097 */
+			stroke-dasharray: 113.097;
+			stroke-dashoffset: 113.097; /* Vide au départ */
+			transition: stroke-dashoffset 0.1s ease-out;
+		}
+		
+		/* Flèche blanche centrée */
+		.fab-arrow {
+			fill: none;
+			stroke: #fff;
+			stroke-width: 3;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+		
+		/* Sécurité anti-pollution CSS */
+		.fab-svg, .fab-svg * {
+			background: none !important;
+			mix-blend-mode: normal !important;
+			filter: none;
+			box-shadow: none !important;
+			outline: none;
+			padding: 0 !important;
+			margin: 0 !important;
+			border: 0 !important;
+		}
+		
+		/* Animation hover */
+		.fab:hover {
+			transform: translateY(-5px) scale(1.08);
+		}
+		
+		/* Quand visible via JS */
+		.fab[style*="display: block"],
+		.fab[style*="display: flex"] {
+			display: block !important;
+		}
+		
+		/* Responsive mobile */
+		@media (max-width: 768px) {
+			.fab {
+				right: 20px !important;
+				bottom: 90px !important;
 			}
 			
-			#scroll-progress-circle {
-				width: 100%;
-				height: 100%;
-				transform: rotate(-90deg);
-				background: transparent !important; /* SVG transparent */
+			.fab-svg {
+				width: clamp(48px, 12vw, 58px);
+				height: clamp(48px, 12vw, 58px);
 			}
-			
-			#scroll-progress-ring {
-				fill: none;
-				stroke: #00d4ff; /* Cyan lumineux très voyant */
-				stroke-width: 4;
-				stroke-linecap: round;
-				transition: stroke-dashoffset 0.1s ease-out;
-				filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.8));
-			}
-			
-			/* Animation subtile de pulsation */
-			@keyframes pulse-ring {
-				0%, 100% {
-					stroke-width: 4;
-					filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.8));
-				}
-				50% {
-					stroke-width: 5;
-					filter: drop-shadow(0 0 20px rgba(0, 212, 255, 1));
-				}
-			}
-			
-			#scroll-progress-ring.animating {
-				animation: pulse-ring 2s ease-in-out infinite;
-			}
-			
-			/* Responsive : ajustement mobile */
-			@media (max-width: 768px) {
-				#scroll-progress-wrapper {
-					bottom: 86px; /* 90px - 4px pour centrer */
-					right: 16px;  /* 20px - 4px pour centrer */
-					width: 58px;
-					height: 58px;
-					background: transparent !important;
-				}
-				
-				#scroll-progress-ring {
-					stroke-width: 3.5;
-					filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.8));
-				}
-			}
-			
-			/* FIX BOUTON SCROLL-TO-TOP: Design moderne bleu foncé */
-			#btnScrollTop,
-			.bouton-retour-haut {
-				/* Reset styles par défaut du bouton */
-				margin: 0 !important;
-				padding: 0 !important;
-				outline: none !important;
-				
-				/* Position et dimensions */
-				position: fixed !important;
-				bottom: 100px !important;
-				right: 30px !important;
-				width: 60px !important;
-				height: 60px !important;
-				cursor: pointer !important;
-				z-index: 2147483646 !important;
-				
-				/* CACHÉ PAR DÉFAUT - Le JavaScript le montre après scroll */
-				display: none !important;
-				
-				/* Design bleu foncé élégant avec ombre moderne */
-				background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%) !important;
-				border-radius: 50% !important;
-				box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4), 0 4px 12px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
-				border: 2px solid rgba(255, 255, 255, 0.15) !important;
-				
-				/* Préparation pour flexbox (appliqué quand visible) */
-				align-items: center !important;
-				justify-content: center !important;
-				font-size: 0 !important;
-				color: white !important;
-				font-weight: bold !important;
-				
-				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-			}
-			
-			/* Flèche élégante - Ligne verticale */
-			#btnScrollTop::before {
-				content: "" !important;
-				position: absolute !important;
-				width: 2px !important;
-				height: 20px !important;
-				background: white !important;
-				top: 50% !important;
-				left: 50% !important;
-				transform: translate(-50%, -50%) translateY(2px) !important;
-				border-radius: 2px !important;
-			}
-			
-			/* Flèche élégante - Pointe (triangle) */
-			#btnScrollTop::after {
-				content: "" !important;
-				position: absolute !important;
-				width: 0 !important;
-				height: 0 !important;
-				border-left: 6px solid transparent !important;
-				border-right: 6px solid transparent !important;
-				border-bottom: 8px solid white !important;
-				top: 50% !important;
-				left: 50% !important;
-				transform: translate(-50%, -50%) translateY(-10px) !important;
-			}
-			
-			/* Animation au hover */
-			#btnScrollTop:hover,
-			.bouton-retour-haut:hover {
-				transform: translateY(-5px) scale(1.1) !important;
-				box-shadow: 0 12px 35px rgba(30, 58, 138, 0.6), 0 6px 18px rgba(37, 99, 235, 0.5), inset 0 2px 6px rgba(255, 255, 255, 0.15) !important;
-				background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%) !important;
-				border-color: rgba(255, 255, 255, 0.25) !important;
-			}
-			
-			/* Animation de pulsation subtile */
-			@keyframes pulse-scroll {
-				0%, 100% {
-					box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4), 0 4px 12px rgba(37, 99, 235, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1);
-				}
-				50% {
-					box-shadow: 0 10px 30px rgba(30, 58, 138, 0.5), 0 5px 15px rgba(37, 99, 235, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.12);
-				}
-			}
-			
-			/* Quand le JavaScript rend le bouton visible */
-			#btnScrollTop[style*="display: flex"],
-			#btnScrollTop[style*="display: block"] {
-				display: flex !important; /* Force flexbox pour centrer la flèche */
-				animation: pulse-scroll 3s ease-in-out infinite !important;
-			}
-			
-			@media (max-width: 768px) {
-				#btnScrollTop,
-				.bouton-retour-haut {
-					right: 20px !important;
-					bottom: 90px !important;
-					width: 50px !important;
-					height: 50px !important;
-				}
-				
-				/* Flèche plus petite sur mobile */
-				#btnScrollTop::before {
-					width: 2px !important;
-					height: 16px !important;
-				}
-				
-				#btnScrollTop::after {
-					border-left: 5px solid transparent !important;
-					border-right: 5px solid transparent !important;
-					border-bottom: 7px solid white !important;
-					transform: translate(-50%, -50%) translateY(-8px) !important;
-				}
-			}
+		}
 		</style>
 
 		<!-- CSS de Bootstrap -->
@@ -2774,9 +2698,9 @@
 		/* ===== MASQUER LE BOUTON RETOUR VERS LE HAUT DANS LE MENU BURGER ===== */
 		@media (max-width: 768px) {
 			/* Masquer le bouton scroll-to-top quand le menu burger est ouvert */
-			.header--active ~ #btnScrollTop,
-			.header--active + main #btnScrollTop,
-			body.overflow #btnScrollTop {
+			.header--active ~ .fab,
+			.header--active + main .fab,
+			body.overflow .fab {
 				display: none !important;
 				opacity: 0 !important;
 				visibility: hidden !important;
@@ -3007,12 +2931,6 @@
 	</head>
 </html>
 
-<!-- Indicateur de progression circulaire autour du bouton scroll -->
-<div id="scroll-progress-wrapper">
-	<svg id="scroll-progress-circle" width="68" height="68" viewBox="0 0 68 68" style="background: transparent;">
-		<circle id="scroll-progress-ring" cx="34" cy="34" r="32" fill="none"/>
-	</svg>
-</div>
 
 <header class="header" style="  position: fixed;
   left: 0;
@@ -3243,7 +3161,33 @@
 
 {% include 'footer.html.twig' %}
 
-<button id="btnScrollTop" class="bouton-retour-haut" aria-label="Retour en haut" title="Retour en haut"></button>
+<button class="fab" id="btnScrollTop" aria-label="Remonter en haut">
+	<svg class="fab-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<!-- Dégradé du disque bleu -->
+			<linearGradient id="fabGrad" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0%" stop-color="#1E5AE6"/>
+				<stop offset="100%" stop-color="#0E44BF"/>
+			</linearGradient>
+			<!-- Ombre douce SVG (pas de carré) -->
+			<filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0D4CFF" flood-opacity="0.20"/>
+			</filter>
+		</defs>
+		
+		<!-- Disque (fond bleu avec ombre) -->
+		<circle cx="24" cy="24" r="18" fill="url(#fabGrad)" filter="url(#softShadow)"/>
+		
+		<!-- Rail de progression (gris transparent) -->
+		<circle cx="24" cy="24" r="18" class="fab-track"/>
+		
+		<!-- Cercle de progression (cyan) -->
+		<circle cx="24" cy="24" r="18" class="fab-progress" transform="rotate(-90 24 24)"/>
+		
+		<!-- Flèche blanche -->
+		<path class="fab-arrow" d="M24 16v16M24 16l-6 6M24 16l6 6"/>
+	</svg>
+</button>
 
 {# Banner de consentement cookies RGPD #}
 {% include 'components/cookie_banner.html.twig' %}
@@ -3382,83 +3326,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  // Scroll top button - Apparaît après 300px de scroll
-  document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("btnScrollTop");
-
-    if (!btn) return;
-
-    window.addEventListener("scroll", function () {
-      // Afficher après 300px de scroll (besoin de descendre dans la page)
-      btn.style.display = window.scrollY > 300 ? "flex" : "none";
-    });
-
-    btn.addEventListener("click", function () {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    });
-  });
-
-  // ===== INDICATEUR DE PROGRESSION CIRCULAIRE =====
-  document.addEventListener("DOMContentLoaded", function () {
-    const progressRing = document.getElementById("scroll-progress-ring");
-    const progressWrapper = document.getElementById("scroll-progress-wrapper");
-    if (!progressRing || !progressWrapper) return;
-
-    // Calcul de la circonférence du cercle (2 * PI * rayon)
-    const radius = progressRing.r.baseVal.value;
-    const circumference = 2 * Math.PI * radius;
+  // ===== INDICATEUR DE PROGRESSION SVG ULTRA-PROPRE =====
+  (function() {
+    const C = 2 * Math.PI * 18; // Circonférence = ~113.097
+    const ring = document.querySelector('.fab-progress');
+    const btn = document.getElementById('btnScrollTop');
     
-    // Initialisation
-    progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
-    progressRing.style.strokeDashoffset = circumference;
+    if (!ring || !btn) return;
 
-    // Fonction pour mettre à jour le cercle de progression
-    function updateProgressRing() {
-      // Calcul de la hauteur totale scrollable
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollableHeight = documentHeight - windowHeight;
+    // Fonction pour définir la progression (0 à 1)
+    function setProgress(p) {
+      const progress = Math.max(0, Math.min(1, p));
+      const offset = C * (1 - progress);
+      ring.style.strokeDashoffset = offset;
+    }
+
+    // Mise à jour basée sur le scroll
+    function updateByScroll() {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop || window.scrollY;
+      const max = h.scrollHeight - h.clientHeight || 1;
+      const progress = scrolled / max;
       
-      // Calcul du pourcentage de scroll
-      const scrolled = window.scrollY;
-      const progress = scrollableHeight > 0 ? (scrolled / scrollableHeight) : 0;
+      // Mettre à jour la progression
+      setProgress(progress);
       
-      // Calcul du stroke-dashoffset (cercle se remplit dans le sens horaire)
-      const offset = circumference - (progress * circumference);
-      progressRing.style.strokeDashoffset = offset;
-      
-      // Afficher/masquer le cercle comme le bouton (après 300px)
+      // Afficher/masquer le bouton après 300px
       if (scrolled > 300) {
-        progressWrapper.style.display = 'block';
-        // Ajouter animation si proche de la fin (>90%)
-        if (progress > 0.9) {
-          progressRing.classList.add('animating');
-        } else {
-          progressRing.classList.remove('animating');
-        }
+        btn.style.display = 'block';
       } else {
-        progressWrapper.style.display = 'none';
+        btn.style.display = 'none';
       }
     }
 
-    // Mise à jour au scroll (avec throttle pour performance)
+    // Scroll au top au clic
+    btn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Écoute du scroll avec throttle pour performance
     let ticking = false;
-    window.addEventListener("scroll", function () {
+    window.addEventListener('scroll', function() {
       if (!ticking) {
-        window.requestAnimationFrame(function () {
-          updateProgressRing();
+        window.requestAnimationFrame(function() {
+          updateByScroll();
           ticking = false;
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
 
-    // Mise à jour initiale
-    updateProgressRing();
-  });
+    // Initialisation
+    updateByScroll();
+  })();
 
   // Redirection par catégorie
   document.querySelectorAll('.category-link').forEach(function (link) {
