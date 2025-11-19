@@ -481,11 +481,6 @@ function saveConsentPreferences(analytics, marketing, type = 'all') {
     } catch (e) {
     }
     
-        analytics: analytics,
-        marketing: marketing,
-        type: type
-    });
-    
     return true;
 }
 
@@ -509,7 +504,6 @@ function saveConsentRejected() {
         localStorage.setItem('infpf_consent_type', 'rejected');
     } catch (e) {
     }
-    
     
     return true;
 }
@@ -608,10 +602,6 @@ function closeCookieSettings() {
 function saveCustomPreferences() {
     const analytics = document.getElementById('analyticsCookies').checked;
     const marketing = document.getElementById('marketingCookies').checked;
-    
-        analytics: analytics,
-        marketing: marketing
-    });
     
     // 1. SAUVEGARDER LES PRÉFÉRENCES (système autonome)
     saveConsentPreferences(analytics, marketing, 'custom');
