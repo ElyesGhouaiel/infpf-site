@@ -42,12 +42,12 @@
 			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		}
 		
-		/* Taille responsive SVG */
-		.fab-svg {
-			display: block;
-			width: clamp(50px, 12vw, 64px);
-			height: clamp(50px, 12vw, 64px);
-		}
+	/* Taille responsive SVG - OPTIMISÉE UX/UI */
+	.fab-svg {
+		display: block;
+		width: clamp(64px, 13vw, 72px);
+		height: clamp(64px, 13vw, 72px);
+	}
 		
 		/* Rail gris léger */
 		.fab-track {
@@ -102,15 +102,15 @@
 		
 		/* Responsive mobile */
 		@media (max-width: 768px) {
-			.fab {
-				right: 20px !important;
-				bottom: 90px !important;
-			}
-			
-			.fab-svg {
-				width: clamp(48px, 12vw, 58px);
-				height: clamp(48px, 12vw, 58px);
-			}
+		.fab {
+			right: 20px !important;
+			bottom: 90px !important;
+		}
+		
+		.fab-svg {
+			width: clamp(56px, 13vw, 66px);
+			height: clamp(56px, 13vw, 66px);
+		}
 		}
 		</style>
 
