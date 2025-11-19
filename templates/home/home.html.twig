@@ -5672,12 +5672,6 @@ document.addEventListener('click', function(event) {
         const isClickInSelector = selector.contains(event.target);
         const isClickInDropdown = dropdown.contains(event.target);
         
-            isClickInSelector,
-            isClickInDropdown,
-            target: event.target,
-            isDropdownOpen
-        });
-        
         // Ne fermer que si vraiment en dehors
         if (!isClickInSelector && !isClickInDropdown) {
             window.toggleFormationDropdown();
