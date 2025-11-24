@@ -6,6 +6,12 @@ framework:
             limit: 5
             interval: '15 minutes'
             
+        # Rate limiter strict pour toutes les requêtes POST
+        strict:
+            policy: 'sliding_window'
+            limit: 30
+            interval: '1 minute'
+            
         # Rate limiter pour les tentatives de connexion
         login_attempts:
             policy: 'fixed_window'
