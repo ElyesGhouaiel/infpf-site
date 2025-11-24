@@ -114,20 +114,57 @@ class BlogController extends AbstractController
             // Traitement du fichier image
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-
                 try {
-                    $imageFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                    // Mise à jour de la propriété 'image' de l'entité Blog pour enregistrer le nom du fichier
+                    // Vérifier que le fichier a été bien uploadé
+                    if (!$imageFile->isValid()) {
+                        throw new FileException('Le fichier n\'a pas été uploadé correctement.');
+                    }
+                    
+                    // Vérifier la taille du fichier (max 10MB)
+                    if ($imageFile->getSize() > 10485760) {
+                        throw new FileException('L\'image est trop volumineuse (max 10MB).');
+                    }
+                    
+                    // Vérifier le type MIME
+                    $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!in_array($imageFile->getMimeType(), $allowedMimeTypes)) {
+                        throw new FileException('Format d\'image non autorisé. Utilisez JPG, PNG, GIF ou WebP.');
+                    }
+                    
+                    // Vérifier que le répertoire existe et est accessible en écriture
+                    $uploadDir = $this->getParameter('images_directory');
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0755, true);
+                    }
+                    
+                    if (!is_writable($uploadDir)) {
+                        throw new FileException('Le répertoire d\'upload n\'est pas accessible en écriture.');
+                    }
+                    
+                    // Générer un nom de fichier sécurisé
+                    $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                    // Déplacer le fichier
+                    $imageFile->move($uploadDir, $newFilename);
+                    
+                    // Vérifier que le fichier a bien été créé
+                    if (!file_exists($uploadDir . '/' . $newFilename)) {
+                        throw new FileException('Le fichier n\'a pas pu être sauvegardé sur le serveur.');
+                    }
+                    
+                    // Mise à jour de la propriété 'image' de l'entité Blog
                     $blog->setImage($newFilename);
+                    
                 } catch (FileException $e) {
-                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image.');
-                    // Ne pas persister si erreur d'image
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image : ' . $e->getMessage());
+                    return $this->render('content/blog/new.html.twig', [
+                        'blog' => $blog,
+                        'form' => $form->createView(),
+                    ]);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Erreur inattendue lors de l\'upload : ' . $e->getMessage());
                     return $this->render('content/blog/new.html.twig', [
                         'blog' => $blog,
                         'form' => $form->createView(),
@@ -218,21 +255,62 @@ class BlogController extends AbstractController
             // Traitement de la nouvelle image téléchargée, si elle existe
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-    
                 try {
-                    $imageFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
+                    // Vérifier que le fichier a été bien uploadé
+                    if (!$imageFile->isValid()) {
+                        throw new FileException('Le fichier n\'a pas été uploadé correctement.');
+                    }
+                    
+                    // Vérifier la taille du fichier (max 10MB)
+                    if ($imageFile->getSize() > 10485760) {
+                        throw new FileException('L\'image est trop volumineuse (max 10MB).');
+                    }
+                    
+                    // Vérifier le type MIME
+                    $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!in_array($imageFile->getMimeType(), $allowedMimeTypes)) {
+                        throw new FileException('Format d\'image non autorisé. Utilisez JPG, PNG, GIF ou WebP.');
+                    }
+                    
+                    // Vérifier que le répertoire existe et est accessible en écriture
+                    $uploadDir = $this->getParameter('images_directory');
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0755, true);
+                    }
+                    
+                    if (!is_writable($uploadDir)) {
+                        throw new FileException('Le répertoire d\'upload n\'est pas accessible en écriture.');
+                    }
+                    
+                    // Générer un nom de fichier sécurisé
+                    $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                    // Déplacer le fichier
+                    $imageFile->move($uploadDir, $newFilename);
+                    
+                    // Vérifier que le fichier a bien été créé
+                    if (!file_exists($uploadDir . '/' . $newFilename)) {
+                        throw new FileException('Le fichier n\'a pas pu être sauvegardé sur le serveur.');
+                    }
+                    
+                    // Supprimer l'ancienne image si elle existe
+                    if ($currentImage && file_exists($uploadDir . '/' . $currentImage)) {
+                        @unlink($uploadDir . '/' . $currentImage);
+                    }
+                    
                     // Met à jour avec le nouveau nom de fichier
                     $blog->setImage($newFilename);
+                    
                 } catch (FileException $e) {
                     // En cas d'erreur, garder l'image actuelle
                     $blog->setImage($currentImage);
-                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image.');
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image : ' . $e->getMessage());
+                } catch (\Exception $e) {
+                    // En cas d'erreur inattendue, garder l'image actuelle
+                    $blog->setImage($currentImage);
+                    $this->addFlash('error', 'Erreur inattendue lors de l\'upload : ' . $e->getMessage());
                 }
             } else {
                 // Garder l'image actuelle si aucune nouvelle image n'est téléchargée
@@ -294,11 +372,16 @@ class BlogController extends AbstractController
     public function delete(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $blog->getId(), $request->request->get('_token'))) {
+            $blogTitle = $blog->getTitleOne();
             $entityManager->remove($blog);
             $entityManager->flush();
+            
+            $this->addFlash('success', 'L\'article "' . $blogTitle . '" a été supprimé avec succès.');
+            return $this->redirectToRoute('app_blog_admin', [], Response::HTTP_SEE_OTHER);
         }
-    
-        return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
+        
+        $this->addFlash('error', 'Token de sécurité invalide. Veuillez réessayer.');
+        return $this->redirectToRoute('app_blog_admin', [], Response::HTTP_SEE_OTHER);
     }
 
 

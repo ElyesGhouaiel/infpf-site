@@ -272,7 +272,7 @@
                             </svg>
                             Modifier
                         </a>
-                        <button type="button" class="action-btn delete" onclick="confirmDelete('{{ blog.id }}', '{{ blog.titleOne|e('js') }}')" title="Supprimer l'article">
+                        <button type="button" class="action-btn delete" onclick="confirmDelete('{{ blog.id }}', '{{ blog.titleOne|e('js') }}', '{{ csrf_token('delete' ~ blog.id) }}')" title="Supprimer l'article">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3,6 5,6 21,6"/>
                                 <path d="M19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"/>
@@ -1556,14 +1556,14 @@ function closeNotification(notificationId) {
 }
 
 // Fonction pour confirmer la suppression
-function confirmDelete(blogId, blogTitle) {
+function confirmDelete(blogId, blogTitle, csrfToken) {
     currentBlogId = blogId;
     currentBlogTitle = blogTitle;
     
     // Mettre à jour le contenu de la modal
     document.getElementById('articleToDelete').textContent = '"' + blogTitle + '"';
     document.getElementById('deleteForm').action = '{{ path('blog_delete', {'id': 'BLOG_ID'}) }}'.replace('BLOG_ID', blogId);
-    document.getElementById('deleteToken').value = '{{ csrf_token('delete') }}' + blogId;
+    document.getElementById('deleteToken').value = csrfToken;
     
     // Afficher la modal
     document.getElementById('deleteModal').style.display = 'flex';

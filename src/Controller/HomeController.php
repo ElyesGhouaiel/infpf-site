@@ -87,9 +87,9 @@ class HomeController extends AbstractController
         }
 
         // ===== PAGINATION POUR PERFORMANCE =====
-        // Limiter à 12 formations par page au lieu de tout charger
+        // Afficher toutes les formations (48 max)
         $page = max(1, $request->query->getInt('page', 1));
-        $limit = 12; // 12 formations par page
+        $limit = 48; // Afficher toutes les formations
         $offset = ($page - 1) * $limit;
         
         // Compter le total AVANT la pagination
@@ -309,19 +309,95 @@ class HomeController extends AbstractController
 #[Route('/download-document/{id}', name: 'download_document')]
 public function downloadDocument($id, FormationRepository $formationRepository)
 {
-    $formation = $formationRepository->find($id);
-    if (!$formation) {
-        throw $this->createNotFoundException('La formation demandée n\'existe pas.');
+    try {
+        $formation = $formationRepository->find($id);
+        if (!$formation) {
+            throw $this->createNotFoundException('La formation demandée n\'existe pas.');
+        }
+
+        // Vérifier que la formation a un nom
+        $formationName = $formation->getNameFormation();
+        if (!$formationName) {
+            throw $this->createNotFoundException('Le nom de la formation est invalide.');
+        }
+
+        // Vérifier que le paramètre pdf_directory existe
+        if (!$this->getParameter('pdf_directory')) {
+            throw $this->createNotFoundException('Le répertoire de documents n\'est pas configuré.');
+        }
+        
+        $pdfDir = $this->getParameter('pdf_directory');
+        
+        // Générer le nom de fichier attendu
+        $fileName = preg_replace('/[\s\/\\:*?"<>|]/', '_', $formationName) . '.pdf';
+        $filePath = $pdfDir . '/' . $fileName;
+        
+        // Si le fichier n'existe pas avec le nom exact, chercher de manière intelligente
+        if (!file_exists($filePath)) {
+            // Recherche case-insensitive
+            $files = glob($pdfDir . '/*.pdf');
+            $foundFile = null;
+            $bestMatch = 0;
+            
+            foreach ($files as $file) {
+                $basename = basename($file);
+                
+                // Comparaison case-insensitive du nom complet
+                if (strcasecmp($basename, $fileName) === 0) {
+                    $foundFile = $file;
+                    break;
+                }
+                
+                // Recherche partielle : extraire les mots clés de la formation
+                $keywords = preg_split('/[\s\-_\/]+/', strtolower($formationName));
+                // Filtrer les mots courts mais garder les mots importants
+                $keywords = array_filter($keywords, function($k) { 
+                    return strlen($k) > 2 && !in_array($k, ['les', 'des', 'une', 'pour', 'via', 'avec', 'dans']); 
+                });
+                
+                $matchCount = 0;
+                $matchScore = 0;
+                
+                foreach ($keywords as $keyword) {
+                    if (stripos($basename, $keyword) !== false) {
+                        $matchCount++;
+                        // Donner plus de poids aux mots longs
+                        $matchScore += strlen($keyword);
+                    }
+                }
+                
+                // Calculer le score de correspondance
+                $totalKeywords = count($keywords);
+                $matchRatio = $totalKeywords > 0 ? $matchCount / $totalKeywords : 0;
+                
+                // Si au moins 30% des mots correspondent OU si le score est élevé
+                if (($matchRatio >= 0.3 && $matchCount >= 2) || $matchScore > $bestMatch) {
+                    if ($matchScore > $bestMatch || $matchRatio >= 0.5) {
+                        $foundFile = $file;
+                        $bestMatch = $matchScore;
+                        
+                        // Si on a un très bon match (>60%), on arrête la recherche
+                        if ($matchRatio >= 0.6) {
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            if ($foundFile) {
+                $filePath = $foundFile;
+                $fileName = basename($foundFile);
+            } else {
+                throw $this->createNotFoundException('Le document n\'existe pas pour la formation : ' . $formationName);
+            }
+        }
+
+        return $this->file($filePath, $fileName, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+        
+    } catch (\Exception $e) {
+        // Logger l'erreur pour debug
+        throw $this->createNotFoundException('Erreur lors du téléchargement : ' . $e->getMessage());
     }
-
-    $fileName = preg_replace('/[\s\/\\:*?"<>|]/', '_', $formation->getNameFormation()) . '.pdf';
-    $filePath = $this->getParameter('pdf_directory') . '/' . $fileName;
-
-    if (!file_exists($filePath)) {
-        throw $this->createNotFoundException('Le document n\'existe pas.');
-    }
-
-    return $this->file($filePath, $fileName, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
 }
 
 //     #[Route('/get-formations-by-category', name: 'get_formations_by_category')]

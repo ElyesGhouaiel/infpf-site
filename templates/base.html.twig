@@ -3,12 +3,113 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		{% block stylesheets %}{% endblock %}
-			<link href="../css/fichier.min.css?v=59" rel="stylesheet"/>
-			<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
-			<!-- CSS dédié bouton scroll - Force le positionnement correct -->
-			<link rel="stylesheet" href="{{ asset('css/bouton-scroll.css') }}?v={{ random() }}">
+	{% block stylesheets %}{% endblock %}
+		<link href="../css/fichier-v2.min.css?v=4" rel="stylesheet"/>
+		<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
+		<!-- CSS dédié bouton scroll - Force le positionnement correct -->
+		<link rel="stylesheet" href="{{ asset('css/bouton-scroll.css') }}?v={{ random() }}">
+		<!-- FIX MODAL: Force le cache du modal à être caché -->
+		<style>
+			#popupForm, .popup-form { display: none !important; }
+			
+		/* ===== BOUTON SCROLL-TO-TOP ULTRA-PROPRE (SVG 100% transparent) ===== */
+		.fab {
+			/* Reset total */
+			appearance: none;
+			border: 0;
+			padding: 0;
+			margin: 0;
+			background: transparent !important;
+			box-shadow: none !important;
+			outline: none !important;
+			-webkit-tap-highlight-color: transparent;
+			cursor: pointer;
+			
+			/* Position */
+			position: fixed !important;
+			bottom: 100px !important;
+			right: 30px !important;
+			z-index: 2147483646 !important;
+			
+			/* Caché par défaut */
+			display: none !important;
+			
+			/* Transitions */
+			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+		
+		/* Taille responsive SVG */
+		.fab-svg {
+			display: block;
+			width: clamp(50px, 12vw, 64px);
+			height: clamp(50px, 12vw, 64px);
+		}
+		
+		/* Rail gris léger */
+		.fab-track {
+			fill: none;
+			stroke: rgba(255, 255, 255, 0.28);
+			stroke-width: 3;
+		}
+		
+		/* Cercle de progression cyan */
+		.fab-progress {
+			fill: none;
+			stroke: #36D9FF;
+			stroke-width: 3;
+			stroke-linecap: round;
+			/* Périmètre = 2πr = 2 * 3.14159 * 18 = ~113.097 */
+			stroke-dasharray: 113.097;
+			stroke-dashoffset: 113.097; /* Vide au départ */
+			transition: stroke-dashoffset 0.1s ease-out;
+		}
+		
+		/* Flèche blanche centrée */
+		.fab-arrow {
+			fill: none;
+			stroke: #fff;
+			stroke-width: 3;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+		
+		/* Sécurité anti-pollution CSS */
+		.fab-svg, .fab-svg * {
+			background: none !important;
+			mix-blend-mode: normal !important;
+			filter: none;
+			box-shadow: none !important;
+			outline: none;
+			padding: 0 !important;
+			margin: 0 !important;
+			border: 0 !important;
+		}
+		
+		/* Animation hover */
+		.fab:hover {
+			transform: translateY(-5px) scale(1.08);
+		}
+		
+		/* Quand visible via JS */
+		.fab[style*="display: block"],
+		.fab[style*="display: flex"] {
+			display: block !important;
+		}
+		
+		/* Responsive mobile */
+		@media (max-width: 768px) {
+			.fab {
+				right: 20px !important;
+				bottom: 90px !important;
+			}
+			
+			.fab-svg {
+				width: clamp(48px, 12vw, 58px);
+				height: clamp(48px, 12vw, 58px);
+			}
+		}
+		</style>
 
 		<!-- CSS de Bootstrap -->
 		
@@ -2597,9 +2698,9 @@
 		/* ===== MASQUER LE BOUTON RETOUR VERS LE HAUT DANS LE MENU BURGER ===== */
 		@media (max-width: 768px) {
 			/* Masquer le bouton scroll-to-top quand le menu burger est ouvert */
-			.header--active ~ #btnScrollTop,
-			.header--active + main #btnScrollTop,
-			body.overflow #btnScrollTop {
+			.header--active ~ .fab,
+			.header--active + main .fab,
+			body.overflow .fab {
 				display: none !important;
 				opacity: 0 !important;
 				visibility: hidden !important;
@@ -2828,7 +2929,8 @@
 	{# Google Analytics 4 - Tracking et événements personnalisés #}
 	{% include 'analytics/google-analytics.html.twig' %}
 	</head>
-</html>
+<body>
+
 <header class="header" style="  position: fixed;
   left: 0;
   width: 100%;
@@ -3056,7 +3158,35 @@
 {% block body %}{% endblock %}
 </main>
 
-<img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
+{% include 'footer.html.twig' %}
+
+<button class="fab" id="btnScrollTop" aria-label="Remonter en haut">
+	<svg class="fab-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<!-- Dégradé du disque bleu -->
+			<linearGradient id="fabGrad" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0%" stop-color="#1E5AE6"/>
+				<stop offset="100%" stop-color="#0E44BF"/>
+			</linearGradient>
+			<!-- Ombre douce SVG (pas de carré) -->
+			<filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0D4CFF" flood-opacity="0.20"/>
+			</filter>
+		</defs>
+		
+		<!-- Disque (fond bleu avec ombre) -->
+		<circle cx="24" cy="24" r="18" fill="url(#fabGrad)" filter="url(#softShadow)"/>
+		
+		<!-- Rail de progression (gris transparent) -->
+		<circle cx="24" cy="24" r="18" class="fab-track"/>
+		
+		<!-- Cercle de progression (cyan) -->
+		<circle cx="24" cy="24" r="18" class="fab-progress" transform="rotate(-90 24 24)"/>
+		
+		<!-- Flèche blanche -->
+		<path class="fab-arrow" d="M24 16v16M24 16l-6 6M24 16l6 6"/>
+	</svg>
+</button>
 
 {# Banner de consentement cookies RGPD #}
 {% include 'components/cookie_banner.html.twig' %}
@@ -3195,24 +3325,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  // Scroll top button - Seuil réduit pour être visible plus tôt
-  document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("btnScrollTop");
+  // ===== INDICATEUR DE PROGRESSION SVG ULTRA-PROPRE =====
+  (function() {
+    const C = 2 * Math.PI * 18; // Circonférence = ~113.097
+    const ring = document.querySelector('.fab-progress');
+    const btn = document.getElementById('btnScrollTop');
+    
+    if (!ring || !btn) return;
 
-    if (!btn) return;
+    // Fonction pour définir la progression (0 à 1)
+    function setProgress(p) {
+      const progress = Math.max(0, Math.min(1, p));
+      const offset = C * (1 - progress);
+      ring.style.strokeDashoffset = offset;
+    }
 
-    window.addEventListener("scroll", function () {
-      // Afficher dès 200px de scroll (au lieu de 300px)
-      btn.style.display = window.scrollY > 200 ? "block" : "none";
-    });
+    // Mise à jour basée sur le scroll
+    function updateByScroll() {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop || window.scrollY;
+      const max = h.scrollHeight - h.clientHeight || 1;
+      const progress = scrolled / max;
+      
+      // Mettre à jour la progression
+      setProgress(progress);
+      
+      // Afficher/masquer le bouton après 300px
+      if (scrolled > 300) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
 
-    btn.addEventListener("click", function () {
+    // Scroll au top au clic
+    btn.addEventListener('click', function() {
       window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: 'smooth'
       });
     });
-  });
+
+    // Écoute du scroll avec throttle pour performance
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          updateByScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initialisation
+    updateByScroll();
+  })();
 
   // Redirection par catégorie
   document.querySelectorAll('.category-link').forEach(function (link) {

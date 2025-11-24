@@ -641,3 +641,6 @@ php bin/console cache:clear
 **Version** : 2.0 - Production Ready  
 **Licence** : Propriétaire - Tous droits réservés INFPF ©2025
 
+
+
+
