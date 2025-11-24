@@ -1,8 +1,8 @@
-# ❓ FAQ - Workflow Git INFPF
+#  FAQ - Workflow Git INFPF
 
 ## Questions Résolues
 
-### 1️⃣ Pourquoi je ne pouvais pas faire `git checkout dev` ?
+### 1⃣ Pourquoi je ne pouvais pas faire `git checkout dev` ?
 
 **Problème initial** : `error: pathspec 'dev' did not match any file(s) known to git`
 
@@ -26,7 +26,7 @@ git branch -a    # -a pour voir locales ET distantes
 
 ---
 
-### 2️⃣ Main a-t-elle la dernière version de dev ?
+### 2⃣ Main a-t-elle la dernière version de dev ?
 
 **Réponse** : **OUI, maintenant les deux sont identiques !**
 
@@ -34,7 +34,7 @@ git branch -a    # -a pour voir locales ET distantes
 ```
 📁 public_html (main) : 1187ff3 - docs: quick start guide
 📁 dev (dev)          : 1187ff3 - docs: quick start guide
-✅ Les deux branches sont au MÊME commit
+ Les deux branches sont au MÊME commit
 ```
 
 **Ce qui a été fait** :
@@ -44,7 +44,7 @@ git branch -a    # -a pour voir locales ET distantes
 
 ---
 
-### 3️⃣ Comment merger dev vers main sans que dev disparaisse ?
+### 3⃣ Comment merger dev vers main sans que dev disparaisse ?
 
 **Réponse courte** : **La branche dev ne disparaîtra JAMAIS !**
 
@@ -58,10 +58,10 @@ git merge dev
 ```
 
 Git **COPIE** les changements de `dev` vers `main`, mais :
-- ✅ La branche `dev` reste intacte
-- ✅ Le dossier `/dev/` reste
-- ✅ Le sous-domaine `dev.infpf.fr` continue de fonctionner
-- ✅ Vous pouvez immédiatement recommencer à développer sur `dev`
+-  La branche `dev` reste intacte
+-  Le dossier `/dev/` reste
+-  Le sous-domaine `dev.infpf.fr` continue de fonctionner
+-  Vous pouvez immédiatement recommencer à développer sur `dev`
 
 **Analogie** :
 - `git merge dev` = Copier-coller un document
@@ -69,7 +69,7 @@ Git **COPIE** les changements de `dev` vers `main`, mais :
 
 ---
 
-### 4️⃣ Quelle est la différence entre `/public_html/` et `/dev/` ?
+### 4⃣ Quelle est la différence entre `/public_html/` et `/dev/` ?
 
 **Deux dossiers, deux environnements, MÊME repo Git** :
 
@@ -78,7 +78,7 @@ Git **COPIE** les changements de `dev` vers `main`, mais :
 | **Branche active** | `main` | `dev` |
 | **URL** | https://infpf.fr/ | https://dev.infpf.fr/ |
 | **Usage** | PRODUCTION (clients) | DÉVELOPPEMENT (tests) |
-| **Stabilité** | ✅ Toujours stable | 🔧 En cours de développement |
+| **Stabilité** |  Toujours stable |  En cours de développement |
 | **Mise à jour** | Après validation complète | Régulièrement |
 
 **Workflow** :
@@ -91,7 +91,7 @@ Git **COPIE** les changements de `dev` vers `main`, mais :
 
 ---
 
-### 5️⃣ Comment savoir sur quelle branche je suis ?
+### 5⃣ Comment savoir sur quelle branche je suis ?
 
 ```bash
 # Méthode 1 : Voir la branche actuelle
@@ -108,7 +108,7 @@ git status
 
 ---
 
-### 6️⃣ Comment passer d'une branche à l'autre ?
+### 6⃣ Comment passer d'une branche à l'autre ?
 
 ```bash
 # Passer sur dev
@@ -121,11 +121,11 @@ git checkout main
 git checkout feature/nom-de-ma-feature
 ```
 
-**⚠️ Important** : Commitez ou stash vos changements avant de changer de branche !
+** Important** : Commitez ou stash vos changements avant de changer de branche !
 
 ---
 
-### 7️⃣ Quelle est la différence entre les branches locales et distantes ?
+### 7⃣ Quelle est la différence entre les branches locales et distantes ?
 
 **Branches locales** : Dans votre dossier Git sur le serveur
 - `main`, `dev`, `feature/xxx`
@@ -151,7 +151,7 @@ git fetch origin
 
 ---
 
-### 8️⃣ Comment créer une feature branch ?
+### 8⃣ Comment créer une feature branch ?
 
 **Méthode automatique (recommandée)** :
 ```bash
@@ -173,7 +173,7 @@ git push origin feature/amelioration-menu
 
 ---
 
-### 9️⃣ Comment merger une feature dans dev ?
+### 9⃣ Comment merger une feature dans dev ?
 
 ```bash
 cd /home/u665392393/domains/infpf.fr/dev
@@ -203,25 +203,25 @@ git push origin main
 php bin/console cache:clear --env=prod
 ```
 
-**Important** : dev ne disparaît pas après le déploiement ! 🎉
+**Important** : dev ne disparaît pas après le déploiement ! 
 
 ---
 
-## 🎯 Récapitulatif de Votre Situation Actuelle
+##  Récapitulatif de Votre Situation Actuelle
 
-✅ **Problème résolu** : Vous pouvez maintenant switcher entre `main` et `dev`
+ **Problème résolu** : Vous pouvez maintenant switcher entre `main` et `dev`
 
-✅ **Branches synchronisées** : `main` et `dev` sont au même commit `1187ff3`
+ **Branches synchronisées** : `main` et `dev` sont au même commit `1187ff3`
 
-✅ **Environnements configurés** :
+ **Environnements configurés** :
 - Production : `/public_html/` (branche `main`) → https://infpf.fr/
 - Développement : `/dev/` (branche `dev`) → https://dev.infpf.fr/
 
-✅ **Scripts disponibles** :
+ **Scripts disponibles** :
 - `./new-feature.sh nom-feature` : Créer une nouvelle feature
 - `./deploy-to-prod.sh "message"` : Déployer dev → production
 
-✅ **Documentation disponible** :
+ **Documentation disponible** :
 - `QUICK_START.md` : Guide rapide
 - `GIT_WORKFLOW.md` : Guide complet avec exemples
 - `WORKFLOW.md` : Workflow technique
@@ -229,7 +229,7 @@ php bin/console cache:clear --env=prod
 
 ---
 
-## 🚀 Prochaines Étapes
+##  Prochaines Étapes
 
 Vous êtes maintenant prêt à :
 
@@ -245,7 +245,7 @@ cd /home/u665392393/domains/infpf.fr/public_html
 
 ---
 
-## 💡 Commandes Utiles à Retenir
+##  Commandes Utiles à Retenir
 
 ```bash
 # Où suis-je ?

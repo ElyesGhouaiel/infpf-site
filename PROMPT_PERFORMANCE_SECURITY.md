@@ -1,6 +1,6 @@
-# 🎯 PROMPT - Optimisation Performance, Sécurité & SEO - Site INFPF
+#  PROMPT - Optimisation Performance, Sécurité & SEO - Site INFPF
 
-## 📋 CONTEXTE DU PROJET
+##  CONTEXTE DU PROJET
 
 ### Informations Générales
 - **Projet** : Site web INFPF (Institut National de la Formation Professionnelle)
@@ -63,22 +63,22 @@
   - Dev : `/dev/` (branche `dev` ou `feature`)
 
 ### État Actuel du Site
-- ✅ Refonte desktop complète (Avril-Septembre 2025)
-- ✅ Version mobile responsive (Octobre 2025)
-- ✅ Blog avec CRUD complet
-- ✅ Pages formations modernisées
-- ✅ 8 pages école refondues
-- ✅ Système analytics RGPD
-- ✅ Intégration Calendly
-- ✅ Workflow Git professionnel
+-  Refonte desktop complète (Avril-Septembre 2025)
+-  Version mobile responsive (Octobre 2025)
+-  Blog avec CRUD complet
+-  Pages formations modernisées
+-  8 pages école refondues
+-  Système analytics RGPD
+-  Intégration Calendly
+-  Workflow Git professionnel
 
 ---
 
-## 🎯 MISSION : OPTIMISATION GLOBALE
+##  MISSION : OPTIMISATION GLOBALE
 
 ### Objectifs Prioritaires
 
-#### 1. 🚀 PERFORMANCE (Priorité HAUTE)
+#### 1.  PERFORMANCE (Priorité HAUTE)
 **Objectif** : Rendre le site ultra-rapide sur desktop ET mobile
 
 **Métriques cibles** :
@@ -174,7 +174,7 @@
   - Logs d'erreur sécurisés
   - Permissions fichiers correctes
 
-#### 4. 🔍 SEO (Priorité HAUTE)
+#### 4.  SEO (Priorité HAUTE)
 **Objectif** : Référencement optimal sur Google
 
 **Métriques cibles** :
@@ -197,7 +197,7 @@
 - [ ] Redirections 301 pour ancien contenu
 - [ ] Core Web Vitals optimisés
 
-#### 5. ✅ BONNES PRATIQUES (Priorité MOYENNE)
+#### 5.  BONNES PRATIQUES (Priorité MOYENNE)
 **Objectif** : Code propre et maintenable
 
 **Métriques cibles** :
@@ -215,7 +215,7 @@
 - [ ] Compression Gzip/Brotli activée
 - [ ] Browser caching optimal
 
-#### 6. ⚙️ CI/CD - GITHUB ACTIONS (Priorité HAUTE)
+#### 6. ⚙ CI/CD - GITHUB ACTIONS (Priorité HAUTE)
 **Objectif** : Pipeline automatisé pour qualité et sécurité
 
 **Actions à mener** :
@@ -280,7 +280,7 @@ public/.htaccess                     # Configuration Apache
 
 ---
 
-## 🛠️ OUTILS À UTILISER
+## 🛠 OUTILS À UTILISER
 
 ### Analyse & Audit
 - **Google Lighthouse** : Performance, Accessibility, SEO, Best Practices
@@ -308,7 +308,7 @@ public/.htaccess                     # Configuration Apache
 
 ---
 
-## 📊 DIAGNOSTIC INITIAL À RÉALISER
+##  DIAGNOSTIC INITIAL À RÉALISER
 
 ### 1. Audit Lighthouse
 ```bash
@@ -346,7 +346,7 @@ php bin/console debug:container --env=dev | grep profiler
 
 ---
 
-## 🎯 PLAN D'ACTION SUGGÉRÉ
+##  PLAN D'ACTION SUGGÉRÉ
 
 ### Phase 1 : DIAGNOSTIC (Jour 1)
 1. Audit Lighthouse complet (toutes les pages principales)
@@ -399,32 +399,32 @@ php bin/console debug:container --env=dev | grep profiler
 
 ---
 
-## 📋 CRITÈRES DE SUCCÈS
+##  CRITÈRES DE SUCCÈS
 
 ### Scores Lighthouse Minimum
-- ✅ Performance : **≥ 90/100**
-- ✅ Accessibility : **≥ 95/100**
-- ✅ Best Practices : **100/100**
-- ✅ SEO : **100/100**
+-  Performance : **≥ 90/100**
+-  Accessibility : **≥ 95/100**
+-  Best Practices : **100/100**
+-  SEO : **100/100**
 
 ### Sécurité
-- ✅ Mozilla Observatory : **A+**
-- ✅ SecurityHeaders.com : **A+**
-- ✅ Composer audit : **0 vulnérabilités**
+-  Mozilla Observatory : **A+**
+-  SecurityHeaders.com : **A+**
+-  Composer audit : **0 vulnérabilités**
 
 ### Performance Web Vitals
-- ✅ LCP : **< 2.5s**
-- ✅ FID : **< 100ms**
-- ✅ CLS : **< 0.1**
+-  LCP : **< 2.5s**
+-  FID : **< 100ms**
+-  CLS : **< 0.1**
 
 ### CI/CD
-- ✅ Pipeline GitHub Actions fonctionnel
-- ✅ Tests automatisés qui passent
-- ✅ Déploiement automatisé vers dev
+-  Pipeline GitHub Actions fonctionnel
+-  Tests automatisés qui passent
+-  Déploiement automatisé vers dev
 
 ---
 
-## 🚨 CONTRAINTES IMPORTANTES
+##  CONTRAINTES IMPORTANTES
 
 ### Environnement
 - Serveur Hostinger (pas de root access)
@@ -443,7 +443,7 @@ php bin/console debug:container --env=dev | grep profiler
 
 ---
 
-## 📝 DOCUMENTATION À CRÉER
+##  DOCUMENTATION À CRÉER
 
 À la fin de la mission, créer :
 
@@ -498,11 +498,11 @@ Je travaille sur l'optimisation complète (Performance, Sécurité, SEO, Accessi
 - Environnement de prod : https://infpf.fr/
 
 **Mission** :
-1. 🚀 PERFORMANCE : Scores Lighthouse ≥ 90, Core Web Vitals optimaux
+1.  PERFORMANCE : Scores Lighthouse ≥ 90, Core Web Vitals optimaux
 2. ♿ ACCESSIBILITÉ : WCAG 2.1 AA, score ≥ 95
 3. 🔒 SÉCURITÉ : Headers sécurisés (A+), audit composer, protection XSS/CSRF/SQL Injection
-4. 🔍 SEO : Score 100, sitemap, schema.org, meta tags optimisés
-5. ⚙️ CI/CD : Pipeline GitHub Actions avec tests automatisés
+4.  SEO : Score 100, sitemap, schema.org, meta tags optimisés
+5. ⚙ CI/CD : Pipeline GitHub Actions avec tests automatisés
 
 **Fichier de référence** :
 Lire le fichier `/home/u665392393/domains/infpf.fr/public_html/PROMPT_PERFORMANCE_SECURITY.md` pour le contexte complet.

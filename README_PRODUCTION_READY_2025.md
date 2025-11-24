@@ -1,4 +1,4 @@
-# 🚀 INFPF - Site Production-Ready (Novembre 2025)
+#  INFPF - Site Production-Ready (Novembre 2025)
 
 **Institut National de la Formation Professionnelle Française**  
 **Version** : 2.0 - Production Ready  
@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Table des Matières
+##  Table des Matières
 
 1. [Vue d'Ensemble](#-vue-densemble)
 2. [Architecture Technique](#-architecture-technique)
@@ -22,17 +22,17 @@
 
 ---
 
-## 🎯 Vue d'Ensemble
+##  Vue d'Ensemble
 
 INFPF est une plateforme complète de formation professionnelle à distance, développée avec **Symfony 6.4** et optimisée pour des performances maximales.
 
 ### Métriques Clés
 
-- **Performance Lighthouse** : 🟢 97 (Mobile) | 🟢 99 (Desktop)
-- **Sécurité Headers** : 🟢 A+ (securityheaders.com)
-- **Tests Automatisés** : ✅ 100% des tests critiques passent
-- **Monitoring** : ✅ Sentry + UptimeRobot
-- **RGPD** : ✅ Conforme
+- **Performance Lighthouse** :  97 (Mobile) |  99 (Desktop)
+- **Sécurité Headers** :  A+ (securityheaders.com)
+- **Tests Automatisés** :  100% des tests critiques passent
+- **Monitoring** :  Sentry + UptimeRobot
+- **RGPD** :  Conforme
 
 ### URLs
 
@@ -43,7 +43,7 @@ INFPF est une plateforme complète de formation professionnelle à distance, dé
 
 ---
 
-## 🏗️ Architecture Technique
+## 🏗 Architecture Technique
 
 ### Stack Technologique
 
@@ -82,48 +82,48 @@ INFPF est une plateforme complète de formation professionnelle à distance, dé
 
 ---
 
-## 🌟 Fonctionnalités Principales
+##  Fonctionnalités Principales
 
 ### 1. Catalogue de Formations
 - 📚 Gestion complète des formations via EasyAdmin
-- 🏷️ Système de catégories et tags
+- 🏷 Système de catégories et tags
 - 📄 Fiches détaillées avec PDF téléchargeables
 - 💰 Intégration Stripe pour paiements
 - 📅 Système de réservation Calendly
 
 ### 2. Blog & Actualités
-- ✍️ Système de publication programmée
-- 🖼️ Upload d'images optimisées (WebP)
-- 🔍 SEO optimisé (meta tags, JSON-LD)
-- 📊 Statistiques de lecture
-- 🏷️ Catégorisation et tags
+- ✍ Système de publication programmée
+-  Upload d'images optimisées (WebP)
+-  SEO optimisé (meta tags, JSON-LD)
+-  Statistiques de lecture
+- 🏷 Catégorisation et tags
 
 ### 3. Interface Admin (EasyAdmin)
 - 👤 Authentification sécurisée
-- 📊 Dashboard avec KPIs
-- ✏️ CRUD complet (Formations, Blog, Catégories)
+-  Dashboard avec KPIs
+- ✏ CRUD complet (Formations, Blog, Catégories)
 - 📧 Gestion des contacts
-- 📈 Analytics dashboard (visiteurs, exclusions)
+-  Analytics dashboard (visiteurs, exclusions)
 
 ### 4. Formulaires & Contact
 - 📧 Formulaire de contact avec validation
 - 🤖 Protection reCAPTCHA v3
 - 🚫 Rate limiting (anti-spam)
-- ✉️ Envoi email natif PHP
-- 🎯 Reply-To automatique
+-  Envoi email natif PHP
+-  Reply-To automatique
 
 ### 5. Pages Légales (RGPD)
 - 📜 Mentions légales complètes
 - 🔒 Politique de confidentialité détaillée
 - 🍪 Bannière cookies avec consentement
-- ✅ Règlement intérieur moderne
-- 🎨 Design moderne et responsive
+-  Règlement intérieur moderne
+-  Design moderne et responsive
 
 ### 6. Erreurs Personnalisées
-- 🚨 Pages d'erreur modernes (404, 403, 500)
+-  Pages d'erreur modernes (404, 403, 500)
 - 📧 Formulaire de signalement d'erreur
-- ✉️ Email direct à l'admin (`elyes@xeilos.fr`)
-- 🎨 Design cohérent avec le site
+-  Email direct à l'admin (`elyes@xeilos.fr`)
+-  Design cohérent avec le site
 
 ---
 
@@ -133,13 +133,13 @@ INFPF est une plateforme complète de formation professionnelle à distance, dé
 
 #### Headers HTTP (`.htaccess`)
 ```apache
-✅ X-XSS-Protection: 1; mode=block
-✅ X-Content-Type-Options: nosniff
-✅ X-Frame-Options: SAMEORIGIN
-✅ Referrer-Policy: strict-origin-when-cross-origin
-✅ Permissions-Policy: geolocation=(), microphone=(), camera=()
-✅ Content-Security-Policy (compatible Google/Calendly/Stripe)
-✅ Strict-Transport-Security (HSTS - à activer en prod)
+ X-XSS-Protection: 1; mode=block
+ X-Content-Type-Options: nosniff
+ X-Frame-Options: SAMEORIGIN
+ Referrer-Policy: strict-origin-when-cross-origin
+ Permissions-Policy: geolocation=(), microphone=(), camera=()
+ Content-Security-Policy (compatible Google/Calendly/Stripe)
+ Strict-Transport-Security (HSTS - à activer en prod)
 ```
 
 #### Rate Limiting
@@ -149,11 +149,11 @@ strict: 10 requêtes / 1 minute
 ```
 
 #### Protection des Données
-- ✅ Validation côté serveur (Symfony Validator)
-- ✅ Échappement automatique (Twig)
-- ✅ Protection CSRF (Symfony Security)
-- ✅ Hachage mots de passe (Argon2)
-- ✅ Données sensibles dans `.env.local` (jamais commitées)
+-  Validation côté serveur (Symfony Validator)
+-  Échappement automatique (Twig)
+-  Protection CSRF (Symfony Security)
+-  Hachage mots de passe (Argon2)
+-  Données sensibles dans `.env.local` (jamais commitées)
 
 #### Monitoring
 - **Sentry** : Capture automatique des erreurs/exceptions
@@ -164,34 +164,34 @@ strict: 10 requêtes / 1 minute
 
 #### Cache
 ```yaml
-✅ Symfony Cache: filesystem + OPcache
-✅ Doctrine Cache: metadata, queries, results (1h)
-✅ HTTP Cache: navigateur (1 an images, 0 HTML)
-✅ OPcache PHP: activé sur Hostinger
+ Symfony Cache: filesystem + OPcache
+ Doctrine Cache: metadata, queries, results (1h)
+ HTTP Cache: navigateur (1 an images, 0 HTML)
+ OPcache PHP: activé sur Hostinger
 ```
 
 #### Compression
 ```apache
-✅ Gzip niveau 9 (texte, CSS, JS)
-✅ Brotli (si disponible)
-✅ WebP automatique (si navigateur supporte)
+ Gzip niveau 9 (texte, CSS, JS)
+ Brotli (si disponible)
+ WebP automatique (si navigateur supporte)
 ```
 
 #### Images WebP
 - 📸 Script de conversion automatique : `bin/optimize-images-webp.sh`
-- 🔄 Fallback automatique JPEG/PNG via `.htaccess`
-- 💾 Économie moyenne : **25-35%** de poids
+-  Fallback automatique JPEG/PNG via `.htaccess`
+-  Économie moyenne : **25-35%** de poids
 
 #### Lazy Loading
-- 🖼️ Images : `loading="lazy"`
+-  Images : `loading="lazy"`
 - 🎥 iframes (YouTube, Calendly) : lazy load natif
 - 📜 Scripts tiers : chargement différé
 
 #### Résultats
-- ⚡ **TTFB** : 100-120ms (prod)
-- ⚡ **Page Load** : 0.8-1s
-- 🎯 **Lighthouse Mobile** : 97
-- 🎯 **Lighthouse Desktop** : 99
+-  **TTFB** : 100-120ms (prod)
+-  **Page Load** : 0.8-1s
+-  **Lighthouse Mobile** : 97
+-  **Lighthouse Desktop** : 99
 
 ---
 
@@ -268,7 +268,7 @@ MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
 
 ---
 
-## 🚀 Déploiement
+##  Déploiement
 
 ### Déploiement sur Hostinger (Production)
 
@@ -333,7 +333,7 @@ curl -I https://www.infpf.fr
 
 # 2. Teste OPcache (temporairement)
 curl https://www.infpf.fr/opcache-check.php | jq
-# ⚠️ Supprime ce fichier après test :
+#  Supprime ce fichier après test :
 rm public/opcache-check.php
 
 # 3. Vérifie Sentry
@@ -357,7 +357,7 @@ php bin/console cache:clear --env=prod
 
 ---
 
-## 🛠️ Maintenance & Monitoring
+## 🛠 Maintenance & Monitoring
 
 ### Backups Automatiques
 
@@ -430,7 +430,7 @@ tail -f var/log/backup.log
 {# Validation automatique dans le controller #}
 $form->handleRequest($request);
 if ($form->isSubmitted() && $form->isValid()) {
-    // ✅ reCAPTCHA déjà validé
+    //  reCAPTCHA déjà validé
 }
 ```
 
@@ -485,7 +485,7 @@ $this->nativeMailService->sendContactEmail(
 
 ---
 
-## ✅ Tests & Qualité
+##  Tests & Qualité
 
 ### Tests Automatisés (PHPUnit)
 
@@ -505,11 +505,11 @@ vendor/bin/phpunit --coverage-html var/coverage
 **Fichier** : `.github/workflows/ci.yml`
 
 **Workflow** :
-1. ✅ Lint PHP (`composer validate`)
-2. ✅ Installe les dépendances
-3. ✅ Crée la BDD de test
-4. ✅ Lance PHPUnit
-5. ✅ Vérifie la syntaxe Twig
+1.  Lint PHP (`composer validate`)
+2.  Installe les dépendances
+3.  Crée la BDD de test
+4.  Lance PHPUnit
+5.  Vérifie la syntaxe Twig
 
 ### Qualité du Code
 
@@ -523,7 +523,7 @@ vendor/bin/php-cs-fixer fix src --dry-run --diff
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Problème 1 : Cache corrompue
 
@@ -583,32 +583,32 @@ php bin/console cache:clear
 
 ---
 
-## 📊 Métriques de Qualité
+##  Métriques de Qualité
 
 ### Performance
-- ✅ **Lighthouse Mobile** : 97/100
-- ✅ **Lighthouse Desktop** : 99/100
-- ✅ **TTFB** : < 150ms
-- ✅ **Page Load** : < 1.5s
-- ✅ **Images** : WebP activé (-30% poids)
+-  **Lighthouse Mobile** : 97/100
+-  **Lighthouse Desktop** : 99/100
+-  **TTFB** : < 150ms
+-  **Page Load** : < 1.5s
+-  **Images** : WebP activé (-30% poids)
 
 ### Sécurité
-- ✅ **Security Headers** : A+ (securityheaders.com)
-- ✅ **SSL/TLS** : A+ (ssllabs.com)
-- ✅ **OWASP Top 10** : Protégé
-- ✅ **Rate Limiting** : Actif
-- ✅ **Dependabot** : Actif
+-  **Security Headers** : A+ (securityheaders.com)
+-  **SSL/TLS** : A+ (ssllabs.com)
+-  **OWASP Top 10** : Protégé
+-  **Rate Limiting** : Actif
+-  **Dependabot** : Actif
 
 ### Code Quality
-- ✅ **PHPUnit** : 100% tests critiques passent
-- ✅ **PHPStan** : Niveau 5 (pas d'erreurs)
-- ✅ **Documentation** : Complète
+-  **PHPUnit** : 100% tests critiques passent
+-  **PHPStan** : Niveau 5 (pas d'erreurs)
+-  **Documentation** : Complète
 
 ### RGPD
-- ✅ **Cookie Banner** : Conforme
-- ✅ **Politique de confidentialité** : À jour
-- ✅ **Mentions légales** : Complètes
-- ✅ **Consentement Analytics** : Respect
+-  **Cookie Banner** : Conforme
+-  **Politique de confidentialité** : À jour
+-  **Mentions légales** : Complètes
+-  **Consentement Analytics** : Respect
 
 ---
 

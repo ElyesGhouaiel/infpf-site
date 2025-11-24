@@ -1,24 +1,24 @@
-# ⏳ EN ATTENTE : PURGE CACHE CDN HOSTINGER
+#  EN ATTENTE : PURGE CACHE CDN HOSTINGER
 
-## ✅ Optimisations Appliquées avec Succès
+##  Optimisations Appliquées avec Succès
 
-### 1. **Suppression jQuery Complète** ✅
+### 1. **Suppression jQuery Complète** 
 - **base.html.twig** : jQuery supprimé (ligne 29) → **-85 Kio**
 - **formation.html.twig** : jQuery UI + AOS supprimés → **-215 Kio**
 - **Total économisé : -428 Kio de JavaScript inutilisé !**
 
-### 2. **Pagination SQL** ✅
+### 2. **Pagination SQL** 
 - Chargement de 5 formations au lieu de 48
 - Requêtes SQL réduites de 15-20 à 2-3
 - Temps de réponse : 800ms → 244ms (-70%)
 
-### 3. **Lazy Loading Images** ✅
+### 3. **Lazy Loading Images** 
 - Toutes les images ont `loading="lazy"`
 - Images du footer chargées seulement au scroll
 
 ---
 
-## ❌ Problème Bloquant : Cache CDN Hostinger
+##  Problème Bloquant : Cache CDN Hostinger
 
 Le **serveur hcdn** (Hostinger CDN) cache l'ancien HTML pendant 24-48h.
 
@@ -35,7 +35,7 @@ $ curl -s https://dev.infpf.fr/formation | grep -i "jquery"
 
 ---
 
-## 🎯 ACTION REQUISE
+##  ACTION REQUISE
 
 ### **Vous devez purger le cache CDN via hPanel :**
 
@@ -48,12 +48,12 @@ $ curl -s https://dev.infpf.fr/formation | grep -i "jquery"
 
 ---
 
-## 📊 Scores Attendus APRÈS Purge du Cache
+##  Scores Attendus APRÈS Purge du Cache
 
 | Format | Actuel (avec cache) | Après Purge | Gain |
 |--------|---------------------|-------------|------|
-| **Mobile** | 73 🟡 | **88-92** 🟢 | +15-19 pts |
-| **Desktop** | 83 🟡 | **95-98** 🟢 | +12-15 pts |
+| **Mobile** | 73  | **88-92**  | +15-19 pts |
+| **Desktop** | 83  | **95-98**  | +12-15 pts |
 
 ### **Gains de Performance :**
 - **FCP** : 3.1s → 0.8s (-74%)
@@ -63,7 +63,7 @@ $ curl -s https://dev.infpf.fr/formation | grep -i "jquery"
 
 ---
 
-## 🔍 Vérification Post-Purge
+##  Vérification Post-Purge
 
 ```bash
 # Test 1 : jQuery ne doit PAS apparaître
@@ -85,7 +85,7 @@ curl -s https://dev.infpf.fr/formation | grep "fichier.css"
 
 ---
 
-## 📝 Fichiers Modifiés
+##  Fichiers Modifiés
 
 | Fichier | Modification | Commit |
 |---------|--------------|--------|
@@ -96,7 +96,7 @@ curl -s https://dev.infpf.fr/formation | grep "fichier.css"
 
 ---
 
-## ⚠️ Important
+##  Important
 
 **Ne testez PAS avant d'avoir purgé le cache CDN !**
 
@@ -107,12 +107,4 @@ Les résultats PageSpeed montreront encore l'ancienne version jusqu'à la purge.
 **Date : 3 novembre 2025**
 **Commit : c56cd00**
 **Branche : feature/performance-security-seo-optimization**
-
-
-
-
-
-
-
-
 

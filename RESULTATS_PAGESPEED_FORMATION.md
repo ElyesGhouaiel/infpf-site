@@ -1,23 +1,23 @@
-# 📊 Résultats PageSpeed Insights - Page /formation
+#  Résultats PageSpeed Insights - Page /formation
 
 **Date** : 3 novembre 2025, 16:32:39  
 **URL testée** : https://dev.infpf.fr/formation
 
 ---
 
-## 🎯 Scores Globaux
+##  Scores Globaux
 
-### **📱 MOBILE**
-- **Performance** : 65 🟡 (Objectif : 95+)
-- **Accessibilité** : 96 ✅
-- **Bonnes pratiques** : 96 ✅
-- **SEO** : 100 ✅
+### ** MOBILE**
+- **Performance** : 65  (Objectif : 95+)
+- **Accessibilité** : 96 
+- **Bonnes pratiques** : 96 
+- **SEO** : 100 
 
 ### **💻 DESKTOP**
-- **Performance** : 82 🟡 (Objectif : 95+)
-- **Accessibilité** : 95 ✅
-- **Bonnes pratiques** : 96 ✅
-- **SEO** : 91 ✅
+- **Performance** : 82  (Objectif : 95+)
+- **Accessibilité** : 95 
+- **Bonnes pratiques** : 96 
+- **SEO** : 91 
 
 ---
 
@@ -26,26 +26,26 @@
 ### **Mobile**
 | Métrique | Valeur | Seuil Excellent | Statut |
 |----------|--------|-----------------|--------|
-| **FCP** (First Contentful Paint) | 3,1 s | < 1,8 s | 🔴 +72% |
-| **LCP** (Largest Contentful Paint) | 5,0 s | < 2,5 s | 🔴 +100% |
-| **TBT** (Total Blocking Time) | 240 ms | < 200 ms | 🟡 +20% |
-| **CLS** (Cumulative Layout Shift) | 0 | < 0,1 | ✅ Excellent |
-| **Speed Index** | 6,8 s | < 3,4 s | 🔴 +100% |
+| **FCP** (First Contentful Paint) | 3,1 s | < 1,8 s |  +72% |
+| **LCP** (Largest Contentful Paint) | 5,0 s | < 2,5 s |  +100% |
+| **TBT** (Total Blocking Time) | 240 ms | < 200 ms |  +20% |
+| **CLS** (Cumulative Layout Shift) | 0 | < 0,1 |  Excellent |
+| **Speed Index** | 6,8 s | < 3,4 s |  +100% |
 
 ### **Desktop**
 | Métrique | Valeur | Seuil Excellent | Statut |
 |----------|--------|-----------------|--------|
-| **FCP** (First Contentful Paint) | 0,7 s | < 1,8 s | ✅ Excellent |
-| **LCP** (Largest Contentful Paint) | 1,8 s | < 2,5 s | 🟡 Limite |
-| **TBT** (Total Blocking Time) | 100 ms | < 200 ms | ✅ Excellent |
-| **CLS** (Cumulative Layout Shift) | 0.005 | < 0,1 | ✅ Excellent |
-| **Speed Index** | 4,6 s | < 3,4 s | 🔴 +35% |
+| **FCP** (First Contentful Paint) | 0,7 s | < 1,8 s |  Excellent |
+| **LCP** (Largest Contentful Paint) | 1,8 s | < 2,5 s |  Limite |
+| **TBT** (Total Blocking Time) | 100 ms | < 200 ms |  Excellent |
+| **CLS** (Cumulative Layout Shift) | 0.005 | < 0,1 |  Excellent |
+| **Speed Index** | 4,6 s | < 3,4 s |  +35% |
 
 ---
 
-## 🔴 PROBLÈMES CRITIQUES (Impact Majeur)
+##  PROBLÈMES CRITIQUES (Impact Majeur)
 
-### **1. JavaScript Inutilisé : -428 Kio** 🔴🔴🔴
+### **1. JavaScript Inutilisé : -428 Kio** 
 **Impact** : Économie possible de **428 Kio**  
 **Cause probable** :
 - jQuery chargé en entier (85-90 Kio) mais peu utilisé
@@ -55,13 +55,13 @@
 
 **Solution** :
 ```javascript
-// ❌ Actuellement (base.html.twig)
+//  Actuellement (base.html.twig)
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
 
-// ✅ Option 1 : jQuery Slim (30% plus léger)
+//  Option 1 : jQuery Slim (30% plus léger)
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" defer></script>
 
-// ✅ Option 2 : Vanilla JS (0 Kio)
+//  Option 2 : Vanilla JS (0 Kio)
 // Réécrire popup.js sans jQuery
 ```
 
@@ -69,7 +69,7 @@
 
 ---
 
-### **2. Requêtes de Blocage de l'Affichage** 🔴🔴
+### **2. Requêtes de Blocage de l'Affichage** 
 **Impact Mobile** : -1870 ms  
 **Impact Desktop** : -640 ms
 
@@ -80,14 +80,14 @@
 
 **Solution** :
 ```html
-<!-- ✅ Critical CSS inline -->
+<!--  Critical CSS inline -->
 <style>
     /* CSS critique pour le header, hero, etc. */
     .header { ... }
     .formations-list { ... }
 </style>
 
-<!-- ✅ CSS non-critique avec preload -->
+<!--  CSS non-critique avec preload -->
 <link rel="preload" href="{{ asset('styles/main.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ asset('styles/main.css') }}"></noscript>
 ```
@@ -96,7 +96,7 @@
 
 ---
 
-### **3. Speed Index Très Élevé** 🔴🔴
+### **3. Speed Index Très Élevé** 
 **Mobile** : 6,8 s (objectif < 3,4 s)  
 **Desktop** : 4,6 s (objectif < 3,4 s)
 
@@ -114,7 +114,7 @@
 
 ---
 
-### **4. LCP (Largest Contentful Paint) Élevé** 🔴
+### **4. LCP (Largest Contentful Paint) Élevé** 
 **Mobile** : 5,0 s (objectif < 2,5 s)  
 **Desktop** : 1,8 s (objectif < 2,5 s - limite)
 
@@ -125,10 +125,10 @@
 
 **Solution** :
 ```html
-<!-- ✅ Preload de l'image LCP -->
+<!--  Preload de l'image LCP -->
 <link rel="preload" as="image" href="{{ asset('img/hero-formation.jpg') }}">
 
-<!-- ✅ Image avec fetchpriority -->
+<!--  Image avec fetchpriority -->
 <img src="hero.jpg" fetchpriority="high" loading="eager">
 ```
 
@@ -136,9 +136,9 @@
 
 ---
 
-## 🟡 PROBLÈMES MOYENS (Impact Modéré)
+##  PROBLÈMES MOYENS (Impact Modéré)
 
-### **5. CSS Inutilisé : -55 Kio** 🟡
+### **5. CSS Inutilisé : -55 Kio** 
 **Impact** : Économie possible de **55 Kio**
 
 **Cause** :
@@ -156,7 +156,7 @@ purgecss --css public/styles/*.css --content templates/**/*.twig --output public
 
 ---
 
-### **6. Réduire CSS : -15 Kio** 🟡
+### **6. Réduire CSS : -15 Kio** 
 **Impact** : Économie possible de **15 Kio**
 
 **Solution** :
@@ -174,7 +174,7 @@ Encore.enablePostCssLoader()
 
 ---
 
-### **7. Réduire JavaScript : -3 Kio** 🟡
+### **7. Réduire JavaScript : -3 Kio** 
 **Impact** : Économie possible de **3 Kio**
 
 **Solution** :
@@ -185,7 +185,7 @@ Encore.enablePostCssLoader()
 
 ---
 
-### **8. Images Non Optimisées : -126 Kio (Desktop) / -53 Kio (Mobile)** 🟡
+### **8. Images Non Optimisées : -126 Kio (Desktop) / -53 Kio (Mobile)** 
 **Impact** : Économie possible de **53-126 Kio**
 
 **Problème** :
@@ -195,7 +195,7 @@ Encore.enablePostCssLoader()
 
 **Solution** :
 ```twig
-{# ✅ Images avec dimensions explicites + WebP #}
+{#  Images avec dimensions explicites + WebP #}
 <picture>
     <source srcset="{{ asset('img/formations/formation-1.webp') }}" type="image/webp">
     <img 
@@ -212,7 +212,7 @@ Encore.enablePostCssLoader()
 
 ---
 
-### **9. Cache Headers : -11 Kio** 🟡
+### **9. Cache Headers : -11 Kio** 
 **Impact** : Économie possible de **11 Kio**
 
 **Problème** :
@@ -221,7 +221,7 @@ Encore.enablePostCssLoader()
 
 **Solution** :
 ```apache
-# public/.htaccess - DÉJÀ EN PLACE ✅
+# public/.htaccess - DÉJÀ EN PLACE 
 <FilesMatch "\.(ico|png|jpg|jpeg|gif|webp|svg)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
 </FilesMatch>
@@ -236,12 +236,12 @@ curl -I https://dev.infpf.fr/img/logo.png | grep -i "cache-control"
 
 ---
 
-### **10. Affichage Police : -10 ms** 🟡
+### **10. Affichage Police : -10 ms** 
 **Impact** : Économie possible de **10 ms**
 
 **Solution** :
 ```html
-<!-- ✅ Preconnect + font-display -->
+<!--  Preconnect + font-display -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -251,53 +251,53 @@ curl -I https://dev.infpf.fr/img/logo.png | grep -i "cache-control"
 
 ---
 
-## 🟢 POINTS FORTS (À Conserver)
+##  POINTS FORTS (À Conserver)
 
-### **1. CLS (Cumulative Layout Shift) : 0** ✅
+### **1. CLS (Cumulative Layout Shift) : 0** 
 Excellent ! Pas de décalage de mise en page.
 
-### **2. Accessibilité : 95-96** ✅
+### **2. Accessibilité : 95-96** 
 Très bon score.
 
-### **3. Bonnes pratiques : 96** ✅
+### **3. Bonnes pratiques : 96** 
 Excellentes pratiques générales.
 
-### **4. SEO : 91-100** ✅
+### **4. SEO : 91-100** 
 Bon référencement.
 
 ---
 
-## 🎯 PLAN D'ACTION PAR PRIORITÉ
+##  PLAN D'ACTION PAR PRIORITÉ
 
 ### **PRIORITÉ 1 : JavaScript** (Gain : +15-20 pts)
-1. ✅ Remplacer jQuery complet par jQuery Slim
-2. ✅ Analyser et supprimer JavaScript inutilisé
-3. ✅ Réécrire popup.js en Vanilla JS si possible
-4. ✅ Defer tous les scripts non-critiques
+1.  Remplacer jQuery complet par jQuery Slim
+2.  Analyser et supprimer JavaScript inutilisé
+3.  Réécrire popup.js en Vanilla JS si possible
+4.  Defer tous les scripts non-critiques
 
 ### **PRIORITÉ 2 : CSS Critique** (Gain : +10-15 pts)
-1. ✅ Extraire et inline le CSS critique
-2. ✅ Charger le reste du CSS de manière asynchrone
-3. ✅ Purger CSS inutilisé avec PurgeCSS
+1.  Extraire et inline le CSS critique
+2.  Charger le reste du CSS de manière asynchrone
+3.  Purger CSS inutilisé avec PurgeCSS
 
 ### **PRIORITÉ 3 : Images** (Gain : +5-8 pts)
-1. ✅ Convertir images en WebP
-2. ✅ Ajouter width/height explicites
-3. ✅ Preload image LCP
+1.  Convertir images en WebP
+2.  Ajouter width/height explicites
+3.  Preload image LCP
 
 ### **PRIORITÉ 4 : LCP Optimization** (Gain : +8-10 pts)
-1. ✅ Identifier l'élément LCP (probablement image hero)
-2. ✅ Preload cet élément
-3. ✅ fetchpriority="high" sur l'élément LCP
+1.  Identifier l'élément LCP (probablement image hero)
+2.  Preload cet élément
+3.  fetchpriority="high" sur l'élément LCP
 
 ### **PRIORITÉ 5 : Base de Données** (Gain : +5 pts)
-1. ✅ Pagination SQL (5 formations au lieu de 48)
-2. ✅ Eager loading (éviter N+1)
-3. ✅ Cache des compteurs
+1.  Pagination SQL (5 formations au lieu de 48)
+2.  Eager loading (éviter N+1)
+3.  Cache des compteurs
 
 ---
 
-## 📈 GAINS ATTENDUS
+##  GAINS ATTENDUS
 
 | Optimisation | Mobile (Avant) | Desktop (Avant) | Mobile (Après) | Desktop (Après) | Gain |
 |--------------|----------------|-----------------|----------------|-----------------|------|
@@ -309,7 +309,7 @@ Bon référencement.
 
 ---
 
-## 🚀 OBJECTIFS FINAUX
+##  OBJECTIFS FINAUX
 
 | Format | Avant | Objectif | Stratégie |
 |--------|-------|----------|-----------|
@@ -318,7 +318,7 @@ Bon référencement.
 
 ---
 
-## 🛠️ PROCHAINES ÉTAPES
+## 🛠 PROCHAINES ÉTAPES
 
 ### **Étape 1 : JavaScript** (30 min)
 ```bash
@@ -356,14 +356,4 @@ Bon référencement.
 ---
 
 **Date de création** : 3 novembre 2025  
-**Statut** : 🚀 Prêt à commencer les optimisations
-
-
-
-
-
-
-
-
-
-
+**Statut** :  Prêt à commencer les optimisations

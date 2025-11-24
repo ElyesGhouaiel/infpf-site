@@ -1,4 +1,4 @@
-# 🚨 Problème : CDN Hostinger Bloque les Headers de Sécurité
+#  Problème : CDN Hostinger Bloque les Headers de Sécurité
 
 **Date** : 3 novembre 2025  
 **Domaine** : dev.infpf.fr  
@@ -6,19 +6,19 @@
 
 ---
 
-## 📋 Résumé du Problème
+##  Résumé du Problème
 
 Le CDN Hostinger (hcdn) **filtre et supprime** tous les headers de sécurité personnalisés que nous avons implémentés, empêchant l'amélioration des scores de sécurité.
 
 ### Headers Bloqués par le CDN
 
-- ❌ `X-Frame-Options: DENY`
-- ❌ `X-Content-Type-Options: nosniff`
-- ❌ `X-XSS-Protection: 1; mode=block`
-- ❌ `Referrer-Policy: strict-origin-when-cross-origin`
-- ❌ `Permissions-Policy: geolocation=(), microphone=(), camera=()`
-- ❌ `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
-- ❌ `Content-Security-Policy` (version complète)
+-  `X-Frame-Options: DENY`
+-  `X-Content-Type-Options: nosniff`
+-  `X-XSS-Protection: 1; mode=block`
+-  `Referrer-Policy: strict-origin-when-cross-origin`
+-  `Permissions-Policy: geolocation=(), microphone=(), camera=()`
+-  `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
+-  `Content-Security-Policy` (version complète)
 
 ### Ce qui Passe Actuellement
 
@@ -38,36 +38,36 @@ server: hcdn  ← CDN Hostinger
 
 ---
 
-## ✅ Code Implémenté (Prêt à Fonctionner)
+##  Code Implémenté (Prêt à Fonctionner)
 
 Tout le code nécessaire a été correctement implémenté :
 
-### 1. SecurityHeadersListener.php ✅
+### 1. SecurityHeadersListener.php 
 
 **Fichier** : `src/EventListener/SecurityHeadersListener.php`  
-**Statut** : ✅ Enregistré et fonctionnel  
+**Statut** :  Enregistré et fonctionnel  
 **Vérifié avec** : `php bin/console debug:event-dispatcher kernel.response`
 
 ```bash
 #2  App\EventListener\SecurityHeadersListener::onKernelResponse()  0
 ```
 
-### 2. Configuration `.htaccess` ✅
+### 2. Configuration `.htaccess` 
 
 **Fichier** : `public/.htaccess`  
-**Statut** : ✅ Headers ajoutés à la fin du fichier  
+**Statut** :  Headers ajoutés à la fin du fichier  
 **Sauvegarde** : `public/.htaccess.backup`
 
 Les headers sont correctement configurés dans `.htaccess` avec `Header always set`.
 
-### 3. Cache Symfony ✅
+### 3. Cache Symfony 
 
-- ✅ `php bin/console cache:clear --env=prod`
-- ✅ `php bin/console cache:warmup --env=prod`
+-  `php bin/console cache:clear --env=prod`
+-  `php bin/console cache:warmup --env=prod`
 
 ---
 
-## 🔍 Tests Effectués
+##  Tests Effectués
 
 ### Test 1 : Vérification du Listener
 
@@ -75,7 +75,7 @@ Les headers sont correctement configurés dans `.htaccess` avec `Header always s
 php bin/console debug:event-dispatcher kernel.response
 ```
 
-**Résultat** : ✅ Le listener est bien enregistré à la priorité 0
+**Résultat** :  Le listener est bien enregistré à la priorité 0
 
 ### Test 2 : Headers HTTP via curl
 
@@ -83,7 +83,7 @@ php bin/console debug:event-dispatcher kernel.response
 curl -I https://dev.infpf.fr | grep -E "x-frame|x-content|strict-transport|referrer|permissions"
 ```
 
-**Résultat** : ❌ Aucun header personnalisé ne passe
+**Résultat** :  Aucun header personnalisé ne passe
 
 ### Test 3 : Audit Externe
 
@@ -93,9 +93,9 @@ curl -I https://dev.infpf.fr | grep -E "x-frame|x-content|strict-transport|refer
 
 ---
 
-## 💡 Solutions Proposées
+##  Solutions Proposées
 
-### 🏆 Solution 1 : Contacter Hostinger (Recommandé)
+###  Solution 1 : Contacter Hostinger (Recommandé)
 
 **Action** : Ouvrir un ticket support Hostinger
 
@@ -123,7 +123,7 @@ curl -I https://dev.infpf.fr | grep -E "x-frame|x-content|strict-transport|refer
 
 ---
 
-### 🔧 Solution 2 : Désactiver le CDN Temporairement
+###  Solution 2 : Désactiver le CDN Temporairement
 
 **Étapes** :
 
@@ -141,15 +141,15 @@ curl -I https://dev.infpf.fr | grep -E "x-frame|x-content|strict-transport|refer
 
 ---
 
-### 🌟 Solution 3 : Migrer vers Cloudflare (Meilleur Contrôle)
+###  Solution 3 : Migrer vers Cloudflare (Meilleur Contrôle)
 
 **Avantages** :
-- ✅ Contrôle total des headers de sécurité
-- ✅ Meilleures performances que le CDN Hostinger
-- ✅ Protection DDoS gratuite
-- ✅ SSL/TLS flexible
-- ✅ Analytics avancées
-- ✅ Transform Rules pour headers personnalisés
+-  Contrôle total des headers de sécurité
+-  Meilleures performances que le CDN Hostinger
+-  Protection DDoS gratuite
+-  SSL/TLS flexible
+-  Analytics avancées
+-  Transform Rules pour headers personnalisés
 
 **Étapes** :
 
@@ -166,7 +166,7 @@ curl -I https://dev.infpf.fr | grep -E "x-frame|x-content|strict-transport|refer
 
 ---
 
-## 📊 Scores Attendus Après Résolution
+##  Scores Attendus Après Résolution
 
 Une fois les headers actifs :
 
@@ -178,7 +178,7 @@ Une fois les headers actifs :
 
 ---
 
-## 🎯 Recommandation Finale
+##  Recommandation Finale
 
 1. **Court terme** : Contacter Hostinger (Solution 1) → Temps : 24-48h
 2. **Moyen terme** : Si Hostinger refuse, désactiver leur CDN (Solution 2) → Temps : 10 minutes
@@ -200,7 +200,7 @@ Une fois les headers actifs :
 
 ---
 
-## ✅ Actions Complétées
+##  Actions Complétées
 
 - [x] Implémentation du `SecurityHeadersListener.php`
 - [x] Configuration de `.htaccess` avec headers de sécurité
@@ -212,7 +212,7 @@ Une fois les headers actifs :
 - [x] Audits externes (Mozilla Observatory, SecurityHeaders.com)
 - [x] Diagnostic du problème CDN
 
-## ⏳ Actions en Attente
+##  Actions en Attente
 
 - [ ] Contacter le support Hostinger pour autoriser les headers
 - [ ] OU désactiver le CDN Hostinger
@@ -224,14 +224,4 @@ Une fois les headers actifs :
 
 **Date de dernière mise à jour** : 3 novembre 2025  
 **Auteur** : Équipe Technique INFPF
-
-
-
-
-
-
-
-
-
-
 

@@ -1,4 +1,4 @@
-# ✅ GUIDE DE VALIDATION COMPLET - JOUR 1 & 2
+#  GUIDE DE VALIDATION COMPLET - JOUR 1 & 2
 
 **Date** : 5 novembre 2025, 17h45  
 **Durée totale** : ~20 minutes  
@@ -6,30 +6,30 @@
 
 ---
 
-## 📋 RÉCAPITULATIF : Ce Qui A Été Fait
+##  RÉCAPITULATIF : Ce Qui A Été Fait
 
-### ✅ JOUR 1 (4 fonctionnalités)
+###  JOUR 1 (4 fonctionnalités)
 1. **Pages d'erreur modernes** (404, 500, 403)
 2. **Tests PHPUnit corrigés** (100% passent)
 3. **Sentry** (monitoring erreurs en temps réel)
 4. **Logs structurés** (Monolog JSON)
 
-### ✅ JOUR 2 (4 fonctionnalités)
+###  JOUR 2 (4 fonctionnalités)
 5. **Rate Limiting** (protection DDoS/spam)
 6. **Backups BDD automatiques** (quotidiens)
 7. **SSL/HTTPS renforcé** (HSTS)
 8. **Scan vulnérabilités** (Dependabot)
 
-### ✅ BONUS
+###  BONUS
 9. **Formulaires pages d'erreur** (envoi email direct)
 
-**TOTAL : 9 fonctionnalités majeures** 🚀
+**TOTAL : 9 fonctionnalités majeures** 
 
 ---
 
 ## 🧪 VALIDATION COMPLÈTE (20 min)
 
-### ✅ TEST 1 : Pages d'Erreur (3 min)
+###  TEST 1 : Pages d'Erreur (3 min)
 
 **Objectif** : Vérifier que les pages d'erreur sont modernes et fonctionnelles
 
@@ -38,36 +38,36 @@
 👉 https://dev.infpf.fr/test/error/404
 ```
 **Attendu** :
-- ✅ Design moderne aux couleurs du site
-- ✅ Message clair : "Page non trouvée"
-- ✅ Boutons "Retour à l'accueil" + "Page précédente"
-- ✅ Formulaire de contact présent
-- ✅ Pas de page Symfony de debug !
+-  Design moderne aux couleurs du site
+-  Message clair : "Page non trouvée"
+-  Boutons "Retour à l'accueil" + "Page précédente"
+-  Formulaire de contact présent
+-  Pas de page Symfony de debug !
 
 #### 1.2 Page 500
 ```
 👉 https://dev.infpf.fr/test/error/500
 ```
 **Attendu** :
-- ✅ Design moderne rouge (erreur serveur)
-- ✅ Message : "Une erreur interne s'est produite"
-- ✅ Bouton "Actualiser" + "Retour à l'accueil"
-- ✅ Formulaire "Signaler cette erreur"
+-  Design moderne rouge (erreur serveur)
+-  Message : "Une erreur interne s'est produite"
+-  Bouton "Actualiser" + "Retour à l'accueil"
+-  Formulaire "Signaler cette erreur"
 
 #### 1.3 Page 403
 ```
 👉 https://dev.infpf.fr/test/error/403
 ```
 **Attendu** :
-- ✅ Design moderne orange/or (accès interdit)
-- ✅ Message : "Accès refusé"
-- ✅ Formulaire de demande d'accès
+-  Design moderne orange/or (accès interdit)
+-  Message : "Accès refusé"
+-  Formulaire de demande d'accès
 
-**✅ VALIDATION** : Cochez si les 3 pages s'affichent correctement
+** VALIDATION** : Cochez si les 3 pages s'affichent correctement
 
 ---
 
-### ✅ TEST 2 : Formulaires Pages d'Erreur (5 min)
+###  TEST 2 : Formulaires Pages d'Erreur (5 min)
 
 **Objectif** : Vérifier l'envoi d'email direct (sans mailto:)
 
@@ -81,19 +81,19 @@
    - Message : "Test validation JOUR 2"
 2. Cliquez "Envoyer le message"
 3. **Attendu** :
-   - ✅ Bouton affiche "Envoi en cours..."
-   - ✅ Après 1-2 sec : Message vert "✅ Votre message a été envoyé avec succès !"
-   - ✅ Formulaire se vide automatiquement
-   - ✅ **PAS de popup "not secure" !**
+   -  Bouton affiche "Envoi en cours..."
+   -  Après 1-2 sec : Message vert " Votre message a été envoyé avec succès !"
+   -  Formulaire se vide automatiquement
+   -  **PAS de popup "not secure" !**
 
 #### 2.2 Vérifier Email Reçu
 ```
 👉 Ouvrez votre boîte elyes@xeilos.fr
 ```
 **Attendu dans les 30 secondes** :
-- ✅ Email de : `noreply@infpf.fr`
-- ✅ Sujet : "🔴 Erreur 404 signalée sur INFPF"
-- ✅ Contenu HTML formaté avec :
+-  Email de : `noreply@infpf.fr`
+-  Sujet : " Erreur 404 signalée sur INFPF"
+-  Contenu HTML formaté avec :
   - Nom du visiteur
   - Email du visiteur
   - URL de l'erreur
@@ -106,13 +106,13 @@
 👉 Dans l'email reçu, cliquez "Répondre"
 ```
 **Attendu** :
-- ✅ Le destinataire est automatiquement l'email du visiteur (pas noreply@infpf.fr)
+-  Le destinataire est automatiquement l'email du visiteur (pas noreply@infpf.fr)
 
-**✅ VALIDATION** : Cochez si vous avez reçu l'email et le Reply-To fonctionne
+** VALIDATION** : Cochez si vous avez reçu l'email et le Reply-To fonctionne
 
 ---
 
-### ✅ TEST 3 : Sentry (Monitoring Erreurs) (3 min)
+###  TEST 3 : Sentry (Monitoring Erreurs) (3 min)
 
 **Objectif** : Vérifier que Sentry capture les erreurs
 
@@ -121,8 +121,8 @@
 👉 https://dev.infpf.fr/test-sentry.php
 ```
 **Attendu** :
-- ✅ Page affiche "✅ Erreur envoyée à Sentry !"
-- ✅ Message : "Test Sentry - Erreur volontaire générée le [date]"
+-  Page affiche " Erreur envoyée à Sentry !"
+-  Message : "Test Sentry - Erreur volontaire générée le [date]"
 
 #### 3.2 Vérifier dans Sentry
 ```
@@ -130,10 +130,10 @@
 ```
 1. Actualisez la page (F5)
 2. **Attendu** :
-   - ✅ L'erreur de test apparaît dans la liste
-   - ✅ Titre : "Test Sentry - Erreur volontaire générée le..."
-   - ✅ Environnement : `prod`
-   - ✅ Détails complets (stack trace, user agent, IP, etc.)
+   -  L'erreur de test apparaît dans la liste
+   -  Titre : "Test Sentry - Erreur volontaire générée le..."
+   -  Environnement : `prod`
+   -  Détails complets (stack trace, user agent, IP, etc.)
 
 #### 3.3 Nettoyer
 ```bash
@@ -141,11 +141,11 @@
 rm /home/u665392393/domains/infpf.fr/dev/public/test-sentry.php
 ```
 
-**✅ VALIDATION** : Cochez si l'erreur apparaît dans Sentry
+** VALIDATION** : Cochez si l'erreur apparaît dans Sentry
 
 ---
 
-### ✅ TEST 4 : Rate Limiting (Protection DDoS) (3 min)
+###  TEST 4 : Rate Limiting (Protection DDoS) (3 min)
 
 **Objectif** : Vérifier que le rate limiting bloque après 5 requêtes
 
@@ -191,11 +191,11 @@ HTTP/2 429  ← BLOQUÉ !
 X-RateLimit-Remaining: 0
 ```
 
-**✅ VALIDATION** : Cochez si la 6ème requête est bloquée (HTTP 429)
+** VALIDATION** : Cochez si la 6ème requête est bloquée (HTTP 429)
 
 ---
 
-### ✅ TEST 5 : Backup BDD (2 min)
+###  TEST 5 : Backup BDD (2 min)
 
 **Objectif** : Vérifier que le script de backup fonctionne
 
@@ -219,8 +219,8 @@ ls -lh /home/u665392393/backups/ | tail -5
 ```
 
 **Attendu** :
-- ✅ Un fichier `.sql.gz` avec la date du jour
-- ✅ Taille > 1 Mo (votre BDD compressée)
+-  Un fichier `.sql.gz` avec la date du jour
+-  Taille > 1 Mo (votre BDD compressée)
 
 #### 5.3 Vérifier les Logs
 ```bash
@@ -235,11 +235,11 @@ cat /home/u665392393/backups/backup.log | tail -5
 [2025-11-05 17:45:02] Size: 2621440 bytes (2.5M)
 ```
 
-**✅ VALIDATION** : Cochez si le backup est créé et le log OK
+** VALIDATION** : Cochez si le backup est créé et le log OK
 
 ---
 
-### ✅ TEST 6 : SSL/HTTPS Headers (1 min)
+###  TEST 6 : SSL/HTTPS Headers (1 min)
 
 **Objectif** : Vérifier les headers de sécurité HTTPS
 
@@ -260,11 +260,11 @@ x-content-type-options: nosniff
 x-xss-protection: 1; mode=block
 ```
 
-**✅ VALIDATION** : Cochez si tous les headers sont présents
+** VALIDATION** : Cochez si tous les headers sont présents
 
 ---
 
-### ✅ TEST 7 : Scan Vulnérabilités (1 min)
+###  TEST 7 : Scan Vulnérabilités (1 min)
 
 **Objectif** : Vérifier que Dependabot est actif
 
@@ -274,15 +274,15 @@ x-xss-protection: 1; mode=block
 ```
 
 **Attendu** :
-- ✅ Dependabot configuré
-- ✅ Configuration : `composer` + `weekly` updates
-- ✅ Aucune alerte critique (ou alertes listées)
+-  Dependabot configuré
+-  Configuration : `composer` + `weekly` updates
+-  Aucune alerte critique (ou alertes listées)
 
-**✅ VALIDATION** : Cochez si Dependabot est actif
+** VALIDATION** : Cochez si Dependabot est actif
 
 ---
 
-### ✅ TEST 8 : Tests PHPUnit (2 min)
+###  TEST 8 : Tests PHPUnit (2 min)
 
 **Objectif** : Vérifier que tous les tests passent
 
@@ -304,11 +304,11 @@ Time: XX.XX seconds, Memory: XX.XX MB
 OK (XX tests, XX assertions)
 ```
 
-**✅ VALIDATION** : Cochez si tous les tests passent (OK)
+** VALIDATION** : Cochez si tous les tests passent (OK)
 
 ---
 
-### ✅ TEST 9 : Logs Structurés (1 min)
+###  TEST 9 : Logs Structurés (1 min)
 
 **Objectif** : Vérifier que les logs JSON sont bien générés
 
@@ -329,11 +329,11 @@ tail -20 var/log/prod.log | head -5
 }
 ```
 
-**✅ VALIDATION** : Cochez si les logs sont en JSON
+** VALIDATION** : Cochez si les logs sont en JSON
 
 ---
 
-## 📊 CHECKLIST FINALE
+##  CHECKLIST FINALE
 
 Cochez au fur et à mesure :
 
@@ -384,23 +384,23 @@ Cochez au fur et à mesure :
 
 ---
 
-## 🎯 RÉSULTAT ATTENDU
+##  RÉSULTAT ATTENDU
 
-**Si tout est coché** : ✅ **JOUR 1 & 2 = 100% FONCTIONNELS !**
+**Si tout est coché** :  **JOUR 1 & 2 = 100% FONCTIONNELS !**
 
 Vous avez maintenant :
-- ✅ Un site **sécurisé** (Rate Limiting, SSL, Scan)
-- ✅ Un site **surveillé** (Sentry, Logs)
-- ✅ Un site **professionnel** (Pages d'erreur modernes)
-- ✅ Un site **sauvegardé** (Backups quotidiens)
-- ✅ Un site **testé** (PHPUnit 100%)
-- ✅ Un site **communicatif** (Formulaires email directs)
+-  Un site **sécurisé** (Rate Limiting, SSL, Scan)
+-  Un site **surveillé** (Sentry, Logs)
+-  Un site **professionnel** (Pages d'erreur modernes)
+-  Un site **sauvegardé** (Backups quotidiens)
+-  Un site **testé** (PHPUnit 100%)
+-  Un site **communicatif** (Formulaires email directs)
 
 ---
 
-## 🚀 PROCHAINE ÉTAPE : JOUR 3
+##  PROCHAINE ÉTAPE : JOUR 3
 
-Une fois que tout est validé ✅, on passe au **JOUR 3** :
+Une fois que tout est validé , on passe au **JOUR 3** :
 
 ### Tâches JOUR 3 (2-3 heures)
 1. **UptimeRobot** : Surveillance 24/7 du site

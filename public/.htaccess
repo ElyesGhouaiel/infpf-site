@@ -120,8 +120,8 @@ DirectoryIndex index.php
     Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://assets.calendly.com https://js.stripe.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; frame-src 'self' https://www.google.com https://calendly.com https://www.youtube.com; connect-src 'self' https://www.google.com https://www.gstatic.com https://api.stripe.com;"
     
     # HSTS (HTTP Strict Transport Security) - Force HTTPS pour 1 an
-    # ⚠️ À activer UNIQUEMENT si HTTPS est configuré sur tout le site
-    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    # ✅ ACTIVÉ - HTTPS configuré sur tout le site
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
 # ===== COMPRESSION GZIP/BROTLI =====

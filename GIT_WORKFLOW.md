@@ -1,6 +1,6 @@
-# 🔄 Git Workflow - Site INFPF
+#  Git Workflow - Site INFPF
 
-## 📊 Structure des Branches
+##  Structure des Branches
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -28,7 +28,7 @@
 └─────────────────────────────────────────────────────────┘
 ```
 
-## 🎯 Workflow Complet
+##  Workflow Complet
 
 ### 1. Créer une nouvelle fonctionnalité
 
@@ -100,7 +100,7 @@ git push origin --delete feature/nom-de-ma-feature
 ### 4. Déployer dev vers production (main)
 
 ```bash
-# ⚠️ IMPORTANT : dev ne disparaîtra JAMAIS lors du merge !
+#  IMPORTANT : dev ne disparaîtra JAMAIS lors du merge !
 # Le merge copie juste les changements de dev vers main
 
 # 1. Aller dans l'environnement de production
@@ -123,11 +123,11 @@ php bin/console cache:clear --env=prod
 
 # 7. Tester sur https://infpf.fr/
 
-# ✅ La branche dev existe toujours !
-# ✅ Le sous-domaine dev.infpf.fr fonctionne toujours !
+#  La branche dev existe toujours !
+#  Le sous-domaine dev.infpf.fr fonctionne toujours !
 ```
 
-## 🔄 Synchroniser dev avec main (si besoin)
+##  Synchroniser dev avec main (si besoin)
 
 Si vous avez fait un hotfix directement sur main et voulez le rapatrier dans dev :
 
@@ -139,7 +139,7 @@ git merge main -m "sync: récupération des changements de main"
 git push origin dev
 ```
 
-## 📝 Exemple Complet
+##  Exemple Complet
 
 ### Scénario : Ajouter un nouveau formulaire de newsletter
 
@@ -178,10 +178,10 @@ php bin/console cache:clear --env=prod
 # ÉTAPE 7 : Vérifier sur infpf.fr
 # → Formulaire visible et fonctionnel !
 
-# ✅ dev existe toujours et fonctionne sur dev.infpf.fr !
+#  dev existe toujours et fonctionne sur dev.infpf.fr !
 ```
 
-## ⚠️ Points Importants
+##  Points Importants
 
 ### La branche dev ne disparaît JAMAIS
 - `git merge dev` copie les changements de dev vers main
@@ -194,11 +194,11 @@ php bin/console cache:clear --env=prod
 - Vous pouvez continuer à développer sur dev après un merge vers main
 
 ### Bonnes pratiques
-- ✅ **Toujours** créer une feature branch depuis dev
-- ✅ **Toujours** tester sur dev avant de merger vers main
-- ✅ **Toujours** faire un merge (pas un rebase) pour garder l'historique
-- ✅ Nettoyer les feature branches après merge (optionnel)
-- ✅ Faire des commits réguliers avec des messages clairs
+-  **Toujours** créer une feature branch depuis dev
+-  **Toujours** tester sur dev avant de merger vers main
+-  **Toujours** faire un merge (pas un rebase) pour garder l'historique
+-  Nettoyer les feature branches après merge (optionnel)
+-  Faire des commits réguliers avec des messages clairs
 
 ### Messages de commit
 - `feat:` nouvelle fonctionnalité
@@ -208,7 +208,7 @@ php bin/console cache:clear --env=prod
 - `docs:` documentation
 - `deploy:` mise en production
 
-## 🛠️ Commandes Utiles
+## 🛠 Commandes Utiles
 
 ```bash
 # Voir toutes les branches
@@ -233,7 +233,7 @@ git reset --hard HEAD
 git branch backup/avant-merge-$(date +%Y%m%d)
 ```
 
-## 🚨 En cas de problème
+##  En cas de problème
 
 ### Si le merge vers main crée un conflit
 
@@ -264,7 +264,7 @@ git merge --abort
 ### Si vous avez mergé et pushé mais voulez revenir en arrière
 
 ```bash
-# ⚠️ ATTENTION : NE PAS FAIRE ça sur main en production sans backup !
+#  ATTENTION : NE PAS FAIRE ça sur main en production sans backup !
 # Contactez-moi avant de faire ça
 git revert -m 1 HEAD
 ```

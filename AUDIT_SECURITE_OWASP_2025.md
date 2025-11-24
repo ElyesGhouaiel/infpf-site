@@ -1,27 +1,27 @@
-# 🔐 Audit de Sécurité OWASP - INFPF (Novembre 2025)
+#  Audit de Sécurité OWASP - INFPF (Novembre 2025)
 
 Ce document détaille l'audit de sécurité complet du site INFPF basé sur le **OWASP Top 10 2021**.
 
 ---
 
-## 📋 Résumé Exécutif
+##  Résumé Exécutif
 
 | Critère | Status | Note |
 |---------|--------|------|
-| **OWASP Top 10** | ✅ **Conforme** | 10/10 |
-| **Security Headers** | ✅ **A+** | securityheaders.com |
-| **SSL/TLS** | ✅ **A+** | ssllabs.com |
-| **Vulnérabilités** | ✅ **0 Critique** | Dependabot actif |
-| **Rate Limiting** | ✅ **Actif** | Symfony Rate Limiter |
-| **RGPD** | ✅ **Conforme** | Cookie Banner + Politique |
+| **OWASP Top 10** |  **Conforme** | 10/10 |
+| **Security Headers** |  **A+** | securityheaders.com |
+| **SSL/TLS** |  **A+** | ssllabs.com |
+| **Vulnérabilités** |  **0 Critique** | Dependabot actif |
+| **Rate Limiting** |  **Actif** | Symfony Rate Limiter |
+| **RGPD** |  **Conforme** | Cookie Banner + Politique |
 
 **Conclusion** : Le site INFPF est **sécurisé** et **prêt pour la production**.
 
 ---
 
-## 🛡️ OWASP Top 10 (2021) - Analyse Détaillée
+## 🛡 OWASP Top 10 (2021) - Analyse Détaillée
 
-### ✅ A01:2021 – Broken Access Control (Contrôle d'Accès Défaillant)
+###  A01:2021 – Broken Access Control (Contrôle d'Accès Défaillant)
 
 **Risque** : Accès non autorisé à des ressources/données.
 
@@ -48,14 +48,14 @@ Ce document détaille l'audit de sécurité complet du site INFPF basé sur le *
 ```bash
 # Teste l'accès admin sans authentification
 curl -I https://dev.infpf.fr/admin
-# ✅ HTTP/2 302 (redirection vers login)
+#  HTTP/2 302 (redirection vers login)
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A02:2021 – Cryptographic Failures (Échecs Cryptographiques)
+###  A02:2021 – Cryptographic Failures (Échecs Cryptographiques)
 
 **Risque** : Données sensibles exposées (mots de passe, tokens).
 
@@ -91,18 +91,18 @@ curl -I https://dev.infpf.fr/admin
 ```bash
 # Vérifie HTTPS
 curl -I http://www.infpf.fr
-# ✅ HTTP/1.1 301 → https://www.infpf.fr
+#  HTTP/1.1 301 → https://www.infpf.fr
 
 # Vérifie HSTS
 curl -I https://www.infpf.fr | grep -i strict
-# ✅ strict-transport-security: max-age=31536000
+#  strict-transport-security: max-age=31536000
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A03:2021 – Injection (SQL, XSS, etc.)
+###  A03:2021 – Injection (SQL, XSS, etc.)
 
 **Risque** : Exécution de code malveillant via injection.
 
@@ -110,20 +110,20 @@ curl -I https://www.infpf.fr | grep -i strict
 
 1. **Doctrine ORM** (requêtes préparées automatiques) :
    ```php
-   // ✅ Requêtes sécurisées
+   //  Requêtes sécurisées
    $formationRepository->findOneBy(['slug' => $slug]);
    
-   // ✅ DQL avec paramètres
+   //  DQL avec paramètres
    $query = $em->createQuery('SELECT f FROM Formation f WHERE f.slug = :slug');
    $query->setParameter('slug', $slug);
    ```
 
 2. **Twig Auto-Escaping** :
    ```twig
-   {# ✅ Échappement automatique #}
+   {#  Échappement automatique #}
    <h1>{{ formation.titre }}</h1>
    
-   {# ⚠️ Pour désactiver (éviter) : #}
+   {#  Pour désactiver (éviter) : #}
    {{ content|raw }}  {# Uniquement pour HTML admin de confiance #}
    ```
 
@@ -144,18 +144,18 @@ curl -I https://www.infpf.fr | grep -i strict
 ```bash
 # Teste SQL Injection (Doctrine préparé)
 curl "https://dev.infpf.fr/formation/test' OR '1'='1"
-# ✅ 404 Not Found (pas d'injection)
+#  404 Not Found (pas d'injection)
 
 # Teste XSS (Twig escapé)
 curl "https://dev.infpf.fr/contact?name=<script>alert('XSS')</script>"
-# ✅ Affiche : &lt;script&gt;alert('XSS')&lt;/script&gt;
+#  Affiche : &lt;script&gt;alert('XSS')&lt;/script&gt;
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A04:2021 – Insecure Design (Conception Insécurisée)
+###  A04:2021 – Insecure Design (Conception Insécurisée)
 
 **Risque** : Failles de conception (manque de validation, logique métier défaillante).
 
@@ -195,14 +195,14 @@ curl "https://dev.infpf.fr/contact?name=<script>alert('XSS')</script>"
 ```bash
 # Teste Rate Limiting (6 requêtes rapides)
 for i in {1..6}; do curl -X POST https://dev.infpf.fr/contact; done
-# ✅ 6ème requête : HTTP/2 429 Too Many Requests
+#  6ème requête : HTTP/2 429 Too Many Requests
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A05:2021 – Security Misconfiguration (Mauvaise Configuration)
+###  A05:2021 – Security Misconfiguration (Mauvaise Configuration)
 
 **Risque** : Erreurs de configuration exposant des informations sensibles.
 
@@ -245,18 +245,18 @@ for i in {1..6}; do curl -X POST https://dev.infpf.fr/contact; done
 ```bash
 # Vérifie X-Powered-By
 curl -I https://dev.infpf.fr | grep -i "x-powered-by"
-# ✅ Pas de header (PHP caché)
+#  Pas de header (PHP caché)
 
 # Vérifie securityheaders.com
 # Va sur : https://securityheaders.com/?q=https://dev.infpf.fr
-# ✅ Score A+
+#  Score A+
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A06:2021 – Vulnerable and Outdated Components (Composants Vulnérables)
+###  A06:2021 – Vulnerable and Outdated Components (Composants Vulnérables)
 
 **Risque** : Utilisation de dépendances avec vulnérabilités connues.
 
@@ -287,17 +287,17 @@ curl -I https://dev.infpf.fr | grep -i "x-powered-by"
 ```bash
 # Vérifie les vulnérabilités
 composer audit
-# ✅ No known vulnerabilities found
+#  No known vulnerabilities found
 
 # Vérifie les dépendances obsolètes
 composer outdated --direct
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A07:2021 – Identification and Authentication Failures (Échecs d'Authentification)
+###  A07:2021 – Identification and Authentication Failures (Échecs d'Authentification)
 
 **Risque** : Authentification faible, sessions non sécurisées.
 
@@ -333,14 +333,14 @@ composer outdated --direct
 ```bash
 # Teste les cookies de session
 curl -I https://dev.infpf.fr/admin
-# ✅ Set-Cookie: PHPSESSID=...; secure; HttpOnly; SameSite=Strict
+#  Set-Cookie: PHPSESSID=...; secure; HttpOnly; SameSite=Strict
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A08:2021 – Software and Data Integrity Failures (Échecs d'Intégrité)
+###  A08:2021 – Software and Data Integrity Failures (Échecs d'Intégrité)
 
 **Risque** : Code/données modifiés par des tiers malveillants.
 
@@ -368,14 +368,14 @@ curl -I https://dev.infpf.fr/admin
 ```bash
 # Vérifie l'intégrité des dépendances
 composer validate --strict
-# ✅ ./composer.json is valid
+#  ./composer.json is valid
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A09:2021 – Security Logging and Monitoring Failures (Échecs de Journalisation)
+###  A09:2021 – Security Logging and Monitoring Failures (Échecs de Journalisation)
 
 **Risque** : Attaques non détectées faute de logs/monitoring.
 
@@ -414,14 +414,14 @@ composer validate --strict
 # Vérifie que Sentry capture les erreurs
 # Déclenche une erreur de test
 curl https://dev.infpf.fr/test-error/500
-# ✅ Erreur visible sur https://sentry.io
+#  Erreur visible sur https://sentry.io
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-### ✅ A10:2021 – Server-Side Request Forgery (SSRF)
+###  A10:2021 – Server-Side Request Forgery (SSRF)
 
 **Risque** : Serveur manipulé pour faire des requêtes malveillantes.
 
@@ -444,11 +444,11 @@ curl https://dev.infpf.fr/test-error/500
 # Pas de endpoints susceptibles de SSRF identifiés
 ```
 
-**Status** : ✅ **Conforme**
+**Status** :  **Conforme**
 
 ---
 
-## 🔍 Tests de Sécurité Supplémentaires
+##  Tests de Sécurité Supplémentaires
 
 ### 1. Headers HTTP
 
@@ -458,16 +458,16 @@ curl -I https://dev.infpf.fr
 
 **Résultat attendu** :
 ```
-✅ strict-transport-security: max-age=31536000; includeSubDomains; preload
-✅ x-content-type-options: nosniff
-✅ x-frame-options: SAMEORIGIN
-✅ x-xss-protection: 1; mode=block
-✅ referrer-policy: strict-origin-when-cross-origin
-✅ permissions-policy: geolocation=(), microphone=(), camera=()
-✅ content-security-policy: default-src 'self'; ...
+ strict-transport-security: max-age=31536000; includeSubDomains; preload
+ x-content-type-options: nosniff
+ x-frame-options: SAMEORIGIN
+ x-xss-protection: 1; mode=block
+ referrer-policy: strict-origin-when-cross-origin
+ permissions-policy: geolocation=(), microphone=(), camera=()
+ content-security-policy: default-src 'self'; ...
 ```
 
-**Score** : https://securityheaders.com → ✅ **A+**
+**Score** : https://securityheaders.com →  **A+**
 
 ---
 
@@ -479,10 +479,10 @@ curl -I https://dev.infpf.fr
 ```
 
 **Résultat attendu** :
-- ✅ **A+**
-- ✅ TLS 1.2/1.3 uniquement
-- ✅ Forward Secrecy
-- ✅ HSTS activé
+-  **A+**
+-  TLS 1.2/1.3 uniquement
+-  Forward Secrecy
+-  HSTS activé
 
 ---
 
@@ -494,7 +494,7 @@ composer audit
 
 **Résultat** :
 ```
-✅ No known vulnerabilities found.
+ No known vulnerabilities found.
 ```
 
 ---
@@ -507,7 +507,7 @@ composer audit
 curl "https://dev.infpf.fr/formation/test' OR '1'='1--"
 ```
 
-✅ **404 Not Found** (Doctrine préparé)
+ **404 Not Found** (Doctrine préparé)
 
 #### 4.2 Test XSS
 
@@ -515,7 +515,7 @@ curl "https://dev.infpf.fr/formation/test' OR '1'='1--"
 curl "https://dev.infpf.fr/contact?name=<script>alert('XSS')</script>"
 ```
 
-✅ **Échappé automatiquement** (Twig)
+ **Échappé automatiquement** (Twig)
 
 #### 4.3 Test CSRF
 
@@ -524,7 +524,7 @@ curl -X POST https://dev.infpf.fr/contact \
   -d "contact_form[name]=Test"
 ```
 
-✅ **Invalid CSRF token** (Symfony Security)
+ **Invalid CSRF token** (Symfony Security)
 
 #### 4.4 Test Rate Limiting
 
@@ -532,33 +532,33 @@ curl -X POST https://dev.infpf.fr/contact \
 for i in {1..10}; do curl -X POST https://dev.infpf.fr/contact; done
 ```
 
-✅ **HTTP/2 429** après 5 requêtes
+ **HTTP/2 429** après 5 requêtes
 
 ---
 
-## 📊 Récapitulatif des Protections
+##  Récapitulatif des Protections
 
 | Protection | Status | Détails |
 |-----------|--------|---------|
-| **HTTPS** | ✅ | Forcé + HSTS 1 an |
-| **Security Headers** | ✅ | A+ (securityheaders.com) |
-| **SSL/TLS** | ✅ | A+ (ssllabs.com) |
-| **SQL Injection** | ✅ | Doctrine ORM (requêtes préparées) |
-| **XSS** | ✅ | Twig auto-escaping + CSP |
-| **CSRF** | ✅ | Symfony Security (tokens automatiques) |
-| **Rate Limiting** | ✅ | Symfony Rate Limiter (5 req/15min) |
-| **reCAPTCHA v3** | ✅ | Anti-bot sur formulaires |
-| **Validation Input** | ✅ | Symfony Validator |
-| **Authentification** | ✅ | Symfony Security + Argon2 |
-| **Sessions Sécurisées** | ✅ | httpOnly, secure, SameSite |
-| **Logs & Monitoring** | ✅ | Monolog + Sentry + UptimeRobot |
-| **Backups** | ✅ | Quotidiens automatisés |
-| **Dépendances** | ✅ | Dependabot + `composer audit` |
-| **RGPD** | ✅ | Cookie Banner + Politique |
+| **HTTPS** |  | Forcé + HSTS 1 an |
+| **Security Headers** |  | A+ (securityheaders.com) |
+| **SSL/TLS** |  | A+ (ssllabs.com) |
+| **SQL Injection** |  | Doctrine ORM (requêtes préparées) |
+| **XSS** |  | Twig auto-escaping + CSP |
+| **CSRF** |  | Symfony Security (tokens automatiques) |
+| **Rate Limiting** |  | Symfony Rate Limiter (5 req/15min) |
+| **reCAPTCHA v3** |  | Anti-bot sur formulaires |
+| **Validation Input** |  | Symfony Validator |
+| **Authentification** |  | Symfony Security + Argon2 |
+| **Sessions Sécurisées** |  | httpOnly, secure, SameSite |
+| **Logs & Monitoring** |  | Monolog + Sentry + UptimeRobot |
+| **Backups** |  | Quotidiens automatisés |
+| **Dépendances** |  | Dependabot + `composer audit` |
+| **RGPD** |  | Cookie Banner + Politique |
 
 ---
 
-## 🚨 Recommandations (Post-Déploiement)
+##  Recommandations (Post-Déploiement)
 
 ### Court Terme (1-2 semaines)
 
@@ -583,16 +583,16 @@ for i in {1..10}; do curl -X POST https://dev.infpf.fr/contact; done
 
 ---
 
-## ✅ Conclusion
+##  Conclusion
 
 Le site INFPF a été audité selon les standards **OWASP Top 10 2021** et est **conforme** sur tous les critères.
 
 ### Score Global
 
-- **OWASP Top 10** : ✅ **10/10**
-- **Security Headers** : ✅ **A+**
-- **SSL/TLS** : ✅ **A+**
-- **Vulnérabilités** : ✅ **0 Critique**
+- **OWASP Top 10** :  **10/10**
+- **Security Headers** :  **A+**
+- **SSL/TLS** :  **A+**
+- **Vulnérabilités** :  **0 Critique**
 
 **Le site est prêt pour la production** et répond aux exigences de sécurité modernes.
 

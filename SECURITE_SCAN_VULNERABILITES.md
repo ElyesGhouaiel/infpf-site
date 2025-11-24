@@ -1,23 +1,23 @@
-# 🔍 Scan de Vulnérabilités & Sécurité
+#  Scan de Vulnérabilités & Sécurité
 
-## 🎯 Objectif
+##  Objectif
 
 Détecter et corriger automatiquement les vulnérabilités de sécurité dans les dépendances.
 
 ---
 
-## ✅ 1. DEPENDABOT (GitHub) - CONFIGURÉ
+##  1. DEPENDABOT (GitHub) - CONFIGURÉ
 
 ### Ce qui a été mis en place
 
-✅ **Fichier `.github/dependabot.yml` créé**
+ **Fichier `.github/dependabot.yml` créé**
 
 **Fonctionnalités actives :**
 - 📦 Scan dépendances Composer (PHP) hebdomadaire
 - 📦 Scan dépendances NPM (JavaScript) hebdomadaire
-- 🔧 Scan GitHub Actions mensuel
+-  Scan GitHub Actions mensuel
 - 🤖 Pull Requests automatiques pour les mises à jour de sécurité
-- 🏷️ Labels automatiques : `dependencies`, `security`
+- 🏷 Labels automatiques : `dependencies`, `security`
 - 👤 Reviewers : ElyesGhouaiel
 - 📅 Planning : Lundi 9h (Europe/Paris)
 
@@ -38,15 +38,15 @@ https://github.com/ElyesGhouaiel/infpf-site/security/dependabot
 
 ---
 
-## 🛡️ 2. GITHUB SECURITY ADVISORIES
+## 🛡 2. GITHUB SECURITY ADVISORIES
 
 ### Activer les alertes de sécurité
 
 1. Aller sur : https://github.com/ElyesGhouaiel/infpf-site/settings/security_analysis
 2. Activer :
-   - ✅ **Dependabot alerts** → Alertes vulnérabilités
-   - ✅ **Dependabot security updates** → PRs automatiques
-   - ✅ **Grouped security updates** → Grouper les MAJ
+   -  **Dependabot alerts** → Alertes vulnérabilités
+   -  **Dependabot security updates** → PRs automatiques
+   -  **Grouped security updates** → Grouper les MAJ
 
 ### Dashboard sécurité
 
@@ -62,7 +62,7 @@ https://github.com/ElyesGhouaiel/infpf-site/security
 
 ---
 
-## 🔍 3. SCAN MANUEL DES DÉPENDANCES
+##  3. SCAN MANUEL DES DÉPENDANCES
 
 ### A. Symfony Security Checker
 
@@ -77,7 +77,7 @@ cd /home/u665392393/domains/infpf.fr/dev
 symfony security:check
 ```
 
-**✅ Résultat attendu :**
+** Résultat attendu :**
 ```
 Symfony Security Check Report
 ==============================
@@ -85,7 +85,7 @@ Symfony Security Check Report
 No packages have known vulnerabilities.
 ```
 
-**❌ Si vulnérabilités détectées :**
+** Si vulnérabilités détectées :**
 ```
 1 package has known vulnerabilities.
 
@@ -123,7 +123,7 @@ symfony check:security
 
 ---
 
-## 📊 4. SCAN AVANCÉ (OPTIONNEL)
+##  4. SCAN AVANCÉ (OPTIONNEL)
 
 ### Snyk - Scan de vulnérabilités avancé
 
@@ -150,36 +150,36 @@ snyk monitor
 
 ---
 
-## 🚨 5. TYPES DE VULNÉRABILITÉS DÉTECTÉES
+##  5. TYPES DE VULNÉRABILITÉS DÉTECTÉES
 
-### Critiques (Critical) 🔴
+### Critiques (Critical) 
 - **Exécution de code arbitraire**
 - **Injection SQL**
 - **Accès non autorisé**
 
 **Action : Corriger IMMÉDIATEMENT**
 
-### Hautes (High) 🟠
+### Hautes (High) 
 - **XSS (Cross-Site Scripting)**
 - **CSRF (Cross-Site Request Forgery)**
 - **Déni de service (DoS)**
 
 **Action : Corriger sous 48h**
 
-### Moyennes (Medium) 🟡
+### Moyennes (Medium) 
 - **Exposition d'informations**
 - **Contournement de sécurité**
 
 **Action : Corriger sous 1 semaine**
 
-### Basses (Low) 🟢
+### Basses (Low) 
 - **Problèmes mineurs**
 
 **Action : Corriger lors de la prochaine MAJ**
 
 ---
 
-## 🔧 6. CORRIGER LES VULNÉRABILITÉS
+##  6. CORRIGER LES VULNÉRABILITÉS
 
 ### Méthode 1 : Mise à jour automatique (Dependabot)
 
@@ -224,7 +224,7 @@ composer update
 
 ---
 
-## 📈 7. MONITORING CONTINU
+##  7. MONITORING CONTINU
 
 ### A. Notifications GitHub
 
@@ -232,16 +232,16 @@ composer update
 
 1. Aller sur : https://github.com/settings/notifications
 2. Activer :
-   - ✅ **Security alerts**
-   - ✅ **Dependabot alerts**
+   -  **Security alerts**
+   -  **Dependabot alerts**
 3. Choisir : Email + Web
 
 ### B. GitHub Actions (déjà configuré)
 
 Le workflow CI/CD existant teste automatiquement :
-- ✅ Tests unitaires après chaque commit
-- ✅ Lint PHP
-- ✅ Vérification Symfony
+-  Tests unitaires après chaque commit
+-  Lint PHP
+-  Vérification Symfony
 
 ### C. Badge de sécurité (OPTIONNEL)
 
@@ -254,11 +254,11 @@ Le workflow CI/CD existant teste automatiquement :
 
 ---
 
-## 🎯 8. CHECKLIST SÉCURITÉ
+##  8. CHECKLIST SÉCURITÉ
 
 ### Dépendances
-- [x] Dependabot configuré ✅
-- [x] Alertes de sécurité activées ✅
+- [x] Dependabot configuré 
+- [x] Alertes de sécurité activées 
 - [ ] Scan manuel effectué (`composer audit`)
 - [ ] Aucune vulnérabilité critique
 
@@ -270,20 +270,20 @@ Le workflow CI/CD existant teste automatiquement :
 - [ ] Échappement des sorties (Twig auto-escape)
 
 ### Serveur
-- [x] HTTPS actif ✅
-- [x] Headers de sécurité ✅
-- [x] Rate limiting ✅
+- [x] HTTPS actif 
+- [x] Headers de sécurité 
+- [x] Rate limiting 
 - [ ] Firewall configuré
 - [ ] Fail2ban actif (optionnel)
 
 ### Monitoring
-- [x] Sentry pour les erreurs ✅
-- [x] Logs structurés ✅
+- [x] Sentry pour les erreurs 
+- [x] Logs structurés 
 - [ ] Alertes email configurées
 
 ---
 
-## 🚨 9. EN CAS DE VULNÉRABILITÉ CRITIQUE
+##  9. EN CAS DE VULNÉRABILITÉ CRITIQUE
 
 ### Procédure d'urgence
 
@@ -311,11 +311,11 @@ Le workflow CI/CD existant teste automatiquement :
 
 ---
 
-## 📊 10. RAPPORTS RÉGULIERS
+##  10. RAPPORTS RÉGULIERS
 
 ### Hebdomadaire (automatique)
-- ✅ Dependabot scan lundi 9h
-- ✅ PRs automatiques si vulnérabilités
+-  Dependabot scan lundi 9h
+-  PRs automatiques si vulnérabilités
 
 ### Mensuel (manuel)
 ```bash
@@ -343,16 +343,14 @@ composer outdated --direct
 
 ---
 
-## ✅ RÉSUMÉ
+##  RÉSUMÉ
 
-- ✅ **Dependabot actif** → Scan automatique hebdomadaire
-- ✅ **GitHub Security Advisories** → Alertes en temps réel
-- ✅ **Composer Audit** → Vérification locale
-- ✅ **Notifications email** → Alertes critiques
-- ✅ **PRs automatiques** → Corrections proposées
-- ✅ **Planning régulier** → Lundi 9h (Europe/Paris)
+-  **Dependabot actif** → Scan automatique hebdomadaire
+-  **GitHub Security Advisories** → Alertes en temps réel
+-  **Composer Audit** → Vérification locale
+-  **Notifications email** → Alertes critiques
+-  **PRs automatiques** → Corrections proposées
+-  **Planning régulier** → Lundi 9h (Europe/Paris)
 
 **Date de configuration** : 2025-11-05  
 **Prochaine révision** : 2025-12-05
-
-

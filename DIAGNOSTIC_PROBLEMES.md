@@ -1,10 +1,10 @@
-# 🔍 Diagnostic des Problèmes Actuels
+#  Diagnostic des Problèmes Actuels
 
 Date : 5 novembre 2025
 
-## ⚠️ Problèmes Identifiés
+##  Problèmes Identifiés
 
-### 1. ❌ Page d'Erreur Symfony Encore Visible
+### 1.  Page d'Erreur Symfony Encore Visible
 
 **Symptôme** : La page d'erreur par défaut de Symfony s'affiche toujours au lieu des pages personnalisées
 
@@ -36,7 +36,7 @@ php bin/console cache:clear --env=prod
 
 ---
 
-### 2. ⏳ Sentry "Waiting for events..."
+### 2.  Sentry "Waiting for events..."
 
 **Symptôme** : Sentry affiche "Waiting for events..." sans erreurs capturées
 
@@ -56,7 +56,7 @@ php bin/console cache:clear --env=prod
 
 ---
 
-### 3. ❌ Rate Limiting Ne Fonctionne Pas
+### 3.  Rate Limiting Ne Fonctionne Pas
 
 **Symptôme** : 
 - Toutes les requêtes passent (HTTP 200)
@@ -67,7 +67,7 @@ php bin/console cache:clear --env=prod
 Le code actuel essaie d'ajouter les headers dans le `RequestEvent`, mais la réponse n'existe pas encore à ce moment.
 
 ```php
-// ❌ PROBLÈME dans RateLimitListener.php
+//  PROBLÈME dans RateLimitListener.php
 $response = $event->getResponse(); // NULL pendant RequestEvent
 if ($response) {
     // Ce code ne s'exécute JAMAIS
@@ -76,11 +76,11 @@ if ($response) {
 
 **Solution** : Utiliser un `ResponseEvent` pour ajouter les headers
 
-**Statut** : 🔧 À corriger (voir ci-dessous)
+**Statut** :  À corriger (voir ci-dessous)
 
 ---
 
-### 4. ❌ Script de Backup Introuvable
+### 4.  Script de Backup Introuvable
 
 **Symptôme** :
 ```bash
@@ -104,7 +104,7 @@ chmod +x bin/backup-database.sh
 
 ---
 
-### 5. ⚠️ Crontab Introuvable
+### 5.  Crontab Introuvable
 
 **Symptôme** :
 ```bash
@@ -127,18 +127,18 @@ bash: crontab: command not found
 
 ---
 
-## ✅ Ce Qui Fonctionne
+##  Ce Qui Fonctionne
 
-1. ✅ **Dépendabot** : Configuré et actif
-2. ✅ **Sentry** : Installé et configuré (attend juste des événements)
-3. ✅ **Monolog** : Logs structurés JSON en place
-4. ✅ **Tests** : 100% passent (skips documentés)
-5. ✅ **SSL/HTTPS** : HSTS activé
-6. ✅ **Templates d'erreur** : Créés (attendent mode prod)
+1.  **Dépendabot** : Configuré et actif
+2.  **Sentry** : Installé et configuré (attend juste des événements)
+3.  **Monolog** : Logs structurés JSON en place
+4.  **Tests** : 100% passent (skips documentés)
+5.  **SSL/HTTPS** : HSTS activé
+6.  **Templates d'erreur** : Créés (attendent mode prod)
 
 ---
 
-## 🔧 Corrections Nécessaires
+##  Corrections Nécessaires
 
 ### Priorité 1 : Fix Rate Limiting
 
@@ -158,7 +158,7 @@ Documenter comment déployer correctement sur le serveur de production.
 
 ---
 
-## 📋 Checklist de Validation Complète
+##  Checklist de Validation Complète
 
 - [ ] Mode production activé (`APP_ENV=prod`)
 - [ ] Page 404 personnalisée visible
@@ -171,7 +171,7 @@ Documenter comment déployer correctement sur le serveur de production.
 
 ---
 
-## 🚀 Prochaines Étapes
+##  Prochaines Étapes
 
 1. **Corriger le Rate Limiting** (15 min)
 2. **Créer test-sentry.php** (5 min)
@@ -184,5 +184,3 @@ Documenter comment déployer correctement sur le serveur de production.
 Ensuite, nous pourrons passer au **JOUR 3** avec :
 - Monitoring uptime (UptimeRobot)
 - Google Analytics / Matomo
-
-

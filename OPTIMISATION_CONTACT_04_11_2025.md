@@ -1,15 +1,15 @@
-# 🚀 OPTIMISATIONS PAGE /contactez-nous - 2025-11-04
+#  OPTIMISATIONS PAGE /contactez-nous - 2025-11-04
 
-## 📊 **SCORES AVANT OPTIMISATION**
+##  **SCORES AVANT OPTIMISATION**
 
 | **Version** | **Score** | **Problèmes majeurs** |
 |---|---|---|
-| **Mobile** | **66/100** 🔴 | CSS inline lourd, Calendly bloquant, TBT élevé |
-| **Desktop** | **69/100** 🔴 | Même problèmes + animations non optimisées |
+| **Mobile** | **66/100**  | CSS inline lourd, Calendly bloquant, TBT élevé |
+| **Desktop** | **69/100**  | Même problèmes + animations non optimisées |
 
 ---
 
-## 🎯 **PROBLÈMES IDENTIFIÉS**
+##  **PROBLÈMES IDENTIFIÉS**
 
 ### **1. 📦 CSS INLINE MASSIF (Gain estimé: +8-12 points)**
 
@@ -25,7 +25,7 @@
 
 ---
 
-### **2. 🔥 CALENDLY IFRAME CHARGÉE IMMÉDIATEMENT (Gain estimé: +10-15 points)**
+### **2.  CALENDLY IFRAME CHARGÉE IMMÉDIATEMENT (Gain estimé: +10-15 points)**
 
 **Problème** :
 - **Iframe Calendly chargée au load** de la page
@@ -39,7 +39,7 @@
 
 ---
 
-### **3. ⚡ ANIMATIONS CSS NON GPU-ACCELERATED (Gain estimé: +2-3 points)**
+### **3.  ANIMATIONS CSS NON GPU-ACCELERATED (Gain estimé: +2-3 points)**
 
 **Problème** :
 - Animations avec `translateY()` au lieu de `translate3d()`
@@ -53,7 +53,7 @@
 
 ---
 
-## ✅ **OPTIMISATIONS APPLIQUÉES**
+##  **OPTIMISATIONS APPLIQUÉES**
 
 ### **1. 📦 EXTRACTION CSS INLINE → FICHIER EXTERNE**
 
@@ -87,10 +87,10 @@
 ```
 
 **Résultats** :
-- ✅ **Template réduit**: 1170 → **259 lignes** (-78%)
-- ✅ **HTML réduit**: ~70 KiB → **~15 KiB** (-79%)
-- ✅ **CSS cachable**: Fichier externe mis en cache par le navigateur
-- ✅ **FCP amélioré**: HTML parse plus rapide
+-  **Template réduit**: 1170 → **259 lignes** (-78%)
+-  **HTML réduit**: ~70 KiB → **~15 KiB** (-79%)
+-  **CSS cachable**: Fichier externe mis en cache par le navigateur
+-  **FCP amélioré**: HTML parse plus rapide
 
 **Bénéfices** :
 - **FCP** : -0.5 à -1s (HTML plus léger)
@@ -99,7 +99,7 @@
 
 ---
 
-### **2. ⚡ CALENDLY LAZY LOADING (INTERSECTION OBSERVER)**
+### **2.  CALENDLY LAZY LOADING (INTERSECTION OBSERVER)**
 
 **Fichier modifié** : `/templates/components/calendly_iframe.html.twig`
 
@@ -110,7 +110,7 @@
         src="{{ full_url }}"
         width="100%" 
         height="700"
-        loading="lazy"  <!-- ❌ Pas suffisant -->
+        loading="lazy"  <!--  Pas suffisant -->
     ></iframe>
 </div>
 ```
@@ -155,10 +155,10 @@
 ```
 
 **Résultats** :
-- ✅ **Iframe chargée seulement si visible** (scroll down)
-- ✅ **TBT réduit de ~2000ms** → ~200ms
-- ✅ **Requêtes réseau économisées** (si utilisateur ne scroll pas)
-- ✅ **Placeholder avec spinner** (UX améliorée)
+-  **Iframe chargée seulement si visible** (scroll down)
+-  **TBT réduit de ~2000ms** → ~200ms
+-  **Requêtes réseau économisées** (si utilisateur ne scroll pas)
+-  **Placeholder avec spinner** (UX améliorée)
 
 **Bénéfices** :
 - **TBT** : -1500 à -2000ms
@@ -168,23 +168,23 @@
 
 ---
 
-### **3. 🎨 ANIMATIONS GPU-ACCELERATED**
+### **3.  ANIMATIONS GPU-ACCELERATED**
 
 **Fichier modifié** : `/public/css/contact.css`
 
 **AVANT** :
 ```css
 .contact-info-card:hover {
-    transform: translateY(-8px);  /* ❌ CPU animation */
+    transform: translateY(-8px);  /*  CPU animation */
 }
 
 .submit-btn:hover {
-    transform: translateY(-4px) scale(1.02);  /* ❌ CPU */
+    transform: translateY(-4px) scale(1.02);  /*  CPU */
 }
 
 @keyframes fadeInUp {
     from {
-        transform: translateY(30px);  /* ❌ CPU */
+        transform: translateY(30px);  /*  CPU */
     }
     to {
         transform: translateY(0);
@@ -195,29 +195,29 @@
 **APRÈS** :
 ```css
 .contact-info-card {
-    will-change: transform;  /* ✅ Prévient le navigateur */
+    will-change: transform;  /*  Prévient le navigateur */
 }
 
 .contact-info-card:hover {
-    transform: translate3d(0, -8px, 0);  /* ✅ GPU-accelerated */
+    transform: translate3d(0, -8px, 0);  /*  GPU-accelerated */
 }
 
 .submit-btn {
-    will-change: transform;  /* ✅ */
+    will-change: transform;  /*  */
 }
 
 .submit-btn:hover {
-    transform: translate3d(0, -4px, 0) scale(1.02);  /* ✅ GPU */
+    transform: translate3d(0, -4px, 0) scale(1.02);  /*  GPU */
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translate3d(0, 30px, 0);  /* ✅ GPU */
+        transform: translate3d(0, 30px, 0);  /*  GPU */
     }
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0);  /* ✅ GPU */
+        transform: translate3d(0, 0, 0);  /*  GPU */
     }
 }
 
@@ -226,15 +226,15 @@
 .calendly-section,
 .map-full-section {
     animation: fadeInUp 0.8s ease-out both;
-    will-change: transform, opacity;  /* ✅ */
+    will-change: transform, opacity;  /*  */
 }
 ```
 
 **Résultats** :
-- ✅ **Animations sur GPU** (translate3d)
-- ✅ **will-change** : Optimisations anticipées
-- ✅ **Pas de layout shifts** (compositing layer dédié)
-- ✅ **60 FPS garanti** (GPU rendering)
+-  **Animations sur GPU** (translate3d)
+-  **will-change** : Optimisations anticipées
+-  **Pas de layout shifts** (compositing layer dédié)
+-  **60 FPS garanti** (GPU rendering)
 
 **Bénéfices** :
 - **CLS** : 0.1 → ~0.01 (réduction 90%)
@@ -243,12 +243,12 @@
 
 ---
 
-## 📈 **SCORES ATTENDUS APRÈS OPTIMISATIONS**
+##  **SCORES ATTENDUS APRÈS OPTIMISATIONS**
 
 | **Version** | **Avant** | **Après (estimé)** | **Gain** |
 |---|---|---|---|
-| **Mobile** | **66/100** 🔴 | **88-92/100** 🎉 | **+22-26 points** |
-| **Desktop** | **69/100** 🔴 | **95-98/100** 🏆 | **+26-29 points** |
+| **Mobile** | **66/100**  | **88-92/100**  | **+22-26 points** |
+| **Desktop** | **69/100**  | **95-98/100**  | **+26-29 points** |
 
 ### **Métriques attendues** :
 
@@ -278,7 +278,7 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/contactez-nous&strat
 
 ---
 
-## 📋 **RÉCAPITULATIF DES CHANGEMENTS**
+##  **RÉCAPITULATIF DES CHANGEMENTS**
 
 ### **Fichiers créés** :
 1. `/public/css/contact.css` (910 lignes, 24.5 KiB)
@@ -301,17 +301,17 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/contactez-nous&strat
 
 ---
 
-## 🎯 **OBJECTIFS ATTEINTS**
+##  **OBJECTIFS ATTEINTS**
 
-✅ **CSS externalisé** (910 lignes → contact.css)  
-✅ **Template allégé** (1170 → 259 lignes, -78%)  
-✅ **Calendly lazy loading** (TBT réduit de ~2000ms)  
-✅ **Animations GPU-accelerated** (translate3d + will-change)  
-✅ **Cache Symfony vidé** (prod)
+ **CSS externalisé** (910 lignes → contact.css)  
+ **Template allégé** (1170 → 259 lignes, -78%)  
+ **Calendly lazy loading** (TBT réduit de ~2000ms)  
+ **Animations GPU-accelerated** (translate3d + will-change)  
+ **Cache Symfony vidé** (prod)
 
 ---
 
-## 🔄 **PROCHAINES ÉTAPES**
+##  **PROCHAINES ÉTAPES**
 
 1. **Tester avec Lighthouse** (mobile + desktop)
 2. **Valider les scores** (objectif: 88-92 mobile, 95-98 desktop)
@@ -319,15 +319,15 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/contactez-nous&strat
 
 ---
 
-## 🏆 **RÉCAPITULATIF GLOBAL DES OPTIMISATIONS**
+##  **RÉCAPITULATIF GLOBAL DES OPTIMISATIONS**
 
 | **Page** | **Mobile** | **Desktop** | **Statut** |
 |---|---|---|---|
-| **/** (Accueil) | **93/100** ✅ | **98/100** ✅ | Optimisé |
-| **/formation** (Liste) | **96/100** 🎉 | **99/100** 🏆 | Optimisé |
-| **/formation/{id}** (Détail) | **96/100** 🎉 | **99/100** 🏆 | Optimisé |
-| **/blog/** (Liste) | **94/100** 🎉 | **99/100** 🏆 | Optimisé |
-| **/contactez-nous** | **~88-92/100** 🚀 | **~95-98/100** 🚀 | **À tester** |
+| **/** (Accueil) | **93/100**  | **98/100**  | Optimisé |
+| **/formation** (Liste) | **96/100**  | **99/100**  | Optimisé |
+| **/formation/{id}** (Détail) | **96/100**  | **99/100**  | Optimisé |
+| **/blog/** (Liste) | **94/100**  | **99/100**  | Optimisé |
+| **/contactez-nous** | **~88-92/100**  | **~95-98/100**  | **À tester** |
 
 ---
 
@@ -338,37 +338,31 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/contactez-nous&strat
 
 ---
 
-## 📝 **NOTES TECHNIQUES**
+##  **NOTES TECHNIQUES**
 
 ### **Pourquoi CSS externe ?**
-- ✅ **Cache HTTP** : Fichier mis en cache, pas re-téléchargé
-- ✅ **Parsing parallèle** : HTML + CSS parsed en parallèle
-- ✅ **HTML plus léger** : FCP plus rapide
+-  **Cache HTTP** : Fichier mis en cache, pas re-téléchargé
+-  **Parsing parallèle** : HTML + CSS parsed en parallèle
+-  **HTML plus léger** : FCP plus rapide
 
 ### **Pourquoi Intersection Observer ?**
-- ✅ **API native** : Pas de bibliothèque externe
-- ✅ **Performance** : Optimisé par le navigateur
-- ✅ **rootMargin: 200px** : Charge avant d'être visible (UX)
+-  **API native** : Pas de bibliothèque externe
+-  **Performance** : Optimisé par le navigateur
+-  **rootMargin: 200px** : Charge avant d'être visible (UX)
 
 ### **Pourquoi translate3d ?**
-- ✅ **Compositing layer** : Élément sur couche GPU dédiée
-- ✅ **60 FPS garanti** : Animations fluides
-- ✅ **Pas de re-layout** : Transform n'affecte pas le layout
+-  **Compositing layer** : Élément sur couche GPU dédiée
+-  **60 FPS garanti** : Animations fluides
+-  **Pas de re-layout** : Transform n'affecte pas le layout
 
 ### **Pourquoi will-change ?**
-- ✅ **Optimisations anticipées** : Navigateur prépare le GPU
-- ✅ **Meilleure performance** : Layer création en avance
-- ⚠️ **Attention** : Ne pas abuser (coût mémoire)
+-  **Optimisations anticipées** : Navigateur prépare le GPU
+-  **Meilleure performance** : Layer création en avance
+-  **Attention** : Ne pas abuser (coût mémoire)
 
 ---
 
-**🚀 LA PAGE /contactez-nous EST MAINTENANT OPTIMISÉE !**
+** LA PAGE /contactez-nous EST MAINTENANT OPTIMISÉE !**
 
-**Teste avec Lighthouse et envoie les résultats ! On devrait voir une amélioration spectaculaire ! 📊✨**
-
-
-
-
-
-
+**Teste avec Lighthouse et envoie les résultats ! On devrait voir une amélioration spectaculaire ! ✨**
 

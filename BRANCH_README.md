@@ -1,22 +1,22 @@
-# 🚀 Branche : feature/performance-security-seo-optimization
+#  Branche : feature/performance-security-seo-optimization
 
-## 📌 Objectif de cette branche
+##  Objectif de cette branche
 
 Cette branche est dédiée à l'**optimisation complète** du site INFPF sur tous les axes critiques :
 
-- 🚀 **Performance** : Vitesse ultra-rapide (Lighthouse ≥ 90)
+-  **Performance** : Vitesse ultra-rapide (Lighthouse ≥ 90)
 - ♿ **Accessibilité** : Conformité WCAG 2.1 AA (≥ 95)
 - 🔒 **Sécurité** : Niveau enterprise (A+ partout)
-- 🔍 **SEO** : Référencement optimal (Score 100)
-- ✅ **Bonnes pratiques** : Code propre et maintenable
-- ⚙️ **CI/CD** : Pipeline GitHub Actions automatisé
+-  **SEO** : Référencement optimal (Score 100)
+-  **Bonnes pratiques** : Code propre et maintenable
+- ⚙ **CI/CD** : Pipeline GitHub Actions automatisé
 
 ## 📁 Fichiers clés de cette branche
 
 - **PROMPT_PERFORMANCE_SECURITY.md** : Prompt complet pour nouvelle session avec tout le contexte
 - **BRANCH_README.md** : Ce fichier (aperçu de la branche)
 
-## 🎯 Plan d'action
+##  Plan d'action
 
 ### Phase 1 : Diagnostic
 - [ ] Audit Lighthouse complet
@@ -56,21 +56,21 @@ Cette branche est dédiée à l'**optimisation complète** du site INFPF sur tou
 - [ ] Lighthouse CI
 - [ ] Déploiement automatique
 
-## 📊 Critères de succès
+##  Critères de succès
 
 | Métrique | Cible | Actuel | Status |
 |----------|-------|--------|--------|
-| Lighthouse Performance | ≥ 90 | ❓ | ⏳ À mesurer |
-| Lighthouse Accessibility | ≥ 95 | ❓ | ⏳ À mesurer |
-| Lighthouse Best Practices | 100 | ❓ | ⏳ À mesurer |
-| Lighthouse SEO | 100 | ❓ | ⏳ À mesurer |
-| Mozilla Observatory | A+ | ❓ | ⏳ À mesurer |
-| SecurityHeaders.com | A+ | ❓ | ⏳ À mesurer |
-| LCP (Core Web Vital) | < 2.5s | ❓ | ⏳ À mesurer |
-| FID (Core Web Vital) | < 100ms | ❓ | ⏳ À mesurer |
-| CLS (Core Web Vital) | < 0.1 | ❓ | ⏳ À mesurer |
+| Lighthouse Performance | ≥ 90 |  |  À mesurer |
+| Lighthouse Accessibility | ≥ 95 |  |  À mesurer |
+| Lighthouse Best Practices | 100 |  |  À mesurer |
+| Lighthouse SEO | 100 |  |  À mesurer |
+| Mozilla Observatory | A+ |  |  À mesurer |
+| SecurityHeaders.com | A+ |  |  À mesurer |
+| LCP (Core Web Vital) | < 2.5s |  |  À mesurer |
+| FID (Core Web Vital) | < 100ms |  |  À mesurer |
+| CLS (Core Web Vital) | < 0.1 |  |  À mesurer |
 
-## 🔄 Workflow
+##  Workflow
 
 ```bash
 # Travailler sur cette branche
@@ -102,14 +102,14 @@ cd /home/u665392393/domains/infpf.fr/public_html
 Pour démarrer une nouvelle session de travail sur cette branche, utilisez le prompt complet dans :
 👉 **PROMPT_PERFORMANCE_SECURITY.md**
 
-## 🚨 Points d'attention
+##  Points d'attention
 
-- ⚠️ Toujours tester sur dev.infpf.fr avant de merger
-- ⚠️ Vérifier que rien n'est cassé après chaque optimisation
-- ⚠️ Mesurer les performances avant/après chaque changement
-- ⚠️ Documenter toutes les modifications importantes
+-  Toujours tester sur dev.infpf.fr avant de merger
+-  Vérifier que rien n'est cassé après chaque optimisation
+-  Mesurer les performances avant/après chaque changement
+-  Documenter toutes les modifications importantes
 
-## 📝 Historique
+##  Historique
 
 | Date | Action | Par |
 |------|--------|-----|
