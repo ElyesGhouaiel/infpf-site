@@ -1,16 +1,16 @@
-# 🚀 INSTRUCTIONS PURGE CACHE CDN HOSTINGER
+#  INSTRUCTIONS PURGE CACHE CDN HOSTINGER
 
-## ✅ Modifications Appliquées
+##  Modifications Appliquées
 
 - jQuery **supprimé** de `base.html.twig` (-85 Kio)
 - jQuery **supprimé** de `formation.html.twig` (commentaire ligne 21)
 - Cache Symfony **cleared**
 
-## ❌ Problème : CDN Hostinger Cache l'Ancien HTML
+##  Problème : CDN Hostinger Cache l'Ancien HTML
 
 Le serveur `hcdn` (Hostinger CDN) cache agressivement les pages HTML pendant 24-48h.
 
-## 🎯 Solutions
+##  Solutions
 
 ### Option 1 : Purge via hPanel (RECOMMANDÉ)
 
@@ -33,7 +33,7 @@ Le serveur `hcdn` (Hostinger CDN) cache agressivement les pages HTML pendant 24-
 
 Le cache CDN expirera automatiquement.
 
-## 📊 Scores Attendus APRÈS Purge du Cache
+##  Scores Attendus APRÈS Purge du Cache
 
 | Format | Avant | Après Purge | Gain |
 |--------|-------|-------------|------|
@@ -44,7 +44,7 @@ Le cache CDN expirera automatiquement.
 
 ---
 
-## 🔍 Vérification Post-Purge
+##  Vérification Post-Purge
 
 ```bash
 # Vérifier que jQuery n'est plus chargé
@@ -60,12 +60,4 @@ Si jQuery apparaît encore, attendez 5 minutes et retestez.
 Si la purge ne fonctionne pas :
 - Chat Live : https://www.hostinger.fr/contact
 - Demandez : "Purge complète du cache CDN pour infpf.fr et dev.infpf.fr"
-
-
-
-
-
-
-
-
 

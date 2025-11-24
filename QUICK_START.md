@@ -1,6 +1,6 @@
-# 🚀 Quick Start - Git Workflow INFPF
+#  Quick Start - Git Workflow INFPF
 
-## 🎯 Réponse à votre question
+##  Réponse à votre question
 
 > **"Comment merger dev vers prod (main) sans que dev disparaisse ?"**
 
@@ -13,26 +13,26 @@
 
 ---
 
-## 📊 Schéma Simple
+##  Schéma Simple
 
 ```
-1️⃣ Créer une feature
+1⃣ Créer une feature
    dev → git checkout -b feature/ma-feature
    
-2️⃣ Développer et tester
+2⃣ Développer et tester
    feature/ma-feature → Tester sur dev.infpf.fr
    
-3️⃣ Merger dans dev
-   feature/ma-feature → dev (merge) → dev existe toujours ✅
+3⃣ Merger dans dev
+   feature/ma-feature → dev (merge) → dev existe toujours 
    
-4️⃣ Déployer en prod
-   dev → main (merge) → dev existe toujours ✅
-                      → dev.infpf.fr fonctionne toujours ✅
+4⃣ Déployer en prod
+   dev → main (merge) → dev existe toujours 
+                      → dev.infpf.fr fonctionne toujours 
 ```
 
 ---
 
-## ⚡ Commandes Essentielles
+##  Commandes Essentielles
 
 ### Créer une nouvelle fonctionnalité
 ```bash
@@ -57,12 +57,12 @@ cd /home/u665392393/domains/infpf.fr/public_html
 
 ---
 
-## ✅ Ce qui ne disparaît JAMAIS
+##  Ce qui ne disparaît JAMAIS
 
-✅ La branche `dev`  
-✅ Le dossier `/home/u665392393/domains/infpf.fr/dev/`  
-✅ Le sous-domaine `dev.infpf.fr`  
-✅ Votre capacité à continuer à développer
+ La branche `dev`  
+ Le dossier `/home/u665392393/domains/infpf.fr/dev/`  
+ Le sous-domaine `dev.infpf.fr`  
+ Votre capacité à continuer à développer
 
 ---
 
@@ -73,5 +73,5 @@ cd /home/u665392393/domains/infpf.fr/public_html
 
 ---
 
-*Vous pouvez merger dev vers main autant de fois que vous voulez, dev restera toujours là ! 🎉*
+*Vous pouvez merger dev vers main autant de fois que vous voulez, dev restera toujours là ! *
 

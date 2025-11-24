@@ -1,15 +1,15 @@
-# 🔧 PROBLÈMES RÉSOLUS - Tests et Headers de Sécurité
+#  PROBLÈMES RÉSOLUS - Tests et Headers de Sécurité
 
 *Date : 3 novembre 2025*
 
-## 🐛 PROBLÈMES IDENTIFIÉS
+##  PROBLÈMES IDENTIFIÉS
 
 ### 1. Tests PHPUnit échouent (40 erreurs)
 **Erreur** : `You must set the KERNEL_CLASS environment variable`
 
 **Cause** : Configuration PHPUnit incomplète - manque `KERNEL_CLASS` dans `phpunit.xml.dist`
 
-**Solution appliquée** ✅ :
+**Solution appliquée**  :
 ```xml
 <server name="KERNEL_CLASS" value="App\Kernel" />
 ```
@@ -19,20 +19,20 @@ Ajout dans `phpunit.xml.dist` et création de `.env.test` pour l'environnement d
 ---
 
 ### 2. Headers de Sécurité non appliqués sur dev.infpf.fr
-**Score Mozilla Observatory** : 30/100 (D) ❌
+**Score Mozilla Observatory** : 30/100 (D) 
 
 **Problèmes détectés** :
-- ❌ CSP mal implémenté (-20 points) : `unsafe-inline` présent
-- ❌ HSTS non implémenté (-20 points)
-- ❌ X-Frame-Options non implémenté (-20 points)
-- ❌ X-Content-Type-Options non implémenté (-5 points)
-- ❌ SRI non implémenté (-5 points)
+-  CSP mal implémenté (-20 points) : `unsafe-inline` présent
+-  HSTS non implémenté (-20 points)
+-  X-Frame-Options non implémenté (-20 points)
+-  X-Content-Type-Options non implémenté (-5 points)
+-  SRI non implémenté (-5 points)
 
 **Cause probable** : Les fichiers modifiés localement ne sont pas encore déployés sur `dev.infpf.fr`
 
 **Solution** :
-1. ✅ Code déjà corrigé dans le repository local
-2. ⏳ **ACTION REQUISE** : Déployer les fichiers suivants sur `dev.infpf.fr` :
+1.  Code déjà corrigé dans le repository local
+2.  **ACTION REQUISE** : Déployer les fichiers suivants sur `dev.infpf.fr` :
    - `src/EventListener/SecurityHeadersListener.php`
    - `config/services.yaml`
    - `config/packages/framework.yaml`
@@ -49,14 +49,14 @@ Ajout dans `phpunit.xml.dist` et création de `.env.test` pour l'environnement d
 - `unsafe-inline` permet l'exécution de scripts inline (risque XSS)
 - `unsafe-eval` permet l'utilisation de `eval()` (risque sécurité)
 
-**Solution actuelle** ✅ :
+**Solution actuelle**  :
 - Commenté dans le code pour expliquer que c'est temporaire
 - `unsafe-inline` conservé pour ne pas casser le site existant
 - **Amélioration future** : Remplacer par des nonces pour les scripts inline
 
 ---
 
-## ✅ CORRECTIONS APPLIQUÉES
+##  CORRECTIONS APPLIQUÉES
 
 ### 1. Configuration PHPUnit
 
@@ -87,7 +87,7 @@ KERNEL_CLASS='App\Kernel'
 
 ---
 
-## 🚀 VÉRIFICATIONS À FAIRE
+##  VÉRIFICATIONS À FAIRE
 
 ### 1. Tests locaux
 ```bash
@@ -164,27 +164,27 @@ curl -I https://dev.infpf.fr
 
 ---
 
-## 📊 RÉSULTATS ACTUELS (PageSpeed Insights)
+##  RÉSULTATS ACTUELS (PageSpeed Insights)
 
-### Desktop ✅
-- Performance : **92/100** ✅
-- Accessibilité : **94/100** ✅
-- Bonnes pratiques : **96/100** ✅
-- SEO : **91/100** ✅
+### Desktop 
+- Performance : **92/100** 
+- Accessibilité : **94/100** 
+- Bonnes pratiques : **96/100** 
+- SEO : **91/100** 
 
-### Mobile ✅
-- Performance : **89/100** ✅
-- Accessibilité : **92/100** ✅
-- Bonnes pratiques : **96/100** ✅
-- SEO : **91/100** ✅
+### Mobile 
+- Performance : **89/100** 
+- Accessibilité : **92/100** 
+- Bonnes pratiques : **96/100** 
+- SEO : **91/100** 
 
 **Excellent !** Les optimisations de performance ont fonctionné.
 
 ---
 
-## 🎯 PLAN D'ACTION
+##  PLAN D'ACTION
 
-### Étape 1 : Tester localement ⏳
+### Étape 1 : Tester localement 
 ```bash
 vendor/bin/phpunit
 ```
@@ -192,7 +192,7 @@ vendor/bin/phpunit
 
 ---
 
-### Étape 2 : Déployer sur dev.infpf.fr ⏳
+### Étape 2 : Déployer sur dev.infpf.fr 
 ```bash
 # Git push + pull sur serveur dev
 git add .
@@ -207,14 +207,14 @@ php bin/console cache:clear
 
 ---
 
-### Étape 3 : Vérifier les headers ⏳
+### Étape 3 : Vérifier les headers 
 - Tester avec curl ou outils en ligne
 - Vérifier SecurityHeaders.com
 - Vérifier Mozilla Observatory
 
 ---
 
-### Étape 4 : Améliorer la CSP (optionnel) 🔄
+### Étape 4 : Améliorer la CSP (optionnel) 
 
 **Pour obtenir un score A+ sur Mozilla Observatory** :
 
@@ -244,26 +244,14 @@ php bin/console cache:clear
 
 ---
 
-## 📝 RÉSUMÉ
+##  RÉSUMÉ
 
-✅ **Tests PHPUnit** : Configuration corrigée (KERNEL_CLASS ajouté)  
-✅ **Headers de Sécurité** : Code prêt (déploiement requis)  
-✅ **Performance** : Excellente (92/89 desktop/mobile)  
-⏳ **Déploiement** : À faire sur dev.infpf.fr  
-🔄 **CSP stricte** : Amélioration future (nonces)  
+ **Tests PHPUnit** : Configuration corrigée (KERNEL_CLASS ajouté)  
+ **Headers de Sécurité** : Code prêt (déploiement requis)  
+ **Performance** : Excellente (92/89 desktop/mobile)  
+ **Déploiement** : À faire sur dev.infpf.fr  
+ **CSP stricte** : Amélioration future (nonces)  
 
 ---
 
 *Corrections appliquées le 3 novembre 2025*
-
-
-
-
-
-
-
-
-
-
-
-

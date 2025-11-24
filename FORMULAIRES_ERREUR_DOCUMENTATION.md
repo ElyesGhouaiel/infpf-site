@@ -1,4 +1,4 @@
-# ✉️ Documentation : Formulaires des Pages d'Erreur
+#  Documentation : Formulaires des Pages d'Erreur
 
 **Date** : 5 novembre 2025, 17h30  
 **Auteur** : Système automatisé  
@@ -6,31 +6,31 @@
 
 ---
 
-## 🎯 Problème Résolu
+##  Problème Résolu
 
-### ❌ Avant
+###  Avant
 
 Les formulaires sur les pages d'erreur utilisaient `mailto:elyes@xeilos.fr` :
-- ❌ Ouvrait le client email local (Outlook, Gmail, etc.)
-- ❌ Popup "The information you're about to submit is not secure"
-- ❌ Ne fonctionnait pas si l'utilisateur n'avait pas de client email configuré
-- ❌ Pas d'historique des signalements
-- ❌ Mauvaise expérience utilisateur
+-  Ouvrait le client email local (Outlook, Gmail, etc.)
+-  Popup "The information you're about to submit is not secure"
+-  Ne fonctionnait pas si l'utilisateur n'avait pas de client email configuré
+-  Pas d'historique des signalements
+-  Mauvaise expérience utilisateur
 
-### ✅ Maintenant
+###  Maintenant
 
 Les formulaires envoient **directement** via le serveur :
-- ✅ Envoi AJAX invisible pour l'utilisateur
-- ✅ Pas de popup de sécurité
-- ✅ Fonctionne toujours (même sans client email)
-- ✅ Logs des signalements dans Monolog
-- ✅ Emails HTML formatés professionnellement
-- ✅ Feedback visuel (succès/erreur)
-- ✅ Expérience utilisateur moderne
+-  Envoi AJAX invisible pour l'utilisateur
+-  Pas de popup de sécurité
+-  Fonctionne toujours (même sans client email)
+-  Logs des signalements dans Monolog
+-  Emails HTML formatés professionnellement
+-  Feedback visuel (succès/erreur)
+-  Expérience utilisateur moderne
 
 ---
 
-## 📋 Ce Qui A Été Modifié
+##  Ce Qui A Été Modifié
 
 ### 1. Nouveau Contrôleur Symfony
 
@@ -104,7 +104,7 @@ Même système que la page 404, avec `error_code: '500'`
 
 ---
 
-## 🎨 Format de l'Email Reçu
+##  Format de l'Email Reçu
 
 Lorsqu'un visiteur signale une erreur, vous recevez un email HTML formaté :
 
@@ -112,10 +112,10 @@ Lorsqu'un visiteur signale une erreur, vous recevez un email HTML formaté :
 De : noreply@infpf.fr
 Répondre à : [email du visiteur]
 À : elyes@xeilos.fr
-Sujet : 🔴 Erreur 404 signalée sur INFPF
+Sujet :  Erreur 404 signalée sur INFPF
 
 ┌─────────────────────────────────────────┐
-│       🔴 Erreur Signalée                │
+│        Erreur Signalée                │
 │       Code d'erreur : 404                │
 └─────────────────────────────────────────┘
 
@@ -139,10 +139,10 @@ Date : 05/11/2025 à 17:30:00
 ```
 
 **Avantages** :
-- ✅ Email formaté professionnel
-- ✅ Toutes les infos importantes visibles d'un coup d'œil
-- ✅ Réponse directe possible (Reply-To configuré)
-- ✅ URL cliquable pour reproduire l'erreur
+-  Email formaté professionnel
+-  Toutes les infos importantes visibles d'un coup d'œil
+-  Réponse directe possible (Reply-To configuré)
+-  URL cliquable pour reproduire l'erreur
 
 ---
 
@@ -168,7 +168,7 @@ Date : 05/11/2025 à 17:30:00
    - Le bouton affiche "Envoi en cours..."
    - Après ~1-2 secondes, un message vert apparaît :
      ```
-     ✅ Votre message a été envoyé avec succès ! 
+      Votre message a été envoyé avec succès ! 
         Nous vous recontacterons rapidement.
      ```
    - Le formulaire se vide automatiquement
@@ -236,7 +236,7 @@ tail -20 var/log/prod.log | grep "Erreur signalée"
 
 ---
 
-## 🔍 Détails Techniques
+##  Détails Techniques
 
 ### Validation Côté Serveur
 
@@ -265,7 +265,7 @@ Le contrôleur valide **toutes** les entrées :
 
 ### Sécurité
 
-✅ **Protections en place** :
+ **Protections en place** :
 
 1. **Rate Limiting** : Même limites que le formulaire de contact principal
    - 5 signalements maximum par 15 minutes
@@ -302,23 +302,23 @@ const data = await response.json();
 
 if (data.success) {
     // Afficher message de succès
-    formMessage.textContent = '✅ ' + data.message;
+    formMessage.textContent = ' ' + data.message;
     form.reset();
 } else {
     // Afficher message d'erreur
-    formMessage.textContent = '❌ ' + data.message;
+    formMessage.textContent = ' ' + data.message;
 }
 ```
 
 **Avantages** :
-- ✅ Compatible tous navigateurs modernes
-- ✅ Async/await pour code lisible
-- ✅ Gestion erreurs réseau
-- ✅ Feedback visuel immédiat
+-  Compatible tous navigateurs modernes
+-  Async/await pour code lisible
+-  Gestion erreurs réseau
+-  Feedback visuel immédiat
 
 ---
 
-## 📊 Statistiques & Monitoring
+##  Statistiques & Monitoring
 
 ### Logs Monolog
 
@@ -343,29 +343,29 @@ Si une erreur se produit **pendant** l'envoi de l'email, elle est capturée par 
 
 ---
 
-## 🎯 Avantages du Nouveau Système
+##  Avantages du Nouveau Système
 
 ### Pour les Visiteurs
 
 | Avant (mailto:) | Après (AJAX) |
 |-----------------|--------------|
-| ❌ Popup "not secure" | ✅ Envoi silencieux |
-| ❌ Client email requis | ✅ Fonctionne toujours |
-| ❌ Pas de feedback | ✅ Message de confirmation |
-| ❌ Redirection hors site | ✅ Reste sur la page |
+|  Popup "not secure" |  Envoi silencieux |
+|  Client email requis |  Fonctionne toujours |
+|  Pas de feedback |  Message de confirmation |
+|  Redirection hors site |  Reste sur la page |
 
 ### Pour l'Administrateur
 
 | Avant | Après |
 |-------|-------|
-| ❌ Emails bruts | ✅ Emails HTML formatés |
-| ❌ Pas de logs | ✅ Logs structurés |
-| ❌ Pas de stats | ✅ Stats dans Sentry/Monolog |
-| ❌ Pas de monitoring | ✅ Monitoring actif |
+|  Emails bruts |  Emails HTML formatés |
+|  Pas de logs |  Logs structurés |
+|  Pas de stats |  Stats dans Sentry/Monolog |
+|  Pas de monitoring |  Monitoring actif |
 
 ---
 
-## 🔧 Configuration Mailer
+##  Configuration Mailer
 
 Pour que l'envoi d'email fonctionne, vérifiez `MAILER_DSN` dans `.env.local` :
 
@@ -387,7 +387,7 @@ php bin/console debug:container mailer
 
 ---
 
-## ❓ FAQ
+##  FAQ
 
 ### Q : Les emails arrivent dans les spams ?
 
@@ -417,7 +417,7 @@ $emailMessage = (new Email())
     ->from('noreply@infpf.fr')
     ->to('VOTRE_EMAIL@example.com')  // ← ICI
     ->replyTo($email)
-    ->subject("🔴 Erreur {$errorCode} signalée sur INFPF")
+    ->subject(" Erreur {$errorCode} signalée sur INFPF")
 ```
 
 ---
@@ -445,7 +445,7 @@ Puis videz le cache : `php bin/console cache:clear`
 
 ---
 
-## ✅ Checklist de Validation
+##  Checklist de Validation
 
 - [ ] Page 404 : Formulaire envoie sans `mailto:`
 - [ ] Page 500 : Formulaire envoie sans `mailto:`

@@ -1,18 +1,18 @@
-# 🖼️ Optimisation des Images WebP - INFPF
+#  Optimisation des Images WebP - INFPF
 
 Ce document explique comment optimiser automatiquement toutes les images du site en **WebP** pour des performances maximales.
 
 ---
 
-## 📊 Pourquoi WebP ?
+##  Pourquoi WebP ?
 
 **WebP** est un format d'image moderne développé par Google qui offre :
 
-- ✅ **25-35% plus léger** que JPEG à qualité équivalente
-- ✅ **26% plus léger** que PNG pour les images avec transparence
-- ✅ **Support natif** dans 97% des navigateurs modernes (Chrome, Firefox, Edge, Safari 14+)
-- ✅ **Pas de perte de qualité** visible à l'œil nu
-- ✅ **Compatible avec le lazy loading** déjà en place
+-  **25-35% plus léger** que JPEG à qualité équivalente
+-  **26% plus léger** que PNG pour les images avec transparence
+-  **Support natif** dans 97% des navigateurs modernes (Chrome, Firefox, Edge, Safari 14+)
+-  **Pas de perte de qualité** visible à l'œil nu
+-  **Compatible avec le lazy loading** déjà en place
 
 ### Gains attendus sur INFPF
 
@@ -26,7 +26,7 @@ Ce document explique comment optimiser automatiquement toutes les images du site
 
 ---
 
-## 🚀 Utilisation du Script d'Optimisation
+##  Utilisation du Script d'Optimisation
 
 ### 1. Installation de cwebp (sur Hostinger)
 
@@ -69,7 +69,7 @@ cd /home/u665392393/domains/infpf.fr/dev
 
 ```
 ================================================
-🚀 Optimisation des images en WebP
+ Optimisation des images en WebP
 ================================================
 
 Mode sélectionné : --new
@@ -77,27 +77,27 @@ Qualité WebP     : 85
 
 📂 Traitement : /home/u665392393/domains/infpf.fr/dev/public/img
 
-✅ Converti : AdministratifsImage.webp (gain: 0.05 MB)
-✅ Converti : AutresImage.webp (gain: 0.03 MB)
-⏭️  Déjà converti : DesignImage.webp
-✅ Converti : IAImage.webp (gain: 0.08 MB)
+ Converti : AdministratifsImage.webp (gain: 0.05 MB)
+ Converti : AutresImage.webp (gain: 0.03 MB)
+⏭  Déjà converti : DesignImage.webp
+ Converti : IAImage.webp (gain: 0.08 MB)
 ...
 
 📂 Traitement : /home/u665392393/domains/infpf.fr/dev/public/uploads/images
 
-✅ Converti : cybersecurite.webp (gain: 0.12 MB)
-✅ Converti : finance-2.webp (gain: 0.09 MB)
+ Converti : cybersecurite.webp (gain: 0.12 MB)
+ Converti : finance-2.webp (gain: 0.09 MB)
 ...
 
 ================================================
-✅ Optimisation terminée !
+ Optimisation terminée !
 ================================================
 
-📊 Images converties : 87
-⏭️  Images ignorées   : 12
-💾 Espace économisé  : 2.45 MB
+ Images converties : 87
+⏭  Images ignorées   : 12
+ Espace économisé  : 2.45 MB
 
-💡 Prochaines étapes :
+ Prochaines étapes :
   1. Vérifie que les .webp sont bien générés
   2. Active le mod_rewrite dans .htaccess (déjà fait)
   3. Teste avec : curl -H "Accept: image/webp" -I https://dev.infpf.fr/img/logo.png
@@ -105,7 +105,7 @@ Qualité WebP     : 85
 
 ---
 
-## 🔧 Configuration Automatique (.htaccess)
+##  Configuration Automatique (.htaccess)
 
 Le `.htaccess` a été modifié pour **servir automatiquement WebP** si :
 1. Le navigateur supporte WebP (`Accept: image/webp`)
@@ -126,13 +126,13 @@ RewriteRule ^(.+)\.(jpe?g|png)$ $1.webp [T=image/webp,E=REQUEST_image,L]
 ```
 
 **Avantages** :
-- ✅ Transparent pour le code HTML (pas besoin de changer `<img src="logo.png">`)
-- ✅ Fallback automatique sur JPEG/PNG si le navigateur ne supporte pas WebP
-- ✅ Pas besoin de balise `<picture>` complexe
+-  Transparent pour le code HTML (pas besoin de changer `<img src="logo.png">`)
+-  Fallback automatique sur JPEG/PNG si le navigateur ne supporte pas WebP
+-  Pas besoin de balise `<picture>` complexe
 
 ---
 
-## ✅ Vérification du Fonctionnement
+##  Vérification du Fonctionnement
 
 ### 1. Vérifier que les .webp sont générés
 
@@ -155,7 +155,7 @@ curl -H "Accept: image/webp" -I https://dev.infpf.fr/img/LOGO__INFPF.png
 **Résultat attendu** :
 ```
 HTTP/2 200
-content-type: image/webp   <-- ✅ Bien servi en WebP
+content-type: image/webp   <--  Bien servi en WebP
 ...
 ```
 
@@ -165,7 +165,7 @@ content-type: image/webp   <-- ✅ Bien servi en WebP
 2. Va sur l'onglet **Network** > Filtre **Img**
 3. Recharge la page
 4. Clique sur une image → Regarde le header **Content-Type**
-   - Doit afficher : `Content-Type: image/webp` ✅
+   - Doit afficher : `Content-Type: image/webp` 
    - Ou : `Content-Type: image/jpeg` (si WebP non généré)
 
 ### 3. Tester avec Google PageSpeed Insights
@@ -175,15 +175,15 @@ Va sur : https://pagespeed.web.dev/
 Teste `https://dev.infpf.fr`
 
 **Avant WebP** :
-- "Serve images in next-gen formats" → ⚠️ Avertissement
+- "Serve images in next-gen formats" →  Avertissement
 
 **Après WebP** :
-- "Serve images in next-gen formats" → ✅ Validé
+- "Serve images in next-gen formats" →  Validé
 - **Score Lighthouse** : +2-5 points
 
 ---
 
-## 📈 Automatisation (Cron Job)
+##  Automatisation (Cron Job)
 
 Pour convertir automatiquement les nouvelles images uploadées :
 
@@ -206,7 +206,7 @@ crontab -e
 
 ---
 
-## 🖼️ Modifier le Code pour Utiliser WebP (Optionnel)
+##  Modifier le Code pour Utiliser WebP (Optionnel)
 
 Si tu veux **forcer** l'utilisation de WebP dans le HTML (au lieu de `.htaccess` automatique), tu peux utiliser la balise `<picture>` :
 
@@ -229,7 +229,7 @@ Si tu veux **forcer** l'utilisation de WebP dans le HTML (au lieu de `.htaccess`
 
 ---
 
-## 🔍 Dépannage
+##  Dépannage
 
 ### Problème 1 : `cwebp: command not found`
 
@@ -268,7 +268,7 @@ Puis reconvertis avec `--all` :
 
 ---
 
-## 📊 Monitoring des Performances
+##  Monitoring des Performances
 
 Après avoir activé WebP, surveille les métriques :
 
@@ -281,7 +281,7 @@ Après avoir activé WebP, surveille les métriques :
 ### 2. Lighthouse (DevTools)
 
 - **Performance** : Devrait augmenter de 2-5 points
-- **Best Practices** : "Serve images in next-gen formats" doit être ✅
+- **Best Practices** : "Serve images in next-gen formats" doit être 
 
 ### 3. GTmetrix / Pingdom
 
@@ -290,25 +290,25 @@ Après avoir activé WebP, surveille les métriques :
 
 ---
 
-## 🎯 Checklist de Déploiement Production
+##  Checklist de Déploiement Production
 
 Avant de déployer sur `infpf.fr` (production) :
 
-- [ ] ✅ Teste sur `dev.infpf.fr` pendant 1-2 jours
-- [ ] ✅ Vérifie que toutes les images s'affichent correctement
-- [ ] ✅ Teste sur plusieurs navigateurs (Chrome, Firefox, Safari, Edge)
-- [ ] ✅ Vérifie Lighthouse : Score doit être ≥ 98
-- [ ] ✅ Copie le script sur production :
+- [ ]  Teste sur `dev.infpf.fr` pendant 1-2 jours
+- [ ]  Vérifie que toutes les images s'affichent correctement
+- [ ]  Teste sur plusieurs navigateurs (Chrome, Firefox, Safari, Edge)
+- [ ]  Vérifie Lighthouse : Score doit être ≥ 98
+- [ ]  Copie le script sur production :
   ```bash
   cp /home/u665392393/domains/infpf.fr/dev/bin/optimize-images-webp.sh \
      /home/u665392393/domains/infpf.fr/public_html/bin/
   ```
-- [ ] ✅ Exécute le script en production :
+- [ ]  Exécute le script en production :
   ```bash
   cd /home/u665392393/domains/infpf.fr/public_html
   ./bin/optimize-images-webp.sh --all
   ```
-- [ ] ✅ Active le Cron Job en production (via hPanel)
+- [ ]  Active le Cron Job en production (via hPanel)
 
 ---
 

@@ -1,12 +1,12 @@
-# 🔧 Configuration des Variables d'Environnement
+#  Configuration des Variables d'Environnement
 
-## 📋 Variables Requises pour le Projet
+##  Variables Requises pour le Projet
 
 Pour que le projet fonctionne correctement, vous devez configurer ces variables dans le fichier `.env.local` sur votre serveur.
 
 ---
 
-## 🚀 Configuration Complète `.env.local`
+##  Configuration Complète `.env.local`
 
 Créez le fichier `/home/u665392393/domains/infpf.fr/dev/.env.local` avec le contenu suivant :
 
@@ -36,7 +36,7 @@ APP_DEBUG=0
 
 ---
 
-## 🔍 Explication des Variables
+##  Explication des Variables
 
 ### 1. `APP_ENV`
 - **Valeurs** : `dev`, `prod`, `test`
@@ -77,7 +77,7 @@ APP_DEBUG=0
 
 ---
 
-## ✅ Vérification de la Configuration
+##  Vérification de la Configuration
 
 Après avoir créé `.env.local`, vérifiez la configuration :
 
@@ -96,7 +96,7 @@ curl -I https://dev.infpf.fr/test/error/404
 
 ---
 
-## 🐛 Résolution de Problèmes
+##  Résolution de Problèmes
 
 ### Erreur : "Environment variable not found: X"
 
@@ -133,9 +133,9 @@ php bin/console cache:clear --env=prod
 
 ---
 
-## 🔐 Sécurité
+##  Sécurité
 
-⚠️ **IMPORTANT** :
+ **IMPORTANT** :
 
 1. **NE JAMAIS** commiter `.env.local` dans Git
 2. **NE JAMAIS** partager votre `APP_SECRET`

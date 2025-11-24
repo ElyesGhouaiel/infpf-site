@@ -1,22 +1,22 @@
-# 💾 Configuration des Backups Automatiques
+#  Configuration des Backups Automatiques
 
-## 🎯 Objectif
+##  Objectif
 
 Sauvegarder automatiquement la base de données **tous les jours** pour prévenir toute perte de données.
 
 ---
 
-## ✅ Ce qui est déjà fait
+##  Ce qui est déjà fait
 
-- ✅ Script de backup créé : `/bin/backup-database.sh`
-- ✅ Compression automatique (gzip)
-- ✅ Rétention 30 jours (nettoyage automatique)
-- ✅ Logging complet dans `/home/u665392393/backups/backup.log`
-- ✅ Script exécutable
+-  Script de backup créé : `/bin/backup-database.sh`
+-  Compression automatique (gzip)
+-  Rétention 30 jours (nettoyage automatique)
+-  Logging complet dans `/home/u665392393/backups/backup.log`
+-  Script exécutable
 
 ---
 
-## 🔧 Configuration du Cron (À FAIRE)
+##  Configuration du Cron (À FAIRE)
 
 ### 1. Éditer le crontab
 
@@ -88,7 +88,7 @@ cd /home/u665392393/domains/infpf.fr/dev
 
 ---
 
-## 🔄 Restaurer un backup
+##  Restaurer un backup
 
 ### 1. Décompresser le backup
 
@@ -104,7 +104,7 @@ mysql -u root -p infpf_db < /home/u665392393/backups/database/infpf_db_2025-11-0
 
 ---
 
-## 📊 Monitoring des backups
+##  Monitoring des backups
 
 ### Vérifier les derniers backups
 
@@ -126,9 +126,9 @@ grep CRON /var/log/syslog | tail -20
 
 ---
 
-## 🛡️ Sécurité
+## 🛡 Sécurité
 
-### ✅ **Bonnes pratiques appliquées :**
+###  **Bonnes pratiques appliquées :**
 
 1. **Compression gzip** → Économise de l'espace disque
 2. **Rétention 30 jours** → Historique suffisant sans saturer
@@ -136,7 +136,7 @@ grep CRON /var/log/syslog | tail -20
 4. **Single transaction** → Backup cohérent (pas de corruption)
 5. **Routines & Triggers** → Sauvegarde complète de la structure
 
-### ⚠️ **À améliorer (optionnel) :**
+###  **À améliorer (optionnel) :**
 
 1. **Backup off-site** : Copier sur un serveur externe (AWS S3, Google Cloud Storage)
 2. **Encryption** : Chiffrer les backups avant stockage
@@ -145,7 +145,7 @@ grep CRON /var/log/syslog | tail -20
 
 ---
 
-## 📝 Script amélioré pour notifications (BONUS)
+##  Script amélioré pour notifications (BONUS)
 
 Ajouter à la fin de `backup-database.sh` :
 
@@ -169,7 +169,7 @@ fi
 
 ---
 
-## ✅ Checklist finale
+##  Checklist finale
 
 - [ ] Script créé et exécutable
 - [ ] Test manuel effectué
@@ -184,5 +184,3 @@ fi
 **Script** : `/bin/backup-database.sh`  
 **Fréquence** : Quotidien à 3h du matin  
 **Rétention** : 30 jours
-
-

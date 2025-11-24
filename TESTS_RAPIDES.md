@@ -1,12 +1,12 @@
-# ⚡ TESTS RAPIDES - Ce Qui a Été Fait
+#  TESTS RAPIDES - Ce Qui a Été Fait
 
 **Durée** : 5 minutes pour tout vérifier rapidement
 
 ---
 
-## 🎯 9 Fonctionnalités à Tester
+##  9 Fonctionnalités à Tester
 
-| # | Fonctionnalité | Test Rapide | Temps | ✅ |
+| # | Fonctionnalité | Test Rapide | Temps |  |
 |---|----------------|-------------|-------|---|
 | 1 | **Pages d'erreur 404/500/403** | Visitez `/test/error/404` `/test/error/500` `/test/error/403` | 1 min | ☐ |
 | 2 | **Formulaires email direct** | Remplissez un formulaire sur page d'erreur | 2 min | ☐ |
@@ -23,27 +23,27 @@
 ## 🧪 URLs de Test Rapide
 
 ```
-✅ Pages d'erreur :
+ Pages d'erreur :
 https://dev.infpf.fr/test/error/404
 https://dev.infpf.fr/test/error/500
 https://dev.infpf.fr/test/error/403
 
-✅ Test Sentry :
+ Test Sentry :
 https://dev.infpf.fr/test-sentry.php
 
-✅ Dashboard Sentry :
+ Dashboard Sentry :
 https://sentry.io/organizations/infpf/projects/php-symfony/
 
-✅ Headers HTTPS :
+ Headers HTTPS :
 https://dev.infpf.fr/test-headers.php
 
-✅ GitHub Dependabot :
+ GitHub Dependabot :
 https://github.com/ElyesGhouaiel/infpf-site/security/dependabot
 ```
 
 ---
 
-## ⚡ Test Ultra-Rapide (1 min)
+##  Test Ultra-Rapide (1 min)
 
 ```bash
 # Dans votre terminal SSH
@@ -65,7 +65,7 @@ tail -2 var/log/prod.log
 php bin/phpunit --testdox
 ```
 
-**Si tout est OK** → ✅ Tout fonctionne !
+**Si tout est OK** →  Tout fonctionne !
 
 ---
 
@@ -77,13 +77,13 @@ php bin/phpunit --testdox
 4. **Vérifiez `elyes@xeilos.fr`** dans les 30 secondes
 
 **Attendu** :
-- ✅ Email reçu avec sujet "🔴 Erreur 404 signalée sur INFPF"
-- ✅ Contenu HTML formaté
-- ✅ Reply-To = email du visiteur
+-  Email reçu avec sujet " Erreur 404 signalée sur INFPF"
+-  Contenu HTML formaté
+-  Reply-To = email du visiteur
 
 ---
 
-## 🎯 Checklist Visuelle
+##  Checklist Visuelle
 
 ```
 ┌─────────────────────────────────────────┐
@@ -100,14 +100,14 @@ php bin/phpunit --testdox
 │  ☐ Logs JSON structurés                  │
 └─────────────────────────────────────────┘
 
-✅ TOUT COCHÉ = PRÊT POUR JOUR 3 !
+ TOUT COCHÉ = PRÊT POUR JOUR 3 !
 ```
 
 ---
 
-## 🚀 Si Tout Fonctionne
+##  Si Tout Fonctionne
 
-**JOUR 1 + 2 = 100% TERMINÉS !** 🎉
+**JOUR 1 + 2 = 100% TERMINÉS !** 
 
 **Prochaine étape** : JOUR 3
 - UptimeRobot (surveillance 24/7)

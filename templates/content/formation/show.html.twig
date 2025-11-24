@@ -2660,14 +2660,43 @@ html {
                     <div class="details-meta">
                         <span class="details-label">Modalité</span>
                         <span class="details-value">À distance</span>
+                    </div>
 	</div>
-                </div>
             </div>
             </div>
         </aside>
     </div> <!-- fin layout-formation -->
     
     </div> <!-- fin formation-page -->
+
+    <!-- CSS pour uniformiser les icônes sur tablette -->
+    <style>
+        @media (max-width: 1024px) {
+            .details-icon, .trust-icon {
+                width: 20px !important;
+                height: 20px !important;
+                min-width: 20px !important;
+            }
+            
+            .details-meta {
+                font-size: 0.95rem;
+            }
+            
+            /* Réalignement propre des sections sur tablette */
+            .details-title {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start; /* Aligner à gauche proprement */
+                text-align: left;
+                width: 100%;
+                gap: 10px; /* Espace propre entre icône et texte */
+            }
+            
+            .details-title svg {
+                margin: 0 !important; /* Reset des marges parasites */
+            }
+        }
+    </style>
 
 	{% include 'footer.html.twig' %}
 {% endblock %}

@@ -6,22 +6,32 @@ framework:
             limit: 5
             interval: '15 minutes'
             
-        # Rate limiter pour l'authentification
-        login:
+        # Rate limiter strict pour toutes les requêtes POST
+        strict:
+            policy: 'sliding_window'
+            limit: 30
+            interval: '1 minute'
+            
+        # Rate limiter pour les tentatives de connexion
+        login_attempts:
             policy: 'fixed_window'
             limit: 5
             interval: '5 minutes'
             
-        # Rate limiter pour l'API globale
-        api:
+        # Rate limiter pour l'inscription
+        registration:
+            policy: 'sliding_window'
+            limit: 3
+            interval: '1 hour'
+            
+        # Rate limiter pour les demandes de devis
+        quote_request:
+            policy: 'sliding_window'
+            limit: 3
+            interval: '30 minutes'
+            
+        # Rate limiter global pour prévenir les abus
+        api_global:
             policy: 'token_bucket'
             limit: 100
             rate: { interval: '1 minute', amount: 10 }
-            
-        # Rate limiter strict pour prévenir le spam agressif
-        strict:
-            policy: 'fixed_window'
-            limit: 10
-            interval: '1 minute'
-
-

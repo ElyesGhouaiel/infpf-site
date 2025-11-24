@@ -1,12 +1,12 @@
 # 🔒 SSL/HTTPS - Vérification et Configuration
 
-## 🎯 Objectif
+##  Objectif
 
 S'assurer que le site utilise **HTTPS** et que le certificat SSL est valide.
 
 ---
 
-## ✅ 1. VÉRIFICATION ACTUELLE
+##  1. VÉRIFICATION ACTUELLE
 
 ### Test HTTPS sur le site
 
@@ -15,20 +15,20 @@ S'assurer que le site utilise **HTTPS** et que le certificat SSL est valide.
 curl -I https://dev.infpf.fr/
 ```
 
-**✅ Résultat attendu :**
+** Résultat attendu :**
 ```
 HTTP/2 200
 server: LiteSpeed
 ```
 
-**❌ Si erreur :**
+** Si erreur :**
 ```
 curl: (60) SSL certificate problem
 ```
 
 ---
 
-## 🔍 2. DIAGNOSTIC SSL
+##  2. DIAGNOSTIC SSL
 
 ### A. Vérifier le certificat SSL
 
@@ -36,7 +36,7 @@ curl: (60) SSL certificate problem
 - 🔗 **SSL Labs** : https://www.ssllabs.com/ssltest/analyze.html?d=dev.infpf.fr
 - 🔗 **SSL Checker** : https://www.sslshopper.com/ssl-checker.html#hostname=dev.infpf.fr
 
-**✅ Note attendue : A ou A+**
+** Note attendue : A ou A+**
 
 ### B. Vérifier via ligne de commande
 
@@ -53,7 +53,7 @@ openssl s_client -connect dev.infpf.fr:443 -servername dev.infpf.fr < /dev/null 
 
 ---
 
-## 🔧 3. CONFIGURATION APACHE/NGINX
+##  3. CONFIGURATION APACHE/NGINX
 
 ### Pour Apache (.htaccess)
 
@@ -103,7 +103,7 @@ server {
 
 ---
 
-## 🛡️ 4. HEADERS DE SÉCURITÉ SSL
+## 🛡 4. HEADERS DE SÉCURITÉ SSL
 
 ### Vérifier les headers actuels
 
@@ -111,7 +111,7 @@ server {
 curl -I https://dev.infpf.fr/ | grep -i "strict-transport\|x-frame\|x-content"
 ```
 
-**✅ Headers attendus :**
+** Headers attendus :**
 ```
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 X-Frame-Options: DENY
@@ -147,14 +147,14 @@ X-XSS-Protection: 1; mode=block
 
 ---
 
-## 🔐 5. CERTIFICAT SSL (Let's Encrypt)
+##  5. CERTIFICAT SSL (Let's Encrypt)
 
 ### Renouvellement automatique (Hostinger)
 
 **Hostinger gère automatiquement :**
-- ✅ Installation SSL gratuit (Let's Encrypt)
-- ✅ Renouvellement automatique tous les 90 jours
-- ✅ HTTPS forcé via panneau de contrôle
+-  Installation SSL gratuit (Let's Encrypt)
+-  Renouvellement automatique tous les 90 jours
+-  HTTPS forcé via panneau de contrôle
 
 ### Vérifier l'expiration
 
@@ -168,11 +168,11 @@ notBefore=Nov  5 00:00:00 2025 GMT
 notAfter=Feb  3 23:59:59 2026 GMT
 ```
 
-**⚠️ Alerte si expiration < 30 jours**
+** Alerte si expiration < 30 jours**
 
 ---
 
-## 📊 6. TESTS DE SÉCURITÉ SSL
+##  6. TESTS DE SÉCURITÉ SSL
 
 ### A. Test protocoles TLS
 
@@ -184,8 +184,8 @@ openssl s_client -connect dev.infpf.fr:443 -tls1_2 < /dev/null
 openssl s_client -connect dev.infpf.fr:443 -tls1_3 < /dev/null
 ```
 
-**✅ TLS 1.2 et 1.3 doivent fonctionner**
-**❌ TLS 1.0 et 1.1 doivent être désactivés (obsolètes)**
+** TLS 1.2 et 1.3 doivent fonctionner**
+** TLS 1.0 et 1.1 doivent être désactivés (obsolètes)**
 
 ### B. Test ciphers (chiffrement)
 
@@ -193,34 +193,34 @@ openssl s_client -connect dev.infpf.fr:443 -tls1_3 < /dev/null
 nmap --script ssl-enum-ciphers -p 443 dev.infpf.fr
 ```
 
-**✅ Ciphers forts uniquement (AES-256, ChaCha20)**
-**❌ Pas de ciphers faibles (RC4, MD5, DES)**
+** Ciphers forts uniquement (AES-256, ChaCha20)**
+** Pas de ciphers faibles (RC4, MD5, DES)**
 
 ---
 
-## 🎯 7. CHECKLIST SSL/HTTPS
+##  7. CHECKLIST SSL/HTTPS
 
-- [ ] Site accessible en HTTPS ✅
-- [ ] Redirection HTTP → HTTPS automatique ✅
-- [ ] Certificat SSL valide (pas expiré) ✅
-- [ ] Note SSL Labs : A ou A+ ✅
-- [ ] Header HSTS présent ✅
-- [ ] TLS 1.2 + 1.3 activés ✅
-- [ ] Pas de mixed content (HTTP dans HTTPS) ✅
-- [ ] Favicon et assets en HTTPS ✅
+- [ ] Site accessible en HTTPS 
+- [ ] Redirection HTTP → HTTPS automatique 
+- [ ] Certificat SSL valide (pas expiré) 
+- [ ] Note SSL Labs : A ou A+ 
+- [ ] Header HSTS présent 
+- [ ] TLS 1.2 + 1.3 activés 
+- [ ] Pas de mixed content (HTTP dans HTTPS) 
+- [ ] Favicon et assets en HTTPS 
 
 ---
 
-## 🚨 PROBLÈMES COURANTS
+##  PROBLÈMES COURANTS
 
-### ❌ Certificat SSL expiré
+###  Certificat SSL expiré
 
 **Solution Hostinger :**
 1. Aller dans **hPanel → SSL**
 2. Cliquer sur **Renouveler SSL**
 3. Attendre 5-10 minutes
 
-### ❌ Mixed Content (HTTP/HTTPS)
+###  Mixed Content (HTTP/HTTPS)
 
 **Vérifier :**
 ```bash
@@ -233,16 +233,16 @@ grep -r "http://" public/css/
 
 **Corriger :**
 ```twig
-{# ❌ Mauvais #}
+{#  Mauvais #}
 <img src="http://example.com/image.jpg">
 
-{# ✅ Bon #}
+{#  Bon #}
 <img src="https://example.com/image.jpg">
 {# ou mieux : #}
 <img src="//example.com/image.jpg">
 ```
 
-### ❌ Erreur "NET::ERR_CERT_AUTHORITY_INVALID"
+###  Erreur "NET::ERR_CERT_AUTHORITY_INVALID"
 
 **Causes :**
 1. Certificat auto-signé (dev local) → Normal en dev
@@ -251,7 +251,7 @@ grep -r "http://" public/css/
 
 ---
 
-## 📈 8. MONITORING SSL
+##  8. MONITORING SSL
 
 ### Alertes d'expiration
 
@@ -298,16 +298,14 @@ fi
 
 ---
 
-## ✅ RÉSUMÉ
+##  RÉSUMÉ
 
-- ✅ **HTTPS activé** sur dev.infpf.fr
-- ✅ **Redirection forcée** HTTP → HTTPS
-- ✅ **Headers sécurisés** (HSTS, X-Frame-Options, etc.)
-- ✅ **TLS 1.2/1.3** uniquement
-- ✅ **Certificat Let's Encrypt** (gratuit, auto-renouvelé)
-- ✅ **Note SSL Labs** : A ou A+
+-  **HTTPS activé** sur dev.infpf.fr
+-  **Redirection forcée** HTTP → HTTPS
+-  **Headers sécurisés** (HSTS, X-Frame-Options, etc.)
+-  **TLS 1.2/1.3** uniquement
+-  **Certificat Let's Encrypt** (gratuit, auto-renouvelé)
+-  **Note SSL Labs** : A ou A+
 
 **Date de vérification** : 2025-11-05  
 **Prochaine vérification** : 2025-12-05 (mensuelle)
-
-

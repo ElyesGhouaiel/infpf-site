@@ -1,12 +1,12 @@
-# 📊 Configuration Sentry & Monitoring
+#  Configuration Sentry & Monitoring
 
-## 🎯 Objectif
+##  Objectif
 
 Sentry et Monolog sont maintenant configurés pour le monitoring des erreurs en production.
 
 ---
 
-## 🔧 Configuration Sentry
+##  Configuration Sentry
 
 ### 1. Créer un compte Sentry (GRATUIT)
 
@@ -40,33 +40,33 @@ Vous devriez voir l'erreur apparaître dans votre tableau de bord Sentry !
 
 ---
 
-## 📝 Logs structurés avec Monolog
+##  Logs structurés avec Monolog
 
 ### Production (`config/packages/prod/monolog.yaml`)
 
-- ✅ **Logs vers fichier** : `var/log/prod.log` (format JSON)
-- ✅ **Logs vers Sentry** : Erreurs critiques uniquement
-- ✅ **Déduplication** : Évite les doublons d'erreurs
-- ✅ **Filtrage** : Exclut les erreurs 404/405
+-  **Logs vers fichier** : `var/log/prod.log` (format JSON)
+-  **Logs vers Sentry** : Erreurs critiques uniquement
+-  **Déduplication** : Évite les doublons d'erreurs
+-  **Filtrage** : Exclut les erreurs 404/405
 
 ### Développement (`config/packages/dev/monolog.yaml`)
 
-- ✅ **Logs vers fichier** : `var/log/dev.log` (format JSON)
-- ✅ **Logs console** : Affichage en temps réel
-- ✅ **Deprecation warnings** : `var/log/deprecations.log`
+-  **Logs vers fichier** : `var/log/dev.log` (format JSON)
+-  **Logs console** : Affichage en temps réel
+-  **Deprecation warnings** : `var/log/deprecations.log`
 
 ---
 
-## 🚀 Fonctionnalités activées
+##  Fonctionnalités activées
 
-### 🔍 **Erreurs capturées automatiquement**
+###  **Erreurs capturées automatiquement**
 - Exceptions PHP
 - Erreurs fatales
 - Warnings et Notices (configurables)
 - Erreurs 500
 - Erreurs de base de données
 
-### 📊 **Contexte automatique**
+###  **Contexte automatique**
 - URL de la requête
 - Méthode HTTP (GET, POST, etc.)
 - Headers HTTP
@@ -75,13 +75,13 @@ Vous devriez voir l'erreur apparaître dans votre tableau de bord Sentry !
 - Utilisateur connecté (si auth)
 - Stack trace complète
 
-### 🎯 **Performance Monitoring**
+###  **Performance Monitoring**
 - Traces des requêtes lentes
 - Profiling CPU/Mémoire
 - Monitoring des queries SQL
 - Détection des N+1 queries
 
-### 📈 **Dashboard Sentry**
+###  **Dashboard Sentry**
 - Graphiques des erreurs
 - Alertes par email/Slack
 - Historique des releases
@@ -90,16 +90,16 @@ Vous devriez voir l'erreur apparaître dans votre tableau de bord Sentry !
 
 ---
 
-## 🛡️ **Sécurité et Confidentialité**
+## 🛡 **Sécurité et Confidentialité**
 
-✅ **send_default_pii: false** → Pas de données personnelles envoyées par défaut  
-✅ Filtrage des tokens et mots de passe automatique  
-✅ Hébergement dans l'EU disponible  
-✅ Conformité RGPD
+ **send_default_pii: false** → Pas de données personnelles envoyées par défaut  
+ Filtrage des tokens et mots de passe automatique  
+ Hébergement dans l'EU disponible  
+ Conformité RGPD
 
 ---
 
-## 💡 Bonnes pratiques
+##  Bonnes pratiques
 
 ### 1. **Utiliser les niveaux de log appropriés**
 
@@ -147,10 +147,10 @@ export SENTRY_RELEASE="v1.0.1"
 
 ---
 
-## ✅ Checklist finale
+##  Checklist finale
 
-- [x] Compte Sentry créé ✅
-- [x] DSN configuré dans `.env` ✅
+- [x] Compte Sentry créé 
+- [x] DSN configuré dans `.env` 
 - [ ] Test d'erreur volontaire effectué
 - [ ] Erreur visible dans Sentry
 - [ ] Logs visibles dans `var/log/prod.log`
@@ -158,7 +158,7 @@ export SENTRY_RELEASE="v1.0.1"
 - [ ] Intégration Slack (optionnel)
 
 **DSN Sentry configuré** : `https://b094d6d36a70d04dff26b577b8dc475f@o4510312920252416.ingest.de.sentry.io/4510312924512336`
-**Région** : Europe (DE) - Conformité RGPD ✅
+**Région** : Europe (DE) - Conformité RGPD 
 
 ---
 

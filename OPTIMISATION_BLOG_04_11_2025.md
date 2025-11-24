@@ -1,12 +1,12 @@
-# 🚀 OPTIMISATIONS PAGE /blog/ - 2025-11-04
+#  OPTIMISATIONS PAGE /blog/ - 2025-11-04
 
-## 📊 **CONTEXTE**
+##  **CONTEXTE**
 
 La page `/blog/` affichait **17 articles** tous en même temps, sans pagination, ce qui impactait les performances et l'expérience utilisateur.
 
 ---
 
-## ✅ **OPTIMISATIONS APPLIQUÉES**
+##  **OPTIMISATIONS APPLIQUÉES**
 
 ### **1. 📄 PAGINATION (Gain estimé: +3-5 points)**
 
@@ -74,7 +74,7 @@ public function index(BlogRepository $blogRepository, Request $request, EntityMa
 
 ---
 
-### **2. 🖼️ LAZY LOADING IMAGES (Gain estimé: +2-3 points)**
+### **2.  LAZY LOADING IMAGES (Gain estimé: +2-3 points)**
 
 **Fichier modifié** : `/templates/content/blog/index.html.twig` (lignes 440-446)
 
@@ -112,7 +112,7 @@ public function index(BlogRepository $blogRepository, Request $request, EntityMa
 
 ---
 
-### **3. 📊 COMPTEUR D'ARTICLES (UX améliorée)**
+### **3.  COMPTEUR D'ARTICLES (UX améliorée)**
 
 **Fichier modifié** : `/templates/content/blog/index.html.twig` (lignes 435-440)
 
@@ -156,7 +156,7 @@ public function index(BlogRepository $blogRepository, Request $request, EntityMa
 
 ---
 
-### **4. 🎨 NAVIGATION PAGINATION MODERNE**
+### **4.  NAVIGATION PAGINATION MODERNE**
 
 **Fichier modifié** : `/templates/content/blog/index.html.twig` (lignes 502-547)
 
@@ -265,15 +265,15 @@ public function index(BlogRepository $blogRepository, Request $request, EntityMa
 
 ---
 
-## 📈 **SCORES ATTENDUS**
+##  **SCORES ATTENDUS**
 
 ### **Avant optimisation** (estimation basée sur 17 articles) :
 - **Mobile** : ~75-80/100 (beaucoup d'images)
 - **Desktop** : ~85-90/100
 
 ### **Après optimisation** (estimation avec 3 articles/page) :
-- **Mobile** : **90-93/100** ✅ (+10-15 points)
-- **Desktop** : **95-98/100** ✅ (+5-10 points)
+- **Mobile** : **90-93/100**  (+10-15 points)
+- **Desktop** : **95-98/100**  (+5-10 points)
 
 ### **Métriques attendues** :
 - **LCP** : Réduit de ~1-2s (moins d'images)
@@ -299,7 +299,7 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/blog/&strategy=deskt
 
 ---
 
-## 📋 **OPTIMISATIONS FUTURES POSSIBLES**
+##  **OPTIMISATIONS FUTURES POSSIBLES**
 
 ### **1. Conversion images WebP (Gain: +1-2 points)**
 - **Images actuelles** : PNG/JPG
@@ -314,19 +314,19 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/blog/&strategy=deskt
 
 ---
 
-## 🎯 **OBJECTIFS ATTEINTS**
+##  **OBJECTIFS ATTEINTS**
 
-✅ **Pagination implémentée** (3 articles/page au lieu de 17)  
-✅ **Images lazy load** (loading="lazy")  
-✅ **Dimensions explicites** (width/height pour éviter CLS)  
-✅ **Compteur d'articles** (UX améliorée)  
-✅ **Navigation pagination** (design moderne)  
-✅ **Responsive** (mobile/desktop)  
-✅ **Cache vidé** (Symfony prod)
+ **Pagination implémentée** (3 articles/page au lieu de 17)  
+ **Images lazy load** (loading="lazy")  
+ **Dimensions explicites** (width/height pour éviter CLS)  
+ **Compteur d'articles** (UX améliorée)  
+ **Navigation pagination** (design moderne)  
+ **Responsive** (mobile/desktop)  
+ **Cache vidé** (Symfony prod)
 
 ---
 
-## 📝 **FICHIERS MODIFIÉS**
+##  **FICHIERS MODIFIÉS**
 
 1. `/src/Controller/BlogController.php`
    - Ajout pagination (lignes 25-54)
@@ -339,15 +339,15 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/blog/&strategy=deskt
 
 ---
 
-## 🔄 **PROCHAINE ÉTAPE**
+##  **PROCHAINE ÉTAPE**
 
 **RE-TEST LIGHTHOUSE** sur la page `/blog/` :
 - URL Mobile : https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/blog/
 - URL Desktop : https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/blog/&strategy=desktop
 
 **Objectifs** :
-- ✅ Mobile : **90-93/100** (estimation)
-- ✅ Desktop : **95-98/100** (estimation)
+-  Mobile : **90-93/100** (estimation)
+-  Desktop : **95-98/100** (estimation)
 
 ---
 
@@ -358,18 +358,12 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/blog/&strategy=deskt
 
 ---
 
-## 📊 **RÉCAPITULATIF GLOBAL DES OPTIMISATIONS**
+##  **RÉCAPITULATIF GLOBAL DES OPTIMISATIONS**
 
 | **Page** | **Mobile** | **Desktop** | **Statut** |
 |---|---|---|---|
-| **/** (Accueil) | **93/100** ✅ | **98/100** ✅ | Optimisé |
-| **/formation** (Liste) | **96/100** 🎉 | **99/100** 🏆 | Optimisé |
-| **/formation/{id}** (Détail) | **96/100** 🎉 | **99/100** 🏆 | Optimisé |
-| **/blog/** (Liste) | **~90-93/100** 🚀 | **~95-98/100** 🚀 | À tester |
-
-
-
-
-
-
+| **/** (Accueil) | **93/100**  | **98/100**  | Optimisé |
+| **/formation** (Liste) | **96/100**  | **99/100**  | Optimisé |
+| **/formation/{id}** (Détail) | **96/100**  | **99/100**  | Optimisé |
+| **/blog/** (Liste) | **~90-93/100**  | **~95-98/100**  | À tester |
 

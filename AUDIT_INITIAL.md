@@ -1,9 +1,9 @@
-# 🔍 AUDIT INITIAL - Site INFPF
+#  AUDIT INITIAL - Site INFPF
 *Date : 30 octobre 2025*
 
-## 📊 ÉTAT ACTUEL DU PROJET
+##  ÉTAT ACTUEL DU PROJET
 
-### ✅ Points Positifs
+###  Points Positifs
 - Symfony 6.4 (framework moderne)
 - PHP 8.1+ (version récente)
 - reCAPTCHA v3 configuré
@@ -11,38 +11,38 @@
 - Meta tags Open Graph présents
 - Structure de code organisée
 
-### 🚨 PROBLÈMES CRITIQUES IDENTIFIÉS
+###  PROBLÈMES CRITIQUES IDENTIFIÉS
 
 #### 1. 🔒 SÉCURITÉ (CRITIQUE)
-- ❌ **Aucun header de sécurité** : Pas de CSP, HSTS, X-Frame-Options, X-Content-Type-Options
-- ❌ **CSRF Protection désactivée** : Commentée dans `config/packages/framework.yaml` (ligne 4)
-- ⚠️ **Sessions non sécurisées** : `cookie_secure: auto` devrait être `true` en production
-- ⚠️ **Cookie SameSite lax** : Devrait être `strict` pour plus de sécurité
+-  **Aucun header de sécurité** : Pas de CSP, HSTS, X-Frame-Options, X-Content-Type-Options
+-  **CSRF Protection désactivée** : Commentée dans `config/packages/framework.yaml` (ligne 4)
+-  **Sessions non sécurisées** : `cookie_secure: auto` devrait être `true` en production
+-  **Cookie SameSite lax** : Devrait être `strict` pour plus de sécurité
 
-#### 2. 🚀 PERFORMANCE (HAUTE PRIORITÉ)
-- ❌ **Cache HTTP inversé** : `.htaccess` configure `no-cache` pour les images (ligne 74) - **TOTALEMENT CONTRE-PRODUCTIF**
-- ❌ **Scripts JS bloquants** : jQuery chargé sans `defer`/`async` depuis CDN
-- ❌ **Pas de preload** : Ressources critiques non préchargées
-- ❌ **Pas de compression** : Aucune configuration Gzip/Brotli visible
-- ⚠️ **Meta viewport manquant** : Pas de viewport dans le `<head>`
-- ⚠️ **CSS inline volumineux** : Beaucoup de styles inline dans `base.html.twig`
+#### 2.  PERFORMANCE (HAUTE PRIORITÉ)
+-  **Cache HTTP inversé** : `.htaccess` configure `no-cache` pour les images (ligne 74) - **TOTALEMENT CONTRE-PRODUCTIF**
+-  **Scripts JS bloquants** : jQuery chargé sans `defer`/`async` depuis CDN
+-  **Pas de preload** : Ressources critiques non préchargées
+-  **Pas de compression** : Aucune configuration Gzip/Brotli visible
+-  **Meta viewport manquant** : Pas de viewport dans le `<head>`
+-  **CSS inline volumineux** : Beaucoup de styles inline dans `base.html.twig`
 
-#### 3. 🔍 SEO (MOYENNE PRIORITÉ)
-- ⚠️ **Meta charset mal positionné** : Devrait être dans les 512 premiers octets
-- ⚠️ **Pas de canonical URL** : Risque de contenu dupliqué
-- ⚠️ **Pas de sitemap.xml** : Pas de fichier sitemap visible
-- ⚠️ **Meta description générique** : Même description pour toutes les pages
-- ⚠️ **Pas de Schema.org** : Pas de markup structuré JSON-LD
+#### 3.  SEO (MOYENNE PRIORITÉ)
+-  **Meta charset mal positionné** : Devrait être dans les 512 premiers octets
+-  **Pas de canonical URL** : Risque de contenu dupliqué
+-  **Pas de sitemap.xml** : Pas de fichier sitemap visible
+-  **Meta description générique** : Même description pour toutes les pages
+-  **Pas de Schema.org** : Pas de markup structuré JSON-LD
 
 #### 4. ♿ ACCESSIBILITÉ (À VÉRIFIER)
-- ⚠️ **Images sans alt** : À vérifier sur toutes les pages
-- ⚠️ **Contraste des couleurs** : À tester avec Lighthouse
-- ⚠️ **Navigation clavier** : À tester
-- ⚠️ **Focus visible** : À vérifier
+-  **Images sans alt** : À vérifier sur toutes les pages
+-  **Contraste des couleurs** : À tester avec Lighthouse
+-  **Navigation clavier** : À tester
+-  **Focus visible** : À vérifier
 
 ---
 
-## 🎯 TOP 5 QUICK WINS PRIORITAIRES
+##  TOP 5 QUICK WINS PRIORITAIRES
 
 ### 🥇 1. CORRIGER LE CACHE HTTP (Impact : ÉNORME)
 **Problème** : Les images sont configurées avec `no-cache`, ce qui force le navigateur à les recharger à chaque visite.
@@ -102,35 +102,35 @@
 
 ---
 
-## 📋 PLAN D'ACTION RECOMMANDÉ
+##  PLAN D'ACTION RECOMMANDÉ
 
 ### Phase 1 : SÉCURITÉ (Jour 1)
-1. ✅ Corriger le cache HTTP dans `.htaccess`
-2. ✅ Créer EventListener pour headers de sécurité
-3. ✅ Activer CSRF protection
-4. ✅ Sécuriser les sessions (cookie_secure, samesite)
+1.  Corriger le cache HTTP dans `.htaccess`
+2.  Créer EventListener pour headers de sécurité
+3.  Activer CSRF protection
+4.  Sécuriser les sessions (cookie_secure, samesite)
 
 ### Phase 2 : PERFORMANCE (Jour 1-2)
-1. ✅ Optimiser chargement JS (defer, async, preload)
-2. ✅ Configurer compression Gzip/Brotli
-3. ✅ Ajouter meta viewport
-4. ✅ Lazy loading des images
+1.  Optimiser chargement JS (defer, async, preload)
+2.  Configurer compression Gzip/Brotli
+3.  Ajouter meta viewport
+4.  Lazy loading des images
 
 ### Phase 3 : SEO (Jour 2)
-1. ✅ Créer sitemap.xml dynamique
-2. ✅ Ajouter canonical URLs
-3. ✅ Améliorer meta tags par page
-4. ✅ Ajouter Schema.org markup
+1.  Créer sitemap.xml dynamique
+2.  Ajouter canonical URLs
+3.  Améliorer meta tags par page
+4.  Ajouter Schema.org markup
 
 ### Phase 4 : ACCESSIBILITÉ (Jour 3)
-1. ✅ Vérifier et ajouter attributs alt
-2. ✅ Tester contraste des couleurs
-3. ✅ Améliorer navigation clavier
-4. ✅ Ajouter ARIA attributes
+1.  Vérifier et ajouter attributs alt
+2.  Tester contraste des couleurs
+3.  Améliorer navigation clavier
+4.  Ajouter ARIA attributes
 
 ---
 
-## 📊 MÉTRIQUES À SUIVRE
+##  MÉTRIQUES À SUIVRE
 
 ### Avant optimisations (estimations)
 - Lighthouse Performance : ~60-70/100

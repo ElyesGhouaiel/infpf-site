@@ -1,15 +1,15 @@
-# 🚀 OPTIMISATIONS PAGE /formation - 2025-11-04
+#  OPTIMISATIONS PAGE /formation - 2025-11-04
 
-## 📊 **SCORES LIGHTHOUSE AVANT OPTIMISATION**
+##  **SCORES LIGHTHOUSE AVANT OPTIMISATION**
 
 | **Version** | **Performance** | **Problèmes Identifiés** |
 |---|---|---|
-| **Mobile** | **89/100** ⚠️ | TBT 240ms, JavaScript inutilisé 348 Kio |
-| **Desktop** | **98/100** ✅ | Bon score mais JavaScript bloquant |
+| **Mobile** | **89/100**  | TBT 240ms, JavaScript inutilisé 348 Kio |
+| **Desktop** | **98/100**  | Bon score mais JavaScript bloquant |
 
 ---
 
-## 🔴 **PROBLÈMES PRINCIPAUX IDENTIFIÉS**
+##  **PROBLÈMES PRINCIPAUX IDENTIFIÉS**
 
 ### **1. Google reCAPTCHA (Principal coupable)**
 - **Impact** : 690 Kio de JavaScript chargés automatiquement
@@ -28,9 +28,9 @@
 
 ---
 
-## ✅ **OPTIMISATIONS APPLIQUÉES**
+##  **OPTIMISATIONS APPLIQUÉES**
 
-### **1. ⚡ LAZY LOAD reCAPTCHA (Gain estimé: +6-8 points mobile)**
+### **1.  LAZY LOAD reCAPTCHA (Gain estimé: +6-8 points mobile)**
 
 **Fichier modifié** : `/templates/components/modal.html.twig`
 
@@ -71,7 +71,7 @@ function loadRecaptchaForModal() {
         }
         
         recaptchaLoadingForModal = true;
-        console.log('🔐 Lazy load reCAPTCHA pour modal...');
+        console.log(' Lazy load reCAPTCHA pour modal...');
         
         const recaptchaScript = document.createElement('script');
         recaptchaScript.src = 'https://www.google.com/recaptcha/api.js?render=6Led...';
@@ -79,7 +79,7 @@ function loadRecaptchaForModal() {
         recaptchaScript.onload = () => {
             recaptchaLoadedForModal = true;
             recaptchaLoadingForModal = false;
-            console.log('✅ reCAPTCHA chargé pour modal');
+            console.log(' reCAPTCHA chargé pour modal');
             resolve();
         };
         document.head.appendChild(recaptchaScript);
@@ -94,7 +94,7 @@ function loadRecaptchaForModal() {
 
 ---
 
-### **2. 🚀 Logo LCP optimisé (Gain estimé: +1-2 points)**
+### **2.  Logo LCP optimisé (Gain estimé: +1-2 points)**
 
 **Fichier modifié** : `/templates/base.html.twig` (ligne 2841)
 
@@ -143,8 +143,8 @@ function loadRecaptchaForModal() {
 ```
 
 **Changements** :
-- ❌ **Supprimé** : préconnexions Google/gstatic (reCAPTCHA lazy load)
-- ⬆️ **Upgrade** : unpkg.com de `dns-prefetch` à `preconnect` (AOS.js chargé immédiatement)
+-  **Supprimé** : préconnexions Google/gstatic (reCAPTCHA lazy load)
+- ⬆ **Upgrade** : unpkg.com de `dns-prefetch` à `preconnect` (AOS.js chargé immédiatement)
 
 **Bénéfices** :
 - **Connexion plus rapide** à unpkg.com (AOS.js)
@@ -152,18 +152,18 @@ function loadRecaptchaForModal() {
 
 ---
 
-## 📈 **SCORES ATTENDUS APRÈS OPTIMISATION**
+##  **SCORES ATTENDUS APRÈS OPTIMISATION**
 
 | **Version** | **Avant** | **Après (Estimé)** | **Gain** |
 |---|---|---|---|
-| **Mobile** | 89/100 | **95-97/100** ✅ | **+6-8 points** |
-| **Desktop** | 98/100 | **99-100/100** ✅ | **+1-2 points** |
+| **Mobile** | 89/100 | **95-97/100**  | **+6-8 points** |
+| **Desktop** | 98/100 | **99-100/100**  | **+1-2 points** |
 
 ### **Métriques attendues (Mobile)** :
-- **TBT** : 240ms → **~0-50ms** ✅ (-190ms)
-- **LCP** : 2.3s → **~1.5-1.8s** ✅ (-0.5-0.8s)
-- **FCP** : 2.0s → **~1.5-1.7s** ✅ (-0.3-0.5s)
-- **Speed Index** : 4.6s → **~3.2-3.8s** ✅ (-1.4-0.8s)
+- **TBT** : 240ms → **~0-50ms**  (-190ms)
+- **LCP** : 2.3s → **~1.5-1.8s**  (-0.5-0.8s)
+- **FCP** : 2.0s → **~1.5-1.7s**  (-0.3-0.5s)
+- **Speed Index** : 4.6s → **~3.2-3.8s**  (-1.4-0.8s)
 
 ---
 
@@ -181,7 +181,7 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/formation&strategy=d
 
 ---
 
-## 📋 **OPTIMISATIONS FUTURES POSSIBLES**
+##  **OPTIMISATIONS FUTURES POSSIBLES**
 
 ### **1. Minification CSS inline (Gain: +1-2 points)**
 - **Fichier** : `/templates/home/formation.html.twig`
@@ -200,31 +200,31 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/formation&strategy=d
 
 ---
 
-## 🎯 **OBJECTIFS ATTEINTS**
+##  **OBJECTIFS ATTEINTS**
 
-✅ **reCAPTCHA en lazy load** (690 Kio économisés au chargement)  
-✅ **Logo LCP optimisé** (fetchpriority="high" + loading="eager")  
-✅ **Préconnexions optimisées** (unpkg.com preconnect, Google/gstatic supprimés)  
-✅ **Cache vidé** (Symfony prod)
+ **reCAPTCHA en lazy load** (690 Kio économisés au chargement)  
+ **Logo LCP optimisé** (fetchpriority="high" + loading="eager")  
+ **Préconnexions optimisées** (unpkg.com preconnect, Google/gstatic supprimés)  
+ **Cache vidé** (Symfony prod)
 
 ---
 
-## 📝 **FICHIERS MODIFIÉS**
+##  **FICHIERS MODIFIÉS**
 
 1. `/templates/components/modal.html.twig` - Lazy load reCAPTCHA
 2. `/templates/base.html.twig` - Logo LCP + préconnexions optimisées
 
 ---
 
-## 🔄 **PROCHAINE ÉTAPE**
+##  **PROCHAINE ÉTAPE**
 
 **RE-TEST LIGHTHOUSE** sur la page `/formation` :
 - URL Mobile : https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/formation
 - URL Desktop : https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/formation&strategy=desktop
 
 **Objectif** :
-- ✅ Mobile : **95-97/100** (au lieu de 89/100)
-- ✅ Desktop : **99-100/100** (au lieu de 98/100)
+-  Mobile : **95-97/100** (au lieu de 89/100)
+-  Desktop : **99-100/100** (au lieu de 98/100)
 
 ---
 
@@ -232,10 +232,4 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr/formation&strategy=d
 **Développeur** : Assistant IA  
 **Environnement** : dev.infpf.fr  
 **Branche Git** : `feature/performance-security-seo-optimization`
-
-
-
-
-
-
 

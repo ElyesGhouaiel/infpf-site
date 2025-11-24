@@ -1,11 +1,11 @@
-# 🚀 OPTIMISATION CALENDLY LAZY LOAD - 04/11/2025
+#  OPTIMISATION CALENDLY LAZY LOAD - 04/11/2025
 
-## 📊 Contexte
+##  Contexte
 
 ### Problème Identifié
 Après optimisations initiales de la page d'accueil :
-- ✅ **Mobile** : 85 → **93/100** (+8 points)
-- ❌ **Desktop** : 92 → **88/100** (-4 points)
+-  **Mobile** : 85 → **93/100** (+8 points)
+-  **Desktop** : 92 → **88/100** (-4 points)
 
 ### Cause du Problème Desktop
 **JavaScript inutilisé : 347 Kio** provenant de Calendly `widget.js` (~280-300 Ko)
@@ -14,14 +14,14 @@ Le script Calendly se chargeait **automatiquement** au chargement de la page, au
 
 ---
 
-## ✅ Solution Implémentée : LAZY LOAD
+##  Solution Implémentée : LAZY LOAD
 
 ### Principe
 Ne charger Calendly **QUE** lorsque l'utilisateur clique sur un bouton de contact, pas au chargement initial de la page.
 
 ---
 
-## 🔧 Modifications Appliquées
+##  Modifications Appliquées
 
 ### 1. Fonction de Lazy Load (base.html.twig)
 
@@ -33,7 +33,7 @@ if (!document.querySelector('script[src*="calendly.com/assets/external/widget.js
   script.src = 'https://assets.calendly.com/assets/external/widget.js';
   script.async = true;
   document.head.appendChild(script);
-  console.log('✅ Script Calendly widget.js chargé pour popup desktop');
+  console.log(' Script Calendly widget.js chargé pour popup desktop');
 }
 ```
 
@@ -68,7 +68,7 @@ function loadCalendlyScript() {
     script.onload = () => {
       calendlyLoaded = true;
       calendlyLoading = false;
-      console.log('✅ Calendly widget.js chargé au clic (lazy load)');
+      console.log(' Calendly widget.js chargé au clic (lazy load)');
       resolve();
     };
     document.head.appendChild(script);
@@ -77,9 +77,9 @@ function loadCalendlyScript() {
 ```
 
 **Avantages** :
-- ✅ Utilise une Promise pour gérer le chargement asynchrone
-- ✅ Évite les chargements multiples avec un flag `calendlyLoading`
-- ✅ Mémorise l'état avec `calendlyLoaded` pour ne charger qu'une fois
+-  Utilise une Promise pour gérer le chargement asynchrone
+-  Évite les chargements multiples avec un flag `calendlyLoading`
+-  Mémorise l'état avec `calendlyLoaded` pour ne charger qu'une fois
 
 ---
 
@@ -96,7 +96,7 @@ if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
     if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
       Calendly.initPopupWidget({ url: calendlyUrl });
     } else {
-      console.warn('⚠️ Calendly non chargé, ouverture dans nouvel onglet');
+      console.warn(' Calendly non chargé, ouverture dans nouvel onglet');
       window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
     }
   }, 500);
@@ -111,19 +111,19 @@ console.log('📅 Lazy load Calendly desktop...');
 // Charger Calendly si pas encore chargé
 loadCalendlyScript().then(() => {
   if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
-    console.log('✅ Ouverture popup Calendly');
+    console.log(' Ouverture popup Calendly');
     Calendly.initPopupWidget({ url: calendlyUrl });
   } else {
-    console.warn('⚠️ Calendly non disponible, ouverture dans nouvel onglet');
+    console.warn(' Calendly non disponible, ouverture dans nouvel onglet');
     window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
   }
 });
 ```
 
 **Avantages** :
-- ✅ Plus de `setTimeout` aléatoire
-- ✅ Chargement garantit avant ouverture du popup
-- ✅ Meilleure gestion des erreurs
+-  Plus de `setTimeout` aléatoire
+-  Chargement garantit avant ouverture du popup
+-  Meilleure gestion des erreurs
 
 ---
 
@@ -143,9 +143,9 @@ loadCalendlyScript().then(() => {
 ```
 
 **Avantages** :
-- ✅ CSS ne bloque plus le rendu initial
-- ✅ Se charge en arrière-plan
-- ✅ Disponible quand l'utilisateur clique
+-  CSS ne bloque plus le rendu initial
+-  Se charge en arrière-plan
+-  Disponible quand l'utilisateur clique
 
 ---
 
@@ -162,20 +162,20 @@ loadCalendlyScript().then(() => {
 ```
 
 **Avantages** :
-- ✅ `dns-prefetch` est moins gourmand que `preconnect`
-- ✅ Résout le DNS sans établir de connexion TCP/TLS immédiate
-- ✅ Suffisant pour un chargement différé
+-  `dns-prefetch` est moins gourmand que `preconnect`
+-  Résout le DNS sans établir de connexion TCP/TLS immédiate
+-  Suffisant pour un chargement différé
 
 ---
 
-## 📈 Gains Attendus
+##  Gains Attendus
 
 ### Desktop (Principal Gain)
 
 | Métrique | Avant Lazy Load | Après Lazy Load (estimé) | Gain |
 |---|---|---|---|
 | **Performance** | 88 | **94-96** | +6-8 |
-| **TBT** | 190ms | **~80-100ms** | **-90-110ms** ⚡ |
+| **TBT** | 190ms | **~80-100ms** | **-90-110ms**  |
 | **JavaScript** | 347 Kio | **~50 Kio** | **-280-300 Kio** |
 
 **Explication** :
@@ -196,16 +196,16 @@ loadCalendlyScript().then(() => {
 
 ---
 
-## 🎯 Fonctionnement Final
+##  Fonctionnement Final
 
 ### 1. Chargement Initial de la Page
 ```
-✅ HTML + CSS critique
-✅ Images avec lazy load
-✅ AOS.js defer
-✅ Scripts essentiels
-❌ Calendly.js (PAS CHARGÉ)
-❌ Calendly.css (PRELOAD seulement)
+ HTML + CSS critique
+ Images avec lazy load
+ AOS.js defer
+ Scripts essentiels
+ Calendly.js (PAS CHARGÉ)
+ Calendly.css (PRELOAD seulement)
 ```
 
 ### 2. Premier Clic sur un Bouton Calendly (Desktop)
@@ -248,27 +248,27 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr&strategy=desktop
 ---
 
 ### 2. Test Fonctionnel Desktop
-1. ✅ Charger `dev.infpf.fr`
-2. ✅ Ouvrir DevTools (F12) → Console
-3. ✅ Cliquer sur "Je réserve mon appel gratuit"
-4. ✅ Vérifier dans Console : `📅 Lazy load Calendly desktop...`
-5. ✅ Vérifier dans Console : `✅ Calendly widget.js chargé au clic`
-6. ✅ Vérifier que le popup Calendly s'ouvre
-7. ✅ Fermer le popup
-8. ✅ Re-cliquer sur un bouton Calendly
-9. ✅ Vérifier que le popup s'ouvre instantanément (pas de rechargement)
+1.  Charger `dev.infpf.fr`
+2.  Ouvrir DevTools (F12) → Console
+3.  Cliquer sur "Je réserve mon appel gratuit"
+4.  Vérifier dans Console : `📅 Lazy load Calendly desktop...`
+5.  Vérifier dans Console : ` Calendly widget.js chargé au clic`
+6.  Vérifier que le popup Calendly s'ouvre
+7.  Fermer le popup
+8.  Re-cliquer sur un bouton Calendly
+9.  Vérifier que le popup s'ouvre instantanément (pas de rechargement)
 
 ---
 
 ### 3. Test Fonctionnel Mobile
-1. ✅ Charger `dev.infpf.fr` sur mobile (ou DevTools en mode mobile)
-2. ✅ Cliquer sur "Prise de contact"
-3. ✅ Vérifier la redirection vers `/contactez-nous`
-4. ✅ Vérifier dans Console : `🔄 Redirection mobile vers /contactez-nous`
+1.  Charger `dev.infpf.fr` sur mobile (ou DevTools en mode mobile)
+2.  Cliquer sur "Prise de contact"
+3.  Vérifier la redirection vers `/contactez-nous`
+4.  Vérifier dans Console : ` Redirection mobile vers /contactez-nous`
 
 ---
 
-## 📝 Fichiers Modifiés
+##  Fichiers Modifiés
 
 - **`templates/base.html.twig`** :
   - Ligne 3292-3326 : Fonction `loadCalendlyScript()` (lazy load)
@@ -278,7 +278,7 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr&strategy=desktop
 
 ---
 
-## 🚨 Points d'Attention
+##  Points d'Attention
 
 ### 1. Premier Clic Desktop
 - **Délai** : ~500ms pour charger Calendly au premier clic
@@ -286,17 +286,17 @@ https://pagespeed.web.dev/analysis?url=https://dev.infpf.fr&strategy=desktop
 - **Solution** : Le preload du CSS réduit le délai perçu
 
 ### 2. Compatibilité
-- ✅ Fonctionne sur tous les navigateurs modernes
-- ✅ Fallback `<noscript>` pour utilisateurs sans JS
-- ✅ Fallback `window.open()` si Calendly ne charge pas
+-  Fonctionne sur tous les navigateurs modernes
+-  Fallback `<noscript>` pour utilisateurs sans JS
+-  Fallback `window.open()` si Calendly ne charge pas
 
 ### 3. Cache Navigateur
-- ✅ Après le premier chargement, Calendly est en cache
-- ✅ Les visites suivantes chargent instantanément
+-  Après le premier chargement, Calendly est en cache
+-  Les visites suivantes chargent instantanément
 
 ---
 
-## 🔄 Rollback (si nécessaire)
+##  Rollback (si nécessaire)
 
 Si le lazy load pose problème, revenir à l'ancien comportement :
 
@@ -309,7 +309,7 @@ php bin/console cache:clear
 
 ---
 
-## 📊 Comparaison Avant/Après
+##  Comparaison Avant/Après
 
 ### AVANT (Chargement Auto)
 ```
@@ -345,7 +345,7 @@ JS Inutilisé: ~50 KB (estimé)
 
 ---
 
-## ✅ Conclusion
+##  Conclusion
 
 Cette optimisation permet de :
 1. **Réduire le JavaScript initial** de **280-300 Ko**
@@ -354,20 +354,12 @@ Cette optimisation permet de :
 4. **Maintenir l'UX** : délai de ~500ms au premier clic (acceptable)
 5. **Compatibilité** : 100% rétrocompatible avec fallbacks
 
-**🎉 Le lazy load de Calendly devrait résoudre la baisse de performance Desktop tout en conservant les gains Mobile !**
+** Le lazy load de Calendly devrait résoudre la baisse de performance Desktop tout en conservant les gains Mobile !**
 
 ---
 
 **Date** : 04 Novembre 2025  
 **Auteur** : Assistant IA  
 **Branche** : `feature/performance-security-seo-optimization`  
-**Cache** : ✅ Vidé  
-**Tests** : ⏳ En attente des résultats Lighthouse
-
-
-
-
-
-
-
-
+**Cache** :  Vidé  
+**Tests** :  En attente des résultats Lighthouse

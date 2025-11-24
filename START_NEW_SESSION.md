@@ -1,6 +1,6 @@
-# 🚀 DÉMARRER UNE NOUVELLE SESSION - OPTIMISATION PERFORMANCE & SÉCURITÉ
+#  DÉMARRER UNE NOUVELLE SESSION - OPTIMISATION PERFORMANCE & SÉCURITÉ
 
-## ✅ TOUT EST PRÊT !
+##  TOUT EST PRÊT !
 
 La branche `feature/performance-security-seo-optimization` a été créée et est maintenant active dans votre environnement de développement.
 
@@ -9,9 +9,9 @@ La branche `feature/performance-security-seo-optimization` a été créée et es
 ## 📍 ÉTAT ACTUEL
 
 ### Branches
-- ✅ **Branche créée** : `feature/performance-security-seo-optimization`
-- ✅ **Poussée sur GitHub** : https://github.com/ElyesGhouaiel/infpf-site
-- ✅ **Active dans /dev/** : Prête pour le développement
+-  **Branche créée** : `feature/performance-security-seo-optimization`
+-  **Poussée sur GitHub** : https://github.com/ElyesGhouaiel/infpf-site
+-  **Active dans /dev/** : Prête pour le développement
 
 ### Environnements
 ```
@@ -24,13 +24,13 @@ La branche `feature/performance-security-seo-optimization` a été créée et es
 ```
 
 ### Fichiers créés
-- ✅ **PROMPT_PERFORMANCE_SECURITY.md** : Prompt complet (TRÈS DÉTAILLÉ - 600+ lignes)
-- ✅ **BRANCH_README.md** : Aperçu et plan d'action
-- ✅ **START_NEW_SESSION.md** : Ce fichier (guide de démarrage)
+-  **PROMPT_PERFORMANCE_SECURITY.md** : Prompt complet (TRÈS DÉTAILLÉ - 600+ lignes)
+-  **BRANCH_README.md** : Aperçu et plan d'action
+-  **START_NEW_SESSION.md** : Ce fichier (guide de démarrage)
 
 ---
 
-## 🎯 PROMPT À COPIER-COLLER POUR NOUVELLE SESSION
+##  PROMPT À COPIER-COLLER POUR NOUVELLE SESSION
 
 ### Version Courte (Recommandée)
 
@@ -47,11 +47,11 @@ CONTEXTE :
 - Prod : https://infpf.fr/
 
 MISSION :
-1. 🚀 PERFORMANCE : Lighthouse ≥ 90, Core Web Vitals optimaux
+1.  PERFORMANCE : Lighthouse ≥ 90, Core Web Vitals optimaux
 2. ♿ ACCESSIBILITÉ : WCAG 2.1 AA, score ≥ 95
 3. 🔒 SÉCURITÉ : Headers A+, audit composer, protections XSS/CSRF/SQL
-4. 🔍 SEO : Score 100, sitemap, schema.org
-5. ⚙️ CI/CD : Pipeline GitHub Actions
+4.  SEO : Score 100, sitemap, schema.org
+5. ⚙ CI/CD : Pipeline GitHub Actions
 
 PREMIÈRE ACTION :
 Lis le fichier /home/u665392393/domains/infpf.fr/public_html/PROMPT_PERFORMANCE_SECURITY.md pour avoir tout le contexte détaillé, puis réalise un audit complet et propose-moi les 5 premières optimisations à impact maximal (quick wins en priorité).
@@ -79,12 +79,12 @@ Je travaille sur l'optimisation complète (Performance, Sécurité, SEO, Accessi
 - Analytics : Système custom RGPD-compliant
 
 **État actuel** :
-- ✅ Refonte desktop complète (Avril-Sept 2025)
-- ✅ Version mobile responsive (Octobre 2025)
-- ✅ Workflow Git professionnel (main/dev/feature)
+-  Refonte desktop complète (Avril-Sept 2025)
+-  Version mobile responsive (Octobre 2025)
+-  Workflow Git professionnel (main/dev/feature)
 
 **Mission** :
-1. 🚀 **PERFORMANCE** :
+1.  **PERFORMANCE** :
    - Lighthouse Performance ≥ 90/100
    - LCP < 2.5s, FID < 100ms, CLS < 0.1
    - Images WebP + lazy loading
@@ -105,14 +105,14 @@ Je travaille sur l'optimisation complète (Performance, Sécurité, SEO, Accessi
    - Protection XSS/CSRF/SQL Injection
    - Composer audit : 0 vulnérabilités
 
-4. 🔍 **SEO** :
+4.  **SEO** :
    - Lighthouse SEO 100/100
    - Sitemap.xml + robots.txt
    - Schema.org (JSON-LD)
    - Meta tags optimisés
    - Core Web Vitals verts
 
-5. ⚙️ **CI/CD** :
+5. ⚙ **CI/CD** :
    - GitHub Actions workflow
    - Tests automatisés (Lint, Audit)
    - Lighthouse CI
@@ -137,7 +137,7 @@ Je veux que tu sois un expert en performance web, sécurité et accessibilité. 
 
 ---
 
-## 🛠️ COMMANDES UTILES
+## 🛠 COMMANDES UTILES
 
 ### Vérifier l'état actuel
 ```bash
@@ -186,7 +186,7 @@ php bin/console cache:clear
 
 ---
 
-## 📊 AUDITS À RÉALISER EN PREMIER
+##  AUDITS À RÉALISER EN PREMIER
 
 ### 1. Lighthouse (Performance, Accessibility, SEO, Best Practices)
 ```bash
@@ -236,73 +236,73 @@ find public/uploads/images -type f -size +500k -exec ls -lh {} \;
 | Fichier | Contenu | Taille |
 |---------|---------|--------|
 | **PROMPT_PERFORMANCE_SECURITY.md** | 📖 Prompt COMPLET avec tout le contexte | ~600 lignes |
-| **BRANCH_README.md** | 📝 Aperçu de la branche et plan d'action | ~150 lignes |
-| **START_NEW_SESSION.md** | 🚀 Ce fichier (guide de démarrage) | ~200 lignes |
-| **FAQ_WORKFLOW.md** | ❓ FAQ sur le workflow Git | ~270 lignes |
+| **BRANCH_README.md** |  Aperçu de la branche et plan d'action | ~150 lignes |
+| **START_NEW_SESSION.md** |  Ce fichier (guide de démarrage) | ~200 lignes |
+| **FAQ_WORKFLOW.md** |  FAQ sur le workflow Git | ~270 lignes |
 | **GIT_WORKFLOW.md** | 📚 Guide complet du workflow Git | ~280 lignes |
-| **QUICK_START.md** | ⚡ Guide rapide du workflow | ~80 lignes |
+| **QUICK_START.md** |  Guide rapide du workflow | ~80 lignes |
 
 **Recommandation** : Commencez par lire `PROMPT_PERFORMANCE_SECURITY.md` - c'est le document le plus important !
 
 ---
 
-## 🎯 OBJECTIFS CHIFFRÉS
+##  OBJECTIFS CHIFFRÉS
 
 ### Scores Lighthouse
 | Catégorie | Cible | Actuel | À mesurer |
 |-----------|-------|--------|-----------|
-| Performance | ≥ 90 | ❓ | 1er audit |
-| Accessibility | ≥ 95 | ❓ | 1er audit |
-| Best Practices | 100 | ❓ | 1er audit |
-| SEO | 100 | ❓ | 1er audit |
+| Performance | ≥ 90 |  | 1er audit |
+| Accessibility | ≥ 95 |  | 1er audit |
+| Best Practices | 100 |  | 1er audit |
+| SEO | 100 |  | 1er audit |
 
 ### Core Web Vitals
 | Métrique | Cible | Actuel | À mesurer |
 |----------|-------|--------|-----------|
-| LCP (Largest Contentful Paint) | < 2.5s | ❓ | PageSpeed Insights |
-| FID (First Input Delay) | < 100ms | ❓ | PageSpeed Insights |
-| CLS (Cumulative Layout Shift) | < 0.1 | ❓ | PageSpeed Insights |
+| LCP (Largest Contentful Paint) | < 2.5s |  | PageSpeed Insights |
+| FID (First Input Delay) | < 100ms |  | PageSpeed Insights |
+| CLS (Cumulative Layout Shift) | < 0.1 |  | PageSpeed Insights |
 
 ### Sécurité
 | Outil | Cible | Actuel | À mesurer |
 |-------|-------|--------|-----------|
-| Mozilla Observatory | A+ | ❓ | observatory.mozilla.org |
-| SecurityHeaders.com | A+ | ❓ | securityheaders.com |
-| Composer Audit | 0 vulnérabilités | ❓ | composer audit |
+| Mozilla Observatory | A+ |  | observatory.mozilla.org |
+| SecurityHeaders.com | A+ |  | securityheaders.com |
+| Composer Audit | 0 vulnérabilités |  | composer audit |
 
 ---
 
-## 🚀 QUICK WINS (Gains rapides)
+##  QUICK WINS (Gains rapides)
 
 Voici les optimisations qui devraient être faites en premier (impact élevé, effort faible) :
 
 ### Performance
-1. ✅ Activer la compression Gzip/Brotli (.htaccess)
-2. ✅ Ajouter les headers de cache (.htaccess)
-3. ✅ Optimiser les images (compression + WebP)
-4. ✅ Lazy loading des images
-5. ✅ Defer JavaScript non critique
+1.  Activer la compression Gzip/Brotli (.htaccess)
+2.  Ajouter les headers de cache (.htaccess)
+3.  Optimiser les images (compression + WebP)
+4.  Lazy loading des images
+5.  Defer JavaScript non critique
 
 ### Sécurité
-1. ✅ Ajouter Content-Security-Policy
-2. ✅ Ajouter X-Frame-Options: DENY
-3. ✅ Ajouter X-Content-Type-Options: nosniff
-4. ✅ Ajouter Strict-Transport-Security (HSTS)
-5. ✅ Composer audit + mise à jour sécurité
+1.  Ajouter Content-Security-Policy
+2.  Ajouter X-Frame-Options: DENY
+3.  Ajouter X-Content-Type-Options: nosniff
+4.  Ajouter Strict-Transport-Security (HSTS)
+5.  Composer audit + mise à jour sécurité
 
 ### SEO
-1. ✅ Vérifier meta description sur toutes les pages
-2. ✅ Vérifier balises alt sur toutes les images
-3. ✅ Générer sitemap.xml
-4. ✅ Optimiser robots.txt
-5. ✅ Ajouter Schema.org (Organisation, WebSite)
+1.  Vérifier meta description sur toutes les pages
+2.  Vérifier balises alt sur toutes les images
+3.  Générer sitemap.xml
+4.  Optimiser robots.txt
+5.  Ajouter Schema.org (Organisation, WebSite)
 
 ### Accessibilité
-1. ✅ Contraste des couleurs (≥ 4.5:1)
-2. ✅ Attributs alt manquants
-3. ✅ Labels sur les formulaires
-4. ✅ ARIA attributes de base
-5. ✅ Navigation au clavier testée
+1.  Contraste des couleurs (≥ 4.5:1)
+2.  Attributs alt manquants
+3.  Labels sur les formulaires
+4.  ARIA attributes de base
+5.  Navigation au clavier testée
 
 ---
 
@@ -315,7 +315,7 @@ Si vous avez des questions ou des blocages :
 
 ---
 
-## ✅ CHECKLIST AVANT DE COMMENCER
+##  CHECKLIST AVANT DE COMMENCER
 
 - [x] Branche créée : `feature/performance-security-seo-optimization`
 - [x] Branche poussée sur GitHub
@@ -324,7 +324,7 @@ Si vous avez des questions ou des blocages :
 - [x] Documentation créée (BRANCH_README.md)
 - [x] Guide de démarrage créé (START_NEW_SESSION.md)
 
-**🎉 Vous êtes prêt à démarrer !**
+** Vous êtes prêt à démarrer !**
 
 ---
 
@@ -341,5 +341,5 @@ Si vous avez des questions ou des blocages :
 *Branche : feature/performance-security-seo-optimization*
 *Objectif : Site ultra-rapide, sécurisé et optimisé*
 
-**BON COURAGE ! 🚀**
+**BON COURAGE ! **
 

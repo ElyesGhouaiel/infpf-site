@@ -4768,25 +4768,33 @@
         width: 80px;
         height: auto;
     }
+}
+
+/* Menu Burger pour Tablette et Mobile (< 1200px) */
+@media screen and (max-width: 1199px) {
     #menu {
         display: none;
     }
     .header__menu-burger {
-        display: block;
+        display: flex;
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 991px) {
-    /* Ajoutez vos styles spécifiques pour les écrans de taille moyenne ici */
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+    /* Styles spécifiques pour les écrans de taille moyenne (tablettes) */
+    .logo-infpf {
+        width: 100px; /* Taille réduite pour tablette */
+        height: auto;
+    }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1200px) {
     /* Ajoutez vos styles spécifiques pour les écrans larges ici */
     .header {
         padding-top: 20px;
     }
     .logo-infpf {
-        width: 100px;
+        width: 150px; /* Taille normale restaurée pour desktop */
         height: auto;
     }
     #menu {

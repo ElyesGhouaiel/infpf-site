@@ -1,6 +1,6 @@
-# 🔄 Workflow de Développement - Site INFPF
+#  Workflow de Développement - Site INFPF
 
-## 📋 Structure
+##  Structure
 
 ```
 /public_html/          → PRODUCTION (main)
@@ -10,7 +10,7 @@
   └─ Site accessible via: https://infpf.fr/dev/ (à configurer dans Hostinger)
 ```
 
-## 🚀 Commandes Utiles
+##  Commandes Utiles
 
 ### Basculer vers la production (main)
 ```bash
@@ -70,7 +70,7 @@ git push origin main
 # 5. Le site en production sera automatiquement mis à jour
 ```
 
-## 📝 Exemple de Workflow Complet
+##  Exemple de Workflow Complet
 
 ```bash
 # 1. Créer une nouvelle fonctionnalité
@@ -99,14 +99,14 @@ git push origin main
 # 7. Le site en production est maintenant à jour !
 ```
 
-## ⚠️ Important
+##  Important
 
 - **NE JAMAIS** développer directement sur `main` en production
 - **TOUJOURS** tester sur `/dev/` avant de merger vers `main`
 - **TOUJOURS** faire `git pull` avant de travailler
 - Créer une branche par fonctionnalité pour faciliter les retours en arrière
 
-## 🔧 Configuration Hostinger
+##  Configuration Hostinger
 
 Pour que `/dev/` soit accessible, vous devez :
 
