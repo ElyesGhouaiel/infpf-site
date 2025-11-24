@@ -3,31 +3,148 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		{% block stylesheets %}{% endblock %}
-			<link href="../css/fichier-v2.min.css?v=2" rel="stylesheet"/>
-			<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
-			<!-- CSS dédié bouton scroll - Force le positionnement correct -->
-			<link rel="stylesheet" href="{{ asset('css/bouton-scroll.css') }}?v={{ random() }}">
+	{% block stylesheets %}{% endblock %}
+		<link href="../css/fichier-v2.min.css?v=4" rel="stylesheet"/>
+		<link rel="stylesheet" href="{{ asset('css/popups.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/footer1.css') }}">
+		<!-- CSS dédié bouton scroll - Force le positionnement correct -->
+		<link rel="stylesheet" href="{{ asset('css/bouton-scroll.css') }}?v={{ random() }}">
+		<!-- FIX MODAL: Force le cache du modal à être caché -->
+		<style>
+			#popupForm, .popup-form { display: none !important; }
+			
+		/* ===== BOUTON SCROLL-TO-TOP ULTRA-PROPRE (SVG 100% transparent) ===== */
+		.fab {
+			/* Reset total */
+			appearance: none;
+			border: 0;
+			padding: 0;
+			margin: 0;
+			background: transparent !important;
+			box-shadow: none !important;
+			outline: none !important;
+			-webkit-tap-highlight-color: transparent;
+			cursor: pointer;
+			
+			/* Position */
+			position: fixed !important;
+			bottom: 100px !important;
+			right: 30px !important;
+			z-index: 2147483646 !important;
+			
+			/* Caché par défaut */
+			display: none !important;
+			
+			/* Transitions */
+			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+		
+		/* Taille responsive SVG */
+		.fab-svg {
+			display: block;
+			width: clamp(50px, 12vw, 64px);
+			height: clamp(50px, 12vw, 64px);
+		}
+		
+		/* Rail gris léger */
+		.fab-track {
+			fill: none;
+			stroke: rgba(255, 255, 255, 0.28);
+			stroke-width: 3;
+		}
+		
+		/* Cercle de progression cyan */
+		.fab-progress {
+			fill: none;
+			stroke: #36D9FF;
+			stroke-width: 3;
+			stroke-linecap: round;
+			/* Périmètre = 2πr = 2 * 3.14159 * 18 = ~113.097 */
+			stroke-dasharray: 113.097;
+			stroke-dashoffset: 113.097; /* Vide au départ */
+			transition: stroke-dashoffset 0.1s ease-out;
+		}
+		
+		/* Flèche blanche centrée */
+		.fab-arrow {
+			fill: none;
+			stroke: #fff;
+			stroke-width: 3;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+		
+		/* Sécurité anti-pollution CSS */
+		.fab-svg, .fab-svg * {
+			background: none !important;
+			mix-blend-mode: normal !important;
+			filter: none;
+			box-shadow: none !important;
+			outline: none;
+			padding: 0 !important;
+			margin: 0 !important;
+			border: 0 !important;
+		}
+		
+		/* Animation hover */
+		.fab:hover {
+			transform: translateY(-5px) scale(1.08);
+		}
+		
+		/* Quand visible via JS */
+		.fab[style*="display: block"],
+		.fab[style*="display: flex"] {
+			display: block !important;
+		}
+		
+		/* Responsive mobile */
+		@media (max-width: 768px) {
+			.fab {
+				right: 20px !important;
+				bottom: 90px !important;
+			}
+			
+			.fab-svg {
+				width: clamp(48px, 12vw, 58px);
+				height: clamp(48px, 12vw, 58px);
+			}
+		}
+		</style>
 
 		<!-- CSS de Bootstrap -->
 		
-		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
+		<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		{% block javascripts %}
 			{# Importmap désactivé pour éviter les erreurs 404 - Assets non compilés
 			{% block importmap %}
 				{{ importmap('app') }}
 			{% endblock %}
 			#}
-			<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-			<script src="{{ asset('js/popup.js') }}"></script>
+		<script id="link-juice-optimizer-js-extra" type="text/javascript"></script>
+		<!-- Scripts locaux avec defer (jQuery supprimé car inutilisé - économie de 85 Kio) -->
+		<script src="{{ asset('js/popup.js') }}" defer></script>
 		{% endblock %}
 
-	<!-- Calendly Integration - RÉACTIVÉ pour popup desktop -->
-		<link rel="preconnect" href="https://assets.calendly.com">
-		<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+
+
+
+
+
+
+
+
+	<!-- Préconnexion et DNS prefetch pour les ressources externes -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="preconnect" href="https://unpkg.com">
+		<link rel="dns-prefetch" href="https://assets.calendly.com">
+		<!-- Google reCAPTCHA chargé en lazy load uniquement à l'ouverture de la modal -->
+		
+		<!-- Calendly CSS - Preload pour lazy load au clic -->
+		<link rel="preload" href="https://assets.calendly.com/assets/external/widget.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css"></noscript>
 		
 		<style>
 		/* ===== CONTRAINTES GLOBALES ET OVERRIDES v20250929-15h54 ===== */
@@ -2581,9 +2698,9 @@
 		/* ===== MASQUER LE BOUTON RETOUR VERS LE HAUT DANS LE MENU BURGER ===== */
 		@media (max-width: 768px) {
 			/* Masquer le bouton scroll-to-top quand le menu burger est ouvert */
-			.header--active ~ #btnScrollTop,
-			.header--active + main #btnScrollTop,
-			body.overflow #btnScrollTop {
+			.header--active ~ .fab,
+			.header--active + main .fab,
+			body.overflow .fab {
 				display: none !important;
 				opacity: 0 !important;
 				visibility: hidden !important;
@@ -2795,15 +2912,25 @@
 																								<link as="script" href="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" rel="preload"/> #}
 		<meta
 		content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/> <!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->
-		<title>Formation à distance avec l'Institut national de la formation professionnelle française</title>
+		<title>{% block title %}Formation à distance avec l'Institut national de la formation professionnelle française{% endblock %}</title>
+		{% block meta_description %}
 		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." name="description"/>
+		{% endblock %}
 		<meta content="fr_FR" property="og:locale"/>
 		<meta content="website" property="og:type"/>
+		{% block og_title %}
 		<meta content="Formation à distance avec l'Institut national de la formation professionnelle française" property="og:title"/>
-		<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
-		<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+		{% endblock %}
+	{% block og_description %}
+	<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
+	{% endblock %}
+	<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+	
+	{# Google Analytics 4 - Tracking et événements personnalisés #}
+	{% include 'analytics/google-analytics.html.twig' %}
 	</head>
-</html>
+<body>
+
 <header class="header" style="  position: fixed;
   left: 0;
   width: 100%;
@@ -2813,7 +2940,10 @@
   padding-top: 0px;">
 <div class="header__container">
 		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
-			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="22" src="{{ asset('img/CROPPED_LOGO__INFPF_2.png') }}" width="22" color="none"/>
+			<picture>
+				<source srcset="{{ asset('img/CROPPED_LOGO__INFPF_2_150.webp') }}" type="image/webp">
+				<img class="logo-infpf" alt="Logo formation" src="{{ asset('img/CROPPED_LOGO__INFPF_2_150.png') }}" width="150" height="161" fetchpriority="high" loading="eager"/>
+			</picture>
 		</a>
 	<nav id="menu">
 		<button class="menu-mobile-close" style="display:none">×</button>
@@ -3019,14 +3149,44 @@
 	</div>
 </div></header>
 
-{# Déplacement de la modal ici, juste avant </body> #}
-{% include 'components/modal.html.twig' %}
+{# Modal conditionnelle - NE PAS charger sur /contactez-nous (évite double reCAPTCHA) #}
+{% if app.request.pathinfo != '/contactez-nous' %}
+    {% include 'components/modal.html.twig' %}
+{% endif %}
 
 <main class="site-main" id="main">
 {% block body %}{% endblock %}
 </main>
 
-<img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut">
+{% include 'footer.html.twig' %}
+
+<button class="fab" id="btnScrollTop" aria-label="Remonter en haut">
+	<svg class="fab-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<!-- Dégradé du disque bleu -->
+			<linearGradient id="fabGrad" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0%" stop-color="#1E5AE6"/>
+				<stop offset="100%" stop-color="#0E44BF"/>
+			</linearGradient>
+			<!-- Ombre douce SVG (pas de carré) -->
+			<filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0D4CFF" flood-opacity="0.20"/>
+			</filter>
+		</defs>
+		
+		<!-- Disque (fond bleu avec ombre) -->
+		<circle cx="24" cy="24" r="18" fill="url(#fabGrad)" filter="url(#softShadow)"/>
+		
+		<!-- Rail de progression (gris transparent) -->
+		<circle cx="24" cy="24" r="18" class="fab-track"/>
+		
+		<!-- Cercle de progression (cyan) -->
+		<circle cx="24" cy="24" r="18" class="fab-progress" transform="rotate(-90 24 24)"/>
+		
+		<!-- Flèche blanche -->
+		<path class="fab-arrow" d="M24 16v16M24 16l-6 6M24 16l6 6"/>
+	</svg>
+</button>
 
 {# Banner de consentement cookies RGPD #}
 {% include 'components/cookie_banner.html.twig' %}
@@ -3036,7 +3196,7 @@
 <script src="{{ asset('js/popup.js') }}"></script>
 
 <!-- Système de tracking analytics conforme RGPD -->
-<script src="{{ asset('js/cookie-tracking.js') }}?v={{ 'now'|date('YmdHis') }}"></script>
+<script src="{{ asset('js/cookie-tracking.min.js') }}?v={{ 'now'|date('YmdHis') }}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -3165,24 +3325,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  // Scroll top button - Seuil réduit pour être visible plus tôt
-  document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("btnScrollTop");
+  // ===== INDICATEUR DE PROGRESSION SVG ULTRA-PROPRE =====
+  (function() {
+    const C = 2 * Math.PI * 18; // Circonférence = ~113.097
+    const ring = document.querySelector('.fab-progress');
+    const btn = document.getElementById('btnScrollTop');
+    
+    if (!ring || !btn) return;
 
-    if (!btn) return;
+    // Fonction pour définir la progression (0 à 1)
+    function setProgress(p) {
+      const progress = Math.max(0, Math.min(1, p));
+      const offset = C * (1 - progress);
+      ring.style.strokeDashoffset = offset;
+    }
 
-    window.addEventListener("scroll", function () {
-      // Afficher dès 200px de scroll (au lieu de 300px)
-      btn.style.display = window.scrollY > 200 ? "block" : "none";
-    });
+    // Mise à jour basée sur le scroll
+    function updateByScroll() {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop || window.scrollY;
+      const max = h.scrollHeight - h.clientHeight || 1;
+      const progress = scrolled / max;
+      
+      // Mettre à jour la progression
+      setProgress(progress);
+      
+      // Afficher/masquer le bouton après 300px
+      if (scrolled > 300) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
 
-    btn.addEventListener("click", function () {
+    // Scroll au top au clic
+    btn.addEventListener('click', function() {
       window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: 'smooth'
       });
     });
-  });
+
+    // Écoute du scroll avec throttle pour performance
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          updateByScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initialisation
+    updateByScroll();
+  })();
 
   // Redirection par catégorie
   document.querySelectorAll('.category-link').forEach(function (link) {
@@ -3264,14 +3462,40 @@ document.addEventListener('DOMContentLoaded', function () {
     window.scrollTo(0, 0);
   });
 
-  // ===== CALENDLY POPUP WIDGET - RÉACTIVÉ pour desktop uniquement =====
-  // Charge le script Calendly si pas déjà chargé
-  if (!document.querySelector('script[src*="calendly.com/assets/external/widget.js"]')) {
-    const script = document.createElement('script');
-          script.src = 'https://assets.calendly.com/assets/external/widget.js';
-          script.async = true;
-          document.head.appendChild(script);
-    console.log('✅ Script Calendly widget.js chargé pour popup desktop');
+  // ===== CALENDLY LAZY LOAD - Ne charge que au premier clic =====
+  let calendlyLoaded = false;
+  let calendlyLoading = false;
+
+  function loadCalendlyScript() {
+    return new Promise((resolve) => {
+      if (calendlyLoaded) {
+        resolve();
+        return;
+      }
+      
+      if (calendlyLoading) {
+        // Attendre que le chargement en cours se termine
+        const checkInterval = setInterval(() => {
+          if (calendlyLoaded) {
+            clearInterval(checkInterval);
+            resolve();
+          }
+        }, 100);
+        return;
+      }
+
+      calendlyLoading = true;
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = () => {
+        calendlyLoaded = true;
+        calendlyLoading = false;
+        console.log('✅ Calendly widget.js chargé au clic (lazy load)');
+        resolve();
+      };
+      document.head.appendChild(script);
+    });
   }
 
   // ===== REDIRECTION + CHANGEMENT DE TEXTE MOBILE POUR TOUS LES BOUTONS CALENDLY =====
@@ -3356,29 +3580,25 @@ document.addEventListener('DOMContentLoaded', function () {
           window.location.href = '/contactez-nous';
           return false;
         } else {
-          // DESKTOP : Ouvrir popup Calendly avec accès direct au planning
+          // DESKTOP : Charger Calendly puis ouvrir popup (lazy load)
           e.preventDefault();
           e.stopPropagation();
           
           // URL Calendly avec accès direct au calendrier
           const calendlyUrl = 'https://calendly.com/contact-infpf/contact-infpf?back=1&hide_event_type_details=1&hide_gdpr_banner=1&primary_color=0b3f89';
         
-          console.log('📅 Ouverture popup Calendly desktop');
+          console.log('📅 Lazy load Calendly desktop...');
           
-          // Attendre que le script soit chargé
-        if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
-            Calendly.initPopupWidget({ url: calendlyUrl });
-        } else {
-            // Fallback : attendre 500ms et réessayer
-            setTimeout(function() {
-              if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
-                Calendly.initPopupWidget({ url: calendlyUrl });
-              } else {
-                console.warn('⚠️ Calendly non chargé, ouverture dans nouvel onglet');
-                window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
-              }
-            }, 500);
-          }
+          // Charger Calendly si pas encore chargé
+          loadCalendlyScript().then(() => {
+            if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
+              console.log('✅ Ouverture popup Calendly');
+              Calendly.initPopupWidget({ url: calendlyUrl });
+            } else {
+              console.warn('⚠️ Calendly non disponible, ouverture dans nouvel onglet');
+              window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
+            }
+          });
           
           return false;
         }

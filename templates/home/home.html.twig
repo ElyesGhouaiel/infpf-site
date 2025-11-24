@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link href="../css/fichier-v2.min.css?v=2" rel="stylesheet"/>
+	<link href="../css/fichier-v2.min.css?v=4"/>
 	<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 	{# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
 	{# <link rel="preconnect" href="https://assets.calendly.com"> #}
@@ -4824,7 +4824,7 @@
 	<div class="video-section">
 		<div class="wp-block-coaching-personnalise" data-aos="fade-up">
 			<div class="wp-block-videos" data-aos="fade-right">
-				<video controls autoplay loop>
+				<video id="video-infpf" controls muted loop>
         <source src="{{ asset('img/video-infpf.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -4846,6 +4846,40 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+			// Auto-lecture vidéo avec volume à 50% quand elle entre dans le viewport
+			document.addEventListener('DOMContentLoaded', function() {
+				const video = document.getElementById('video-infpf');
+				let hasPlayed = false;
+
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting && !hasPlayed) {
+							// Vidéo est visible dans le viewport
+							video.muted = false; // Activer le son
+							video.volume = 0.5;  // Volume à 50%
+							
+							// Lancer la vidéo
+							video.play().catch(err => {
+								// Si le navigateur bloque l'autoplay avec son, garder muted
+								console.log('Autoplay avec son bloqué, lecture en mode muet');
+								video.muted = true;
+								video.play();
+							});
+							
+							hasPlayed = true;
+						}
+					});
+				}, {
+					threshold: 0.5 // Déclencher quand 50% de la vidéo est visible
+				});
+
+				if (video) {
+					observer.observe(video);
+				}
+			});
+		</script>
 
 		<!-- Contact Section Moderne et Cohérente -->
 	<section class="contact-section">
@@ -4926,8 +4960,6 @@
 		</div>
 	</section>
 	</div>
-
-	{% include 'footer.html.twig' %}
 
 {% block javascripts %}
 <!-- CHARGEMENT JQUERY EN PREMIER -->
@@ -5199,25 +5231,6 @@
 			});
 		});
   </script>
-
-<!-- Bandeau service client (juste avant la fin du hero ou avant le main) -->
-<img id="btnScrollTop" src="{{ asset('img/btn_fleche0.png') }}" alt="Retour en haut" class="bouton-retour-haut" style="display:none; position:fixed; bottom:40px; right:30px; z-index:9999; width:48px; height:48px; cursor:pointer; box-shadow:0 4px 16px rgba(11,63,137,0.15); border-radius:50%; background:white; border:2px solid #0b3f89; transition:box-shadow 0.2s;">
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const btn = document.getElementById("btnScrollTop");
-  if (!btn) return;
-  window.addEventListener("scroll", function () {
-    btn.style.display = window.scrollY > 200 ? "block" : "none";
-  });
-  btn.addEventListener("click", function () {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-});
-</script>
 
 <!-- --- MENU BURGER (copié de base.html.twig) --- -->
 

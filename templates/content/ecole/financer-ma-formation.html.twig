@@ -1,11 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Financements et prises en charge - INFPF
+{% block title %}{{ page_title|default('Financements et prises en charge') }} - INFPF{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez toutes les solutions pour financer votre formation professionnelle : CPF, Pôle Emploi, OPCO, financement personnel.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default('Financements et prises en charge') }} - INFPF">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Découvrez toutes les solutions pour financer votre formation professionnelle : CPF, Pôle Emploi, OPCO, financement personnel.') }}">
 {% endblock %}
 
 {% block stylesheets %}
-	<link href="../css/fichier-v2.min.css?v=2" rel="stylesheet"/>
-    <link href="../css/footer1.css" rel="stylesheet"/>
+	<link href="../css/fichier-v2.min.css?v=4"/>
+    <link href="../css/footer1.min.css" rel="stylesheet"/>
 	<style>
 		/* ===== VARIABLES CSS MODERNES ===== */
 		:root {
@@ -904,5 +915,4 @@ main {
 }
 </style>
 
-{% include 'footer.html.twig' %}
 {% endblock %}

@@ -1,21 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toutes nos Formations Professionnelles - INFPF
+{% block title %}{{ page_title|default('Toutes nos Formations Professionnelles') }} - INFPF{% endblock %}
 
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez notre catalogue complet de formations professionnelles à distance. Formations certifiantes dans la petite enfance, la beauté, la cuisine, la finance et le social.') }}">
+{% endblock %}
+
+{% block og_title %}
+<meta property="og:title" content="{{ page_title|default('Toutes nos Formations Professionnelles') }} - INFPF">
+{% endblock %}
+
+{% block og_description %}
+<meta property="og:description" content="{{ meta_description|default('Découvrez notre catalogue complet de formations professionnelles à distance. Formations certifiantes dans la petite enfance, la beauté, la cuisine, la finance et le social.') }}">
 {% endblock %}
 {% block stylesheets %}
-	<link href="../css/fichier-v2.min.css?v=2" rel="stylesheet"/>
+	<link href="../css/fichier-v2.min.css?v=4"/>
 
 	<link
-	href="../css/forma.css?v=85" rel="stylesheet"/>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<!-- jQuery UI -->
-	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-	<!-- CSS jQuery UI -->
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-	<!-- AOS Animation Library -->
-	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	href="../css/forma.min.css?v=85" rel="stylesheet"/>
+<!-- jQuery, jQuery UI et AOS supprimés car inutilisés - économie de ~200 Kio -->
 
     <!-- Les styles Calendly sont désormais gérés de manière centralisée dans base.html.twig -->
 
@@ -1912,7 +1915,78 @@
         </div>
     {% endfor %}
         </div>
-    <div id="pagination_container"></div>
+    
+    {# ===== PAGINATION ===== #}
+    <div id="pagination_container">
+        {% if totalPages > 1 %}
+        <div class="pagination-wrapper" style="display: flex; justify-content: center; align-items: center; margin: 2rem 0; gap: 0.5rem;">
+            {# Bouton Première page #}
+            {% if currentPage > 1 %}
+            <a href="{{ path('app_home', app.request.query.all|merge({'page': 1})) }}" 
+               class="pagination-btn" 
+               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
+                « Première
+            </a>
+            {% endif %}
+            
+            {# Bouton Précédent #}
+            {% if currentPage > 1 %}
+            <a href="{{ path('app_home', app.request.query.all|merge({'page': currentPage - 1})) }}" 
+               class="pagination-btn" 
+               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
+                ‹ Précédent
+            </a>
+            {% endif %}
+            
+            {# Numéros de pages #}
+            {% for page in 1..totalPages %}
+                {% if page == currentPage %}
+                    <span class="pagination-current" 
+                          style="padding: 0.5rem 1rem; border: 2px solid #007bff; background: #007bff; color: white; border-radius: 4px; font-weight: bold;">
+                        {{ page }}
+                    </span>
+                {% elseif page >= currentPage - 2 and page <= currentPage + 2 %}
+                    <a href="{{ path('app_home', app.request.query.all|merge({'page': page})) }}" 
+                       class="pagination-btn" 
+                       style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
+                        {{ page }}
+                    </a>
+                {% elseif page == 1 or page == totalPages %}
+                    <a href="{{ path('app_home', app.request.query.all|merge({'page': page})) }}" 
+                       class="pagination-btn" 
+                       style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
+                        {{ page }}
+                    </a>
+                {% elseif (page == currentPage - 3 or page == currentPage + 3) %}
+                    <span style="padding: 0.5rem;">...</span>
+                {% endif %}
+            {% endfor %}
+            
+            {# Bouton Suivant #}
+            {% if currentPage < totalPages %}
+            <a href="{{ path('app_home', app.request.query.all|merge({'page': currentPage + 1})) }}" 
+               class="pagination-btn" 
+               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
+                Suivant ›
+            </a>
+            {% endif %}
+            
+            {# Bouton Dernière page #}
+            {% if currentPage < totalPages %}
+            <a href="{{ path('app_home', app.request.query.all|merge({'page': totalPages})) }}" 
+               class="pagination-btn" 
+               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
+                Dernière »
+            </a>
+            {% endif %}
+        </div>
+        
+        {# Informations de pagination #}
+        <div style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">
+            Affichage de {{ (currentPage - 1) * formationsPerPage + 1 }} à {{ min(currentPage * formationsPerPage, totalFormations) }} sur {{ totalFormations }} formations
+        </div>
+        {% endif %}
+    </div>
 </div>
 
 
@@ -2111,7 +2185,6 @@
 
 
 </div>
-{% include 'footer.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
@@ -2283,20 +2356,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileFilterPanel.style.setProperty('height', '100vh', 'important');
         mobileFilterPanel.style.setProperty('background', 'white', 'important');
         
-        // Force reflow pour l'animation
-        mobileFilterPanel.offsetHeight;
-        
-        // Activer l'animation
-        mobileFilterPanel.classList.add('active');
-        
-        console.log('✅ Panneau ouvert, classes:', mobileFilterPanel.className);
-        console.log('📐 Position panneau:', mobileFilterPanel.getBoundingClientRect());
-        console.log('🎨 Computed styles:', {
-            display: window.getComputedStyle(mobileFilterPanel).display,
-            visibility: window.getComputedStyle(mobileFilterPanel).visibility,
-            zIndex: window.getComputedStyle(mobileFilterPanel).zIndex,
-            transform: window.getComputedStyle(mobileFilterPanel).transform,
-            right: window.getComputedStyle(mobileFilterPanel).right
+        // Utiliser requestAnimationFrame pour éviter les reflows forcés
+        requestAnimationFrame(() => {
+            mobileFilterPanel.classList.add('active');
         });
         
         // Focus management pour l'accessibilité
