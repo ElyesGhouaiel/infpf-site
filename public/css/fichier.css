@@ -3268,52 +3268,79 @@
 
   /* Styles compacts pour écrans 13-14 pouces (1200px - 1536px) */
   @media (min-width: 1200px) and (max-width: 1536px) {
+    /* Container ultra compact */
     .header__container {
       width: 100%;
-      padding: 0 15px;
-      gap: 10px;
+      padding: 10px 15px !important;
+      gap: 8px !important;
     }
 
+    /* Logo compact */
     .header #branding {
-      padding: 0 0 5px 5px;
+      padding: 0 !important;
       flex-shrink: 0;
     }
 
     .header #branding img {
-      max-width: 100px;
+      max-width: 90px !important;
+      height: auto;
     }
 
+    /* Menu principal */
     .header #menu {
       flex-shrink: 1;
+      flex-grow: 1;
     }
 
     .header #menu .menu {
-      gap: 5px;
+      gap: 3px !important;
+      justify-content: center;
     }
 
+    /* Items de menu compacts */
     .header #menu .menu > li > a,
     .header #menu .menu > li > span {
-      font-size: 1.3rem !important;
-      padding: 8px 10px !important;
+      font-size: 1.25rem !important;
+      padding: 6px 8px !important;
       white-space: nowrap;
+      line-height: 1.2;
     }
 
+    /* CACHER les sous-menus pour design élégant */
+    .header #menu .menu > li .submenu,
+    .header #menu .menu > li .dropdown-menu {
+      display: none !important;
+    }
+
+    /* Désactiver les indicateurs de dropdown */
+    .header #menu .menu > li > span::after,
+    .header #menu .menu > li > a::after {
+      display: none !important;
+    }
+
+    /* Boutons CTA ultra compacts */
     .header__ctas {
       flex-shrink: 0;
-      gap: 8px;
+      gap: 6px !important;
     }
 
     .header__cta {
-      font-size: 1.2rem !important;
-      padding: 8px 12px !important;
-      margin-bottom: 5px !important;
+      font-size: 1.15rem !important;
+      padding: 6px 10px !important;
+      margin-bottom: 0 !important;
       white-space: nowrap;
+      line-height: 1.2;
     }
 
     .header__cta__doc,
     .header__cta__INFPFlearning {
-      font-size: 1.2rem !important;
-      padding: 8px 12px !important;
+      font-size: 1.15rem !important;
+      padding: 6px 10px !important;
+    }
+
+    /* Cacher le menu burger sur ces tailles */
+    .header__menu-burger {
+      display: none !important;
     }
   }
 
