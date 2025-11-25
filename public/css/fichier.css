@@ -3266,6 +3266,40 @@
     }
   }
 
+  /* Styles compacts pour écrans 13-14 pouces (1200px - 1536px) */
+  @media (min-width: 1200px) and (max-width: 1536px) {
+    .header__container {
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .header #branding {
+      padding: 0 0 5px 10px;
+    }
+
+    .header #branding img {
+      max-width: 120px;
+    }
+
+    .header #menu .menu > li > a,
+    .header #menu .menu > li > span {
+      font-size: 1.4rem !important;
+      padding: 10px 12px !important;
+    }
+
+    .header__cta {
+      font-size: 1.3rem !important;
+      padding: 10px 15px !important;
+      margin-bottom: 5px !important;
+    }
+
+    .header__cta__doc,
+    .header__cta__INFPFlearning {
+      font-size: 1.3rem !important;
+      padding: 10px 15px !important;
+    }
+  }
+
   .header #branding {
     padding: 0 0 10px 25px
   }
