@@ -4,7 +4,7 @@
 <html>
 	<head>
 	{% block stylesheets %}{% endblock %}
-		<link href="../css/fichier-v2.min.css?v=4" rel="stylesheet"/>
+		<link href="../css/fichier-v2.min.css?v={{ 'now'|date('U') }}" rel="stylesheet"/>
 		<!-- CSS inline pour performance optimale (élimine 3 requêtes bloquantes) -->
 		<style>
 			/* Popup modal */
@@ -43,11 +43,11 @@
 		}
 		
 	/* Taille responsive SVG - OPTIMISÉE UX/UI */
-	.fab-svg {
-		display: block;
+		.fab-svg {
+			display: block;
 		width: clamp(64px, 13vw, 72px);
 		height: clamp(64px, 13vw, 72px);
-	}
+		}
 		
 		/* Rail gris léger */
 		.fab-track {
@@ -100,18 +100,18 @@
 			display: block !important;
 		}
 		
-	/* Responsive mobile */
-	@media (max-width: 768px) {
-	.fab {
-		right: 20px !important;
-		bottom: 90px !important;
-	}
-	
-	.fab-svg {
+		/* Responsive mobile */
+		@media (max-width: 768px) {
+			.fab {
+				right: 20px !important;
+				bottom: 90px !important;
+			}
+			
+			.fab-svg {
 		width: clamp(62px, 14vw, 72px);
 		height: clamp(62px, 14vw, 72px);
-	}
-	}
+			}
+		}
 		</style>
 
 		<!-- CSS de Bootstrap -->
