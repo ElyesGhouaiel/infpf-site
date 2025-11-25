@@ -3318,77 +3318,101 @@
     }
 
     /* Menu principal - flexible et centré */
-    .header #menu {
+    .header #menu,
+    nav#menu {
       flex-shrink: 1 !important;
       flex-grow: 1 !important;
       overflow: hidden !important;
-      max-width: calc(100vw - 350px) !important;
+      max-width: calc(100vw - 400px) !important;
+      width: auto !important;
     }
 
-    .header #menu .menu {
+    .header #menu .menu,
+    nav#menu .menu,
+    nav#menu ul {
       gap: 1px !important;
       justify-content: center !important;
       flex-wrap: nowrap !important;
       overflow: hidden !important;
+      display: flex !important;
     }
 
     /* Items de menu très compacts et élégants */
-    .header #menu .menu > li {
+    .header #menu .menu > li,
+    nav#menu .menu > li,
+    nav#menu ul > li {
       flex-shrink: 1 !important;
       min-width: 0 !important;
     }
     
     .header #menu .menu > li > a,
-    .header #menu .menu > li > span {
-      font-size: 1.1rem !important;
-      padding: 4px 5px !important;
+    .header #menu .menu > li > span,
+    nav#menu .menu > li > a,
+    nav#menu .menu > li > span,
+    nav#menu ul > li > a,
+    nav#menu ul > li > span {
+      font-size: 1.05rem !important;
+      padding: 3px 4px !important;
       white-space: nowrap !important;
-      line-height: 1.1 !important;
+      line-height: 1 !important;
       font-weight: 500 !important;
       letter-spacing: -0.5px !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
+      display: inline-block !important;
     }
 
     /* CACHER les sous-menus pour design élégant */
     .header #menu .menu > li .submenu,
     .header #menu .menu > li .dropdown-menu,
-    .header #menu .menu > li ul {
+    .header #menu .menu > li ul,
+    nav#menu .menu > li .submenu,
+    nav#menu .menu > li .dropdown-menu,
+    nav#menu .menu > li ul,
+    nav#menu ul > li .submenu,
+    nav#menu ul > li ul {
       display: none !important;
       visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
     /* Désactiver les indicateurs de dropdown */
     .header #menu .menu > li > span::after,
-    .header #menu .menu > li > a::after {
+    .header #menu .menu > li > a::after,
+    nav#menu .menu > li > span::after,
+    nav#menu .menu > li > a::after,
+    nav#menu ul > li > span::after,
+    nav#menu ul > li > a::after {
       display: none !important;
+      content: none !important;
     }
 
     /* Boutons CTA très compacts */
     .header__ctas {
       flex-shrink: 0 !important;
-      gap: 3px !important;
+      gap: 2px !important;
       display: flex !important;
       flex-wrap: nowrap !important;
-      max-width: 250px !important;
+      max-width: 220px !important;
+      overflow: hidden !important;
     }
 
-    .header__cta {
-      font-size: 1rem !important;
-      padding: 4px 6px !important;
+    .header__cta,
+    .header__cta__doc,
+    .header__cta__INFPFlearning,
+    a[href*="connexion"],
+    a[href*="learning"] {
+      font-size: 0.95rem !important;
+      padding: 3px 5px !important;
       margin: 0 !important;
       white-space: nowrap !important;
-      line-height: 1.1 !important;
+      line-height: 1 !important;
       font-weight: 500 !important;
-      letter-spacing: -0.3px !important;
-    }
-
-    .header__cta__doc,
-    .header__cta__INFPFlearning {
-      font-size: 1rem !important;
-      padding: 4px 6px !important;
-      margin: 0 !important;
-      letter-spacing: -0.3px !important;
+      letter-spacing: -0.5px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 110px !important;
     }
 
     /* Cacher le menu burger */
