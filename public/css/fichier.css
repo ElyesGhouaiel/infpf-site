@@ -5032,6 +5032,7 @@
     right: 100px !important; /* Plus proche du bord sur mobile */
     bottom: 30px !important;
   }
+}
 
 /* ===== CORRECTION ALIGNEMENT VERTICAL MENU BURGER MOBILE (SOLUTION ROBUSTE) ===== */
 @media (max-width: 1199px) {
