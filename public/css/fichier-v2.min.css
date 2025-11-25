@@ -3268,48 +3268,76 @@
 
   /* Styles compacts pour écrans 13-14 pouces (1200px - 1536px) */
   @media (min-width: 1200px) and (max-width: 1536px) {
-    /* Container ultra compact */
+    /* ===== DESIGN ÉLÉGANT POUR 13-14 POUCES ===== */
+    
+    /* Header principal - hauteur réduite */
+    .header {
+      min-height: 60px !important;
+      padding: 8px 0 !important;
+    }
+    
+    /* Container ultra compact avec overflow caché */
     .header__container {
-      width: 100%;
-      padding: 10px 15px !important;
-      gap: 8px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 5px 10px !important;
+      gap: 5px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      flex-wrap: nowrap !important;
+      overflow: hidden !important;
     }
 
-    /* Logo compact */
+    /* Logo très compact */
     .header #branding {
       padding: 0 !important;
-      flex-shrink: 0;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+      max-width: 80px !important;
     }
 
-    .header #branding img {
-      max-width: 90px !important;
-      height: auto;
+    .header #branding img,
+    .header__logo img {
+      max-width: 75px !important;
+      width: 75px !important;
+      height: auto !important;
     }
 
-    /* Menu principal */
+    /* Menu principal - flexible et centré */
     .header #menu {
-      flex-shrink: 1;
-      flex-grow: 1;
+      flex-shrink: 1 !important;
+      flex-grow: 1 !important;
+      overflow: hidden !important;
     }
 
     .header #menu .menu {
-      gap: 3px !important;
-      justify-content: center;
+      gap: 2px !important;
+      justify-content: center !important;
+      flex-wrap: nowrap !important;
     }
 
-    /* Items de menu compacts */
+    /* Items de menu très compacts et élégants */
+    .header #menu .menu > li {
+      flex-shrink: 1 !important;
+    }
+    
     .header #menu .menu > li > a,
     .header #menu .menu > li > span {
-      font-size: 1.25rem !important;
-      padding: 6px 8px !important;
-      white-space: nowrap;
-      line-height: 1.2;
+      font-size: 1.15rem !important;
+      padding: 5px 6px !important;
+      white-space: nowrap !important;
+      line-height: 1.1 !important;
+      font-weight: 500 !important;
+      letter-spacing: -0.3px !important;
     }
 
     /* CACHER les sous-menus pour design élégant */
     .header #menu .menu > li .submenu,
-    .header #menu .menu > li .dropdown-menu {
+    .header #menu .menu > li .dropdown-menu,
+    .header #menu .menu > li ul {
       display: none !important;
+      visibility: hidden !important;
     }
 
     /* Désactiver les indicateurs de dropdown */
@@ -3318,29 +3346,40 @@
       display: none !important;
     }
 
-    /* Boutons CTA ultra compacts */
+    /* Boutons CTA très compacts */
     .header__ctas {
-      flex-shrink: 0;
-      gap: 6px !important;
+      flex-shrink: 0 !important;
+      gap: 4px !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
     }
 
     .header__cta {
-      font-size: 1.15rem !important;
-      padding: 6px 10px !important;
-      margin-bottom: 0 !important;
-      white-space: nowrap;
-      line-height: 1.2;
+      font-size: 1.05rem !important;
+      padding: 5px 8px !important;
+      margin: 0 !important;
+      white-space: nowrap !important;
+      line-height: 1.1 !important;
+      font-weight: 500 !important;
     }
 
     .header__cta__doc,
     .header__cta__INFPFlearning {
-      font-size: 1.15rem !important;
-      padding: 6px 10px !important;
+      font-size: 1.05rem !important;
+      padding: 5px 8px !important;
+      margin: 0 !important;
     }
 
-    /* Cacher le menu burger sur ces tailles */
+    /* Cacher le menu burger */
     .header__menu-burger {
       display: none !important;
+    }
+    
+    /* Forcer le menu à rester visible */
+    .header #menu {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
   }
 
