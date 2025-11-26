@@ -3294,7 +3294,7 @@
       align-items: center !important;
       justify-content: space-between !important;
       flex-wrap: nowrap !important;
-      overflow: hidden !important;
+      overflow: visible !important;
     }
 
     /* 1. LOGO À GAUCHE */
@@ -3319,7 +3319,7 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      overflow: hidden !important;
+      overflow: visible !important;
       margin: 0 10px !important;
       width: auto !important;
       max-width: none !important;
