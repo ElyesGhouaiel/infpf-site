@@ -3268,163 +3268,144 @@
 
   /* Styles compacts pour écrans 13-14 pouces (1200px - 1536px) */
   @media (min-width: 1200px) and (max-width: 1536px) {
-    /* ===== DESIGN ÉLÉGANT POUR 13-14 POUCES ===== */
+    /* ===== DESIGN SIMPLE ET EFFICACE (NO SCROLL, NO BURGER) ===== */
     
-    /* FORCER pas de scroll horizontal sur toute la page */
+    /* Pas de scroll horizontal */
     html, body {
       overflow-x: hidden !important;
       max-width: 100vw !important;
     }
-    
-    /* Header principal - hauteur réduite */
+
+    /* Header compact */
     .header {
       min-height: 60px !important;
       max-height: 70px !important;
-      padding: 5px 0 !important;
-      overflow-x: hidden !important;
+      padding: 0 !important;
       width: 100% !important;
-      max-width: 100vw !important;
     }
-    
-    /* Container ultra compact avec overflow caché */
+
+    /* Container flexible : Logo - Menu - Boutons */
     .header__container {
       width: 100% !important;
       max-width: 100vw !important;
-      padding: 5px 8px !important;
-      gap: 3px !important;
+      padding: 0 15px !important;
+      gap: 10px !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
       flex-wrap: nowrap !important;
       overflow: hidden !important;
-      overflow-x: hidden !important;
-      box-sizing: border-box !important;
     }
 
-    /* Logo très compact */
+    /* 1. LOGO À GAUCHE */
     .header #branding {
+      flex-shrink: 0 !important;
       padding: 0 !important;
       margin: 0 !important;
-      flex-shrink: 0 !important;
-      max-width: 70px !important;
-      width: 70px !important;
+      width: auto !important;
     }
-
+    
     .header #branding img,
     .header__logo img {
-      max-width: 65px !important;
-      width: 65px !important;
-      height: auto !important;
+      max-height: 55px !important;
+      width: auto !important;
+      max-width: 100px !important;
     }
 
-    /* Menu principal - flexible et centré */
+    /* 2. MENU AU CENTRE (Prend toute la place dispo) */
     .header #menu,
     nav#menu {
-      flex-shrink: 1 !important;
-      flex-grow: 1 !important;
+      flex: 1 1 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       overflow: hidden !important;
-      max-width: calc(100vw - 400px) !important;
+      margin: 0 10px !important;
       width: auto !important;
+      max-width: none !important;
     }
 
     .header #menu .menu,
     nav#menu .menu,
     nav#menu ul {
-      gap: 1px !important;
-      justify-content: center !important;
-      flex-wrap: nowrap !important;
-      overflow: hidden !important;
       display: flex !important;
+      flex-wrap: nowrap !important;
+      gap: 10px !important; /* Espacement raisonnable */
+      margin: 0 !important;
+      padding: 0 !important;
+      justify-content: center !important;
+      overflow: visible !important;
     }
 
-    /* Items de menu très compacts et élégants */
+    /* Items du menu */
     .header #menu .menu > li,
-    nav#menu .menu > li,
     nav#menu ul > li {
-      flex-shrink: 1 !important;
-      min-width: 0 !important;
+      flex: 0 0 auto !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      min-width: auto !important;
     }
-    
+
     .header #menu .menu > li > a,
     .header #menu .menu > li > span,
-    nav#menu .menu > li > a,
-    nav#menu .menu > li > span,
     nav#menu ul > li > a,
     nav#menu ul > li > span {
-      font-size: 1.05rem !important;
-      padding: 3px 4px !important;
+      font-size: 14px !important; /* Taille lisible */
+      padding: 5px 0 !important;
       white-space: nowrap !important;
-      line-height: 1 !important;
+      color: #fff !important;
       font-weight: 500 !important;
-      letter-spacing: -0.5px !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      display: inline-block !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+      border: none !important;
     }
 
-    /* CACHER les sous-menus pour design élégant */
+    /* Cacher les sous-menus (optionnel, selon besoin) */
     .header #menu .menu > li .submenu,
-    .header #menu .menu > li .dropdown-menu,
-    .header #menu .menu > li ul,
-    nav#menu .menu > li .submenu,
-    nav#menu .menu > li .dropdown-menu,
-    nav#menu .menu > li ul,
-    nav#menu ul > li .submenu,
-    nav#menu ul > li ul {
+    nav#menu ul > li .submenu {
+       display: none !important; 
+    }
+
+    /* 3. BOUTONS À DROITE */
+    .header__ctas,
+    .header .header__cta,
+    .header__cta__doc, 
+    .header__cta__INFPFlearning,
+    .btn-documentation {
+      flex-shrink: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      margin: 0 !important;
+      max-width: none !important;
+    }
+    
+    .header__cta__doc {
+        display: block !important; /* S'assurer qu'il est visible */
+    }
+
+    .header__cta, 
+    .header__cta__INFPFlearning,
+    .btn-documentation {
+      font-size: 13px !important;
+      padding: 8px 15px !important;
+      white-space: nowrap !important;
+      height: auto !important;
+      line-height: 1.2 !important;
+    }
+
+    /* 4. SUPPRIMER LE BURGER ET SCROLLBAR */
+    .header__menu-burger {
       display: none !important;
       visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
+      width: 0 !important;
     }
-
-    /* Désactiver les indicateurs de dropdown */
+    
+    /* Supprimer indicateurs de dropdown */
     .header #menu .menu > li > span::after,
     .header #menu .menu > li > a::after,
-    nav#menu .menu > li > span::after,
-    nav#menu .menu > li > a::after,
     nav#menu ul > li > span::after,
     nav#menu ul > li > a::after {
       display: none !important;
-      content: none !important;
-    }
-
-    /* Boutons CTA très compacts */
-    .header__ctas {
-      flex-shrink: 0 !important;
-      gap: 2px !important;
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      max-width: 220px !important;
-      overflow: hidden !important;
-    }
-
-    .header__cta,
-    .header__cta__doc,
-    .header__cta__INFPFlearning,
-    a[href*="connexion"],
-    a[href*="learning"] {
-      font-size: 0.95rem !important;
-      padding: 3px 5px !important;
-      margin: 0 !important;
-      white-space: nowrap !important;
-      line-height: 1 !important;
-      font-weight: 500 !important;
-      letter-spacing: -0.5px !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      max-width: 110px !important;
-    }
-
-    /* Cacher le menu burger */
-    .header__menu-burger {
-      display: none !important;
-    }
-    
-    /* Forcer le menu à rester visible */
-    .header #menu {
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
     }
   }
 
@@ -5143,7 +5124,7 @@
     right: 100px !important; /* Plus proche du bord sur mobile */
     bottom: 30px !important;
   }
-}
+  }
 
 /* ===== CORRECTION ALIGNEMENT VERTICAL MENU BURGER MOBILE (SOLUTION ROBUSTE) ===== */
 @media (max-width: 1199px) {
