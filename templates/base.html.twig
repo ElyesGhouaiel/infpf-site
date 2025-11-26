@@ -4179,17 +4179,11 @@ setTimeout(function() {
         width: auto !important;
     }
     
-    /* BOUTONS - au milieu (order: 2) */
-    header.header .header-actions {
-        order: 2 !important;
-        margin-left: 20px !important;
-    }
-    
-    /* MENU NAV - à droite (order: 3) */
+    /* MENU NAV - au CENTRE (order: 2) */
     header.header nav#menu {
         flex: 1 1 auto !important;
         display: flex !important;
-        justify-content: flex-end !important;
+        justify-content: center !important;
         align-items: center !important;
         overflow: visible !important;
         position: static !important;
@@ -4200,7 +4194,14 @@ setTimeout(function() {
         padding: 0 !important;
         transition: none !important;
         animation: none !important;
+        order: 2 !important;
+    }
+    
+    /* BOUTONS - à DROITE (order: 3) */
+    header.header .header-actions {
         order: 3 !important;
+        margin-left: auto !important;
+        flex-shrink: 0 !important;
     }
     
     /* CONTAINER DU MENU - RESET COMPLET */
@@ -4303,10 +4304,13 @@ setTimeout(function() {
         display: none;
         position: absolute !important;
         top: 100% !important;
-        left: 0 !important;
-        transform: none !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
         background: #fff !important;
         min-width: 250px !important;
+        max-width: 90vw !important;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
         box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
         border-radius: 12px !important;
         padding: 12px 0 !important;
@@ -4315,6 +4319,22 @@ setTimeout(function() {
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.2s ease, visibility 0.2s ease !important;
+    }
+    
+    /* Sous-menu à droite si trop près du bord droit */
+    header.header nav#menu #menu-menu-2022 > li:nth-last-child(-n+2) .sub-menu,
+    #menu-menu-2022 > li:nth-last-child(-n+2) .sub-menu {
+        left: auto !important;
+        right: 0 !important;
+        transform: none !important;
+    }
+    
+    /* Sous-menu à gauche si trop près du bord gauche */
+    header.header nav#menu #menu-menu-2022 > li:first-child .sub-menu,
+    #menu-menu-2022 > li:first-child .sub-menu {
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
     }
     
     /* SOUS-MENUS AU HOVER - VISIBLE */
@@ -4353,7 +4373,8 @@ setTimeout(function() {
         padding: 12px 20px !important;
         font-size: 14px !important;
         display: block !important;
-        white-space: nowrap !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
         text-decoration: none !important;
         transition: background 0.2s ease !important;
     }
@@ -4371,13 +4392,14 @@ setTimeout(function() {
         display: none !important;
     }
     
-    /* BOUTONS - positionnés avec order: 2 */
+    /* BOUTONS - positionnés avec order: 3 (à droite) */
     header.header .header-actions {
         flex: 0 0 auto !important;
         display: flex !important;
         align-items: center !important;
         gap: 10px !important;
-        order: 2 !important;
+        order: 3 !important;
+        margin-left: auto !important;
     }
     
     header.header .header-cta-container {
