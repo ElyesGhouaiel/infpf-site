@@ -2893,97 +2893,126 @@
 		/* DESIGN PROPRE POUR ÉCRANS 13-14 POUCES (1200px - 1536px)     */
 		/* ============================================================ */
 		@media (min-width: 1200px) and (max-width: 1536px) {
-			/* Pas de scroll horizontal */
+			/* ANTI-SCROLL GLOBAL */
 			html, body {
 				overflow-x: hidden !important;
+				max-width: 100vw !important;
 			}
 
-			/* Header propre */
+			/* HEADER COMPACT */
 			.header {
-				padding: 0 !important;
+				padding: 5px 0 !important;
+				overflow: hidden !important;
 			}
 
-			/* Container : Logo - Menu - Boutons */
+			/* CONTAINER FLEXBOX PROPRE */
 			.header__container {
 				display: flex !important;
 				align-items: center !important;
 				justify-content: space-between !important;
 				flex-wrap: nowrap !important;
-				padding: 10px 20px !important;
-				gap: 15px !important;
+				padding: 5px 15px !important;
+				gap: 10px !important;
 				overflow: hidden !important;
 				width: 100% !important;
-				max-width: 100% !important;
+				max-width: 100vw !important;
+				box-sizing: border-box !important;
 			}
 
-			/* 1. LOGO */
-			.header #branding {
+			/* 1. LOGO (premier enfant direct) */
+			.header__container > a:first-child {
 				flex-shrink: 0 !important;
 				order: 1 !important;
 			}
 
-			.header #branding img {
-				max-height: 50px !important;
+			.header__container > a:first-child img,
+			.logo-infpf {
+				max-height: 45px !important;
 				width: auto !important;
+				max-width: 80px !important;
 			}
 
 			/* 2. MENU AU CENTRE */
-			.header #menu,
 			nav#menu {
 				flex: 1 1 auto !important;
 				display: flex !important;
 				justify-content: center !important;
+				align-items: center !important;
 				order: 2 !important;
+				overflow: hidden !important;
+				min-width: 0 !important;
+			}
+
+			nav#menu .menu-menu-2022-container {
 				overflow: hidden !important;
 			}
 
-			.header #menu .menu,
-			nav#menu .menu,
 			#menu-menu-2022 {
 				display: flex !important;
 				flex-wrap: nowrap !important;
-				gap: 8px !important;
+				gap: 5px !important;
 				justify-content: center !important;
+				align-items: center !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				list-style: none !important;
+			}
+
+			#menu-menu-2022 > li {
+				flex-shrink: 0 !important;
 				margin: 0 !important;
 				padding: 0 !important;
 			}
 
-			.header #menu .menu > li,
-			nav#menu .menu > li {
-				flex-shrink: 0 !important;
-			}
-
-			.header #menu .menu > li > a,
-			.header #menu .menu > li > span {
-				font-size: 14px !important;
-				padding: 8px 10px !important;
+			#menu-menu-2022 > li > a,
+			#menu-menu-2022 > li > span {
+				font-size: 13px !important;
+				padding: 6px 8px !important;
 				white-space: nowrap !important;
+				color: #fff !important;
+				text-decoration: none !important;
 			}
 
-			/* Cacher sous-menus et flèches */
-			.header #menu .menu > li .sub-menu,
-			.header #menu .menu > li ul.sub-menu {
+			/* Cacher sous-menus */
+			#menu-menu-2022 .sub-menu {
 				display: none !important;
+				visibility: hidden !important;
+				opacity: 0 !important;
+				pointer-events: none !important;
+				position: absolute !important;
+				left: -9999px !important;
 			}
 
-			.header #menu .menu > li > a::after,
-			.header #menu .menu > li > span::after {
+			/* Cacher flèches dropdown */
+			#menu-menu-2022 > li > a::after,
+			#menu-menu-2022 > li > span::after {
 				display: none !important;
+				content: none !important;
 			}
 
 			/* 3. BOUTONS À DROITE */
-			.header__cta,
-			.header__cta__INFPFlearning,
-			.header__cta__doc,
-			.btn-documentation {
+			.header-actions {
 				flex-shrink: 0 !important;
 				order: 3 !important;
-				font-size: 13px !important;
-				padding: 8px 12px !important;
-				white-space: nowrap !important;
+				display: flex !important;
+				gap: 5px !important;
+				align-items: center !important;
 			}
 
-			/* 4. SUPPRIMER LE BURGER */
+			.header-cta-container {
+				display: flex !important;
+				gap: 5px !important;
+			}
+
+			.header__cta,
+			.header__cta__INFPFlearning {
+				font-size: 12px !important;
+				padding: 6px 10px !important;
+				white-space: nowrap !important;
+				border-radius: 20px !important;
+			}
+
+			/* 4. CACHER LE BURGER */
 			.header__menu-burger {
 				display: none !important;
 				visibility: hidden !important;
@@ -2991,9 +3020,13 @@
 				height: 0 !important;
 				opacity: 0 !important;
 				pointer-events: none !important;
+				position: absolute !important;
+				left: -9999px !important;
 			}
 
-			/* Cacher le "Retour" du menu mobile */
+			/* Cacher éléments mobile */
+			.menu-mobile-ctas,
+			.menu-mobile-close,
 			.header-menu-retour {
 				display: none !important;
 			}
