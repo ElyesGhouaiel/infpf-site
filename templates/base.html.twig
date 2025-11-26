@@ -2018,25 +2018,8 @@
 			}
 		}
 
-		/* ===== CORRECTION PADDING MAIN POUR HEADER FIXE ===== */
-	/* DESKTOP : padding nécessaire pour le header fixe */
-		main.site-main {
-			padding-top: 120px !important; /* Augmenté pour compenser la hauteur du header */
-		}
-
-		/* Responsive padding */
-	@media (max-width: 1024px) and (min-width: 769px) {
-			main.site-main {
-				padding-top: 100px !important;
-			}
-		}
-
-	/* MOBILE : padding supprimé (géré par le bouton sommaire) */
-		@media (max-width: 768px) {
-			main.site-main {
-			padding-top: 0 !important;
-			}
-		}
+		/* ===== PADDING MAIN - GÉRÉ PAR header-fix-final ===== */
+		/* Les paddings sont maintenant dans le bloc CSS final en bas de page */
 
 		@media (max-width: 768px) {
 			.menu-mobile-close {
@@ -4154,7 +4137,7 @@ setTimeout(function() {
 {# ================================================================== #}
 <style id="header-fix-final">
 /* ============================================== */
-/* HEADER RESPONSIVE ÉLÉGANT - >= 768px          */
+/* HEADER RESPONSIVE - SANS ANIMATION            */
 /* ============================================== */
 @media screen and (min-width: 768px) {
     /* Anti-scroll */
@@ -4162,21 +4145,22 @@ setTimeout(function() {
         overflow-x: hidden !important;
     }
     
-    /* Header propre */
+    /* Header propre - hauteur fixe */
     header.header {
         padding: 0 !important;
         margin: 0 !important;
         background-color: #0b3f89 !important;
+        height: 70px !important;
     }
     
-    /* Container - ORDRE FORCÉ avec flexbox */
+    /* Container flex */
     header.header .header__container {
         display: flex !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: space-between !important;
         flex-wrap: nowrap !important;
-        padding: 12px 25px !important;
-        gap: 0 !important;
+        padding: 0 25px !important;
+        height: 70px !important;
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
@@ -4184,40 +4168,43 @@ setTimeout(function() {
         border: none !important;
     }
     
-    /* 1. LOGO - à gauche */
+    /* LOGO */
     header.header .header__container > a:first-child {
         flex: 0 0 auto !important;
-        order: 1 !important;
-        margin-right: 30px !important;
     }
     
     header.header .logo-infpf {
-        height: 55px !important;
+        height: 50px !important;
         width: auto !important;
     }
     
-    /* 2. MENU - au centre, prend l'espace restant */
+    /* MENU - RESET COMPLET */
     header.header nav#menu {
         flex: 1 1 auto !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        order: 2 !important;
         overflow: visible !important;
         position: static !important;
         background: transparent !important;
         height: auto !important;
         width: auto !important;
-        margin: 0 !important;
+        margin: 0 20px !important;
         padding: 0 !important;
+        /* SUPPRIMER TOUTES ANIMATIONS */
+        transition: none !important;
+        animation: none !important;
     }
     
     header.header nav#menu .menu-menu-2022-container {
         width: auto !important;
         overflow: visible !important;
+        transition: none !important;
     }
     
-    header.header nav#menu #menu-menu-2022 {
+    /* LISTE MENU - SANS ANIMATION */
+    header.header nav#menu #menu-menu-2022,
+    header.header nav#menu ul.menu {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
@@ -4232,36 +4219,56 @@ setTimeout(function() {
         height: auto !important;
         width: auto !important;
         overflow: visible !important;
+        /* SUPPRIMER ANIMATIONS */
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
     }
     
-    header.header nav#menu #menu-menu-2022 > li {
+    /* ITEMS MENU */
+    header.header nav#menu #menu-menu-2022 > li,
+    header.header nav#menu ul.menu > li {
         display: block !important;
         flex: 0 0 auto !important;
         margin: 0 !important;
         padding: 0 !important;
         position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        /* SUPPRIMER ANIMATIONS */
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
     }
     
+    /* LIENS MENU */
     header.header nav#menu #menu-menu-2022 > li > a,
-    header.header nav#menu #menu-menu-2022 > li > span {
+    header.header nav#menu #menu-menu-2022 > li > span,
+    header.header nav#menu ul.menu > li > a {
         display: block !important;
         font-size: 15px !important;
         font-weight: 500 !important;
-        padding: 12px 15px !important;
+        padding: 10px 15px !important;
         color: #fff !important;
         text-decoration: none !important;
         white-space: nowrap !important;
         background: transparent !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        /* SUPPRIMER ANIMATIONS */
+        transition: background 0.2s ease !important;
+        animation: none !important;
+        transform: none !important;
     }
     
-    header.header nav#menu #menu-menu-2022 > li > a:hover,
-    header.header nav#menu #menu-menu-2022 > li > span:hover {
-        background: rgba(255,255,255,0.1) !important;
+    header.header nav#menu #menu-menu-2022 > li > a:hover {
+        background: rgba(255,255,255,0.15) !important;
         border-radius: 5px !important;
     }
     
-    /* Sous-menus */
-    header.header nav#menu #menu-menu-2022 .sub-menu {
+    /* SOUS-MENUS */
+    header.header nav#menu #menu-menu-2022 .sub-menu,
+    header.header nav#menu #menu-menu-2022 ul {
         display: none !important;
         position: absolute !important;
         top: 100% !important;
@@ -4275,7 +4282,8 @@ setTimeout(function() {
         z-index: 9999 !important;
     }
     
-    header.header nav#menu #menu-menu-2022 > li:hover > .sub-menu {
+    header.header nav#menu #menu-menu-2022 > li:hover > .sub-menu,
+    header.header nav#menu #menu-menu-2022 > li:hover > ul {
         display: block !important;
     }
     
@@ -4286,24 +4294,17 @@ setTimeout(function() {
         display: block !important;
     }
     
-    header.header nav#menu #menu-menu-2022 .sub-menu li a:hover {
-        background: #f0f4f8 !important;
-        color: #0b3f89 !important;
-    }
-    
     /* Cacher Retour */
     header.header nav#menu #menu-menu-2022 .header-menu-retour {
         display: none !important;
     }
     
-    /* 3. BOUTONS - à droite */
+    /* BOUTONS */
     header.header .header-actions {
         flex: 0 0 auto !important;
         display: flex !important;
         align-items: center !important;
         gap: 10px !important;
-        order: 3 !important;
-        margin-left: 30px !important;
     }
     
     header.header .header-cta-container {
@@ -4315,7 +4316,6 @@ setTimeout(function() {
     header.header .header__cta__INFPFlearning {
         display: inline-flex !important;
         align-items: center !important;
-        justify-content: center !important;
         font-size: 13px !important;
         font-weight: 600 !important;
         padding: 10px 18px !important;
@@ -4339,18 +4339,23 @@ setTimeout(function() {
     header.header .menu-mobile-close {
         display: none !important;
     }
+    
+    /* PADDING MAIN - Ajusté pour header 70px */
+    main.site-main,
+    #main {
+        padding-top: 70px !important;
+        margin-top: 0 !important;
+    }
 }
 
-/* ÉCRANS LARGES (>= 1400px) */
+/* GRANDS ÉCRANS (>= 1400px) */
 @media screen and (min-width: 1400px) {
-    header.header nav#menu #menu-menu-2022 > li > a,
-    header.header nav#menu #menu-menu-2022 > li > span {
+    header.header nav#menu #menu-menu-2022 > li > a {
         font-size: 16px !important;
-        padding: 12px 20px !important;
+        padding: 10px 18px !important;
     }
     
-    header.header .header__cta,
-    header.header .header__cta__INFPFlearning {
+    header.header .header__cta {
         font-size: 14px !important;
         padding: 12px 22px !important;
     }
@@ -4358,14 +4363,12 @@ setTimeout(function() {
 
 /* ÉCRANS MOYENS (1200px - 1400px) */
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
-    header.header nav#menu #menu-menu-2022 > li > a,
-    header.header nav#menu #menu-menu-2022 > li > span {
+    header.header nav#menu #menu-menu-2022 > li > a {
         font-size: 14px !important;
         padding: 10px 12px !important;
     }
     
-    header.header .header__cta,
-    header.header .header__cta__INFPFlearning {
+    header.header .header__cta {
         font-size: 12px !important;
         padding: 9px 15px !important;
     }
@@ -4374,30 +4377,19 @@ setTimeout(function() {
 /* PETITS LAPTOPS (1024px - 1200px) */
 @media screen and (min-width: 1024px) and (max-width: 1199px) {
     header.header .header__container {
-        padding: 10px 15px !important;
-    }
-    
-    header.header .header__container > a:first-child {
-        margin-right: 15px !important;
+        padding: 0 15px !important;
     }
     
     header.header .logo-infpf {
         height: 45px !important;
     }
     
-    header.header nav#menu #menu-menu-2022 > li > a,
-    header.header nav#menu #menu-menu-2022 > li > span {
+    header.header nav#menu #menu-menu-2022 > li > a {
         font-size: 13px !important;
         padding: 8px 10px !important;
     }
     
-    header.header .header-actions {
-        margin-left: 15px !important;
-        gap: 8px !important;
-    }
-    
-    header.header .header__cta,
-    header.header .header__cta__INFPFlearning {
+    header.header .header__cta {
         font-size: 11px !important;
         padding: 8px 12px !important;
     }
@@ -4405,33 +4397,36 @@ setTimeout(function() {
 
 /* TABLETTES (768px - 1024px) */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
+    header.header,
     header.header .header__container {
-        padding: 8px 10px !important;
+        height: 60px !important;
     }
     
-    header.header .header__container > a:first-child {
-        margin-right: 10px !important;
+    header.header .header__container {
+        padding: 0 10px !important;
     }
     
     header.header .logo-infpf {
         height: 40px !important;
     }
     
-    header.header nav#menu #menu-menu-2022 > li > a,
-    header.header nav#menu #menu-menu-2022 > li > span {
+    header.header nav#menu {
+        margin: 0 10px !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 > li > a {
         font-size: 12px !important;
         padding: 6px 8px !important;
     }
     
-    header.header .header-actions {
-        margin-left: 10px !important;
-        gap: 5px !important;
-    }
-    
-    header.header .header__cta,
-    header.header .header__cta__INFPFlearning {
+    header.header .header__cta {
         font-size: 10px !important;
         padding: 6px 10px !important;
+    }
+    
+    main.site-main,
+    #main {
+        padding-top: 60px !important;
     }
 }
 </style>
