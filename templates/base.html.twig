@@ -4147,3 +4147,204 @@ setTimeout(function() {
   installMobileMenuHandlers();
 }, 500);
 </script>
+
+{# ================================================================== #}
+{# CSS FINAL - PRIORITÉ ABSOLUE - CHARGÉ EN DERNIER                   #}
+{# Design propre pour écrans 768px à 1920px (tablettes + laptops)     #}
+{# ================================================================== #}
+<style id="header-fix-final">
+/* RESET COMPLET DU HEADER - 768px à 1920px */
+@media screen and (min-width: 768px) {
+    /* Anti-scroll */
+    html, body {
+        overflow-x: hidden !important;
+    }
+    
+    /* Header propre */
+    header.header {
+        padding: 0 !important;
+        min-height: 60px !important;
+    }
+    
+    /* Container flex simple */
+    header.header .header__container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
+        padding: 8px 20px !important;
+        gap: 15px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* LOGO - à gauche */
+    header.header .header__container > a:first-child {
+        flex: 0 0 auto !important;
+        order: 1 !important;
+    }
+    
+    header.header .header__container > a:first-child img,
+    header.header .logo-infpf {
+        height: 50px !important;
+        width: auto !important;
+        max-width: 100px !important;
+    }
+    
+    /* MENU - au centre, prend l'espace */
+    header.header nav#menu {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        order: 2 !important;
+        overflow: hidden !important;
+        position: static !important;
+        background: none !important;
+        height: auto !important;
+        width: auto !important;
+    }
+    
+    header.header nav#menu .menu-menu-2022-container {
+        width: auto !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+        background: none !important;
+        position: static !important;
+        height: auto !important;
+        width: auto !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 > li {
+        flex: 0 0 auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: relative !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 > li > a,
+    header.header nav#menu #menu-menu-2022 > li > span {
+        display: block !important;
+        font-size: 14px !important;
+        padding: 8px 10px !important;
+        color: #fff !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+        background: none !important;
+    }
+    
+    /* Cacher sous-menus par défaut */
+    header.header nav#menu #menu-menu-2022 .sub-menu {
+        display: none !important;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        background: #fff !important;
+        min-width: 200px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        border-radius: 8px !important;
+        padding: 10px 0 !important;
+        z-index: 1000 !important;
+    }
+    
+    /* Afficher sous-menu au hover */
+    header.header nav#menu #menu-menu-2022 > li:hover > .sub-menu {
+        display: block !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 .sub-menu li a {
+        color: #333 !important;
+        padding: 8px 15px !important;
+        font-size: 13px !important;
+    }
+    
+    /* Cacher le "Retour" */
+    header.header nav#menu #menu-menu-2022 .header-menu-retour {
+        display: none !important;
+    }
+    
+    /* BOUTONS - à droite */
+    header.header .header-actions {
+        flex: 0 0 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        order: 3 !important;
+    }
+    
+    header.header .header-cta-container {
+        display: flex !important;
+        gap: 8px !important;
+    }
+    
+    header.header .header__cta,
+    header.header .header__cta__INFPFlearning {
+        display: inline-flex !important;
+        align-items: center !important;
+        font-size: 13px !important;
+        padding: 8px 15px !important;
+        border-radius: 25px !important;
+        white-space: nowrap !important;
+        text-decoration: none !important;
+    }
+    
+    /* BURGER - CACHÉ */
+    header.header .header__menu-burger {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        pointer-events: none !important;
+    }
+    
+    /* Cacher éléments mobile */
+    header.header .menu-mobile-ctas,
+    header.header .menu-mobile-close {
+        display: none !important;
+    }
+}
+
+/* Ajustements pour petits laptops (1200-1400px) */
+@media screen and (min-width: 768px) and (max-width: 1400px) {
+    header.header .header__container {
+        padding: 5px 15px !important;
+        gap: 10px !important;
+    }
+    
+    header.header .header__container > a:first-child img,
+    header.header .logo-infpf {
+        height: 45px !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 {
+        gap: 5px !important;
+    }
+    
+    header.header nav#menu #menu-menu-2022 > li > a,
+    header.header nav#menu #menu-menu-2022 > li > span {
+        font-size: 13px !important;
+        padding: 6px 8px !important;
+    }
+    
+    header.header .header__cta,
+    header.header .header__cta__INFPFlearning {
+        font-size: 12px !important;
+        padding: 6px 12px !important;
+    }
+}
+</style>
