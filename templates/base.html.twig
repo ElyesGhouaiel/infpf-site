@@ -2889,6 +2889,116 @@
 
 
 
+		/* ============================================================ */
+		/* DESIGN PROPRE POUR ÉCRANS 13-14 POUCES (1200px - 1536px)     */
+		/* ============================================================ */
+		@media (min-width: 1200px) and (max-width: 1536px) {
+			/* Pas de scroll horizontal */
+			html, body {
+				overflow-x: hidden !important;
+			}
+
+			/* Header propre */
+			.header {
+				padding: 0 !important;
+			}
+
+			/* Container : Logo - Menu - Boutons */
+			.header__container {
+				display: flex !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+				flex-wrap: nowrap !important;
+				padding: 10px 20px !important;
+				gap: 15px !important;
+				overflow: hidden !important;
+				width: 100% !important;
+				max-width: 100% !important;
+			}
+
+			/* 1. LOGO */
+			.header #branding {
+				flex-shrink: 0 !important;
+				order: 1 !important;
+			}
+
+			.header #branding img {
+				max-height: 50px !important;
+				width: auto !important;
+			}
+
+			/* 2. MENU AU CENTRE */
+			.header #menu,
+			nav#menu {
+				flex: 1 1 auto !important;
+				display: flex !important;
+				justify-content: center !important;
+				order: 2 !important;
+				overflow: hidden !important;
+			}
+
+			.header #menu .menu,
+			nav#menu .menu,
+			#menu-menu-2022 {
+				display: flex !important;
+				flex-wrap: nowrap !important;
+				gap: 8px !important;
+				justify-content: center !important;
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+
+			.header #menu .menu > li,
+			nav#menu .menu > li {
+				flex-shrink: 0 !important;
+			}
+
+			.header #menu .menu > li > a,
+			.header #menu .menu > li > span {
+				font-size: 14px !important;
+				padding: 8px 10px !important;
+				white-space: nowrap !important;
+			}
+
+			/* Cacher sous-menus et flèches */
+			.header #menu .menu > li .sub-menu,
+			.header #menu .menu > li ul.sub-menu {
+				display: none !important;
+			}
+
+			.header #menu .menu > li > a::after,
+			.header #menu .menu > li > span::after {
+				display: none !important;
+			}
+
+			/* 3. BOUTONS À DROITE */
+			.header__cta,
+			.header__cta__INFPFlearning,
+			.header__cta__doc,
+			.btn-documentation {
+				flex-shrink: 0 !important;
+				order: 3 !important;
+				font-size: 13px !important;
+				padding: 8px 12px !important;
+				white-space: nowrap !important;
+			}
+
+			/* 4. SUPPRIMER LE BURGER */
+			.header__menu-burger {
+				display: none !important;
+				visibility: hidden !important;
+				width: 0 !important;
+				height: 0 !important;
+				opacity: 0 !important;
+				pointer-events: none !important;
+			}
+
+			/* Cacher le "Retour" du menu mobile */
+			.header-menu-retour {
+				display: none !important;
+			}
+		}
+
 		</style>
 
 		<meta
