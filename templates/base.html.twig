@@ -3061,13 +3061,7 @@
 	</head>
 <body>
 
-<header class="header" style="  position: fixed;
-  left: 0;
-  width: 100%;
-  top: 0;
-  color: #fff;
-  z-index: 40;
-  padding-top: 0px;">
+<header class="header" style="position: fixed; left: 0; width: 100%; top: 0; color: #fff; z-index: 99999; padding-top: 0px; overflow: visible;">
 <div class="header__container">
 		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
 			<picture>
@@ -4140,20 +4134,31 @@ setTimeout(function() {
 /* HEADER RESPONSIVE - RESET COMPLET >= 768px    */
 /* ============================================== */
 @media screen and (min-width: 768px) {
-    /* Anti-scroll */
+    /* Anti-scroll horizontal seulement */
     html, body {
         overflow-x: hidden !important;
     }
     
-    /* Header propre - hauteur fixe */
+    /* Header propre - hauteur fixe + OVERFLOW VISIBLE pour sous-menus */
     header.header {
         padding: 0 !important;
         margin: 0 !important;
         background-color: #0b3f89 !important;
         height: 70px !important;
+        overflow: visible !important;
+        z-index: 99999 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
     }
     
-    /* Container flex */
+    /* Container aussi overflow visible */
+    header.header .header__container {
+        overflow: visible !important;
+    }
+    
+    /* Container flex - OVERFLOW VISIBLE */
     header.header .header__container {
         display: flex !important;
         align-items: center !important;
@@ -4166,6 +4171,7 @@ setTimeout(function() {
         margin: 0 !important;
         box-sizing: border-box !important;
         border: none !important;
+        overflow: visible !important;
     }
     
     /* LOGO - à gauche (order: 1) */
@@ -4195,6 +4201,11 @@ setTimeout(function() {
         transition: none !important;
         animation: none !important;
         order: 2 !important;
+    }
+    
+    /* Menu container - overflow visible */
+    header.header nav#menu .menu-menu-2022-container {
+        overflow: visible !important;
     }
     
     /* BOUTONS - à DROITE (order: 3) */
