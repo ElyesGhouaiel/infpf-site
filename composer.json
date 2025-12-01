@@ -33,7 +33,7 @@
         "symfony/lock": "6.4.*",
         "symfony/mailer": "6.4.*",
         "symfony/mailgun-mailer": "6.4.*",
-        "symfony/mercure": "^0.6.4",
+        "symfony/mercure": "^0.7.1",
         "symfony/mime": "6.4.*",
         "symfony/monolog-bundle": "^3.10",
         "symfony/notifier": "6.4.*",
