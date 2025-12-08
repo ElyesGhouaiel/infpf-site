@@ -248,8 +248,22 @@ class BlogController extends AbstractController
         // Garder le nom de l'image actuelle
         $currentImage = $blog->getImage();
         
+        // Garder le statut et la date d'origine si l'article est déjà publié
+        $originalStatus = $blog->getStatus();
+        $originalPublishedAt = $blog->getPublishedAt();
+        $wasAlreadyPublished = ($originalStatus === Blog::STATUS_PUBLISHED && $originalPublishedAt !== null);
+        
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
+    
+        if ($form->isSubmitted()) {
+            // Debug: afficher les erreurs de validation si le formulaire n'est pas valide
+            if (!$form->isValid()) {
+                foreach ($form->getErrors(true) as $error) {
+                    $this->addFlash('error', $error->getMessage());
+                }
+            }
+        }
     
         if ($form->isSubmitted() && $form->isValid()) {
             // Traitement de la nouvelle image téléchargée, si elle existe
@@ -348,9 +362,19 @@ class BlogController extends AbstractController
 
             // Logique de publication basée sur le statut
             try {
+                // Si l'article était déjà publié et qu'on garde le statut "publié",
+                // on conserve la date d'origine sans validation
+                if ($wasAlreadyPublished && $blog->getStatus() === Blog::STATUS_PUBLISHED) {
+                    // Garder la date de publication originale
+                    $blog->setPublishedAt($originalPublishedAt);
+                    // Pas besoin de valider, on sauvegarde directement
+                } else {
+                    // Pour les nouveaux articles ou changements de statut, appliquer la logique normale
                 $this->handlePublicationLogic($blog);
+                }
+                
                 $entityManager->flush();
-                $message = $this->getPublicationSuccessMessage($blog);
+                $message = $wasAlreadyPublished ? 'Article mis à jour avec succès !' : $this->getPublicationSuccessMessage($blog);
                 $this->addFlash('success', $message);
                 return $this->redirectToRoute('app_blog_admin'); // Retour vers l'admin au lieu de show
             } catch (\InvalidArgumentException $e) {

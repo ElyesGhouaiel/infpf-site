@@ -1,100 +1,949 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}l'infpf est référencé sur DataDock
-{% endblock %}
+{% block title %}L'INFPF référencé sur DataDock - Qualité et Conformité{% endblock %}
+
 {% block stylesheets %}
-	
-    <link href="../css/footer1.min.css" rel="stylesheet"/>
-{% endblock %} 
+<style>
+	/* ===== VARIABLES CSS MODERNES ===== */
+	:root {
+		--primary-color: #0b3f89;
+		--primary-light: #1e5cb8;
+		--accent-color: #00b4d8;
+		--text-dark: #2d3748;
+		--text-light: #718096;
+		--white: #ffffff;
+		--bg-light: #f8fafc;
+		--bg-section: #fafbfc;
+		--shadow-light: 0 4px 20px rgba(11, 63, 137, 0.1);
+		--shadow-medium: 0 8px 30px rgba(11, 63, 137, 0.15);
+		--shadow-heavy: 0 15px 50px rgba(11, 63, 137, 0.2);
+		--primary-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+		--datadock-gradient: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
+		--white-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+		--border-radius: 24px;
+	}
+
+	/* ===== RESET ET BASE ===== */
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+		line-height: 1.6;
+		color: var(--text-dark);
+		background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);
+	}
+
+	/* ===== JUSTIFICATION GLOBALE DES PARAGRAPHES ===== */
+	p {
+		text-align: justify !important;
+		-webkit-hyphens: auto !important;
+		hyphens: auto !important;
+	}
+
+	/* ===== HERO SECTION MODERNE ===== */
+	.datadock-hero {
+		position: relative;
+		min-height: 45vh;
+		background: var(--datadock-gradient);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 100px 40px 40px 40px;
+		margin-top: 0;
+	}
+
+	.datadock-hero::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+		z-index: 1;
+	}
+
+	.datadock-hero-content {
+		position: relative;
+		z-index: 3;
+		color: white;
+		max-width: 900px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.datadock-hero-title {
+		font-size: clamp(2.5rem, 6vw, 4rem);
+		font-weight: 800;
+		margin-bottom: 24px;
+		text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+		letter-spacing: -0.02em;
+	}
+
+	.datadock-hero-subtitle {
+		font-size: clamp(1.3rem, 3vw, 1.8rem);
+		font-weight: 400;
+		margin-bottom: 32px;
+		opacity: 0.95;
+		line-height: 1.5;
+		text-align: center !important;
+	}
+
+	.datadock-hero-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		background: rgba(255, 255, 255, 0.15);
+		color: white;
+		padding: 16px 32px;
+		border-radius: 50px;
+		font-weight: 600;
+		font-size: 1.2rem;
+		backdrop-filter: blur(10px);
+		border: 2px solid rgba(255, 255, 255, 0.2);
+	}
+
+	/* ===== CONTAINER PRINCIPAL ===== */
+	.datadock-main-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 80px 40px;
+	}
+
+	/* ===== SECTIONS MODERNES ===== */
+	.datadock-section {
+		margin-bottom: 80px;
+	}
+
+	.datadock-section-header {
+		text-align: center;
+		margin-bottom: 50px;
+	}
+
+	.datadock-section-title {
+		font-size: clamp(2rem, 4vw, 2.8rem);
+		font-weight: 700;
+		color: var(--primary-color);
+		margin-bottom: 20px;
+		line-height: 1.2;
+	}
+
+	.datadock-section-subtitle {
+		font-size: 1.3rem;
+		color: var(--text-light);
+		max-width: 700px;
+		margin: 0 auto;
+		text-align: center !important;
+	}
+
+	/* ===== INTRO CARD ===== */
+	.datadock-intro-card {
+		background: white;
+		border-radius: var(--border-radius);
+		padding: 50px;
+		box-shadow: var(--shadow-medium);
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 50px;
+		align-items: center;
+		margin-bottom: 60px;
+	}
+
+	.datadock-intro-content h2 {
+		font-size: 2.2rem;
+		color: var(--primary-color);
+		margin-bottom: 24px;
+		font-weight: 700;
+	}
+
+	.datadock-intro-content p {
+		font-size: 1.25rem;
+		color: var(--text-dark);
+		line-height: 1.8;
+		margin-bottom: 20px;
+	}
+
+	.datadock-intro-image {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.datadock-intro-image img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 16px;
+	}
+
+	/* ===== CRITÈRES CARDS ===== */
+	.datadock-criteria-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 30px;
+		margin-top: 40px;
+	}
+
+	.datadock-criteria-card {
+		background: white;
+		border-radius: 20px;
+		padding: 35px;
+		box-shadow: var(--shadow-light);
+		border-left: 5px solid var(--primary-color);
+	}
+
+	.datadock-criteria-number {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 45px;
+		height: 45px;
+		background: var(--primary-gradient);
+		color: white;
+		border-radius: 12px;
+		font-weight: 700;
+		font-size: 1.2rem;
+		margin-bottom: 20px;
+	}
+
+	.datadock-criteria-card h3 {
+		font-size: 1.2rem;
+		color: var(--text-dark);
+		margin-bottom: 0;
+		line-height: 1.5;
+	}
+
+	/* ===== OBJECTIFS LIST ===== */
+	.datadock-objectives {
+		background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+		border-radius: var(--border-radius);
+		padding: 50px;
+		margin: 50px 0;
+	}
+
+	.datadock-objectives h3 {
+		font-size: 1.7rem;
+		color: var(--primary-color);
+		margin-bottom: 30px;
+		text-align: center;
+	}
+
+	.datadock-objectives-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 20px;
+	}
+
+	.datadock-objectives-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 15px;
+		font-size: 1.2rem;
+		color: var(--text-dark);
+		background: white;
+		padding: 20px 25px;
+		border-radius: 16px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	.datadock-objectives-list li::before {
+		content: '';
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 28px;
+		height: 28px;
+		background: var(--primary-gradient);
+		color: white;
+		border-radius: 50%;
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+
+	/* ===== CERTIFICATION SECTION ===== */
+	.datadock-certification {
+		background: var(--primary-gradient);
+		border-radius: var(--border-radius);
+		padding: 60px;
+		color: white;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.datadock-certification::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+		z-index: 1;
+	}
+
+	.datadock-certification-content {
+		position: relative;
+		z-index: 2;
+	}
+
+	.datadock-certification h2 {
+		font-size: clamp(1.8rem, 4vw, 2.5rem);
+		font-weight: 700;
+		margin-bottom: 24px;
+	}
+
+	.datadock-certification p {
+		font-size: 1.3rem;
+		line-height: 1.8;
+		max-width: 900px;
+		margin: 0 auto 30px;
+		opacity: 0.95;
+		text-align: center !important;
+	}
+
+	.datadock-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		background: rgba(255, 255, 255, 0.2);
+		padding: 20px 40px;
+		border-radius: 50px;
+		font-size: 1.4rem;
+		font-weight: 700;
+		backdrop-filter: blur(10px);
+		border: 2px solid rgba(255, 255, 255, 0.3);
+	}
+
+	/* ===== CTA SECTION ===== */
+	.datadock-cta-section {
+		text-align: center;
+		padding: 60px 40px;
+		background: white;
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow-light);
+		margin-top: 60px;
+	}
+
+	.datadock-cta-section h3 {
+		font-size: 2rem;
+		color: var(--primary-color);
+		margin-bottom: 16px;
+	}
+
+	.datadock-cta-section p {
+		font-size: 1.25rem;
+		color: var(--text-light);
+		margin-bottom: 30px;
+		text-align: center !important;
+	}
+
+	.datadock-modern-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background: var(--primary-gradient);
+		color: white;
+		padding: 18px 40px;
+		border-radius: 50px;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 1.2rem;
+		box-shadow: 0 4px 15px rgba(11, 63, 137, 0.3);
+	}
+
+	/* ===== BACK BUTTON ===== */
+	.back-hub-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--primary-color);
+		text-decoration: none;
+		font-weight: 600;
+		padding: 12px 24px;
+		border-radius: 50px;
+		background: white;
+		box-shadow: var(--shadow-light);
+		margin-bottom: 30px;
+		font-size: 1.1rem;
+	}
+
+	/* ===== RESPONSIVE ===== */
+	@media (max-width: 992px) {
+		.datadock-intro-card {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		.datadock-intro-image {
+			order: -1;
+		}
+
+		.datadock-hero {
+			padding: 80px 20px 40px;
+		}
+
+		.datadock-main-container {
+			padding: 50px 20px;
+		}
+
+		.datadock-certification {
+			padding: 40px 25px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.datadock-intro-card {
+			padding: 30px;
+		}
+
+		.datadock-criteria-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.datadock-objectives {
+			padding: 30px 20px;
+		}
+	}
+</style>
+{% endblock %}
+
 {% block body %}
-	<h1 class="bandeau-titre-principal" style="background: linear-gradient(90deg, #1e68b0 0%, #1e68b0 100%);">
-		L'INFPF est référencé sur DataDock
-	</h1>
-	<div class="entry-content">
-		<div class="wp-block-yoast-breadcrumb breadcrumbs">
-			<span>
-				<span>
-					<a href="https://www..fr/">Institut national de la formation professionnelle française</a>
-				</span>
-				&gt;
-				<span>
-					<a href="https://www..fr/ecole/">L’École</a>
-				</span>
-				&gt;
-				<span aria-current="page" class="breadcrumb_last">l'infpf référencé sur DataDock</span>
-			</span>
+<!-- Hero Section -->
+<section class="datadock-hero">
+	<div class="datadock-hero-content">
+		<h1 class="datadock-hero-title">L'INFPF référencé DataDock</h1>
+		<p class="datadock-hero-subtitle">
+			Un gage de qualité et de conformité pour votre formation professionnelle
+		</p>
+		<div class="datadock-hero-badge">
+			Référencé sous le n° 0008886
 		</div>
-		<h2 class="has-text-color wp-block-heading" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">DataDock</strong>, mais c’est quoi au
-																				          fait ?</h2>
-		<div class="wp-block-columns is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex">
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:85%">
-				<br>
-				<p>La plateforme Datadock est une grande base de données unique créée pour faciliter
-					<strong style="color: #0b3e6fd6;">le
-																														                référencement des différents organismes de formation</strong>. Pour être un peu plus concret, il s’agit
-																														              d’un « entrepôt de données » qui permet aux financeurs de la formation professionnelle de
-																														              contrôler la conformité des organismes de formation en fonction des critères de qualités précisés par la
-																														              Loi (6 critères au total).</p>
-				<p>Ces 6 critères de qualité ont pour mission :</p>
-				<ul>
-					<li>d’améliorer la lisibilité de l’offre de formation,</li>
-					<li>d’inviter les prestataires de formation à donner un maximum d’informations,</li>
-					<li>de développer la capacité de l’offre de formation à s’adapter aux besoins du public.</li>
-				</ul>
+	</div>
+</section>
+
+<!-- Main Content -->
+<main class="datadock-main-container">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		Retour à L'École
+	</a>
+
+	<!-- Introduction Section -->
+	<section class="datadock-section">
+		<div class="datadock-intro-card">
+			<div class="datadock-intro-content">
+				<h2>DataDock, qu'est-ce que c'est ?</h2>
+				<p>
+					La plateforme <strong>DataDock</strong> est une base de données unique créée pour faciliter 
+					<strong>le référencement des organismes de formation</strong>. Cet « entrepôt de données » 
+					permet aux financeurs de la formation professionnelle de contrôler la conformité des organismes 
+					selon <strong>6 critères de qualité</strong> définis par la Loi.
+				</p>
+				<p>
+					Ce référencement garantit aux apprenants et aux entreprises que l'organisme de formation 
+					répond aux exigences légales en matière de qualité pédagogique.
+				</p>
 			</div>
-			<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:15%">
-				<div class="wp-block-image">
-					<figure class="aligncenter size-large">
-						<picture class="wp-image-388446" decoding="async">
-							<source data-lazy-sizes="(max-width: 716px) 100vw, 716px" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg.webp 716w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-278x300.jpg.webp 278w" sizes="(max-width: 716px) 100vw, 716px" srcset="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg.webp 716w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-278x300.jpg.webp 278w" type="image/webp"/>
-							<img alt="référencé sur DataDock" class="entered lazyloaded" data-lazy-sizes="(max-width: 716px) 100vw, 716px" data-lazy-src="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg" data-lazy-srcset="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg 716w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-278x300.jpg 278w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-445x480.jpg 445w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-260x280.jpg 260w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-538x580.jpg 538w" data-ll-status="loaded" decoding="async" height="772" sizes="(max-width: 716px) 100vw, 716px" src="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg" srcset="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg 716w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-278x300.jpg 278w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-445x480.jpg 445w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-260x280.jpg 260w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-538x580.jpg 538w" width="716"/>
-						</picture>
-						<noscript>
-							<picture class="wp-image-388446" decoding="async">
-								<source sizes="(max-width: 716px) 100vw, 716px" srcset="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg.webp 716w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-278x300.jpg.webp 278w" type="image/webp"/>
-								<img alt="référencé sur DataDock" decoding="async" height="772" sizes="(max-width: 716px) 100vw, 716px" src="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg" srcset="https://www..fr/wp-content/uploads/2018/05/Picto_datadocke.jpg 716w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-278x300.jpg 278w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-445x480.jpg 445w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-260x280.jpg 260w, https://www..fr/wp-content/uploads/2018/05/Picto_datadocke-538x580.jpg 538w" width="716"/>
-							</picture>
-						</noscript>
-					</figure>
+			<div class="datadock-intro-image">
+				<img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo DataDock" width="200">
+			</div>
+		</div>
+
+		<!-- Objectifs -->
+		<div class="datadock-objectives">
+			<h3>Les objectifs des critères qualité</h3>
+			<ul class="datadock-objectives-list">
+				<li>Améliorer la lisibilité de l'offre de formation</li>
+				<li>Inviter les prestataires à fournir un maximum d'informations</li>
+				<li>Adapter l'offre de formation aux besoins du public</li>
+			</ul>
+		</div>
+	</section>
+
+	<!-- Critères Section -->
+	<section class="datadock-section">
+		<div class="datadock-section-header">
+			<h2 class="datadock-section-title">Les 6 critères qualité DataDock</h2>
+			<p class="datadock-section-subtitle">
+				Ces critères ont été définis par la Loi pour garantir la qualité des formations
+			</p>
+		</div>
+
+		<div class="datadock-criteria-grid">
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">1</span>
+				<h3>Identification des objectifs de la formation et adaptation au public formé</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">2</span>
+				<h3>Adaptation des dispositifs d'accueil, de suivi pédagogique et d'évaluation</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">3</span>
+				<h3>Adéquation des moyens pédagogiques, techniques et d'encadrement</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">4</span>
+				<h3>Qualification professionnelle et formation continue du personnel formateur</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">5</span>
+				<h3>Information du public sur l'offre, les délais d'accès et les résultats</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">6</span>
+				<h3>Prise en compte des appréciations rendues par les stagiaires</h3>
+			</div>
+		</div>
+	</section>
+
+	<!-- Certification INFPF -->
+	<section class="datadock-section">
+		<div class="datadock-certification">
+			<div class="datadock-certification-content">
+				<h2>L'INFPF est référencé sur DataDock</h2>
+				<p>
+					Par la qualité de son offre de formation, l'<strong>Institut National de la Formation 
+					Professionnelle Française</strong> est référencé sur DataDock sous le numéro 
+					<strong>0008886</strong> depuis mars 2017.
+				</p>
+				<p>
+					Ce référencement est un <strong>gage de crédibilité et de qualité supplémentaire</strong>, 
+					tant pour les élèves que pour les entreprises. Cette accréditation a un impact direct sur 
+					le <a href="{{ path('redirectToFinancerMaFormation') }}" style="color: white; text-decoration: underline;">financement des formations</a>.
+				</p>
+				<div class="datadock-badge">
+					N° DataDock : 0008886
 				</div>
 			</div>
 		</div>
-		<h2 class="has-text-color wp-block-heading" style="color:#1e68b0">
-			<strong style="color: #0b3e6fd6;">Quels sont les critères
-																				            qualités</strong>
-			pour être référencé sur DataDock ?</h2>
-		<p>Les 6 critères de qualité qui ont été définis par la Loi pour être référencé sur DataDock sont :</p>
-		<ul>
-			<li>l’identification des différents objectifs de la formation et de son adaptation au public formé,
-			</li>
-			<li>l’adaptation des dispositifs d’accueil, de suivi pédagogique et d’évaluation au public formé,</li>
-			<li>l’adéquation des moyens pédagogiques techniques et d’encadrement de l’offre de formation,</li>
-			<li>la qualification professionnelle et formation continue du personnel en charge de former les publics,
-			</li>
-			<li>la condition d’information du public sur l’offre de formation, ses délais d’accès ainsi que sur les
-																				            résultats obtenus,</li>
-			<li>la prise en compte des appréciations rendues par les stagiaires.
-			</li>
-		</ul>
-		<div aria-hidden="true" class="wp-block-spacer" style="height:20px"></div>
-		<h2 class="has-text-color wp-block-heading" style="color:#1e68b0">L'Institut national de la formation professionnelle française est référencé
-															          sur DataDock</h2>
-		<p>Par la qualité de son offre de formation le
-			<strong style="color: #0b3e6fd6;">Institut national de la formation professionnelle française est référencé sur DataDock
-			</strong>sous le numéro 0008886 depuis mars 2017.</p>
-		<p>Ce référencement DataDock est un
-			<strong style="color: #0b3e6fd6;">gage de crédibilité et de qualité supplémentaire</strong>, tant pour
-																				          les élèves que pour les entreprises. Il faut savoir que cette accréditation a un impact direct sur
-																				          le
-			<strong style="color: #0b3e6fd6;">
-				<a href="../ecole/financer-ma-formation.html">financement
-																									              des formations</a>.
-			</strong>En effet<strong style="color: #0b3e6fd6;">,
-			</strong>à partir de janvier 2018, seuls les
-															          organismes de formation qui figureront sur le catalogue DataDock pourront obtenir un
-															          financement<strong style="color: #0b3e6fd6;">.</strong>
+	</section>
+
+	<!-- CTA Section -->
+	<section class="datadock-cta-section">
+		<h3>Découvrez nos formations certifiées</h3>
+		<p>Profitez de formations de qualité, éligibles aux financements grâce à notre référencement DataDock</p>
+		<a href="{{ path('app_home') }}" class="datadock-modern-button">
+			Voir nos formations
+		</a>
+	</section>
+</main>
+{% endblock %}
+
+
+	/* ===== INTRO CARD ===== */
+	.datadock-intro-card {
+		background: white;
+		border-radius: var(--border-radius);
+		padding: 50px;
+		box-shadow: var(--shadow-medium);
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 50px;
+		align-items: center;
+		margin-bottom: 60px;
+	}
+
+	.datadock-intro-content h2 {
+		font-size: 2.2rem;
+		color: var(--primary-color);
+		margin-bottom: 24px;
+		font-weight: 700;
+	}
+
+	.datadock-intro-content p {
+		font-size: 1.25rem;
+		color: var(--text-dark);
+		line-height: 1.8;
+		margin-bottom: 20px;
+	}
+
+	.datadock-intro-image {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.datadock-intro-image img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 16px;
+	}
+
+	/* ===== CRITÈRES CARDS ===== */
+	.datadock-criteria-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 30px;
+		margin-top: 40px;
+	}
+
+	.datadock-criteria-card {
+		background: white;
+		border-radius: 20px;
+		padding: 35px;
+		box-shadow: var(--shadow-light);
+		border-left: 5px solid var(--primary-color);
+	}
+
+	.datadock-criteria-number {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 45px;
+		height: 45px;
+		background: var(--primary-gradient);
+		color: white;
+		border-radius: 12px;
+		font-weight: 700;
+		font-size: 1.2rem;
+		margin-bottom: 20px;
+	}
+
+	.datadock-criteria-card h3 {
+		font-size: 1.2rem;
+		color: var(--text-dark);
+		margin-bottom: 0;
+		line-height: 1.5;
+	}
+
+	/* ===== OBJECTIFS LIST ===== */
+	.datadock-objectives {
+		background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+		border-radius: var(--border-radius);
+		padding: 50px;
+		margin: 50px 0;
+	}
+
+	.datadock-objectives h3 {
+		font-size: 1.7rem;
+		color: var(--primary-color);
+		margin-bottom: 30px;
+		text-align: center;
+	}
+
+	.datadock-objectives-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 20px;
+	}
+
+	.datadock-objectives-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 15px;
+		font-size: 1.2rem;
+		color: var(--text-dark);
+		background: white;
+		padding: 20px 25px;
+		border-radius: 16px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	.datadock-objectives-list li::before {
+		content: '';
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 28px;
+		height: 28px;
+		background: var(--primary-gradient);
+		color: white;
+		border-radius: 50%;
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+
+	/* ===== CERTIFICATION SECTION ===== */
+	.datadock-certification {
+		background: var(--primary-gradient);
+		border-radius: var(--border-radius);
+		padding: 60px;
+		color: white;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.datadock-certification::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+		z-index: 1;
+	}
+
+	.datadock-certification-content {
+		position: relative;
+		z-index: 2;
+	}
+
+	.datadock-certification h2 {
+		font-size: clamp(1.8rem, 4vw, 2.5rem);
+		font-weight: 700;
+		margin-bottom: 24px;
+	}
+
+	.datadock-certification p {
+		font-size: 1.3rem;
+		line-height: 1.8;
+		max-width: 900px;
+		margin: 0 auto 30px;
+		opacity: 0.95;
+		text-align: center !important;
+	}
+
+	.datadock-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		background: rgba(255, 255, 255, 0.2);
+		padding: 20px 40px;
+		border-radius: 50px;
+		font-size: 1.4rem;
+		font-weight: 700;
+		backdrop-filter: blur(10px);
+		border: 2px solid rgba(255, 255, 255, 0.3);
+	}
+
+	/* ===== CTA SECTION ===== */
+	.datadock-cta-section {
+		text-align: center;
+		padding: 60px 40px;
+		background: white;
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow-light);
+		margin-top: 60px;
+	}
+
+	.datadock-cta-section h3 {
+		font-size: 2rem;
+		color: var(--primary-color);
+		margin-bottom: 16px;
+	}
+
+	.datadock-cta-section p {
+		font-size: 1.2rem;
+		color: var(--text-light);
+		margin-bottom: 30px;
+		text-align: center !important;
+	}
+
+	.datadock-modern-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background: var(--primary-gradient);
+		color: white;
+		padding: 18px 40px;
+		border-radius: 50px;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 1.2rem;
+		transition: var(--transition);
+		box-shadow: 0 4px 15px rgba(11, 63, 137, 0.3);
+	}
+
+	.datadock-modern-button:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 8px 25px rgba(11, 63, 137, 0.4);
+		color: white;
+	}
+
+	/* ===== BACK BUTTON ===== */
+	.back-hub-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--primary-color);
+		text-decoration: none;
+		font-weight: 600;
+		padding: 12px 24px;
+		border-radius: 50px;
+		background: white;
+		box-shadow: var(--shadow-light);
+		transition: var(--transition);
+		margin-bottom: 30px;
+		font-size: 1.1rem;
+	}
+
+	.back-hub-btn:hover {
+		background: var(--primary-color);
+		color: white;
+		transform: translateX(-5px);
+	}
+
+	/* ===== RESPONSIVE ===== */
+	@media (max-width: 992px) {
+		.datadock-intro-card {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		.datadock-intro-image {
+			order: -1;
+		}
+
+		.datadock-hero {
+			padding: 80px 20px 40px;
+		}
+
+		.datadock-main-container {
+			padding: 50px 20px;
+		}
+
+		.datadock-certification {
+			padding: 40px 25px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.datadock-intro-card {
+			padding: 30px;
+		}
+
+		.datadock-criteria-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.datadock-objectives {
+			padding: 30px 20px;
+		}
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="datadock-hero">
+	<div class="datadock-hero-content">
+		<h1 class="datadock-hero-title">L'INFPF référencé DataDock</h1>
+		<p class="datadock-hero-subtitle">
+			Un gage de qualité et de conformité pour votre formation professionnelle
 		</p>
+		<div class="datadock-hero-badge">
+			Référencé sous le n° 0008886
+		</div>
 	</div>
-	<!-- .entry-content -->
-</article>
+</section>
+
+<!-- Main Content -->
+<main class="datadock-main-container">
+	<a href="{{ path('app_ecole_index') }}" class="back-hub-btn">
+		Retour à L'École
+	</a>
+
+	<!-- Introduction Section -->
+	<section class="datadock-section">
+		<div class="datadock-intro-card">
+			<div class="datadock-intro-content">
+				<h2>DataDock, qu'est-ce que c'est ?</h2>
+				<p>
+					La plateforme <strong>DataDock</strong> est une base de données unique créée pour faciliter 
+					<strong>le référencement des organismes de formation</strong>. Cet « entrepôt de données » 
+					permet aux financeurs de la formation professionnelle de contrôler la conformité des organismes 
+					selon <strong>6 critères de qualité</strong> définis par la Loi.
+				</p>
+				<p>
+					Ce référencement garantit aux apprenants et aux entreprises que l'organisme de formation 
+					répond aux exigences légales en matière de qualité pédagogique.
+				</p>
+			</div>
+			<div class="datadock-intro-image">
+				<img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo DataDock" width="200">
+			</div>
+		</div>
+
+		<!-- Objectifs -->
+		<div class="datadock-objectives">
+			<h3>Les objectifs des critères qualité</h3>
+			<ul class="datadock-objectives-list">
+				<li>Améliorer la lisibilité de l'offre de formation</li>
+				<li>Inviter les prestataires à fournir un maximum d'informations</li>
+				<li>Adapter l'offre de formation aux besoins du public</li>
+			</ul>
+		</div>
+	</section>
+
+	<!-- Critères Section -->
+	<section class="datadock-section">
+		<div class="datadock-section-header">
+			<h2 class="datadock-section-title">Les 6 critères qualité DataDock</h2>
+			<p class="datadock-section-subtitle">
+				Ces critères ont été définis par la Loi pour garantir la qualité des formations
+			</p>
+		</div>
+
+		<div class="datadock-criteria-grid">
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">1</span>
+				<h3>Identification des objectifs de la formation et adaptation au public formé</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">2</span>
+				<h3>Adaptation des dispositifs d'accueil, de suivi pédagogique et d'évaluation</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">3</span>
+				<h3>Adéquation des moyens pédagogiques, techniques et d'encadrement</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">4</span>
+				<h3>Qualification professionnelle et formation continue du personnel formateur</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">5</span>
+				<h3>Information du public sur l'offre, les délais d'accès et les résultats</h3>
+			</div>
+			<div class="datadock-criteria-card">
+				<span class="datadock-criteria-number">6</span>
+				<h3>Prise en compte des appréciations rendues par les stagiaires</h3>
+			</div>
+		</div>
+	</section>
+
+	<!-- Certification INFPF -->
+	<section class="datadock-section">
+		<div class="datadock-certification">
+			<div class="datadock-certification-content">
+				<h2>L'INFPF est référencé sur DataDock</h2>
+				<p>
+					Par la qualité de son offre de formation, l'<strong>Institut National de la Formation 
+					Professionnelle Française</strong> est référencé sur DataDock sous le numéro 
+					<strong>0008886</strong> depuis mars 2017.
+				</p>
+				<p>
+					Ce référencement est un <strong>gage de crédibilité et de qualité supplémentaire</strong>, 
+					tant pour les élèves que pour les entreprises. Cette accréditation a un impact direct sur 
+					le <a href="{{ path('redirectToFinancerMaFormation') }}" style="color: white; text-decoration: underline;">financement des formations</a>.
+				</p>
+				<div class="datadock-badge">
+					N° DataDock : 0008886
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA Section -->
+	<section class="datadock-cta-section">
+		<h3>Découvrez nos formations certifiées</h3>
+		<p>Profitez de formations de qualité, éligibles aux financements grâce à notre référencement DataDock</p>
+		<a href="{{ path('app_home') }}" class="datadock-modern-button">
+			Voir nos formations
+		</a>
+	</section>
+</main>
+{% endblock %}

@@ -49,7 +49,8 @@ class ContactController extends AbstractController
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Form valid: " . ($form->isValid() ? 'YES' : 'NO') . "\n", FILE_APPEND);
             
             // ✅ Validation manuelle reCAPTCHA (lazy load)
-            $recaptchaToken = $request->request->get('contact_form')['captcha'] ?? '';
+            $formData = $request->request->all('contact_form');
+            $recaptchaToken = $formData['captcha'] ?? '';
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - reCAPTCHA token: " . ($recaptchaToken ? 'PRESENT' : 'MISSING') . "\n", FILE_APPEND);
             
             if (!$recaptchaToken) {
@@ -97,7 +98,6 @@ class ContactController extends AbstractController
                 'requestType' => $contactData->getRequestType(),
                 'requestTypeLabel' => $requestTypeLabel,
                 'formation' => $formation,
-                'preferredMode' => $contactData->getPreferredMode(),
             ]);
 
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Préparation envoi email...\n", FILE_APPEND);

@@ -4680,14 +4680,14 @@
   transition: background-color 0.3s ease-in-out;
 }
 
-#branding .logo-infpf {
+#branding {TEMP_MARKER}
   /* Réinitialisez les propriétés spécifiques si 'all: unset;' ne fonctionne pas */
   margin: 0;
   padding: 0;
   all: unset; 
   border: none;
   background: none;
-  width: 100px; /* ou toute autre valeur que vous souhaitez appliquer */
+  width: auto; height: 50px; /* Logo responsive que vous souhaitez appliquer */
   filter: brightness(8.5);
   /* Appliquez ici les autres styles spécifiques que vous souhaitez pour le logo */
 }
@@ -4764,8 +4764,8 @@
     .header {
         padding-top: 10px;
     }
-    .logo-infpf {
-        width: 80px;
+    {TEMP_MARKER}
+        width: auto !important; height: 40px !important;
         height: auto;
     }
     #menu {
@@ -4785,8 +4785,8 @@
     .header {
         padding-top: 20px;
     }
-    .logo-infpf {
-        width: 100px;
+    {TEMP_MARKER}
+        width: auto !important; height: 50px !important;
         height: auto;
     }
     #menu {
@@ -4906,7 +4906,7 @@
 
   .wp-block-videaa img,
   .wp-block-videas img {
-      width: 100px;
+      width: auto !important; height: 50px !important;
       height: auto;
   }
 
@@ -5010,7 +5010,7 @@
     align-items: center !important;
   }
   
-  .logo-infpf {
+  {TEMP_MARKER}
     margin: 0 !important;
     padding: 0 !important;
   }

@@ -40,11 +40,19 @@
         overflow-x: hidden;
     }
 
+    /* ANNULER le padding-top du main car le hero gère tout */
+    main.site-main,
+    #main,
+    .site-main {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
     /* Hero Section - Style INFPF Moderne */
     .contact-hero {
         position: relative;
         background: var(--primary-gradient);
-        padding: clamp(80px, 10vw, 120px) 0 clamp(60px, 8vw, 80px);
+        padding: calc(var(--header-height, 65px) + 30px) 0 clamp(60px, 8vw, 80px);
         text-align: center;
         overflow: hidden;
     }
@@ -525,6 +533,23 @@
         box-shadow: var(--shadow-medium);
     }
 
+    /* Cards cliquables */
+    .contact-info-card.clickable {
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+    }
+
+    .contact-info-card.clickable:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-heavy), 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .contact-info-card.clickable:active {
+        transform: translateY(-6px);
+    }
+
     .contact-info-title {
         font-size: 1.8rem;
         font-weight: 800;
@@ -538,6 +563,7 @@
         font-weight: 500;
         line-height: 1.6;
     }
+
 
     /* Section Calendly Moderne - LAYOUT 2 COLONNES DESKTOP */
     .calendly-section {
@@ -1019,7 +1045,8 @@
 <div class="contact-container">
     <!-- Section Informations de Contact - MAINTENANT EN PREMIER -->
     <div class="contact-info-section">
-        <div class="contact-info-card">
+        <!-- Card Téléphone - Cliquable pour appeler -->
+        <a href="tel:+33489050355" class="contact-info-card clickable" aria-label="Appeler le 04 89 05 03 55">
             <div class="contact-info-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
                     <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
@@ -1027,19 +1054,21 @@
             </div>
             <h3 class="contact-info-title">Téléphone</h3>
             <p class="contact-info-text">04 89 05 03 55<br>Du lundi au vendredi<br>9h - 18h</p>
-        </div>
+        </a>
         
-        <div class="contact-info-card">
+        <!-- Card Email - Cliquable pour scroller vers le formulaire -->
+        <a href="#formulaire-contact" class="contact-info-card clickable" id="email-card" aria-label="Aller au formulaire de contact">
             <div class="contact-info-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
             </div>
             <h3 class="contact-info-title">Email</h3>
-            <p class="contact-info-text">contact@infpf.fr<br></p>
-        </div>
+            <p class="contact-info-text">contact@infpf.fr</p>
+        </a>
         
-        <div class="contact-info-card">
+        <!-- Card Adresse - Cliquable pour voir sur Google Maps -->
+        <a href="#map-container-lazy" class="contact-info-card clickable" id="address-card" aria-label="Voir notre localisation sur la carte">
             <div class="contact-info-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -1047,8 +1076,47 @@
             </div>
             <h3 class="contact-info-title">Adresse</h3>
             <p class="contact-info-text">257 Avenue Saint-Exupéry<br>06700 Saint-Laurent-du-Var<br>Côte d'Azur</p>
-        </div>
+        </a>
     </div>
+    
+    <!-- Script pour le scroll smooth vers la carte et le formulaire -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Scroll vers la carte pour la card Adresse
+        const addressCard = document.getElementById('address-card');
+        if (addressCard) {
+            addressCard.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mapSection = document.querySelector('.map-full-section');
+                if (mapSection) {
+                    mapSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center'
+                    });
+                }
+            });
+        }
+        
+        // Scroll vers le formulaire pour la card Email
+        const emailCard = document.getElementById('email-card');
+        if (emailCard) {
+            emailCard.addEventListener('click', function(e) {
+                e.preventDefault();
+                const formSection = document.getElementById('formulaire-contact');
+                if (formSection) {
+                    formSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start'
+                    });
+                    // Petit offset pour le header
+                    setTimeout(function() {
+                        window.scrollBy(0, -100);
+                    }, 500);
+                }
+            });
+        }
+    });
+    </script>
 
     <!-- Section Formulaire Principal - MAINTENANT EN SECOND -->
     <div class="contact-content">
@@ -1094,13 +1162,6 @@
                     Objet de votre demande <span class="required">*</span>
                 </label>
                 {{ form_widget(contactForm.requestType) }}
-            </div>
-            
-            <div class="form-group full-width">
-                <label for="{{ contactForm.preferredMode.vars.id }}">
-                    Mode de formation souhaité
-                </label>
-                {{ form_widget(contactForm.preferredMode) }}
             </div>
             
             <div class="form-group full-width">

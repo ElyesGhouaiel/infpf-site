@@ -162,6 +162,44 @@
 			box-sizing: border-box !important;
 		}
 		
+		/* ===== AMÉLIORATION RENDU POLICES ANDROID ===== */
+		/* Résout le problème des polices trop fines sur Android */
+		body {
+			-webkit-font-smoothing: subpixel-antialiased !important;
+			-moz-osx-font-smoothing: auto !important;
+			text-rendering: optimizeLegibility !important;
+			font-synthesis: weight style !important;
+		}
+		
+		/* Force un poids minimum plus lisible sur mobile */
+		@media (max-width: 1024px) {
+			body, p, span, li, a, div {
+				-webkit-text-stroke: 0.2px !important;
+			}
+		}
+		
+		/* Spécifiquement pour Android (détection via touch + pas iOS) */
+		@supports (-webkit-touch-callout: none) {
+			/* iOS - garder le rendu normal */
+		}
+		
+		@media (hover: none) and (pointer: coarse) {
+			/* Appareils tactiles (Android/iOS) - améliorer lisibilité */
+			body, p, span, li, a, div, h1, h2, h3, h4, h5, h6 {
+				text-rendering: geometricPrecision !important;
+				-webkit-font-smoothing: auto !important;
+			}
+		}
+		
+		/* Respecter les préférences utilisateur pour animations réduites */
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after {
+				animation-duration: 0.01ms !important;
+				animation-iteration-count: 1 !important;
+				transition-duration: 0.01ms !important;
+			}
+		}
+		
 		/* Contrainte globale pour tous les éléments du header */
 		.header, .header * {
 			box-sizing: border-box !important;
@@ -210,23 +248,10 @@
 		
 		/* ===== VARIABLE CSS GLOBALE POUR HAUTEUR HEADER ===== */
 		:root {
-			--header-height: 80px; /* Valeur par défaut, sera mise à jour par JS */
+			--header-height: 80px;
 		}
 		
-		/* ===== SOLUTION UNIVERSELLE : TOUT LE CONTENU COMMENCE APRÈS LE HEADER ===== */
-		/* APPLIQUÉ SUR TOUS LES ÉCRANS (MOBILE ET DESKTOP) */
-		.site-main,
-		main,
-		.bandeau,
-		article,
-		.page-content {
-			padding-top: var(--header-height) !important;
-		}
-		
-		/* Reset sur body pour éviter double padding */
-		body {
-			padding-top: 0 !important;
-		}
+		/* NE PAS TOUCHER AU PADDING-TOP GLOBAL - GÉRÉ PAR CHAQUE PAGE */
 
 		/* ===== ANCIEN CSS DU MEGA-MENU FORMATIONS - SUPPRIMÉ ===== */
 		/* Le menu Formations utilise maintenant un sous-menu simple comme L'École et Métiers */
@@ -389,16 +414,41 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 15px 20px;
+			padding: 10px 20px;
 			max-width: 1400px;
 			position: relative;
-			min-height: 60px;
-
+			min-height: 70px;
 			margin: 0 auto;
 		}
 
+		/* Logo responsive - agrandi pour meilleure visibilité */
 		.logo-infpf {
 			filter: brightness(0) invert(1);
+			object-fit: contain !important;
+			/* Taille responsive - desktop grand */
+			height: 70px !important;
+			width: auto !important;
+		}
+		
+		/* Logo - tablettes */
+		@media (max-width: 992px) {
+			.logo-infpf {
+				height: 60px !important;
+			}
+		}
+		
+		/* Logo - mobile */
+		@media (max-width: 768px) {
+			.logo-infpf {
+				height: 55px !important;
+			}
+		}
+		
+		/* Logo - petit mobile */
+		@media (max-width: 480px) {
+			.logo-infpf {
+				height: 48px !important;
+			}
 		}
 
 		/* Menu desktop seulement */
@@ -831,17 +881,38 @@
 		
 		/* ===== STYLES POUR TOUS LES SOUS-MENUS (L'École, Formations, Métiers, Blog, Admin) ===== */
 		/* Sous-menu Admin a son propre style défini plus bas */
+		
+		/* Chaque menu parent doit avoir position: relative pour que son sous-menu se positionne par rapport à lui */
+		.header #menu > li,
+		.header #menu .menu > li,
+		.header #menu .menu-item,
+		#menu-menu-2022 > li {
+			position: relative !important;
+		}
+		
 		.header #menu .menu-item .sub-menu {
-			position: absolute;
-			top: 100%;
-			left: 0;
+			position: absolute !important;
+			top: 100% !important;
+			left: 0 !important;
+			right: auto !important;
 			background: #eaeef0;
 			padding: 20px 25px;
-			min-width: 250px;
+			min-width: 320px !important;
+			max-width: 400px !important;
 			border-radius: 6px;
 			border: 1px solid #d1d5db;
 			box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 			z-index: 9000 !important;
+		}
+		
+		/* FORCE élargissement TOUS les sous-menus - priorité maximale */
+		.header #menu .sub-menu,
+		.header #menu .menu-item .sub-menu,
+		.header #menu .menu-item-has-children .sub-menu,
+		.header #menu .menu > .menu-item .sub-menu,
+		body .header #menu .sub-menu,
+		html body .header #menu .sub-menu {
+			min-width: 320px !important;
 		}
 		
 		.header #menu .menu-item .sub-menu li {
@@ -871,20 +942,47 @@
 		}
 		
 		/* ===== OVERRIDE SPÉCIFIQUE POUR MENU FORMATIONS (#menu-item-442808) ===== */
-		/* Force les mêmes couleurs que les autres sous-menus */
+		/* Force les mêmes couleurs et taille que les autres sous-menus */
+		/* Décalé vers la droite pour ne pas couvrir L'École */
 		.header #menu #menu-item-442808 .sub-menu,
 		.header #menu li#menu-item-442808 .sub-menu,
 		body .header #menu #menu-item-442808 .sub-menu {
 			background: #eaeef0 !important;
 			color: #1e3e5d !important;
+			min-width: 380px !important;
+			width: 380px !important;
+			left: 50% !important;
+			transform: translateX(-50%) !important;
+			padding: 0 !important;
+			overflow: hidden !important;
 		}
 		
+		/* Premier élément (IA) - pas de marge en haut */
+		.header #menu #menu-item-442808 .sub-menu li:first-child {
+			margin-top: 0 !important;
+			padding-top: 0 !important;
+		}
+		
+		/* Dernier élément - pas de marge en bas */
+		.header #menu #menu-item-442808 .sub-menu li:last-child {
+			margin-bottom: 0 !important;
+			padding-bottom: 0 !important;
+			border-bottom: none !important;
+		}
+		
+		/* Liens normaux du sous-menu Formations (pas IA) */
 		.header #menu #menu-item-442808 .sub-menu li a,
 		.header #menu li#menu-item-442808 .sub-menu li a,
 		body .header #menu #menu-item-442808 .sub-menu li a {
 			color: #1e3e5d !important;
 			font-weight: 900 !important;
 			text-transform: uppercase !important;
+			padding: 12px 20px !important;
+		}
+		
+		/* Dernier élément avec border-radius en bas */
+		.header #menu #menu-item-442808 .sub-menu li:last-child a {
+			border-radius: 0 0 6px 6px !important;
 		}
 		
 		.header #menu #menu-item-442808 .sub-menu li a:hover,
@@ -894,20 +992,74 @@
 		}
 		
 		/* ===== STYLE SPÉCIAL IA GOLD + BADGE NOUVEAU ===== */
-		.header #menu #menu-item-442808 .menu-item-ia-special {
-			background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 193, 7, 0.1) 100%) !important;
-			border-left: 4px solid #FFD700 !important;
-			border-radius: 4px !important;
-			margin: 0 0 4px 0 !important;
-			padding: 0 !important;
+		/* Supprime le padding du sous-menu en haut pour que IA soit collé */
+		.header #menu #menu-item-442808 .sub-menu,
+		.header #menu li#menu-item-442808 .sub-menu {
+			padding-top: 0 !important;
 		}
 		
-		.header #menu #menu-item-442808 .menu-item-ia-special a {
-			display: flex !important;
-			align-items: center !important;
-			justify-content: space-between !important;
-			gap: 10px !important;
+		/* ============================================================ */
+		/* ===== STYLES IA - SÉPARATION CLAIRE DESKTOP / MOBILE ===== */
+		/* ============================================================ */
+		
+		/* Animations (communes) */
+		@keyframes pulse-nouveau {
+			0%, 100% {
+				box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4), 0 2px 6px rgba(255, 107, 107, 0.6);
+			}
+			50% {
+				box-shadow: 0 6px 16px rgba(255, 71, 87, 0.6), 0 3px 8px rgba(255, 107, 107, 0.8);
+			}
 		}
+		
+		@keyframes notification-pulse {
+			0%, 100% { transform: scale(1); }
+			50% { transform: scale(1.15); }
+		}
+		
+		@keyframes shine-nouveau {
+			0%, 100% { left: -100%; }
+			50% { left: 150%; }
+		}
+		
+		/* ============================================================ */
+		/* ===== DESKTOP UNIQUEMENT (min-width: 1200px) ===== */
+		/* ============================================================ */
+		@media (min-width: 1200px) {
+			/* Sous-menu Formations - padding 0 pour coller IA en haut */
+			.header #menu #menu-item-442808 .sub-menu {
+			padding: 0 !important;
+				overflow: hidden !important;
+			}
+			
+			/* Élément IA avec fond doré */
+			.header #menu .menu-item-ia-special,
+			.header #menu #menu-item-ia {
+				background: linear-gradient(135deg, #FFF8DC 0%, #FFFACD 50%, #FFE4B5 100%) !important;
+				border-left: 4px solid #FFD700 !important;
+				border-bottom: 2px solid #FFD700 !important;
+				border-radius: 6px 6px 0 0 !important;
+				margin: 0 !important;
+				padding: 12px 20px !important;
+			}
+			
+			/* Lien IA en flex row - IA et NOUVEAU sur la même ligne */
+			.header #menu .menu-item-ia-special a,
+			.header #menu #menu-item-ia a,
+			#menu-item-ia a,
+			li.menu-item-ia-special a,
+			.sub-menu li.menu-item-ia-special a,
+			#menu-item-442808 .sub-menu li.menu-item-ia-special a,
+			body .header #menu #menu-item-442808 .sub-menu li.menu-item-ia-special a {
+				display: flex !important;
+				flex-direction: row !important;
+				flex-wrap: nowrap !important;
+				align-items: center !important;
+				justify-content: flex-start !important;
+				gap: 15px !important;
+				padding: 12px 20px !important;
+				width: 100% !important;
+			}
 		
 		/* Texte IA en GOLD */
 		.header #menu .ia-gold-text {
@@ -922,7 +1074,7 @@
 			filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3)) !important;
 		}
 		
-		/* Badge NOUVEAU moderne et attractif */
+			/* Badge NOUVEAU */
 		.header #menu .badge-nouveau {
 			display: inline-flex !important;
 			align-items: center !important;
@@ -935,36 +1087,14 @@
 			border-radius: 12px !important;
 			text-transform: uppercase !important;
 			letter-spacing: 0.8px !important;
-			box-shadow: 
-				0 4px 12px rgba(255, 71, 87, 0.4),
-				0 2px 6px rgba(255, 107, 107, 0.6),
-				inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-				inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+				box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4), 0 2px 6px rgba(255, 107, 107, 0.6) !important;
 			border: 1px solid rgba(255, 255, 255, 0.4) !important;
 			animation: pulse-nouveau 2s ease-in-out infinite !important;
 			position: relative !important;
 			overflow: hidden !important;
 		}
 		
-		/* Animation pulse subtile pour NOUVEAU */
-		@keyframes pulse-nouveau {
-			0%, 100% {
-				box-shadow: 
-					0 4px 12px rgba(255, 71, 87, 0.4),
-					0 2px 6px rgba(255, 107, 107, 0.6),
-					inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-					inset 0 1px 2px rgba(255, 255, 255, 0.3);
-			}
-			50% {
-				box-shadow: 
-					0 6px 16px rgba(255, 71, 87, 0.6),
-					0 3px 8px rgba(255, 107, 107, 0.8),
-					inset 0 -2px 4px rgba(0, 0, 0, 0.15),
-					inset 0 1px 2px rgba(255, 255, 255, 0.4);
-			}
-		}
-		
-		/* Effet brillant qui traverse le badge */
+			/* Effet brillant sur badge */
 		.header #menu .badge-nouveau::before {
 			content: '' !important;
 			position: absolute !important;
@@ -976,28 +1106,187 @@
 			animation: shine-nouveau 3s ease-in-out infinite !important;
 		}
 		
-		@keyframes shine-nouveau {
-			0%, 100% {
-				left: -100%;
+			/* Badge notification NEW */
+			.menu-with-notification {
+				position: relative !important;
 			}
-			50% {
-				left: 150%;
+			
+			.menu-notification-badge {
+				position: absolute !important;
+				top: -8px !important;
+				right: -18px !important;
+				background: #E53935 !important;
+				color: #fff !important;
+				font-size: 9px !important;
+				font-weight: 700 !important;
+				border-radius: 8px !important;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+				border: 1.5px solid #fff !important;
+				animation: notification-pulse 2s ease-in-out infinite !important;
+				z-index: 100 !important;
+				padding: 2px 5px !important;
+				margin: 0 !important;
+				box-sizing: border-box !important;
+				line-height: 1 !important;
+				letter-spacing: 0.5px !important;
+				text-transform: uppercase !important;
+				-webkit-font-smoothing: antialiased !important;
 			}
-		}
-		
-		/* Hover sur la ligne IA complète */
-		.header #menu #menu-item-442808 .menu-item-ia-special:hover {
+			
+			/* Autres éléments du sous-menu Formations */
+			.header #menu #menu-item-442808 .sub-menu li:not(.menu-item-ia-special) a {
+				padding: 12px 20px !important;
+			}
+			
+			/* Hover sur IA */
+			.header #menu .menu-item-ia-special:hover {
 			background: linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 193, 7, 0.2) 100%) !important;
 			transform: translateX(2px) !important;
 		}
 		
-		.header #menu #menu-item-442808 .menu-item-ia-special:hover .badge-nouveau {
+			.header #menu .menu-item-ia-special:hover .badge-nouveau {
 			transform: scale(1.05) !important;
-			box-shadow: 
-				0 6px 16px rgba(255, 71, 87, 0.5),
-				0 3px 8px rgba(255, 107, 107, 0.7),
-				inset 0 -2px 4px rgba(0, 0, 0, 0.15),
-				inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
+			}
+		}
+		
+		/* ============================================================ */
+		/* ===== MOBILE / TABLETTE (max-width: 1199px) ===== */
+		/* ============================================================ */
+		@media (max-width: 1199px) {
+			/* Cacher le badge notification (!) */
+			.menu-notification-badge {
+				display: none !important;
+			}
+			
+			/* Badge NOUVEAU visible sur mobile */
+			.badge-nouveau {
+				display: inline-block !important;
+				background: linear-gradient(135deg, #FF4757 0%, #FF6B6B 100%) !important;
+				color: white !important;
+				font-size: 8px !important;
+				font-weight: 800 !important;
+				padding: 3px 8px !important;
+				border-radius: 10px !important;
+				text-transform: uppercase !important;
+				letter-spacing: 0.5px !important;
+				margin-left: 10px !important;
+				vertical-align: middle !important;
+			}
+			
+			/* RESET COMPLET pour sous-menu Formations sur mobile */
+			body .header #menu #menu-item-442808 .sub-menu,
+			body .header nav#menu #menu-item-442808 .sub-menu,
+			header.header #menu #menu-item-442808 .sub-menu {
+				padding: 8px 0 !important;
+				background: #f5f7f9 !important;
+				width: 100% !important;
+				left: 0 !important;
+				right: 0 !important;
+				transform: none !important;
+			}
+			
+			/* RESET tous les LI du sous-menu (sauf IA) */
+			body .header #menu #menu-item-442808 .sub-menu li,
+			body .header nav#menu #menu-item-442808 .sub-menu li,
+			header.header #menu #menu-item-442808 .sub-menu li {
+				background: transparent !important;
+				border: none !important;
+				border-left: none !important;
+				border-right: none !important;
+				border-radius: 0 !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				width: 100% !important;
+				display: block !important;
+			}
+			
+			/* IA avec bandeau doré sur mobile */
+			body .header #menu #menu-item-442808 .sub-menu li.menu-item-ia-special,
+			body .header #menu #menu-item-442808 .sub-menu li#menu-item-ia {
+				background: linear-gradient(135deg, #FFF8DC 0%, #FFFACD 50%, #FFE4B5 100%) !important;
+				border-left: 4px solid #FFD700 !important;
+				border-bottom: 2px solid #FFD700 !important;
+				border-radius: 0 !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				width: 100% !important;
+				display: block !important;
+			}
+			
+			/* RESET tous les liens du sous-menu (sauf IA) */
+			body .header #menu #menu-item-442808 .sub-menu li a,
+			body .header nav#menu #menu-item-442808 .sub-menu li a,
+			header.header #menu #menu-item-442808 .sub-menu li a {
+				display: block !important;
+				padding: 12px 25px !important;
+				background: transparent !important;
+				color: #1e3e5d !important;
+				font-size: 14px !important;
+				font-weight: 600 !important;
+				text-transform: uppercase !important;
+				text-align: left !important;
+				border-bottom: 1px solid #e0e5ea !important;
+				width: 100% !important;
+				box-sizing: border-box !important;
+				flex-direction: row !important;
+				gap: 0 !important;
+			}
+			
+			/* Lien IA avec style spécial sur mobile - aligné comme les autres */
+			body .header #menu #menu-item-442808 .sub-menu li.menu-item-ia-special a,
+			body .header #menu #menu-item-442808 .sub-menu li#menu-item-ia a {
+				display: flex !important;
+				flex-direction: row !important;
+				align-items: center !important;
+				justify-content: flex-start !important;
+				gap: 10px !important;
+				padding: 12px 25px !important;
+				background: transparent !important;
+				color: #B8860B !important;
+				font-size: 14px !important;
+				font-weight: 700 !important;
+				text-transform: uppercase !important;
+				text-align: left !important;
+				border-bottom: none !important;
+				width: 100% !important;
+				box-sizing: border-box !important;
+			}
+			
+			/* Texte IA sur mobile */
+			body .header #menu #menu-item-442808 .sub-menu li.menu-item-ia-special .ia-gold-text,
+			body .header #menu #menu-item-442808 .sub-menu li#menu-item-ia .ia-gold-text {
+				background: none !important;
+				-webkit-background-clip: unset !important;
+				-webkit-text-fill-color: #B8860B !important;
+				background-clip: unset !important;
+				color: #B8860B !important;
+				font-weight: 700 !important;
+				font-size: 14px !important;
+				filter: none !important;
+			}
+			
+			/* Dernier élément sans bordure */
+			body .header #menu #menu-item-442808 .sub-menu li:last-child a {
+				border-bottom: none !important;
+			}
+			
+			/* Texte IA : couleur normale, pas de gradient */
+			body .header #menu .ia-gold-text,
+			body .header nav#menu .ia-gold-text,
+			header.header #menu .ia-gold-text {
+				background: none !important;
+				-webkit-background-clip: unset !important;
+				-webkit-text-fill-color: #1e3e5d !important;
+				background-clip: unset !important;
+				color: #1e3e5d !important;
+				font-weight: 600 !important;
+				font-size: 14px !important;
+				filter: none !important;
+				text-transform: uppercase !important;
+			}
 		}
 
 		/* ===== MENU ADMIN SPÉCIAL - STYLE MODERNE ET VISIBLE ===== */
@@ -1139,7 +1428,7 @@
 		}
 		*/
 
-		/* ===== MENU MÉTIERS ULTRA-SPÉCIFIQUE - FORCE DROITE - PRIORITÉ ABSOLUE ===== */
+		/* ===== MENU MÉTIERS - ALIGNÉ À GAUCHE AVEC LE MENU PARENT ===== */
 		.header #menu .menu-item:nth-child(3) .sub-menu,
 		.header #menu #menu-item-442839 .sub-menu,
 		body .header #menu .menu-item:nth-child(3) .sub-menu,
@@ -1149,18 +1438,18 @@
 		li#menu-item-442839 .sub-menu,
 		.header li#menu-item-442839 .sub-menu {
 			position: absolute !important;
-			left: auto !important;
-			right: 0 !important;
+			left: 0 !important;
+			right: auto !important;
+			transform: none !important;
 			top: 100% !important;
 			background: #eaeef0 !important;
 			padding: 20px 25px !important;
 			width: 350px !important;
 			max-width: 90vw !important;
-			min-width: 250px !important;
+			min-width: 320px !important;
 			column-gap: initial !important;
 			opacity: 1 !important;
 			visibility: visible !important;
-			transform: none !important;
 			display: none !important;
 			border-radius: 6px !important;
 			backdrop-filter: none !important;
@@ -1171,11 +1460,12 @@
 			overflow: hidden !important;
 		}
 
-		/* FORCE ABSOLUE POUR LE MENU MÉTIERS - PRIORITÉ MAXIMALE */
+		/* FORCE ABSOLUE POUR LE MENU MÉTIERS - ALIGNÉ À GAUCHE */
 		.header #menu .menu-item:nth-child(3) .sub-menu[style*="left"],
 		.header #menu .menu-item:nth-child(3) .sub-menu[style*="right"] {
-			left: auto !important;
-			right: 0 !important;
+			left: 0 !important;
+			right: auto !important;
+			transform: none !important;
 		}
 		
 		.header #menu .menu-item:nth-child(3):hover .sub-menu,
@@ -1186,9 +1476,9 @@
 			display: block !important;
 			opacity: 1 !important;
 			visibility: visible !important;
+			left: 0 !important;
+			right: auto !important;
 			transform: none !important;
-			left: auto !important;
-			right: 0 !important;
 		}
 
 		.header #menu .menu-item:nth-child(3) .sub-menu li {
@@ -2882,24 +3172,14 @@
 				max-width: 100vw !important;
 			}
 
-			/* HEADER COMPACT - OVERFLOW VISIBLE POUR SOUS-MENUS */
+			/* HEADER - OVERFLOW VISIBLE POUR SOUS-MENUS */
 			.header {
-				padding: 5px 0 !important;
 				overflow: visible !important;
 			}
 
-			/* CONTAINER FLEXBOX PROPRE - OVERFLOW VISIBLE */
+			/* CONTAINER - OVERFLOW VISIBLE */
 			.header__container {
-				display: flex !important;
-				align-items: center !important;
-				justify-content: space-between !important;
-				flex-wrap: nowrap !important;
-				padding: 5px 15px !important;
-				gap: 10px !important;
 				overflow: visible !important;
-				width: 100% !important;
-				max-width: 100vw !important;
-				box-sizing: border-box !important;
 			}
 
 			/* 1. LOGO (premier enfant direct) */
@@ -2908,12 +3188,7 @@
 				order: 1 !important;
 			}
 
-			.header__container > a:first-child img,
-			.logo-infpf {
-				max-height: 45px !important;
-				width: auto !important;
-				max-width: 80px !important;
-			}
+			/* Logo - pas de surcharge pour éviter conflits */
 
 			/* 2. MENU AU CENTRE - OVERFLOW VISIBLE */
 			nav#menu {
@@ -2963,7 +3238,7 @@
 				top: 100% !important;
 				left: 0 !important;
 				background: #fff !important;
-				min-width: 220px !important;
+				min-width: 320px !important;
 				max-width: 90vw !important;
 				box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
 				border-radius: 10px !important;
@@ -3104,10 +3379,7 @@
 <header class="header" style="position: fixed; left: 0; width: 100%; top: 0; color: #fff; z-index: 99999; padding-top: 0px; overflow: visible;">
 <div class="header__container">
 		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
-			<picture>
-				<source srcset="{{ asset('img/CROPPED_LOGO__INFPF_2_150.webp') }}" type="image/webp">
-				<img class="logo-infpf" alt="Logo formation" src="{{ asset('img/CROPPED_LOGO__INFPF_2_150.png') }}" width="150" height="161" fetchpriority="high" loading="eager"/>
-			</picture>
+			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="22" src="{{ asset('img/CROPPED_LOGO__INFPF_2.png') }}" width="22" color="none"/>
 		</a>
 	<nav id="menu">
 		<button class="menu-mobile-close" style="display:none">×</button>
@@ -3158,8 +3430,11 @@
 					</ul>
 				</li>
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442808" id="menu-item-442808">
-					<a href="{{ path('app_home') }}">Formations</a>
-					<ul class="sub-menu">
+					<a href="{{ path('app_home') }}" class="menu-with-notification">
+						Formations
+						<span class="menu-notification-badge" title="Nouvelle catégorie IA !">NEW</span>
+					</a>
+					<ul class="sub-menu sub-menu-formations">
 						{# IA en premier avec badge NOUVEAU #}
 						{% set iaCategory = null %}
 						{% set otherCategories = [] %}
@@ -3727,9 +4002,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return; // Laisser le comportement natif
       }
       
-      // Ne pas intercepter #calendly-home si la section existe sur la page (scroll natif)
-      if (href === '#calendly-home' && document.getElementById('calendly-home')) {
-        return; // Laisser le scroll natif vers la section
+      // Ne pas intercepter #calendly-home si la section existe et est visible
+      const calendlySection = document.getElementById('calendly-home');
+      if (href === '#calendly-home' && calendlySection) {
+        const style = window.getComputedStyle(calendlySection);
+        if (style.display !== 'none' && style.visibility !== 'hidden') {
+          return; // Laisser le scroll natif vers la section (desktop ET mobile)
+        }
       }
       
       // Supprimer les anciens listeners (éviter les doublons)
@@ -4079,7 +4358,7 @@ function installMobileMenuHandlers() {
 // INSTALLATION IMMÉDIATE - Ne pas attendre DOMContentLoaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', installMobileMenuHandlers);
-} else {
+  } else {
   installMobileMenuHandlers();
 }
 
@@ -4103,18 +4382,10 @@ setTimeout(function() {
         overflow-x: hidden !important;
     }
     
-    /* Header propre - hauteur fixe + OVERFLOW VISIBLE pour sous-menus */
+    /* Header propre - OVERFLOW VISIBLE pour sous-menus */
     header.header {
-        padding: 0 !important;
-        margin: 0 !important;
-        background-color: #0b3f89 !important;
-        height: 70px !important;
         overflow: visible !important;
         z-index: 99999 !important;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
     }
     
     /* Container aussi overflow visible */
@@ -4124,17 +4395,6 @@ setTimeout(function() {
     
     /* Container flex - OVERFLOW VISIBLE */
     header.header .header__container {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        flex-wrap: nowrap !important;
-        padding: 0 25px !important;
-        height: 70px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
-        border: none !important;
         overflow: visible !important;
     }
     
@@ -4144,10 +4404,7 @@ setTimeout(function() {
         order: 1 !important;
     }
     
-    header.header .logo-infpf {
-        height: 50px !important;
-        width: auto !important;
-    }
+    /* Logo - identique à main, pas de surcharge */
     
     /* MENU NAV - au CENTRE (order: 2) */
     header.header nav#menu {
@@ -4282,9 +4539,9 @@ setTimeout(function() {
         left: 0 !important;
         transform: none !important;
         background: #eaeef0 !important;
-        min-width: 220px !important;
+        min-width: 320px !important;
         width: auto !important;
-        max-width: 350px !important;
+        max-width: 400px !important;
         max-height: none !important;
         overflow: visible !important;
         box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
@@ -4418,6 +4675,13 @@ setTimeout(function() {
         padding-top: 70px !important;
         margin-top: 0 !important;
     }
+    
+    /* Exception: pages métiers - le hero gère son propre padding */
+    main.site-main.metier-page-ef,
+    main.metier-page-ef {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
 }
 
 /* GRANDS ÉCRANS (>= 1400px) */
@@ -4446,61 +4710,15 @@ setTimeout(function() {
     }
 }
 
-/* PETITS LAPTOPS (1024px - 1200px) */
-@media screen and (min-width: 1024px) and (max-width: 1199px) {
-    header.header .header__container {
-        padding: 0 15px !important;
-    }
-    
-    header.header .logo-infpf {
-        height: 45px !important;
-    }
-    
-    header.header nav#menu #menu-menu-2022 > li > a {
-        font-size: 13px !important;
-        padding: 8px 10px !important;
-    }
-    
-    header.header .header__cta {
-        font-size: 11px !important;
-        padding: 8px 12px !important;
-    }
-}
+/* PETITS LAPTOPS - pas de surcharge */
 
-/* TABLETTES (768px - 1024px) */
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-    header.header,
-    header.header .header__container {
-        height: 60px !important;
-    }
-    
-    header.header .header__container {
-        padding: 0 10px !important;
-    }
-    
-    header.header .logo-infpf {
-        height: 40px !important;
-    }
-    
-    header.header nav#menu {
-        margin: 0 10px !important;
-    }
-    
-    header.header nav#menu #menu-menu-2022 > li > a {
-        font-size: 12px !important;
-        padding: 6px 8px !important;
-    }
-    
-    header.header .header__cta {
-        font-size: 10px !important;
-        padding: 6px 10px !important;
-    }
-    
-    main.site-main,
-    #main {
-        padding-top: 60px !important;
-    }
-}
+/* TABLETTES - pas de surcharge */
+
+/* PADDING-TOP géré par les styles existants de main */
+
+/* ============================================================ */
+/* MOBILE (< 768px) - HEADER - Pas de surcharge, utilise main   */
+/* ============================================================ */
 
 /* ============================================================ */
 /* FORCE GLOBALE: SOUS-MENUS VISIBLES AU HOVER (TOUTES TAILLES) */
@@ -4528,9 +4746,9 @@ setTimeout(function() {
         top: 100% !important;
         left: 0 !important;
         background: #eaeef0 !important;
-        min-width: 220px !important;
+        min-width: 320px !important;
         width: auto !important;
-        max-width: 350px !important;
+        max-width: 400px !important;
         height: auto !important;
         max-height: none !important;
         overflow: visible !important;
@@ -4542,6 +4760,18 @@ setTimeout(function() {
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.15s ease, visibility 0.15s ease !important;
+    }
+    
+    /* EXCEPTION: Sous-menu Formations - pas de padding pour coller IA en haut */
+    header.header nav#menu #menu-menu-2022 > li#menu-item-442808 > .sub-menu,
+    header.header #menu #menu-item-442808 .sub-menu,
+    .header #menu #menu-item-442808 .sub-menu,
+    #menu-menu-2022 > li#menu-item-442808 > .sub-menu,
+    nav#menu #menu-item-442808 > .sub-menu,
+    #menu-item-442808 > .sub-menu {
+        padding: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
     }
     
     /* SOUS-MENUS: VISIBLES AU HOVER */
@@ -4592,6 +4822,18 @@ setTimeout(function() {
         background: transparent !important;
     }
     
+    
+    /* EXCEPTION: Lien IA en flex pour aligner IA + NOUVEAU sur même ligne */
+    .header #menu .menu-item-ia-special a,
+    .header #menu #menu-item-ia a,
+    #menu-menu-2022 .sub-menu li.menu-item-ia-special a,
+    .sub-menu li.menu-item-ia-special a {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        gap: 20px !important;
+    }
     header.header #menu-menu-2022 .sub-menu li a:hover,
     .header #menu .sub-menu li a:hover,
     #menu-menu-2022 .sub-menu li a:hover,

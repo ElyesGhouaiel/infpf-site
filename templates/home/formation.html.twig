@@ -2632,18 +2632,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const formationItems = document.querySelectorAll('.formation-item');
   const searchResults = document.getElementById('searchResults');
 
-    searchInput: !!searchInput,
-    formationItemsCount: formationItems.length,
-    searchResults: !!searchResults
-  });
-
-  // Debug: afficher les noms des formations
-  formationItems.forEach((item, index) => {
-    const nameElement = item.querySelector('h4');
-    if (nameElement) {
-    }
-  });
-
   if (searchInput && formationItems.length > 0 && searchResults) {
     searchInput.addEventListener('input', function () {
       const searchQuery = this.value.toLowerCase().trim();
@@ -2702,11 +2690,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-  } else {
-      searchInput: !!searchInput,
-      formationItemsCount: formationItems.length,
-      searchResults: !!searchResults
-    });
   }
 });
 </script>

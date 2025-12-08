@@ -165,11 +165,11 @@
         .ecole-hub-hero-badge {
             display: inline-block;
             background: rgba(255, 255, 255, 0.15);
-            padding: 12px 24px;
+            padding: 14px 28px;
             border-radius: 50px;
             margin-bottom: 32px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1.2rem;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             align-self: center;
@@ -315,18 +315,19 @@
             right: 0;
             width: 0;
             height: 0;
-            border-left: 20px solid transparent;
-            border-top: 20px solid var(--accent);
+            border-left: 35px solid transparent;
+            border-top: 35px solid var(--accent);
         }
 
         .page-card.highlight::after {
             content: '★';
             position: absolute;
-            top: 2px;
-            right: 2px;
+            top: 4px;
+            right: 4px;
             color: white;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
+            line-height: 1;
         }
 
         .card-header {
@@ -503,7 +504,7 @@
         <div class="container">
             <div class="ecole-hub-hero-content">
                 <div class="ecole-hub-hero-badge">
-                    <span>Certification Qualiopi • 15+ ans d'expérience</span>
+                    <span>Certification Qualiopi • 2+ ans d'expérience</span>
                 </div>
                 <h1 class="ecole-hub-hero-title">L'École INFPF</h1>
                 <p class="ecole-hub-hero-description">
@@ -521,16 +522,6 @@
                     <div class="ecole-hub-stat-item">
                         <span class="ecole-hub-stat-number">{{ stats.students_trained }}</span>
                         <span class="ecole-hub-stat-label">Étudiants formés</span>
-                    </div>
-                    <div class="ecole-hub-stat-divider"></div>
-                    <div class="ecole-hub-stat-item">
-                        <span class="ecole-hub-stat-number">{{ stats.satisfaction_rate }}</span>
-                        <span class="ecole-hub-stat-label">Taux de satisfaction</span>
-                    </div>
-                    <div class="ecole-hub-stat-divider"></div>
-                    <div class="ecole-hub-stat-item">
-                        <span class="ecole-hub-stat-number">{{ stats.average_rating }}</span>
-                        <span class="ecole-hub-stat-label">Note moyenne</span>
                     </div>
                 </div>
             </div>

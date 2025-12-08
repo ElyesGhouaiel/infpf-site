@@ -101,6 +101,7 @@
 			color: white;
 			max-width: 800px;
 			margin: 0 auto;
+			text-align: center;
 		}
 
 		.cpf-hero-title {
@@ -117,6 +118,7 @@
 			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
+			text-align: center !important;
 		}
 
 		.cpf-hero-cta {
@@ -129,7 +131,7 @@
 			border-radius: 50px;
 			text-decoration: none;
 			font-weight: 600;
-			font-size: 1.1rem;
+			font-size: 1.25rem;
 			backdrop-filter: blur(10px);
 			border: 2px solid rgba(255, 255, 255, 0.2);
 			transition: var(--transition);
@@ -316,11 +318,6 @@
 		.cpf-section-image img {
 			width: 100%;
 			height: auto;
-			transition: var(--transition);
-		}
-
-		.cpf-section-image:hover img {
-			transform: scale(1.05);
 		}
 
 		/* ===== CARTES INFORMATIVES ===== */
@@ -337,12 +334,6 @@
 			border-radius: var(--border-radius);
 			box-shadow: var(--shadow-light);
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
-		}
-
-		.info-card:hover {
-			transform: translateY(-8px);
-			box-shadow: var(--shadow-medium);
 		}
 
 		.info-card h3 {
@@ -372,31 +363,21 @@
 			overflow: hidden;
 			box-shadow: var(--shadow-light);
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
-		}
-
-		.feature-item:hover {
-			box-shadow: var(--shadow-medium);
 		}
 
 		.feature-header {
 			background: var(--white-gradient);
-			padding: 24px 32px;
+			padding: 28px 36px;
 			cursor: pointer;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			font-weight: 600;
-			font-size: 1.3rem;
+			font-size: 1.5rem;
 			color: var(--primary-color);
-			transition: var(--transition);
 			border: none;
 			width: 100%;
 			text-align: left;
-		}
-
-		.feature-header:hover {
-			background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 		}
 
 		.feature-icon {
@@ -411,14 +392,14 @@
 		}
 
 		.feature-content {
-			padding: 0 32px 32px 32px;
+			padding: 16px 36px 36px 36px;
 			color: var(--text-dark);
-			line-height: 1.6;
+			line-height: 1.7;
 		}
 
 		.feature-content p {
-			font-size: 1.2rem;
-			line-height: 1.7;
+			font-size: 1.35rem;
+			line-height: 1.8;
 			margin: 0;
 		}
 
@@ -438,7 +419,31 @@
 		}
 		
 		.video-youtube-link {
-			display: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 12px;
+			background: #FF0000;
+			color: white;
+			padding: 16px 32px;
+			border-radius: 50px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 1.1rem;
+			margin-top: 30px;
+			transition: var(--transition);
+			box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+		}
+
+		.video-youtube-link:hover {
+			background: #cc0000;
+			color: white;
+			transform: translateY(-2px);
+			box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+		}
+
+		.video-youtube-link svg {
+			width: 24px;
+			height: 24px;
 		}
 
 		.video-title {
@@ -482,11 +487,11 @@
 			gap: 12px;
 			background: var(--primary-gradient);
 			color: white;
-			padding: 16px 32px;
+			padding: 20px 45px;
 			border-radius: 50px;
 			text-decoration: none;
 			font-weight: 600;
-			font-size: 1rem;
+			font-size: 1.25rem;
 			transition: var(--transition);
 			border: none;
 			cursor: pointer;
@@ -726,7 +731,7 @@
 
 			.cpf-hero-cta {
 				padding: 16px 32px;
-				font-size: 1rem;
+				font-size: 1.15rem;
 			}
 		}
 
@@ -820,7 +825,7 @@
 
 			.cpf-hero-cta {
 				padding: 14px 28px;
-				font-size: 0.95rem;
+				font-size: 1.05rem;
 			}
 		}
 	</style>

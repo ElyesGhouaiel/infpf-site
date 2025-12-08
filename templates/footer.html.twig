@@ -68,7 +68,6 @@
     }
 
     .footer__social__svg > div {
-        padding: 12px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         cursor: pointer;
@@ -80,6 +79,10 @@
         justify-content: center;
         width: 50px;
         height: 50px;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        line-height: 0;
     }
 
     .footer__social__svg > div:hover {
@@ -88,8 +91,28 @@
         box-shadow: var(--shadow-light);
     }
 
+    .footer__social__svg > div picture {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+
     .footer__social__svg img {
         transition: var(--transition);
+        width: 26px !important;
+        height: 26px !important;
+        max-width: 26px !important;
+        max-height: 26px !important;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+        padding: 0;
+        vertical-align: middle;
     }
 
     /* ===== RESPONSIVE POUR RÉSEAUX SOCIAUX ===== */
@@ -117,6 +140,17 @@
             width: 45px;
             height: 45px;
             flex-shrink: 0; /* Empêcher les icônes de rétrécir */
+            padding: 0;
+        }
+        
+        .footer__social__svg > div picture {
+            width: 22px;
+            height: 22px;
+        }
+        
+        .footer__social__svg img {
+            width: 22px !important;
+            height: 22px !important;
         }
     }
 
@@ -128,7 +162,17 @@
         .footer__social__svg > div {
             width: 40px;
             height: 40px;
-            padding: 10px;
+            padding: 0;
+        }
+        
+        .footer__social__svg > div picture {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .footer__social__svg img {
+            width: 20px !important;
+            height: 20px !important;
         }
         
         .footer__social__label {
@@ -642,7 +686,9 @@
                 <a href="{{ asset('pdf/Qualiopi.pdf') }}" target="_blank">
                     <img src="{{ asset('img/logo-qualiopi-avec-textes.png') }}" alt="Logo Qualiopi" width="182" height="130" loading="lazy">
                 </a>
+                <a href="{{ path('redirectToINFPFReferenceDatadock') }}">
                     <img src="{{ asset('img/ico_datadocke-transparent.png') }}" alt="Logo Datadocké" width="110" height="130" loading="lazy">
+                </a>
             </div>
         </div>
 
@@ -733,5 +779,7 @@ function acceptAllCookies() {
     
     document.getElementById('cookiePopup').style.display = 'none';
 }
+</script>
+</footer>
 </script>
 </footer>

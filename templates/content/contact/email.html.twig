@@ -172,20 +172,6 @@
                     <span class="info-label">📞 Téléphone :</span>
                     <span class="info-value"><a href="tel:{{ phone }}" style="color: #0b3f89; text-decoration: none;">{{ phone }}</a></span>
                 </div>
-                {% if preferredMode %}
-                <div class="info-row">
-                    <span class="info-label">🎓 Mode souhaité :</span>
-                    <span class="info-value">
-                        {% if preferredMode == 'distance' %}
-                            À distance (en ligne)
-                        {% elseif preferredMode == 'presentiel' %}
-                            En présentiel
-                        {% else %}
-                            Indifférent
-                        {% endif %}
-                    </span>
-                </div>
-                {% endif %}
             </div>
 
             {% if content %}

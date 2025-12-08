@@ -19,14 +19,17 @@
 				padding-top: 0 !important;
 		}
 		.hero-banner {
-				padding-top: 120px !important; /* Padding normal desktop */
+				padding-top: calc(var(--header-height, 80px) + 20px) !important;
 			}
 		}
 		
-		/* Sur mobile : MÊME MÉTHODE QUE /FORMATION - padding dynamique sur le hero directement */
+		/* Sur mobile : padding dynamique sur le hero */
 		@media (max-width: 768px) {
 			main.site-main {
-				padding-top: 0 !important; /* Pas de padding sur main pour cette page */
+				padding-top: 0 !important;
+			}
+			.hero-banner {
+				padding-top: 80px !important;
 			}
 		}
 		/* Variables CSS héritées de base.html.twig */
@@ -44,7 +47,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			padding: 120px 20px 40px;
+			padding: calc(var(--header-height, 65px) + 20px) 20px 40px;
 			overflow: hidden;
 		}
 
@@ -1076,12 +1079,6 @@
 			height: auto;
 			border-radius: var(--border-radius);
 			filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-			transition: var(--transition);
-		}
-
-		.wp-image-cpf_lady:hover {
-			transform: scale(1.05);
-			filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4));
 }
 
 		.cpf-buttons {
@@ -1097,27 +1094,18 @@
 			font-weight: 600;
 			text-decoration: none;
 			transition: var(--transition);
-			border: 2px solid transparent;
+			border: 2px solid white;
 			position: relative;
 			overflow: hidden;
-		}
-
-		.wp-block-button__link:first-child {
-			background: rgba(255, 255, 255, 0.2);
-			color: white;
-			border-color: rgba(255, 255, 255, 0.3);
-		}
-
-		.wp-block-button__link:last-child {
-			background: transparent;
-			color: white;
-			border-color: rgba(255, 255, 255, 0.3);
-			backdrop-filter: blur(10px);
+			background: white;
+			color: #0b3f89;
 }
 
 		.wp-block-button__link:hover {
 			transform: translateY(-2px);
 			box-shadow: var(--shadow-heavy);
+			background: white;
+			color: #0b3f89;
 		}
 
 		/* ===== BLOG SECTION MODERNISÉE ===== */
@@ -1289,20 +1277,44 @@
 			}
 		}
 
-		/* ⚠️ SUR MOBILE : CACHER COMPLÈTEMENT LA SECTION CALENDLY (redirection vers /contact) */
+		/* ===== MOBILE : AFFICHER CALENDLY EN COLONNE ===== */
 		@media (max-width: 768px) {
-			.calendly-container-wrapper,
-			.calendly-section,
-			#calendly-home {
-				display: none !important;
-				visibility: hidden !important;
-				opacity: 0 !important;
-				height: 0 !important;
-				overflow: hidden !important;
-				pointer-events: none !important;
+			.calendly-container-wrapper {
+				padding: 0 16px;
+			}
+			
+			.calendly-section {
+				padding: 2rem 1.5rem;
+				margin: 2rem 0;
+			}
+			
+			.calendly-content {
+				display: flex;
+				flex-direction: column;
+				gap: 2rem;
+			}
+			
+			.calendly-text-wrapper {
+				text-align: center;
+			}
+			
+			.calendly-section h3 {
+				font-size: 1.8rem;
+				text-align: center;
+			}
+			
+			.calendly-section p {
+				text-align: center;
+				font-size: 1.1rem;
 			}
 
-			/* ⚠️ Le texte des boutons est changé via JavaScript (plus fiable) */
+			.calendly-alternative {
+				justify-content: center;
+			}
+			
+			.calendly-iframe-wrapper {
+				min-height: 500px;
+			}
 		}
 
 		.blog-heading {
@@ -1327,16 +1339,18 @@
 
 		.blog-container {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			grid-template-columns: repeat(3, 1fr);
 			gap: 30px;
 			max-width: 1200px;
 			margin: 0 auto;
+			align-items: stretch;
 		}
 
 		.blog-postactualite-link {
 			text-decoration: none;
 			color: inherit;
-			display: block;
+			display: flex;
+			height: 100%;
 		}
 
 		.blog-postactualite {
@@ -1347,6 +1361,10 @@
 			transition: var(--transition);
 			border: 1px solid rgba(255, 255, 255, 0.3);
 			box-shadow: var(--shadow-light);
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 100%;
 		}
 
 		.blog-postactualite-link:hover .blog-postactualite {
@@ -1368,6 +1386,18 @@
 
 		.blog-post-content {
 			padding: 25px;
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+		}
+
+		.blog-post-content h3 {
+			flex-shrink: 0;
+		}
+
+		.blog-post-content p {
+			flex: 1;
+			margin-bottom: 15px;
 		}
 
 		.read-more {
@@ -1385,6 +1415,19 @@
 		.read-more:hover {
 			transform: translateY(-2px);
 			box-shadow: 0 5px 15px rgba(11, 63, 137, 0.4);
+}
+
+		/* Responsive blog cards */
+		@media (max-width: 992px) {
+			.blog-container {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (max-width: 600px) {
+			.blog-container {
+				grid-template-columns: 1fr;
+			}
 }
 
 		/* ===== BOUTON VOIR TOUS LES ARTICLES OPTIMISÉ ===== */
@@ -1439,7 +1482,7 @@
 		/* ===== VIDEO SECTION MODERNISÉE (COULEURS COHÉRENTES AVEC LE SITE) ===== */
 		.video-section {
 			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
-			padding: 10px 20px;
+			padding: 80px 20px;
 			color: white;
 			position: relative;
 			overflow: hidden;
@@ -1480,11 +1523,6 @@
 				width: 100%;
 			height: 100%;
 			border-radius: var(--border-radius);
-			transition: var(--transition);
-		}
-
-		.wp-block-videos:hover video {
-			transform: scale(1.02);
 }
 
 				/* ===== CONTACT SECTION MODERNE AVEC FOND BLANC ===== */
@@ -1563,14 +1601,7 @@
 			background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 			border-radius: 15px;
 			border: 1px solid #e2e8f0;
-			transition: var(--transition);
 			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-		}
-
-		.contact-feature:hover {
-			transform: translateY(-5px);
-			background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 		}
 
 		.contact-feature-icon {
@@ -1765,6 +1796,7 @@
 			transform: translateY(-2px);
 			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
 			background: linear-gradient(135deg, #004080, #0056b3);
+			color: white !important;
 		}
 
 		.btn-primary:hover::before {
@@ -4776,7 +4808,7 @@
 				<h3 class="formation-title">Maîtriser l'IA Générative pour le Marketing</h3>
 				<p class="formation-description">Maîtrisez pleinement vos compétences avec notre formation avancée. Applications concrètes, expertises sectorielles et scénarios réels.</p>
 				<a href="{{ path('app_formation_show', {'id': 90}) }}" class="formation-cta">
-					Accéder maintenant
+					Maîtriser l'IA
 				</a>
 			</div>
 		</div>
@@ -4847,7 +4879,7 @@
 				<img src="{{ asset('img/CPF.png') }}" class="wp-image-cpf_lady" alt="formation_financable_cpf">
 			</div>
 			<div class="wp-block-formation-financable-cpf-texte" data-aos="fade-left">
-				<h2 class="wp-block-heading has-text-color cpf-title-mobile">
+				<h2 class="wp-block-heading has-text-color cpf-title-mobile" style="color: #ffffff;">
 					FORMATIONS à distance<br>
 					<span>100% FINANÇABLES</span> VIA VOTRE CPF
 				</h2>
@@ -4861,7 +4893,7 @@
 						</div>
 				<div class="cpf-buttons">
 					<a class="wp-block-button__link" href="{{ path('redirectToFormationsEligiblesCPF')}}">Utiliser mon CPF</a>
-					<a class="wp-block-button__link btn-calendly-mobile" href="#calendly-home" data-mobile-text="📞 Prise de contact">📞 Je réserve mon appel gratuit</a>
+					<a class="wp-block-button__link btn-calendly-mobile" href="#calendly-home" data-mobile-text="Prise de contact">Je réserve mon appel gratuit</a>
 					</div>
 					</div>
 		</div>
@@ -4923,23 +4955,27 @@
 		</div>
 
 		<script>
-			// Auto-lecture vidéo avec volume à 50% quand elle entre dans le viewport
+			// Auto-lecture vidéo MUET quand elle entre dans le viewport
 			document.addEventListener('DOMContentLoaded', function() {
 				const video = document.getElementById('video-infpf');
 				let hasPlayed = false;
 
+				// S'assurer que la vidéo est toujours en mute
+				if (video) {
+					video.muted = true;
+					video.volume = 0;
+				}
+
 				const observer = new IntersectionObserver((entries) => {
 					entries.forEach(entry => {
 						if (entry.isIntersecting && !hasPlayed) {
-							// Vidéo est visible dans le viewport
-							video.muted = false; // Activer le son
-							video.volume = 0.5;  // Volume à 50%
+							// Vidéo est visible dans le viewport - TOUJOURS MUTE
+							video.muted = true;
+							video.volume = 0;
 							
-							// Lancer la vidéo
+							// Lancer la vidéo en mute
 							video.play().catch(err => {
-								// Si le navigateur bloque l'autoplay avec son, garder muted
-								video.muted = true;
-								video.play();
+								console.log('Autoplay bloqué');
 							});
 							
 							hasPlayed = true;
@@ -5682,5 +5718,6 @@ document.addEventListener('click', function(event) {
 {% endblock %}
 
 {% endblock %}
+
 
 

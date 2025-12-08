@@ -4687,7 +4687,7 @@
   all: unset; 
   border: none;
   background: none;
-  width: 100px; /* ou toute autre valeur que vous souhaitez appliquer */
+  width: 130px; /* Logo plus grand que vous souhaitez appliquer */
   filter: brightness(8.5);
   /* Appliquez ici les autres styles spécifiques que vous souhaitez pour le logo */
 }

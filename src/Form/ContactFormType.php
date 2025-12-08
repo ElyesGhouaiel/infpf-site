@@ -65,17 +65,6 @@ class ContactFormType extends AbstractType
                     new NotBlank(["message" => "Veuillez sélectionner l'objet de votre demande."])
                 ],
             ])
-            ->add('preferredMode', ChoiceType::class, [
-                'choices' => [
-                    'À distance (en ligne)' => 'distance',
-                    'En présentiel' => 'presentiel',
-                    'Indifférent' => 'indifferent',
-                ],
-                'label' => 'Mode de formation souhaité',
-                'required' => false,
-                'placeholder' => 'Choisir une préférence',
-                'attr' => ['class' => 'custom-select']
-            ])
             ->add('content', TextareaType::class, [
                 'label' => 'Détails supplémentaires',
                 'required' => false,
@@ -92,6 +81,7 @@ class ContactFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Message::class,
+            'allow_extra_fields' => true, // Permet les anciens champs (cache navigateur)
         ]);
     }
 }

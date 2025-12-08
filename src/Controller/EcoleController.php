@@ -83,10 +83,8 @@ class EcoleController extends AbstractController
 
         // Statistiques de l'école
         $stats = [
-            'years_experience' => '15+',
-            'students_trained' => '226K+',
-            'satisfaction_rate' => '94%',
-            'average_rating' => '9/10'
+            'years_experience' => '2+',
+            'students_trained' => '+200'
         ];
 
         return $this->render('ecole/index.html.twig', [

@@ -90,6 +90,7 @@
 			color: white;
 			max-width: 800px;
 			margin: 0 auto;
+			text-align: center;
 		}
 
 		.coach-hero-title {
@@ -106,6 +107,7 @@
 			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
+			text-align: center !important;
 		}
 
 		.coach-hero-cta {
@@ -118,7 +120,7 @@
 			border-radius: 50px;
 			text-decoration: none;
 			font-weight: 600;
-			font-size: 1.1rem;
+			font-size: 1.25rem;
 			backdrop-filter: blur(10px);
 			border: 2px solid rgba(255, 255, 255, 0.2);
 			transition: var(--transition);
@@ -271,11 +273,6 @@
 		.coach-banner-image img {
 			width: 100%;
 			height: auto;
-			transition: var(--transition);
-		}
-
-		.coach-banner-image:hover img {
-			transform: scale(1.02);
 		}
 
 		/* ===== HIGHLIGHT SECTION ===== */
@@ -352,14 +349,8 @@
 			border-radius: var(--border-radius);
 			box-shadow: var(--shadow-light);
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
 			text-align: center;
 			position: relative;
-		}
-
-		.process-step:hover {
-			transform: translateY(-8px);
-			box-shadow: var(--shadow-medium);
 		}
 
 		.step-icon {
@@ -403,12 +394,6 @@
 			border-radius: 20px;
 			box-shadow: var(--shadow-light);
 			border-left: 5px solid var(--primary-color);
-			transition: var(--transition);
-		}
-
-		.coach-mission-card:hover {
-			transform: translateY(-4px);
-			box-shadow: var(--shadow-medium);
 		}
 
 		.coach-mission-icon {
@@ -470,12 +455,6 @@
 			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
 			border-radius: 24px;
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
-		}
-
-		.modern-illustration:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 20px 40px rgba(11, 63, 137, 0.15);
 		}
 
 		.illustration-circle {
@@ -567,10 +546,9 @@
 			padding: 16px 28px;
 			border-radius: 50px;
 			font-weight: 600;
-			font-size: 1.1rem;
+			font-size: 1.25rem;
 			margin-bottom: 32px;
 			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
-			animation: float 3s ease-in-out infinite alternate;
 		}
 
 		.intro-premium-title {
@@ -614,12 +592,6 @@
 			border-radius: 16px;
 			border: 1px solid rgba(11, 63, 137, 0.1);
 			box-shadow: 0 4px 15px rgba(11, 63, 137, 0.08);
-			transition: var(--transition);
-		}
-
-		.feature-point:hover {
-			transform: translateY(-3px);
-			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.15);
 		}
 
 		.feature-point svg {
@@ -653,7 +625,6 @@
 			background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
 			border-radius: 20px;
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
 			position: relative;
 			overflow: hidden;
 		}
@@ -661,16 +632,6 @@
 		.stat-item.highlight {
 			background: linear-gradient(135deg, rgba(11, 63, 137, 0.05) 0%, rgba(30, 92, 184, 0.08) 100%);
 			border: 2px solid rgba(11, 63, 137, 0.2);
-			transform: translateY(-8px);
-		}
-
-		.stat-item:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 15px 40px rgba(11, 63, 137, 0.15);
-		}
-
-		.stat-item.highlight:hover {
-			transform: translateY(-12px);
 		}
 
 		.stat-icon {
@@ -712,7 +673,10 @@
 		.stat-description {
 			font-size: 1rem;
 			color: var(--text-light);
-			margin: 0;
+			margin: 0 auto !important;
+			text-align: center !important;
+			display: block;
+			width: 100%;
 		}
 
 		/* ===== MISSIONS MODERNES ===== */
@@ -1068,7 +1032,7 @@
 
 			.coach-hero-cta {
 				padding: 16px 32px;
-				font-size: 1rem;
+				font-size: 1.15rem;
 			}
 
 			.coach-mission-icon {
@@ -1207,7 +1171,7 @@
 
 			.coach-hero-cta {
 				padding: 14px 28px;
-				font-size: 0.95rem;
+				font-size: 1.05rem;
 			}
 
 			.coach-mission-icon {

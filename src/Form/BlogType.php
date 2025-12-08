@@ -46,7 +46,6 @@ class BlogType extends AbstractType
             'help' => 'Laissez vide pour publier immédiatement, ou choisissez une date future pour programmer la publication',
             'attr' => [
                 'class' => 'publication-date-field',
-                'min' => (new \DateTime())->format('Y-m-d\TH:i'),
                 'step' => '60'
             ]
         ])
@@ -83,15 +82,16 @@ class BlogType extends AbstractType
             'required' => false,
             'constraints' => [
                 new File([
-                    'maxSize' => '5M',  // Augmente la taille maximale des fichiers à 5MB
+                    'maxSize' => '10M',  // Augmente la taille maximale des fichiers à 10MB
                     'mimeTypes' => [
                         'image/png',
                         'image/jpeg',
                         'image/jpg',
                         'image/gif',
-                        'image/svg+xml'  // Ajout du support pour les images SVG
+                        'image/webp',     // Support pour les images WebP
+                        'image/svg+xml'   // Support pour les images SVG
                     ],
-                    'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide.',
+                    'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide (PNG, JPG, GIF, WebP ou SVG).',
                 ])
             ],
         ])

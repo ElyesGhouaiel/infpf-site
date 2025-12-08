@@ -90,6 +90,7 @@
 			color: white;
 			max-width: 800px;
 			margin: 0 auto;
+			text-align: center;
 		}
 
 		.qaliopi-hero-title {
@@ -106,6 +107,7 @@
 			margin-bottom: 32px;
 			opacity: 0.95;
 			line-height: 1.4;
+			text-align: center !important;
 		}
 
 		.qaliopi-hero-cta {
@@ -118,7 +120,7 @@
 			border-radius: 50px;
 			text-decoration: none;
 			font-weight: 600;
-			font-size: 1.1rem;
+			font-size: 1.25rem;
 			backdrop-filter: blur(10px);
 			border: 2px solid rgba(255, 255, 255, 0.2);
 			transition: var(--transition);
@@ -311,12 +313,6 @@
 			margin: 0 auto 44px;
 			border-radius: 20px;
 			box-shadow: 0 12px 40px rgba(11, 63, 137, 0.15);
-			transition: var(--transition);
-		}
-
-		.qaliopi-certification-logo:hover {
-			transform: scale(1.05);
-			box-shadow: 0 16px 50px rgba(11, 63, 137, 0.2);
 		}
 
 		.qaliopi-certification-badge {
@@ -331,29 +327,6 @@
 			font-size: 1.2rem;
 			margin-bottom: 36px;
 			box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
-			transition: var(--transition);
-			position: relative;
-			overflow: hidden;
-		}
-
-		.qaliopi-certification-badge::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-			transition: left 0.6s ease;
-		}
-
-		.qaliopi-certification-badge:hover {
-			transform: translateY(-3px);
-			box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
-		}
-
-		.qaliopi-certification-badge:hover::before {
-			left: 100%;
 		}
 
 		.qaliopi-certification-icon {
@@ -388,19 +361,9 @@
 			border-radius: 24px;
 			box-shadow: var(--shadow-light);
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
 			position: relative;
 			overflow: hidden;
 		}
-
-		/* Suppression des traits bleus sur les critères */
-
-		.qaliopi-criteria-item:hover {
-			transform: translateY(-6px);
-			box-shadow: var(--shadow-medium);
-		}
-
-		/* Suppression des effets hover sur les traits bleus */
 
 		.qaliopi-criteria-number {
 			display: inline-flex;
@@ -415,12 +378,6 @@
 			font-size: 1.2rem;
 			margin-bottom: 20px;
 			box-shadow: 0 6px 20px rgba(11, 63, 137, 0.2);
-			transition: var(--transition);
-		}
-
-		.qaliopi-criteria-item:hover .qaliopi-criteria-number {
-			transform: scale(1.1) rotate(5deg);
-			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
 		}
 
 		.qaliopi-criteria-item h4 {
@@ -503,7 +460,6 @@
 			border-radius: var(--border-radius);
 			box-shadow: var(--shadow-light);
 			text-align: center;
-			transition: var(--transition);
 			border: 1px solid rgba(11, 63, 137, 0.1);
 			position: relative;
 			overflow: hidden;
@@ -517,18 +473,6 @@
 			width: 100%;
 			height: 6px;
 			background: var(--primary-gradient);
-			transform: scaleX(0);
-			transform-origin: left;
-			transition: transform 0.4s ease;
-		}
-
-		.qaliopi-stat-card:hover {
-			transform: translateY(-10px) scale(1.02);
-			box-shadow: var(--shadow-heavy);
-		}
-
-		.qaliopi-stat-card:hover::before {
-			transform: scaleX(1);
 		}
 
 		.qaliopi-stat-number {
@@ -538,12 +482,6 @@
 			display: block;
 			margin-bottom: 16px;
 			text-shadow: 0 2px 4px rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
-		}
-
-		.qaliopi-stat-card:hover .qaliopi-stat-number {
-			transform: scale(1.1);
-			color: var(--primary-light);
 		}
 
 		.qaliopi-stat-label {
@@ -566,15 +504,6 @@
 
 		/* Suppression du trait bleu/vert sur la notice */
 
-		.qaliopi-notice-section::after {
-			content: 'ℹ️';
-			position: absolute;
-			top: 24px;
-			right: 24px;
-			font-size: 1.8rem;
-			opacity: 0.4;
-		}
-
 		.qaliopi-notice-title {
 			color: #16a34a;
 			font-weight: 700;
@@ -582,14 +511,6 @@
 			margin-bottom: 24px;
 			text-transform: uppercase;
 			letter-spacing: 0.8px;
-			display: flex;
-			align-items: center;
-			gap: 12px;
-		}
-
-		.qaliopi-notice-title::before {
-			content: '📅';
-			font-size: 1.4rem;
 		}
 
 		.qaliopi-notice-text {
@@ -803,7 +724,7 @@
 
 			.qaliopi-hero-cta {
 				padding: 16px 32px;
-				font-size: 1rem;
+				font-size: 1.15rem;
 			}
 		}
 
@@ -849,7 +770,7 @@
 
 			.qaliopi-hero-cta {
 				padding: 14px 28px;
-				font-size: 0.95rem;
+				font-size: 1.05rem;
 			}
 		}
 	</style>
@@ -997,7 +918,7 @@
 		<h2 class="qaliopi-highlight-title">Une garantie de qualité pour votre formation</h2>
 		<div class="qaliopi-highlight-content">
 			<p>La certification Qualiopi vous assure une formation de qualité, reconnue par l'État et éligible aux financements publics.</p>
-			<a href="{{ path('app_home') }}" class="qaliopi-modern-button" style="margin-top: 40px;">
+			<a href="{{ path('app_home') }}" class="qaliopi-modern-button" style="margin-top: 40px; background: white; color: var(--primary-color);">
 				<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
 					<path d="M3 13h8V3l10 9-10 9V11H3v2z"/>
 				</svg>

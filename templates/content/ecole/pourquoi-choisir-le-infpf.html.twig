@@ -125,7 +125,7 @@
 			border-radius: 50px;
 			text-decoration: none;
 			font-weight: 600;
-			font-size: 1.1rem;
+			font-size: 1.25rem;
 			backdrop-filter: blur(10px);
 			border: 2px solid rgba(255, 255, 255, 0.2);
 			transition: var(--transition);
@@ -388,22 +388,6 @@
 			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 		}
 
-		.section-image:hover {
-			transform: translateY(-4px) scale(1.01);
-			box-shadow: 
-				0 20px 50px rgba(11, 63, 137, 0.15),
-				0 8px 20px rgba(11, 63, 137, 0.1);
-		}
-
-		.section-image:hover::after {
-			opacity: 1;
-		}
-
-		.section-image:hover img {
-			transform: scale(1.02);
-			filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-		}
-
 		/* ===== SECTION PARTENAIRES (DISPOSITION VERTICALE) ===== */
 		.partners-section {
 			display: flex;
@@ -470,7 +454,6 @@
 			border-radius: 16px;
 			padding: 24px 16px;
 			text-align: center;
-			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 			border: 1px solid rgba(226, 232, 240, 0.8);
 			position: relative;
 			overflow: hidden;
@@ -484,20 +467,6 @@
 			right: 0;
 			height: 3px;
 			background: var(--primary-gradient);
-			transform: scaleX(0);
-			transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-		}
-
-		.network-item:hover::before {
-			transform: scaleX(1);
-		}
-
-		.network-item:hover {
-			transform: translateY(-4px);
-			box-shadow: 
-				0 12px 25px rgba(11, 63, 137, 0.1),
-				0 4px 10px rgba(11, 63, 137, 0.05);
-			border-color: rgba(11, 63, 137, 0.2);
 		}
 
 		.network-icon {
@@ -509,18 +478,12 @@
 			align-items: center;
 			justify-content: center;
 			margin: 0 auto 16px;
-			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 		}
 
 		.network-icon svg {
 			color: white;
 			width: 32px;
 			height: 32px;
-		}
-
-		.network-item:hover .network-icon {
-			transform: scale(1.1) rotate(5deg);
-			box-shadow: 0 8px 20px rgba(11, 63, 137, 0.3);
 		}
 
 		.network-item h4 {
@@ -554,7 +517,6 @@
 			border-radius: var(--border-radius);
 			box-shadow: var(--shadow-light);
 			border: 1px solid rgba(11, 63, 137, 0.1);
-			transition: var(--transition);
 			text-align: center;
 			position: relative;
 			overflow: hidden;
@@ -569,31 +531,6 @@
 			height: 4px;
 			background: var(--primary-gradient);
 			border-radius: var(--border-radius) var(--border-radius) 0 0;
-		}
-
-		.advantage-card::after {
-			content: '';
-			position: absolute;
-			bottom: -5px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 0;
-			height: 0;
-			border-left: 10px solid transparent;
-			border-right: 10px solid transparent;
-			border-top: 10px solid var(--primary-color);
-			opacity: 0;
-			transition: var(--transition);
-		}
-
-		.advantage-card:hover::after {
-			opacity: 0.7;
-			bottom: -10px;
-		}
-
-		.advantage-card:hover {
-			transform: translateY(-8px);
-			box-shadow: var(--shadow-heavy);
 		}
 
 		.advantage-icon {
@@ -667,13 +604,7 @@
 			text-align: center;
 			padding: 20px;
 			border-radius: 16px;
-			transition: var(--transition);
 			position: relative;
-		}
-
-		.stat-item:hover {
-			transform: translateY(-3px);
-			background: rgba(11, 63, 137, 0.05);
 		}
 
 		.stat-number {
@@ -1031,7 +962,7 @@
 
 			.hero-cta {
 				padding: 16px 32px;
-				font-size: 1rem;
+				font-size: 1.15rem;
 			}
 		}
 
@@ -1089,7 +1020,7 @@
 
 			.hero-cta {
 				padding: 14px 28px;
-				font-size: 0.95rem;
+				font-size: 1.05rem;
 			}
 		}
 	</style>
@@ -1219,20 +1150,12 @@
 		<h2 class="section-title">L'INFPF en Chiffres</h2>
 		<div class="stats-grid">
 			<div class="stat-item">
-				<span class="stat-number">15+</span>
+				<span class="stat-number">2+</span>
 				<span class="stat-label">Années d'expérience</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">226K+</span>
+				<span class="stat-number">+200</span>
 				<span class="stat-label">Étudiants formés</span>
-			</div>
-			<div class="stat-item">
-				<span class="stat-number">94%</span>
-				<span class="stat-label">Taux de satisfaction</span>
-			</div>
-			<div class="stat-item">
-				<span class="stat-number">9/10</span>
-				<span class="stat-label">Note moyenne</span>
 			</div>
 			<div class="stat-item">
 				<span class="stat-number">25+</span>
