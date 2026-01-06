@@ -99,7 +99,6 @@
             padding: 2.5rem;
             margin-bottom: 2rem;
             box-shadow: var(--card-shadow);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -112,19 +111,9 @@
             width: 5px;
             height: 100%;
             background: linear-gradient(180deg, var(--primary-blue), var(--accent-cyan));
-            transform: scaleY(0);
-            transition: transform 0.4s ease;
-            transform-origin: top;
         }
 
-        .cgv-section:hover {
-            box-shadow: var(--card-shadow-hover);
-            transform: translateY(-5px);
-        }
-
-        .cgv-section:hover::before {
-            transform: scaleY(1);
-        }
+        /* Hover désactivé - élément non-cliquable */
 
         /* En-tête de section */
         .section-header {
@@ -146,13 +135,9 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 15px rgba(11, 63, 137, 0.25);
-            transition: all 0.3s ease;
         }
 
-        .cgv-section:hover .section-icon {
-            transform: rotate(5deg) scale(1.1);
-            box-shadow: 0 6px 20px rgba(11, 63, 137, 0.35);
-        }
+        /* Hover icône désactivé - élément non-cliquable */
 
         .section-icon svg {
             width: 26px;

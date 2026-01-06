@@ -96,13 +96,15 @@
 			}
 
 			.hero-card {
-				padding: 24px;
+				padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
 				border-radius: 20px;
 				width: 100%;
 			}
 
 			.hero-form-container {
-				padding: 24px;
+				padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
 				border-radius: 16px;
 			}
 
@@ -349,7 +351,8 @@
 			font-size: clamp(2.2rem, 4vw, 3.5rem);
 			font-weight: 600;
 			color: #0b3f89;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			line-height: 1.3;
 			position: relative;
 			padding-bottom: 20px;
@@ -397,7 +400,8 @@
 .category-card {
 			position: relative;
 			border-radius: var(--border-radius);
-  overflow: hidden !important; /* MASQUER DÉPASSEMENTS */
+  overflow-y: auto !important;
+			overflow-x: hidden !important; /* MASQUER DÉPASSEMENTS */
 			background: rgba(255, 255, 255, 0.25);
 			backdrop-filter: blur(20px);
 			border: 1px solid rgba(255, 255, 255, 0.3);
@@ -421,7 +425,7 @@
 			margin: 0;
 			padding: 0;
 			transition: var(--transition);
-			border-radius: 0; /* PAS d'arrondi sur l'image elle-même, le container s'en charge */
+			border-radius: 22px 22px 0 0; /* PAS d'arrondi sur l'image elle-même, le container s'en charge */
 		}
 
 		.category:not(.expanded) .category-card:hover .category-image {
@@ -646,7 +650,8 @@
 			grid-template-columns: 400px 1fr;
 			gap: 0;
 			margin: 0 !important;
-			overflow: hidden !important; /* MASQUER LES DÉPASSEMENTS */
+			overflow-y: auto !important;
+			overflow-x: hidden !important; /* MASQUER LES DÉPASSEMENTS */
 			max-height: none; /* S'adapte au contenu */
 			box-shadow: 0 30px 100px rgba(11, 63, 137, 0.5);
 			border: 3px solid rgba(11, 63, 137, 0.3);
@@ -757,7 +762,8 @@
 
 		.formations-preview h4 {
 			color: var(--primary-gradient);
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			font-size: 18px;
 			font-weight: 600;
 		}
@@ -913,7 +919,8 @@
 				grid-template-columns: 1fr !important;
 				min-height: auto !important;
 				max-height: none !important;
-				overflow: hidden !important; /* MASQUER LES DÉPASSEMENTS */
+				overflow-y: auto !important;
+			overflow-x: hidden !important; /* MASQUER LES DÉPASSEMENTS */
 				overflow-y: visible !important;
 			}
 
@@ -957,7 +964,8 @@
 			}
 			
 			.category.expanded .category-card {
-				overflow: hidden !important;
+				overflow-y: auto !important;
+			overflow-x: hidden !important;
 				border-radius: 18px !important;
 			}
 			
@@ -1004,7 +1012,7 @@
 
 .formation {
 			background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-			padding: 16px 20px;
+			padding: 12px 20px;
 			margin-bottom: 12px;
 			border-radius: 12px;
   color: #0077b6;
@@ -1605,16 +1613,19 @@
 		}
 
 		.contact-feature-icon {
-			width: 24px;
-			height: 24px;
-			background: #0b3f89;
+			width: 28px;
+			height: 28px;
+			background: linear-gradient(135deg, #0b3f89, #00b4d8);
 			border-radius: 50%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 14px;
+			flex-shrink: 0;
+		}
+		.contact-feature-icon svg {
+			width: 14px;
+			height: 14px;
 			color: white;
-			font-weight: bold;
 		}
 
 		.contact-feature-text {
@@ -1646,7 +1657,8 @@
 			color: #0b3f89;
 			font-size: 1.8rem;
 			font-weight: 600;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 				text-align: center;
 			}
 
@@ -2001,7 +2013,8 @@
 
 		.hero-icon {
 			font-size: 48px;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			display: block;
 			animation: heroIconPulse 3s ease-in-out infinite;
 		}
@@ -2371,11 +2384,13 @@
 			background: #ffffff !important;
 			border: 3px solid #0b3f89 !important;
 			border-radius: 25px !important;
+			padding: 0 !important;
 			box-shadow: 
 				0 25px 80px rgba(11, 63, 137, 0.8) !important,
-				inset 0 3px 12px rgba(11, 63, 137, 0.1) !important;
+				inset 0 0 0 rgba(11, 63, 137, 0) !important;
 			max-height: 70vh !important;
 			overflow-y: auto !important;
+			overflow-x: hidden !important;
 			backdrop-filter: blur(25px) !important;
 			visibility: visible !important;
 			opacity: 1 !important;
@@ -2480,7 +2495,7 @@
 		}
 
 		.voir-plus-formations:hover .voir-plus-icon {
-			background: #0b3f89;
+			background: #ffffff;
 			color: white;
 			transform: scale(1.1);
 		}
@@ -2511,16 +2526,179 @@
 			transform: translateX(5px);
 		}
 
+		/* ===== BOUTONS ACCORDÉON =====*/
+		.accordion-controls {
+			border-radius: 22px 22px 0 0;
+			display: flex;
+			gap: 10px;
+			padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.1);
+			background: #ffffff;
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.accordion-btn {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 8px 14px;
+			border: 2px solid #0b3f89;
+			border-radius: 20px;
+			background: white;
+			color: #0b3f89;
+			font-size: 13px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
+		.accordion-btn:hover:not(:disabled) {
+			background: #e8f4f8;
+			color: #0b3f89;
+		}
+		.accordion-btn:disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+			border-color: #ccc;
+			color: #999;
+		}
+		.accordion-close-btn {
+			margin-left: auto;
+			border-color: #dc3545;
+			color: #dc3545;
+		}
+		.accordion-close-btn:hover {
+			background: #dc3545;
+			color: white;
+		}
+		.accordion-btn svg {
+			width: 14px;
+			height: 14px;
+		}
+		@media (max-width: 768px) {
+			.accordion-controls {
+				gap: 8px;
+				padding: 12px 15px;
+			}
+			.accordion-btn {
+				padding: 10px 16px;
+				font-size: 12px;
+				border-radius: 18px;
+			}
+			.accordion-btn svg {
+				width: 16px;
+				height: 16px;
+			}
+			.accordion-close-btn {
+				padding: 10px 14px;
+			}
+		}
+		@media (max-width: 480px) {
+			.accordion-controls {
+				gap: 8px;
+				padding: 10px 12px;
+			}
+			.accordion-btn {
+				padding: 0 !important;
+				font-size: 0 !important;
+				border-width: 2px;
+				min-width: 40px;
+				width: 40px;
+				height: 40px;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				gap: 0 !important;
+			}
+			.accordion-btn svg {
+				width: 22px !important;
+				height: 22px !important;
+				margin: 0 !important;
+				display: block !important;
+			}
+			.accordion-close-btn {
+				min-width: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			.accordion-close-btn svg {
+				width: 20px !important;
+				height: 20px !important;
+			}
+		}
+		@media (max-width: 390px) {
+			.accordion-controls {
+				gap: 6px;
+				padding: 8px 10px;
+			}
+			.accordion-btn {
+				min-width: 38px;
+				width: 38px;
+				height: 38px;
+			}
+			.accordion-btn svg {
+				width: 20px !important;
+				height: 20px !important;
+			}
+			.accordion-close-btn {
+				min-width: 38px;
+				width: 38px;
+				height: 38px;
+			}
+			.accordion-close-btn svg {
+				width: 18px !important;
+				height: 18px !important;
+			}
+		}
+		@media (max-width: 360px) {
+			.accordion-controls {
+				gap: 5px;
+				padding: 8px 8px;
+			}
+			.accordion-btn {
+				border-width: 2px;
+				min-width: 36px;
+				width: 36px;
+				height: 36px;
+			}
+			.accordion-btn svg {
+				width: 18px !important;
+				height: 18px !important;
+			}
+			.accordion-close-btn {
+				min-width: 36px;
+				width: 36px;
+				height: 36px;
+			}
+			.accordion-close-btn svg {
+				width: 16px !important;
+				height: 16px !important;
+			}
+		}
+		.accordion-arrow {
+			margin-left: auto;
+			transition: transform 0.3s ease;
+			color: inherit;
+		}
+		.formation-category-section.expanded .accordion-arrow {
+			transform: rotate(180deg);
+		}
+		.formation-category-section.expanded .category-header {
+			margin-bottom: 0;
+		}
+
 		.formation-category-section {
-			padding: 24px;
+			padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
 		}
 
 		.category-header {
 			display: flex;
 			align-items: center;
 			gap: 16px;
-			margin-bottom: 20px;
-			padding: 16px 20px;
+			margin-bottom: 0;
+			cursor: pointer;
+			padding: 12px 20px;
 			border-radius: 15px;
 			/* PAS de color ici - laissé aux spécificités */
 			/* PAS de box-shadow ici - laissé aux spécificités */
@@ -2641,28 +2819,7 @@
 			overflow: hidden;
 		}
 
-		.category-count::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-			transition: left 0.5s ease;
-		}
-
-		.category-header:hover .category-count::before {
-			left: 100%;
-		}
-
-		.category-header:hover .category-count {
-			background: linear-gradient(135deg, #e8f4f8, #ffffff);
-			transform: scale(1.05);
-			box-shadow: 
-				0 6px 20px rgba(11, 63, 137, 0.4),
-				inset 0 2px 10px rgba(255, 255, 255, 0.9);
-		}
+		/* Pseudo-élément ::before supprimé - plus d'animation hover */
 
 		/* ===== CATÉGORIE IA SPÉCIALE EN OR ===== */
 		.formation-category-section[data-category="ia"] .category-header {
@@ -2688,20 +2845,7 @@
 				0 4px 16px rgba(255, 165, 0, 0.2) !important;
 		}
 
-		.formation-category-section[data-category="ia"] .category-header::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-			transition: left 0.3s ease;
-		}
-
-		.formation-category-section[data-category="ia"] .category-header:hover::before {
-			left: 100%;
-		}
+		/* Animation brillance supprimée - élément non-cliquable */
 
 		.formation-category-section[data-category="ia"] .category-title,
 		#formationDropdown .formation-category-section[data-category="ia"] .category-title {
@@ -2721,13 +2865,7 @@
 				inset 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 		}
 
-		.formation-category-section[data-category="ia"] .category-header:hover .category-count {
-			background: linear-gradient(135deg, #2d2d2d, #1a1a1a) !important;
-			transform: scale(1.1) !important;
-			box-shadow: 
-				0 6px 20px rgba(255, 215, 0, 0.6),
-				inset 0 2px 10px rgba(0, 0, 0, 0.4);
-		}
+		/* Animation hover count IA supprimée - élément non-cliquable */
 
 		/* Badge NOUVEAU pour IA */
 		.formation-category-section[data-category="ia"]::after,
@@ -2768,9 +2906,20 @@
 		}
 
 		.formations-grid {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+			opacity: 0;
+			padding-top: 0;
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 			gap: 16px;
+		}
+
+		.formation-category-section.expanded .formations-grid {
+			max-height: 2000px;
+			opacity: 1;
+			padding-top: 16px;
 		}
 
 		.formation-card {
@@ -2788,9 +2937,9 @@
 		.formation-card:hover {
 			background: linear-gradient(135deg, #e8f4f8, #ffffff);
 			border-color: #0b3f89;
-			transform: translateY(-4px) scale(1.02);
+			transform: translateY(-3px);
 			box-shadow: 
-				0 15px 40px rgba(11, 63, 137, 0.3),
+				0 10px 25px rgba(11, 63, 137, 0.25),
 				inset 0 2px 8px rgba(0, 180, 216, 0.1);
 		}
 
@@ -2866,7 +3015,7 @@
 		.separator-dot {
 			width: 12px;
 			height: 12px;
-			background: #0b3f89;
+			background: #ffffff;
 			border-radius: 50%;
 			box-shadow: 0 0 0 4px rgba(11, 63, 137, 0.2);
 			animation: pulse-dot 2s ease-in-out infinite;
@@ -2895,7 +3044,7 @@
 		}
 
 		.formation-selector-modern[data-open="true"] .formation-placeholder {
-			border-radius: 25px 25px 0 0;
+			border-radius: 22px 22px 0 0;
 			border-bottom: 2px solid #e8f4f8;
 		}
 
@@ -3298,7 +3447,7 @@
 			right: 0;
 			height: 6px;
 			background: linear-gradient(90deg, #1e5cb8, #0b3f89);
-			border-radius: 25px 25px 0 0;
+			border-radius: 22px 22px 0 0;
 		}
 
 		/* Badge OFFRE SPÉCIALE - Cercle parfait avec cible */
@@ -3452,7 +3601,8 @@
 			align-items: center;
 			justify-content: center;
 			gap: 15px;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			flex-wrap: wrap;
 		}
 
@@ -3577,7 +3727,8 @@
 			}
 
 			.banner-header {
-				margin-bottom: 20px;
+				margin-bottom: 0;
+			cursor: pointer;
 			}
 
 			.banner-main-title {
@@ -3637,7 +3788,8 @@
 			.formation-description {
 				font-size: clamp(1rem, 3vw, 1.3rem);
 				padding: 16px;
-				margin-bottom: 20px;
+				margin-bottom: 0;
+			cursor: pointer;
 			}
 
 			.formation-cta {
@@ -4428,48 +4580,49 @@
 			}
 			
 			.category-count {
-				font-size: 14px !important;
-				padding: 8px 18px !important;
+				font-size: 13px !important;
+				padding: 8px 16px !important;
 				font-weight: 800 !important;
-				border-radius: 25px !important;
+				border-radius: 20px !important;
 				margin-top: 4px !important;
-				box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3) !important;
+				box-shadow: 0 3px 10px rgba(11, 63, 137, 0.25) !important;
+				white-space: nowrap !important;
+			}
+			
+			.category-header {
+				position: relative !important;
+				padding-bottom: 35px !important;
+			}
+			
+			.accordion-arrow {
+				position: absolute !important;
+				right: 12px !important;
+				bottom: 10px !important;
+				top: auto !important;
+				transform: none !important;
+			}
+			
+			.formation-category-section.expanded .accordion-arrow {
+				transform: rotate(180deg) !important;
 			}
 		}
 		
 		@media (max-width: 390px) {
 			.category-header {
-				padding: 18px 14px !important;
-				gap: 10px !important;
-			}
-			
-			.category-icon {
-				width: 38px !important;
-				height: 38px !important;
-			}
-			
-			.category-title {
-				font-size: 15px !important;
-				letter-spacing: 0.4px !important;
-				text-align: center !important;
-				display: block !important;
-			}
-			
-			.category-count {
-				font-size: 13px !important;
-				padding: 7px 16px !important;
-			}
-		}
-		
-		@media (max-width: 360px) {
-			.category-header {
-				padding: 16px 12px !important;
+				padding: 14px 12px !important;
 				gap: 8px !important;
+				flex-wrap: wrap !important;
+				justify-content: center !important;
 			}
 			
 			.category-icon {
-				width: 36px !important;
-				height: 36px !important;
+				width: 42px !important;
+				height: 42px !important;
+			}
+			
+			.category-icon svg {
+				width: 22px !important;
+				height: 22px !important;
 			}
 			
 			.category-title {
@@ -4477,25 +4630,57 @@
 				letter-spacing: 0.3px !important;
 				text-align: center !important;
 				display: block !important;
+				width: 100% !important;
+				order: 2 !important;
 			}
 			
 			.category-count {
 				font-size: 12px !important;
 				padding: 6px 14px !important;
+				order: 3 !important;
+			}
+			
+			.accordion-arrow {
+				position: absolute !important;
+				right: 10px !important;
+				bottom: 10px !important;
+				top: auto !important;
+				transform: none !important;
+			}
+			
+			.formation-category-section.expanded .accordion-arrow {
+				transform: translateY(-50%) rotate(180deg) !important;
 			}
 		}
 		
-		/* Animation élégante au survol sur mobile */
-		@media (max-width: 480px) {
-			.category-header:active {
-				transform: scale(0.98) !important;
-				transition: transform 0.2s ease !important;
+		@media (max-width: 360px) {
+			.category-header {
+				padding: 12px 10px !important;
+				gap: 6px !important;
 			}
 			
-			.category-header:active .category-icon {
-				transform: scale(1.1) !important;
+			.category-icon {
+				width: 38px !important;
+				height: 38px !important;
+			}
+			
+			.category-icon svg {
+				width: 20px !important;
+				height: 20px !important;
+			}
+			
+			.category-title {
+				font-size: 13px !important;
+				letter-spacing: 0.2px !important;
+			}
+			
+			.category-count {
+				font-size: 11px !important;
+				padding: 5px 12px !important;
 			}
 		}
+		
+		/* Animations mobile supprimées - éléments non-cliquables */
 		
 		/* ===== FIX SECTION "TOUTES NOS AUTRES FORMATIONS" - MOBILE ONLY ===== */
 		/* Scroll naturel sans overflow, titres toujours visibles */
@@ -4616,15 +4801,23 @@
 										</div>
 
 										<div class="formation-dropdown" id="formationDropdown" style="display: none;">
-											<!-- Bouton de fermeture -->
-											<div class="modal-close-button" onclick="window.toggleFormationDropdown()">
-												<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-													<path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-											</div>
+															<!-- Boutons Accordéon -->
+															<div class="accordion-controls">
+																<button class="accordion-btn" id="expandAllBtn" onclick="expandAllCategories()">
+																	<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+																	<span>Tout déplier</span>
+																</button>
+																<button class="accordion-btn" id="collapseAllBtn" onclick="collapseAllCategories()" disabled>
+																	<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+																	<span>Tout replier</span>
+																</button>
+																<button class="accordion-btn accordion-close-btn" onclick="window.toggleFormationDropdown()">
+																	<svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+																</button>
+															</div>
 											{% for category in category %}
 												<div class="formation-category-section" data-category="{{ category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) }}">
-													<div class="category-header"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
+													<div class="category-header" onclick="toggleCategory(this.parentElement)"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
 														<div class="category-icon">
 															{% if category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'ia' %}
 																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -4682,10 +4875,11 @@
 																	<path d="M7 13h10v4a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-4z" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.3"/>
 																</svg>
 															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'marketing' %}
-																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-																	<path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 5-18 5-18s-3 0-9 0-9 0-9 0 2 18 5 18c1.25 0 2.5-1.06 4-1.06Z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
-																	<path d="M12 9s4-2 8-2-4 6-4 6 0 2.5-2 5-2-2.5-2-5 0-2 0-4z" stroke="white" stroke-width="1.5" fill="white"/>
-																</svg>
+																				<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																					<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+																					<circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+																					<circle cx="12" cy="12" r="2" fill="currentColor"/>
+																				</svg>
 															{% else %}
 																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
 																	<path d="M12 2l3.09 6.26L22 9l-5.45 4.97L19.18 22 12 17.27 4.82 22l2.63-8.03L2 9l6.91-.74L12 2z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
@@ -4695,6 +4889,7 @@
 														</div>
 														<h4 class="category-title" {% if category.name|lower == 'ia' %}style="color: #1a1a1a !important; font-weight: 900 !important;"{% endif %}>{{ category.name }}</h4>
 														<div class="category-count" {% if category.name|lower == 'ia' %}style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important; color: #FFD700 !important; border: 2px solid #FFD700 !important; font-weight: 900 !important;"{% endif %}>{{ formations|filter(f => f.category.id == category.id)|length }} formation{{ formations|filter(f => f.category.id == category.id)|length > 1 ? 's' : '' }}</div>
+																				<div class="accordion-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 													</div>
 													
 													<div class="formations-grid">
@@ -5001,19 +5196,27 @@
 				
 				<div class="contact-features">
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="200">
-						<div class="contact-feature-icon">✓</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+						</div>
 						<div class="contact-feature-text">Réponse sous 24h</div>
 					</div>
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="300">
-						<div class="contact-feature-icon">B</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+						</div>
 						<div class="contact-feature-text">Bilan personnalisé</div>
 					</div>
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="400">
-						<div class="contact-feature-icon">E</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+						</div>
 						<div class="contact-feature-text">Conseil expert</div>
 					</div>
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="500">
-						<div class="contact-feature-icon">S</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+						</div>
 						<div class="contact-feature-text">Suivi carrière</div>
 					</div>
 				</div>
@@ -5472,12 +5675,14 @@ window.toggleFormationDropdown = function() {
             background: #ffffff !important;
             border: 3px solid #0b3f89 !important;
             border-radius: 25px !important;
+			padding: 0 !important;
             box-shadow: 0 25px 80px rgba(11, 63, 137, 0.8) !important;
             overflow-y: auto !important;
+			overflow-x: hidden !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
-            padding-top: 60px !important;
+            padding-top: 0 !important;
         `;
         
         arrow.style.transform = 'rotate(180deg)';
@@ -5487,6 +5692,38 @@ window.toggleFormationDropdown = function() {
 };
 
 // Alias pour compatibilité
+// ===== FONCTIONS ACCORDÉON =====
+function updateAccordionButtons() {
+    const sections = document.querySelectorAll(".formation-category-section");
+    const expandBtn = document.getElementById("expandAllBtn");
+    const collapseBtn = document.getElementById("collapseAllBtn");
+    
+    if (!expandBtn || !collapseBtn || sections.length === 0) return;
+    
+    const expandedCount = document.querySelectorAll(".formation-category-section.expanded").length;
+    const totalCount = sections.length;
+    
+    // Désactiver "+" si tout est déplié
+    expandBtn.disabled = (expandedCount === totalCount);
+    // Désactiver "-" si tout est replié
+    collapseBtn.disabled = (expandedCount === 0);
+}
+
+function toggleCategory(section) {
+    section.classList.toggle("expanded");
+    updateAccordionButtons();
+}
+
+function expandAllCategories() {
+    document.querySelectorAll(".formation-category-section").forEach(s => s.classList.add("expanded"));
+    updateAccordionButtons();
+}
+
+function collapseAllCategories() {
+    document.querySelectorAll(".formation-category-section").forEach(s => s.classList.remove("expanded"));
+    updateAccordionButtons();
+}
+
 function toggleFormationDropdown() {
     window.toggleFormationDropdown();
 }
