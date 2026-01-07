@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\FormationRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +14,7 @@ class EcoleController extends AbstractController
      * Page hub de l'École - liste des pages disponibles
      */
     #[Route('/ecole', name: 'app_ecole_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
     {
         // Définition des pages de l'école avec leurs informations
         $pagesEcole = [
@@ -81,17 +83,17 @@ class EcoleController extends AbstractController
             ]
         ];
 
-        // Statistiques de l'école
-        $stats = [
-            'years_experience' => '2+',
-            'students_trained' => '+200'
-        ];
+        // Statistiques dynamiques (formations uniques par nom, sans doublons distanciel/présentiel)
+        $totalFormations = $formationRepository->countUniqueByName();
+        $totalSecteurs = $categoryRepository->count([]);
 
         return $this->render('ecole/index.html.twig', [
             'pages_ecole' => $pagesEcole,
             'page_title' => 'L\'École INFPF : Excellence et Innovation Pédagogique',
             'meta_description' => 'Découvrez l\'École INFPF : formations à distance, méthodes d\'apprentissage innovantes, coaching personnalisé et certification Qualiopi. Plus de 15 ans d\'excellence pédagogique.',
-            'stats' => $stats
+            'total_formations' => $totalFormations,
+            'total_secteurs' => $totalSecteurs
         ]);
     }
 }
+

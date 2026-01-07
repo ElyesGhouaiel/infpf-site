@@ -2,8 +2,6 @@
 
 // src/Repository/FormationRepository.php
 
-// src/Repository/FormationRepository.php
-
 namespace App\Repository;
 
 use App\Entity\Formation;
@@ -138,5 +136,35 @@ class FormationRepository extends ServiceEntityRepository
         }
         
         return $filtered;
+    }
+
+    /**
+     * Compte les formations uniques par nom (sans doublons distanciel/présentiel).
+     * Enlève les suffixes " - Distanciel" et " - Présentiel" du nom avant de compter.
+     *
+     * @return int
+     */
+    public function countUniqueByName(): int
+    {
+        // Récupérer tous les noms de formations
+        $formations = $this->createQueryBuilder('f')
+            ->select('f.nameFormation')
+            ->getQuery()
+            ->getResult();
+        
+        $uniqueNames = [];
+        
+        foreach ($formations as $formation) {
+            $name = $formation['nameFormation'];
+            
+            // Enlever les suffixes " - Distanciel" et " - Présentiel"
+            $baseName = preg_replace('/\s*-\s*(Distanciel|Présentiel|Presentiel)\s*$/i', '', $name);
+            $baseName = trim($baseName);
+            
+            // Ajouter au tableau des noms uniques
+            $uniqueNames[$baseName] = true;
+        }
+        
+        return count($uniqueNames);
     }
 }

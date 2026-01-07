@@ -1051,15 +1051,15 @@
 			.sub-menu li.menu-item-ia-special a,
 			#menu-item-442808 .sub-menu li.menu-item-ia-special a,
 			body .header #menu #menu-item-442808 .sub-menu li.menu-item-ia-special a {
-				display: flex !important;
+			display: flex !important;
 				flex-direction: row !important;
 				flex-wrap: nowrap !important;
-				align-items: center !important;
+			align-items: center !important;
 				justify-content: flex-start !important;
 				gap: 15px !important;
 				padding: 12px 20px !important;
 				width: 100% !important;
-			}
+		}
 		
 		/* Texte IA en GOLD */
 		.header #menu .ia-gold-text {
@@ -3543,7 +3543,7 @@
 			</div>
 			<a class="header__cta header__cta__logout" href="{{ path('app_logout') }}">Déconnexion</a>
 		{% else %}
-			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Connexion</a>
+			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Admin</a>
 		{% endif %}
 		<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF learning</a>
 	</div>
@@ -3571,7 +3571,7 @@
 		{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
 		{% else %}
 		<div class="header-cta-container">
-			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Connexion</a>
+			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Admin</a>
 			<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF learning</a>
 		</div>
 		{% endif %}

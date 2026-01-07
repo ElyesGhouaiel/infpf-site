@@ -48,24 +48,34 @@
                 <h1 class="hero-title">Une formation, un métier</h1>
                 <p class="hero-description">
                     Découvrez notre approche ciblée : chaque formation vous prépare spécifiquement à un métier d'avenir. 
-                    {{ formation_stats.total_students|number_format(0, '', ' ') }} professionnels nous font confiance.
+                    Des centaines de professionnels nous font déjà confiance.
                 </p>
                 
                 <!-- Stats minimalistes -->
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number">{{ formation_stats.cpf_eligible }}</span>
-                        <span class="stat-label">Formations CPF</span>
+                        <span class="stat-number">{{ total_formations }}</span>
+                        <span class="stat-label">Formations</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
-                        <span class="stat-number">{{ formation_stats.employment_rate }}%</span>
-                        <span class="stat-label">Taux d'insertion</span>
+                        <span class="stat-number">{{ total_secteurs }}</span>
+                        <span class="stat-label">Secteurs d'activité</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
-                        <span class="stat-number">+{{ formation_stats.avg_salary_increase }}%</span>
-                        <span class="stat-label">Évolution salariale</span>
+                        <span class="stat-number">95,4%</span>
+                        <span class="stat-label">EDOF</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">81%</span>
+                        <span class="stat-label">Taux d'obtention</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">0%</span>
+                        <span class="stat-label">Taux d'abandon</span>
                     </div>
                 </div>
             </div>
@@ -680,5 +690,3 @@
     }
 }
 </style>
-
-{% endblock %}

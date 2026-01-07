@@ -4587,8 +4587,8 @@
 				margin-top: 4px !important;
 				box-shadow: 0 3px 10px rgba(11, 63, 137, 0.25) !important;
 				white-space: nowrap !important;
-			}
-			
+		}
+		
 			.category-header {
 				position: relative !important;
 				padding-bottom: 35px !important;
@@ -4814,7 +4814,7 @@
 																<button class="accordion-btn accordion-close-btn" onclick="window.toggleFormationDropdown()">
 																	<svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 																</button>
-															</div>
+											</div>
 											{% for category in category %}
 												<div class="formation-category-section" data-category="{{ category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) }}">
 													<div class="category-header" onclick="toggleCategory(this.parentElement)"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
@@ -4875,11 +4875,11 @@
 																	<path d="M7 13h10v4a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-4z" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.3"/>
 																</svg>
 															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'marketing' %}
-																				<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
 																					<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
 																					<circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
 																					<circle cx="12" cy="12" r="2" fill="currentColor"/>
-																				</svg>
+																</svg>
 															{% else %}
 																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
 																	<path d="M12 2l3.09 6.26L22 9l-5.45 4.97L19.18 22 12 17.27 4.82 22l2.63-8.03L2 9l6.91-.74L12 2z" stroke="currentColor" stroke-width="2" fill="currentColor"/>

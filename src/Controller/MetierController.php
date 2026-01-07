@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\FormationRepository;
+use App\Repository\CategoryRepository;
 use App\Service\MetierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,10 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class MetierController extends AbstractController
 {
     private MetierService $metierService;
+    private FormationRepository $formationRepository;
+    private CategoryRepository $categoryRepository;
 
-    public function __construct(MetierService $metierService)
-    {
+    public function __construct(
+        MetierService $metierService,
+        FormationRepository $formationRepository,
+        CategoryRepository $categoryRepository
+    ) {
         $this->metierService = $metierService;
+        $this->formationRepository = $formationRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -43,14 +52,16 @@ class MetierController extends AbstractController
             }
         }
 
-        // Récupérer les vraies statistiques
-        $stats = $this->metierService->getFormationStats();
+        // Statistiques dynamiques (formations uniques par nom, sans doublons distanciel/présentiel)
+        $totalFormations = $this->formationRepository->countUniqueByName();
+        $totalSecteurs = $this->categoryRepository->count([]);
 
         return $this->render('metiers/index.html.twig', [
             'metiers' => $metiersAvecFormations,
             'page_title' => 'Découvrez les métiers qui recrutent',
             'meta_description' => 'Explorez les métiers d\'avenir et découvrez nos formations pour accéder à l\'emploi de vos rêves. Informations détaillées sur les missions, compétences et salaires.',
-            'formation_stats' => $stats
+            'total_formations' => $totalFormations,
+            'total_secteurs' => $totalSecteurs
         ]);
     }
 
