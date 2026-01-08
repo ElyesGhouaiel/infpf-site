@@ -3539,8 +3539,6 @@
 				</span>
 			</div>
 			<a class="header__cta header__cta__logout" href="{{ path('app_logout') }}">Déconnexion</a>
-		{% else %}
-			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Admin</a>
 		{% endif %}
 		<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF learning</a>
 	</div>
@@ -3568,7 +3566,6 @@
 		{# <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a> #}
 		{% else %}
 		<div class="header-cta-container">
-			<a class="header__cta header__cta__INFPFlearning" href="{{ path('app_login') }}">Admin</a>
 			<a class="header__cta header__cta__INFPFlearning" href="https://xeilos.monparcours.online">INFPF learning</a>
 		</div>
 		{% endif %}
