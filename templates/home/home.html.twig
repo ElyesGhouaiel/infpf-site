@@ -445,6 +445,15 @@
 			word-wrap: break-word;
 			line-height: 1.3;
 		}
+		
+		/* Supprimer le fond bleu du titre UNIQUEMENT dans le dropdown */
+		.categories-grid .category-title,
+		.formation-category-section .category-title,
+		.formation-dropdown .category-title {
+			background: none !important;
+			background-color: transparent !important;
+			padding: 0 !important;
+		}
 
 		/* ===== CATÉGORIE IA EN OR ===== */
 		.category.ia-category .category-title {
@@ -2378,8 +2387,8 @@
 			top: auto !important;
 			left: 50% !important;
 			transform: translateX(-50%) !important;
-			width: 90% !important;
-			max-width: 800px !important;
+			width: 98% !important;
+			max-width: 1400px !important;
 			z-index: 2147483647 !important; /* Plus haut z-index possible */
 			background: #ffffff !important;
 			border: 3px solid #0b3f89 !important;
@@ -2388,7 +2397,7 @@
 			box-shadow: 
 				0 25px 80px rgba(11, 63, 137, 0.8) !important,
 				inset 0 0 0 rgba(11, 63, 137, 0) !important;
-			max-height: 70vh !important;
+			max-height: 95vh !important;
 			overflow-y: auto !important;
 			overflow-x: hidden !important;
 			backdrop-filter: blur(25px) !important;
@@ -2396,6 +2405,73 @@
 			opacity: 1 !important;
 			isolation: isolate !important; /* Crée un nouveau contexte de stacking */
 			contain: layout style !important; /* Optimisation de rendu */
+		}
+		
+		/* ===== GRILLE 2 COLONNES DESKTOP ===== */
+		.categories-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 20px;
+			padding: 25px 30px;
+		}
+		
+		/* Masquer les séparateurs sur desktop */
+		.category-separator {
+			display: none !important;
+		}
+		
+		/* Styles des catégories en mode grille */
+		.categories-grid .formation-category-section {
+			padding: 0 !important;
+			border-bottom: none !important;
+			margin: 0 !important;
+		}
+		
+		/* 9ème catégorie (dernière impaire) centrée - DOIT être après les styles généraux */
+		.categories-grid .formation-category-section:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
+			max-width: 48%;
+			margin: 0 auto !important;
+		}
+		
+		.categories-grid .category-header {
+			border-radius: 16px !important;
+			margin: 0 !important;
+		}
+		
+		/* Masquer les formations-grid par défaut (accordéon fermé) */
+		.categories-grid .formations-grid {
+			display: none;
+		}
+		
+		.categories-grid .formation-category-section.expanded .formations-grid {
+			display: grid;
+			padding-top: 16px;
+			max-height: 2000px;
+			opacity: 1;
+		}
+		
+		/* ===== RESPONSIVE MOBILE - Grille en 1 colonne ===== */
+		@media (max-width: 991px) {
+			.categories-grid {
+				grid-template-columns: 1fr !important;
+				gap: 10px;
+				padding: 15px;
+			}
+			
+			/* Annuler le centrage de la dernière catégorie sur mobile - TOUTES MÊME LARGEUR */
+			.categories-grid .formation-category-section:last-child:nth-child(odd) {
+				grid-column: auto !important;
+				max-width: 100% !important;
+				width: 100% !important;
+				margin: 0 !important;
+			}
+			
+			/* Remettre le dropdown en mode scroll vertical pour mobile */
+			.formation-dropdown {
+				max-width: 95% !important;
+				max-height: 85vh !important;
+			}
 		}
 
 		/* S'assurer que le dropdown soit visible quand ouvert */
@@ -2677,11 +2753,53 @@
 		}
 		.accordion-arrow {
 			margin-left: auto;
-			transition: transform 0.3s ease;
-			color: inherit;
+			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			color: #ffffff !important;
+			background: rgba(255, 255, 255, 0.25);
+			border-radius: 50%;
+			padding: 8px;
+			width: 38px;
+			height: 38px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+		}
+		.accordion-arrow svg {
+			width: 22px !important;
+			height: 22px !important;
+			stroke-width: 3.5 !important;
+			filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
 		}
 		.formation-category-section.expanded .accordion-arrow {
 			transform: rotate(180deg);
+			background: rgba(255, 255, 255, 0.35);
+		}
+		.category-header:hover .accordion-arrow {
+			transform: scale(1.15);
+			background: rgba(255, 255, 255, 0.4);
+		}
+		.formation-category-section.expanded .category-header:hover .accordion-arrow {
+			transform: rotate(180deg) scale(1.15);
+		}
+		
+		/* Effet de grossissement au survol - DESKTOP UNIQUEMENT */
+		@media (min-width: 992px) {
+			.categories-grid .category-header {
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+			.categories-grid .category-header:hover {
+				transform: scale(1.03);
+				box-shadow: 
+					0 12px 35px rgba(11, 63, 137, 0.4),
+					0 6px 20px rgba(0, 180, 216, 0.3);
+				z-index: 10;
+			}
+			.categories-grid .formation-category-section[data-category="ia"] .category-header:hover {
+				box-shadow: 
+					0 12px 35px rgba(255, 215, 0, 0.5),
+					0 6px 20px rgba(255, 165, 0, 0.4);
+			}
 		}
 		.formation-category-section.expanded .category-header {
 			margin-bottom: 0;
@@ -2705,7 +2823,7 @@
 			/* IMPORTANT : Pas de background ici pour éviter d'écraser les spécificités */
 		}
 
-		/* Fond bleu SEULEMENT pour les catégories NON-IA */
+		/* Fond bleu pour les catégories NON-IA */
 		.formation-category-section:not([data-category="ia"]) .category-header {
 			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
 			color: white;
@@ -2800,6 +2918,13 @@
 			line-height: 1.3;
 			white-space: normal;
 		}
+		
+		/* Désactiver l'effet ::before dans la grille dropdown */
+		.categories-grid .category-title::before,
+		.formation-category-section .category-title::before {
+			display: none !important;
+			content: none !important;
+		}
 
 		.category-count {
 			background: linear-gradient(135deg, #ffffff, #f0f8ff);
@@ -2867,41 +2992,35 @@
 
 		/* Animation hover count IA supprimée - élément non-cliquable */
 
-		/* Badge NOUVEAU pour IA */
+		/* Badge NOUVEAU pour IA - COMPACT */
 		.formation-category-section[data-category="ia"]::after,
 		#formationDropdown .formation-category-section[data-category="ia"]::after {
-			content: 'NOUVEAU';
+			content: 'NEW';
 			position: absolute;
-			top: 10px;
-			right: 10px;
-			background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%) !important;
+			top: -8px;
+			right: -8px;
+			background: linear-gradient(135deg, #FF4757 0%, #FF6B81 100%) !important;
 			color: white !important;
-			font-size: 11px;
-			font-weight: 900;
-			padding: 6px 12px;
-			border-radius: 15px;
+			font-size: 9px;
+			font-weight: 800;
+			padding: 4px 8px;
+			border-radius: 10px;
 			text-transform: uppercase;
-			letter-spacing: 1px;
-			box-shadow: 
-				0 4px 12px rgba(255, 107, 107, 0.4),
-				0 2px 6px rgba(255, 107, 107, 0.6) !important;
+			letter-spacing: 0.5px;
+			box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5) !important;
 			z-index: 10;
 			animation: pulse-badge-ia 2s infinite;
-			border: 2px solid rgba(255, 255, 255, 0.9) !important;
+			border: 1px solid rgba(255, 255, 255, 0.8) !important;
 		}
 
 		@keyframes pulse-badge-ia {
 			0%, 100% { 
 				transform: scale(1);
-				box-shadow: 
-					0 4px 12px rgba(255, 107, 107, 0.4),
-					0 2px 6px rgba(255, 107, 107, 0.6);
+				box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5);
 			}
 			50% { 
-				transform: scale(1.08);
-				box-shadow: 
-					0 6px 18px rgba(255, 107, 107, 0.6),
-					0 3px 10px rgba(255, 107, 107, 0.8);
+				transform: scale(1.05);
+				box-shadow: 0 3px 12px rgba(255, 71, 87, 0.7);
 			}
 		}
 
@@ -4815,6 +4934,7 @@
 																	<svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 																</button>
 											</div>
+											<div class="categories-grid">
 											{% for category in category %}
 												<div class="formation-category-section" data-category="{{ category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) }}">
 													<div class="category-header" onclick="toggleCategory(this.parentElement)"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
@@ -4940,14 +5060,8 @@
 													</div>
 												</div>
 												
-												{% if not loop.last %}
-													<div class="category-separator">
-														<div class="separator-line"></div>
-														<div class="separator-dot"></div>
-														<div class="separator-line"></div>
-													</div>
-												{% endif %}
 											{% endfor %}
+											</div>
 										</div>
 									</div>
 								</div>
@@ -5308,22 +5422,27 @@
 			offset: 50
 		});
 
-		// Particle effect
+		// Particle effect (désactivé - élément particles non présent)
 		function createParticle() {
+			const particlesContainer = document.getElementById('particles');
+			if (!particlesContainer) return; // Éviter l'erreur si l'élément n'existe pas
+			
 			const particle = document.createElement('div');
 			particle.className = 'particle';
 			particle.style.left = Math.random() * 100 + '%';
 			particle.style.animationDelay = Math.random() * 6 + 's';
 			particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-			document.getElementById('particles').appendChild(particle);
+			particlesContainer.appendChild(particle);
 
 			setTimeout(() => {
 				particle.remove();
 			}, 6000);
 		}
 
-		// Create particles periodically
-		setInterval(createParticle, 300);
+		// Create particles periodically (seulement si l'élément existe)
+		if (document.getElementById('particles')) {
+			setInterval(createParticle, 300);
+		}
 
 				// Système modal en premier plan avec limitation de formations
     document.addEventListener('DOMContentLoaded', () => {
@@ -5594,7 +5713,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== FORMATION SELECTOR MODERNE - JavaScript Simple =====
-let isDropdownOpen = false;
+if (typeof window.isDropdownOpen === 'undefined') {
+    window.isDropdownOpen = false;
+}
 
 // S'assurer que les fonctions sont globales
 window.toggleFormationDropdown = function() {
@@ -5608,7 +5729,7 @@ window.toggleFormationDropdown = function() {
         return;
     }
     
-    if (isDropdownOpen) {
+    if (window.isDropdownOpen) {
         // Fermer
         
         // 1. Masquer l'overlay
@@ -5628,7 +5749,7 @@ window.toggleFormationDropdown = function() {
         arrow.style.transform = 'rotate(0deg)';
         selector.removeAttribute('data-open');
         
-        isDropdownOpen = false;
+        window.isDropdownOpen = false;
     } else {
         // SOLUTION NUCLÉAIRE - Créer un overlay modal
         
@@ -5662,15 +5783,15 @@ window.toggleFormationDropdown = function() {
         // 3. Déplacer le dropdown dans l'overlay
         overlay.appendChild(dropdown);
         
-        // 4. Styler et positionner le dropdown - CENTRÉ
+        // 4. Styler et positionner le dropdown - CENTRÉ - DESKTOP 2 COLONNES
         dropdown.style.cssText = `
             position: fixed !important;
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
-            width: 90% !important;
-            max-width: 800px !important;
-            max-height: 80vh !important;
+            width: 95% !important;
+            max-width: 1400px !important;
+            max-height: 90vh !important;
             z-index: 2147483647 !important;
             background: #ffffff !important;
             border: 3px solid #0b3f89 !important;
@@ -5687,7 +5808,7 @@ window.toggleFormationDropdown = function() {
         
         arrow.style.transform = 'rotate(180deg)';
         selector.setAttribute('data-open', 'true');
-        isDropdownOpen = true;
+        window.isDropdownOpen = true;
     }
 };
 
@@ -5941,7 +6062,7 @@ document.addEventListener('click', function(event) {
     const dropdown = document.getElementById('formationDropdown');
     
     // Vérifier si le clic est vraiment en dehors
-    if (isDropdownOpen && selector && dropdown) {
+    if (window.isDropdownOpen && selector && dropdown) {
         const isClickInSelector = selector.contains(event.target);
         const isClickInDropdown = dropdown.contains(event.target);
         
