@@ -277,22 +277,21 @@ class HomeController extends AbstractController
 
         // Simule un tableau d'ID de catégories vers les chemins d'images
     $categoryImages = [
-        // Ici, remplace ces IDs par les vrais IDs de tes catégories et ajuste les chemins des images
+        // Images de categories en WebP pour performance optimale
         1 => 'ImageForma1.webp',
-        2 => 'FinanceImage.jpeg',
-        3 => 'AdministratifsImage.jpeg',
-        4 => 'InformatiqueImage.jpeg',
-        5 => 'DesignImage.jpeg',
-        6 => 'ManagementImage.jpeg',
-        7 => 'VenteImage.jpeg',
-        11 => 'MarketingImage.jpeg',
-        12 => 'AutresImage.jpeg',
-        // Continue pour chaque catégorie que tu as
+        2 => 'FinanceImage.webp',
+        3 => 'AdministratifsImage.webp',
+        4 => 'InformatiqueImage.webp',
+        5 => 'DesignImage.webp',
+        6 => 'ManagementImage.webp',
+        7 => 'VenteImage.webp',
+        11 => 'MarketingImage.webp',
+        12 => 'AutresImage.webp',
     ];
     
     // Ajouter dynamiquement l'image IA si la catégorie existe
     if ($iaCategory) {
-        $categoryImages[$iaCategory->getId()] = 'IAImage.jpeg';
+        $categoryImages[$iaCategory->getId()] = 'IAImage.webp';
     }
         
         return $this->render('home/home.html.twig', [
