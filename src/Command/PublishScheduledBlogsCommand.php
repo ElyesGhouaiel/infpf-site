@@ -45,7 +45,7 @@ class PublishScheduledBlogsCommand extends Command
             $publishedCount++;
             
             $io->writeln(sprintf(
-                '✅ Article publié : "%s" (programmé pour %s)',
+                'Article publie : "%s" (programme pour %s)',
                 $blog->getTitleOne(),
                 $blog->getPublishedAt()->format('d/m/Y à H:i')
             ));

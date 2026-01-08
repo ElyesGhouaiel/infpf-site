@@ -6,19 +6,19 @@ Ce document recapitule les modifications apportees au projet INFPF durant le moi
 
 ---
 
-## 1. Page d'accueil (home.html.twig)
+## 1. Page d'accueil
 
 ### Systeme d'accordeon pour les formations
 
 - Ajout des boutons "Tout deplier" et "Tout replier" pour la section formations
 - Implementation du systeme de pliage/depliage des categories de formation
 - Chaque categorie peut etre ouverte ou fermee individuellement
-- Les boutons se desactivent automatiquement selon l'etat (tout ouvert ou tout ferme)
+- Les boutons se desactivent automatiquement selon l'etat
 
 ### Adaptations mobile
 
-- Boutons accordeon adaptes pour les petits ecrans (icones + et - uniquement)
-- Repositionnement de la fleche d'expansion sur mobile (bas-droite)
+- Boutons accordeon adaptes pour les petits ecrans
+- Repositionnement de la fleche d'expansion sur mobile
 - Ajustement des tailles et centrage des boutons sur mobile
 
 ### Icones de contact
@@ -34,11 +34,11 @@ Ce document recapitule les modifications apportees au projet INFPF durant le moi
 - Ajustement des overflow pour permettre le scroll vertical
 - Correction du border-radius sur les images de categorie
 - Reduction du padding sur les cartes hero et formulaire
-- Correction de l'effet hover sur les cartes de formation (reduction du scale)
+- Correction de l'effet hover sur les cartes de formation
 
 ---
 
-## 2. Page Formation (formation.html.twig)
+## 2. Page Formation
 
 ### Bouton "Voir le programme"
 
@@ -49,13 +49,12 @@ Ce document recapitule les modifications apportees au projet INFPF durant le moi
 
 ---
 
-## 3. Page DataDock (infpf-reference-datadock.html.twig)
+## 3. Page DataDock
 
 ### Correction critique
 
 - Suppression de plus de 400 lignes de code duplique
 - Resolution de l'erreur 500 qui bloquait l'acces a la page
-- Le fichier contenait deux fois les blocs stylesheets et body
 
 ---
 
@@ -65,25 +64,9 @@ Ce document recapitule les modifications apportees au projet INFPF durant le moi
 
 Les animations au survol ont ete supprimees sur les elements non-cliquables :
 
-#### CGV (cgv.html.twig)
-- Suppression de l'effet de levitation des sections (translateY)
-- Suppression de l'animation de la barre laterale
-- Suppression de la rotation des icones
-
-#### Disclaimer (disclaimer.html.twig)
-- Suppression de l'effet de levitation des cartes
-
-#### Avis (avis.html.twig)
-- Suppression de l'effet de levitation des cartes de temoignages
-
----
-
-## 5. Page Parrainage Eleve (parrainage-eleve.html.twig)
-
-### Corrections mineures
-
-- Correction de l'indentation du code (formatage)
-- Aucun changement fonctionnel ou visuel
+- CGV : Suppression de l'effet de levitation des sections
+- Disclaimer : Suppression de l'effet de levitation des cartes
+- Avis : Suppression de l'effet de levitation des cartes de temoignages
 
 ---
 
@@ -97,17 +80,7 @@ Les animations au survol ont ete supprimees sur les elements non-cliquables :
 | cgv.html.twig | Suppression animations | UX amelioree |
 | disclaimer.html.twig | Suppression animations | UX amelioree |
 | avis.html.twig | Suppression animations | UX amelioree |
-| parrainage-eleve.html.twig | Formatage | Aucun impact |
-
----
-
-## Notes
-
-- Ces modifications ont ete developpees et testees en decembre 2025
-- Toutes les fonctionnalites sont operationnelles sur dev.infpf.fr
-- Aucune regression constatee sur les autres pages du site
 
 ---
 
 Date des modifications : Decembre 2025
-

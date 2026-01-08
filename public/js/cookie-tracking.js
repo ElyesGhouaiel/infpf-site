@@ -4,13 +4,13 @@
  * Version 2.0 - Analytics Professionnel
  * 
  * Fonctionnalités PRO ajoutées :
- * ✅ Parcours utilisateur (user journey, entonnoirs)
- * ✅ Nouveaux vs Retours (fidélisation)
- * ✅ Engagement (sessions engagées)
- * ✅ Événements personnalisés (clics CTA, téléchargements, formulaires)
- * ✅ Performance Web (Core Web Vitals)
- * ✅ Recherche interne
- * ✅ Données techniques avancées
+ *  Parcours utilisateur (user journey, entonnoirs)
+ *  Nouveaux vs Retours (fidélisation)
+ *  Engagement (sessions engagées)
+ *  Événements personnalisés (clics CTA, téléchargements, formulaires)
+ *  Performance Web (Core Web Vitals)
+ *  Recherche interne
+ *  Données techniques avancées
  */
 
 (function() {
@@ -78,14 +78,12 @@
             if (this.hasDevCookie()) {
                 state.isExcluded = true;
                 state.excludeReason = 'dev_cookie';
-                console.log('🚫 Tracking bloqué: cookie développeur détecté');
                 return true;
             }
             
             if (this.isPrivatePath()) {
                 state.isExcluded = true;
                 state.excludeReason = 'private_path';
-                console.log('🚫 Tracking bloqué: route privée', window.location.pathname);
                 return true;
             }
             
@@ -129,13 +127,11 @@
         
         setDevCookie() {
             this.set(CONFIG.devCookieName, '1', 365);
-            console.log('🔒 Cookie développeur activé - Tracking complètement désactivé');
             window.location.reload();
         },
         
         removeDevCookie() {
             this.delete(CONFIG.devCookieName);
-            console.log('✅ Cookie développeur désactivé - Tracking réactivé');
             window.location.reload();
         }
     };
@@ -148,10 +144,8 @@
             
             const token = await this.saveConsent(true, true);
             if (token) {
-                console.log('✅ Lancement immédiat du tracking après acceptation');
                 AnalyticsTracker.init();
             } else {
-                console.error('❌ Échec du lancement du tracking: pas de token');
             }
         },
         
@@ -165,7 +159,6 @@
             
             localStorage.setItem('infpf_consent_rejected', '1');
             
-            console.log('🚫 Mode anonyme activé: aucun tracking individuel');
             
             this.trackAnonymousPageView();
         },
@@ -198,7 +191,6 @@
                     CookieManager.set(CONFIG.consentCookieName, data.token, CONFIG.consentDuration);
                     localStorage.removeItem('infpf_consent_rejected');
                     
-                    console.log('✅ Consentement enregistré', {
                         analytics,
                         marketing,
                         token: data.token
@@ -207,13 +199,11 @@
                     return data.token;
                 }
             } catch (error) {
-                console.error('❌ Erreur sauvegarde consentement:', error);
             }
             return null;
         },
         
         trackAnonymousPageView() {
-            console.log('📊 Page vue (mode anonyme) - pas de tracking individuel');
             const pageViews = parseInt(localStorage.getItem('anonymous_page_views') || '0') + 1;
             localStorage.setItem('anonymous_page_views', pageViews.toString());
         },
@@ -226,7 +216,6 @@
             CookieManager.delete(CONFIG.consentCookieName);
             CookieManager.delete(CONFIG.sessionCookieName);
             
-            console.log('🔴 Consentement révoqué - Tracking arrêté');
         },
     };
     
@@ -234,16 +223,13 @@
     const AnalyticsTracker = {
         init() {
             if (state.isExcluded) {
-                console.log(`🚫 Tracking non initialisé: ${state.excludeReason}`);
                 return;
             }
             
             if (!state.trackingEnabled || state.anonymousMode) {
-                console.log('🚫 Tracking non initialisé: pas de consentement ou mode anonyme');
                 return;
             }
             
-            console.log('🚀 Initialisation du tracking analytics PRO');
             
             // Initialiser les IDs
             this.initUserTracking();
@@ -294,7 +280,6 @@
             // Sauvegarder la page actuelle pour la prochaine navigation
             sessionStorage.setItem('infpf_previous_page', window.location.pathname + window.location.search);
             
-            console.log('🔑 User ID:', userId, '| Session ID:', sessionId, '| Pages:', state.pagesInSession);
         },
         
         generateId(prefix = 'id') {
@@ -318,7 +303,6 @@
                         firstPaintTime: paint.length > 0 ? Math.round(paint[0].startTime) : null,
                     };
                     
-                    console.log('⚡ Performance collectée:', state.performanceData);
                 }, 1000); // Attendre 1s pour être sûr que tout est chargé
             });
         },
@@ -357,7 +341,6 @@
                 ...this.getUtmParameters(),
             };
             
-            console.log('📤 Envoi données tracking:', {
                 url: `${CONFIG.apiEndpoint}/track`,
                 pageUrl: data.pageUrl,
                 sessionId: data.sessionId.substring(0, 10) + '...',
@@ -373,27 +356,22 @@
                 
                 const result = await response.json();
                 
-                console.log('✅ Réponse serveur tracking:', {
                     success: result.success,
                     excluded: result.excluded,
                     status: response.status
                 });
                 
                 if (result.excluded) {
-                    console.log(`🚫 Tracking exclu côté serveur: ${result.reason}`);
                     state.isExcluded = true;
                     state.excludeReason = result.reason;
                     return;
                 }
                 
                 if (result.anonymous) {
-                    console.log('📊 Mode anonyme confirmé - pas de tracking individuel');
                     return;
                 }
                 
-                console.log('✅ Page vue enregistrée');
             } catch (error) {
-                console.error('❌ Erreur tracking page vue:', error);
             }
         },
         
@@ -426,7 +404,6 @@
                     body: JSON.stringify(data)
                 });
             } catch (error) {
-                console.error('❌ Erreur mise à jour métriques:', error);
             }
         },
         
@@ -624,7 +601,6 @@
     const EventTracker = {
         async track(eventName, options = {}) {
             if (!state.trackingEnabled || state.anonymousMode || state.isExcluded) {
-                console.log(`🚫 Événement non tracké: ${eventName}`);
                 return;
             }
             
@@ -657,17 +633,14 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    console.log(`✅ Événement tracké: ${eventName}`, category, label);
                 }
             } catch (error) {
-                console.error(`❌ Erreur tracking événement ${eventName}:`, error);
             }
         }
     };
     
     // ===== INITIALISATION =====
     function init() {
-        console.log('🍪 Initialisation du système de cookies & analytics RGPD PRO v2.0');
         
         // 1. Vérifier les exclusions
         if (ExclusionChecker.shouldBlock()) {
@@ -686,9 +659,7 @@
         } else if (consentRejected) {
             state.anonymousMode = true;
             state.trackingEnabled = false;
-            console.log('🚫 Consentement refusé précédemment - Mode anonyme');
         } else {
-            console.log('⏸️ En attente du consentement utilisateur');
         }
     }
     

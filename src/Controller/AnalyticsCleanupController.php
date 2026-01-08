@@ -145,7 +145,7 @@ class AnalyticsCleanupController extends AbstractController
         
         return new JsonResponse([
             'success' => true,
-            'message' => "✅ Nettoyage effectué",
+            'message' => "Nettoyage effectue",
             'deletedAnalytics' => (int) $countAnalytics,
             'deletedConsents' => (int) $countConsents,
             'totalDeleted' => (int) $countAnalytics + (int) $countConsents,
@@ -182,7 +182,7 @@ class AnalyticsCleanupController extends AbstractController
         
         return new JsonResponse([
             'success' => true,
-            'message' => "✅ Données des 7 derniers jours supprimées",
+            'message' => "Donnees des 7 derniers jours supprimees",
             'deletedAnalytics' => (int) $countAnalytics,
             'deletedConsents' => (int) $countConsents,
             'totalDeleted' => (int) $countAnalytics + (int) $countConsents,

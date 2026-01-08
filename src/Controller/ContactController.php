@@ -48,7 +48,7 @@ class ContactController extends AbstractController
         if ($form->isSubmitted()) {
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - Form valid: " . ($form->isValid() ? 'YES' : 'NO') . "\n", FILE_APPEND);
             
-            // ✅ Validation manuelle reCAPTCHA (lazy load)
+            // Validation manuelle reCAPTCHA (lazy load)
             $formData = $request->request->all('contact_form');
             $recaptchaToken = $formData['captcha'] ?? '';
             file_put_contents($logFile, date('Y-m-d H:i:s') . " - reCAPTCHA token: " . ($recaptchaToken ? 'PRESENT' : 'MISSING') . "\n", FILE_APPEND);

@@ -74,7 +74,7 @@ class ContactFormType extends AbstractType
                     'rows' => 5
                 ]
             ]);
-            // ✅ CAPTCHA SUPPRIMÉ - Géré manuellement en JavaScript (lazy load)
+            // CAPTCHA gere manuellement en JavaScript (lazy load)
     }
 
     public function configureOptions(OptionsResolver $resolver)

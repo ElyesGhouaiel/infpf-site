@@ -1,70 +1,69 @@
-# 🚀 Guide de Déploiement INFPF - Production
+# Guide de Deploiement INFPF - Production
 
-Ce guide détaille **étape par étape** le déploiement du site INFPF sur Hostinger en production.
+Ce guide detaille etape par etape le deploiement du site INFPF sur Hostinger en production.
 
 ---
 
-## 📋 Checklist Pré-Déploiement
+## Checklist Pre-Deploiement
 
-Avant de déployer sur `infpf.fr` (production), vérifie que :
+Avant de deployer sur `infpf.fr` (production), verifier que :
 
-### ✅ Tests & Validation
+### Tests et Validation
 
 - [ ] Tous les tests PHPUnit passent (`vendor/bin/phpunit`)
 - [ ] Le site fonctionne sur `dev.infpf.fr` sans erreur
-- [ ] Lighthouse score ≥ 95 (Mobile) et ≥ 97 (Desktop)
+- [ ] Lighthouse score >= 95 (Mobile) et >= 97 (Desktop)
 - [ ] Tous les formulaires fonctionnent (contact, inscription, etc.)
 - [ ] reCAPTCHA v3 fonctionne
-- [ ] Rate limiting testé (anti-spam)
-- [ ] Pages d'erreur personnalisées testées (404, 403, 500)
+- [ ] Rate limiting teste (anti-spam)
+- [ ] Pages d'erreur personnalisees testees (404, 403, 500)
 
-### ✅ Configuration
+### Configuration
 
-- [ ] `.env.local` créé sur production avec les bonnes valeurs
-- [ ] SENTRY_DSN configuré (monitoring)
-- [ ] GOOGLE_ANALYTICS_MEASUREMENT_ID configuré
-- [ ] MAILER_DSN configuré (Gmail ou Mailgun)
-- [ ] RECAPTCHA_SITE_KEY / RECAPTCHA_SECRET_KEY configurés
-- [ ] DATABASE_URL configuré (MySQL production)
+- [ ] `.env.local` cree sur production avec les bonnes valeurs
+- [ ] SENTRY_DSN configure (monitoring)
+- [ ] GOOGLE_ANALYTICS_MEASUREMENT_ID configure
+- [ ] MAILER_DSN configure (Gmail ou Mailgun)
+- [ ] RECAPTCHA_SITE_KEY / RECAPTCHA_SECRET_KEY configures
+- [ ] DATABASE_URL configure (MySQL production)
 - [ ] APP_ENV=prod et APP_DEBUG=false
 
-### ✅ Sécurité
+### Securite
 
-- [ ] HSTS activé dans `.htaccess` (après test)
+- [ ] HSTS active dans `.htaccess` (apres test)
 - [ ] Fichiers sensibles dans `.gitignore` (`.env.local`, `var/`)
 - [ ] Permissions correctes (`755` pour `var/`, `775` pour `uploads/`)
-- [ ] `opcache-check.php` supprimé
-- [ ] `test-*.php` supprimés du `public/`
+- [ ] Fichiers de test supprimes du `public/`
 
-### ✅ Backups
+### Backups
 
-- [ ] Backup de la base de données actuelle
+- [ ] Backup de la base de donnees actuelle
 - [ ] Backup des fichiers actuels (`public/uploads/`)
-- [ ] Point de restauration créé
+- [ ] Point de restauration cree
 
 ---
 
-## 🔧 Étape 1 : Préparation Locale
+## Etape 1 : Preparation Locale
 
-### 1.1 Teste en Local / Dev
+### 1.1 Tester en Local / Dev
 
 ```bash
 cd /home/u665392393/domains/infpf.fr/dev
 
-# 1. Lance tous les tests
+# 1. Lancer tous les tests
 vendor/bin/phpunit
 
-# 2. Vérifie les dépendances
+# 2. Verifier les dependances
 composer validate
 composer outdated
 
-# 3. Vérifie la syntaxe YAML
+# 3. Verifier la syntaxe YAML
 php bin/console lint:yaml config/
 
-# 4. Vérifie les routes
+# 4. Verifier les routes
 php bin/console debug:router
 
-# 5. Vide et réchauffe le cache
+# 5. Vider et rechauffer le cache
 php bin/console cache:clear --env=prod
 php bin/console cache:warmup --env=prod
 ```
@@ -72,11 +71,11 @@ php bin/console cache:warmup --env=prod
 ### 1.2 Merge la Branche de Dev
 
 ```bash
-# Si tu es sur une branche feature
+# Si sur une branche feature
 git checkout main
-git merge feature/performance-security-seo-optimization
+git merge dev
 
-# Résous les conflits si nécessaire
+# Resoudre les conflits si necessaire
 git status
 
 # Commit et push
@@ -85,47 +84,36 @@ git push origin main
 
 ---
 
-## 📦 Étape 2 : Backup Avant Déploiement
+## Etape 2 : Backup Avant Deploiement
 
-### 2.1 Backup Base de Données
+### 2.1 Backup Base de Donnees
 
 ```bash
-# Via le script automatique
-cd /home/u665392393/domains/infpf.fr/public_html
-./bin/backup-database.sh
-
-# Ou manuellement
 mysqldump -u USERNAME -p DATABASE_NAME > /home/u665392393/backups/infpf/pre-deploy-$(date +%Y%m%d-%H%M%S).sql
 ```
 
 ### 2.2 Backup Fichiers
 
 ```bash
-# Sauvegarde les uploads
+# Sauvegarder les uploads
 tar -czf /home/u665392393/backups/infpf/uploads-backup-$(date +%Y%m%d).tar.gz \
     /home/u665392393/domains/infpf.fr/public_html/public/uploads/
 
-# Sauvegarde .env.local
+# Sauvegarder .env.local
 cp /home/u665392393/domains/infpf.fr/public_html/.env.local \
    /home/u665392393/backups/infpf/.env.local.backup
 ```
 
 ---
 
-## 🚀 Étape 3 : Déploiement sur Production
+## Etape 3 : Deploiement sur Production
 
-### 3.1 Connexion SSH
-
-```bash
-ssh u665392393@your-domain.com
-```
-
-### 3.2 Pull les Changements
+### 3.1 Pull les Changements
 
 ```bash
 cd /home/u665392393/domains/infpf.fr/public_html
 
-# 1. Vérifie la branche actuelle
+# 1. Verifier la branche actuelle
 git branch
 
 # 2. Pull les derniers changements
@@ -137,304 +125,109 @@ git pull origin main
 git stash pop
 ```
 
-### 3.3 Installe les Dépendances (Prod Only)
+### 3.2 Installer les Dependances (Prod Only)
 
 ```bash
-# Installe uniquement les dépendances de production (sans dev)
 composer install --no-dev --optimize-autoloader --classmap-authoritative
-
-# Vérification
-composer show | grep -i "dev"
-# Ne devrait rien afficher (pas de packages dev)
 ```
 
-### 3.4 Migrations Base de Données (Si Nécessaire)
+### 3.3 Migrations Base de Donnees
 
 ```bash
-# Vérifie les migrations en attente
+# Verifier les migrations en attente
 php bin/console doctrine:migrations:status
 
-# Exécute les migrations (mode non-interactif)
+# Executer les migrations (mode non-interactif)
 php bin/console doctrine:migrations:migrate --no-interaction
 
-# Vérifie que tout est OK
+# Verifier que tout est OK
 php bin/console doctrine:schema:validate
 ```
 
-### 3.5 Vide et Réchauffe le Cache
+### 3.4 Vider et Rechauffer le Cache
 
 ```bash
-# Vide le cache de prod
 php bin/console cache:clear --env=prod --no-warmup
-
-# Réchauffe le cache
 php bin/console cache:warmup --env=prod
-
-# Vérifie les permissions
 chmod -R 755 var/cache var/log
 ```
 
 ---
 
-## 🖼️ Étape 4 : Optimisation des Images (WebP)
+## Etape 4 : Verifications Post-Deploiement
 
-### 4.1 Vérifie que cwebp est Installé
+### Tests Fonctionnels
 
-```bash
-cwebp -version
-# Devrait afficher : libwebp 1.x.x
-```
+- Page d'accueil : `curl -I https://www.infpf.fr` (HTTP/2 200)
+- Admin : `curl -I https://www.infpf.fr/admin` (HTTP/2 302 redirection login)
+- Formulaire de contact : tester l'envoi d'email
+- reCAPTCHA : verifier que le badge Google apparait
 
-Si pas installé, contacte Hostinger support.
-
-### 4.2 Convertis les Images
+### Performance
 
 ```bash
-# Convertit uniquement les nouvelles images
-./bin/optimize-images-webp.sh --new
-
-# Ou reconvertis tout (si première fois)
-./bin/optimize-images-webp.sh --all
-```
-
-### 4.3 Vérifie que WebP Fonctionne
-
-```bash
-# Teste une image
-curl -H "Accept: image/webp" -I https://www.infpf.fr/img/logo.png
-
-# Devrait retourner :
-# Content-Type: image/webp   ← ✅
-```
-
----
-
-## 🔧 Étape 5 : Configuration OPcache
-
-### 5.1 Vérifie OPcache (Temporairement)
-
-```bash
-# Accède au script de test
-curl https://www.infpf.fr/opcache-check.php | jq
-
-# Vérifie que "enabled": true
-```
-
-### 5.2 Supprime le Script de Test (Sécurité)
-
-```bash
-rm /home/u665392393/domains/infpf.fr/public_html/public/opcache-check.php
-```
-
-### 5.3 Redémarre PHP-FPM
-
-Via **Hostinger hPanel** :
-1. Connexion à **hPanel**
-2. **Gestionnaire PHP** > **Redémarrer PHP-FPM**
-
----
-
-## 🔐 Étape 6 : Activation Headers de Sécurité (HSTS)
-
-⚠️ **Important** : Active HSTS uniquement si HTTPS fonctionne partout.
-
-### 6.1 Teste HTTPS
-
-```bash
-curl -I https://www.infpf.fr
-# Devrait retourner : HTTP/2 200
-```
-
-### 6.2 Active HSTS
-
-```bash
-# Édite .htaccess
-nano /home/u665392393/domains/infpf.fr/public_html/public/.htaccess
-
-# Décommente la ligne :
-Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-```
-
-### 6.3 Teste les Headers
-
-```bash
-curl -I https://www.infpf.fr | grep -i "strict-transport"
-# Devrait afficher : strict-transport-security: max-age=31536000; includeSubDomains; preload
-```
-
----
-
-## 📊 Étape 7 : Vérifications Post-Déploiement
-
-### 7.1 Tests Fonctionnels
-
-✅ **Page d'accueil**
-```bash
-curl -I https://www.infpf.fr
-# HTTP/2 200
-```
-
-✅ **Admin**
-```bash
-curl -I https://www.infpf.fr/admin
-# HTTP/2 302 (redirection vers login)
-```
-
-✅ **Formulaire de contact**
-- Va sur https://www.infpf.fr/contact
-- Envoie un email de test
-- Vérifie la réception
-
-✅ **reCAPTCHA**
-- Vérifie que le badge Google apparaît
-- Teste la soumission
-
-✅ **Pages d'erreur**
-- https://www.infpf.fr/404 → Page 404 personnalisée
-- https://www.infpf.fr/test-error/500 → Page 500 personnalisée
-
-### 7.2 Performance
-
-```bash
-# Teste le TTFB
+# Tester le TTFB
 curl -o /dev/null -s -w "TTFB: %{time_starttransfer}s\nTotal: %{time_total}s\n" https://www.infpf.fr
-
-# Devrait afficher :
-# TTFB: 0.12s
-# Total: 0.85s
 ```
 
-✅ **Lighthouse**
-- Va sur https://pagespeed.web.dev/
-- Teste `https://www.infpf.fr`
-- Score attendu : Mobile ≥ 95, Desktop ≥ 97
+- Lighthouse : https://pagespeed.web.dev/ (Mobile >= 95, Desktop >= 97)
 
-### 7.3 Monitoring
+### Monitoring
 
-✅ **Sentry**
-- Va sur https://sentry.io
-- Vérifie qu'il n'y a pas d'erreurs
-
-✅ **UptimeRobot**
-- Va sur https://uptimerobot.com
-- Vérifie que le monitor est "Up" (vert)
-
-✅ **Google Analytics**
-- Va sur https://analytics.google.com
-- Vérifie les visiteurs actifs (après 5-10 minutes)
+- Sentry : https://sentry.io (verifier pas d'erreurs)
+- UptimeRobot : https://uptimerobot.com (verifier status "Up")
+- Google Analytics : https://analytics.google.com (verifier trafic)
 
 ---
 
-## 🔄 Étape 8 : Automatisation (Cron Jobs)
+## Rollback (En Cas de Probleme)
 
-### 8.1 Backup Quotidien
-
-Via **Hostinger hPanel** :
-1. **Cron Jobs** > **Ajouter une tâche**
-2. **Commande** : `/home/u665392393/domains/infpf.fr/public_html/bin/backup-database.sh`
-3. **Fréquence** : Quotidien à **02:00**
-4. Sauvegarde
-
-### 8.2 Optimisation WebP Hebdomadaire
-
-Via **Hostinger hPanel** :
-1. **Cron Jobs** > **Ajouter une tâche**
-2. **Commande** : `/home/u665392393/domains/infpf.fr/public_html/bin/optimize-images-webp.sh --new`
-3. **Fréquence** : Hebdomadaire (Dimanche à **03:00**)
-4. Sauvegarde
-
----
-
-## 🆘 Étape 9 : Rollback (En Cas de Problème)
-
-### 9.1 Rollback Git
+### Rollback Git
 
 ```bash
-# 1. Trouve le dernier commit stable
+# 1. Trouver le dernier commit stable
 git log --oneline -n 10
 
 # 2. Rollback vers ce commit
 git reset --hard COMMIT_HASH
 
-# 3. Redéploie
+# 3. Redeployer
 composer install --no-dev --optimize-autoloader
 php bin/console cache:clear --env=prod
 ```
 
-### 9.2 Restauration Base de Données
+### Restauration Base de Donnees
 
 ```bash
-# Trouve le dernier backup
 ls -lh /home/u665392393/backups/infpf/
-
-# Restaure
-mysql -u USERNAME -p DATABASE_NAME < /home/u665392393/backups/infpf/pre-deploy-20251106.sql
-```
-
-### 9.3 Restauration Fichiers
-
-```bash
-# Restaure les uploads
-tar -xzf /home/u665392393/backups/infpf/uploads-backup-20251106.tar.gz -C /
-
-# Restaure .env.local
-cp /home/u665392393/backups/infpf/.env.local.backup \
-   /home/u665392393/domains/infpf.fr/public_html/.env.local
+mysql -u USERNAME -p DATABASE_NAME < /home/u665392393/backups/infpf/pre-deploy-YYYYMMDD.sql
 ```
 
 ---
 
-## 📞 Support
+## Checklist Finale
 
-Si tu rencontres un problème :
-
-1. **Vérifie les logs** :
-   ```bash
-   tail -f /home/u665392393/domains/infpf.fr/public_html/var/log/prod.log
-   tail -f /home/u665392393/logs/error_log
-   ```
-
-2. **Sentry** : https://sentry.io (erreurs en temps réel)
-
-3. **Hostinger Support** : https://support.hostinger.com
-
-4. **Développeur** : elyes@xeilos.fr
-
----
-
-## 🎯 Checklist Finale
-
-Une fois le déploiement terminé, vérifie que :
-
-- [ ] ✅ Site accessible : https://www.infpf.fr (HTTP/2 200)
-- [ ] ✅ HTTPS forcé (redirection HTTP → HTTPS)
-- [ ] ✅ Admin accessible : https://www.infpf.fr/admin
-- [ ] ✅ Formulaire de contact fonctionne
-- [ ] ✅ reCAPTCHA v3 actif
-- [ ] ✅ Rate limiting actif (teste 6 soumissions rapidement)
-- [ ] ✅ Pages d'erreur personnalisées (404, 500)
-- [ ] ✅ WebP servi automatiquement (curl test)
-- [ ] ✅ OPcache activé (opcache_get_status())
-- [ ] ✅ HSTS activé (curl -I test)
-- [ ] ✅ Lighthouse ≥ 95 (Mobile), ≥ 97 (Desktop)
-- [ ] ✅ Sentry ne remonte pas d'erreurs
-- [ ] ✅ UptimeRobot en "Up"
-- [ ] ✅ Google Analytics reçoit du trafic
-- [ ] ✅ Backups automatiques configurés (Cron)
-- [ ] ✅ Fichiers de test supprimés (`opcache-check.php`, etc.)
-- [ ] ✅ Permissions correctes (`755` var/, `775` uploads/)
+- [ ] Site accessible : https://www.infpf.fr (HTTP/2 200)
+- [ ] HTTPS force (redirection HTTP vers HTTPS)
+- [ ] Admin accessible : https://www.infpf.fr/admin
+- [ ] Formulaire de contact fonctionne
+- [ ] reCAPTCHA v3 actif
+- [ ] Rate limiting actif
+- [ ] Pages d'erreur personnalisees (404, 500)
+- [ ] WebP servi automatiquement
+- [ ] OPcache active
+- [ ] HSTS active
+- [ ] Lighthouse >= 95 (Mobile), >= 97 (Desktop)
+- [ ] Sentry ne remonte pas d'erreurs
+- [ ] UptimeRobot en "Up"
+- [ ] Google Analytics recoit du trafic
+- [ ] Backups automatiques configures (Cron)
+- [ ] Fichiers de test supprimes
+- [ ] Permissions correctes (755 var/, 775 uploads/)
 
 ---
 
-**Date de déploiement** : _____________  
-**Déployé par** : _____________  
+**Date de deploiement** : _____________  
+**Deploye par** : _____________  
 **Version** : 2.0 - Production Ready  
 **Commit Hash** : _____________
-
----
-
-**Félicitations ! 🎉 Le site INFPF est maintenant en production !**
-
-
-
-
