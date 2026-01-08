@@ -10,15 +10,6 @@ use App\Repository\CategoryRepository;
 
 class RedirectionController extends AbstractController
 {
-    #[Route('/INFPF-reference-datadock', name: 'redirectToINFPFReferenceDatadock')]
-    public function redirectToINFPFReferenceDatadock(FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
-    {
-        return $this->render('content/ecole/infpf-reference-datadock.html.twig', [
-            'category' => $categoryRepository->findAll(),
-            'formations' => $formationRepository->findAll(),
-        ]);
-    }
-
     #[Route('/certification-qaliopi-2', name: 'redirectToCertificationQaliopi2')]
     public function redirectToCertificationQaliopi2(FormationRepository $formationRepository, CategoryRepository $categoryRepository): Response
     {
