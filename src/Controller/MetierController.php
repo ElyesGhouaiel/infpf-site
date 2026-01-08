@@ -107,5 +107,4 @@ class MetierController extends AbstractController
             'formations_count' => 1
         ]);
     }
-
 }
