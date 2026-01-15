@@ -3066,6 +3066,28 @@ html {
             </section>
             {% endif %}
 
+            {% if formations.mentionCpf %}
+            <!-- Section Financement CPF -->
+            <section class="formation-section" style="margin-bottom: 2rem;">
+                <div class="section-header">
+                    <span class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </span>
+                    <h2 class="section-title">Financement CPF</h2>
+                </div>
+                <div class="text-content">
+                    <div style="background: linear-gradient(135deg, #e8f4fd 0%, #f0f7ff 100%); border-left: 4px solid #0066cc; padding: 1.25rem 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                        <p style="margin: 0; color: #1a365d; font-size: 1rem; line-height: 1.6;">
+                            {{ formations.mentionCpf }}
+                        </p>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
             <!-- CTA Final ULTRA-VISIBLE avec Inscription selon éligibilité CPF -->
             <section class="cta-section-mega" id="cta-section-mega">
                 <div class="cta-mega-container">
@@ -3079,11 +3101,6 @@ html {
                             <h2 class="cta-mega-title">Prêt à transformer votre carrière ?</h2>
                         </div>
                         <p class="cta-mega-subtitle">Inscription rapide et simple en quelques clics</p>
-                        {% if formations.mentionCpf %}
-                        <p class="mention-cpf-legale" style="font-size: 0.85rem; color: rgba(255,255,255,0.9); margin-top: 1rem; max-width: 700px; text-align: center; margin-left: auto; margin-right: auto;">
-                            {{ formations.mentionCpf }}
-                        </p>
-                        {% endif %}
                     </div>
                     
                     <div class="cta-mega-buttons">
