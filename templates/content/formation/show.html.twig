@@ -3053,7 +3053,8 @@ html {
                         </a>
                     {% endif %}
         
-                        {# Bouton Télécharger le programme (déplacé depuis section supprimée) #}
+                        {# Bouton Télécharger le programme - caché pour formation 90 #}
+                        {% if formations.id != 90 %}
                         <a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="btn-mega btn-mega-download" style="background: white !important; color: #0b3f89 !important; border: 2px solid #0b3f89 !important;">
                             <svg class="btn-mega-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -3069,6 +3070,7 @@ html {
                                 <polyline points="12 5 19 12 12 19"></polyline>
                             </svg>
                         </a>
+                        {% endif %}
         
                         <a href="{{ path('app_contact') }}" class="btn-secondary-mega">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
