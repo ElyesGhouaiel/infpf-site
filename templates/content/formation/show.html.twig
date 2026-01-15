@@ -2878,6 +2878,51 @@ html {
                 </div>
             </section>
 
+            {% if formations.objectifsPedagogiques %}
+            <!-- Section Objectifs Pédagogiques -->
+            <section id="objectifs-pedagogiques" class="content-section">
+                <div id="objectifs-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="6"/>
+                                <circle cx="12" cy="12" r="2"/>
+                            </svg>
+                        </span>
+                        Objectifs pédagogiques
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {{ formations.objectifsPedagogiques|format_formation_text|raw }}
+                </div>
+            </section>
+            {% endif %}
+
+            {% if formations.publicVise %}
+            <!-- Section Public Visé -->
+            <section id="public-vise" class="content-section">
+                <div id="public-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </span>
+                        Public visé
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {{ formations.publicVise|format_formation_text|raw }}
+                </div>
+            </section>
+            {% endif %}
+
             <!-- Section Pré-requis & Atouts -->
             <section id="prerequisites-benefits" class="content-section">
                 <div id="prerequis-atouts-start" aria-hidden="true"></div>
@@ -2977,6 +3022,27 @@ html {
     </div>
             </section>
 
+            {% if formations.modalitesCertification %}
+            <!-- Section Modalités de Certification -->
+            <section id="certification" class="content-section">
+                <div id="certification-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </span>
+                        Modalités d'évaluation et de certification
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {{ formations.modalitesCertification|format_formation_text|raw }}
+                </div>
+            </section>
+            {% endif %}
+
             <!-- Section Durée (si disponible) -->
             {% if formations.dureeFormation %}
             <section id="duration" class="content-section">
@@ -3013,6 +3079,11 @@ html {
                             <h2 class="cta-mega-title">Prêt à transformer votre carrière ?</h2>
                         </div>
                         <p class="cta-mega-subtitle">Inscription rapide et simple en quelques clics</p>
+                        {% if formations.mentionCpf %}
+                        <p class="mention-cpf-legale" style="font-size: 0.85rem; color: #666; margin-top: 1rem; max-width: 700px;">
+                            {{ formations.mentionCpf }}
+                        </p>
+                        {% endif %}
                     </div>
                     
                     <div class="cta-mega-buttons">

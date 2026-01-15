@@ -77,6 +77,18 @@ class Formation
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $bloc = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $publicVise = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $mentionCpf = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $objectifsPedagogiques = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $modalitesCertification = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -305,4 +317,48 @@ class Formation
          $this->bloc = $bloc;
          return $this;
      }
+
+    public function getPublicVise(): ?string
+    {
+        return $this->publicVise;
+    }
+
+    public function setPublicVise(?string $publicVise): self
+    {
+        $this->publicVise = $publicVise;
+        return $this;
+    }
+
+    public function getMentionCpf(): ?string
+    {
+        return $this->mentionCpf;
+    }
+
+    public function setMentionCpf(?string $mentionCpf): self
+    {
+        $this->mentionCpf = $mentionCpf;
+        return $this;
+    }
+
+    public function getObjectifsPedagogiques(): ?string
+    {
+        return $this->objectifsPedagogiques;
+    }
+
+    public function setObjectifsPedagogiques(?string $objectifsPedagogiques): self
+    {
+        $this->objectifsPedagogiques = $objectifsPedagogiques;
+        return $this;
+    }
+
+    public function getModalitesCertification(): ?string
+    {
+        return $this->modalitesCertification;
+    }
+
+    public function setModalitesCertification(?string $modalitesCertification): self
+    {
+        $this->modalitesCertification = $modalitesCertification;
+        return $this;
+    }
 }
