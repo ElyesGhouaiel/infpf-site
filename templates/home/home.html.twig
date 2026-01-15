@@ -4,9 +4,9 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link href="../css/fichier-v2.min.css?v=4"/>
-	<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-	{# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
+	
+	{# footer.css a été inliné dans base.html.twig pour optimiser PageSpeed #}
+	{# NE PAS REACTIVER - Cause popup modal buguee sur mobile #}
 	{# <link rel="preconnect" href="https://assets.calendly.com"> #}
 	{# <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css"> #}
 	<!-- AOS Animation Library -->
@@ -19,14 +19,17 @@
 				padding-top: 0 !important;
 		}
 		.hero-banner {
-				padding-top: 120px !important; /* Padding normal desktop */
+				padding-top: calc(var(--header-height, 80px) + 20px) !important;
 			}
 		}
 		
-		/* Sur mobile : MÊME MÉTHODE QUE /FORMATION - padding dynamique sur le hero directement */
+		/* Sur mobile : padding dynamique sur le hero */
 		@media (max-width: 768px) {
 			main.site-main {
-				padding-top: 0 !important; /* Pas de padding sur main pour cette page */
+				padding-top: 0 !important;
+			}
+			.hero-banner {
+				padding-top: 80px !important;
 			}
 		}
 		/* Variables CSS héritées de base.html.twig */
@@ -44,7 +47,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			padding: 120px 20px 40px;
+			padding: calc(var(--header-height, 65px) + 20px) 20px 40px;
 			overflow: hidden;
 		}
 
@@ -93,13 +96,15 @@
 			}
 
 			.hero-card {
-				padding: 24px;
+				padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
 				border-radius: 20px;
 				width: 100%;
 			}
 
 			.hero-form-container {
-				padding: 24px;
+				padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
 				border-radius: 16px;
 			}
 
@@ -346,7 +351,8 @@
 			font-size: clamp(2.2rem, 4vw, 3.5rem);
 			font-weight: 600;
 			color: #0b3f89;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			line-height: 1.3;
 			position: relative;
 			padding-bottom: 20px;
@@ -394,7 +400,8 @@
 .category-card {
 			position: relative;
 			border-radius: var(--border-radius);
-  overflow: hidden !important; /* MASQUER DÉPASSEMENTS */
+  overflow-y: auto !important;
+			overflow-x: hidden !important; /* MASQUER DÉPASSEMENTS */
 			background: rgba(255, 255, 255, 0.25);
 			backdrop-filter: blur(20px);
 			border: 1px solid rgba(255, 255, 255, 0.3);
@@ -418,7 +425,7 @@
 			margin: 0;
 			padding: 0;
 			transition: var(--transition);
-			border-radius: 0; /* PAS d'arrondi sur l'image elle-même, le container s'en charge */
+			border-radius: 22px 22px 0 0; /* PAS d'arrondi sur l'image elle-même, le container s'en charge */
 		}
 
 		.category:not(.expanded) .category-card:hover .category-image {
@@ -437,6 +444,15 @@
 			overflow: visible;
 			word-wrap: break-word;
 			line-height: 1.3;
+		}
+		
+		/* Supprimer le fond bleu du titre UNIQUEMENT dans le dropdown */
+		.categories-grid .category-title,
+		.formation-category-section .category-title,
+		.formation-dropdown .category-title {
+			background: none !important;
+			background-color: transparent !important;
+			padding: 0 !important;
 		}
 
 		/* ===== CATÉGORIE IA EN OR ===== */
@@ -643,7 +659,8 @@
 			grid-template-columns: 400px 1fr;
 			gap: 0;
 			margin: 0 !important;
-			overflow: hidden !important; /* MASQUER LES DÉPASSEMENTS */
+			overflow-y: auto !important;
+			overflow-x: hidden !important; /* MASQUER LES DÉPASSEMENTS */
 			max-height: none; /* S'adapte au contenu */
 			box-shadow: 0 30px 100px rgba(11, 63, 137, 0.5);
 			border: 3px solid rgba(11, 63, 137, 0.3);
@@ -754,7 +771,8 @@
 
 		.formations-preview h4 {
 			color: var(--primary-gradient);
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			font-size: 18px;
 			font-weight: 600;
 		}
@@ -910,7 +928,8 @@
 				grid-template-columns: 1fr !important;
 				min-height: auto !important;
 				max-height: none !important;
-				overflow: hidden !important; /* MASQUER LES DÉPASSEMENTS */
+				overflow-y: auto !important;
+			overflow-x: hidden !important; /* MASQUER LES DÉPASSEMENTS */
 				overflow-y: visible !important;
 			}
 
@@ -954,7 +973,8 @@
 			}
 			
 			.category.expanded .category-card {
-				overflow: hidden !important;
+				overflow-y: auto !important;
+			overflow-x: hidden !important;
 				border-radius: 18px !important;
 			}
 			
@@ -1001,7 +1021,7 @@
 
 .formation {
 			background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-			padding: 16px 20px;
+			padding: 12px 20px;
 			margin-bottom: 12px;
 			border-radius: 12px;
   color: #0077b6;
@@ -1076,12 +1096,6 @@
 			height: auto;
 			border-radius: var(--border-radius);
 			filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-			transition: var(--transition);
-		}
-
-		.wp-image-cpf_lady:hover {
-			transform: scale(1.05);
-			filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4));
 }
 
 		.cpf-buttons {
@@ -1097,27 +1111,18 @@
 			font-weight: 600;
 			text-decoration: none;
 			transition: var(--transition);
-			border: 2px solid transparent;
+			border: 2px solid white;
 			position: relative;
 			overflow: hidden;
-		}
-
-		.wp-block-button__link:first-child {
-			background: rgba(255, 255, 255, 0.2);
-			color: white;
-			border-color: rgba(255, 255, 255, 0.3);
-		}
-
-		.wp-block-button__link:last-child {
-			background: transparent;
-			color: white;
-			border-color: rgba(255, 255, 255, 0.3);
-			backdrop-filter: blur(10px);
+			background: white;
+			color: #0b3f89;
 }
 
 		.wp-block-button__link:hover {
 			transform: translateY(-2px);
 			box-shadow: var(--shadow-heavy);
+			background: white;
+			color: #0b3f89;
 		}
 
 		/* ===== BLOG SECTION MODERNISÉE ===== */
@@ -1168,17 +1173,88 @@
 			line-height: 1.2;
 		}
 
-		.calendly-section p {
-			font-size: clamp(1.3rem, 3vw, 1.6rem);
-			color: #64748b;
-			font-weight: 500;
-			margin-bottom: 2.5rem;
-			max-width: 600px;
-			margin-left: auto;
-			margin-right: auto;
-		}
+	.calendly-section p {
+		font-size: clamp(1.3rem, 3vw, 1.6rem);
+		color: #64748b;
+		font-weight: 500;
+		margin-bottom: 2.5rem;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-		/* DESKTOP : Layout 2 colonnes (texte gauche + calendly droite) */
+	/* Alternative Calendly - Second choix toujours visible */
+	.calendly-alternative {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-top: 2rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid rgba(100, 116, 139, 0.15);
+	}
+
+	.calendly-alternative-label {
+		font-size: 0.95rem;
+		color: #64748b;
+		font-weight: 600;
+		font-style: italic;
+	}
+
+	.calendly-external-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.3rem;
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: white;
+		background: linear-gradient(135deg, #0b3f89, #1e5bb8);
+		border: none;
+		border-radius: 10px;
+		text-decoration: none;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		box-shadow: 0 4px 12px rgba(11, 63, 137, 0.25);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.calendly-external-btn::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+		transition: left 0.5s;
+	}
+
+	.calendly-external-btn:hover {
+		background: linear-gradient(135deg, #1e5bb8, #0b3f89);
+		transform: translateY(-3px);
+		box-shadow: 0 6px 20px rgba(11, 63, 137, 0.35);
+		color: white;
+	}
+
+	.calendly-external-btn:hover::before {
+		left: 100%;
+	}
+
+	.calendly-external-btn:active {
+		transform: translateY(-1px);
+		box-shadow: 0 3px 10px rgba(11, 63, 137, 0.3);
+	}
+
+	.calendly-external-btn svg {
+		flex-shrink: 0;
+		transition: transform 0.3s ease;
+	}
+
+	.calendly-external-btn:hover svg {
+		transform: translateX(3px) translateY(-3px);
+	}
+
+	/* DESKTOP : Layout 2 colonnes (texte gauche + calendly droite) */
 		@media (min-width: 1024px) {
 			.calendly-content {
 				display: grid;
@@ -1198,15 +1274,19 @@
 				margin-bottom: 1.5rem;
 			}
 
-			.calendly-section p {
-				text-align: left;
-				margin-left: 0;
-				margin-right: 0;
-				margin-bottom: 0;
-			}
+		.calendly-section p {
+			text-align: left;
+			margin-left: 0;
+			margin-right: 0;
+			margin-bottom: 0;
 		}
 
-		/* Mobile responsive */
+		.calendly-alternative {
+			justify-content: flex-start;
+		}
+	}
+
+	/* Mobile responsive */
 		@media (max-width: 480px) {
 			.calendly-section {
 				padding: 1.5rem;
@@ -1214,20 +1294,44 @@
 			}
 		}
 
-		/* ⚠️ SUR MOBILE : CACHER COMPLÈTEMENT LA SECTION CALENDLY (redirection vers /contact) */
+		/* ===== MOBILE : AFFICHER CALENDLY EN COLONNE ===== */
 		@media (max-width: 768px) {
-			.calendly-container-wrapper,
-			.calendly-section,
-			#calendly-home {
-				display: none !important;
-				visibility: hidden !important;
-				opacity: 0 !important;
-				height: 0 !important;
-				overflow: hidden !important;
-				pointer-events: none !important;
+			.calendly-container-wrapper {
+				padding: 0 16px;
+			}
+			
+			.calendly-section {
+				padding: 2rem 1.5rem;
+				margin: 2rem 0;
+			}
+			
+			.calendly-content {
+				display: flex;
+				flex-direction: column;
+				gap: 2rem;
+			}
+			
+			.calendly-text-wrapper {
+				text-align: center;
+			}
+			
+			.calendly-section h3 {
+				font-size: 1.8rem;
+				text-align: center;
+			}
+			
+			.calendly-section p {
+				text-align: center;
+				font-size: 1.1rem;
 			}
 
-			/* ⚠️ Le texte des boutons est changé via JavaScript (plus fiable) */
+			.calendly-alternative {
+				justify-content: center;
+			}
+			
+			.calendly-iframe-wrapper {
+				min-height: 500px;
+			}
 		}
 
 		.blog-heading {
@@ -1252,16 +1356,18 @@
 
 		.blog-container {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			grid-template-columns: repeat(3, 1fr);
 			gap: 30px;
 			max-width: 1200px;
 			margin: 0 auto;
+			align-items: stretch;
 		}
 
 		.blog-postactualite-link {
 			text-decoration: none;
 			color: inherit;
-			display: block;
+			display: flex;
+			height: 100%;
 		}
 
 		.blog-postactualite {
@@ -1272,6 +1378,10 @@
 			transition: var(--transition);
 			border: 1px solid rgba(255, 255, 255, 0.3);
 			box-shadow: var(--shadow-light);
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 100%;
 		}
 
 		.blog-postactualite-link:hover .blog-postactualite {
@@ -1293,6 +1403,18 @@
 
 		.blog-post-content {
 			padding: 25px;
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+		}
+
+		.blog-post-content h3 {
+			flex-shrink: 0;
+		}
+
+		.blog-post-content p {
+			flex: 1;
+			margin-bottom: 15px;
 		}
 
 		.read-more {
@@ -1310,6 +1432,19 @@
 		.read-more:hover {
 			transform: translateY(-2px);
 			box-shadow: 0 5px 15px rgba(11, 63, 137, 0.4);
+}
+
+		/* Responsive blog cards */
+		@media (max-width: 992px) {
+			.blog-container {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (max-width: 600px) {
+			.blog-container {
+				grid-template-columns: 1fr;
+			}
 }
 
 		/* ===== BOUTON VOIR TOUS LES ARTICLES OPTIMISÉ ===== */
@@ -1364,7 +1499,7 @@
 		/* ===== VIDEO SECTION MODERNISÉE (COULEURS COHÉRENTES AVEC LE SITE) ===== */
 		.video-section {
 			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 100%);
-			padding: 10px 20px;
+			padding: 80px 20px;
 			color: white;
 			position: relative;
 			overflow: hidden;
@@ -1405,11 +1540,6 @@
 				width: 100%;
 			height: 100%;
 			border-radius: var(--border-radius);
-			transition: var(--transition);
-		}
-
-		.wp-block-videos:hover video {
-			transform: scale(1.02);
 }
 
 				/* ===== CONTACT SECTION MODERNE AVEC FOND BLANC ===== */
@@ -1488,27 +1618,23 @@
 			background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 			border-radius: 15px;
 			border: 1px solid #e2e8f0;
-			transition: var(--transition);
 			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 		}
 
-		.contact-feature:hover {
-			transform: translateY(-5px);
-			background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-		}
-
 		.contact-feature-icon {
-			width: 24px;
-			height: 24px;
-			background: #0b3f89;
+			width: 28px;
+			height: 28px;
+			background: linear-gradient(135deg, #0b3f89, #00b4d8);
 			border-radius: 50%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 14px;
+			flex-shrink: 0;
+		}
+		.contact-feature-icon svg {
+			width: 14px;
+			height: 14px;
 			color: white;
-			font-weight: bold;
 		}
 
 		.contact-feature-text {
@@ -1540,7 +1666,8 @@
 			color: #0b3f89;
 			font-size: 1.8rem;
 			font-weight: 600;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 				text-align: center;
 			}
 
@@ -1690,6 +1817,7 @@
 			transform: translateY(-2px);
 			box-shadow: 0 8px 25px rgba(11, 63, 137, 0.3);
 			background: linear-gradient(135deg, #004080, #0056b3);
+			color: white !important;
 		}
 
 		.btn-primary:hover::before {
@@ -1894,7 +2022,8 @@
 
 		.hero-icon {
 			font-size: 48px;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			display: block;
 			animation: heroIconPulse 3s ease-in-out infinite;
 		}
@@ -2258,22 +2387,91 @@
 			top: auto !important;
 			left: 50% !important;
 			transform: translateX(-50%) !important;
-			width: 90% !important;
-			max-width: 800px !important;
+			width: 98% !important;
+			max-width: 1400px !important;
 			z-index: 2147483647 !important; /* Plus haut z-index possible */
 			background: #ffffff !important;
 			border: 3px solid #0b3f89 !important;
 			border-radius: 25px !important;
+			padding: 0 !important;
 			box-shadow: 
 				0 25px 80px rgba(11, 63, 137, 0.8) !important,
-				inset 0 3px 12px rgba(11, 63, 137, 0.1) !important;
-			max-height: 70vh !important;
+				inset 0 0 0 rgba(11, 63, 137, 0) !important;
+			max-height: 95vh !important;
 			overflow-y: auto !important;
+			overflow-x: hidden !important;
 			backdrop-filter: blur(25px) !important;
 			visibility: visible !important;
 			opacity: 1 !important;
 			isolation: isolate !important; /* Crée un nouveau contexte de stacking */
 			contain: layout style !important; /* Optimisation de rendu */
+		}
+		
+		/* ===== GRILLE 2 COLONNES DESKTOP ===== */
+		.categories-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 20px;
+			padding: 25px 30px;
+		}
+		
+		/* Masquer les séparateurs sur desktop */
+		.category-separator {
+			display: none !important;
+		}
+		
+		/* Styles des catégories en mode grille */
+		.categories-grid .formation-category-section {
+			padding: 0 !important;
+			border-bottom: none !important;
+			margin: 0 !important;
+		}
+		
+		/* 9ème catégorie (dernière impaire) centrée - DOIT être après les styles généraux */
+		.categories-grid .formation-category-section:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
+			max-width: 48%;
+			margin: 0 auto !important;
+		}
+		
+		.categories-grid .category-header {
+			border-radius: 16px !important;
+			margin: 0 !important;
+		}
+		
+		/* Masquer les formations-grid par défaut (accordéon fermé) */
+		.categories-grid .formations-grid {
+			display: none;
+		}
+		
+		.categories-grid .formation-category-section.expanded .formations-grid {
+			display: grid;
+			padding-top: 16px;
+			max-height: 2000px;
+			opacity: 1;
+		}
+		
+		/* ===== RESPONSIVE MOBILE - Grille en 1 colonne ===== */
+		@media (max-width: 991px) {
+			.categories-grid {
+				grid-template-columns: 1fr !important;
+				gap: 10px;
+				padding: 15px;
+			}
+			
+			/* Annuler le centrage de la dernière catégorie sur mobile - TOUTES MÊME LARGEUR */
+			.categories-grid .formation-category-section:last-child:nth-child(odd) {
+				grid-column: auto !important;
+				max-width: 100% !important;
+				width: 100% !important;
+				margin: 0 !important;
+			}
+			
+			/* Remettre le dropdown en mode scroll vertical pour mobile */
+			.formation-dropdown {
+				max-width: 95% !important;
+				max-height: 85vh !important;
+			}
 		}
 
 		/* S'assurer que le dropdown soit visible quand ouvert */
@@ -2373,7 +2571,7 @@
 		}
 
 		.voir-plus-formations:hover .voir-plus-icon {
-			background: #0b3f89;
+			background: #ffffff;
 			color: white;
 			transform: scale(1.1);
 		}
@@ -2404,23 +2602,228 @@
 			transform: translateX(5px);
 		}
 
+		/* ===== BOUTONS ACCORDÉON =====*/
+		.accordion-controls {
+			border-radius: 22px 22px 0 0;
+			display: flex;
+			gap: 10px;
+			padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.1);
+			background: #ffffff;
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.accordion-btn {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 8px 14px;
+			border: 2px solid #0b3f89;
+			border-radius: 20px;
+			background: white;
+			color: #0b3f89;
+			font-size: 13px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
+		.accordion-btn:hover:not(:disabled) {
+			background: #e8f4f8;
+			color: #0b3f89;
+		}
+		.accordion-btn:disabled {
+			opacity: 0.4;
+			cursor: not-allowed;
+			border-color: #ccc;
+			color: #999;
+		}
+		.accordion-close-btn {
+			margin-left: auto;
+			border-color: #dc3545;
+			color: #dc3545;
+		}
+		.accordion-close-btn:hover {
+			background: #dc3545;
+			color: white;
+		}
+		.accordion-btn svg {
+			width: 14px;
+			height: 14px;
+		}
+		@media (max-width: 768px) {
+			.accordion-controls {
+				gap: 8px;
+				padding: 12px 15px;
+			}
+			.accordion-btn {
+				padding: 10px 16px;
+				font-size: 12px;
+				border-radius: 18px;
+			}
+			.accordion-btn svg {
+				width: 16px;
+				height: 16px;
+			}
+			.accordion-close-btn {
+				padding: 10px 14px;
+			}
+		}
+		@media (max-width: 480px) {
+			.accordion-controls {
+				gap: 8px;
+				padding: 10px 12px;
+			}
+			.accordion-btn {
+				padding: 0 !important;
+				font-size: 0 !important;
+				border-width: 2px;
+				min-width: 40px;
+				width: 40px;
+				height: 40px;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				gap: 0 !important;
+			}
+			.accordion-btn svg {
+				width: 22px !important;
+				height: 22px !important;
+				margin: 0 !important;
+				display: block !important;
+			}
+			.accordion-close-btn {
+				min-width: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			.accordion-close-btn svg {
+				width: 20px !important;
+				height: 20px !important;
+			}
+		}
+		@media (max-width: 390px) {
+			.accordion-controls {
+				gap: 6px;
+				padding: 8px 10px;
+			}
+			.accordion-btn {
+				min-width: 38px;
+				width: 38px;
+				height: 38px;
+			}
+			.accordion-btn svg {
+				width: 20px !important;
+				height: 20px !important;
+			}
+			.accordion-close-btn {
+				min-width: 38px;
+				width: 38px;
+				height: 38px;
+			}
+			.accordion-close-btn svg {
+				width: 18px !important;
+				height: 18px !important;
+			}
+		}
+		@media (max-width: 360px) {
+			.accordion-controls {
+				gap: 5px;
+				padding: 8px 8px;
+			}
+			.accordion-btn {
+				border-width: 2px;
+				min-width: 36px;
+				width: 36px;
+				height: 36px;
+			}
+			.accordion-btn svg {
+				width: 18px !important;
+				height: 18px !important;
+			}
+			.accordion-close-btn {
+				min-width: 36px;
+				width: 36px;
+				height: 36px;
+			}
+			.accordion-close-btn svg {
+				width: 16px !important;
+				height: 16px !important;
+			}
+		}
+		.accordion-arrow {
+			margin-left: auto;
+			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+			color: #ffffff !important;
+			background: rgba(255, 255, 255, 0.25);
+			border-radius: 50%;
+			padding: 8px;
+			width: 38px;
+			height: 38px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+		}
+		.accordion-arrow svg {
+			width: 22px !important;
+			height: 22px !important;
+			stroke-width: 3.5 !important;
+			filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+		}
+		.formation-category-section.expanded .accordion-arrow {
+			transform: rotate(180deg);
+			background: rgba(255, 255, 255, 0.35);
+		}
+		.category-header:hover .accordion-arrow {
+			transform: scale(1.15);
+			background: rgba(255, 255, 255, 0.4);
+		}
+		.formation-category-section.expanded .category-header:hover .accordion-arrow {
+			transform: rotate(180deg) scale(1.15);
+		}
+		
+		/* Effet de grossissement au survol - DESKTOP UNIQUEMENT */
+		@media (min-width: 992px) {
+			.categories-grid .category-header {
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+			.categories-grid .category-header:hover {
+				transform: scale(1.03);
+				box-shadow: 
+					0 12px 35px rgba(11, 63, 137, 0.4),
+					0 6px 20px rgba(0, 180, 216, 0.3);
+				z-index: 10;
+			}
+			.categories-grid .formation-category-section[data-category="ia"] .category-header:hover {
+				box-shadow: 
+					0 12px 35px rgba(255, 215, 0, 0.5),
+					0 6px 20px rgba(255, 165, 0, 0.4);
+			}
+		}
+		.formation-category-section.expanded .category-header {
+			margin-bottom: 0;
+		}
+
 		.formation-category-section {
-			padding: 24px;
+			padding: 12px 20px;
+			border-bottom: 1px solid rgba(11, 63, 137, 0.08);
 		}
 
 		.category-header {
 			display: flex;
 			align-items: center;
 			gap: 16px;
-			margin-bottom: 20px;
-			padding: 16px 20px;
+			margin-bottom: 0;
+			cursor: pointer;
+			padding: 12px 20px;
 			border-radius: 15px;
 			/* PAS de color ici - laissé aux spécificités */
 			/* PAS de box-shadow ici - laissé aux spécificités */
 			/* IMPORTANT : Pas de background ici pour éviter d'écraser les spécificités */
 		}
 
-		/* Fond bleu SEULEMENT pour les catégories NON-IA */
+		/* Fond bleu pour les catégories NON-IA */
 		.formation-category-section:not([data-category="ia"]) .category-header {
 			background: linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%);
 			color: white;
@@ -2515,6 +2918,13 @@
 			line-height: 1.3;
 			white-space: normal;
 		}
+		
+		/* Désactiver l'effet ::before dans la grille dropdown */
+		.categories-grid .category-title::before,
+		.formation-category-section .category-title::before {
+			display: none !important;
+			content: none !important;
+		}
 
 		.category-count {
 			background: linear-gradient(135deg, #ffffff, #f0f8ff);
@@ -2534,28 +2944,7 @@
 			overflow: hidden;
 		}
 
-		.category-count::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-			transition: left 0.5s ease;
-		}
-
-		.category-header:hover .category-count::before {
-			left: 100%;
-		}
-
-		.category-header:hover .category-count {
-			background: linear-gradient(135deg, #e8f4f8, #ffffff);
-			transform: scale(1.05);
-			box-shadow: 
-				0 6px 20px rgba(11, 63, 137, 0.4),
-				inset 0 2px 10px rgba(255, 255, 255, 0.9);
-		}
+		/* Pseudo-élément ::before supprimé - plus d'animation hover */
 
 		/* ===== CATÉGORIE IA SPÉCIALE EN OR ===== */
 		.formation-category-section[data-category="ia"] .category-header {
@@ -2581,20 +2970,7 @@
 				0 4px 16px rgba(255, 165, 0, 0.2) !important;
 		}
 
-		.formation-category-section[data-category="ia"] .category-header::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-			transition: left 0.3s ease;
-		}
-
-		.formation-category-section[data-category="ia"] .category-header:hover::before {
-			left: 100%;
-		}
+		/* Animation brillance supprimée - élément non-cliquable */
 
 		.formation-category-section[data-category="ia"] .category-title,
 		#formationDropdown .formation-category-section[data-category="ia"] .category-title {
@@ -2614,56 +2990,55 @@
 				inset 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 		}
 
-		.formation-category-section[data-category="ia"] .category-header:hover .category-count {
-			background: linear-gradient(135deg, #2d2d2d, #1a1a1a) !important;
-			transform: scale(1.1) !important;
-			box-shadow: 
-				0 6px 20px rgba(255, 215, 0, 0.6),
-				inset 0 2px 10px rgba(0, 0, 0, 0.4);
-		}
+		/* Animation hover count IA supprimée - élément non-cliquable */
 
-		/* Badge NOUVEAU pour IA */
+		/* Badge NOUVEAU pour IA - COMPACT */
 		.formation-category-section[data-category="ia"]::after,
 		#formationDropdown .formation-category-section[data-category="ia"]::after {
-			content: 'NOUVEAU';
+			content: 'NEW';
 			position: absolute;
-			top: 10px;
-			right: 10px;
-			background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FF6B9D 100%) !important;
+			top: -8px;
+			right: -8px;
+			background: linear-gradient(135deg, #FF4757 0%, #FF6B81 100%) !important;
 			color: white !important;
-			font-size: 11px;
-			font-weight: 900;
-			padding: 6px 12px;
-			border-radius: 15px;
+			font-size: 9px;
+			font-weight: 800;
+			padding: 4px 8px;
+			border-radius: 10px;
 			text-transform: uppercase;
-			letter-spacing: 1px;
-			box-shadow: 
-				0 4px 12px rgba(255, 107, 107, 0.4),
-				0 2px 6px rgba(255, 107, 107, 0.6) !important;
+			letter-spacing: 0.5px;
+			box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5) !important;
 			z-index: 10;
 			animation: pulse-badge-ia 2s infinite;
-			border: 2px solid rgba(255, 255, 255, 0.9) !important;
+			border: 1px solid rgba(255, 255, 255, 0.8) !important;
 		}
 
 		@keyframes pulse-badge-ia {
 			0%, 100% { 
 				transform: scale(1);
-				box-shadow: 
-					0 4px 12px rgba(255, 107, 107, 0.4),
-					0 2px 6px rgba(255, 107, 107, 0.6);
+				box-shadow: 0 2px 8px rgba(255, 71, 87, 0.5);
 			}
 			50% { 
-				transform: scale(1.08);
-				box-shadow: 
-					0 6px 18px rgba(255, 107, 107, 0.6),
-					0 3px 10px rgba(255, 107, 107, 0.8);
+				transform: scale(1.05);
+				box-shadow: 0 3px 12px rgba(255, 71, 87, 0.7);
 			}
 		}
 
 		.formations-grid {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+			opacity: 0;
+			padding-top: 0;
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 			gap: 16px;
+		}
+
+		.formation-category-section.expanded .formations-grid {
+			max-height: 2000px;
+			opacity: 1;
+			padding-top: 16px;
 		}
 
 		.formation-card {
@@ -2681,9 +3056,9 @@
 		.formation-card:hover {
 			background: linear-gradient(135deg, #e8f4f8, #ffffff);
 			border-color: #0b3f89;
-			transform: translateY(-4px) scale(1.02);
+			transform: translateY(-3px);
 			box-shadow: 
-				0 15px 40px rgba(11, 63, 137, 0.3),
+				0 10px 25px rgba(11, 63, 137, 0.25),
 				inset 0 2px 8px rgba(0, 180, 216, 0.1);
 		}
 
@@ -2759,7 +3134,7 @@
 		.separator-dot {
 			width: 12px;
 			height: 12px;
-			background: #0b3f89;
+			background: #ffffff;
 			border-radius: 50%;
 			box-shadow: 0 0 0 4px rgba(11, 63, 137, 0.2);
 			animation: pulse-dot 2s ease-in-out infinite;
@@ -2788,7 +3163,7 @@
 		}
 
 		.formation-selector-modern[data-open="true"] .formation-placeholder {
-			border-radius: 25px 25px 0 0;
+			border-radius: 22px 22px 0 0;
 			border-bottom: 2px solid #e8f4f8;
 		}
 
@@ -3053,7 +3428,7 @@
 		.featured-formation-banner {
 			background: 
 				linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(11, 63, 137, 0.7) 100%),
-				url('{{ asset('img/stress image.png') }}') center/cover no-repeat;
+				url('{{ asset('img/stress image.webp') }}') center/cover no-repeat;
 			padding: 30px 20px 25px;
 			position: relative;
 			overflow: hidden;
@@ -3191,7 +3566,7 @@
 			right: 0;
 			height: 6px;
 			background: linear-gradient(90deg, #1e5cb8, #0b3f89);
-			border-radius: 25px 25px 0 0;
+			border-radius: 22px 22px 0 0;
 		}
 
 		/* Badge OFFRE SPÉCIALE - Cercle parfait avec cible */
@@ -3345,7 +3720,8 @@
 			align-items: center;
 			justify-content: center;
 			gap: 15px;
-			margin-bottom: 20px;
+			margin-bottom: 0;
+			cursor: pointer;
 			flex-wrap: wrap;
 		}
 
@@ -3466,11 +3842,12 @@
 				border-width: 1px;
 				background: 
 					linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(11, 63, 137, 0.8) 100%),
-					url('{{ asset('img/stress image.png') }}') center/cover no-repeat;
+					url('{{ asset('img/stress image.webp') }}') center/cover no-repeat;
 			}
 
 			.banner-header {
-				margin-bottom: 20px;
+				margin-bottom: 0;
+			cursor: pointer;
 			}
 
 			.banner-main-title {
@@ -3530,7 +3907,8 @@
 			.formation-description {
 				font-size: clamp(1rem, 3vw, 1.3rem);
 				padding: 16px;
-				margin-bottom: 20px;
+				margin-bottom: 0;
+			cursor: pointer;
 			}
 
 			.formation-cta {
@@ -3554,7 +3932,7 @@
 				padding: 20px 12px 18px;
 				background: 
 					linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(11, 63, 137, 0.9) 100%),
-					url('{{ asset('img/stress image.png') }}') center/cover no-repeat;
+					url('{{ asset('img/stress image.webp') }}') center/cover no-repeat;
 			}
 
 			.banner-header {
@@ -4321,48 +4699,49 @@
 			}
 			
 			.category-count {
-				font-size: 14px !important;
-				padding: 8px 18px !important;
+				font-size: 13px !important;
+				padding: 8px 16px !important;
 				font-weight: 800 !important;
-				border-radius: 25px !important;
+				border-radius: 20px !important;
 				margin-top: 4px !important;
-				box-shadow: 0 4px 12px rgba(11, 63, 137, 0.3) !important;
+				box-shadow: 0 3px 10px rgba(11, 63, 137, 0.25) !important;
+				white-space: nowrap !important;
+		}
+		
+			.category-header {
+				position: relative !important;
+				padding-bottom: 35px !important;
+			}
+			
+			.accordion-arrow {
+				position: absolute !important;
+				right: 12px !important;
+				bottom: 10px !important;
+				top: auto !important;
+				transform: none !important;
+			}
+			
+			.formation-category-section.expanded .accordion-arrow {
+				transform: rotate(180deg) !important;
 			}
 		}
 		
 		@media (max-width: 390px) {
 			.category-header {
-				padding: 18px 14px !important;
-				gap: 10px !important;
-			}
-			
-			.category-icon {
-				width: 38px !important;
-				height: 38px !important;
-			}
-			
-			.category-title {
-				font-size: 15px !important;
-				letter-spacing: 0.4px !important;
-				text-align: center !important;
-				display: block !important;
-			}
-			
-			.category-count {
-				font-size: 13px !important;
-				padding: 7px 16px !important;
-			}
-		}
-		
-		@media (max-width: 360px) {
-			.category-header {
-				padding: 16px 12px !important;
+				padding: 14px 12px !important;
 				gap: 8px !important;
+				flex-wrap: wrap !important;
+				justify-content: center !important;
 			}
 			
 			.category-icon {
-				width: 36px !important;
-				height: 36px !important;
+				width: 42px !important;
+				height: 42px !important;
+			}
+			
+			.category-icon svg {
+				width: 22px !important;
+				height: 22px !important;
 			}
 			
 			.category-title {
@@ -4370,25 +4749,57 @@
 				letter-spacing: 0.3px !important;
 				text-align: center !important;
 				display: block !important;
+				width: 100% !important;
+				order: 2 !important;
 			}
 			
 			.category-count {
 				font-size: 12px !important;
 				padding: 6px 14px !important;
+				order: 3 !important;
+			}
+			
+			.accordion-arrow {
+				position: absolute !important;
+				right: 10px !important;
+				bottom: 10px !important;
+				top: auto !important;
+				transform: none !important;
+			}
+			
+			.formation-category-section.expanded .accordion-arrow {
+				transform: translateY(-50%) rotate(180deg) !important;
 			}
 		}
 		
-		/* Animation élégante au survol sur mobile */
-		@media (max-width: 480px) {
-			.category-header:active {
-				transform: scale(0.98) !important;
-				transition: transform 0.2s ease !important;
+		@media (max-width: 360px) {
+			.category-header {
+				padding: 12px 10px !important;
+				gap: 6px !important;
 			}
 			
-			.category-header:active .category-icon {
-				transform: scale(1.1) !important;
+			.category-icon {
+				width: 38px !important;
+				height: 38px !important;
+			}
+			
+			.category-icon svg {
+				width: 20px !important;
+				height: 20px !important;
+			}
+			
+			.category-title {
+				font-size: 13px !important;
+				letter-spacing: 0.2px !important;
+			}
+			
+			.category-count {
+				font-size: 11px !important;
+				padding: 5px 12px !important;
 			}
 		}
+		
+		/* Animations mobile supprimées - éléments non-cliquables */
 		
 		/* ===== FIX SECTION "TOUTES NOS AUTRES FORMATIONS" - MOBILE ONLY ===== */
 		/* Scroll naturel sans overflow, titres toujours visibles */
@@ -4509,15 +4920,24 @@
 										</div>
 
 										<div class="formation-dropdown" id="formationDropdown" style="display: none;">
-											<!-- Bouton de fermeture -->
-											<div class="modal-close-button" onclick="window.toggleFormationDropdown()">
-												<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-													<path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
+															<!-- Boutons Accordéon -->
+															<div class="accordion-controls">
+																<button class="accordion-btn" id="expandAllBtn" onclick="expandAllCategories()">
+																	<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+																	<span>Tout déplier</span>
+																</button>
+																<button class="accordion-btn" id="collapseAllBtn" onclick="collapseAllCategories()" disabled>
+																	<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+																	<span>Tout replier</span>
+																</button>
+																<button class="accordion-btn accordion-close-btn" onclick="window.toggleFormationDropdown()">
+																	<svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+																</button>
 											</div>
+											<div class="categories-grid">
 											{% for category in category %}
 												<div class="formation-category-section" data-category="{{ category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) }}">
-													<div class="category-header"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
+													<div class="category-header" onclick="toggleCategory(this.parentElement)"{% if category.name|lower == 'ia' %} style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; color: #1a1a1a !important; border: 2px solid #FFD700 !important;"{% endif %}>
 														<div class="category-icon">
 															{% if category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'ia' %}
 																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -4576,8 +4996,9 @@
 																</svg>
 															{% elseif category.name|lower|replace({' ': '-', 'é': 'e', 'è': 'e', 'à': 'a', 'ç': 'c'}) == 'marketing' %}
 																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-																	<path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 5-18 5-18s-3 0-9 0-9 0-9 0 2 18 5 18c1.25 0 2.5-1.06 4-1.06Z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
-																	<path d="M12 9s4-2 8-2-4 6-4 6 0 2.5-2 5-2-2.5-2-5 0-2 0-4z" stroke="white" stroke-width="1.5" fill="white"/>
+																					<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+																					<circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+																					<circle cx="12" cy="12" r="2" fill="currentColor"/>
 																</svg>
 															{% else %}
 																<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -4588,6 +5009,7 @@
 														</div>
 														<h4 class="category-title" {% if category.name|lower == 'ia' %}style="color: #1a1a1a !important; font-weight: 900 !important;"{% endif %}>{{ category.name }}</h4>
 														<div class="category-count" {% if category.name|lower == 'ia' %}style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important; color: #FFD700 !important; border: 2px solid #FFD700 !important; font-weight: 900 !important;"{% endif %}>{{ formations|filter(f => f.category.id == category.id)|length }} formation{{ formations|filter(f => f.category.id == category.id)|length > 1 ? 's' : '' }}</div>
+																				<div class="accordion-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 													</div>
 													
 													<div class="formations-grid">
@@ -4616,7 +5038,7 @@
 													{% endfor %}
 														
 														{% if categoryFormations|length > maxFormations %}
-															<div class="voir-plus-formations" onclick="window.location.href='/formation?category={{ category.name|url_encode }}'">
+															<div class="voir-plus-formations" onclick="window.location.href='/formation?thematique%5B%5D={{ category.id }}'">
 																<div class="voir-plus-content">
 																	<div class="voir-plus-icon">
 																		<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -4638,14 +5060,8 @@
 													</div>
 												</div>
 												
-												{% if not loop.last %}
-													<div class="category-separator">
-														<div class="separator-line"></div>
-														<div class="separator-dot"></div>
-														<div class="separator-line"></div>
-													</div>
-												{% endif %}
 											{% endfor %}
+											</div>
 										</div>
 									</div>
 								</div>
@@ -4666,21 +5082,21 @@
 			<p class="banner-subtitle">Découvrez nos dernières formations en Intelligence Artificielle</p>
 		</div>
 		<div class="featured-formation-content">
-					<!-- Formation IA Générative - Niveau Initiation -->
-		<div class="featured-formation-card">
-				<!-- Badge Offre Spéciale ROND avec cible -->
-				<div class="special-offer-badge">
-					<div class="badge-circle">
-						<span class="badge-text">Offre<br>Spéciale</span>
+					<!-- Formation IA Générative - Certification RS6776 -->
+		<div class="featured-formation-card" style="padding-top: 1.5rem;">
+				<!-- Badge CPF en haut à droite -->
+				<div class="special-offer-badge" style="background: linear-gradient(135deg, #00b894, #00cec9); width: 70px; height: 70px;">
+					<div class="badge-circle" style="background: transparent;">
+						<span class="badge-text" style="font-size: 0.65rem;">100%<br>CPF</span>
 					</div>
 				</div>
-				<h2 class="formation-level-title">CERTIFICATION RS6776</h2>
-				<div class="formation-badges">
-					<a href="https://www.moncompteformation.gouv.fr/espace-prive/html/#/formation/recherche/92791645200018_infpf15/92791645200018_infpf2" target="_blank" class="formation-cpf-badge">Finançable CPF</a>
-					<div class="featured-formation-badge">Nouvelle Formation</div>
+				<h2 class="formation-level-title" style="font-size: 1.4rem; margin-bottom: 0.5rem;">IA GÉNÉRATIVE</h2>
+				<div class="formation-badges" style="margin-bottom: 1rem;">
+					<div class="featured-formation-badge" style="background: #e17055; font-size: 0.7rem;">Certification RS6776</div>
+					<div class="featured-formation-badge" style="font-size: 0.7rem;">42 heures</div>
 				</div>
-				<h3 class="formation-title" style="font-size: 1.1rem; line-height: 1.4;">Création de contenus rédactionnels et visuels par l'usage responsable de l'intelligence artificielle générative</h3>
-				<p class="formation-description">42h de formation certifiante pour maîtriser ChatGPT, Midjourney et les outils d'IA générative dans un cadre éthique et professionnel.</p>
+				<h3 class="formation-title" style="font-size: 0.95rem; line-height: 1.5; font-weight: 500; color: #2d3436; background: rgba(255,255,255,0.7); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #0984e3;">Création de contenus rédactionnels et visuels par l'usage responsable de l'intelligence artificielle générative</h3>
+				<p class="formation-description" style="font-size: 0.85rem; margin-top: 0.8rem;">Maîtrisez ChatGPT, Midjourney et les outils d'IA dans un cadre éthique et professionnel.</p>
 				<a href="{{ path('app_formation_show', {'id': 89}) }}" class="formation-cta">
 					Voir le programme
 				</a>
@@ -4701,7 +5117,7 @@
 				<h3 class="formation-title">IA Avancée</h3>
 				<p class="formation-description">Maîtrisez pleinement vos compétences avec notre formation avancée. Applications concrètes, expertises sectorielles et scénarios réels.</p>
 				<a href="{{ path('app_formation_show', {'id': 90}) }}" class="formation-cta">
-					Accéder maintenant
+					Découvrir
 				</a>
 			</div>
 		</div>
@@ -4722,7 +5138,7 @@
 			<div class="category-card">
 							<button class="close-button">×</button>
 							<img 
-								src="{{ asset('img/' ~ categoryImages[category.id] ?? 'default-image.jpg') }}" 
+								src="{{ asset('img/' ~ categoryImages[category.id] ?? 'AutresImage.webp') }}" 
 								alt="{{ category.name }}"
 								class="category-image"
 							>
@@ -4769,10 +5185,10 @@
 	<div class="cpf-section">
 		<div class="wp-block-formation-financable-cpf" data-aos="fade-up">
 			<div class="wp-block-column_cpf_lady" data-aos="fade-right">
-				<img src="{{ asset('img/CPF.png') }}" class="wp-image-cpf_lady" alt="formation_financable_cpf">
+				<img src="{{ asset('img/CPF.webp') }}" class="wp-image-cpf_lady" alt="formation_financable_cpf">
 			</div>
 			<div class="wp-block-formation-financable-cpf-texte" data-aos="fade-left">
-				<h2 class="wp-block-heading has-text-color cpf-title-mobile">
+				<h2 class="wp-block-heading has-text-color cpf-title-mobile" style="color: #ffffff;">
 					FORMATIONS à distance<br>
 					<span>100% FINANÇABLES</span> VIA VOTRE CPF
 				</h2>
@@ -4786,7 +5202,7 @@
 						</div>
 				<div class="cpf-buttons">
 					<a class="wp-block-button__link" href="{{ path('redirectToFormationsEligiblesCPF')}}">Utiliser mon CPF</a>
-					<a class="wp-block-button__link btn-calendly-mobile" href="#calendly-home" data-mobile-text="📞 Prise de contact">📞 Je réserve mon appel gratuit</a>
+					<a class="wp-block-button__link btn-calendly-mobile" href="#calendly-home" data-mobile-text="Prise de contact">Je réserve mon appel gratuit</a>
 					</div>
 					</div>
 		</div>
@@ -4848,25 +5264,26 @@
 		</div>
 
 		<script>
-			// Auto-lecture vidéo avec volume à 50% quand elle entre dans le viewport
+			// Auto-lecture vidéo MUET quand elle entre dans le viewport
 			document.addEventListener('DOMContentLoaded', function() {
 				const video = document.getElementById('video-infpf');
 				let hasPlayed = false;
 
+				// S'assurer que la vidéo est toujours en mute
+				if (video) {
+					video.muted = true;
+					video.volume = 0;
+				}
+
 				const observer = new IntersectionObserver((entries) => {
 					entries.forEach(entry => {
 						if (entry.isIntersecting && !hasPlayed) {
-							// Vidéo est visible dans le viewport
-							video.muted = false; // Activer le son
-							video.volume = 0.5;  // Volume à 50%
+							// Vidéo est visible dans le viewport - TOUJOURS MUTE
+							video.muted = true;
+							video.volume = 0;
 							
-							// Lancer la vidéo
-							video.play().catch(err => {
-								// Si le navigateur bloque l'autoplay avec son, garder muted
-								console.log('Autoplay avec son bloqué, lecture en mode muet');
-								video.muted = true;
-								video.play();
-							});
+							// Lancer la vidéo en mute
+							video.play().catch(err => {});
 							
 							hasPlayed = true;
 						}
@@ -4891,19 +5308,27 @@
 				
 				<div class="contact-features">
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="200">
-						<div class="contact-feature-icon">✓</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+						</div>
 						<div class="contact-feature-text">Réponse sous 24h</div>
 					</div>
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="300">
-						<div class="contact-feature-icon">B</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+						</div>
 						<div class="contact-feature-text">Bilan personnalisé</div>
 					</div>
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="400">
-						<div class="contact-feature-icon">E</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+						</div>
 						<div class="contact-feature-text">Conseil expert</div>
 					</div>
 					<div class="contact-feature" data-aos="fade-up" data-aos-delay="500">
-						<div class="contact-feature-icon">S</div>
+						<div class="contact-feature-icon">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+						</div>
 						<div class="contact-feature-text">Suivi carrière</div>
 					</div>
 				</div>
@@ -4947,10 +5372,27 @@
 		<section id="calendly-home" class="calendly-section">
 			<div class="calendly-content">
 				<!-- Texte à gauche sur desktop -->
-				<div class="calendly-text-wrapper">
-					<h3>Je réserve mon appel gratuit</h3>
-					<p>Échangez avec nos conseillers pédagogiques et construisez ensemble votre parcours de formation</p>
+			<div class="calendly-text-wrapper">
+				<h3>Je réserve mon appel gratuit</h3>
+				<p>Échangez avec nos conseillers pédagogiques et construisez ensemble votre parcours de formation</p>
+				
+				<!-- Bouton alternatif pour ouvrir Calendly dans un nouvel onglet -->
+				<div class="calendly-alternative">
+					<span class="calendly-alternative-label">Ou</span>
+					<a href="https://calendly.com/contact-infpf/contact-infpf" 
+					   target="_blank" 
+					   rel="noopener noreferrer" 
+					   class="calendly-external-btn"
+					   aria-label="Ouvrir Calendly dans un nouvel onglet">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+							<polyline points="15 3 21 3 21 9"></polyline>
+							<line x1="10" y1="14" x2="21" y2="3"></line>
+						</svg>
+						Ouvrir dans un nouvel onglet
+					</a>
 				</div>
+			</div>
 				<!-- Calendly à droite sur desktop -->
 				<div class="calendly-iframe-wrapper">
 			{% include 'components/calendly_iframe.html.twig' with {
@@ -4967,7 +5409,7 @@
 
 	<!-- AOS Animation Library -->
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  {# ⚠️ NE PAS RÉACTIVER - Cause popup modal bugée sur mobile ⚠️ #}
+  {# NE PAS REACTIVER - Cause popup modal buguee sur mobile #}
   {# <script defer src="https://assets.calendly.com/assets/external/widget.js"></script> #}
   <script>
 		// Initialize AOS
@@ -4978,22 +5420,27 @@
 			offset: 50
 		});
 
-		// Particle effect
+		// Particle effect (désactivé - élément particles non présent)
 		function createParticle() {
+			const particlesContainer = document.getElementById('particles');
+			if (!particlesContainer) return; // Éviter l'erreur si l'élément n'existe pas
+			
 			const particle = document.createElement('div');
 			particle.className = 'particle';
 			particle.style.left = Math.random() * 100 + '%';
 			particle.style.animationDelay = Math.random() * 6 + 's';
 			particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-			document.getElementById('particles').appendChild(particle);
+			particlesContainer.appendChild(particle);
 
 			setTimeout(() => {
 				particle.remove();
 			}, 6000);
 		}
 
-		// Create particles periodically
-		setInterval(createParticle, 300);
+		// Create particles periodically (seulement si l'élément existe)
+		if (document.getElementById('particles')) {
+			setInterval(createParticle, 300);
+		}
 
 				// Système modal en premier plan avec limitation de formations
     document.addEventListener('DOMContentLoaded', () => {
@@ -5190,7 +5637,7 @@
 				setTimeout(() => document.addEventListener('click', closeOnClickOutside), 100);
 			}
 
-		// ⚠️ REDIRECTION + CHANGEMENT DE TEXTE CALENDLY DÉSORMAIS GÉRÉ DANS base.html.twig
+		// REDIRECTION + CHANGEMENT DE TEXTE CALENDLY DESORMAIS GERE DANS base.html.twig
 		// (Supprimé pour éviter conflit avec le code global qui gère popup desktop + redirection mobile)
 
 			// Smooth scroll for internal links (autres que calendly)
@@ -5264,26 +5711,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== FORMATION SELECTOR MODERNE - JavaScript Simple =====
-let isDropdownOpen = false;
+if (typeof window.isDropdownOpen === 'undefined') {
+    window.isDropdownOpen = false;
+}
 
 // S'assurer que les fonctions sont globales
 window.toggleFormationDropdown = function() {
-    console.log('Toggle clicked! Function called successfully');
     const dropdown = document.getElementById('formationDropdown');
     const arrow = document.getElementById('placeholderArrow');
     const selector = document.getElementById('formationSelector');
     const placeholder = document.getElementById('formationPlaceholder');
     
-    console.log('Elements found:', {dropdown, arrow, selector, placeholder});
     
     if (!dropdown || !arrow || !selector || !placeholder) {
-        console.error('Some elements not found!');
         return;
     }
     
-    if (isDropdownOpen) {
+    if (window.isDropdownOpen) {
         // Fermer
-        console.log('Closing dropdown and overlay');
         
         // 1. Masquer l'overlay
         const overlay = document.getElementById('formation-dropdown-overlay');
@@ -5302,10 +5747,9 @@ window.toggleFormationDropdown = function() {
         arrow.style.transform = 'rotate(0deg)';
         selector.removeAttribute('data-open');
         
-        isDropdownOpen = false;
+        window.isDropdownOpen = false;
     } else {
         // SOLUTION NUCLÉAIRE - Créer un overlay modal
-        console.log('Opening dropdown with overlay');
         
         // 1. Créer l'overlay si il n'existe pas
         let overlay = document.getElementById('formation-dropdown-overlay');
@@ -5337,99 +5781,107 @@ window.toggleFormationDropdown = function() {
         // 3. Déplacer le dropdown dans l'overlay
         overlay.appendChild(dropdown);
         
-        // 4. Styler et positionner le dropdown - CENTRÉ
+        // 4. Styler et positionner le dropdown - CENTRÉ - DESKTOP 2 COLONNES
         dropdown.style.cssText = `
             position: fixed !important;
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
-            width: 90% !important;
-            max-width: 800px !important;
-            max-height: 80vh !important;
+            width: 95% !important;
+            max-width: 1400px !important;
+            max-height: 90vh !important;
             z-index: 2147483647 !important;
             background: #ffffff !important;
             border: 3px solid #0b3f89 !important;
             border-radius: 25px !important;
+			padding: 0 !important;
             box-shadow: 0 25px 80px rgba(11, 63, 137, 0.8) !important;
             overflow-y: auto !important;
+			overflow-x: hidden !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
-            padding-top: 60px !important;
+            padding-top: 0 !important;
         `;
-        console.log('Modal centré avec overlay');
         
         arrow.style.transform = 'rotate(180deg)';
         selector.setAttribute('data-open', 'true');
-        isDropdownOpen = true;
+        window.isDropdownOpen = true;
     }
 };
 
 // Alias pour compatibilité
+// ===== FONCTIONS ACCORDÉON =====
+function updateAccordionButtons() {
+    const sections = document.querySelectorAll(".formation-category-section");
+    const expandBtn = document.getElementById("expandAllBtn");
+    const collapseBtn = document.getElementById("collapseAllBtn");
+    
+    if (!expandBtn || !collapseBtn || sections.length === 0) return;
+    
+    const expandedCount = document.querySelectorAll(".formation-category-section.expanded").length;
+    const totalCount = sections.length;
+    
+    // Désactiver "+" si tout est déplié
+    expandBtn.disabled = (expandedCount === totalCount);
+    // Désactiver "-" si tout est replié
+    collapseBtn.disabled = (expandedCount === 0);
+}
+
+function toggleCategory(section) {
+    section.classList.toggle("expanded");
+    updateAccordionButtons();
+}
+
+function expandAllCategories() {
+    document.querySelectorAll(".formation-category-section").forEach(s => s.classList.add("expanded"));
+    updateAccordionButtons();
+}
+
+function collapseAllCategories() {
+    document.querySelectorAll(".formation-category-section").forEach(s => s.classList.remove("expanded"));
+    updateAccordionButtons();
+}
+
 function toggleFormationDropdown() {
     window.toggleFormationDropdown();
 }
 
 // ===== DIAGNOSTIC ULTRA DÉTAILLÉ DROPDOWN IA =====
 function diagnosticDropdownIA() {
-    console.log('🔍 === DÉBUT DIAGNOSTIC DROPDOWN IA ===');
     
     // 1. Vérifier que le dropdown existe
     const dropdown = document.getElementById('formationDropdown');
-    console.log('🎯 Dropdown trouvé:', dropdown ? 'OUI' : 'NON');
     
     if (!dropdown) {
-        console.log('❌ DROPDOWN INTROUVABLE !');
         return;
     }
     
     // 2. Chercher la section IA
     const iaSection = dropdown.querySelector('[data-category="ia"]');
-    console.log('🎯 Section IA trouvée:', iaSection ? 'OUI' : 'NON');
-    console.log('📊 Data-category de la section IA:', iaSection ? iaSection.getAttribute('data-category') : 'N/A');
     
     if (!iaSection) {
-        console.log('❌ SECTION IA INTROUVABLE !');
-        console.log('🔍 Toutes les sections trouvées:');
         const allSections = dropdown.querySelectorAll('[data-category]');
         allSections.forEach((section, i) => {
-            console.log(`   ${i+1}. data-category="${section.getAttribute('data-category')}"`);
         });
         return;
     }
     
     // 3. Chercher le header de la section IA
     const iaHeader = iaSection.querySelector('.category-header');
-    console.log('🎯 Header IA trouvé:', iaHeader ? 'OUI' : 'NON');
     
     if (!iaHeader) {
-        console.log('❌ HEADER IA INTROUVABLE !');
         return;
     }
     
     // 4. DIAGNOSTIC COMPLET DU HEADER IA
-    console.log('📊 === DIAGNOSTIC HEADER IA ===');
-    console.log('  📍 Tag name:', iaHeader.tagName);
-    console.log('  📍 Class list:', iaHeader.className);
-    console.log('  📍 ID:', iaHeader.id || 'AUCUN');
     
     // 5. STYLES APPLIQUÉS
     const computedStyle = window.getComputedStyle(iaHeader);
-    console.log('📊 === STYLES COMPUTED ===');
-    console.log('  🎨 Background:', computedStyle.background);
-    console.log('  🎨 Background-color:', computedStyle.backgroundColor);
-    console.log('  🎨 Background-image:', computedStyle.backgroundImage);
-    console.log('  🎨 Color:', computedStyle.color);
-    console.log('  🎨 Border:', computedStyle.border);
     
     // 6. STYLES INLINE
-    console.log('📊 === STYLES INLINE ===');
-    console.log('  🎨 Style attribute:', iaHeader.getAttribute('style') || 'AUCUN');
-    console.log('  🎨 Inline background:', iaHeader.style.background || 'AUCUN');
-    console.log('  🎨 Inline backgroundColor:', iaHeader.style.backgroundColor || 'AUCUN');
     
     // 7. CHERCHER LES RÈGLES CSS QUI S'APPLIQUENT
-    console.log('📊 === RÈGLES CSS MATCHÉES ===');
     try {
         const matchedRules = [];
         for (let sheet of document.styleSheets) {
@@ -5444,33 +5896,21 @@ function diagnosticDropdownIA() {
                     }
                 }
             } catch (e) {
-                console.log('  ⚠️ Impossible de lire la feuille de style:', sheet.href);
             }
         }
-        console.log('  🎯 Règles matchées:', matchedRules);
     } catch (e) {
-        console.log('  ❌ Erreur lors de l\'analyse des CSS:', e);
     }
     
     // 8. HIÉRARCHIE DES PARENTS
-    console.log('📊 === HIÉRARCHIE PARENTS ===');
     let parent = iaHeader.parentElement;
     let level = 1;
     while (parent && level <= 5) {
         const parentStyle = window.getComputedStyle(parent);
-        console.log(`  📍 Niveau ${level} - ${parent.tagName}:`);
-        console.log(`    Class: ${parent.className}`);
-        console.log(`    Background: ${parentStyle.background || parentStyle.backgroundColor}`);
-        console.log(`    Z-index: ${parentStyle.zIndex}`);
-        console.log(`    Position: ${parentStyle.position}`);
         parent = parent.parentElement;
         level++;
     }
     
     // 9. FORCE LE STYLE DORÉ
-    console.log('🔥 === FORCE STYLE DORÉ ===');
-    console.log('  📝 Avant forçage:');
-    console.log('    Background computed:', window.getComputedStyle(iaHeader).background);
     
     // FORÇAGE MULTIPLE MÉTHODES
     iaHeader.style.setProperty('background', 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)', 'important');
@@ -5482,12 +5922,8 @@ function diagnosticDropdownIA() {
     const currentStyle = iaHeader.getAttribute('style') || '';
     iaHeader.setAttribute('style', currentStyle + '; background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%) !important; background-color: #FFD700 !important; color: #1a1a1a !important;');
     
-    console.log('  📝 Après forçage:');
-    console.log('    Background computed:', window.getComputedStyle(iaHeader).background);
-    console.log('    Style attribute:', iaHeader.getAttribute('style'));
     
     // 10. CHERCHER LES ÉLÉMENTS QUI POURRAIENT CACHER LE HEADER (SEULEMENT DANS LE DROPDOWN)
-    console.log('🕵️ === RECHERCHE ÉLÉMENTS BLEUS SUSPECTS (DROPDOWN UNIQUEMENT) ===');
     const dropdownElements = dropdown.querySelectorAll('*');
     const suspiciousElements = [];
     
@@ -5517,7 +5953,6 @@ function diagnosticDropdownIA() {
         }
     });
     
-    console.log('🚨 ÉLÉMENTS BLEUS SUSPECTS qui chevauchent:', suspiciousElements);
     
     // 11. SUPPRESSION DES ÉLÉMENTS BLEUS SUSPECTS (SÉLECTIF)
     suspiciousElements.forEach((suspect, i) => {
@@ -5531,27 +5966,22 @@ function diagnosticDropdownIA() {
                                   suspect.element.tagName === 'HTML';
         
         if (!isHeroOrMainSection) {
-            console.log(`🗑️ Neutralisation élément suspect ${i+1}:`, suspect.element);
             suspect.element.style.setProperty('background', 'transparent', 'important');
             suspect.element.style.setProperty('background-color', 'transparent', 'important');
             suspect.element.style.setProperty('background-image', 'none', 'important');
         } else {
-            console.log(`🛡️ Protection élément important ${i+1} (non neutralisé):`, suspect.element);
         }
     });
     
-    console.log('✅ === FIN DIAGNOSTIC DROPDOWN IA ===');
 }
 
 // FONCTION POUR RESTAURER LE HERO BANNER ORIGINAL
 function restoreHeroBackground() {
-    console.log('🔄 Restauration du background hero original...');
     
     // Chercher les éléments hero
     const heroElements = document.querySelectorAll('.hero-section, .hero, .bandeau, section[class*="hero"]');
     
     heroElements.forEach((hero, i) => {
-        console.log(`🏠 Restauration hero ${i+1}:`, hero);
         
         // Supprimer les styles forcés précédemment
         hero.style.removeProperty('background');
@@ -5563,7 +5993,6 @@ function restoreHeroBackground() {
             hero.style.setProperty('background', 'linear-gradient(135deg, #0b3f89 0%, #1e5cb8 50%, #00b4d8 100%)', 'important');
         }
         
-        console.log(`✅ Hero ${i+1} restauré`);
     });
 }
 
@@ -5571,7 +6000,6 @@ function restoreHeroBackground() {
 document.addEventListener('DOMContentLoaded', function() {
     // Diagnostic immédiat
     setTimeout(() => {
-        console.log('🚀 Lancement diagnostic immédiat...');
         diagnosticDropdownIA();
     }, 1000);
     
@@ -5583,10 +6011,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
                     const target = mutation.target;
                     if (target.style.display !== 'none' && target.style.visibility !== 'hidden') {
-                        console.log('👁️ Dropdown ouvert, lancement diagnostic...');
                         setTimeout(() => diagnosticDropdownIA(), 100);
                     } else if (target.style.display === 'none' || target.style.visibility === 'hidden') {
-                        console.log('👁️ Dropdown fermé, restauration hero...');
                         setTimeout(() => restoreHeroBackground(), 50);
                     }
                 }
@@ -5599,14 +6025,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const selector = document.getElementById('formationSelector');
     if (selector) {
         selector.addEventListener('click', function() {
-            console.log('🖱️ Clic sur sélecteur, diagnostic dans 500ms...');
             setTimeout(() => diagnosticDropdownIA(), 500);
         });
     }
 });
 
 window.selectFormation = function(formationId) {
-    console.log('Formation selected:', formationId);
     
     // Animation de sélection
     if (event && event.target) {
@@ -5619,7 +6043,6 @@ window.selectFormation = function(formationId) {
     
     setTimeout(() => {
         // Redirection vers la formation
-        console.log('Redirecting to:', `/formation/${formationId}`);
         window.location.href = '/formation/' + formationId;
     }, 100);
 };
@@ -5637,20 +6060,12 @@ document.addEventListener('click', function(event) {
     const dropdown = document.getElementById('formationDropdown');
     
     // Vérifier si le clic est vraiment en dehors
-    if (isDropdownOpen && selector && dropdown) {
+    if (window.isDropdownOpen && selector && dropdown) {
         const isClickInSelector = selector.contains(event.target);
         const isClickInDropdown = dropdown.contains(event.target);
         
-        console.log('Click detected:', {
-            isClickInSelector,
-            isClickInDropdown,
-            target: event.target,
-            isDropdownOpen
-        });
-        
         // Ne fermer que si vraiment en dehors
         if (!isClickInSelector && !isClickInDropdown) {
-            console.log('Closing dropdown due to outside click');
             window.toggleFormationDropdown();
         }
   }
@@ -5659,5 +6074,6 @@ document.addEventListener('click', function(event) {
 {% endblock %}
 
 {% endblock %}
+
 
 
