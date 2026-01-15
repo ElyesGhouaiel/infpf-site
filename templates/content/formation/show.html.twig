@@ -17,6 +17,7 @@
 {% block stylesheets %}
     {{ parent() }}
 <style>
+    /* CACHE BUSTER: 2025-11-12 14:30:00 */
 /* ===== FORMATION TEMPLATE - VERSION {{ "now"|date("YmdHis") }} ===== */
 /* ===== SI TU VOIS ENCORE L'ANCIEN DESIGN, NOTE CE TIMESTAMP ===== */
 
@@ -77,6 +78,16 @@
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* ===== OVERRIDE GLOBAL PADDING-TOP DU BASE.HTML.TWIG ===== */
+/* Annuler le padding-top: var(--header-height) appliqué globalement */
+main,
+.site-main,
+.formation-content,
+article,
+.page-content {
+    padding-top: 0 !important;
+}
+
 /* ===== RESET ET BASE ===== */
 .formation-page {
     min-height: 100vh;
@@ -99,7 +110,7 @@
     position: relative;
     color: #fff;
     min-height: clamp(480px, 64vh, 720px);
-    background: url('../img/banner-formation.jpg') center/cover no-repeat;
+    background: url('../img/banner-formation.webp') center/cover no-repeat;
     overflow: visible;
     z-index: 1;
 }
@@ -149,7 +160,8 @@
 .hero__grid {
     position: relative;
     display: grid;
-    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) var(--det-w);
+    /* HERO garde l'ancien grid 5 colonnes pour rester large comme avant */
+    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) 340px;
     align-items: center; /* texte centré VERTICALEMENT */
     padding-block: clamp(48px, 6vh, 80px);
     width: 100%;
@@ -162,7 +174,7 @@
 }
 
 .hero__details {
-    grid-column: 5; /* Colonne de droite */
+    grid-column: 5; /* Colonne de droite (card Détails) */
 }
 
 /* Détails de la formation dans le hero - FIXE ET INDÉPENDANT */
@@ -494,7 +506,7 @@
 
 .hero-main .description {
     font-size: clamp(1.125rem, 2vw, 1.375rem);
-    line-height: 1.6;
+    line-height: 1.6 !important;
     color: rgba(255, 255, 255, 0.95);
     margin: 0 0 var(--space-2xl) 0;
     max-width: 70ch;
@@ -522,7 +534,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    line-height: 1.2;
+    line-height: 1.6 !important;
 }
 
 .btn-hero:focus-visible {
@@ -594,20 +606,20 @@
     margin-bottom: 0;
 }
 
-/* ===== ICÔNES AGRANDIES ET CONTRASTÉES ===== */
+/* ===== ICÔNES CARTES : cohérentes et sobres ===== */
 .icon {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-    color: var(--text-white);
-    border-radius: 8px;
+    background: #1552D6;
+    color: #fff;
+    border-radius: 10px;
     font-size: 16px;
     font-weight: 700;
     flex-shrink: 0;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 /* Icônes spécifiques avec meilleure lisibilité */
@@ -659,20 +671,19 @@
 :root {
     --gap: 32px;
     --toc-w: 260px;            /* largeur TOC réduite pour meilleure UX */
-    --det-w: 340px;            /* largeur Détails */
     --stickytop: clamp(88px, 10vh, 120px);  /* hauteur header + marge */
     --content-min: 68ch;       /* largeur confortable minimale */
 }
 
-/* ===== LAYOUT : UNE SEULE COLONNE ÉLARGIE ===== */
+/* ===== LAYOUT : TOC + CONTENU ÉLARGI (SIDEBAR SUPPRIMÉE) ===== */
 .layout-formation {
     display: grid;
-    grid-template-columns: var(--toc-w) var(--gap) minmax(var(--content-min), 1fr) var(--gap) var(--det-w);
+    grid-template-columns: var(--toc-w) var(--gap) 1fr;
     align-items: start;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 var(--space-lg);
+    padding: var(--space-md) var(--space-lg) 0; /* Petit padding-top pour coller au hero */
     overflow: visible; /* Crucial pour sticky */
     position: relative;
     /* contain: layout style; ← SUPPRIMÉ CAR CASSE LE POSITION FIXED */
@@ -683,13 +694,13 @@
 }
 
 .content-col { 
-    grid-column: 3; /* une seule colonne de lecture */
+    grid-column: 3; /* Prend TOUTE la largeur restante */
     width: 100%;
-    /* pas de max-width serré - prend tout l'espace */
+    max-width: 1400px; /* Limite pour lisibilité optimale */
 }
 
 .details-col { 
-    grid-column: 5; 
+    display: none !important; /* Sidebar supprimée */
 }
 
 @media (max-width: 1200px) {
@@ -710,28 +721,30 @@
     }
 }
 
-/* ===== TOC SIMPLE MINIMAL ===== */
+/* ===== TOC ULTRA-MODERNE 2025 ===== */
 /* TOC en flux par défaut */
 #toc { 
     position: static; 
     width: 260px; 
-    /* Design liquid glass ultra moderne et compact */
-    background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.95), 
-        rgba(248, 250, 252, 0.9));
-    backdrop-filter: blur(25px) saturate(200%);
-    -webkit-backdrop-filter: blur(25px) saturate(200%);
-    border: 2px solid rgba(59, 130, 246, 0.15);
-    border-radius: 20px;
-    padding: 20px;
+    /* Design premium avec gradient et glassmorphism */
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(249, 250, 251, 0.95) 50%,
+        rgba(243, 244, 246, 0.92) 100%);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 24px;
+    padding: 24px 20px;
     box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.12),
-        0 8px 24px rgba(59, 130, 246, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        0 20px 60px -15px rgba(0, 0, 0, 0.15),
+        0 10px 30px -10px rgba(59, 130, 246, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+        0 2px 4px rgba(0, 0, 0, 0.02) inset;
     /* Transition pour l'apparition - CACHÉ PAR DÉFAUT */
     opacity: 0;
     transform: translateX(-30px) translateY(20px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
     visibility: hidden; /* Complètement caché au début */
@@ -744,30 +757,34 @@
     visibility: visible; /* Visible quand activé */
 }
 
-/* Effet de brillance subtil */
+/* Effet de brillance premium */
 #toc::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, 
-        transparent, 
-        rgba(59, 130, 246, 0.03), 
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 120px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(59, 130, 246, 0.05) 30%,
+        rgba(96, 165, 250, 0.08) 50%,
+        rgba(59, 130, 246, 0.05) 70%,
         transparent);
-    transform: rotate(45deg);
-    animation: shine 3s ease-in-out infinite;
+    filter: blur(8px);
+    opacity: 0;
+    animation: shimmer 4s ease-in-out infinite;
+    pointer-events: none;
 }
 
-@keyframes shine {
+@keyframes shimmer {
     0%, 100% { 
-        transform: translateX(-100%) translateY(-100%) rotate(45deg); 
         opacity: 0;
+        transform: translateY(-100%);
     }
     50% { 
-        transform: translateX(0) translateY(0) rotate(45deg); 
         opacity: 1;
+        transform: translateY(200%);
     }
 }
 
@@ -777,33 +794,88 @@
 #toc nav {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 #toc nav a {
-    display: block;
-    padding: 12px 16px;
-    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    color: #64748b;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 500;
-    line-height: 1.5;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    line-height: 1.4;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet hover moderne */
+#toc nav a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+        rgba(59, 130, 246, 0.08) 0%,
+        rgba(59, 130, 246, 0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 #toc nav a:hover {
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), transparent);
-    color: #1e293b;
+    background: linear-gradient(90deg, 
+        rgba(59, 130, 246, 0.06) 0%,
+        rgba(59, 130, 246, 0.01) 100%);
+    color: #334155;
+    transform: translateX(4px);
+    border-left-color: rgba(59, 130, 246, 0.3);
 }
 
-/* Lien actif - scroll-spy */
+#toc nav a:hover::before {
+    opacity: 1;
+}
+
+/* Lien actif - scroll-spy premium */
 #toc nav a.is-active {
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.12) 0%,
+        rgba(96, 165, 250, 0.08) 100%);
     border-left-color: #3b82f6;
-    color: #0b3f89;
+    color: #1e40af;
     font-weight: 600;
+    box-shadow: 
+        0 2px 8px rgba(59, 130, 246, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    transform: translateX(4px);
+}
+
+#toc nav a.is-active::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { 
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+    50% { 
+        opacity: 0.6;
+        transform: translateY(-50%) scale(1.2);
+    }
 }
 
 /* Quand il doit suivre : fixed, offset sous le header */
@@ -819,34 +891,40 @@
         0 12px 30px rgba(59, 130, 246, 0.1);
 }
 
-/* Titre du TOC moderne et compact */
+/* Titre du TOC ultra-moderne */
 #toc h3 {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 0 0 16px 0;
-    padding: 0 0 12px 0;
-    color: #1e293b;
-    font-size: 16px;
+    gap: 12px;
+    margin: 0 0 20px 0;
+    padding: 0 0 16px 0;
+    color: #64748b;
+    font-size: 13px;
     font-weight: 700;
-    border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     position: relative;
+    border-bottom: none;
 }
 
 #toc h3::before {
     content: '📋';
-    font-size: 20px;
+    font-size: 18px;
+    filter: grayscale(20%);
 }
 
 #toc h3::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     left: 0;
-    width: 40px;
+    right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #3b82f6, #60a5fa);
-    border-radius: 1px;
+    background: linear-gradient(90deg, 
+        #3b82f6 0%, 
+        rgba(59, 130, 246, 0.3) 50%,
+        transparent 100%);
+    border-radius: 2px;
 }
 
 /* MOBILE ONLY: Mirrored desktop logic - TOC adapté pour mobile */
@@ -1419,7 +1497,7 @@
 
 /* ===== CONTENU PRINCIPAL ===== */
 .formation-content {
-    padding: var(--space-3xl) var(--space-4xl) var(--space-5xl);
+    padding: 0 var(--space-4xl) var(--space-5xl);
     background: var(--text-white);
 }
 
@@ -1429,10 +1507,14 @@
     scroll-margin-top: calc(var(--header-height) + var(--space-2xl));
 }
 
+/* Conteneur de section : design élégant et sobre */
 .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-bottom: var(--space-3xl);
-    padding-bottom: var(--space-xl);
-    border-bottom: 3px solid var(--gray-200);
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .section-title {
@@ -1440,36 +1522,213 @@
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--space-xl);
+    line-height: 1.15;
 }
 
-.section-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-white);
-    font-size: 1.5rem;
-    flex-shrink: 0;
-    box-shadow: var(--shadow-md);
+/* Règle fine et discrète après le titre */
+.section-header::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    margin-left: 12px;
+    background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
 }
 
-/* ===== FORMATAGE TEXTE SANS POINTS ORPHELINS ===== */
+/* ==== CSS — composant d'icône unifié avec responsive clamp() ==== */
+:root{
+  --xe-blue-1:#1E5AE6;
+  --xe-blue-2:#0E44BF;
+
+  /* tailles responsives (desktop → mobile) */
+  --icon-lg:  clamp(40px, 4.0vw, 50px);   /* tuile entête (plus petit) */
+  --glyph-lg: clamp(22px, 2.4vw, 28px);   /* pictogramme entête */
+  --icon-md:  clamp(30px, 3.2vw, 36px);   /* tuile cartes (pré-requis) */
+  --glyph-md: clamp(16px, 1.8vw, 20px);   /* pictogramme cartes */
+  --gap-lg:   clamp(8px,  1.2vw, 14px);   /* espace icône ↔ titre */
+
+  --icon-radius:12px;
+  --icon-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+/* Sécurité mobile : si l'écran est très étroit, raccourcir encore un peu */
+@media (max-width: 390px){
+  :root{ --icon-lg: 44px; --glyph-lg: 24px; }
+}
+
+/* ==== NEUTRALISATION ULTRA-AGGRESSIVE du style global h2 svg {width:55px !important} ==== */
+/* Cible TOUS les SVG dans les en-têtes avec la plus haute spécificité */
+.section-header h2 svg,
+h2.section-title svg,
+.section-title svg,
+.section-header svg,
+.section-header .section-icon > svg,
+.section-title .section-icon > svg,
+.section-header .ui-icon > svg,
+.section-title .ui-icon > svg,
+h2 .section-icon > svg,
+h2 .ui-icon > svg,
+h2 .ui-icon.is-lg > svg {
+    width: var(--glyph-lg) !important;
+    height: var(--glyph-lg) !important;
+    max-width: var(--glyph-lg) !important;
+    max-height: var(--glyph-lg) !important;
+    min-width: var(--glyph-lg) !important;
+    min-height: var(--glyph-lg) !important;
+}
+
+/* En-tête : ne change pas l'alignement */
+.section-header{ display:flex; align-items:center; gap:var(--gap-lg); }
+.section-title{ margin:0; display:flex; align-items:center; gap:var(--space-md); line-height:1.6; }
+
+/* Icône standard (même design que "Pré-requis") */
+.ui-icon{
+  flex:0 0 auto;
+  display:grid !important; place-items:center !important; /* centrage béton */
+  width:var(--icon-md); height:var(--icon-md);
+  background:linear-gradient(180deg,var(--xe-blue-1),var(--xe-blue-2)) !important;
+  color:#fff !important;
+  border-radius:var(--icon-radius);
+  box-shadow:var(--icon-shadow);
+  overflow:hidden; position:relative; isolation:isolate;
+  line-height:0 !important;
+}
+.ui-icon.is-lg{ width:var(--icon-lg); height:var(--icon-lg); }
+
+/* Compatibilité avec anciens sélecteurs */
+.icon,
+.column-title .icon {
+    display: grid !important;
+    place-items: center !important;
+    width: var(--icon-md);
+    height: var(--icon-md);
+    background: linear-gradient(180deg, var(--xe-blue-1), var(--xe-blue-2)) !important;
+    color: #fff !important;
+    border-radius: var(--icon-radius);
+    box-shadow: var(--icon-shadow);
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+    line-height: 0 !important;
+}
+
+/* Pictogrammes : blanc, stroke only (pas d'aplats) */
+.ui-icon > svg{
+  width:var(--glyph-md); height:var(--glyph-md);
+  display:block !important; margin:0 !important; padding:0 !important;
+  background:transparent !important; transform:none !important; position:static !important;
+  fill:none !important; stroke:currentColor !important;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;  /* évite l'effet "ultra-zoomé" */
+}
+
+/* Entête : forcé en taille LG + reset ULTRA-AGRESSIF pour contrer h2 svg global */
+.section-title .section-icon > svg,
+.section-header .ui-icon.is-lg > svg,
+h2.section-title .ui-icon.is-lg > svg {
+  all: unset !important;
+  width: var(--glyph-lg) !important;
+  height: var(--glyph-lg) !important;
+  max-width: var(--glyph-lg) !important;
+  max-height: var(--glyph-lg) !important;
+  min-width: var(--glyph-lg) !important;
+  min-height: var(--glyph-lg) !important;
+  display: block !important;
+  fill: none !important;
+  stroke: #fff !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  vector-effect: non-scaling-stroke !important;
+  box-sizing: content-box !important;
+}
+
+/* Compatibilité anciens sélecteurs */
+.icon > svg,
+.column-title .icon > svg {
+    width: var(--glyph-md);
+    height: var(--glyph-md);
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    transform: none !important;
+    position: static !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+/* Supprime TOUT arc/croissant décoratif éventuel */
+.ui-icon::before, .ui-icon::after,
+.section-title::before, .section-title::after,
+.section-header::before, .section-header::after{
+  content:none !important; background:none !important; border:none !important;
+  -webkit-mask:none !important; mask:none !important; filter:none !important;
+  box-shadow:none !important;
+}
+
+/* ==== Spécifique : section "Durée de formation" ==== */
+/* Ajouter une bordure blanche autour de la tuile (et SEULEMENT là) */
+.section--duree .ui-icon.is-lg::after{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  box-shadow: inset 0 0 0 2px #fff;    /* bordure interne blanche */
+  pointer-events:none;
+}
+
+/* ==== Ligne dégradée à droite du titre (à conserver) ==== */
+.section-header::after {
+    content: '' !important;
+    display: block !important;
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    margin-left: 12px;
+    background: linear-gradient(90deg, rgba(11, 18, 32, 0.30), rgba(11, 18, 32, 0));
+}
+
+/* ===== DESIGN MODERNE ET PREMIUM POUR LE CONTENU ===== */
+
+/* Sections principales - Design épuré sans bordure */
+.content-section {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: clamp(28px, 4vw, 48px) clamp(24px, 3vw, 40px);
+    margin-bottom: clamp(32px, 5vw, 48px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: none;
+    position: relative;
+    overflow: visible;
+}
+
+/* Titres de section avec meilleure hiérarchie */
+.section-header {
+    margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.section-title {
+    font-size: clamp(26px, 3.5vw, 32px);
+    font-weight: 700;
+    color: #0b1220;
+    letter-spacing: -0.02em;
+    line-height: 1.6 !important;
+}
+
+/* ===== TYPOGRAPHIE ET CONTENU TEXTE PREMIUM ===== */
+
 .text-content {
-    max-width: var(--content-max-width);
-    font-size: clamp(16px, 1.6vw, 18px);
-    line-height: 1.7;
-    color: var(--text-primary);
+    max-width: 100%;
+    font-size: clamp(16px, 1.8vw, 18px);
+    line-height: 1.75;
+    color: #2d3748;
     margin: 0;
 }
 
 .text-content p {
-    margin: 0 0 var(--space-xl) 0;
+    margin: 0 0 20px 0;
     font-size: inherit;
     line-height: inherit;
 }
@@ -1478,113 +1737,135 @@
     margin-bottom: 0;
 }
 
-/* Listes propres sans débordement */
+.text-content strong {
+    font-weight: 600;
+    color: #1a202c;
+}
+
+/* Listes avec puces élégantes */
 .text-content ul {
-    margin: 0 0 var(--space-xl) 0;
+    margin: 20px 0;
     padding-left: 0;
     list-style: none;
 }
 
 .text-content li {
-    margin: 0 0 var(--space-lg) 0;
-    line-height: 1.6;
     position: relative;
-    padding-left: var(--space-2xl);
-    font-size: inherit;
+    margin: 14px 0;
+    padding-left: 28px;
+    line-height: 1.75;
 }
 
 .text-content li::before {
-    content: '●';
-    color: var(--primary-color);
-    font-weight: bold;
+    content: '';
     position: absolute;
     left: 0;
-    top: 0;
-    font-size: 1.2em;
+    top: 11px;
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, #1552D6, #3b82f6);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(21, 82, 214, 0.2);
+}
+
+/* Titres dans le contenu */
+.text-content h3 {
+    font-size: clamp(20px, 2.5vw, 24px);
+    font-weight: 600;
+    color: #1a202c;
+    margin: 32px 0 16px 0;
+    letter-spacing: -0.01em;
 }
 
 .text-content h4 {
-    font-size: 1.25rem;
+    font-size: clamp(18px, 2.2vw, 20px);
     font-weight: 600;
-    color: var(--primary-dark);
-    margin: var(--space-3xl) 0 var(--space-xl) 0;
-    line-height: 1.4;
-    padding-left: var(--space-lg);
-    border-left: 4px solid var(--primary-color);
-    background: var(--gray-50);
-    padding: var(--space-lg);
+    color: #1552D6;
+    margin: 32px 0 16px 0;
+    padding: 16px 20px;
+    border-left: 4px solid #1552D6;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e0edff 100%);
     border-radius: 8px;
+    line-height: 1.4;
 }
 
 .text-content h4:first-child {
     margin-top: 0;
 }
 
-/* ===== SECTIONS 2 COLONNES ===== */
+/* ===== CARTES À 2 COLONNES (Pré-requis, Atouts, Modalités) ===== */
+
 .two-column-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4xl);
-    margin-bottom: var(--space-5xl);
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: clamp(24px, 3vw, 32px);
+    margin-bottom: 0;
 }
 
 .column-content {
-    background: var(--text-white);
+    background: #ffffff;
+    border: none;
     border-radius: 16px;
-    padding: var(--space-3xl);
-    border: 2px solid var(--gray-300);
-    transition: var(--transition-normal);
-    box-shadow: var(--shadow-md);
+    padding: clamp(24px, 4vw, 32px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .column-content:hover {
-    border-color: var(--primary-light);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 6px 16px rgba(21, 82, 214, 0.08);
     transform: translateY(-2px);
 }
 
 .column-title {
-    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-size: clamp(20px, 2.5vw, 22px);
     font-weight: 700;
-    color: var(--primary-color);
-    margin: 0 0 var(--space-2xl) 0;
+    color: #1552D6;
+    margin: 0 0 20px 0;
     display: flex;
     align-items: center;
-    gap: var(--space-lg);
+    gap: 12px;
+    line-height: 1.3;
 }
 
-/* ===== PROGRAMME SANS ACCORDÉON - FLUX SIMPLE ===== */
+/* Icônes des cartes - hérite du style .ui-icon / .icon */
+.column-title .icon {
+    align-self: center;
+}
+
+/* ===== SECTION PROGRAMME ===== */
 .program-section {
-    background: var(--text-white);
-    border: 2px solid var(--gray-300);
-    border-radius: 16px;
-    padding: var(--space-3xl);
-    box-shadow: var(--shadow-md);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 .program-intro {
-    padding-bottom: var(--space-2xl);
-    margin-bottom: var(--space-3xl);
-    border-bottom: 2px solid var(--gray-200);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid #e2e8f0;
 }
 
 .program-intro h3 {
-    font-size: 1.5rem;
+    font-size: clamp(20px, 2.5vw, 24px);
     font-weight: 700;
-    color: var(--primary-color);
-    margin: 0 0 var(--space-lg) 0;
+    color: #1552D6;
+    margin: 0 0 12px 0;
 }
 
 .program-intro p {
-    color: var(--text-secondary);
+    color: #64748b;
+    font-size: 16px;
     margin: 0;
-    font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.6 !important;
 }
 
 /* Contenu programme en flux simple sans accordéon */
 .program-content {
-    background: var(--text-white);
+    background: transparent;
 }
 
 /* ===== BANDEAUX CTA PLUS GRANDS ET VISIBLES ===== */
@@ -1625,7 +1906,7 @@
     max-width: 60ch;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.6;
+    line-height: 1.6 !important;
     position: relative;
     z-index: 1;
 }
@@ -2151,6 +2432,119 @@
     }
 }
 
+/* ===== RESPONSIVE MOBILE OPTIMISÉ ===== */
+
+@media (max-width: 768px) {
+    /* Sections principales - padding réduit sur mobile */
+    .content-section {
+        padding: 24px 20px;
+        margin-bottom: 24px;
+        border-radius: 16px;
+    }
+    
+    /* Titres de section plus compacts */
+    .section-header {
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .section-title {
+        font-size: 22px;
+    }
+    
+    /* Ajustement des icônes sur tablette */
+    :root {
+        --icon-lg: 48px;
+        --icon-md: 34px;
+        --glyph-lg: 26px;
+        --glyph-md: 18px;
+        --icon-radius: 11px;
+    }
+    
+    /* Texte optimisé pour mobile */
+    .text-content {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+    
+    .text-content li {
+        margin: 10px 0;
+        padding-left: 24px;
+    }
+    
+    .text-content h4 {
+        font-size: 18px;
+        padding: 14px 16px;
+        margin: 24px 0 14px 0;
+    }
+    
+    /* Cartes - passe en 1 colonne sur mobile */
+    .two-column-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .column-content {
+        padding: 20px;
+    }
+    
+    .column-title {
+        font-size: 19px;
+        gap: 10px;
+    }
+    
+    /* Section programme */
+    .program-section {
+        padding: 0;
+    }
+    
+    .program-intro {
+        padding-bottom: 20px;
+        margin-bottom: 24px;
+    }
+    
+    .program-intro h3 {
+        font-size: 20px;
+    }
+    
+    .program-intro p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small screens - optimisation maximale */
+    .content-section {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+    }
+    
+    /* Ajustement des icônes sur petits mobiles */
+    :root {
+        --icon-lg: 44px;
+        --icon-md: 32px;
+        --glyph-lg: 24px;
+        --glyph-md: 16px;
+        --icon-radius: 10px;
+    }
+    
+    .text-content {
+        font-size: 15px;
+    }
+    
+    .column-content {
+        padding: 18px;
+    }
+    
+    .column-title {
+        font-size: 18px;
+    }
+}
+
 /* ===== ACCESSIBILITÉ ===== */
 *:focus-visible {
     outline: 2px solid var(--primary-color);
@@ -2184,6 +2578,143 @@ html {
         scroll-behavior: auto;
     }
 }
+
+/* ===== BOUTON RETOUR AUX FORMATIONS - STRATÉGIQUE UX ===== */
+.back-to-formations {
+    position: fixed;
+    top: calc(var(--header-height) + 20px); /* Juste sous le header */
+    left: 20px;
+    z-index: 900; /* Sous le header mais au-dessus du contenu */
+    
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(14, 68, 191, 0.15);
+    border-radius: 50px;
+    
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08),
+                0 2px 4px rgba(0, 0, 0, 0.04);
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.back-to-formations:hover {
+    transform: translateX(-4px);
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 20px rgba(14, 68, 191, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.back-to-formations:active {
+    transform: translateX(-2px) scale(0.98);
+}
+
+.back-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-to-formations:hover .back-icon {
+    transform: translateX(-3px);
+}
+
+.back-text {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* ===== RESPONSIVE : MOBILE FIRST ===== */
+@media (max-width: 768px) {
+    .back-to-formations {
+        /* Mobile : Position fixe en bas à gauche (coin) */
+        top: auto;
+        bottom: 20px; /* Bloqué en bas */
+        left: 16px;
+        
+        padding: 10px 16px;
+        font-size: 13px;
+        gap: 6px;
+        
+        /* Plus petit sur mobile pour ne pas gêner */
+        border-radius: 40px;
+    }
+    
+    .back-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Texte plus court sur très petit écran */
+    @media (max-width: 390px) {
+        .back-text {
+            display: none; /* Masquer le texte, garder juste l'icône */
+        }
+        
+        .back-to-formations {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    }
+}
+
+/* ===== DESKTOP : LARGE SCREEN ===== */
+@media (min-width: 1400px) {
+    .back-to-formations {
+        left: 40px; /* Plus d'espace sur grand écran */
+    }
+}
+
+/* ===== ANIMATION D'ENTRÉE ===== */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.back-to-formations {
+    animation: slideInFromLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s backwards;
+}
+
+/* ===== ACCESSIBILITÉ ===== */
+.back-to-formations:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+/* Réduire les animations si demandé */
+@media (prefers-reduced-motion: reduce) {
+    .back-to-formations {
+        animation: none;
+        transition: none;
+    }
+    
+    .back-to-formations:hover {
+        transform: none;
+    }
+    
+    .back-to-formations:hover .back-icon {
+        transform: none;
+    }
+}
 </style>
 {% endblock %}
 
@@ -2191,6 +2722,14 @@ html {
 <a href="#main-content" class="skip-to-content">Passer au contenu principal</a>
 
 <div class="formation-page">
+    
+    <!-- ===== BOUTON RETOUR AUX FORMATIONS ===== -->
+    <a href="{{ path('app_home') }}#formations" class="back-to-formations" aria-label="Retour à la liste des formations">
+        <svg class="back-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span class="back-text">Formations</span>
+    </a>
     
     <!-- MOBILE ONLY: Bouton toggle sommaire -->
     <button class="floating-toc-toggle" id="toc-toggle-mobile" aria-label="Afficher/masquer le sommaire" aria-expanded="false">
@@ -2208,9 +2747,6 @@ html {
                 <div class="hero__cta">
                     <a href="#cta-section-mega" class="btn btn-primary-hero">
                         Rejoindre la formation
-                    </a>
-                    <a href="{{ path('app_contact') }}" class="btn btn-secondary-hero">
-                        💬 Poser mes questions
                     </a>
 				</div>
 			</div>
@@ -2325,20 +2861,67 @@ html {
                 <div id="presentation-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8" y1="2" x2="8" y2="6"/>
-                            <line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </span>
                         Présentation
                     </h2>
-				</div>
+                </div>
                 <div id="presentation-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
                 <div class="text-content">
                     {{ formations.presentation|format_formation_text|raw }}
                 </div>
             </section>
+
+            {% if formations.objectifsPedagogiques %}
+            <!-- Section Objectifs Pédagogiques -->
+            <section id="objectifs-pedagogiques" class="content-section">
+                <div id="objectifs-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="6"/>
+                                <circle cx="12" cy="12" r="2"/>
+                            </svg>
+                        </span>
+                        Objectifs pédagogiques
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {{ formations.objectifsPedagogiques|format_formation_text|raw }}
+                </div>
+            </section>
+            {% endif %}
+
+            {% if formations.publicVise %}
+            <!-- Section Public Visé -->
+            <section id="public-vise" class="content-section">
+                <div id="public-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </span>
+                        Public visé
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {{ formations.publicVise|format_formation_text|raw }}
+                </div>
+            </section>
+            {% endif %}
 
             <!-- Section Pré-requis & Atouts -->
             <section id="prerequisites-benefits" class="content-section">
@@ -2376,13 +2959,15 @@ html {
                 <div id="programme-start" aria-hidden="true"></div>
                 <div class="section-header">
                     <h2 class="section-title">
-                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                        </svg>
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                        </span>
                         Programme détaillé
                     </h2>
-			</div>
+                </div>
                 <div id="program-start" style="scroll-margin-top: clamp(84px,10vh,128px);"></div>
 
                 <div class="program-section">
@@ -2437,16 +3022,39 @@ html {
     </div>
             </section>
 
+            {% if formations.modalitesCertification %}
+            <!-- Section Modalités de Certification -->
+            <section id="certification" class="content-section">
+                <div id="certification-start" aria-hidden="true"></div>
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </span>
+                        Modalités d'évaluation et de certification
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {{ formations.modalitesCertification|format_formation_text|raw }}
+                </div>
+            </section>
+            {% endif %}
+
             <!-- Section Durée (si disponible) -->
             {% if formations.dureeFormation %}
             <section id="duration" class="content-section">
                 <div id="duree-start" aria-hidden="true"></div>
                 <div class="section-header">
-                    <h2 class="section-title">
-                        <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <polyline points="12,6 12,12 16,14"/>
-                        </svg>
+                    <h2 class="section-title section--duree">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                        </span>
                         Durée de formation
                     </h2>
 			</div>
@@ -2471,6 +3079,11 @@ html {
                             <h2 class="cta-mega-title">Prêt à transformer votre carrière ?</h2>
                         </div>
                         <p class="cta-mega-subtitle">Inscription rapide et simple en quelques clics</p>
+                        {% if formations.mentionCpf %}
+                        <p class="mention-cpf-legale" style="font-size: 0.85rem; color: #666; margin-top: 1rem; max-width: 700px;">
+                            {{ formations.mentionCpf }}
+                        </p>
+                        {% endif %}
                     </div>
                     
                     <div class="cta-mega-buttons">
@@ -2511,7 +3124,8 @@ html {
                         </a>
                     {% endif %}
         
-                        {# Bouton Télécharger le programme (déplacé depuis section supprimée) #}
+                        {# Bouton Télécharger le programme - caché pour formation 90 #}
+                        {% if formations.id != 90 %}
                         <a href="{{ path('download_document', {'id': formations.id}) }}" download="{{ formations.nameFormation|replace({' ': '_', '/': '_', '\\': '_', ':': '_', '*': '_', '?': '_', '"': '_', '<': '_', '>': '_', '|': '_'}) ~ '.pdf'}}" class="btn-mega btn-mega-download" style="background: white !important; color: #0b3f89 !important; border: 2px solid #0b3f89 !important;">
                             <svg class="btn-mega-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -2527,6 +3141,7 @@ html {
                                 <polyline points="12 5 19 12 12 19"></polyline>
                             </svg>
                         </a>
+                        {% endif %}
         
                         <a href="{{ path('app_contact') }}" class="btn-secondary-mega">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2560,17 +3175,6 @@ html {
 </div>
             </section>
 
-            <!-- Navigation Admin -->
-	{% if is_granted("ROLE_ADMIN") %}
-            <div style="margin-top: var(--space-5xl); padding-top: var(--space-xl); border-top: 2px solid var(--gray-200); display: flex; gap: var(--space-lg);">
-                <a href="{{ path('app_formation_edit', {'id': formations.id}) }}" class="btn-hero btn-secondary-hero" style="padding: var(--space-sm) var(--space-lg); font-size: 0.9rem;">
-                    Modifier cette formation
-                </a>
-                <a href="{{ path('app_home') }}" style="color: var(--text-secondary); text-decoration: none; padding: var(--space-sm) var(--space-lg); display: flex; align-items: center; gap: var(--space-sm);">
-                    ← Retour aux formations
-			</a>
-		</div>
-            {% endif %}
     
         </main>
 
@@ -2660,8 +3264,8 @@ html {
                     <div class="details-meta">
                         <span class="details-label">Modalité</span>
                         <span class="details-value">À distance</span>
-                    </div>
 	</div>
+                </div>
             </div>
             </div>
         </aside>
@@ -2669,36 +3273,6 @@ html {
     
     </div> <!-- fin formation-page -->
 
-    <!-- CSS pour uniformiser les icônes sur tablette -->
-    <style>
-        @media (max-width: 1024px) {
-            .details-icon, .trust-icon {
-                width: 20px !important;
-                height: 20px !important;
-                min-width: 20px !important;
-            }
-            
-            .details-meta {
-                font-size: 0.95rem;
-            }
-            
-            /* Réalignement propre des sections sur tablette */
-            .details-title {
-                display: flex;
-                align-items: center;
-                justify-content: flex-start; /* Aligner à gauche proprement */
-                text-align: left;
-                width: 100%;
-                gap: 10px; /* Espace propre entre icône et texte */
-            }
-            
-            .details-title svg {
-                margin: 0 !important; /* Reset des marges parasites */
-            }
-        }
-    </style>
-
-	{% include 'footer.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
@@ -2712,9 +3286,7 @@ html {
 <script>
 // ===== TOC FLOTTANT SIMPLE (DESKTOP + MOBILE) ===== 
 // MOBILE ONLY: Mirrored desktop logic - same behavior, adapted UI via CSS
-console.log('🚀 SCRIPT TOC: Démarrage');
 (function(){
-    console.log('💻 SCRIPT TOC: Fonction anonyme exécutée (desktop + mobile)');
 
     // calcule la hauteur du header pour l'offset (ajuste selon ta classe)
     function headerOffset(){
@@ -2750,25 +3322,21 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         
         const start = anchor.getBoundingClientRect().top + window.scrollY;
         const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
-        // Ne pas montrer avant d'avoir dépassé la bannière + marge
-        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        // Apparaître dès qu'on commence à voir le contenu (200px avant la fin du hero)
+        const shouldShow = window.scrollY >= (heroHeight - 200) && !isNearFooter;
         
         // Gestion apparition/disparition
         if(shouldShow && !toc.classList.contains('is-visible')) {
             toc.classList.add('is-visible');
-            console.log('✨ TOC: Apparition');
         } else if(!shouldShow && toc.classList.contains('is-visible')) {
             toc.classList.remove('is-visible');
-            console.log('👻 TOC: Disparition');
         }
         
         // Gestion mode fixed (seulement si visible)
         if(shouldShow && !toc.classList.contains('is-fixed')) {
             toc.classList.add('is-fixed');
-            console.log('🔧 TOC: Mode FIXED activé');
         } else if(!shouldShow && toc.classList.contains('is-fixed')) {
             toc.classList.remove('is-fixed');
-            console.log('🔧 TOC: Mode STATIC restauré');
         }
     }
 
@@ -2782,7 +3350,6 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         const rightOffset = 24; // marge depuis le bord droit
         details.style.setProperty('--details-right', `${rightOffset}px`);
         details.style.setProperty('--details-width', '320px');
-        console.log('📍 Details position: right =', rightOffset + 'px');
     }
 
     // Gestion scroll pour les détails
@@ -2799,29 +3366,25 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         
         const start = anchor.getBoundingClientRect().top + window.scrollY;
         const heroHeight = document.querySelector('.hero--formation')?.offsetHeight || 0;
-        // Ne pas montrer avant d'avoir dépassé la bannière + marge
-        const shouldShow = window.scrollY >= (heroHeight + 100) && !isNearFooter;
+        // Apparaître dès qu'on commence à voir le contenu (200px avant la fin du hero)
+        const shouldShow = window.scrollY >= (heroHeight - 200) && !isNearFooter;
         
         // Gestion apparition/disparition
         if(shouldShow && !details.classList.contains('is-visible')) {
             details.classList.add('is-visible');
-            console.log('✨ Details: Apparition');
         } else if(!shouldShow && details.classList.contains('is-visible')) {
             details.classList.remove('is-visible');
-            console.log('👻 Details: Disparition');
         }
         
         // Gestion mode fixed (seulement si visible)
         if(shouldShow && !details.classList.contains('is-fixed')) {
             details.classList.add('is-fixed');
-            console.log('🔧 Details: Mode FIXED activé');
         } else if(!shouldShow && details.classList.contains('is-fixed')) {
             details.classList.remove('is-fixed');
-            console.log('🔧 Details: Mode STATIC restauré');
         }
     }
 
-    // scroll doux vers le DÉBUT du contenu (pas sur le titre)
+    // scroll instantané pour permettre des clics rapides successifs
     function wireLinks(){
         document.querySelectorAll('#toc a[href^="#"]').forEach(a=>{
             a.addEventListener('click', (e)=>{
@@ -2830,21 +3393,19 @@ console.log('🚀 SCRIPT TOC: Démarrage');
                 if(!target) return;
             e.preventDefault();
                 const y = target.getBoundingClientRect().top + window.scrollY - headerOffset();
-                window.scrollTo({ top: y, behavior: 'smooth' });
+                window.scrollTo({ top: y, behavior: 'auto' });
             });
         });
     }
 
     // ===== SCROLL-SPY DYNAMIQUE POUR PROGRESSION UTILISATEUR =====
     function initScrollSpy(){
-        console.log('🎯 Initialisation du scroll-spy dynamique');
         
         // Toutes les sections avec ancres *-start
         const sections = document.querySelectorAll('[id$="-start"]');
         const tocLinks = document.querySelectorAll('#toc a[href^="#"]');
         
         if(sections.length === 0 || tocLinks.length === 0) {
-            console.log('❌ Sections ou liens TOC non trouvés');
             return;
         }
 
@@ -2867,7 +3428,6 @@ console.log('🚀 SCRIPT TOC: Démarrage');
                     const activeLink = linkMap.get(href);
                     if(activeLink) {
                         activeLink.classList.add('is-active');
-                        console.log('📍 Section active:', entry.target.id, '-> Lien mis en bleu');
                     }
                 }
             });
@@ -2880,18 +3440,14 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         // Observer toutes les sections
         sections.forEach(section => observer.observe(section));
         
-        console.log('✅ Scroll-spy actif sur', sections.length, 'sections');
     }
 
     // init + évènements
     function init(){
-        console.log('🎯 TOC System: Initialisation');
         
         // Vérifier les éléments gérés
         const heroDetails = document.querySelector('.details-card--hero');
         const sideDetails = document.querySelector('.layout-formation .details-card:not(.details-card--hero)');
-        console.log('🏠 Détails HERO (fixe):', !!heroDetails);
-        console.log('📜 Détails CÔTÉ (floating):', !!sideDetails);
         
         positionLeft();
         positionRight();
@@ -2899,35 +3455,25 @@ console.log('🚀 SCRIPT TOC: Démarrage');
         onScrollDetails();
         wireLinks();
         initScrollSpy(); // Ajout du scroll-spy dynamique
-        console.log('✅ TOC System: Prêt avec scroll-spy dynamique');
     }
 
     // ===== DÉSACTIVER SUR MOBILE - Conflit avec le toggle mobile =====
     if (window.innerWidth <= 1100) {
-        console.log('📱 TOC Desktop désactivé sur mobile (largeur:', window.innerWidth, 'px)');
         return;
     }
 
-    console.log('🔧 TOC: Ajout des event listeners');
-    console.log('🔧 TOC: readyState =', document.readyState);
     
     // Debug: lister tous les éléments avec id
-    console.log('🔧 TOC: Éléments avec ID:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
     
     // Attendre que le DOM soit prêt
     function waitForElements(attempt = 1) {
-        console.log(`🔧 TOC: Tentative ${attempt} de recherche des éléments`);
         
         const toc = document.getElementById('toc');
         const anchor = document.getElementById('toc-anchor');
         const details = document.querySelector('.details-card');
         
-        console.log('🔍 TOC trouvé:', !!toc, toc);
-        console.log('🔍 Anchor trouvé:', !!anchor, anchor);
-        console.log('🔍 Details trouvé:', !!details, details);
         
         if (toc && anchor) {
-            console.log('✅ TOC et Anchor trouvés, initialisation...');
             init();
             window.addEventListener('scroll', () => {
                 onScroll();
@@ -2946,22 +3492,17 @@ console.log('🚀 SCRIPT TOC: Démarrage');
                 onScrollDetails();
             });
         } else if (attempt < 50) { // max 5 secondes
-            console.log(`⏳ Attente des éléments... (tentative ${attempt}/50)`);
             setTimeout(() => waitForElements(attempt + 1), 100);
             } else {
-            console.error('❌ TOC: Timeout - éléments introuvables après 5 secondes');
         }
     }
     
     // Démarrer l'attente seulement après que le DOM soit prêt
     if (document.readyState === 'loading') {
-        console.log('🔧 TOC: DOM en cours de chargement, attente DOMContentLoaded');
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('🔧 TOC: DOMContentLoaded déclenché');
             waitForElements();
         });
     } else {
-        console.log('🔧 TOC: DOM déjà prêt, démarrage immédiat');
         waitForElements();
     }
 })();
@@ -2988,20 +3529,15 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Actif uniquement sur mobile
     if (window.innerWidth > 1100) {
-        console.log('📱 Toggle mobile désactivé sur desktop');
         return;
     }
     
-    console.log('📱 Toggle mobile: Initialisation...');
     
     const toggleBtn = document.getElementById('toc-toggle-mobile');
     const toc = document.getElementById('toc');
     
-    console.log('🔍 Bouton trouvé:', !!toggleBtn, toggleBtn);
-    console.log('🔍 TOC trouvé:', !!toc, toc);
     
     if (!toggleBtn || !toc) {
-        console.error('❌ Bouton ou TOC introuvable');
         return;
     }
     
@@ -3014,7 +3550,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         isOpen = !isOpen;
         
-        console.log('🖱️ Clic sur bouton sommaire, isOpen =', isOpen);
         
         if (isOpen) {
             // Ouvrir: forcer l'affichage
@@ -3078,25 +3613,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 behavior: 'smooth'
                             });
                             
-                            console.log('📍 Navigation vers:', targetId);
                         }
                     });
                 });
                 
-                console.log('✅ Styles + Navigation forcés sur', links.length, 'liens');
             }
             
             // LOGS DE DEBUG
-            console.log('📖 Sommaire mobile ouvert');
-            console.log('🔍 Classes TOC:', toc.classList.toString());
-            console.log('🔍 Style display:', window.getComputedStyle(toc).display);
-            console.log('🔍 Style opacity:', window.getComputedStyle(toc).opacity);
-            console.log('🔍 Style visibility:', window.getComputedStyle(toc).visibility);
-            console.log('🔍 Position TOC:', toc.getBoundingClientRect());
             
             // Forcer un reflow
             setTimeout(() => {
-                console.log('🔍 Position TOC après 100ms:', toc.getBoundingClientRect());
             }, 100);
         } else {
             // Fermer: retirer les classes ET désactiver les clics
@@ -3110,7 +3636,6 @@ document.addEventListener('DOMContentLoaded', function() {
             toc.style.setProperty('height', '0', 'important');
             toc.style.setProperty('overflow', 'hidden', 'important');
             
-            console.log('📕 Sommaire mobile fermé et désactivé');
         }
     });
     
@@ -3127,11 +3652,9 @@ document.addEventListener('DOMContentLoaded', function() {
             toc.style.setProperty('display', 'none', 'important');
             toc.style.setProperty('height', '0', 'important');
             
-            console.log('🔗 Lien cliqué, sommaire fermé et désactivé');
         });
     });
     
-    console.log('✅ Toggle mobile initialisé avec succès');
 });
 </script>
 
