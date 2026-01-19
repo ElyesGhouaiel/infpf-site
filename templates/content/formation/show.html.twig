@@ -2815,6 +2815,18 @@ html {
                                 <span class="details-value">Attestation de formation</span>
                             </div>
                         </div>
+                        {% if formations.tauxReussite %}
+                        <div class="details-item">
+                            <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            <div class="details-meta">
+                                <span class="details-label">Taux de réussite</span>
+                                <span class="details-value">{{ formations.tauxReussite }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
                         <div class="details-item">
                             <svg class="details-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
@@ -3272,6 +3284,19 @@ html {
                         <span class="details-value">Attestation de formation</span>
     </div>
 	</div>
+
+                {% if formations.tauxReussite %}
+                <div class="details-item">
+                    <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <div class="details-meta">
+                        <span class="details-label">Taux de réussite</span>
+                        <span class="details-value">{{ formations.tauxReussite }}</span>
+                    </div>
+                </div>
+                {% endif %}
 
                 <div class="details-item">
                     <svg class="details-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
