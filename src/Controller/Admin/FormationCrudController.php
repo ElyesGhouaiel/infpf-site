@@ -67,5 +67,8 @@ class FormationCrudController extends AbstractCrudController
         yield TextField::new('cpfUrl', 'URL CPF')->hideOnIndex();
         yield TextField::new('certificateur', 'Certificateur');
         yield TextField::new('bloc', 'Bloc')->hideOnIndex();
+        yield TextField::new('tauxReussite', 'Taux de réussite')
+            ->setHelp('Ex: "N/C", "95%", "En cours de calcul"')
+            ->hideOnIndex();
     }
 }

@@ -89,6 +89,9 @@ class Formation
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $modalitesCertification = null;
 
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    private ?string $tauxReussite = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -359,6 +362,17 @@ class Formation
     public function setModalitesCertification(?string $modalitesCertification): self
     {
         $this->modalitesCertification = $modalitesCertification;
+        return $this;
+    }
+
+    public function getTauxReussite(): ?string
+    {
+        return $this->tauxReussite;
+    }
+
+    public function setTauxReussite(?string $tauxReussite): self
+    {
+        $this->tauxReussite = $tauxReussite;
         return $this;
     }
 }
