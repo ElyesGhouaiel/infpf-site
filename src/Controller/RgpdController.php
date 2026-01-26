@@ -16,7 +16,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * Conforme au Règlement Général sur la Protection des Données (RGPD)
  */
 #[Route('/rgpd')]
-#[IsGranted('ROLE_USER')]
 class RgpdController extends AbstractController
 {
     /**
@@ -24,6 +23,7 @@ class RgpdController extends AbstractController
      * Droit à la portabilité des données
      */
     #[Route('/export', name: 'rgpd_export', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function exportData(MessageRepository $messageRepository): JsonResponse
     {
         $user = $this->getUser();
@@ -75,6 +75,7 @@ class RgpdController extends AbstractController
      * Droit à l'effacement ("droit à l'oubli")
      */
     #[Route('/suppression', name: 'rgpd_deletion_request', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function deletionRequestPage(): Response
     {
         return $this->render('rgpd/deletion_request.html.twig');
@@ -84,6 +85,7 @@ class RgpdController extends AbstractController
      * Traitement de la demande de suppression
      */
     #[Route('/suppression/confirmer', name: 'rgpd_deletion_confirm', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function confirmDeletion(
         Request $request,
         EntityManagerInterface $em,

@@ -27,9 +27,15 @@
             <p style="color: #555; line-height: 1.7; margin-bottom: 15px;">
                 Vous pouvez récupérer vos données dans un format structuré et lisible par machine.
             </p>
+            {% if is_granted('ROLE_USER') %}
             <a href="{{ path('rgpd_export') }}" class="btn" style="background: #0b3f89; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block;">
                 Télécharger mes données
             </a>
+            {% else %}
+            <a href="{{ path('app_login') }}" style="color: #0b3f89; text-decoration: underline;">
+                Connectez-vous pour exporter vos données
+            </a>
+            {% endif %}
         </div>
 
         <!-- Droit de rectification -->
@@ -47,9 +53,15 @@
             <p style="color: #555; line-height: 1.7; margin-bottom: 15px;">
                 Vous pouvez demander la suppression de vos données personnelles ("droit à l'oubli").
             </p>
+            {% if is_granted('ROLE_USER') %}
             <a href="{{ path('rgpd_deletion_request') }}" class="btn" style="background: #c0392b; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block;">
                 Supprimer mon compte
             </a>
+            {% else %}
+            <a href="{{ path('app_login') }}" style="color: #c0392b; text-decoration: underline;">
+                Connectez-vous pour gérer votre compte
+            </a>
+            {% endif %}
         </div>
 
         <!-- Droit d'opposition -->
