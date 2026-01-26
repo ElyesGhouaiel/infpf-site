@@ -15,6 +15,48 @@
 			
 			/* FIX MODAL */
 			#popupForm, .popup-form { display: none !important; }
+		
+		/* ===== ACCESSIBILITE (WCAG 2.1) ===== */
+		/* Skip link - visible uniquement au focus */
+		.skip-link {
+			position: absolute;
+			top: -100px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: #0b3f89;
+			color: #fff;
+			padding: 12px 24px;
+			z-index: 999999;
+			text-decoration: none;
+			font-weight: bold;
+			border-radius: 0 0 8px 8px;
+			transition: top 0.3s ease;
+		}
+		.skip-link:focus {
+			top: 0;
+			outline: 3px solid #00b4d8;
+			outline-offset: 2px;
+		}
+		
+		/* Focus visible ameliore pour tous les elements interactifs */
+		a:focus-visible,
+		button:focus-visible,
+		input:focus-visible,
+		select:focus-visible,
+		textarea:focus-visible,
+		[tabindex]:focus-visible {
+			outline: 3px solid #00b4d8 !important;
+			outline-offset: 2px !important;
+		}
+		
+		/* Respect des preferences de mouvement reduit */
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after {
+				animation-duration: 0.01ms !important;
+				animation-iteration-count: 1 !important;
+				transition-duration: 0.01ms !important;
+			}
+		}
 			
 		/* ===== BOUTON SCROLL-TO-TOP ULTRA-PROPRE (SVG 100% transparent) ===== */
 		.fab {
@@ -3380,13 +3422,16 @@
 	</head>
 <body>
 
-<header class="header" style="position: fixed; left: 0; width: 100%; top: 0; color: #fff; z-index: 99999; padding-top: 0px; overflow: visible;">
+{# Skip link pour l'accessibilité (WCAG 2.4.1) #}
+<a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+<header class="header" role="banner" style="position: fixed; left: 0; width: 100%; top: 0; color: #fff; z-index: 99999; padding-top: 0px; overflow: visible;">
 <div class="header__container">
 		<a href="/" title="Accueil - Institut national de la formation professionnelle française">
 			<img class="logo-infpf" alt="Logo formation" data-skip-lazy="" height="22" src="{{ asset('img/CROPPED_LOGO__INFPF_2.webp') }}" width="22" color="none"/>
 		</a>
-	<nav id="menu">
-		<button class="menu-mobile-close" style="display:none">×</button>
+	<nav id="menu" role="navigation" aria-label="Menu principal">
+		<button class="menu-mobile-close" style="display:none" aria-label="Fermer le menu">×</button>
 		<div class="menu-menu-2022-container">
 			<ul class="menu" id="menu-menu-2022">
 				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-442796" id="menu-item-442796">
@@ -3591,7 +3636,7 @@
     {% include 'components/modal.html.twig' %}
 {% endif %}
 
-<main class="site-main" id="main">
+<main class="site-main" id="main-content" role="main" tabindex="-1">
 {% block body %}{% endblock %}
 </main>
 
