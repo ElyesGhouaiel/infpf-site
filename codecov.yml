@@ -1,0 +1,40 @@
+# Configuration Codecov pour INFPF
+# Documentation: https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  precision: 2
+  round: down
+  range: "40...80"
+  
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 5%
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: 5%
+        informational: true
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: no
+
+ignore:
+  - "tests/**/*"
+  - "var/**/*"
+  - "vendor/**/*"
+  - "config/**/*"
+  - "migrations/**/*"
+  - "src/Kernel.php"
