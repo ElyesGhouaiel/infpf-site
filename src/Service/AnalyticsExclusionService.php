@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Service de gestion des exclusions pour le système d'analytics
