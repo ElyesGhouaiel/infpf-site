@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer mon compte - INFPF{% endblock %}
+
+{% block body %}
+<div class="rgpd-page" style="max-width: 600px; margin: 120px auto 60px; padding: 0 20px;">
+    <h1 style="color: #c0392b; margin-bottom: 30px;">Supprimer mon compte</h1>
+    
+    <div style="background: #fdf2f2; border: 1px solid #f5c6cb; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+        <h3 style="color: #c0392b; margin-bottom: 15px;">⚠️ Attention - Action irréversible</h3>
+        <p style="color: #721c24; line-height: 1.7;">
+            La suppression de votre compte est <strong>définitive et irréversible</strong>. 
+            Toutes vos données personnelles seront supprimées ou anonymisées conformément au RGPD.
+        </p>
+    </div>
+
+    <div style="background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+        <h3 style="color: #333; margin-bottom: 15px;">Ce qui sera supprimé :</h3>
+        <ul style="color: #555; line-height: 2; padding-left: 20px;">
+            <li>Votre compte utilisateur et identifiants</li>
+            <li>Votre adresse email</li>
+            <li>Votre nom d'utilisateur</li>
+        </ul>
+        
+        <h3 style="color: #333; margin: 20px 0 15px;">Ce qui sera anonymisé :</h3>
+        <ul style="color: #555; line-height: 2; padding-left: 20px;">
+            <li>Vos demandes de contact (conservées pour raisons légales mais anonymisées)</li>
+        </ul>
+    </div>
+
+    <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+        <p style="color: #856404; margin: 0;">
+            <strong>Conseil :</strong> Avant de supprimer votre compte, pensez à 
+            <a href="{{ path('rgpd_export') }}" style="color: #0b3f89;">télécharger vos données</a>.
+        </p>
+    </div>
+
+    <form method="post" action="{{ path('rgpd_deletion_confirm') }}" onsubmit="return confirm('Êtes-vous absolument certain de vouloir supprimer définitivement votre compte ? Cette action est irréversible.');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete_account') }}">
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                <input type="checkbox" required style="margin-top: 4px;">
+                <span style="color: #333; line-height: 1.6;">
+                    Je comprends que cette action est irréversible et que toutes mes données seront supprimées ou anonymisées.
+                </span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="{{ path('rgpd_rights') }}" style="background: #6c757d; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; display: inline-block;">
+                Annuler
+            </a>
+            <button type="submit" style="background: #c0392b; color: white; padding: 14px 28px; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem;">
+                Supprimer définitivement mon compte
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

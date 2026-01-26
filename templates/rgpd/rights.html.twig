@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes droits RGPD - INFPF{% endblock %}
+
+{% block body %}
+<div class="rgpd-page" style="max-width: 800px; margin: 120px auto 60px; padding: 0 20px;">
+    <h1 style="color: #0b3f89; margin-bottom: 30px;">Vos droits RGPD</h1>
+    
+    <div style="background: #f8f9fa; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+        <p style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+            Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez de plusieurs droits concernant vos données personnelles.
+        </p>
+    </div>
+
+    <div style="display: grid; gap: 20px;">
+        <!-- Droit d'accès -->
+        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px;">
+            <h3 style="color: #0b3f89; margin-bottom: 15px;">📋 Droit d'accès (Article 15)</h3>
+            <p style="color: #555; line-height: 1.7;">
+                Vous avez le droit de savoir si vos données sont traitées et d'obtenir une copie de ces données.
+            </p>
+        </div>
+
+        <!-- Droit à la portabilité -->
+        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px;">
+            <h3 style="color: #0b3f89; margin-bottom: 15px;">📦 Droit à la portabilité (Article 20)</h3>
+            <p style="color: #555; line-height: 1.7; margin-bottom: 15px;">
+                Vous pouvez récupérer vos données dans un format structuré et lisible par machine.
+            </p>
+            <a href="{{ path('rgpd_export') }}" class="btn" style="background: #0b3f89; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block;">
+                Télécharger mes données
+            </a>
+        </div>
+
+        <!-- Droit de rectification -->
+        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px;">
+            <h3 style="color: #0b3f89; margin-bottom: 15px;">✏️ Droit de rectification (Article 16)</h3>
+            <p style="color: #555; line-height: 1.7;">
+                Vous pouvez demander la correction de données inexactes ou incomplètes vous concernant.
+                Pour toute demande, contactez-nous à <a href="mailto:contact@infpf.fr" style="color: #0b3f89;">contact@infpf.fr</a>.
+            </p>
+        </div>
+
+        <!-- Droit à l'effacement -->
+        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px;">
+            <h3 style="color: #c0392b; margin-bottom: 15px;">🗑️ Droit à l'effacement (Article 17)</h3>
+            <p style="color: #555; line-height: 1.7; margin-bottom: 15px;">
+                Vous pouvez demander la suppression de vos données personnelles ("droit à l'oubli").
+            </p>
+            <a href="{{ path('rgpd_deletion_request') }}" class="btn" style="background: #c0392b; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block;">
+                Supprimer mon compte
+            </a>
+        </div>
+
+        <!-- Droit d'opposition -->
+        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 25px;">
+            <h3 style="color: #0b3f89; margin-bottom: 15px;">🚫 Droit d'opposition (Article 21)</h3>
+            <p style="color: #555; line-height: 1.7;">
+                Vous pouvez vous opposer au traitement de vos données à des fins de prospection commerciale.
+                Gérez vos préférences de cookies via le bandeau en bas de page.
+            </p>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; padding: 20px; background: #e8f4fd; border-radius: 12px;">
+        <p style="color: #0b3f89; margin: 0;">
+            <strong>Contact DPO :</strong> Pour toute question relative à vos données personnelles, 
+            contactez-nous à <a href="mailto:contact@infpf.fr" style="color: #0b3f89;">contact@infpf.fr</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
