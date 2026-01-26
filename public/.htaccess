@@ -1,6 +1,34 @@
-# Désactiver le cache pour les fichiers HTML/PHP (force le CDN à recharger)
+# ============================================
+# HEADERS DE SECURITE (Standards 2026)
+# ============================================
 <IfModule mod_headers.c>
-    # Pour les pages HTML/PHP
+    # Protection contre le clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Empêche le sniffing MIME
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Protection XSS (navigateurs anciens)
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Force HTTPS pendant 1 an + sous-domaines
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Contrôle des informations referrer
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Désactive les fonctionnalités sensibles du navigateur
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+    
+    # Content Security Policy (permet Google, Calendly, reCAPTCHA)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; frame-src https://calendly.com https://www.google.com https://www.youtube.com; connect-src 'self' https://www.google-analytics.com https://calendly.com https://*.sentry.io; object-src 'none'; base-uri 'self'; form-action 'self';"
+</IfModule>
+
+# ============================================
+# CACHE CONTROL
+# ============================================
+<IfModule mod_headers.c>
+    # Pour les pages HTML/PHP - pas de cache
     <FilesMatch "\.(php|html)$">
         Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
         Header set Pragma "no-cache"
