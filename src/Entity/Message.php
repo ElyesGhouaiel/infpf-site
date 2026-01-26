@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -15,15 +16,32 @@ class Message
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'Veuillez indiquer votre nom')]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Le nom doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'Veuillez indiquer votre email')]
+    #[Assert\Email(message: 'L\'email {{ value }} n\'est pas valide')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^[\d\s\+\-\.\(\)]+$/',
+        message: 'Le numéro de téléphone n\'est pas valide'
+    )]
     private ?string $numero = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        max: 5000,
+        maxMessage: 'Le message ne peut pas dépasser {{ limit }} caractères'
+    )]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
@@ -33,10 +51,18 @@ class Message
     private ?string $formationName = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $requestType = null; // 'renseignement' ou 'devis'
+    #[Assert\Choice(
+        choices: ['renseignement', 'devis'],
+        message: 'Type de demande invalide'
+    )]
+    private ?string $requestType = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $preferredMode = null; // 'presentiel', 'distance', 'indifferent'
+    #[Assert\Choice(
+        choices: ['presentiel', 'distance', 'indifferent'],
+        message: 'Mode de formation invalide'
+    )]
+    private ?string $preferredMode = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
