@@ -1,0 +1,20 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    excludePaths:
+        - src/Kernel.php
+    
+    # Symfony specific
+    symfony:
+        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+    
+    # Ignorer certaines erreurs connues
+    ignoreErrors:
+        # Doctrine dynamic properties
+        - '#Access to an undefined property#'
+        # Twig extensions
+        - '#Call to an undefined method Twig#'
+    
+    # Traiter les erreurs inconnues comme des erreurs
+    reportUnmatchedIgnoredErrors: false

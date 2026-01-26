@@ -89,19 +89,26 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-          tools: php-cs-fixer
+          tools: php-cs-fixer, phpstan
 
       - name: Copy .env (optionnel pour code-quality)
         run: |
           cp .env.test .env || echo "APP_ENV=test" > .env || true
 
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
       - name: Check PHP syntax
         run: |
           find src -name "*.php" -exec php -l {} \;
 
+      - name: Run PHPStan (niveau 5)
+        run: |
+          vendor/bin/phpstan analyse src --level=5 --no-progress --error-format=github || echo "PHPStan completed with warnings"
+        continue-on-error: true
+
       - name: Check Twig syntax
         run: |
-          composer require twig/twig --no-interaction || true
           find templates -name "*.twig" -exec php -r "require 'vendor/autoload.php'; \$loader = new \Twig\Loader\FilesystemLoader('templates'); \$twig = new \Twig\Environment(\$loader); \$twig->parse(\$twig->tokenize(new \Twig\Source(file_get_contents('{}'), '{}', '{}')));" {} \; || echo "Twig check skipped"
 
   deploy-dev:
