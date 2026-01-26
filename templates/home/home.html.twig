@@ -5138,7 +5138,7 @@
 			<div class="category-card">
 							<button class="close-button">×</button>
 							<img 
-								src="{{ asset('img/' ~ categoryImages[category.id] ?? 'AutresImage.webp') }}" 
+								src="{{ asset('img/' ~ (categoryImages[category.id] ?? 'AutresImage.webp')) }}" 
 								alt="{{ category.name }}"
 								class="category-image"
 							>
