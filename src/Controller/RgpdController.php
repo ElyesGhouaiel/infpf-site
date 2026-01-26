@@ -6,6 +6,7 @@ use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -84,6 +85,7 @@ class RgpdController extends AbstractController
      */
     #[Route('/suppression/confirmer', name: 'rgpd_deletion_confirm', methods: ['POST'])]
     public function confirmDeletion(
+        Request $request,
         EntityManagerInterface $em,
         MessageRepository $messageRepository
     ): Response {
@@ -91,6 +93,13 @@ class RgpdController extends AbstractController
         
         if (!$user) {
             throw $this->createAccessDeniedException('Vous devez être connecté.');
+        }
+
+        // Vérification CSRF
+        $submittedToken = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('delete_account', $submittedToken)) {
+            $this->addFlash('error', 'Token de sécurité invalide. Veuillez réessayer.');
+            return $this->redirectToRoute('rgpd_deletion_request');
         }
 
         // Anonymiser les messages liés (on garde les messages mais on anonymise)
