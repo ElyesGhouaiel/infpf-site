@@ -1,0 +1,84 @@
+{# Schema.org Structured Data pour le SEO #}
+
+{# Organisation principale #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "@id": "https://infpf.fr/#organization",
+    "name": "INFPF - Institut National de la Formation Professionnelle Française",
+    "alternateName": "INFPF",
+    "url": "https://infpf.fr",
+    "logo": {
+        "@type": "ImageObject",
+        "url": "https://infpf.fr/img/logo-infpf.png",
+        "width": 200,
+        "height": 60
+    },
+    "description": "Centre de formation professionnelle certifié Qualiopi. Formations CPF en IA, marketing digital, petite enfance et bien-être.",
+    "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "FR"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+33-1-XX-XX-XX-XX",
+        "contactType": "customer service",
+        "availableLanguage": "French"
+    },
+    "sameAs": [
+        "https://www.facebook.com/infpf",
+        "https://www.linkedin.com/company/infpf",
+        "https://www.instagram.com/infpf"
+    ],
+    "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Qualiopi",
+        "name": "Certification Qualiopi"
+    }
+}
+</script>
+
+{# Site Web #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://infpf.fr/#website",
+    "url": "https://infpf.fr",
+    "name": "INFPF - Formations Professionnelles",
+    "description": "Institut National de la Formation Professionnelle Française - Formations certifiantes CPF",
+    "publisher": {
+        "@id": "https://infpf.fr/#organization"
+    },
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://infpf.fr/formation?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+    },
+    "inLanguage": "fr-FR"
+}
+</script>
+
+{# Breadcrumb dynamique si défini #}
+{% if breadcrumbs is defined and breadcrumbs|length > 0 %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {% for item in breadcrumbs %}
+        {
+            "@type": "ListItem",
+            "position": {{ loop.index }},
+            "name": "{{ item.name|e('js') }}",
+            "item": "{{ item.url }}"
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endif %}

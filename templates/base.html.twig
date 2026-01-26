@@ -3373,6 +3373,10 @@
 	
 	{# Google Analytics 4 - Tracking et événements personnalisés #}
 	{% include 'analytics/google-analytics.html.twig' %}
+	
+	{# Schema.org Structured Data pour le SEO #}
+	{% include 'components/schema_org.html.twig' %}
+	{% block schema_org %}{% endblock %}
 	</head>
 <body>
 

@@ -14,6 +14,50 @@
 <meta property="og:description" content="{{ meta_description|default('Découvrez notre formation professionnelle certifiante à distance avec accompagnement personnalisé.') }}">
 {% endblock %}
 
+{% block schema_org %}
+{# Schema.org Course pour cette formation #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "{{ formations.nameFormation|e('js') }}",
+    "description": "{{ formations.descriptionFormation|default(formations.presentation)|striptags|slice(0, 200)|e('js') }}...",
+    "provider": {
+        "@type": "Organization",
+        "name": "INFPF",
+        "url": "https://infpf.fr"
+    },
+    "url": "https://infpf.fr/formation/{{ formations.id }}",
+    {% if formations.dureeFormation %}
+    "timeRequired": "{{ formations.dureeFormation|e('js') }}",
+    {% endif %}
+    {% if formations.priceFormation %}
+    "offers": {
+        "@type": "Offer",
+        "price": "{{ formations.priceFormation }}",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://infpf.fr/formation/{{ formations.id }}"
+    },
+    {% endif %}
+    "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "{{ formations.dureeFormation|default('Variable')|e('js') }}"
+    },
+    "inLanguage": "fr",
+    "isAccessibleForFree": false,
+    {% if formations.cpfUrl %}
+    "educationalCredentialAwarded": "Certification éligible CPF",
+    {% endif %}
+    "audience": {
+        "@type": "Audience",
+        "audienceType": "{{ formations.publicVise|default('Professionnels')|striptags|slice(0, 100)|e('js') }}"
+    }
+}
+</script>
+{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 <style>
