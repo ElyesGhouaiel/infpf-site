@@ -2,13 +2,14 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Functional\WebTestCaseWithFixtures;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SitemapControllerTest extends WebTestCaseWithFixtures
+class SitemapControllerTest extends WebTestCase
 {
     public function testSitemapReturnsXml(): void
     {
-        $this->client->request('GET', '/sitemap.xml');
+        $client = static::createClient();
+        $client->request('GET', '/sitemap.xml');
         
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/xml');
@@ -16,10 +17,11 @@ class SitemapControllerTest extends WebTestCaseWithFixtures
 
     public function testSitemapContainsUrls(): void
     {
-        $this->client->request('GET', '/sitemap.xml');
+        $client = static::createClient();
+        $client->request('GET', '/sitemap.xml');
         $this->assertResponseIsSuccessful();
         
-        $content = $this->client->getResponse()->getContent();
+        $content = $client->getResponse()->getContent();
         
         $this->assertStringContainsString('<urlset', $content);
         $this->assertStringContainsString('<loc>', $content);
@@ -28,24 +30,23 @@ class SitemapControllerTest extends WebTestCaseWithFixtures
 
     public function testSitemapIsValidXml(): void
     {
-        $this->client->request('GET', '/sitemap.xml');
+        $client = static::createClient();
+        $client->request('GET', '/sitemap.xml');
         $this->assertResponseIsSuccessful();
         
-        $content = $this->client->getResponse()->getContent();
+        $content = $client->getResponse()->getContent();
         
-        // Verifier que c'est du XML valide
         $xml = @simplexml_load_string($content);
         $this->assertNotFalse($xml, 'Le sitemap devrait etre du XML valide');
     }
 
     public function testSitemapContainsMainPages(): void
     {
-        $this->client->request('GET', '/sitemap.xml');
+        $client = static::createClient();
+        $client->request('GET', '/sitemap.xml');
         $this->assertResponseIsSuccessful();
         
-        $content = $this->client->getResponse()->getContent();
-        
-        // Devrait contenir le domaine
+        $content = $client->getResponse()->getContent();
         $this->assertStringContainsString('infpf', $content);
     }
 }

@@ -2,19 +2,21 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Functional\WebTestCaseWithFixtures;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class BlogControllerTest extends WebTestCaseWithFixtures
+class BlogControllerTest extends WebTestCase
 {
     public function testBlogListIsAccessible(): void
     {
-        $this->client->request('GET', '/blog');
+        $client = static::createClient();
+        $client->request('GET', '/blog');
         $this->assertResponseIsSuccessful();
     }
 
     public function testBlogListHasTitle(): void
     {
-        $crawler = $this->client->request('GET', '/blog');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/blog');
         $this->assertResponseIsSuccessful();
         
         $title = $crawler->filter('title')->text();
@@ -23,7 +25,8 @@ class BlogControllerTest extends WebTestCaseWithFixtures
 
     public function testBlogListContainsContent(): void
     {
-        $crawler = $this->client->request('GET', '/blog');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/blog');
         $this->assertResponseIsSuccessful();
         
         $content = $crawler->filter('body')->text();

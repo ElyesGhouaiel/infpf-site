@@ -2,19 +2,21 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Functional\WebTestCaseWithFixtures;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class HomeControllerTest extends WebTestCaseWithFixtures
+class HomeControllerTest extends WebTestCase
 {
     public function testHomePageIsAccessible(): void
     {
-        $this->client->request('GET', '/');
+        $client = static::createClient();
+        $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
     }
 
     public function testHomePageContainsINFPF(): void
     {
-        $crawler = $this->client->request('GET', '/');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         
         $content = $crawler->filter('body')->text();
@@ -23,7 +25,8 @@ class HomeControllerTest extends WebTestCaseWithFixtures
 
     public function testHomePageHasHeader(): void
     {
-        $crawler = $this->client->request('GET', '/');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         
         $hasHeader = $crawler->filter('header, nav, .navbar')->count() > 0;
@@ -32,7 +35,8 @@ class HomeControllerTest extends WebTestCaseWithFixtures
 
     public function testHomePageHasFooter(): void
     {
-        $crawler = $this->client->request('GET', '/');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         
         $hasFooter = $crawler->filter('footer')->count() > 0;
@@ -41,7 +45,8 @@ class HomeControllerTest extends WebTestCaseWithFixtures
 
     public function testHomePageHasTitle(): void
     {
-        $crawler = $this->client->request('GET', '/');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         
         $title = $crawler->filter('title')->text();

@@ -2,13 +2,14 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Functional\WebTestCaseWithFixtures;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class HealthControllerTest extends WebTestCaseWithFixtures
+class HealthControllerTest extends WebTestCase
 {
     public function testHealthEndpointReturnsJson(): void
     {
-        $this->client->request('GET', '/health');
+        $client = static::createClient();
+        $client->request('GET', '/health');
         
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/json');
@@ -16,19 +17,21 @@ class HealthControllerTest extends WebTestCaseWithFixtures
 
     public function testHealthEndpointReturnsStatus(): void
     {
-        $this->client->request('GET', '/health');
+        $client = static::createClient();
+        $client->request('GET', '/health');
         $this->assertResponseIsSuccessful();
         
-        $content = json_decode($this->client->getResponse()->getContent(), true);
+        $content = json_decode($client->getResponse()->getContent(), true);
         $this->assertIsArray($content);
         $this->assertArrayHasKey('status', $content);
     }
 
     public function testHealthPingEndpoint(): void
     {
-        $this->client->request('GET', '/health/ping');
+        $client = static::createClient();
+        $client->request('GET', '/health/ping');
         
         $this->assertResponseIsSuccessful();
-        $this->assertEquals('pong', $this->client->getResponse()->getContent());
+        $this->assertEquals('pong', $client->getResponse()->getContent());
     }
 }

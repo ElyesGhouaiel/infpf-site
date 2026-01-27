@@ -2,19 +2,20 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Functional\WebTestCaseWithFixtures;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Tests des pages legales (CGV, Mentions, RGPD, etc.)
  */
-class LegalPagesTest extends WebTestCaseWithFixtures
+class LegalPagesTest extends WebTestCase
 {
     /**
      * @dataProvider legalPagesProvider
      */
     public function testLegalPageIsAccessible(string $url): void
     {
-        $this->client->request('GET', $url);
+        $client = static::createClient();
+        $client->request('GET', $url);
         $this->assertResponseIsSuccessful();
     }
 
@@ -33,7 +34,8 @@ class LegalPagesTest extends WebTestCaseWithFixtures
 
     public function testCgvPageContainsConditions(): void
     {
-        $crawler = $this->client->request('GET', '/cgv');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/cgv');
         $this->assertResponseIsSuccessful();
         
         $content = strtolower($crawler->filter('body')->text());
@@ -42,7 +44,8 @@ class LegalPagesTest extends WebTestCaseWithFixtures
 
     public function testMentionsLegalesContainsINFPF(): void
     {
-        $crawler = $this->client->request('GET', '/mentions-legales');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/mentions-legales');
         $this->assertResponseIsSuccessful();
         
         $content = $crawler->filter('body')->text();
@@ -51,7 +54,8 @@ class LegalPagesTest extends WebTestCaseWithFixtures
 
     public function testRgpdPageContainsDataInfo(): void
     {
-        $crawler = $this->client->request('GET', '/rgpd');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/rgpd');
         $this->assertResponseIsSuccessful();
         
         $content = strtolower($crawler->filter('body')->text());
@@ -64,14 +68,16 @@ class LegalPagesTest extends WebTestCaseWithFixtures
 
     public function testContactPageHasForm(): void
     {
-        $crawler = $this->client->request('GET', '/contactez-nous');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/contactez-nous');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('form');
     }
 
     public function testEcolePageContainsSchoolInfo(): void
     {
-        $crawler = $this->client->request('GET', '/ecole');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/ecole');
         $this->assertResponseIsSuccessful();
         
         $content = $crawler->filter('body')->text();

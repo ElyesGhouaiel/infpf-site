@@ -2,29 +2,31 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Functional\WebTestCaseWithFixtures;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FormationControllerTest extends WebTestCaseWithFixtures
+class FormationControllerTest extends WebTestCase
 {
     public function testFormationListIsAccessible(): void
     {
-        $this->client->request('GET', '/formation');
+        $client = static::createClient();
+        $client->request('GET', '/formation');
         $this->assertResponseIsSuccessful();
     }
 
     public function testFormationListContainsFormations(): void
     {
-        $crawler = $this->client->request('GET', '/formation');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/formation');
         $this->assertResponseIsSuccessful();
         
-        // La page devrait contenir "formation"
         $content = strtolower($crawler->filter('body')->text());
         $this->assertStringContainsString('formation', $content);
     }
 
     public function testFormationListHasTitle(): void
     {
-        $crawler = $this->client->request('GET', '/formation');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/formation');
         $this->assertResponseIsSuccessful();
         
         $title = $crawler->filter('title')->text();
@@ -33,10 +35,10 @@ class FormationControllerTest extends WebTestCaseWithFixtures
 
     public function testFormationListHasLinks(): void
     {
-        $crawler = $this->client->request('GET', '/formation');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/formation');
         $this->assertResponseIsSuccessful();
         
-        // La page devrait avoir des liens
         $links = $crawler->filter('a');
         $this->assertGreaterThan(5, $links->count());
     }
