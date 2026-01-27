@@ -430,6 +430,12 @@ public function downloadDocument($id, FormationRepository $formationRepository)
     #[Route('/mentions-legales', name: 'legal_mentions')]
     public function mentionslegales(): Response
     {
+        return $this->render('content/footer/disclaimer.html.twig');
+    }
+    
+    #[Route('/reglement-interieur', name: 'reglement_interieur')]
+    public function reglementInterieur(): Response
+    {
         return $this->render('content/footer/mentions_legales.html.twig');
     }
 
