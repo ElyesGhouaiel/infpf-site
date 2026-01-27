@@ -4,23 +4,23 @@ namespace App\Controller;
 
 use App\Repository\FormationRepository;
 use App\Repository\BlogRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * Controller pour la génération dynamique du sitemap XML
- */
 class SitemapController extends AbstractController
 {
     #[Route('/sitemap.xml', name: 'sitemap', defaults: ['_format' => 'xml'])]
     public function index(
         FormationRepository $formationRepository,
-        BlogRepository $blogRepository
+        BlogRepository $blogRepository,
+        CategoryRepository $categoryRepository
     ): Response {
         $urls = [];
         $hostname = 'https://infpf.fr';
+        $today = date('Y-m-d');
 
         // Pages statiques principales
         $staticPages = [
@@ -28,72 +28,85 @@ class SitemapController extends AbstractController
             ['loc' => '/formation', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['loc' => '/ecole', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['loc' => '/blog', 'priority' => '0.8', 'changefreq' => 'daily'],
-            ['loc' => '/metiers', 'priority' => '0.7', 'changefreq' => 'weekly'],
-            ['loc' => '/contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['loc' => '/pourquoi-choisir-infpf', 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['loc' => '/financer-ma-formation', 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['loc' => '/notre-methode-apprentissage', 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['loc' => '/notre-equipe-pedagogique', 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['loc' => '/formations-eligibles-cpf', 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['loc' => '/certification-qaliopi-2', 'priority' => '0.5', 'changefreq' => 'monthly'],
+            ['loc' => '/metiers', 'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['loc' => '/contactez-nous', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['loc' => '/mentions-legales', 'priority' => '0.3', 'changefreq' => 'yearly'],
             ['loc' => '/cgv', 'priority' => '0.3', 'changefreq' => 'yearly'],
+            ['loc' => '/reglement-interieur', 'priority' => '0.3', 'changefreq' => 'yearly'],
+            ['loc' => '/avis', 'priority' => '0.6', 'changefreq' => 'weekly'],
+            ['loc' => '/guide', 'priority' => '0.6', 'changefreq' => 'weekly'],
+        ];
+
+        // Pages École
+        $ecolePages = [
+            '/formationadistanceetenligne',
+            '/pourquoi-choisir-le-infpf',
+            '/notre-methode-apprentissage',
+            '/nos-cours-par-correspondance',
+            '/coach-personnel',
+            '/notre-equipe-pedagogique',
+            '/certification-qaliopi-2',
+            '/financer-ma-formation',
+            '/formations-eligibles-cpf',
         ];
 
         foreach ($staticPages as $page) {
             $urls[] = [
                 'loc' => $hostname . $page['loc'],
-                'lastmod' => date('Y-m-d'),
+                'lastmod' => $today,
                 'changefreq' => $page['changefreq'],
                 'priority' => $page['priority'],
             ];
         }
 
-        // Pages de formations dynamiques
+        foreach ($ecolePages as $page) {
+            $urls[] = [
+                'loc' => $hostname . $page,
+                'lastmod' => $today,
+                'changefreq' => 'monthly',
+                'priority' => '0.7',
+            ];
+        }
+
+        // Toutes les formations
         $formations = $formationRepository->findAll();
         foreach ($formations as $formation) {
             $urls[] = [
                 'loc' => $hostname . '/formation/' . $formation->getId(),
-                'lastmod' => date('Y-m-d'),
+                'lastmod' => $today,
                 'changefreq' => 'weekly',
                 'priority' => '0.8',
             ];
         }
 
-        // Pages de blog dynamiques
-        $blogs = $blogRepository->findBy([], ['publishedAt' => 'DESC']);
+        // Toutes les catégories
+        $categories = $categoryRepository->findAll();
+        foreach ($categories as $category) {
+            $urls[] = [
+                'loc' => $hostname . '/category/' . $category->getId(),
+                'lastmod' => $today,
+                'changefreq' => 'weekly',
+                'priority' => '0.7',
+            ];
+        }
+
+        // Tous les articles de blog publiés
+        $blogs = $blogRepository->findBy(['status' => 'published'], ['id' => 'DESC']);
         foreach ($blogs as $blog) {
-            $lastmod = $blog->getPublishedAt() ? $blog->getPublishedAt()->format('Y-m-d') : date('Y-m-d');
             $urls[] = [
                 'loc' => $hostname . '/blog/' . $blog->getId(),
-                'lastmod' => $lastmod,
+                'lastmod' => $today,
                 'changefreq' => 'monthly',
                 'priority' => '0.6',
             ];
         }
 
-        // Génération du XML
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-
-        foreach ($urls as $url) {
-            $xml .= '    <url>' . "\n";
-            $xml .= '        <loc>' . htmlspecialchars($url['loc']) . '</loc>' . "\n";
-            $xml .= '        <lastmod>' . $url['lastmod'] . '</lastmod>' . "\n";
-            $xml .= '        <changefreq>' . $url['changefreq'] . '</changefreq>' . "\n";
-            $xml .= '        <priority>' . $url['priority'] . '</priority>' . "\n";
-            $xml .= '    </url>' . "\n";
-        }
-
-        $xml .= '</urlset>';
-
-        $response = new Response($xml);
+        // Générer le XML
+        $response = new Response();
         $response->headers->set('Content-Type', 'application/xml');
-        
-        // Cache de 1 heure
-        $response->setSharedMaxAge(3600);
-        $response->headers->addCacheControlDirective('must-revalidate', true);
 
-        return $response;
+        return $this->render('sitemap/sitemap.xml.twig', [
+            'urls' => $urls,
+        ], $response);
     }
 }

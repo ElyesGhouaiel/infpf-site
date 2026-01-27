@@ -3417,6 +3417,13 @@
 	<meta content="l'infpf est le spécialiste de la formation à distance dans la petite enfance, la beauté, la cuisine, la Finance, le social." property="og:description"/>
 	{% endblock %}
 	<meta content="Institut national de la formation professionnelle française" property="og:site_name"/>
+	<meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}"/>
+	{% block og_image %}
+	<meta property="og:image" content="{{ app.request.schemeAndHttpHost }}/img/Logo_infpf_bleu_site_onglet.png"/>
+	<meta property="og:image:width" content="512"/>
+	<meta property="og:image:height" content="512"/>
+	<meta property="og:image:alt" content="INFPF - Institut National de la Formation Professionnelle Française"/>
+	{% endblock %}
 	
 	{# Twitter Cards pour partage sur Twitter/X #}
 	<meta name="twitter:card" content="summary_large_image">
@@ -3427,7 +3434,10 @@
 	{% block twitter_description %}
 	<meta name="twitter:description" content="Institut National de la Formation Professionnelle Française - Formations certifiantes CPF">
 	{% endblock %}
-	<meta name="twitter:image" content="{{ app.request.schemeAndHttpHost }}/img/og-image-infpf.jpg">
+	{% block twitter_image %}
+	<meta name="twitter:image" content="{{ app.request.schemeAndHttpHost }}/img/Logo_infpf_bleu_site_onglet.png">
+	<meta name="twitter:image:alt" content="INFPF - Institut National de la Formation Professionnelle Française">
+	{% endblock %}
 	
 	{# Google Analytics 4 - Tracking et événements personnalisés #}
 	{% include 'analytics/google-analytics.html.twig' %}
