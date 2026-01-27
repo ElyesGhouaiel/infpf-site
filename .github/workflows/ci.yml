@@ -47,6 +47,11 @@ jobs:
         env:
           DATABASE_URL: mysql://root:root@127.0.0.1:3306/test_db
 
+      - name: Load test fixtures
+        run: php bin/console doctrine:fixtures:load --env=test --group=test --no-interaction
+        env:
+          DATABASE_URL: mysql://root:root@127.0.0.1:3306/test_db
+
       - name: Run PHPUnit tests with coverage
         run: vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-clover coverage.xml
         env:

@@ -105,6 +105,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
         "mrclay/minify": "^4.0",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-symfony": "^1.3",
