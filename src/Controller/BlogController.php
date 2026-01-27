@@ -410,7 +410,7 @@ class BlogController extends AbstractController
 
 
     #[Route('/blog/{id}/comment/new', name: 'blog_add_comment')]
-    public function addComment(Request $request, EntityManagerInterface $entityManager)
+    public function addComment(int $id, Request $request, EntityManagerInterface $entityManager)
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -422,7 +422,7 @@ class BlogController extends AbstractController
             $entityManager->flush();
 
             // Rediriger vers la page du blog ou afficher un message de succès
-            return $this->redirectToRoute('blog_view', ['id' => $id]);
+            return $this->redirectToRoute('blog_show', ['id' => $id]);
         }
 
         return $this->render('blog/add_comment.html.twig', [
@@ -470,8 +470,9 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('blog_index');
         }
 
+        $blogId = $comment->getBlog()->getId();
+        
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
-            $blogId = $comment->getBlog()->getId();
             $entityManager->remove($comment);
             $entityManager->flush();
 

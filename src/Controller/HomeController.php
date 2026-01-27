@@ -234,7 +234,7 @@ class HomeController extends AbstractController
     
     // Vous pouvez intégrer ici la méthode findBySearchTerm si elle est spécifique à vos besoins
     #[Route('/recherche-formation-ajax', name: 'recherche_formation_ajax')]
-    public function rechercheAjax(Request $request, FormationRepository $formationRepository, Formations $formations): JsonResponse
+    public function rechercheAjax(Request $request, FormationRepository $formationRepository): JsonResponse
     {
         $query = $request->query->get('query', '');
         $formations = $formationRepository->findBySearchTerm($query);
