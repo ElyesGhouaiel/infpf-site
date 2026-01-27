@@ -1,16 +1,22 @@
-# Désactive Symfony pour ce dossier - accès direct aux fichiers
-<IfModule mod_rewrite.c>
-    RewriteEngine Off
-</IfModule>
+# SECURITE: Accès restreint aux administrateurs
+# Bloque l'accès public aux outils de diagnostic
 
-# Force pas de cache
-<IfModule mod_headers.c>
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires "0"
-</IfModule>
+# Deny all by default
+Order deny,allow
+Deny from all
 
-# Permet l'exécution PHP
-<FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
-</FilesMatch>
+# Autoriser uniquement les IPs internes/admin
+# Décommentez et ajoutez vos IPs autorisées si besoin :
+# Allow from 127.0.0.1
+# Allow from ::1
+# Allow from VOTRE_IP_ADMIN
+
+# Alternative: Authentification basique
+AuthType Basic
+AuthName "Zone de diagnostic restreinte"
+# Pour activer, créer un fichier .htpasswd et décommenter:
+# AuthUserFile /home/u665392393/.htpasswd
+# Require valid-user
+
+# Si aucune IP autorisée, on bloque tout
+# Pour accéder, ajouter Allow from VOTRE_IP ou configurer l'auth
