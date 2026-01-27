@@ -19,8 +19,6 @@
         <server name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
         <!-- KERNEL_CLASS requis pour les tests Symfony -->
         <env name="KERNEL_CLASS" value="App\Kernel" />
-        <!-- Base de donnees SQLite en memoire pour les tests -->
-        <env name="DATABASE_URL" value="sqlite:///:memory:" force="true" />
     </php>
 
     <testsuites>

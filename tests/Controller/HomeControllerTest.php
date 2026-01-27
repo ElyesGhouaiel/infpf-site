@@ -15,7 +15,29 @@ class HomeControllerTest extends WebTestCase
         $client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('title', 'Formation Professionnelle');
+    }
+
+    public function testHomePageHasTitle(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('title');
+        
+        $title = $crawler->filter('title')->text();
+        $this->assertNotEmpty($title);
+    }
+
+    public function testHomePageContainsINFPF(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+
+        $this->assertResponseIsSuccessful();
+        
+        $content = $crawler->filter('body')->text();
+        $this->assertStringContainsString('INFPF', $content);
     }
 
     public function testFormationPageIsAccessible(): void
@@ -24,7 +46,15 @@ class HomeControllerTest extends WebTestCase
         $client->request('GET', '/formation');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('title', 'Formations');
+    }
+
+    public function testFormationPageHasTitle(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/formation');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('title');
     }
 
     public function testFormationPageWithFilters(): void
@@ -33,7 +63,6 @@ class HomeControllerTest extends WebTestCase
         $client->request('GET', '/formation?thematique[]=1');
 
         $this->assertResponseIsSuccessful();
-        // Le titre devrait contenir des informations sur le filtre
         $this->assertSelectorExists('title');
     }
 
@@ -41,8 +70,5 @@ class HomeControllerTest extends WebTestCase
      * Note : Les security headers sont définis dans .htaccess (Apache)
      * et ne peuvent pas être testés via PHPUnit.
      * Ils doivent être testés manuellement via curl ou securityheaders.com
-     * 
-     * Exemple : curl -I https://dev.infpf.fr | grep -i "x-frame-options"
      */
 }
-

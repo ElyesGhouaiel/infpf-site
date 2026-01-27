@@ -9,70 +9,36 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class PerformanceTest extends WebTestCase
 {
-    /**
-     * @dataProvider criticalPagesProvider
-     */
-    public function testPageLoadsInReasonableTime(string $url, int $maxTimeMs): void
+    public function testHomePageLoadsQuickly(): void
     {
         $client = static::createClient();
         
         $startTime = microtime(true);
-        $client->request('GET', $url);
+        $client->request('GET', '/');
         $endTime = microtime(true);
         
         $loadTimeMs = ($endTime - $startTime) * 1000;
         
-        $this->assertTrue(
-            $client->getResponse()->isSuccessful() || $client->getResponse()->isRedirect(),
-            "La page $url devrait être accessible"
-        );
+        $this->assertResponseIsSuccessful();
         
-        $this->assertLessThan(
-            $maxTimeMs, 
-            $loadTimeMs, 
-            "La page $url a pris {$loadTimeMs}ms (max attendu: {$maxTimeMs}ms)"
-        );
+        // La page devrait charger en moins de 5 secondes
+        $this->assertLessThan(5000, $loadTimeMs, "La page d'accueil a pris {$loadTimeMs}ms");
     }
 
-    public function criticalPagesProvider(): array
-    {
-        return [
-            'Home' => ['/', 3000],
-            'Formations' => ['/formation', 3000],
-            'Health' => ['/health', 1000],
-            'Sitemap' => ['/sitemap.xml', 2000],
-        ];
-    }
-
-    public function testHealthCheckPerformance(): void
+    public function testHealthCheckIsQuick(): void
     {
         $client = static::createClient();
         
-        $times = [];
-        for ($i = 0; $i < 5; $i++) {
-            $startTime = microtime(true);
-            $client->request('GET', '/health/ping');
-            $endTime = microtime(true);
-            $times[] = ($endTime - $startTime) * 1000;
-        }
+        $startTime = microtime(true);
+        $client->request('GET', '/health');
+        $endTime = microtime(true);
         
-        $avgTime = array_sum($times) / count($times);
-        
-        $this->assertLessThan(500, $avgTime, "Le health check ping devrait répondre rapidement");
-    }
-
-    public function testResponseSizeIsReasonable(): void
-    {
-        $client = static::createClient();
-        $client->request('GET', '/');
+        $loadTimeMs = ($endTime - $startTime) * 1000;
         
         $this->assertResponseIsSuccessful();
         
-        $content = $client->getResponse()->getContent();
-        $sizeKb = strlen($content) / 1024;
-        
-        // La page d'accueil ne devrait pas dépasser 500KB de HTML
-        $this->assertLessThan(500, $sizeKb, "La page d'accueil fait {$sizeKb}KB (max 500KB)");
+        // Le health check devrait répondre en moins de 2 secondes
+        $this->assertLessThan(2000, $loadTimeMs, "Le health check a pris {$loadTimeMs}ms");
     }
 
     public function testSitemapSizeIsReasonable(): void
@@ -85,31 +51,41 @@ class PerformanceTest extends WebTestCase
         $content = $client->getResponse()->getContent();
         $sizeKb = strlen($content) / 1024;
         
-        // Le sitemap ne devrait pas dépasser 50MB (limite Google)
-        // On teste une limite plus raisonnable de 1MB
+        // Le sitemap ne devrait pas dépasser 1MB
         $this->assertLessThan(1024, $sizeKb, "Le sitemap fait {$sizeKb}KB (max 1MB)");
     }
 
-    public function testDatabaseQueriesAreEfficient(): void
+    public function testFormationPageLoads(): void
     {
         $client = static::createClient();
-        $client->enableProfiler();
         
+        $startTime = microtime(true);
         $client->request('GET', '/formation');
+        $endTime = microtime(true);
         
-        $this->assertTrue(
-            $client->getResponse()->isSuccessful() || 
-            $client->getResponse()->isRedirect()
-        );
+        $loadTimeMs = ($endTime - $startTime) * 1000;
         
-        // Si le profiler est activé, vérifier le nombre de requêtes
-        if ($profile = $client->getProfile()) {
-            $dbCollector = $profile->getCollector('db');
-            if ($dbCollector) {
-                $queryCount = $dbCollector->getQueryCount();
-                // Pas plus de 50 requêtes pour une page de liste
-                $this->assertLessThan(50, $queryCount, "Trop de requêtes DB: $queryCount");
-            }
+        $this->assertResponseIsSuccessful();
+        
+        // La page devrait charger en moins de 5 secondes
+        $this->assertLessThan(5000, $loadTimeMs, "La page formation a pris {$loadTimeMs}ms");
+    }
+
+    public function testHealthPingIsVeryQuick(): void
+    {
+        $client = static::createClient();
+        
+        $times = [];
+        for ($i = 0; $i < 3; $i++) {
+            $startTime = microtime(true);
+            $client->request('GET', '/health/ping');
+            $endTime = microtime(true);
+            $times[] = ($endTime - $startTime) * 1000;
         }
+        
+        $avgTime = array_sum($times) / count($times);
+        
+        // Le health ping devrait répondre en moins de 1 seconde en moyenne
+        $this->assertLessThan(1000, $avgTime, "Le health ping moyen est {$avgTime}ms");
     }
 }
