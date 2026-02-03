@@ -5,41 +5,63 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Stripe\StripeClient;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Formation; // Adaptez le nom de l'entité en fonction de votre entité de produit
 
+/**
+ * PaymentController - DÉSACTIVÉ
+ * 
+ * Ce contrôleur gérait les paiements Stripe mais n'est plus utilisé actuellement.
+ * Le code est conservé pour une éventuelle réactivation future.
+ * 
+ * @deprecated Non utilisé - Stripe désactivé sur ce projet
+ */
 class PaymentController extends AbstractController
 {
-    
+    // ============================================================
+    // STRIPE DÉSACTIVÉ - Code conservé pour référence future
+    // ============================================================
+    // 
+    // Pour réactiver Stripe :
+    // 1. Ajouter la clé secrète dans .env : STRIPE_SECRET_KEY=sk_live_xxx
+    // 2. Décommenter le code ci-dessous
+    // 3. Ajouter l'import : use Stripe\StripeClient;
+    // 4. Implémenter un webhook pour valider les paiements
+    // 
+    // ============================================================
+
+    /*
+    use Stripe\StripeClient;
+    use Symfony\Component\HttpFoundation\Request;
+    use Doctrine\ORM\EntityManagerInterface;
+    use App\Entity\Formation;
+
     #[Route('/payment-success', name: 'success_url')]
     public function paymentSuccess(): Response
     {
-        // Traitez la réussite du paiement ici
         return new Response('Paiement réussi!');
     }
 
-    // Route d'annulation
     #[Route('/payment-cancel', name: 'cancel_url')]
     public function paymentCancel(): Response
     {
-        // Gérez l'annulation du paiement ici
         return new Response('Paiement annulé.');
     }
     
-    // Route pour créer une session de paiement
     #[Route('/create-checkout-session/{productId}', name: 'create_checkout_session')]
     public function createCheckoutSession(Request $request, EntityManagerInterface $entityManager, string $productId): Response
     {
-        // Récupération du produit basé sur l'ID fourni
         $product = $entityManager->getRepository(Formation::class)->find($productId);
 
         if (!$product) {
             throw $this->createNotFoundException('No product found for id '.$productId);
         }
 
-        $stripe = new StripeClient('sk_test_51PGd7RP7ZQZW88VW2ATNYiNTS3LIiR2Eas194emcEg0wBnKl8WKAz5hjQ0N9Jq4RNe9xBERyTCeuZriLSKJyApCj00DI6TBLpi');
+        // IMPORTANT: Utiliser une variable d'environnement pour la clé Stripe
+        $stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'] ?? null;
+        if (!$stripeSecretKey) {
+            throw new \RuntimeException('STRIPE_SECRET_KEY non configurée');
+        }
+
+        $stripe = new StripeClient($stripeSecretKey);
 
         $session = $stripe->checkout->sessions->create([
             'payment_method_types' => ['card'],
@@ -49,7 +71,7 @@ class PaymentController extends AbstractController
                     'product_data' => [
                         'name' => $product->getNameFormation(),
                     ],
-                    'unit_amount' => $product->getPriceFormation() * 100, // Convertir le prix en centimes en euros
+                    'unit_amount' => $product->getPriceFormation() * 100,
                 ],
                 'quantity' => 1,
             ]],
@@ -60,4 +82,5 @@ class PaymentController extends AbstractController
 
         return $this->redirect($session->url, 303);
     }
+    */
 }

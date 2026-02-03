@@ -12,12 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/formation')]
 class FormationController extends AbstractController
 {
 
     #[Route('/new', name: 'app_formation_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous devez être administrateur pour créer une formation.')]
     public function new(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
         $formations = new Formation();
@@ -79,6 +81,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_formation_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous devez être administrateur pour modifier une formation.')]
     public function edit(Request $request, Formation $formations, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
         $category = $categoryRepository->findAll();
@@ -99,6 +102,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_formation_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous devez être administrateur pour supprimer une formation.')]
     public function delete(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$formation->getId(), $request->request->get('_token'))) {

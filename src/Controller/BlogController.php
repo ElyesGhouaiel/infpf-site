@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\File;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/blog')]
@@ -104,6 +104,7 @@ class BlogController extends AbstractController
     }
 
     #[Route('/new', name: 'app_blog_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous devez être administrateur pour créer un article.')]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $blog = new Blog();
@@ -243,6 +244,7 @@ class BlogController extends AbstractController
     
 
     #[Route('/{id}/edit', name: 'app_blog_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous devez être administrateur pour modifier un article.')]
     public function edit(Request $request, Blog $blog, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         // Garder le nom de l'image actuelle
@@ -393,6 +395,7 @@ class BlogController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'blog_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous devez être administrateur pour supprimer un article.')]
     public function delete(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $blog->getId(), $request->request->get('_token'))) {
@@ -484,25 +487,15 @@ class BlogController extends AbstractController
         return $this->redirectToRoute('blog_show', ['id' => $blogId]);
     }
 
-    #[Route('/make-me-admin', name: 'make_me_admin')]
-    public function makeMeAdmin(EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
-        if (!$user) {
-            return new Response('Vous devez être connecté');
-        }
-
-        $roles = $user->getRoles();
-        if (!in_array('ROLE_ADMIN', $roles)) {
-            $roles[] = 'ROLE_ADMIN';
-            $user->setRoles($roles);
-            $entityManager->flush();
-            
-            return new Response('Vous êtes maintenant admin ! Rechargez la page.');
-        }
-        
-        return new Response('Vous êtes déjà admin.');
-    }
+    // ============================================================
+    // ROUTE SUPPRIMÉE POUR SÉCURITÉ
+    // ============================================================
+    // La route /make-me-admin a été supprimée car elle permettait
+    // à n'importe quel utilisateur connecté de devenir admin.
+    // 
+    // Pour promouvoir un utilisateur en admin, utiliser la commande :
+    // php bin/console app:promote-user email@example.com
+    // ============================================================
 
     #[Route('/{id}/reply', name: 'blog_reply_ajax', methods: ['POST'])]
     public function replyAjax(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
