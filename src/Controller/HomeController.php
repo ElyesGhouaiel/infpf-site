@@ -140,12 +140,12 @@ class HomeController extends AbstractController
         $hasFilters = !empty($selectedThematiques) || !empty($durationFilter);
         $totalGlobal = $hasFilters ? count($formations) : array_sum($formationsCountByCategory);
 
-        // Formations regroupées par catégorie, si nécessaire pour l'affichage
+        // Formations actives regroupées par catégorie, si nécessaire pour l'affichage
         $formationsByCategory = [];
         foreach ($categories as $category) {
             $formationsByCategory[$category->getId()] = [
                 'categoryName' => $category->getName(),
-                'formations' => $formationRepository->findBy(['category' => $category]),
+                'formations' => $formationRepository->findActiveBy(['category' => $category]),
             ];
         }
 
@@ -273,7 +273,7 @@ class HomeController extends AbstractController
         }
         $category = array_merge($category, $otherCategories);
         
-        $formations = $formationRepository->findAll();
+        $formations = $formationRepository->findAllActive();
 
         // Simule un tableau d'ID de catégories vers les chemins d'images
     $categoryImages = [
@@ -449,7 +449,7 @@ public function downloadDocument($id, FormationRepository $formationRepository)
     public function guide(EntityManagerInterface $em): Response
     {
         $repo = $em->getRepository(Formation::class);
-        $formations = $repo->findAll();
+        $formations = $repo->findAllActive();
         $featuredFormations = array_slice($formations, 0, 3);
     
         $grouped = [];
@@ -465,7 +465,7 @@ public function downloadDocument($id, FormationRepository $formationRepository)
     }
     #[Route('/category/{id}/formations', name: 'category_formations', methods: ['GET'])]
     public function getFormations(Category $category, FormationRepository $repo): JsonResponse {
-        $formations = $repo->findBy(['category' => $category]);
+        $formations = $repo->findActiveBy(['category' => $category]);
         return $this->json($formations);
     }
 

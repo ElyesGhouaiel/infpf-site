@@ -17,7 +17,50 @@ class FormationRepository extends ServiceEntityRepository
     }
 
     /**
+     * Retourne toutes les formations actives (visibles sur le site public).
+     *
+     * @return Formation[]
+     */
+    public function findAllActive(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.isActive = :active')
+            ->setParameter('active', true)
+            ->orderBy('f.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Retourne les formations actives filtrées par critères Doctrine (remplace findBy pour le public).
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @return Formation[]
+     */
+    public function findActiveBy(array $criteria, ?array $orderBy = null): array
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->andWhere('f.isActive = :active')
+            ->setParameter('active', true);
+
+        foreach ($criteria as $field => $value) {
+            $qb->andWhere("f.$field = :$field")
+               ->setParameter($field, $value);
+        }
+
+        if ($orderBy) {
+            foreach ($orderBy as $field => $direction) {
+                $qb->addOrderBy("f.$field", $direction);
+            }
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * Retourne les formations filtrées par différents critères.
+     * Exclut automatiquement les formations inactives.
      *
      * @param array $criteria
      * @return QueryBuilder
@@ -26,7 +69,9 @@ class FormationRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('f')
             ->leftJoin('f.category', 'c')
-            ->addSelect('c');
+            ->addSelect('c')
+            ->andWhere('f.isActive = :active')
+            ->setParameter('active', true);
 
         if (!empty($criteria['thematique'])) {
             $qb->andWhere('IDENTITY(f.category) IN (:thematique)')
@@ -146,9 +191,11 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function countUniqueByName(): int
     {
-        // Récupérer tous les noms de formations
+        // Récupérer tous les noms de formations actives
         $formations = $this->createQueryBuilder('f')
             ->select('f.nameFormation')
+            ->andWhere('f.isActive = :active')
+            ->setParameter('active', true)
             ->getQuery()
             ->getResult();
         

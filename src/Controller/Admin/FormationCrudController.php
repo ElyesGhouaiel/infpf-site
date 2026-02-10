@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class FormationCrudController extends AbstractCrudController
@@ -30,6 +31,8 @@ class FormationCrudController extends AbstractCrudController
     {
         yield FormField::addTab('Informations principales');
         yield IdField::new('id')->hideOnForm();
+        yield BooleanField::new('isActive', 'Active (visible sur le site)')
+            ->setHelp('Décocher pour masquer la formation du site public. Les données restent en base.');
         yield TextField::new('nameFormation', 'Nom de la formation');
         yield TextareaField::new('descriptionFormation', 'Description')->hideOnIndex();
         yield AssociationField::new('category', 'Catégorie');

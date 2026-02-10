@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
             'category' => $categoryRepository->findAll(),
-            'formations' => $formationRepository->findAll(),
+            'formations' => $formationRepository->findAllActive(),
         ]);
     }
 

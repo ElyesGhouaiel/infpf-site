@@ -68,8 +68,8 @@ class SitemapController extends AbstractController
             ];
         }
 
-        // Toutes les formations
-        $formations = $formationRepository->findAll();
+        // Formations actives uniquement
+        $formations = $formationRepository->findAllActive();
         foreach ($formations as $formation) {
             $urls[] = [
                 'loc' => $hostname . '/formation/' . $formation->getId(),

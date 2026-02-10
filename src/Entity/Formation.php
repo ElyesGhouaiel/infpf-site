@@ -92,6 +92,9 @@ class Formation
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $tauxReussite = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private bool $isActive = true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -373,6 +376,17 @@ class Formation
     public function setTauxReussite(?string $tauxReussite): self
     {
         $this->tauxReussite = $tauxReussite;
+        return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
         return $this;
     }
 }

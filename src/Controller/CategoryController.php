@@ -21,7 +21,7 @@ class CategoryController extends AbstractController
     {
         return $this->render('content/category/index.html.twig', [
             'category' => $categoryRepository->findAll(),
-            'formations' => $formationRepository->findAll(),
+            'formations' => $formationRepository->findAllActive(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class CategoryController extends AbstractController
     {
         return $this->render('home/formation.html.twig', [
             'category' => $categoryRepository->findAll(),
-            'formations' => $formationRepository->findAll(),
+            'formations' => $formationRepository->findAllActive(),
         ]);
     }
 
@@ -58,7 +58,7 @@ class CategoryController extends AbstractController
     #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
     public function show(Category $category, FormationRepository $formationRepository): Response
     {
-        $formations = $formationRepository->findBy(['category' => $category]);
+        $formations = $formationRepository->findActiveBy(['category' => $category]);
         
         
         

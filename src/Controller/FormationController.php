@@ -50,6 +50,11 @@ class FormationController extends AbstractController
         if (!$formation) {
             throw $this->createNotFoundException('Formation non trouvée');
         }
+
+        // Si la formation est inactive (masquée), renvoyer une 404 pour les visiteurs
+        if (!$formation->isActive() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createNotFoundException('Formation non disponible');
+        }
         
         $category = $categoryRepository->findAll();
         

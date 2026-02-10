@@ -225,7 +225,7 @@ class MetierService
      */
     public function getFormationStats(): array
     {
-        $formations = $this->formationRepository->findAll();
+        $formations = $this->formationRepository->findAllActive();
         
         $totalFormations = count($formations);
         $formationsWithRncp = 0;

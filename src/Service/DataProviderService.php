@@ -31,14 +31,14 @@ class DataProviderService
 
     public function getFormations()
     {
-        // Récupère toutes les formations
-        return $this->formationRepository->findAll();
+        // Récupère toutes les formations actives (visibles sur le site)
+        return $this->formationRepository->findAllActive();
     }
 
-    // Récupère les formations d'une catégorie spécifique
+    // Récupère les formations actives d'une catégorie spécifique
     public function getFormationsByCategory(Category $category)
     {
-        return $this->formationRepository->findBy(['category' => $category]);
+        return $this->formationRepository->findActiveBy(['category' => $category]);
     }
 
     // Récupère une catégorie par son nom
@@ -48,34 +48,43 @@ class DataProviderService
         return $this->categoryRepository->findOneBy(['name' => $name]);
     }
 
-    // Récupère les catégories qui ont au moins une formation
+    // Récupère les catégories qui ont au moins une formation active
     // Utile pour filtrer et n'afficher que les catégories actives
     public function getCategoriesWithFormations()
     {
         return $this->categoryRepository->createQueryBuilder('c')
             ->innerJoin('c.formations', 'f')
+            ->andWhere('f.isActive = :active')
+            ->setParameter('active', true)
             ->groupBy('c.id')
             ->having('COUNT(f.id) > 0')
             ->getQuery()
             ->getResult();
     }
 
-    // Récupère le nombre de formations dans une catégorie spécifique
-    // Utile pour afficher des statistiques ou pour des vérifications rapides
+    // Récupère le nombre de formations actives dans une catégorie spécifique
     public function countFormationsByCategory(Category $category)
     {
-        return $this->formationRepository->count(['category' => $category]);
+        return $this->formationRepository->createQueryBuilder('f')
+            ->select('COUNT(f.id)')
+            ->andWhere('f.category = :category')
+            ->andWhere('f.isActive = :active')
+            ->setParameter('category', $category)
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
     
-    // Ajoutez ici d'autres méthodes selon les besoins spécifiques de votre application
-    // Récupère le nombre total de formations dans une catégorie spécifique
+    // Récupère le nombre total de formations actives dans une catégorie spécifique
     public function getTotalFormationsInCategory($categoryId)
     {
         $query = $this->entityManager->createQuery(
             'SELECT COUNT(f)
             FROM App\Entity\Formation f
-            WHERE f.category = :categoryId'
-        )->setParameter('categoryId', $categoryId);
+            WHERE f.category = :categoryId
+            AND f.isActive = :active'
+        )->setParameter('categoryId', $categoryId)
+         ->setParameter('active', true);
 
         return $query->getSingleScalarResult();
     }
