@@ -1,0 +1,270 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accessibilité et Handicap - INFPF{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="L'INFPF s'engage pour l'accessibilité de ses formations aux personnes en situation de handicap. Découvrez nos aménagements, notre référent handicap et nos partenaires.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link href="../css/footer1.min.css" rel="stylesheet"/>
+	<style>
+		*,*::before,*::after{box-sizing:border-box}
+
+		.ah-hero{
+			position:relative;
+			min-height:55vh;
+			background:linear-gradient(135deg,#0b3f89 0%,#1e5cb8 40%,#00b4d8 100%);
+			display:flex;align-items:center;justify-content:center;
+			text-align:center;
+			padding:calc(var(--header-height,80px) + 40px) 24px 60px;
+			overflow:hidden;
+		}
+		.ah-hero::before{
+			content:'';position:absolute;inset:0;
+			background:radial-gradient(circle at 30% 70%,rgba(255,255,255,.08) 0%,transparent 50%),
+			           radial-gradient(circle at 70% 30%,rgba(255,255,255,.06) 0%,transparent 50%);
+			z-index:1;
+		}
+		.ah-hero-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;color:#fff}
+		.ah-hero h1{
+			font-size:clamp(2.2rem,6vw,4.2rem);
+			font-weight:900;letter-spacing:-.02em;
+			margin:0 0 20px;line-height:1.1;
+		}
+		.ah-hero p{
+			font-size:clamp(1.15rem,2.8vw,1.5rem);
+			opacity:.93;line-height:1.6;margin:0;
+			text-align:center!important;
+		}
+
+		.ah-wrap{max-width:1140px;margin:0 auto;padding:60px 24px 80px}
+
+		.ah-h2{
+			font-size:clamp(1.7rem,4.5vw,2.8rem);
+			font-weight:800;color:#0b3f89;
+			margin:0 0 32px;line-height:1.15;
+			letter-spacing:-.01em;
+		}
+
+		.ah-referent{
+			background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+			border:2px solid #6ee7b7;border-radius:20px;
+			padding:40px;margin-bottom:56px;
+			position:relative;overflow:hidden;
+		}
+		.ah-referent::after{
+			content:'';position:absolute;top:0;left:0;bottom:0;width:6px;
+			background:linear-gradient(180deg,#059669,#34d399);
+		}
+		.ah-referent h3{
+			font-size:clamp(1.3rem,3vw,1.7rem);
+			font-weight:800;color:#059669;
+			text-transform:uppercase;letter-spacing:.5px;
+			margin:0 0 20px;
+		}
+		.ah-referent p{
+			font-size:clamp(1.1rem,2vw,1.25rem);
+			line-height:1.85;color:#1e293b;margin:0 0 12px;
+		}
+		.ah-referent p:last-child{margin-bottom:0}
+		.ah-referent a{color:#0b3f89;font-weight:700;text-decoration:none;transition:color .3s}
+		.ah-referent a:hover{color:#00b4d8}
+
+		.ah-section{margin-bottom:56px}
+
+		.ah-box{
+			background:#fff;padding:40px;
+			border-radius:20px;border:1px solid #e2e8f0;
+			box-shadow:0 4px 24px rgba(11,63,137,.06);
+			margin-bottom:32px;
+		}
+		.ah-box h3{
+			font-size:clamp(1.3rem,2.8vw,1.7rem);
+			font-weight:800;color:#0b3f89;margin:0 0 20px;
+		}
+		.ah-box p{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			line-height:1.85;color:#334155;margin:0 0 16px;
+		}
+		.ah-box p:last-child{margin-bottom:0}
+		.ah-box ul{padding-left:24px;margin:16px 0 0}
+		.ah-box li{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			line-height:1.85;color:#334155;
+			margin-bottom:14px;
+		}
+		.ah-box li::marker{color:#0b3f89;font-weight:bold}
+		.ah-box a{color:#0b3f89;font-weight:700;text-decoration:none}
+		.ah-box a:hover{color:#00b4d8}
+
+		.ah-partners{
+			display:grid;
+			grid-template-columns:repeat(2,1fr);
+			gap:24px;margin-top:32px;
+		}
+		.ah-partner{
+			background:#fff;border-radius:16px;
+			padding:32px;border:1px solid #e2e8f0;
+			box-shadow:0 4px 16px rgba(11,63,137,.06);
+		}
+		.ah-partner h4{
+			font-size:clamp(1.1rem,2vw,1.3rem);
+			font-weight:800;color:#0b3f89;margin:0 0 12px;
+		}
+		.ah-partner p{
+			font-size:clamp(1rem,1.8vw,1.1rem);
+			color:#64748b;line-height:1.7;margin:0;
+		}
+
+		.ah-cta{
+			background:linear-gradient(135deg,#0b3f89,#1e5cb8,#00b4d8);
+			padding:64px 40px;border-radius:24px;
+			color:#fff;text-align:center;margin-top:64px;
+		}
+		.ah-cta h2{
+			font-size:clamp(1.8rem,4.5vw,2.8rem);
+			font-weight:900;margin:0 0 20px;color:#fff;
+		}
+		.ah-cta p{
+			font-size:clamp(1.1rem,2.2vw,1.35rem);
+			opacity:.93;margin:0 auto 32px;
+			max-width:700px;line-height:1.7;
+			text-align:center!important;
+		}
+		.ah-cta-btn{
+			display:inline-flex;align-items:center;gap:12px;
+			background:#fff;color:#0b3f89;
+			padding:20px 40px;border-radius:60px;
+			text-decoration:none;font-weight:800;
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			transition:transform .3s,box-shadow .3s;
+			box-shadow:0 8px 28px rgba(0,0,0,.15);
+		}
+		.ah-cta-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.2);color:#0b3f89}
+
+		@media(max-width:768px){
+			.ah-hero{min-height:45vh;padding:calc(var(--header-height,80px) + 24px) 20px 40px}
+			.ah-wrap{padding:40px 20px 60px}
+			.ah-referent,.ah-box{padding:28px 24px}
+			.ah-partners{grid-template-columns:1fr}
+			.ah-cta{padding:48px 24px}
+		}
+		@media(max-width:400px){
+			.ah-hero{padding:calc(var(--header-height,80px) + 16px) 16px 32px}
+			.ah-wrap{padding:32px 16px 48px}
+			.ah-referent,.ah-box{padding:24px 20px}
+			.ah-partner{padding:24px 20px}
+			.ah-cta{padding:40px 20px;border-radius:16px}
+			.ah-cta-btn{padding:18px 32px}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+<section class="ah-hero">
+	<div class="ah-hero-inner">
+		<h1>Accessibilité & Handicap</h1>
+		<p>L'INFPF s'engage pour rendre ses formations accessibles à tous, y compris aux personnes en situation de handicap</p>
+	</div>
+</section>
+
+<main class="ah-wrap">
+
+	<div class="ah-referent">
+		<h3>Votre référent handicap</h3>
+		<p>Pour toute question relative à l'accessibilité de nos formations ou pour signaler un besoin spécifique d'aménagement, votre référent handicap est à votre écoute :</p>
+		<p><strong>Service Référent Handicap INFPF</strong></p>
+		<p>Email : <a href="mailto:handicap@infpf.fr">handicap@infpf.fr</a></p>
+		<p>Téléphone : <a href="tel:0489050355">04 89 05 03 55</a></p>
+		<p>Le référent handicap est votre interlocuteur privilégié pour analyser vos besoins, identifier les aménagements possibles et vous accompagner tout au long de votre parcours de formation.</p>
+	</div>
+
+	<section class="ah-section">
+		<h2 class="ah-h2">Notre engagement en faveur de l'accessibilité</h2>
+		<div class="ah-box">
+			<p>L'INFPF s'inscrit dans une démarche d'accessibilité universelle conformément à la loi n° 2018-771 du 5 septembre 2018 pour la liberté de choisir son avenir professionnel. Nous veillons à ce que nos formations soient accessibles au plus grand nombre, quels que soient les besoins spécifiques des apprenants.</p>
+			<p>Nos formations à distance offrent un cadre naturellement favorable à l'accessibilité : rythme personnalisé, supports numériques consultables à tout moment, accompagnement individualisé et absence de contraintes de déplacement.</p>
+		</div>
+	</section>
+
+	<section class="ah-section">
+		<h2 class="ah-h2">Aménagements possibles</h2>
+
+		<div class="ah-box">
+			<h3>Aménagements pédagogiques</h3>
+			<ul>
+				<li>Adaptation du rythme de formation et allongement de la durée du parcours</li>
+				<li>Supports pédagogiques adaptés (format, taille, contraste)</li>
+				<li>Compatibilité des supports numériques avec les technologies d'assistance (lecteurs d'écran, synthèse vocale)</li>
+				<li>Séquençage adapté des modules de formation</li>
+				<li>Accompagnement renforcé par un coach pédagogique dédié</li>
+			</ul>
+		</div>
+
+		<div class="ah-box">
+			<h3>Aménagements techniques</h3>
+			<ul>
+				<li>Assistance technique personnalisée pour l'accès à la plateforme e-learning</li>
+				<li>Mise à disposition de formats alternatifs (audio, vidéo sous-titrée)</li>
+				<li>Adaptation des outils d'évaluation et des examens</li>
+			</ul>
+		</div>
+
+		<div class="ah-box">
+			<h3>Aménagements organisationnels</h3>
+			<ul>
+				<li>Planification flexible des rendez-vous et des évaluations</li>
+				<li>Temps supplémentaire accordé pour les évaluations</li>
+				<li>Suivi personnalisé renforcé</li>
+				<li>Coordination avec les structures d'accompagnement spécialisées</li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="ah-section">
+		<h2 class="ah-h2">Comment signaler un besoin ?</h2>
+		<div class="ah-box">
+			<ul>
+				<li><strong>1. Prise de contact :</strong> Contactez notre référent handicap par email (<a href="mailto:handicap@infpf.fr">handicap@infpf.fr</a>) ou par téléphone (<a href="tel:0489050355">04 89 05 03 55</a>) pour signaler votre situation.</li>
+				<li><strong>2. Entretien personnalisé :</strong> Un entretien confidentiel est organisé pour analyser vos besoins spécifiques et identifier les aménagements adaptés.</li>
+				<li><strong>3. Mise en place des aménagements :</strong> Les adaptations nécessaires sont formalisées et mises en œuvre avant ou au début de votre parcours.</li>
+				<li><strong>4. Suivi continu :</strong> Un suivi régulier est assuré tout au long de votre formation pour vérifier l'efficacité des aménagements et les ajuster si nécessaire.</li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="ah-section">
+		<h2 class="ah-h2">Nos partenaires spécialisés</h2>
+		<div class="ah-partners">
+			<div class="ah-partner">
+				<h4>Agefiph</h4>
+				<p>Association de gestion du fonds pour l'insertion professionnelle des personnes handicapées. Aides financières et services d'accompagnement.</p>
+			</div>
+			<div class="ah-partner">
+				<h4>Cap Emploi</h4>
+				<p>Organismes de placement spécialisés au service des personnes handicapées et des employeurs pour l'insertion et le maintien dans l'emploi.</p>
+			</div>
+			<div class="ah-partner">
+				<h4>MDPH</h4>
+				<p>Maisons Départementales des Personnes Handicapées. Guichet unique pour les droits et prestations liés au handicap.</p>
+			</div>
+			<div class="ah-partner">
+				<h4>Ressource Handicap Formation</h4>
+				<p>Service de l'Agefiph et du FIPHFP pour accompagner les organismes de formation dans l'accueil des personnes en situation de handicap.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="ah-cta">
+		<h2>Une question sur l'accessibilité ?</h2>
+		<p>Notre référent handicap est disponible pour échanger sur vos besoins et vous accompagner dans votre projet de formation.</p>
+		<a href="{{ path('app_contact') }}" class="ah-cta-btn">
+			<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+			Contactez-nous
+		</a>
+	</section>
+
+</main>
+{% endblock %}

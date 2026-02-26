@@ -1,0 +1,246 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Procédure de réclamation - INFPF{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Procédure de réclamation de l'INFPF. Découvrez comment formuler une réclamation, les délais de traitement et les voies de recours disponibles.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link href="../css/footer1.min.css" rel="stylesheet"/>
+	<style>
+		*,*::before,*::after{box-sizing:border-box}
+
+		.rc-hero{
+			position:relative;
+			min-height:55vh;
+			background:linear-gradient(135deg,#0b3f89 0%,#1e5cb8 40%,#00b4d8 100%);
+			display:flex;align-items:center;justify-content:center;
+			text-align:center;
+			padding:calc(var(--header-height,80px) + 40px) 24px 60px;
+			overflow:hidden;
+		}
+		.rc-hero::before{
+			content:'';position:absolute;inset:0;
+			background:radial-gradient(circle at 25% 75%,rgba(255,255,255,.08) 0%,transparent 50%),
+			           radial-gradient(circle at 75% 25%,rgba(255,255,255,.06) 0%,transparent 50%);
+			z-index:1;
+		}
+		.rc-hero-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;color:#fff}
+		.rc-hero h1{
+			font-size:clamp(2.2rem,6vw,4.2rem);
+			font-weight:900;letter-spacing:-.02em;
+			margin:0 0 20px;line-height:1.1;
+		}
+		.rc-hero p{
+			font-size:clamp(1.15rem,2.8vw,1.5rem);
+			opacity:.93;line-height:1.6;margin:0;
+			text-align:center!important;
+		}
+
+		.rc-wrap{max-width:1140px;margin:0 auto;padding:60px 24px 80px}
+
+		.rc-h2{
+			font-size:clamp(1.7rem,4.5vw,2.8rem);
+			font-weight:800;color:#0b3f89;
+			margin:0 0 32px;line-height:1.15;
+			letter-spacing:-.01em;
+		}
+
+		.rc-section{margin-bottom:56px}
+
+		.rc-box{
+			background:#fff;padding:40px;
+			border-radius:20px;border:1px solid #e2e8f0;
+			box-shadow:0 4px 24px rgba(11,63,137,.06);
+			margin-bottom:32px;
+		}
+		.rc-box p{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			line-height:1.85;color:#334155;margin:0 0 16px;
+		}
+		.rc-box p:last-child{margin-bottom:0}
+		.rc-box a{color:#0b3f89;font-weight:700;text-decoration:none}
+		.rc-box a:hover{color:#00b4d8}
+
+		.rc-steps{
+			display:grid;
+			grid-template-columns:repeat(2,1fr);
+			gap:24px;margin:40px 0;
+		}
+		.rc-step{
+			background:#fff;border-radius:20px;
+			padding:36px 32px;
+			border:1px solid #e2e8f0;
+			box-shadow:0 4px 20px rgba(11,63,137,.06);
+			position:relative;overflow:hidden;
+		}
+		.rc-step::after{
+			content:'';position:absolute;top:0;left:0;right:0;height:5px;
+			background:linear-gradient(90deg,#0b3f89,#00b4d8);
+		}
+		.rc-step-num{
+			display:inline-flex;align-items:center;justify-content:center;
+			width:56px;height:56px;
+			background:linear-gradient(135deg,#0b3f89,#00b4d8);
+			color:#fff;border-radius:50%;
+			font-weight:900;font-size:clamp(1.2rem,2.5vw,1.5rem);
+			margin-bottom:20px;
+			box-shadow:0 6px 20px rgba(11,63,137,.2);
+		}
+		.rc-step h4{
+			font-size:clamp(1.2rem,2.5vw,1.5rem);
+			font-weight:800;color:#0b3f89;margin:0 0 14px;
+		}
+		.rc-step p{
+			font-size:clamp(1.05rem,2vw,1.15rem);
+			color:#334155;line-height:1.8;margin:0;
+		}
+
+		.rc-contact{
+			background:linear-gradient(135deg,#eff6ff,#dbeafe);
+			border:2px solid #93c5fd;border-radius:20px;
+			padding:40px;margin-bottom:40px;
+			position:relative;overflow:hidden;
+		}
+		.rc-contact::after{
+			content:'';position:absolute;top:0;left:0;bottom:0;width:6px;
+			background:linear-gradient(180deg,#0b3f89,#00b4d8);
+		}
+		.rc-contact h3{
+			font-size:clamp(1.3rem,3vw,1.7rem);
+			font-weight:800;color:#0b3f89;margin:0 0 20px;
+		}
+		.rc-contact p{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			color:#334155;line-height:1.85;margin:0 0 12px;
+		}
+		.rc-contact p:last-child{margin-bottom:0}
+		.rc-contact a{color:#0b3f89;font-weight:700;text-decoration:none}
+		.rc-contact a:hover{color:#00b4d8}
+
+		.rc-engage{
+			background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+			border:2px solid #6ee7b7;border-radius:20px;
+			padding:40px;margin-bottom:40px;
+		}
+		.rc-engage h3{
+			font-size:clamp(1.3rem,3vw,1.7rem);
+			font-weight:800;color:#059669;
+			text-transform:uppercase;letter-spacing:.5px;
+			margin:0 0 24px;
+		}
+		.rc-engage ul{padding-left:24px;margin:0}
+		.rc-engage li{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			color:#334155;line-height:1.85;margin-bottom:14px;
+		}
+		.rc-engage li::marker{color:#059669;font-weight:bold}
+
+		.rc-mediation{
+			background:linear-gradient(135deg,#fefce8,#fef3c7);
+			border:2px solid #fcd34d;border-radius:20px;
+			padding:40px;
+		}
+		.rc-mediation h3{
+			font-size:clamp(1.3rem,3vw,1.7rem);
+			font-weight:800;color:#a16207;margin:0 0 20px;
+		}
+		.rc-mediation p{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			color:#334155;line-height:1.85;margin:0 0 14px;
+		}
+		.rc-mediation p:last-child{margin-bottom:0}
+		.rc-mediation a{color:#0b3f89;font-weight:700;text-decoration:none}
+		.rc-mediation a:hover{color:#00b4d8}
+
+		@media(max-width:768px){
+			.rc-hero{min-height:45vh;padding:calc(var(--header-height,80px) + 24px) 20px 40px}
+			.rc-wrap{padding:40px 20px 60px}
+			.rc-steps{grid-template-columns:1fr}
+			.rc-box,.rc-contact,.rc-engage,.rc-mediation{padding:28px 24px}
+		}
+		@media(max-width:400px){
+			.rc-hero{padding:calc(var(--header-height,80px) + 16px) 16px 32px}
+			.rc-wrap{padding:32px 16px 48px}
+			.rc-step{padding:28px 24px}
+			.rc-box,.rc-contact,.rc-engage,.rc-mediation{padding:24px 20px}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+<section class="rc-hero">
+	<div class="rc-hero-inner">
+		<h1>Procédure de réclamation</h1>
+		<p>Votre satisfaction est notre priorité. Nous nous engageons à traiter chaque réclamation avec rigueur et transparence.</p>
+	</div>
+</section>
+
+<main class="rc-wrap">
+
+	<section class="rc-section">
+		<h2 class="rc-h2">Qu'est-ce qu'une réclamation ?</h2>
+		<div class="rc-box">
+			<p>Une réclamation est une action visant à faire respecter un droit ou à demander une chose due, recueillie par écrit. Elle se distingue d'une simple demande d'information ou d'un avis formulé dans le cadre d'une enquête de satisfaction.</p>
+			<p>Toute réclamation émanant d'un stagiaire, d'un financeur, d'un partenaire ou de tout autre partie prenante est prise en compte et traitée selon la procédure décrite ci-dessous.</p>
+		</div>
+	</section>
+
+	<section class="rc-section">
+		<h2 class="rc-h2">Les étapes du traitement</h2>
+		<div class="rc-steps">
+			<div class="rc-step">
+				<div class="rc-step-num">1</div>
+				<h4>Réception</h4>
+				<p>Votre réclamation est reçue par email ou par courrier. Un numéro de suivi vous est attribué pour le suivi de votre dossier.</p>
+			</div>
+			<div class="rc-step">
+				<div class="rc-step-num">2</div>
+				<h4>Accusé de réception</h4>
+				<p>Un accusé de réception vous est envoyé sous <strong>48 heures ouvrées</strong> confirmant la prise en charge de votre réclamation.</p>
+			</div>
+			<div class="rc-step">
+				<div class="rc-step-num">3</div>
+				<h4>Analyse et traitement</h4>
+				<p>Votre réclamation est analysée par le service concerné. Des éléments complémentaires peuvent vous être demandés pour instruire le dossier.</p>
+			</div>
+			<div class="rc-step">
+				<div class="rc-step-num">4</div>
+				<h4>Réponse</h4>
+				<p>Une réponse écrite et motivée vous est adressée sous <strong>30 jours maximum</strong> à compter de la réception de la réclamation.</p>
+			</div>
+		</div>
+	</section>
+
+	<div class="rc-contact">
+		<h3>Comment formuler une réclamation ?</h3>
+		<p>Vous pouvez adresser votre réclamation par les moyens suivants :</p>
+		<p><strong>Par email :</strong> <a href="mailto:reclamation@infpf.fr">reclamation@infpf.fr</a></p>
+		<p><strong>Par courrier :</strong> INFPF - Service Réclamations, à l'adresse indiquée dans nos mentions légales</p>
+		<p><strong>Par téléphone :</strong> <a href="tel:0489050355">04 89 05 03 55</a> (du lundi au vendredi, de 9h à 18h)</p>
+		<p>Merci de préciser dans votre réclamation : vos coordonnées complètes, la formation concernée, l'objet détaillé de votre réclamation et, si possible, les pièces justificatives associées.</p>
+	</div>
+
+	<div class="rc-engage">
+		<h3>Nos engagements qualité</h3>
+		<ul>
+			<li>Accusé de réception de toute réclamation sous 48 heures ouvrées</li>
+			<li>Réponse écrite et motivée sous 30 jours maximum</li>
+			<li>Traitement impartial et confidentiel de chaque réclamation</li>
+			<li>Suivi des réclamations dans un registre dédié</li>
+			<li>Analyse des réclamations dans le cadre de notre démarche d'amélioration continue</li>
+			<li>Information du réclamant en cas de prolongation du délai de traitement</li>
+		</ul>
+	</div>
+
+	<div class="rc-mediation">
+		<h3>Voies de recours — Médiation de la consommation</h3>
+		<p>En cas de litige non résolu par notre procédure interne, vous avez la possibilité de recourir gratuitement au service de médiation de la consommation, conformément aux articles L.611-1 et suivants du Code de la consommation.</p>
+		<p>Le médiateur peut être saisi dans un délai d'un an à compter de la réclamation écrite adressée à l'INFPF.</p>
+		<p>Les coordonnées du médiateur de la consommation compétent sont disponibles dans nos <a href="{{ path('cgv') }}">Conditions Générales de Vente</a> et nos <a href="{{ path('legal_mentions') }}">Mentions Légales</a>.</p>
+	</div>
+
+</main>
+{% endblock %}

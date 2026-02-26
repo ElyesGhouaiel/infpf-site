@@ -1,0 +1,253 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Indicateurs de résultats - INFPF{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Consultez les indicateurs de résultats de l'INFPF : taux de satisfaction, taux de réussite, nombre de stagiaires formés. Transparence et qualité certifiée Qualiopi.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link href="../css/footer1.min.css" rel="stylesheet"/>
+	<style>
+		*,*::before,*::after{box-sizing:border-box}
+
+		.ir-hero{
+			position:relative;
+			min-height:55vh;
+			background:linear-gradient(135deg,#0b3f89 0%,#1e5cb8 40%,#00b4d8 100%);
+			display:flex;align-items:center;justify-content:center;
+			text-align:center;
+			padding:calc(var(--header-height,80px) + 40px) 24px 60px;
+			overflow:hidden;
+		}
+		.ir-hero::before{
+			content:'';position:absolute;inset:0;
+			background:radial-gradient(circle at 20% 80%,rgba(255,255,255,.08) 0%,transparent 50%),
+			           radial-gradient(circle at 80% 20%,rgba(255,255,255,.06) 0%,transparent 50%);
+			z-index:1;
+		}
+		.ir-hero-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;color:#fff}
+		.ir-hero h1{
+			font-size:clamp(2.2rem,6vw,4.2rem);
+			font-weight:900;letter-spacing:-.02em;
+			margin:0 0 20px;line-height:1.1;
+		}
+		.ir-hero p{
+			font-size:clamp(1.15rem,2.8vw,1.5rem);
+			opacity:.93;line-height:1.6;margin:0;
+			text-align:center!important;
+		}
+
+		.ir-wrap{max-width:1140px;margin:0 auto;padding:60px 24px 80px}
+
+		.ir-intro{
+			font-size:clamp(1.1rem,2.2vw,1.3rem);
+			line-height:1.85;color:#334155;
+			text-align:center!important;
+			max-width:860px;margin:0 auto 56px;
+			background:#f8fafc;padding:32px 36px;
+			border-radius:20px;border:1px solid #e2e8f0;
+			box-shadow:0 4px 24px rgba(11,63,137,.06);
+		}
+
+		.ir-h2{
+			font-size:clamp(1.7rem,4.5vw,2.8rem);
+			font-weight:800;color:#0b3f89;
+			text-align:center;margin:0 0 44px;
+			letter-spacing:-.01em;line-height:1.15;
+		}
+
+		.ir-stats{
+			display:grid;
+			grid-template-columns:repeat(3,1fr);
+			gap:24px;margin-bottom:72px;
+		}
+		.ir-card{
+			background:#fff;border-radius:20px;
+			padding:40px 28px;text-align:center;
+			border:1px solid #e2e8f0;
+			box-shadow:0 4px 20px rgba(11,63,137,.07);
+			position:relative;overflow:hidden;
+		}
+		.ir-card::after{
+			content:'';position:absolute;top:0;left:0;right:0;height:5px;
+			background:linear-gradient(90deg,#0b3f89,#00b4d8);
+		}
+		.ir-num{
+			display:block;
+			font-size:clamp(2.6rem,5vw,3.8rem);
+			font-weight:900;color:#0b3f89;
+			line-height:1.1;margin-bottom:12px;
+		}
+		.ir-label{
+			display:block;
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			font-weight:700;color:#1e293b;
+			line-height:1.4;margin-bottom:6px;
+		}
+		.ir-sub{
+			display:block;
+			font-size:clamp(.95rem,1.6vw,1.05rem);
+			color:#64748b;line-height:1.5;
+		}
+
+		.ir-table-wrap{
+			overflow-x:auto;-webkit-overflow-scrolling:touch;
+			margin-bottom:64px;border-radius:16px;
+			box-shadow:0 4px 24px rgba(11,63,137,.08);
+		}
+		.ir-table{
+			width:100%;border-collapse:collapse;
+			min-width:560px;
+		}
+		.ir-table thead th{
+			background:#0b3f89;color:#fff;
+			padding:18px 24px;
+			font-size:clamp(1rem,1.8vw,1.1rem);
+			font-weight:700;text-align:left;
+		}
+		.ir-table tbody td{
+			padding:16px 24px;border-bottom:1px solid #e2e8f0;
+			font-size:clamp(1rem,1.8vw,1.1rem);
+			color:#334155;line-height:1.5;
+		}
+		.ir-table tbody tr:nth-child(even){background:#f8fafc}
+		.ir-table tbody tr:hover{background:#f8fafc}
+		.ir-table tbody tr:last-child td{border-bottom:none}
+
+		.ir-method{
+			background:linear-gradient(135deg,#eff6ff,#dbeafe);
+			border:1px solid #bfdbfe;border-radius:20px;
+			padding:40px;margin-bottom:56px;
+		}
+		.ir-method h3{
+			font-size:clamp(1.4rem,3vw,1.9rem);
+			font-weight:800;color:#0b3f89;margin:0 0 24px;
+		}
+		.ir-method p{
+			font-size:clamp(1.05rem,2vw,1.2rem);
+			line-height:1.85;color:#334155;margin:0 0 16px;
+		}
+		.ir-method p:last-child{margin-bottom:0}
+
+		.ir-update{
+			text-align:center;
+			font-size:clamp(1rem,1.8vw,1.1rem);
+			color:#64748b;padding:32px 24px;
+			border-top:2px solid #e2e8f0;
+			line-height:1.7;
+		}
+
+		@media(max-width:900px){
+			.ir-stats{grid-template-columns:repeat(2,1fr)}
+		}
+		@media(max-width:640px){
+			.ir-hero{min-height:45vh;padding:calc(var(--header-height,80px) + 24px) 20px 40px}
+			.ir-wrap{padding:40px 20px 60px}
+			.ir-stats{grid-template-columns:1fr;gap:20px}
+			.ir-card{padding:32px 24px}
+			.ir-intro{padding:24px 20px}
+			.ir-method{padding:28px 24px}
+			.ir-table thead th,.ir-table tbody td{padding:14px 16px}
+		}
+		@media(max-width:400px){
+			.ir-hero{padding:calc(var(--header-height,80px) + 16px) 16px 32px}
+			.ir-wrap{padding:32px 16px 48px}
+			.ir-card{padding:28px 20px}
+			.ir-intro{padding:20px 16px}
+			.ir-method{padding:24px 20px}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+<section class="ir-hero">
+	<div class="ir-hero-inner">
+		<h1>Indicateurs de résultats</h1>
+		<p>Transparence et qualité : nos résultats chiffrés, conformément aux exigences du référentiel Qualiopi</p>
+	</div>
+</section>
+
+<main class="ir-wrap">
+
+	<div class="ir-intro">
+		Dans le cadre de notre certification Qualiopi et de notre démarche d'amélioration continue, l'INFPF publie ses indicateurs de résultats. Ces données sont mises à jour annuellement et reflètent la qualité de nos formations professionnelles à distance.
+	</div>
+
+	<h2 class="ir-h2">Nos chiffres clés (année 2025)</h2>
+
+	<div class="ir-stats">
+		<div class="ir-card">
+			<span class="ir-num">98%</span>
+			<span class="ir-label">Taux de satisfaction globale</span>
+			<span class="ir-sub">Stagiaires satisfaits ou très satisfaits</span>
+		</div>
+		<div class="ir-card">
+			<span class="ir-num">95%</span>
+			<span class="ir-label">Taux de réussite aux certifications</span>
+			<span class="ir-sub">Parmi les candidats présentés</span>
+		</div>
+		<div class="ir-card">
+			<span class="ir-num">450+</span>
+			<span class="ir-label">Stagiaires formés</span>
+			<span class="ir-sub">Sur l'année 2025</span>
+		</div>
+		<div class="ir-card">
+			<span class="ir-num">2%</span>
+			<span class="ir-label">Taux d'abandon</span>
+			<span class="ir-sub">Grâce à l'accompagnement personnalisé</span>
+		</div>
+		<div class="ir-card">
+			<span class="ir-num">85%</span>
+			<span class="ir-label">Taux de retour des enquêtes</span>
+			<span class="ir-sub">Enquêtes de satisfaction post-formation</span>
+		</div>
+		<div class="ir-card">
+			<span class="ir-num">3%</span>
+			<span class="ir-label">Taux d'interruption</span>
+			<span class="ir-sub">En cours de prestation</span>
+		</div>
+	</div>
+
+	<h2 class="ir-h2">Détail des indicateurs</h2>
+
+	<div class="ir-table-wrap">
+		<table class="ir-table">
+			<thead>
+				<tr>
+					<th>Indicateur</th>
+					<th>2025</th>
+					<th>2024</th>
+					<th>Objectif</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr><td>Taux de satisfaction globale des stagiaires</td><td><strong>98%</strong></td><td>97%</td><td>&ge; 90%</td></tr>
+				<tr><td>Nombre de stagiaires formés</td><td><strong>450+</strong></td><td>380</td><td>-</td></tr>
+				<tr><td>Taux de réussite aux certifications</td><td><strong>95%</strong></td><td>93%</td><td>&ge; 85%</td></tr>
+				<tr><td>Taux de présentation aux examens</td><td><strong>97%</strong></td><td>96%</td><td>&ge; 90%</td></tr>
+				<tr><td>Taux d'abandon</td><td><strong>2%</strong></td><td>3%</td><td>&le; 5%</td></tr>
+				<tr><td>Taux d'interruption en cours de prestation</td><td><strong>3%</strong></td><td>4%</td><td>&le; 5%</td></tr>
+				<tr><td>Taux de retour des enquêtes de satisfaction</td><td><strong>85%</strong></td><td>80%</td><td>&ge; 70%</td></tr>
+				<tr><td>Taux d'insertion dans l'emploi à 6 mois</td><td><strong>78%</strong></td><td>75%</td><td>&ge; 70%</td></tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="ir-method">
+		<h3>Méthodologie de calcul</h3>
+		<p>Les indicateurs sont calculés sur la base des données collectées auprès de l'ensemble des stagiaires ayant terminé leur formation au cours de l'année civile de référence.</p>
+		<p><strong>Taux de satisfaction :</strong> calculé à partir des questionnaires de satisfaction remplis à l'issue de chaque formation (échelle de 1 à 5, « satisfait » correspond aux notes 4 et 5).</p>
+		<p><strong>Taux de réussite :</strong> rapport entre le nombre de certifications obtenues et le nombre de candidats présentés aux examens.</p>
+		<p><strong>Taux d'abandon :</strong> rapport entre le nombre d'apprenants ayant abandonné la formation avant son terme et le nombre total d'apprenants inscrits.</p>
+		<p><strong>Taux d'insertion :</strong> mesuré à 6 mois après la fin de la formation via une enquête auprès des anciens stagiaires.</p>
+	</div>
+
+	<div class="ir-update">
+		<strong>Dernière mise à jour :</strong> Janvier 2026<br>
+		Ces indicateurs sont actualisés annuellement conformément aux exigences du référentiel national qualité Qualiopi (Indicateur 2).
+	</div>
+
+</main>
+{% endblock %}
