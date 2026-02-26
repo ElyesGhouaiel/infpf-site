@@ -1,26 +1,41 @@
 (function () {
-    var CK_URL = "https://cdn.ckeditor.com/4.22.1/full/ckeditor.js";
-    var CK_CONFIG = {
+    var JODIT_JS = "https://cdn.jsdelivr.net/npm/jodit@4.9.6/es2021/jodit.fat.min.js";
+    var JODIT_CSS = "https://cdn.jsdelivr.net/npm/jodit@4.9.6/es2021/jodit.fat.min.css";
+
+    var EDITOR_CONFIG = {
         language: "fr",
-        height: 400,
-        removePlugins: "elementspath",
-        format_tags: "p;h2;h3;h4;h5",
-        allowedContent: true,
-        toolbar: [
-            { name: "styles", items: ["Format", "FontSize"] },
-            { name: "basicstyles", items: ["Bold", "Italic", "Underline", "Strike", "Subscript", "Superscript", "-", "RemoveFormat"] },
-            { name: "colors", items: ["TextColor", "BGColor"] },
-            { name: "paragraph", items: ["NumberedList", "BulletedList", "-", "Outdent", "Indent", "-", "JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock"] },
-            "/",
-            { name: "links", items: ["Link", "Unlink"] },
-            { name: "insert", items: ["Table", "HorizontalRule", "SpecialChar"] },
-            { name: "clipboard", items: ["Undo", "Redo"] },
-            { name: "tools", items: ["Maximize", "Source"] }
-        ]
+        height: 450,
+        toolbarAdaptive: false,
+        askBeforePasteHTML: false,
+        askBeforePasteFromWord: false,
+        defaultActionOnPaste: "insert_clear_html",
+        buttons: [
+            "bold", "italic", "underline", "strikethrough", "|",
+            "font", "fontsize", "brush", "|",
+            "ul", "ol", "indent", "outdent", "|",
+            "left", "center", "right", "justify", "|",
+            "link", "table", "hr", "|",
+            "undo", "redo", "|",
+            "eraser", "source", "fullsize"
+        ],
+        removeButtons: ["image", "video", "file", "print", "about", "ai-assistant"],
+        showCharsCounter: false,
+        showWordsCounter: false,
+        showXPathInStatusbar: false
     };
 
+    function loadCSS(url) {
+        if (document.querySelector('link[href="' + url + '"]')) return;
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = url;
+        document.head.appendChild(link);
+    }
+
     function loadScript(url, callback) {
-        if (typeof CKEDITOR !== "undefined") { callback(); return; }
+        if (typeof Jodit !== "undefined") { callback(); return; }
+        var existing = document.querySelector('script[src="' + url + '"]');
+        if (existing) { existing.onload = callback; return; }
         var s = document.createElement("script");
         s.src = url;
         s.onload = callback;
@@ -31,22 +46,29 @@
         var textareas = document.querySelectorAll("form[name] textarea");
         if (textareas.length === 0) return;
 
-        loadScript(CK_URL, function () {
-            if (typeof CKEDITOR === "undefined") return;
-            for (var name in CKEDITOR.instances) {
-                try { CKEDITOR.instances[name].destroy(true); } catch (e) {}
-            }
+        loadCSS(JODIT_CSS);
+        loadScript(JODIT_JS, function () {
+            if (typeof Jodit === "undefined") return;
             textareas.forEach(function (el) {
-                if (!el.id || el.dataset.ckeditorDone) return;
-                el.dataset.ckeditorDone = "1";
-                CKEDITOR.replace(el, CK_CONFIG);
+                if (el.dataset.joditDone) return;
+                el.dataset.joditDone = "1";
+                Jodit.make(el, EDITOR_CONFIG);
             });
         });
     }
 
+    function cleanAndInit() {
+        document.querySelectorAll(".jodit-container").forEach(function (el) {
+            el.remove();
+        });
+        document.querySelectorAll("textarea[data-jodit-done]").forEach(function (el) {
+            el.removeAttribute("data-jodit-done");
+            el.style.display = "";
+        });
+        initEditors();
+    }
+
     document.addEventListener("DOMContentLoaded", initEditors);
-    document.addEventListener("turbo:load", initEditors);
-    document.addEventListener("turbo:render", initEditors);
-    document.addEventListener("turbo:frame-render", initEditors);
-    setTimeout(initEditors, 1000);
+    document.addEventListener("turbo:load", cleanAndInit);
+    document.addEventListener("turbo:render", cleanAndInit);
 })();
