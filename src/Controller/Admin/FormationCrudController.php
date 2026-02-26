@@ -32,7 +32,7 @@ class FormationCrudController extends AbstractCrudController
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
-            ->addHtmlContentToHead('<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>')
+            ->addHtmlContentToHead('<script src="https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script>')
             ->addHtmlContentToBody('<script>
                 document.addEventListener("DOMContentLoaded", function() {
                     var config = {
