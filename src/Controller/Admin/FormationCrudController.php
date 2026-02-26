@@ -11,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Asset;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 
 class FormationCrudController extends AbstractCrudController
@@ -32,38 +31,7 @@ class FormationCrudController extends AbstractCrudController
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
-            ->addHtmlContentToHead('<script src="https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script>')
-            ->addHtmlContentToBody('<script>
-                function initCKEditors() {
-                    if (typeof CKEDITOR === "undefined") return;
-                    var config = {
-                        language: "fr",
-                        height: 400,
-                        removePlugins: "elementspath",
-                        format_tags: "p;h2;h3;h4;h5",
-                        allowedContent: true,
-                        toolbar: [
-                            { name: "styles", items: ["Format", "FontSize"] },
-                            { name: "basicstyles", items: ["Bold", "Italic", "Underline", "Strike", "Subscript", "Superscript", "-", "RemoveFormat"] },
-                            { name: "colors", items: ["TextColor", "BGColor"] },
-                            { name: "paragraph", items: ["NumberedList", "BulletedList", "-", "Outdent", "Indent", "-", "JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock"] },
-                            "/",
-                            { name: "links", items: ["Link", "Unlink"] },
-                            { name: "insert", items: ["Table", "HorizontalRule", "SpecialChar"] },
-                            { name: "clipboard", items: ["Undo", "Redo"] },
-                            { name: "tools", items: ["Maximize", "Source"] }
-                        ]
-                    };
-                    for (var name in CKEDITOR.instances) { CKEDITOR.instances[name].destroy(true); }
-                    document.querySelectorAll("form textarea").forEach(function(el) {
-                        if (!el.id) return;
-                        CKEDITOR.replace(el, config);
-                    });
-                }
-                document.addEventListener("DOMContentLoaded", initCKEditors);
-                document.addEventListener("turbo:load", initCKEditors);
-                document.addEventListener("turbo:render", initCKEditors);
-            </script>');
+            ->addJsFile('js/admin-ckeditor.js');
     }
 
     public function configureFields(string $pageName): iterable
