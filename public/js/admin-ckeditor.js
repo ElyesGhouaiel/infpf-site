@@ -1,5 +1,5 @@
 (function () {
-    var CK_URL = "https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js";
+    var CK_URL = "https://cdn.ckeditor.com/4.22.1/full/ckeditor.js";
     var CK_CONFIG = {
         language: "fr",
         height: 400,
