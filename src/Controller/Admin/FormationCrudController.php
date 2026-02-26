@@ -6,12 +6,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class FormationCrudController extends AbstractCrudController
 {
@@ -25,7 +25,8 @@ class FormationCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Formation')
             ->setEntityLabelInPlural('Formations')
-            ->setSearchFields(['nameFormation', 'rncp', 'certificateur']);
+            ->setSearchFields(['nameFormation', 'rncp', 'certificateur'])
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 
     public function configureFields(string $pageName): iterable
@@ -35,7 +36,10 @@ class FormationCrudController extends AbstractCrudController
         yield BooleanField::new('isActive', 'Active (visible sur le site)')
             ->setHelp('Décocher pour masquer la formation du site public. Les données restent en base.');
         yield TextField::new('nameFormation', 'Nom de la formation');
-        yield TextEditorField::new('descriptionFormation', 'Description')->hideOnIndex();
+        yield TextareaField::new('descriptionFormation', 'Description')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
         yield AssociationField::new('category', 'Catégorie');
         yield TextField::new('dureeFormation', 'Durée');
         yield IntegerField::new('priceFormation', 'Prix (€)');
@@ -44,25 +48,54 @@ class FormationCrudController extends AbstractCrudController
         yield TextField::new('lieu', 'Lieu')->hideOnIndex();
 
         yield FormField::addTab('Contenu pédagogique');
-        yield TextEditorField::new('phraseOne', 'Objectif principal')->hideOnIndex();
-        yield TextEditorField::new('presentation', 'Présentation')->hideOnIndex();
-        yield TextEditorField::new('prerequis', 'Prérequis')->hideOnIndex();
-        yield TextEditorField::new('atouts', 'Atouts')->hideOnIndex();
-        yield TextEditorField::new('programme', 'Programme')->hideOnIndex();
-        yield TextEditorField::new('modalitesPedagogique', 'Modalités pédagogiques')->hideOnIndex();
-        yield TextEditorField::new('evaluation', 'Évaluation')->hideOnIndex();
+        yield TextareaField::new('phraseOne', 'Objectif principal')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
+        yield TextareaField::new('presentation', 'Présentation')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
+        yield TextareaField::new('prerequis', 'Prérequis')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
+        yield TextareaField::new('atouts', 'Atouts')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
+        yield TextareaField::new('programme', 'Programme')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
+        yield TextareaField::new('modalitesPedagogique', 'Modalités pédagogiques')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
+        yield TextareaField::new('evaluation', 'Évaluation')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
+            ->hideOnIndex();
 
         yield FormField::addTab('Certification RS6776');
-        yield TextEditorField::new('objectifsPedagogiques', 'Objectifs pédagogiques (RS6776)')
+        yield TextareaField::new('objectifsPedagogiques', 'Objectifs pédagogiques (RS6776)')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
             ->setHelp('Les 3 objectifs pédagogiques obligatoires pour la certification RS6776')
             ->hideOnIndex();
-        yield TextEditorField::new('publicVise', 'Public visé (RS6776)')
+        yield TextareaField::new('publicVise', 'Public visé (RS6776)')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
             ->setHelp('Mention exacte du public visé pour la certification RS6776')
             ->hideOnIndex();
-        yield TextEditorField::new('mentionCpf', 'Mention CPF obligatoire (RS6776)')
+        yield TextareaField::new('mentionCpf', 'Mention CPF obligatoire (RS6776)')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
             ->setHelp('Mention légale obligatoire concernant le financement CPF')
             ->hideOnIndex();
-        yield TextEditorField::new('modalitesCertification', 'Modalités de certification (RS6776)')
+        yield TextareaField::new('modalitesCertification', 'Modalités de certification (RS6776)')
+            ->setFormType(CKEditorType::class)
+            ->setFormTypeOption('config_name', 'formation_config')
             ->setHelp('Modalités d\'évaluation et de certification RS6776')
             ->hideOnIndex();
 
