@@ -243,9 +243,9 @@
                         
                         <div class="card-content-ef">
                             {% if formation.phraseOne %}
-                                <p class="formation-excerpt-ef">{{ formation.phraseOne }}</p>
+                                <p class="formation-excerpt-ef">{{ formation.phraseOne|striptags }}</p>
                             {% elseif formation.descriptionFormation %}
-                            <p class="formation-excerpt-ef">{{ formation.descriptionFormation }}</p>
+                            <p class="formation-excerpt-ef">{{ formation.descriptionFormation|striptags }}</p>
                             {% endif %}
 
                         <div class="metier-alignment-ef">

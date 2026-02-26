@@ -1871,7 +1871,7 @@
                 </div>
                 <p class="formation-name">{{ formation.nameFormation }}</p>
 
-                {% set words = formation.descriptionFormation|split(' ') %}
+                {% set words = formation.descriptionFormation|striptags|split(' ') %}
                 {% set descriptionToShow = '' %}
                 {% set totalChars = 0 %}
                 {% set limitReached = false %}
@@ -1890,7 +1890,7 @@
             </div>
             <div class="formation-column-right">
                 {% if formation.phraseOne %}
-                    <p><strong>Formation :</strong> {{ formation.phraseOne }}</p>
+                    <p><strong>Formation :</strong> {{ formation.phraseOne|striptags }}</p>
                 {% endif %}
                 {% if formation.niveau %}
                     <p><strong>Niveau :</strong> {{ formation.niveau }}</p>

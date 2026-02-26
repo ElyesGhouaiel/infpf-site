@@ -44,7 +44,7 @@
                     <tr>
                         <td>{{ formation.id }}</td>
                         <td>{{ formation.nameFormation }}</td>
-                        <td class="text-start">{{ formation.descriptionFormation }}</td>
+                        <td class="text-start">{{ formation.descriptionFormation|striptags|slice(0, 200) }}</td>
                         <td>{{ formation.dureeFormation }}</td>
                         <td>{{ formation.priceFormation | number_format(2, ',', ' ') }}</td>
                         <td>{{ formation.numeroRncp ?? '—' }}</td>

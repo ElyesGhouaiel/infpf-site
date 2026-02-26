@@ -57,7 +57,7 @@
 							{% if formation.category.id == category.id %}
 								<div class="student">
 									<p id="name">{{ formation.nameFormation }}</p>
-									<p id="description">{{ formation.descriptionFormation }}</p>
+									<p id="description">{{ formation.descriptionFormation|striptags }}</p>
 									{# Ajoutez d'autres détails sur la formation si nécessaire #}
 									<td>
 										<a href="{{ path('app_formation_show', {'id': formation.id}) }}">voir</a>

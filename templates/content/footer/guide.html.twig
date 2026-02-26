@@ -294,7 +294,7 @@
             {% for formation in featuredFormations %}
                 <div class="formation-card">
                     <h3>{{ formation.nameFormation }}</h3>
-                    <p>{{ formation.descriptionFormation|slice(0, 150) ~ '...' }}</p>
+                    <p>{{ formation.descriptionFormation|striptags|slice(0, 150) ~ '...' }}</p>
                     <a href="{{ path('app_formation_show', {'id': formation.id}) }}">
                         En savoir plus →
                     </a>
@@ -314,7 +314,7 @@
                     {% for formation in formationsByCategory[category.name]|slice(0, 5) %}
                         <div class="formation-card">
                             <h3>{{ formation.nameFormation }}</h3>
-                            <p>{{ formation.descriptionFormation|slice(0, 200) ~ '...' }}</p>
+                            <p>{{ formation.descriptionFormation|striptags|slice(0, 200) ~ '...' }}</p>
                             <a href="{{ path('app_formation_show', {'id': formation.id}) }}">
                                 En savoir plus →
                             </a>
@@ -329,7 +329,7 @@
                             {% for formation in formationsByCategory[category.name]|slice(5) %}
                                 <div class="formation-card">
                                     <h3>{{ formation.nameFormation }}</h3>
-                                    <p>{{ formation.descriptionFormation|slice(0, 200) ~ '...' }}</p>
+                                    <p>{{ formation.descriptionFormation|striptags|slice(0, 200) ~ '...' }}</p>
                                     <a href="{{ path('app_formation_show', {'id': formation.id}) }}">
                                         En savoir plus →
                                     </a>

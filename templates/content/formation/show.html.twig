@@ -2958,7 +2958,7 @@ html {
                 {% if formations.bloc %}
                     <p class="hero__subtitle">{{ formations.bloc }}</p>
                 {% endif %}
-                <p class="hero__lead">{{ formations.descriptionFormation }}</p>
+                <div class="hero__lead">{{ formations.descriptionFormation|format_formation_text|raw }}</div>
                 
                 <div class="hero__cta">
                     <a href="#cta-section-mega" class="btn btn-primary-hero">
@@ -3362,9 +3362,9 @@ html {
                 </div>
                 <div class="text-content">
                     <div style="background: linear-gradient(135deg, #e8f4fd 0%, #f0f7ff 100%); border-left: 4px solid #0066cc; padding: 1.25rem 1.5rem; border-radius: 8px; margin-top: 1rem;">
-                        <p style="margin: 0; color: #1a365d; font-size: 1rem; line-height: 1.6;">
-                            {{ formations.mentionCpf }}
-                        </p>
+                        <div style="margin: 0; color: #1a365d; font-size: 1rem; line-height: 1.6;">
+                            {{ formations.mentionCpf|format_formation_text|raw }}
+                        </div>
                     </div>
                 </div>
             </section>
