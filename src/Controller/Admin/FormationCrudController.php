@@ -31,7 +31,7 @@ class FormationCrudController extends AbstractCrudController
     public function configureAssets(Assets $assets): Assets
     {
         return $assets
-            ->addJsFile('js/admin-ckeditor.js');
+            ->addJsFile('js/admin-editor.js');
     }
 
     public function configureFields(string $pageName): iterable
