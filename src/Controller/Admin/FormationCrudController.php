@@ -34,7 +34,8 @@ class FormationCrudController extends AbstractCrudController
         return $assets
             ->addHtmlContentToHead('<script src="https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script>')
             ->addHtmlContentToBody('<script>
-                document.addEventListener("DOMContentLoaded", function() {
+                function initCKEditors() {
+                    if (typeof CKEDITOR === "undefined") return;
                     var config = {
                         language: "fr",
                         height: 400,
@@ -53,11 +54,15 @@ class FormationCrudController extends AbstractCrudController
                             { name: "tools", items: ["Maximize", "Source"] }
                         ]
                     };
-                    document.querySelectorAll(".ea-edit-form textarea, .ea-new-form textarea").forEach(function(el) {
-                        if (!el.id || el.closest("[data-ea-widget]")) return;
+                    for (var name in CKEDITOR.instances) { CKEDITOR.instances[name].destroy(true); }
+                    document.querySelectorAll("form textarea").forEach(function(el) {
+                        if (!el.id) return;
                         CKEDITOR.replace(el, config);
                     });
-                });
+                }
+                document.addEventListener("DOMContentLoaded", initCKEditors);
+                document.addEventListener("turbo:load", initCKEditors);
+                document.addEventListener("turbo:render", initCKEditors);
             </script>');
     }
 
