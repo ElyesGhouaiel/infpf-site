@@ -1,0 +1,1325 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title|default(formations.nameFormation ~ ' - Formation INFPF') }}{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description|default('Découvrez notre formation professionnelle certifiante.') }}">
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{# Fix: le chemin relatif ../css/ dans base.html.twig résout en 404
+   pour les routes à 2+ niveaux comme /formation/preview-v2/{id}.
+   On charge le CSS avec un chemin absolu en fallback. #}
+<link href="/css/fichier-v2.min.css?v={{ 'now'|date('U') }}" rel="stylesheet"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================
+   FORMATION V2 — REDESIGN MOBILE-FIRST
+   Vanilla CSS · ~550 lines · SEO + a11y
+   ============================================================ */
+
+/* --- Variables & Reset --- */
+.fv2 {
+    --primary: #0b3f89;
+    --primary-dk: #072d63;
+    --primary-lt: #eff6ff;
+    --primary-50: #dbeafe;
+    --accent: #06b6d4;
+    --accent-lt: #e0f7ff;
+    --gold: #f59e0b;
+    --gold-lt: #fffbeb;
+    --gold-dk: #92400e;
+    --success: #10b981;
+    --text-1: #111827;
+    --text-2: #4b5563;
+    --text-3: #9ca3af;
+    --bg-1: #ffffff;
+    --bg-2: #f9fafb;
+    --bg-3: #f3f4f6;
+    --border: #e5e7eb;
+    --r: 16px;
+    --r-sm: 10px;
+    --r-xs: 6px;
+    --sh: 0 1px 3px rgb(0 0 0/.08);
+    --sh-md: 0 4px 6px -1px rgb(0 0 0/.1);
+    --sh-lg: 0 10px 25px -5px rgb(0 0 0/.1);
+    --ease: .2s ease;
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
+    font-size: 1.6rem; /* 16px — site uses html{font-size:62.5%} so 1rem=10px */
+    color: var(--text-1);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    margin-top: -70px !important;
+}
+
+.fv2 *, .fv2 *::before, .fv2 *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Override base CSS heading styles (h2 flex/::after decoration, h3 !important sizes) */
+.fv2 h1, .fv2 h2, .fv2 h3, .fv2 h4, .fv2 h5, .fv2 h6 {
+    display: block !important;
+    position: static !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    letter-spacing: normal !important;
+    color: inherit !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    column-gap: 0 !important;
+    flex-wrap: initial !important;
+    clear: none !important;
+}
+.fv2 h2::after, .fv2 h2::before { display: none !important; content: none !important; }
+
+/* Override base CSS element font-sizes (p=1.8rem, li, etc.) */
+.fv2 p, .fv2 li { font-size: inherit !important; line-height: inherit !important; }
+.fv2 p { margin: 0 0 1em !important; }
+.fv2 p:last-child { margin-bottom: 0 !important; }
+
+/* --- Scroll progress bar --- */
+.fv2-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--primary));
+    z-index: 1001;
+    transition: width .1s linear;
+}
+
+/* ========================
+   HERO
+   ======================== */
+.fv2-hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dk) 60%, #041a3d 100%);
+    color: #fff;
+    padding: calc(var(--header-height, 80px) + 5rem) 1.5rem 5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ========================
+   BODY WRAPPER — overlaps hero
+   ======================== */
+.fv2-body {
+    margin-top: -2.5rem;
+    position: relative;
+    z-index: 2;
+    background: var(--bg-2);
+    border-radius: 24px 24px 0 0;
+    padding-top: 1.75rem;
+}
+
+.fv2-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+}
+
+.fv2-hero__inner { position: relative; z-index: 1; }
+
+.fv2-hero__nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.3rem;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+}
+
+.fv2-hero__nav a {
+    color: rgba(255,255,255,.7);
+    text-decoration: none;
+    transition: color var(--ease);
+}
+.fv2-hero__nav a:hover { color: #fff; }
+.fv2-hero__nav span { color: rgba(255,255,255,.5); }
+.fv2-hero__nav span:last-child { color: rgba(255,255,255,.9); font-weight: 500; }
+
+.fv2-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(6px);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+}
+.fv2-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+.fv2 .fv2-hero__title {
+    font-size: clamp(2.8rem, 5vw, 4.4rem) !important;
+    font-weight: 800 !important;
+    line-height: 1.12;
+    margin: 0 0 1.25rem !important;
+    letter-spacing: -.025em !important;
+    color: #fff !important;
+}
+
+.fv2-hero__tagline {
+    font-size: 1.6rem;
+    color: rgba(255,255,255,.8);
+    margin: 0 0 2rem;
+    line-height: 1.6;
+    max-width: 620px;
+}
+
+.fv2-hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* --- Buttons --- */
+.fv2-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: var(--r-sm);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--ease);
+    text-align: center;
+    line-height: 1.3;
+}
+.fv2-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.fv2-btn--white { background: #fff; color: var(--primary) !important; }
+.fv2-btn--white:hover { background: var(--primary-lt); color: var(--primary) !important; transform: translateY(-1px); box-shadow: var(--sh-md); }
+
+.fv2-btn--outline {
+    background: transparent;
+    color: #fff !important;
+    border: 1.5px solid rgba(255,255,255,.35);
+}
+.fv2-btn--outline:hover { background: rgba(255,255,255,.1); color: #fff !important; border-color: rgba(255,255,255,.55); }
+
+.fv2-btn--primary { background: var(--primary); color: #fff !important; }
+.fv2-btn--primary:hover { background: var(--primary-dk); color: #fff !important; transform: translateY(-1px); box-shadow: var(--sh-md); }
+
+.fv2-btn--secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--border);
+}
+.fv2-btn--secondary { color: var(--primary) !important; }
+.fv2-btn--secondary:hover { border-color: var(--primary); background: var(--primary-lt); color: var(--primary) !important; }
+
+/* ========================
+   MOBILE INFO CARD (replaces stats bar — visible only when sidebar is hidden)
+   ======================== */
+.fv2-mobile-info {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin: 0 1.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--sh);
+}
+
+.fv2-mobile-info__price {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0 0 2px;
+}
+.fv2-mobile-info__price-sub {
+    font-size: 1.2rem;
+    color: var(--text-3);
+    margin: 0 0 1rem;
+}
+
+.fv2-mobile-info__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: var(--text-2);
+}
+.fv2-mobile-info__details span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg-2);
+    padding: 4px 10px;
+    border-radius: var(--r-xs);
+    font-weight: 500;
+}
+.fv2-mobile-info__details svg { width: 14px; height: 14px; color: var(--primary); flex-shrink: 0; }
+
+.fv2-mobile-info__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* PDF download button variant */
+.fv2-btn--download {
+    background: var(--bg-2);
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+}
+.fv2-btn--download { color: var(--primary) !important; }
+.fv2-btn--download:hover {
+    background: var(--primary-lt);
+    border-color: var(--primary-dk);
+    color: var(--primary) !important;
+}
+
+/* ========================
+   LAYOUT
+   ======================== */
+.fv2-layout {
+    padding: 0 1.5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.fv2-content { padding: 2rem 0 0; }
+.fv2-sidebar-wrap { display: none; }
+
+/* ========================
+   SECTION STYLES
+   ======================== */
+.fv2-section {
+    margin-bottom: 2.75rem;
+    scroll-margin-top: 80px;
+}
+
+.fv2-section__hdr {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.25rem;
+}
+
+.fv2-section__ico {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-lt);
+    border-radius: var(--r-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--primary);
+}
+.fv2-section__ico svg { width: 18px; height: 18px; }
+
+.fv2 .fv2-section__h2 {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: var(--text-1) !important;
+    margin: 0 !important;
+    letter-spacing: -.01em !important;
+}
+
+.fv2-section__body {
+    font-size: 1.5rem;
+    color: var(--text-2);
+    line-height: 1.75;
+}
+.fv2-section__body p { margin: 0 0 1rem; }
+.fv2-section__body p:last-child { margin-bottom: 0; }
+.fv2-section__body ul, .fv2-section__body ol { padding-left: 1.5rem; margin: .5rem 0 1rem; }
+.fv2-section__body li { margin-bottom: .35rem; }
+.fv2-section__body strong { color: var(--text-1); font-weight: 600; }
+
+/* Variant: accent left border */
+.fv2-section--accent {
+    border-left: 4px solid var(--primary);
+    padding-left: 1.25rem;
+    background: var(--bg-2);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    padding: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+/* Variant: highlight box (for objectifs) */
+.fv2-section--highlight {
+    background: var(--primary-lt);
+    border: 1.5px solid var(--primary-50);
+    border-radius: var(--r);
+    padding: 1.25rem;
+}
+.fv2-section--highlight .fv2-section__ico {
+    background: var(--primary-50);
+}
+
+/* Variant: info card */
+.fv2-section--info {
+    background: var(--accent-lt);
+    border: 1px solid #b2ebf2;
+    border-radius: var(--r);
+    padding: 1.25rem;
+}
+.fv2-section--info .fv2-section__ico {
+    background: #b2ebf2;
+    color: #0e7490;
+}
+
+/* ========================
+   CARDS GRID
+   ======================== */
+.fv2-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.75rem;
+    scroll-margin-top: 80px;
+    align-items: start;
+}
+
+.fv2-card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    transition: box-shadow var(--ease), border-color var(--ease);
+}
+.fv2-card:hover {
+    box-shadow: var(--sh-md);
+    border-color: var(--primary-50);
+}
+
+.fv2 h3.fv2-card__h {
+    display: flex !important;
+    align-items: center;
+    gap: 12px !important;
+    column-gap: 12px !important;
+    font-size: 1.7rem !important;
+    font-weight: 700 !important;
+    color: var(--text-1) !important;
+    margin: 0 0 1rem !important;
+}
+.fv2-card__h svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+/* Card expandable body (for dense content) */
+.fv2-card__body {
+    max-height: 220px;
+    overflow: hidden;
+    position: relative;
+}
+.fv2-card__body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, var(--bg-1));
+    pointer-events: none;
+    transition: opacity var(--ease);
+}
+.fv2-card__body.is-open { max-height: none; }
+.fv2-card__body.is-open::after { opacity: 0; }
+.fv2-card__body.is-short { max-height: none; }
+.fv2-card__body.is-short::after { display: none; }
+
+.fv2-card__more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: .75rem;
+    padding: 6px 14px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--r-xs);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all var(--ease);
+    width: 100%;
+}
+.fv2-card__more:hover { background: var(--primary-lt); border-color: var(--primary); }
+.fv2-card__more svg {
+    width: 14px; height: 14px;
+    transition: transform var(--ease);
+}
+.fv2-card__more.is-open svg { transform: rotate(180deg); }
+
+/* ========================
+   CERTIFICATION BADGE
+   ======================== */
+.fv2-cert {
+    background: linear-gradient(135deg, var(--gold-lt) 0%, #fde68a 100%);
+    border: 1px solid #fbbf24;
+    border-radius: var(--r);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2.25rem;
+}
+
+.fv2-cert__icon {
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--sh);
+}
+.fv2-cert__icon svg { width: 24px; height: 24px; color: var(--gold); }
+
+.fv2 .fv2-cert__text h3 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: var(--gold-dk) !important;
+    margin: 0 0 2px !important;
+}
+.fv2-cert__text p {
+    font-size: 1.3rem !important;
+    color: #a16207;
+    margin: 0 !important;
+    line-height: 1.45;
+}
+
+/* ========================
+   PROGRAMME (expandable)
+   ======================== */
+.fv2-prog {
+    margin-bottom: 2.25rem;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.25rem;
+    scroll-margin-top: 80px;
+}
+
+.fv2-prog__body {
+    max-height: 450px;
+    overflow: hidden;
+    position: relative;
+}
+
+.fv2-prog__body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    background: linear-gradient(transparent, var(--bg-2));
+    pointer-events: none;
+    transition: opacity var(--ease);
+}
+
+.fv2-prog__body.is-open { max-height: none; }
+.fv2-prog__body.is-open::after { opacity: 0; }
+.fv2-prog__body.is-short::after { display: none; }
+
+.fv2-prog__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 1rem;
+    padding: 10px 20px;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all var(--ease);
+    width: 100%;
+}
+.fv2-prog__toggle:hover { background: var(--primary-lt); border-color: var(--primary); }
+.fv2-prog__toggle svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--ease);
+}
+.fv2-prog__toggle.is-open svg { transform: rotate(180deg); }
+
+/* ========================
+   CTA FINAL
+   ======================== */
+.fv2-cta {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dk) 100%);
+    color: #fff;
+    padding: 2.5rem 1.25rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.fv2-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
+.fv2-cta__inner { position: relative; z-index: 1; }
+
+.fv2 .fv2-cta__title {
+    font-size: 2.4rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 .5rem !important;
+    letter-spacing: -.02em !important;
+    color: #fff !important;
+}
+
+.fv2-cta__sub {
+    font-size: 1.4rem;
+    color: rgba(255,255,255,.8);
+    margin: 0 0 1.5rem;
+}
+
+.fv2-cta__btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto 1.25rem;
+}
+
+.fv2-cta__trust {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    font-size: 1.25rem;
+    color: rgba(255,255,255,.75);
+}
+.fv2-cta__trust span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.fv2-cta__trust svg { width: 14px; height: 14px; color: var(--success); }
+
+/* ========================
+   STICKY MOBILE BAR
+   ======================== */
+.fv2-sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-1);
+    border-top: 1px solid var(--border);
+    padding: 10px 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 999;
+    box-shadow: 0 -4px 16px rgb(0 0 0/.1);
+    transform: translateY(100%);
+    transition: transform .3s ease;
+}
+.fv2-sticky.is-visible { transform: translateY(0); }
+
+.fv2-sticky__price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-1);
+    white-space: nowrap;
+}
+.fv2-sticky__price small {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-3);
+}
+
+.fv2-sticky .fv2-btn {
+    flex: 1;
+    max-width: 200px;
+    padding: 11px 16px;
+    font-size: 1.4rem;
+}
+
+/* ========================
+   SIDEBAR (desktop only)
+   ======================== */
+.fv2-sidebar {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    box-shadow: var(--sh);
+}
+
+.fv2 .fv2-sidebar__title {
+    font-size: 1.7rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 1rem !important;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-1) !important;
+}
+
+.fv2-sidebar__price {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0 0 4px;
+}
+.fv2-sidebar__price-sub {
+    font-size: 1.2rem;
+    color: var(--text-3);
+    margin: 0 0 1rem;
+}
+
+.fv2-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+.fv2-sidebar__item:last-of-type { border-bottom: none; }
+.fv2-sidebar__item svg {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+.fv2-sidebar__item-label {
+    font-size: 1.15rem;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 600;
+}
+.fv2-sidebar__item-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-1);
+}
+
+.fv2-sidebar__cta {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fv2-sidebar__trust {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 1.25rem;
+    color: var(--text-3);
+}
+.fv2-sidebar__trust span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.fv2-sidebar__trust svg { width: 14px; height: 14px; color: var(--success); }
+
+/* ========================
+   ANIMATIONS (fade-in, progressive enhancement)
+   Content visible by default — JS adds .fv2-animated to enable transitions
+   ======================== */
+.fv2-animated .fv2-fade {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .45s ease, transform .45s ease;
+}
+.fv2-animated .fv2-fade.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================
+   TABLET (>=768px)
+   ======================== */
+@media (min-width: 768px) {
+    .fv2-hero { padding: calc(var(--header-height, 80px) + 1.25rem) 2.5rem 6rem; }
+    .fv2-hero__actions { flex-direction: row; flex-wrap: wrap; }
+
+    .fv2-body { margin-top: -3rem; padding-top: 2rem; }
+    .fv2-mobile-info { margin: 0 2.5rem; }
+    .fv2-mobile-info__cta { flex-direction: row; }
+
+    .fv2-layout { padding: 0 2rem 2rem; }
+    .fv2-content { padding: 2rem 0 0; max-width: none; margin: 0; }
+
+    .fv2-grid { grid-template-columns: 1fr 1fr; }
+
+    .fv2-cta__btns { flex-direction: row; justify-content: center; }
+
+    .fv2-sticky { display: none; }
+}
+
+/* ========================
+   DESKTOP (>=1100px)
+   ======================== */
+@media (min-width: 1100px) {
+    .fv2-hero { padding: calc(var(--header-height, 80px) + 1.5rem) 2.5rem 7rem; }
+    .fv2-body { margin-top: -4rem; border-radius: 28px 28px 0 0; padding-top: 2.5rem; }
+    .fv2-hero__inner { max-width: 1200px; margin: 0 auto; }
+    .fv2 .fv2-hero__title { font-size: 4.4rem !important; }
+
+    .fv2-layout {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 2rem 2.5rem;
+        align-items: start;
+    }
+
+    .fv2-layout { padding: 0 2rem 2.5rem; }
+    .fv2-content { padding: 0; }
+
+    .fv2-sidebar-wrap {
+        display: block;
+        position: sticky;
+        top: 90px;
+    }
+
+    .fv2-mobile-info { display: none; }
+
+    .fv2 .fv2-cta__title { font-size: 2.8rem !important; }
+}
+
+/* ========================
+   REDUCED MOTION
+   ======================== */
+@media (prefers-reduced-motion: reduce) {
+    .fv2-animated .fv2-fade { opacity: 1; transform: none; transition: none; }
+    .fv2-progress { transition: none; }
+    .fv2-sticky { transition: none; }
+    .fv2-prog__toggle svg { transition: none; }
+}
+
+/* ========================
+   PRINT
+   ======================== */
+@media print {
+    .fv2-preview, .fv2-sticky, .fv2-progress, .fv2-sidebar-wrap,
+    .fv2-hero__actions, .fv2-cta, .fv2-prog__toggle { display: none !important; }
+    .fv2-hero { background: #1e3a5f !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .fv2-prog__body { max-height: none !important; }
+    .fv2-prog__body::after { display: none !important; }
+}
+</style>
+{% endblock %}
+
+{% block body %}
+{# Schema.org structured data #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": {{ formations.nameFormation|json_encode|raw }},
+    "description": {{ (formations.descriptionFormation|default('')|striptags|slice(0,200))|json_encode|raw }},
+    "provider": {
+        "@type": "Organization",
+        "name": "INFPF",
+        "url": "https://www.infpf.fr"
+    }
+    {% if formations.langue %},
+    "inLanguage": {{ formations.langue|json_encode|raw }}
+    {% endif %}
+    {% if formations.priceFormation %},
+    "offers": {
+        "@type": "Offer",
+        "price": "{{ formations.priceFormation }}",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+    }
+    {% endif %}
+}
+</script>
+
+{# Scroll progress #}
+<div class="fv2-progress" id="fv2Progress" aria-hidden="true"></div>
+
+<div class="fv2">
+
+    {# ===========================
+       HERO
+       =========================== #}
+    <section class="fv2-hero" aria-label="En-tête de la formation">
+        <div class="fv2-hero__inner">
+            <nav class="fv2-hero__nav" aria-label="Fil d'Ariane">
+                <a href="{{ path('app_home') }}">Accueil</a>
+                <span aria-hidden="true">›</span>
+                <a href="{{ path('app_home') }}#formations">Formations</a>
+                <span aria-hidden="true">›</span>
+                <span>{% if formations.category %}{{ formations.category.name }}{% else %}{{ formations.nameFormation|slice(0,35) }}{% endif %}</span>
+            </nav>
+
+            {% if formations.certificateur %}
+            <div class="fv2-badge" aria-label="Formation certifiée">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Certifié {{ formations.certificateur }}
+            </div>
+            {% endif %}
+
+            <h1 class="fv2-hero__title">{{ formations.nameFormation }}</h1>
+
+            {% if formations.phraseOne %}
+                <p class="fv2-hero__tagline">{{ formations.phraseOne|striptags }}</p>
+            {% elseif formations.descriptionFormation %}
+                <p class="fv2-hero__tagline">{{ formations.descriptionFormation|striptags|slice(0, 200) }}</p>
+            {% endif %}
+
+            <div class="fv2-hero__actions">
+                <a href="#programme" class="fv2-btn fv2-btn--white">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    Voir le programme
+                </a>
+                <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--outline">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Nous contacter
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {# ===========================
+       BODY WRAPPER — overlaps hero with rounded corners
+       =========================== #}
+    <div class="fv2-body">
+
+    {# ===========================
+       MOBILE INFO CARD (hidden on desktop where sidebar handles this)
+       =========================== #}
+    <div class="fv2-mobile-info" aria-label="Détails rapides">
+        {% if formations.priceFormation %}
+        <p class="fv2-mobile-info__price">{{ formations.priceFormation|number_format(0, ',', ' ') }} €</p>
+        <p class="fv2-mobile-info__price-sub">Tarif net de taxes</p>
+        {% endif %}
+
+        <div class="fv2-mobile-info__details">
+            {% if formations.dureeFormation %}
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> {{ formations.dureeFormation }}</span>
+            {% endif %}
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> {{ formations.lieu|default('À distance') }}</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> {{ formations.niveau|default('Tous niveaux') }}</span>
+            {% if formations.rncp %}
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg> {{ formations.rncp }}</span>
+            {% endif %}
+        </div>
+
+        <div class="fv2-mobile-info__cta">
+            {% if formations.cpfUrl %}
+            <a href="{{ formations.cpfUrl }}" target="_blank" rel="noopener" class="fv2-btn fv2-btn--primary">Inscription CPF</a>
+            {% else %}
+            <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--primary">Demander un devis</a>
+            {% endif %}
+            {% if formations.id != 90 %}
+            <a href="{{ path('download_document', {'id': formations.id}) }}" class="fv2-btn fv2-btn--download" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Télécharger le programme
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {# ===========================
+       LAYOUT: Content + Sidebar
+       =========================== #}
+    <div class="fv2-layout">
+        <main class="fv2-content" id="contenu-principal">
+
+            {# --- Présentation (accent left border) --- #}
+            {% if formations.presentation %}
+            <section class="fv2-section fv2-section--accent fv2-fade" aria-labelledby="sec-pres">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-pres">Présentation</h2>
+                </div>
+                <div class="fv2-section__body">{{ formations.presentation|format_formation_text|raw }}</div>
+            </section>
+            {% endif %}
+
+            {# --- Objectifs pédagogiques (highlight box) --- #}
+            {% if formations.objectifsPedagogiques %}
+            <section class="fv2-section fv2-section--highlight fv2-fade" aria-labelledby="sec-obj">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-obj">Objectifs pédagogiques</h2>
+                </div>
+                <div class="fv2-section__body">{{ formations.objectifsPedagogiques|format_formation_text|raw }}</div>
+            </section>
+            {% endif %}
+
+            {# --- Public visé --- #}
+            {% if formations.publicVise %}
+            <section class="fv2-section fv2-fade" aria-labelledby="sec-public">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-public">Public visé</h2>
+                </div>
+                <div class="fv2-section__body">{{ formations.publicVise|format_formation_text|raw }}</div>
+            </section>
+            {% endif %}
+
+            {# --- Prérequis & Atouts (cards grid) --- #}
+            {% if formations.prerequis or formations.atouts %}
+            <div class="fv2-grid fv2-fade">
+                {% if formations.prerequis %}
+                <div class="fv2-card">
+                    <h3 class="fv2-card__h">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        Pré-requis
+                    </h3>
+                    <div class="fv2-card__body fv2-section__body" data-expandable>{{ formations.prerequis|format_formation_text|raw }}</div>
+                    <button class="fv2-card__more" data-expand-btn aria-expanded="false">
+                        <span>Lire la suite</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                </div>
+                {% endif %}
+                {% if formations.atouts %}
+                <div class="fv2-card">
+                    <h3 class="fv2-card__h">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        Points forts
+                    </h3>
+                    <div class="fv2-card__body fv2-section__body" data-expandable>{{ formations.atouts|format_formation_text|raw }}</div>
+                    <button class="fv2-card__more" data-expand-btn aria-expanded="false">
+                        <span>Lire la suite</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {# --- Certification badge --- #}
+            {% if formations.certificateur %}
+            <div class="fv2-cert fv2-fade" aria-label="Certification">
+                <div class="fv2-cert__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                </div>
+                <div class="fv2-cert__text">
+                    <h3>Certifié par {{ formations.certificateur }}</h3>
+                    <p>{% if formations.rncp %}{{ formations.rncp }} — {% endif %}Certification reconnue par l'État</p>
+                </div>
+            </div>
+            {% endif %}
+
+            {# --- Programme détaillé (expandable) --- #}
+            {% if formations.programme %}
+            <section class="fv2-prog fv2-fade" id="programme" aria-labelledby="sec-prog">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-prog">Programme détaillé</h2>
+                </div>
+                <div class="fv2-prog__body fv2-section__body" id="fv2ProgBody">
+                    {{ formations.programme|format_formation_text|raw }}
+                </div>
+                <button class="fv2-prog__toggle" id="fv2ProgToggle" aria-expanded="false" aria-controls="fv2ProgBody">
+                    <span>Voir le programme complet</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+            </section>
+            {% endif %}
+
+            {# --- Modalités & Évaluation (cards grid) --- #}
+            {% if formations.modalitesPedagogique or formations.evaluation %}
+            <div class="fv2-grid fv2-fade">
+                {% if formations.modalitesPedagogique %}
+                <div class="fv2-card">
+                    <h3 class="fv2-card__h">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        Modalités pédagogiques
+                    </h3>
+                    <div class="fv2-section__body">{{ formations.modalitesPedagogique|format_formation_text|raw }}</div>
+                </div>
+                {% endif %}
+                {% if formations.evaluation %}
+                <div class="fv2-card">
+                    <h3 class="fv2-card__h">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        Évaluation
+                    </h3>
+                    <div class="fv2-section__body">{{ formations.evaluation|format_formation_text|raw }}</div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {# --- Durée de formation --- #}
+            {% if formations.dureeFormation %}
+            <section class="fv2-section fv2-fade" aria-labelledby="sec-duree">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-duree">Durée de la formation</h2>
+                </div>
+                <div class="fv2-section__body">
+                    <p>La formation se déroule sur <strong>{{ formations.dureeFormation }}</strong>{% if formations.lieu %}, en <strong>{{ formations.lieu }}</strong>{% endif %}{% if formations.langue %}, dispensée en <strong>{{ formations.langue }}</strong>{% endif %}.</p>
+                </div>
+            </section>
+            {% endif %}
+
+            {# --- Modalités de certification --- #}
+            {% if formations.modalitesCertification %}
+            <section class="fv2-section fv2-fade" aria-labelledby="sec-certif">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-certif">Certification</h2>
+                </div>
+                <div class="fv2-section__body">{{ formations.modalitesCertification|format_formation_text|raw }}</div>
+            </section>
+            {% endif %}
+
+            {# --- Mention CPF (info card style) --- #}
+            {% if formations.mentionCpf %}
+            <section class="fv2-section fv2-section--info fv2-fade" aria-labelledby="sec-cpf">
+                <div class="fv2-section__hdr">
+                    <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                    <h2 class="fv2-section__h2" id="sec-cpf">Financement CPF</h2>
+                </div>
+                <div class="fv2-section__body">{{ formations.mentionCpf|format_formation_text|raw }}</div>
+            </section>
+            {% endif %}
+
+        </main>
+
+        {# ===========================
+           SIDEBAR (desktop only)
+           =========================== #}
+        <aside class="fv2-sidebar-wrap" aria-label="Détails de la formation">
+            <div class="fv2-sidebar">
+                <h3 class="fv2-sidebar__title">Détails de la formation</h3>
+
+                {% if formations.priceFormation %}
+                <p class="fv2-sidebar__price">{{ formations.priceFormation|number_format(0, ',', ' ') }} €</p>
+                <p class="fv2-sidebar__price-sub">Tarif net de taxes</p>
+                {% endif %}
+
+                {% if formations.dureeFormation %}
+                <div class="fv2-sidebar__item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    <div>
+                        <div class="fv2-sidebar__item-label">Durée</div>
+                        <div class="fv2-sidebar__item-value">{{ formations.dureeFormation }}</div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="fv2-sidebar__item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div>
+                        <div class="fv2-sidebar__item-label">Lieu</div>
+                        <div class="fv2-sidebar__item-value">{{ formations.lieu|default('À distance') }}</div>
+                    </div>
+                </div>
+
+                <div class="fv2-sidebar__item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <div>
+                        <div class="fv2-sidebar__item-label">Langue</div>
+                        <div class="fv2-sidebar__item-value">{{ formations.langue|default('Français') }}</div>
+                    </div>
+                </div>
+
+                <div class="fv2-sidebar__item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <div>
+                        <div class="fv2-sidebar__item-label">Niveau</div>
+                        <div class="fv2-sidebar__item-value">{{ formations.niveau|default('Tous niveaux') }}</div>
+                    </div>
+                </div>
+
+                {% if formations.tauxReussite %}
+                <div class="fv2-sidebar__item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <div>
+                        <div class="fv2-sidebar__item-label">Taux de réussite</div>
+                        <div class="fv2-sidebar__item-value">{{ formations.tauxReussite }}</div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="fv2-sidebar__cta">
+                    {% if formations.cpfUrl %}
+                    <a href="{{ formations.cpfUrl }}" target="_blank" rel="noopener" class="fv2-btn fv2-btn--primary">Inscription CPF</a>
+                    {% else %}
+                    <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--primary">Demander un devis</a>
+                    {% endif %}
+                    {% if formations.id != 90 %}
+                    <a href="{{ path('download_document', {'id': formations.id}) }}" class="fv2-btn fv2-btn--download" download>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Télécharger le programme
+                    </a>
+                    {% endif %}
+                    <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--secondary">Nous contacter</a>
+                </div>
+
+                <div class="fv2-sidebar__trust">
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Certification Qualiopi</span>
+                    {% if formations.cpfUrl %}<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Éligible CPF</span>{% endif %}
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Accompagnement personnalisé</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    {# ===========================
+       CTA FINAL
+       =========================== #}
+    <section class="fv2-cta" aria-label="Inscription">
+        <div class="fv2-cta__inner">
+            <h2 class="fv2-cta__title">Prêt à développer vos compétences ?</h2>
+            <p class="fv2-cta__sub">Inscription simple, réponse sous 24h. Formation finançable à 100%.</p>
+            <div class="fv2-cta__btns">
+                {% if formations.cpfUrl %}
+                <a href="{{ formations.cpfUrl }}" target="_blank" rel="noopener" class="fv2-btn fv2-btn--white">Inscription CPF</a>
+                {% else %}
+                <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--white">Demander un devis</a>
+                {% endif %}
+                <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--outline">Nous contacter</a>
+            </div>
+            <div class="fv2-cta__trust">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Qualiopi</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> CPF</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> 100% en ligne</span>
+            </div>
+        </div>
+    </section>
+
+    </div>{# /fv2-body #}
+
+    {# ===========================
+       STICKY MOBILE BAR
+       =========================== #}
+    {% if formations.priceFormation %}
+    <div class="fv2-sticky" id="fv2Sticky" aria-label="Prix et inscription">
+        <div class="fv2-sticky__price">
+            {{ formations.priceFormation|number_format(0, ',', ' ') }} €
+            <small>Net de taxes</small>
+        </div>
+        {% if formations.cpfUrl %}
+        <a href="{{ formations.cpfUrl }}" target="_blank" rel="noopener" class="fv2-btn fv2-btn--primary">Inscription CPF</a>
+        {% else %}
+        <a href="{{ path('app_contact') }}" class="fv2-btn fv2-btn--primary">Demander un devis</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+
+    var hero = document.querySelector('.fv2-hero');
+    var sticky = document.getElementById('fv2Sticky');
+    var progress = document.getElementById('fv2Progress');
+    var progBody = document.getElementById('fv2ProgBody');
+    var progToggle = document.getElementById('fv2ProgToggle');
+
+    function onScroll() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        if (progress && docHeight > 0) {
+            progress.style.width = Math.min((scrollTop / docHeight) * 100, 100) + '%';
+        }
+
+        if (sticky && hero) {
+            var heroBottom = hero.getBoundingClientRect().bottom;
+            sticky.classList.toggle('is-visible', heroBottom < 0);
+        }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    if (progBody && progToggle) {
+        if (progBody.scrollHeight <= 480) {
+            progBody.classList.add('is-short', 'is-open');
+            progToggle.style.display = 'none';
+        }
+
+        var progSection = progBody.closest('.fv2-section') || progBody.closest('.fv2-prog');
+        progToggle.addEventListener('click', function() {
+            var open = progBody.classList.toggle('is-open');
+            this.classList.toggle('is-open', open);
+            this.querySelector('span').textContent = open ? 'Réduire le programme' : 'Voir le programme complet';
+            this.setAttribute('aria-expanded', open);
+            if (!open && progSection) {
+                progSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+
+    document.querySelectorAll('[data-expandable]').forEach(function(body) {
+        var btn = body.parentElement.querySelector('[data-expand-btn]');
+        if (!btn) return;
+        if (body.scrollHeight <= 240) {
+            body.classList.add('is-short');
+            btn.style.display = 'none';
+            return;
+        }
+        var card = body.closest('.fv2-card');
+        btn.addEventListener('click', function() {
+            var open = body.classList.toggle('is-open');
+            this.classList.toggle('is-open', open);
+            this.querySelector('span').textContent = open ? 'Réduire' : 'Lire la suite';
+            this.setAttribute('aria-expanded', open);
+            if (!open && card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    });
+
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fv2Root = document.querySelector('.fv2');
+    if (!prefersReducedMotion && fv2Root && 'IntersectionObserver' in window) {
+        var fadeEls = document.querySelectorAll('.fv2-fade');
+        if (fadeEls.length) {
+            fv2Root.classList.add('fv2-animated');
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+            fadeEls.forEach(function(el) { observer.observe(el); });
+        }
+    }
+});
+</script>
+{% endblock %}
