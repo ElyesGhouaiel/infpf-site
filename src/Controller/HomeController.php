@@ -481,6 +481,30 @@ public function downloadDocument($id, FormationRepository $formationRepository)
     {
         return $this->render('content/footer/cgv.html.twig');
     }
+
+    #[Route('/indicateurs-resultats', name: 'indicateurs_resultats')]
+    public function indicateursResultats(): Response
+    {
+        return $this->render('content/footer/indicateurs_resultats.html.twig');
+    }
+
+    #[Route('/accessibilite-handicap', name: 'accessibilite_handicap')]
+    public function accessibiliteHandicap(): Response
+    {
+        return $this->render('content/footer/accessibilite_handicap.html.twig');
+    }
+
+    #[Route('/reclamations', name: 'reclamations')]
+    public function reclamations(): Response
+    {
+        return $this->render('content/footer/reclamations.html.twig');
+    }
+
+    #[Route('/qualiopi', name: 'qualiopi')]
+    public function qualiopi(): Response
+    {
+        return $this->render('content/ecole/certification-qaliopi-2.html.twig');
+    }
     
     #[Route('/like/{id}', name: 'blog_like')]
     public function like($id, EntityManagerInterface $entityManager, Request $request): Response {
@@ -491,33 +515,9 @@ public function downloadDocument($id, FormationRepository $formationRepository)
     
         $blog->incrementLikes();
         $entityManager->flush();
-    
-        // Exécute la fonction supplémentaire et attend sa complétion
-        $additionalResult = $this->processAdditionalTasks($blog, $request);
-    
-        // Vérifie si la tâche supplémentaire a réussi avant de continuer
-        if (!$additionalResult) {
-            $this->addFlash('error', 'Un problème est survenu avec les tâches supplémentaires.');
-            return $this->redirectToRoute('blog_show', ['id' => $id]);
-        }
-    
-        // Redirection vers la page du blog avec un paramètre "modal" si demandé
+
         $showModal = $request->query->get('comment') === 'true' ? 'comment' : '';
         return $this->redirectToRoute('blog_show', ['id' => $id, 'modal' => $showModal]);
-    }
-    
-    private function processAdditionalTasks(Blog $blog, Request $request): bool {
-        try {
-            // Logique métier additionnelle, par exemple, vérification des droits, mise à jour de statistiques, etc.
-            // Simuler une tâche qui pourrait échouer
-            if (rand(0, 10) < 2) {  // Simule un échec aléatoire
-                throw new \Exception("Échec simulé de la tâche supplémentaire");
-            }
-            return true;
-        } catch (\Exception $e) {
-            // Vous pourriez également enregistrer l'erreur dans un système de log si nécessaire
-            return false;
-        }
     }
     
     

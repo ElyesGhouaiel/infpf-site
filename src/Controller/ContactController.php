@@ -30,6 +30,12 @@ class ContactController extends AbstractController
         $this->logger = $logger;
     }
 
+    #[Route('/contact', name: 'app_contact_redirect')]
+    public function contactRedirect(): Response
+    {
+        return $this->redirectToRoute('app_contact', [], 301);
+    }
+
     #[Route('/contactez-nous', name: 'app_contact')]
     public function contact(Request $request, EntityManagerInterface $entityManager): Response
     {
