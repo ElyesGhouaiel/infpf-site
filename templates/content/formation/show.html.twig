@@ -3370,6 +3370,67 @@ html {
             </section>
             {% endif %}
 
+            {# ===========================
+               SECTIONS QUALIOPI — toujours visibles (N/C si vide)
+               =========================== #}
+
+            <section class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                        </span>
+                        Modalités et délais d'accès
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {% if formations.modalitesAcces %}
+                        {{ formations.modalitesAcces|format_formation_text|raw }}
+                    {% else %}
+                        <p>N/C</p>
+                    {% endif %}
+                    <p style="margin-top: 1rem;"><strong>Délais d'accès :</strong> {{ formations.delaisAcces|default('N/C') }}</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </span>
+                        Accessibilité aux personnes handicapées
+                    </h2>
+                </div>
+                <div class="text-content">
+                    {% if formations.accessibilitePSH %}
+                        {{ formations.accessibilitePSH|format_formation_text|raw }}
+                    {% else %}
+                        <p>Formation accessible aux personnes en situation de handicap. Pour tout besoin d'adaptation, contactez notre référent handicap Marc Antoine de Villiers : <a href="mailto:contact@infpf.fr">contact@infpf.fr</a> — <a href="tel:+33650450923">06 50 45 09 23</a>.</p>
+                        <p><a href="{{ path('accessibilite_handicap') }}">En savoir plus sur notre politique d'accessibilité</a></p>
+                    {% endif %}
+                </div>
+            </section>
+
+            {% if formations.rncp or formations.certificateur %}
+            <section class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="section-icon ui-icon is-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                        </span>
+                        Informations certification
+                    </h2>
+                </div>
+                <div class="text-content">
+                    <p><strong>Date d'enregistrement :</strong> {{ formations.dateEnregistrementCertification|default('N/C') }}</p>
+                    <p><strong>Équivalences & Passerelles :</strong> {{ formations.equivalencesPasserelles|default('N/C') }}</p>
+                    <p><strong>Suites de parcours :</strong> {{ formations.suitesParcours|default('N/C') }}</p>
+                    <p><strong>Débouchés professionnels :</strong> {{ formations.debouchesProfessionnels|default('N/C') }}</p>
+                </div>
+            </section>
+            {% endif %}
+
             <!-- CTA Final ULTRA-VISIBLE avec Inscription selon éligibilité CPF -->
             <section class="cta-section-mega" id="cta-section-mega">
                 <div class="cta-mega-container">
