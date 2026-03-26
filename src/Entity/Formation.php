@@ -90,6 +90,27 @@ class Formation
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $tauxReussite = null;
 
+    #[ORM\Column(name: 'date_enregistrement_certification', type: 'string', length: 255, nullable: true)]
+    private ?string $dateEnregistrementCertification = null;
+
+    #[ORM\Column(name: 'equivalences', type: 'text', nullable: true)]
+    private ?string $equivalencesPasserelles = null;
+
+    #[ORM\Column(name: 'suite_parcours', type: 'text', nullable: true)]
+    private ?string $suitesParcours = null;
+
+    #[ORM\Column(name: 'debouches', type: 'text', nullable: true)]
+    private ?string $debouchesProfessionnels = null;
+
+    #[ORM\Column(name: 'modalites_acces', type: 'text', nullable: true)]
+    private ?string $modalitesAcces = null;
+
+    #[ORM\Column(name: 'accessibilite_handicap', type: 'text', nullable: true)]
+    private ?string $accessibilitePSH = null;
+
+    #[ORM\Column(name: 'delai_acces', type: 'text', nullable: true)]
+    private ?string $delaisAcces = null;
+
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private bool $isActive = true;
 
@@ -374,6 +395,83 @@ class Formation
     public function setTauxReussite(?string $tauxReussite): self
     {
         $this->tauxReussite = $tauxReussite;
+        return $this;
+    }
+
+    public function getDateEnregistrementCertification(): ?string
+    {
+        return $this->dateEnregistrementCertification;
+    }
+
+    public function setDateEnregistrementCertification(?string $dateEnregistrementCertification): self
+    {
+        $this->dateEnregistrementCertification = $dateEnregistrementCertification;
+        return $this;
+    }
+
+    public function getEquivalencesPasserelles(): ?string
+    {
+        return $this->equivalencesPasserelles;
+    }
+
+    public function setEquivalencesPasserelles(?string $equivalencesPasserelles): self
+    {
+        $this->equivalencesPasserelles = $equivalencesPasserelles;
+        return $this;
+    }
+
+    public function getSuitesParcours(): ?string
+    {
+        return $this->suitesParcours;
+    }
+
+    public function setSuitesParcours(?string $suitesParcours): self
+    {
+        $this->suitesParcours = $suitesParcours;
+        return $this;
+    }
+
+    public function getDebouchesProfessionnels(): ?string
+    {
+        return $this->debouchesProfessionnels;
+    }
+
+    public function setDebouchesProfessionnels(?string $debouchesProfessionnels): self
+    {
+        $this->debouchesProfessionnels = $debouchesProfessionnels;
+        return $this;
+    }
+
+    public function getModalitesAcces(): ?string
+    {
+        return $this->modalitesAcces;
+    }
+
+    public function setModalitesAcces(?string $modalitesAcces): self
+    {
+        $this->modalitesAcces = $modalitesAcces;
+        return $this;
+    }
+
+    public function getAccessibilitePSH(): ?string
+    {
+        return $this->accessibilitePSH;
+    }
+
+    public function setAccessibilitePSH(?string $accessibilitePSH): self
+    {
+        $this->accessibilitePSH = $accessibilitePSH;
+        return $this;
+    }
+
+    public function getDelaisAcces(): ?string
+    {
+        return $this->delaisAcces;
+    }
+
+    public function setDelaisAcces(?string $delaisAcces): self
+    {
+        $this->delaisAcces = $delaisAcces;
         return $this;
     }
 

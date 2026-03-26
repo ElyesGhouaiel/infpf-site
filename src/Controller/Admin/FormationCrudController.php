@@ -81,5 +81,28 @@ class FormationCrudController extends AbstractCrudController
         yield TextField::new('tauxReussite', 'Taux de réussite')
             ->setHelp('Ex: "N/C", "95%", "En cours de calcul"')
             ->hideOnIndex();
+        yield TextField::new('dateEnregistrementCertification', 'Date enregistrement certification')
+            ->setHelp('Date officielle depuis la fiche France Compétences (ex: "14/12/2023")')
+            ->hideOnIndex();
+        yield TextareaField::new('equivalencesPasserelles', 'Équivalences & Passerelles')
+            ->setHelp('Certifications équivalentes, ou "Aucune équivalence identifiée à ce jour"')
+            ->hideOnIndex();
+        yield TextareaField::new('suitesParcours', 'Suites de parcours')
+            ->setHelp('Formations/certifications accessibles après cette formation')
+            ->hideOnIndex();
+        yield TextareaField::new('debouchesProfessionnels', 'Débouchés professionnels')
+            ->setHelp('Métiers visés + taux d\'insertion si disponible')
+            ->hideOnIndex();
+
+        yield FormField::addTab('Accès & Accessibilité');
+        yield TextareaField::new('modalitesAcces', 'Modalités d\'accès')
+            ->setHelp('Comment accéder à la formation (inscription, entretien, dossier...)')
+            ->hideOnIndex();
+        yield TextareaField::new('delaisAcces', 'Délais d\'accès')
+            ->setHelp('Ex: "14 jours après validation du dossier"')
+            ->hideOnIndex();
+        yield TextareaField::new('accessibilitePSH', 'Accessibilité PSH')
+            ->setHelp('Aménagements pour les personnes en situation de handicap')
+            ->hideOnIndex();
     }
 }
