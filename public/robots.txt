@@ -11,14 +11,11 @@ Allow: /uploads/
 Disallow: /admin/
 Disallow: /blog/*/edit
 Disallow: /blog/new
+Disallow: /formation/new
+Disallow: /formation/*/edit
+Disallow: /formation/preview-v2/
 Disallow: /_profiler/
 Disallow: /var/
 
 # Sitemap
 Sitemap: https://infpf.fr/sitemap.xml
-
-
-
-
-
-

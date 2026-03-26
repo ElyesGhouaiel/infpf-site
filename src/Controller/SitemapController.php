@@ -35,6 +35,10 @@ class SitemapController extends AbstractController
             ['loc' => '/reglement-interieur', 'priority' => '0.3', 'changefreq' => 'yearly'],
             ['loc' => '/avis', 'priority' => '0.6', 'changefreq' => 'weekly'],
             ['loc' => '/guide', 'priority' => '0.6', 'changefreq' => 'weekly'],
+            ['loc' => '/indicateurs-resultats', 'priority' => '0.5', 'changefreq' => 'yearly'],
+            ['loc' => '/accessibilite-handicap', 'priority' => '0.5', 'changefreq' => 'yearly'],
+            ['loc' => '/reclamations', 'priority' => '0.4', 'changefreq' => 'yearly'],
+            ['loc' => '/qualiopi', 'priority' => '0.6', 'changefreq' => 'yearly'],
         ];
 
         // Pages École
