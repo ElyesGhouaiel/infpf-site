@@ -1106,12 +1106,8 @@
                 if (formSection) {
                     formSection.scrollIntoView({ 
                         behavior: 'smooth', 
-                        block: 'start'
+                        block: 'center'
                     });
-                    // Petit offset pour le header
-                    setTimeout(function() {
-                        window.scrollBy(0, -100);
-                    }, 500);
                 }
             });
         }
@@ -1195,14 +1191,11 @@
                 if (window.location.hash === '#formulaire-contact') {
                     const formulaire = document.getElementById('formulaire-contact');
                     if (formulaire) {
-                        // Attendre un court instant pour que la page soit complètement chargée
                         setTimeout(function() {
                             formulaire.scrollIntoView({ 
                                 behavior: 'smooth', 
-                                block: 'start'
+                                block: 'center'
                             });
-                            // Ajouter un petit offset pour ne pas coller le formulaire en haut
-                            window.scrollBy(0, -100);
                         }, 300);
                     }
                 }
