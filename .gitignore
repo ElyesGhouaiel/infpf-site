@@ -64,4 +64,30 @@ public/opcache-*.php
 
 # Fichiers de lock mal placés
 public/%kernel.project_dir%/
+
+# Backups étendus (versionnés type .bak.v1, .bak.v2…)
+*.bak.v[0-9]*
+
+# Logs PHP
+/error_log
+
+# Documents de référence (brochures, guides, dossiers Qualiopi)
+/Brochure*.pdf
+/Guide*.pdf
+
+# Artefacts audit / rapports / prompts / scratch
+/AUDIT_*.md
+/REUNION_*.md
+/RAPPORT_*.html
+/PROMPT_*.txt
+/diagnostic_*.html
+/Untitled-*.js
+/RetracementZones_*.js
+/public/RAPPORT_*.html
+/public/REUNION_*.doc
+/public/formations_export.csv
+/public/formations_v2.csv
+
+# Cursor / IDE
+/.cursorrules
 ###< Fichiers temporaires et de backup ###
