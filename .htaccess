@@ -28,3 +28,16 @@
     RewriteCond %{REQUEST_URI} !public/
     RewriteRule (.*) /public/$1 [L]
 </IfModule>
+
+# =============================================
+# HSTS — Strict-Transport-Security
+# Force HTTPS pour 1 an (31536000s), inclut sous-domaines
+# Préload : optionnel, pour soumettre à hstspreload.org
+# =============================================
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+    # Sécurité supplémentaire : protections basiques navigateurs
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
