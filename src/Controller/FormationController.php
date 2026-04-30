@@ -57,25 +57,75 @@ class FormationController extends AbstractController
         }
         
         $category = $categoryRepository->findAll();
-        
-        // Génération de titre unique avec catégorie et ID
-        $pageTitle = $formation->getNameFormation();
-        if ($formation->getCategory()) {
-            $pageTitle .= ' - Formation ' . $formation->getCategory()->getName();
+
+        // ===== TITLE SEO (cible 50-60 chars max, Google tronque ~60) =====
+        // Suffixe court "| INFPF" (8 chars) pour rester sous la limite
+        $baseName = trim($formation->getNameFormation());
+        $suffix   = ' | INFPF';
+        $maxLen   = 60;
+
+        if (mb_strlen($baseName . $suffix) <= $maxLen) {
+            // Nom court : on peut ajouter la catégorie si la place le permet
+            $pageTitle = $baseName;
+            $remaining = $maxLen - mb_strlen($baseName . $suffix);
+            if ($formation->getCategory()) {
+                $catSuffix = ' - ' . $formation->getCategory()->getName();
+                if (mb_strlen($catSuffix) <= $remaining) {
+                    $pageTitle .= $catSuffix;
+                }
+            }
+            $pageTitle .= $suffix;
+        } else {
+            // Nom long : on tronque proprement sur un espace + ellipse
+            $allowed   = $maxLen - mb_strlen($suffix) - 1; // -1 pour l'ellipse
+            $truncated = mb_substr($baseName, 0, $allowed);
+            $lastSpace = mb_strrpos($truncated, ' ');
+            if ($lastSpace !== false && $lastSpace > $allowed * 0.6) {
+                $truncated = mb_substr($truncated, 0, $lastSpace);
+            }
+            $pageTitle = rtrim($truncated) . '…' . $suffix;
         }
-        $pageTitle .= ' - INFPF';
-        
-        // Génération de meta description unique
-        $metaDescription = 'Découvrez la formation ' . $formation->getNameFormation();
-        if ($formation->getCategory()) {
-            $metaDescription .= ' en ' . $formation->getCategory()->getName();
+
+        // ===== META DESCRIPTION (cible 150-160 chars, unique par formation) =====
+        // On différencie chaque fiche en intégrant les attributs uniques :
+        // durée, prix, RNCP, certificateur (qui varient entre Présentiel/Distanciel/Hybride)
+        $parts = [];
+        $parts[] = 'Formation ' . $baseName;
+
+        $modality = null;
+        $name = $baseName;
+        foreach (['Présentiel', 'Distanciel', 'Hybride', 'En ligne'] as $m) {
+            if (stripos($name, ' - ' . $m) !== false || stripos($name, $m) !== false) {
+                $modality = $m;
+                break;
+            }
         }
-        if ($formation->getDescriptionFormation()) {
-            $description = strip_tags($formation->getDescriptionFormation());
-            $description = substr($description, 0, 120);
-            $metaDescription .= '. ' . $description;
+        if (!$modality) { $modality = 'à distance'; }
+
+        $details = [];
+        if ($formation->getDureeFormation())  { $details[] = $formation->getDureeFormation(); }
+        if ($formation->getPriceFormation())  { $details[] = $formation->getPriceFormation() . ' €'; }
+        if ($formation->getRncp())            { $details[] = $formation->getRncp(); }
+        if ($formation->getCertificateur())   { $details[] = 'certifiée ' . $formation->getCertificateur(); }
+
+        $metaDescription = 'Formation ' . $baseName;
+        if (!empty($details)) {
+            $metaDescription .= ' (' . implode(', ', $details) . ')';
         }
-        $metaDescription .= ' Formation certifiante à distance avec accompagnement personnalisé.';
+        $metaDescription .= ' — accompagnement personnalisé INFPF.';
+
+        // Si encore trop court, on ajoute un extrait de la description
+        if (mb_strlen($metaDescription) < 100 && $formation->getDescriptionFormation()) {
+            $extra = trim(strip_tags($formation->getDescriptionFormation()));
+            $extra = preg_replace('/\s+/', ' ', $extra);
+            $extra = mb_substr($extra, 0, 155 - mb_strlen($metaDescription) - 1);
+            $metaDescription .= ' ' . $extra;
+        }
+
+        // Capping strict à 155 chars
+        if (mb_strlen($metaDescription) > 155) {
+            $metaDescription = mb_substr($metaDescription, 0, 154) . '…';
+        }
 
         return $this->render('content/formation/show_v2.html.twig', [
             'formations' => $formation,
