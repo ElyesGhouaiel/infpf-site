@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 	{% block stylesheets %}{% endblock %}
 		<link href="../css/fichier-v2.min.css?v={{ 'now'|date('U') }}" rel="stylesheet"/>
@@ -3408,6 +3408,9 @@
 		{% block canonical %}
 		<link rel="canonical" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
 		{% endblock %}
+		{# hreflang : signal langue/zone pour Google (site monolingue FR) #}
+		<link rel="alternate" hreflang="fr-FR" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}"/>
+		<link rel="alternate" hreflang="x-default" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}"/>
 		<meta content="fr_FR" property="og:locale"/>
 		<meta content="website" property="og:type"/>
 		{% block og_title %}
