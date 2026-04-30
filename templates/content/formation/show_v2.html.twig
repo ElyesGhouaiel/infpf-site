@@ -951,27 +951,52 @@ html { scroll-behavior: smooth; }
 {% endblock %}
 
 {% block body %}
-{# Schema.org structured data #}
+{# Schema.org structured data — Course (conforme aux exigences Google Rich Results) #}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Course",
     "name": {{ formations.nameFormation|json_encode|raw }},
-    "description": {{ (formations.descriptionFormation|default('')|striptags|slice(0,200))|json_encode|raw }},
+    "description": {{ (formations.descriptionFormation|default('Formation professionnelle certifiante INFPF')|striptags|slice(0,300))|json_encode|raw }},
+    "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
     "provider": {
-        "@type": "Organization",
-        "name": "INFPF",
-        "url": "https://infpf.fr"
-    }
-    {% if formations.langue %},
-    "inLanguage": {{ formations.langue|json_encode|raw }}
+        "@type": "EducationalOrganization",
+        "@id": "https://infpf.fr/#organization",
+        "name": "INFPF - Institut National de la Formation Professionnelle Française",
+        "url": "https://infpf.fr",
+        "sameAs": "https://infpf.fr"
+    },
+    "inLanguage": "fr-FR",
+    {% if formations.rncp %}
+    "courseCode": {{ formations.rncp|json_encode|raw }},
     {% endif %}
+    {% if formations.certificateur %}
+    "educationalCredentialAwarded": {
+        "@type": "EducationalOccupationalCredential",
+        "name": {{ ((formations.bloc ?: 'Certification') ~ ' — ' ~ formations.certificateur)|json_encode|raw }},
+        "credentialCategory": "certification",
+        "recognizedBy": {
+            "@type": "Organization",
+            "name": {{ formations.certificateur|json_encode|raw }}
+        }
+    },
+    {% endif %}
+    "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "{% if formations.nameFormation matches '/(?i)Distanciel|en\\s+ligne/' %}online{% elseif formations.nameFormation matches '/(?i)Hybride/' %}blended{% else %}onsite{% endif %}",
+        "inLanguage": "fr-FR"
+        {% if formations.dureeFormation %},
+        "courseWorkload": {{ formations.dureeFormation|json_encode|raw }}
+        {% endif %}
+    }
     {% if formations.priceFormation %},
     "offers": {
         "@type": "Offer",
         "price": "{{ formations.priceFormation }}",
         "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock"
+        "availability": "https://schema.org/InStock",
+        "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+        "category": "Formation professionnelle"
     }
     {% endif %}
 }
