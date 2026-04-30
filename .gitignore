@@ -71,9 +71,12 @@ public/%kernel.project_dir%/
 # Logs PHP
 /error_log
 
-# Documents de référence (brochures, guides, dossiers Qualiopi)
+# Documents de référence (brochures, guides, audits SEO Semrush)
 /Brochure*.pdf
 /Guide*.pdf
+/Semrush*.pdf
+/*_issues_*.xlsx
+/*_audit_*.xlsx
 
 # Artefacts audit / rapports / prompts / scratch
 /AUDIT_*.md
