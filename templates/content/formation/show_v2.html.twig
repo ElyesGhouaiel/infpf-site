@@ -463,44 +463,120 @@ html { scroll-behavior: smooth; }
 .fv2-card__more.is-open svg { transform: rotate(180deg); }
 
 /* ========================
-   CERTIFICATION BADGE
+   BANDEAU FINANCIA (certificateur officiel)
    ======================== */
-.fv2-cert {
-    background: linear-gradient(135deg, var(--gold-lt) 0%, #fde68a 100%);
-    border: 1px solid #fbbf24;
+.fv2-financia {
+    background: linear-gradient(135deg, #0a1628 0%, #1a365d 50%, var(--primary) 100%);
     border-radius: var(--r);
-    padding: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    padding: 1.75rem;
     margin-bottom: 2.25rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--sh-lg);
 }
-
-.fv2-cert__icon {
-    width: 48px;
-    height: 48px;
+.fv2-financia::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(245, 158, 11, .12) 0%, transparent 60%);
+    pointer-events: none;
+}
+.fv2-financia__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 900px) {
+    .fv2-financia__inner {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+.fv2-financia__logo {
     background: #fff;
-    border-radius: 12px;
+    border-radius: 14px;
+    padding: 16px 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    box-shadow: var(--sh);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
 }
-.fv2-cert__icon svg { width: 24px; height: 24px; color: var(--gold); }
-
-.fv2 .fv2-cert__text h3 {
-    font-size: 1.5rem !important;
+.fv2-financia__logo img {
+    height: 46px;
+    width: auto;
+    display: block;
+}
+@media (max-width: 900px) {
+    .fv2-financia__logo { margin: 0 auto; max-width: 260px; }
+}
+.fv2-financia__content { color: #fff; min-width: 0; }
+.fv2-financia__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245, 158, 11, .18);
+    border: 1px solid rgba(245, 158, 11, .45);
+    color: #fbbf24;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.fv2-financia__label svg { width: 13px; height: 13px; }
+.fv2 .fv2-financia__title {
+    font-size: 1.75rem !important;
     font-weight: 700 !important;
-    color: var(--gold-dk) !important;
-    margin: 0 0 2px !important;
+    color: #fff !important;
+    margin: 0 0 6px !important;
+    line-height: 1.25;
 }
-.fv2-cert__text p {
-    font-size: 1.3rem !important;
-    color: #a16207;
+.fv2-financia__subtitle {
+    font-size: 1.25rem !important;
+    color: rgba(255, 255, 255, .78) !important;
     margin: 0 !important;
-    line-height: 1.45;
+    line-height: 1.5;
 }
+.fv2-financia__features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+@media (max-width: 900px) {
+    .fv2-financia__features {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+.fv2-financia__feat {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .15);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 7px 13px;
+    border-radius: 10px;
+    white-space: nowrap;
+    transition: background .2s, border-color .2s;
+}
+.fv2-financia__feat:hover {
+    background: rgba(255, 255, 255, .14);
+    border-color: rgba(245, 158, 11, .5);
+}
+.fv2-financia__feat svg { width: 16px; height: 16px; color: #fbbf24; flex-shrink: 0; }
 
 /* ========================
    PROGRAMME (expandable)
@@ -1059,17 +1135,39 @@ html { scroll-behavior: smooth; }
             </div>
             {% endif %}
 
-            {# --- Certification badge --- #}
+            {# --- Bandeau certificateur FINANCIA Business School --- #}
             {% if formations.certificateur %}
-            <div class="fv2-cert fv2-fade" aria-label="Certification">
-                <div class="fv2-cert__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <aside class="fv2-financia fv2-fade" aria-label="Certificateur officiel">
+                <div class="fv2-financia__inner">
+                    <div class="fv2-financia__logo">
+                        <img src="{{ asset('img/financia-logo.png') }}" alt="FINANCIA Business School — Certificateur officiel" loading="lazy" width="180" height="46">
+                    </div>
+                    <div class="fv2-financia__content">
+                        <span class="fv2-financia__label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Certification officielle
+                        </span>
+                        <h3 class="fv2-financia__title">Formation certifiée par {{ formations.certificateur }} Business School</h3>
+                        <p class="fv2-financia__subtitle">
+                            {% if formations.rncp %}{{ formations.rncp }} — {% endif %}Certification professionnelle reconnue par l'État{% if formations.bloc %}, bloc de compétences « {{ formations.bloc }} »{% endif %}.
+                        </p>
+                    </div>
+                    <div class="fv2-financia__features">
+                        <span class="fv2-financia__feat">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            Inscrit au RNCP
+                        </span>
+                        <span class="fv2-financia__feat">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            Validité nationale
+                        </span>
+                        <span class="fv2-financia__feat">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                            Titre professionnel
+                        </span>
+                    </div>
                 </div>
-                <div class="fv2-cert__text">
-                    <h3>Certifié par {{ formations.certificateur }}</h3>
-                    <p>{% if formations.rncp %}{{ formations.rncp }} — {% endif %}Certification reconnue par l'État</p>
-                </div>
-            </div>
+            </aside>
             {% endif %}
 
             {# --- Programme détaillé (expandable) --- #}
@@ -1149,9 +1247,10 @@ html { scroll-behavior: smooth; }
             {% endif %}
 
             {# ===========================
-               SECTIONS QUALIOPI — toujours visibles (N/C si vide)
+               SECTIONS QUALIOPI — masquées si aucune donnée
                =========================== #}
 
+            {% if formations.modalitesAcces or formations.delaisAcces %}
             <section class="fv2-section fv2-fade" aria-labelledby="sec-acces">
                 <div class="fv2-section__hdr">
                     <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
@@ -1160,12 +1259,13 @@ html { scroll-behavior: smooth; }
                 <div class="fv2-section__body">
                     {% if formations.modalitesAcces %}
                         {{ formations.modalitesAcces|format_formation_text|raw }}
-                    {% else %}
-                        <p>N/C</p>
                     {% endif %}
-                    <p><strong>Délais d'accès :</strong> {{ formations.delaisAcces|default('N/C') }}</p>
+                    {% if formations.delaisAcces %}
+                        <p><strong>Délais d'accès :</strong> {{ formations.delaisAcces }}</p>
+                    {% endif %}
                 </div>
             </section>
+            {% endif %}
 
             <section class="fv2-section fv2-fade" aria-labelledby="sec-psh">
                 <div class="fv2-section__hdr">
@@ -1182,17 +1282,25 @@ html { scroll-behavior: smooth; }
                 </div>
             </section>
 
-            {% if formations.rncp or formations.certificateur %}
+            {% if formations.dateEnregistrementCertification or formations.equivalencesPasserelles or formations.suitesParcours or formations.debouchesProfessionnels %}
             <section class="fv2-section fv2-fade" aria-labelledby="sec-infocert">
                 <div class="fv2-section__hdr">
                     <div class="fv2-section__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
                     <h2 class="fv2-section__h2" id="sec-infocert">Informations certification</h2>
                 </div>
                 <div class="fv2-section__body">
-                    <p><strong>Date d'enregistrement :</strong> {{ formations.dateEnregistrementCertification|default('N/C') }}</p>
-                    <p><strong>Équivalences & Passerelles :</strong> {{ formations.equivalencesPasserelles|default('N/C') }}</p>
-                    <p><strong>Suites de parcours :</strong> {{ formations.suitesParcours|default('N/C') }}</p>
-                    <p><strong>Débouchés professionnels :</strong> {{ formations.debouchesProfessionnels|default('N/C') }}</p>
+                    {% if formations.dateEnregistrementCertification %}
+                        <p><strong>Date d'enregistrement :</strong> {{ formations.dateEnregistrementCertification }}</p>
+                    {% endif %}
+                    {% if formations.equivalencesPasserelles %}
+                        <p><strong>Équivalences & Passerelles :</strong> {{ formations.equivalencesPasserelles }}</p>
+                    {% endif %}
+                    {% if formations.suitesParcours %}
+                        <p><strong>Suites de parcours :</strong> {{ formations.suitesParcours }}</p>
+                    {% endif %}
+                    {% if formations.debouchesProfessionnels %}
+                        <p><strong>Débouchés professionnels :</strong> {{ formations.debouchesProfessionnels }}</p>
+                    {% endif %}
                 </div>
             </section>
             {% endif %}

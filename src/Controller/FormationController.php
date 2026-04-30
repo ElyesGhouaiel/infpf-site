@@ -77,7 +77,7 @@ class FormationController extends AbstractController
         }
         $metaDescription .= ' Formation certifiante à distance avec accompagnement personnalisé.';
 
-        return $this->render('content/formation/show.html.twig', [
+        return $this->render('content/formation/show_v2.html.twig', [
             'formations' => $formation,
             'category' => $categoryRepository,
             'page_title' => $pageTitle,
