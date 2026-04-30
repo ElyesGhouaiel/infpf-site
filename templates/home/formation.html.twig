@@ -1546,6 +1546,16 @@
 
 	<div class="bodyclass">
 
+        {# H1 SEO : visible, accessible, en haut de la page liste #}
+        <header class="formations-page-header" style="padding:24px 16px 8px; max-width:1200px; margin:0 auto;">
+            <h1 style="font-size:clamp(1.4rem,3.5vw,2rem); margin:0 0 6px; color:#0b3f89; font-weight:700;">
+                {{ page_title|default('Nos formations professionnelles certifiantes') }}
+            </h1>
+            <p style="margin:0; color:#475569; font-size:clamp(.95rem,1.6vw,1.05rem);">
+                Découvrez {{ formations|length }} formations en finance, informatique, administration, marketing, immobilier et ressources humaines — éligibles CPF, certifiées Qualiopi et reconnues par l'État.
+            </p>
+        </header>
+
         <!-- Panneau off-canvas des filtres -->
         <div class="mobile-filter-panel" id="mobile-filter-panel">
             <div class="mobile-filter-header">
