@@ -1,0 +1,59 @@
+---
+description: Conventions frontend (CSS/JS/Twig) pour les templates et assets publics. Mobile-first, vanilla JS, pas de framework.
+globs:
+  - "public/css/**"
+  - "public/js/**"
+  - "templates/**/*.twig"
+  - "templates/**/*.html"
+---
+
+# Frontend — Conventions projet
+
+## Stack
+
+- **Vanilla CSS + vanilla JS** — aucun framework, aucun build, aucun bundler.
+- **Mobile-first** : design d'abord 360px, puis on étend.
+- CSS principal compilé (manuellement) : `public/css/fichier-v2.min.css`.
+- Versionning busting via `?v={{ 'now'|date('U') }}` sur les imports CSS.
+
+## Conventions CSS
+
+- **Préfixage par feature** : classes `fv2-*` pour la fiche formation V2 (banner, sidebar, sections).
+- **BEM-like** : `.fv2-section__hdr`, `.fv2-section__body`, `.fv2-section__ico`.
+- Variables CSS globales définies en haut de `fichier-v2.min.css` (`--primary`, `--r`, `--sh-lg`, etc.).
+- **Ne JAMAIS** ajouter de CSS inline dans Twig sauf cas exceptionnel (header SEO h1 sur `/formation`). Préfère ajouter au CSS global.
+
+## Conventions Twig (frontend)
+
+- Variables : utilise `formations.nameFormation` (camelCase), pas `formations.name_formation`.
+- **Échappement** : par défaut Twig échappe le HTML — utilise `|raw` UNIQUEMENT pour le contenu volontairement formaté (descriptionFormation, programme, atouts) après passage par `format_formation_text`.
+- **Conditionnels Qualiopi** : afficher une section seulement si AU MOINS UN champ est renseigné, jamais "N/C" (politique projet).
+
+## Accessibilité (WCAG 2.1 AA visé)
+
+- `<html lang="fr">` toujours présent (déjà au layout).
+- Skip link `.skip-link` présent dans le layout.
+- `:focus-visible` ciblé pour les éléments interactifs.
+- `prefers-reduced-motion` respecté (déjà dans `base.html.twig`).
+- Toujours un `<h1>` unique par page. Pas de `<h2>` sans `<h1>` au-dessus.
+
+## Performance
+
+- **Images** : préférer `.webp` quand possible. `loading="lazy"` sur les images non-LCP.
+- **CSS critique** : déjà inliné dans `<style>` au début du `<head>` (popup modal, footer basique, accessibilité).
+- **Pas de jQuery** — vanilla JS uniquement (utilisé pour les filtres formation, popups, scroll-to-top).
+
+## SEO côté frontend
+
+- **Meta description** : injectée via le block `meta_description` (Twig). Max 155 chars (cap automatique côté controller).
+- **Schema.org JSON-LD** : composant réutilisable `templates/components/schema_org.html.twig` inclus dans le layout.
+- **hreflang** : déjà configuré au layout (`fr-FR` + `x-default`).
+- **Canonical** : auto-généré via `app.request.schemeAndHttpHost ~ app.request.pathInfo`.
+
+## Anti-patterns
+
+- ❌ Ajouter un framework JS (React, Vue, Alpine) — out of scope.
+- ❌ Inclure un bundler (Webpack, Vite, Encore) — pas dans ce projet.
+- ❌ Importer une lib CSS externe (Bootstrap, Tailwind) — tout est custom.
+- ❌ Oublier de versionner les imports CSS/JS modifiés (le `?v=...` n'est pas optionnel pour le cache busting).
+- ❌ Inline `style="..."` à grande échelle — passe par le CSS global.

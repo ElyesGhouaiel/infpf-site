@@ -1,0 +1,52 @@
+---
+description: Conventions PHP / Symfony 6.4 / Doctrine pour ce projet. S'applique aux fichiers PHP du projet et templates Twig.
+globs:
+  - "src/**/*.php"
+  - "config/**/*.yaml"
+  - "templates/**/*.twig"
+---
+
+# PHP / Symfony / Twig — Conventions projet
+
+## Routes & Controllers
+
+- Toutes les routes sont **annotées** (`#[Route(...)]`), jamais de YAML routing.
+- Controllers étendent `AbstractController`. Pas d'autre base class.
+- **Garde les noms de routes existants** (`app_home`, `app_formation_show`, etc.) — ils sont référencés partout dans les Twig (`path('app_xxx')`).
+- Routes admin : `IsGranted('ROLE_ADMIN')` obligatoire. Méthodes `new`, `edit`, `delete` toujours protégées.
+- Routes publiques sensibles : protéger contre les visiteurs non-admin via `isActive()` check (cf. `FormationController::show`).
+
+## Doctrine / Entities
+
+- Entité principale : `App\Entity\Formation` avec ~30 champs (nameFormation, descriptionFormation, dureeFormation, priceFormation, rncp, bloc, certificateur, modalitesAcces, delaisAcces, accessibilitePSH, dateEnregistrementCertification, equivalencesPasserelles, suitesParcours, debouchesProfessionnels, atouts, prerequis, programme, etc.)
+- **Toujours utiliser les getters** (`getNameFormation()`) jamais d'accès direct.
+- En Twig, utiliser camelCase (`formations.nameFormation`) PAS snake_case.
+- Relations : `Category` (ManyToOne sur Formation).
+- Repositories Doctrine custom : `App\Repository\FormationRepository`, `CategoryRepository`.
+
+## Twig
+
+- **Layout principal** : `templates/base.html.twig` (≈ 4800 lignes, contient le `<head>` complet, header/footer inlinés, et tous les blocks).
+- **Fiche formation V2** (par défaut) : `templates/content/formation/show_v2.html.twig` — design mobile-first.
+- **Filtres custom** : `format_formation_text` (parse \n, normalise paragraphes/listes).
+- **Variable canonique** : `formations` (singulier déguisé en pluriel — héritage du code existant). Toujours utiliser ce nom dans `show*.html.twig`.
+
+## SEO sur fiches formation
+
+Le `FormationController::show()` génère :
+- **Title** : tronqué intelligemment à 60 chars max + suffixe `' | INFPF'`.
+- **Meta description** : composée des attributs uniques (durée, prix, RNCP, certificateur) pour différencier les modalités. Capping à 155 chars.
+
+Si tu modifies le générateur de title/meta, **garde la diversité** entre Présentiel/Distanciel/Hybride pour éviter les `Duplicate meta descriptions` Semrush.
+
+## Schema.org
+
+- **Organization** : `templates/components/schema_org.html.twig` — telephone réel `+33489050355`, address complète Nice 06200.
+- **Course** : intégré dans `show_v2.html.twig` — `inLanguage: "fr-FR"` (BCP-47), `CourseInstance` requis par Google, `courseMode` dynamique selon modalité.
+- ⚠️ Ne jamais remettre `inLanguage: "Française"` (cassait 40 erreurs Semrush).
+
+## Console & cache
+
+- Cache Symfony se vide via `php bin/console cache:clear --env=prod` (ou `--env=dev`).
+- Si le cache est verrouillé : `rm -rf var/cache/prod/* var/cache/dev/*` puis `cache:warmup`.
+- Migrations Doctrine **désactivées** dans ce projet (le dossier est dans `.gitignore`). Modifications de schéma se font manuellement en SQL puis dans l'entité.

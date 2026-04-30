@@ -1,0 +1,57 @@
+---
+description: Règles globales du projet INFPF (codebase Symfony 6.4 en production). Toujours appliqué.
+alwaysApply: true
+---
+
+# INFPF — Règles globales
+
+Codebase production en service public (centre de formation certifié Qualiopi). **Pas de breaking change non discuté.**
+
+## Stack
+
+- **Backend**: Symfony 6.4, PHP 8.1, Doctrine ORM
+- **DB**: MySQL (`u665392393_INFPFBDD`)
+- **Frontend**: Twig, vanilla CSS/JS (pas de build, pas de framework JS)
+- **Hosting**: Hostinger (Apache + .htaccess)
+- **Branche active**: `dev` (déployée automatiquement sur infpf.fr et dev.infpf.fr)
+
+## Environnements
+
+| Env | Path | URL |
+|---|---|---|
+| **Prod** | `/home/u665392393/domains/infpf.fr/public_html/` | https://infpf.fr |
+| **Dev**  | `/home/u665392393/domains/infpf.fr/dev/` | https://dev.infpf.fr |
+
+⚠️ Tout changement appliqué en prod doit être **synchronisé en dev** (et vice versa) pour garder les deux alignés. Même historique git (branche `dev`).
+
+## Principes de code
+
+- **Analyse l'existant avant de coder**. Réutilise patterns, utilitaires et composants déjà présents.
+- **Préfère éditer un fichier existant** plutôt que d'en créer un nouveau.
+- **N'invente pas** de libs, APIs, fonctions, entités ou méthodes.
+- Garde le code **simple, lisible, maintenable** — c'est lu par 1 dev solo.
+- **Avant un gros refacto**, explique brièvement le plan.
+- Respecte la structure de dossiers existante (`src/Controller/`, `src/Entity/`, `templates/...`).
+- Sur changements multi-fichiers : garde imports, types et dépendances cohérents.
+
+## Workflow git obligatoire
+
+- **Commits structurés** : un commit = un changement logique. Préfixes `feat:` / `fix:` / `chore:` / `refactor:`.
+- **Vide les caches** Symfony après modifications de templates/configs : `php bin/console cache:clear --env=prod`.
+- **Push uniquement après validation** explicite de l'utilisateur.
+- **Sync prod ↔ dev** : si tu modifies en prod, copie le fichier en dev (et inverse). Vérifie avec `diff`.
+
+## Gestion des PDFs et médias
+
+- **PDFs programmes** : `public/pdf/` — nommage exact basé sur `name_formation` sanitisé via `preg_replace('/[\s\/\\\\:*?"<>|]/', '_', ...)`.
+- **Images blog/uploads** : `public/uploads/images/` — synchronisées via rsync entre prod et dev.
+
+## Sécurité
+
+- **Jamais de secrets** dans le code (DB credentials, Sentry DSN, etc.). Tout dans `.env.local` (ignoré par git).
+- **Headers HTTP** déjà configurés dans `.htaccess` : HSTS, nosniff, frame-options, referrer-policy.
+- **Sanitization** : utiliser `htmlspecialchars` ou les filtres Twig (`|e`, `|escape`) systématiquement.
+
+## Qualiopi & légal
+
+Ce site est un **centre de formation certifié Qualiopi** (NDA 93 06 11166 06). Toute modification du footer, mentions légales, accessibilité ou page Qualiopi doit respecter les exigences légales (art. L.6351-1 du Code du travail).
